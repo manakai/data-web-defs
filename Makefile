@@ -9,6 +9,9 @@ GIT = git
 SVN = svn
 PERL = ./perl
 
+dataautoupdate: clean deps all
+	$(GIT) add data/*.json
+
 ## ------ Setup ------
 
 deps: git-submodules pmbp-install
