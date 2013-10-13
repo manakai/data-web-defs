@@ -1,11 +1,15 @@
 # -*- Makefile -*-
 
-all:
+all: all-langtags
 
-## ------ Setup ------
+clean: clean-langtags
 
 WGET = wget
 GIT = git
+SVN = svn
+PERL = ./perl
+
+## ------ Setup ------
 
 deps: git-submodules pmbp-install
 
@@ -21,16 +25,39 @@ pmbp-update: git-submodules pmbp-upgrade
 	perl local/bin/pmbp.pl --update
 pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
-            --create-perl-command-shortcut perl \
-            --create-perl-command-shortcut prove
+            --create-perl-command-shortcut perl
 
-## ------ Tests ------
+## ------ Language tags ------
 
-PROVE = ./prove
+all-langtags: data/langtags.json
+clean-langtags:
+	rm -f local/langtags/subtag-registry local/langtags/ext-registry
+	rm -f local/langtags/cldr-bcp47/update
 
-test: test-deps test-main
+local/langtags/subtag-registry:
+	mkdir -p local/langtags
+	$(WGET) http://www.iana.org/assignments/language-subtag-registry -O $@
+local/langtags/ext-registry:
+	mkdir -p local/langtags
+	$(WGET) http://www.iana.org/assignments/language-tag-extensions-registry -O $@
+local/langtags/cldr-bcp47:
+	mkdir -p local/langtags
+	ls $@ || $(SVN) co http://www.unicode.org/repos/cldr/trunk/common/bcp47 $@
+	touch $@/update
+local/langtags/cldr-bcp47/update:
+	cd local/langtags/cldr-bcp47 && $(SVN) update
+	touch $@
 
-test-deps: deps
-
-test-main:
-	$(PROVE) t/*.t
+data/langtags.json: bin/langtags.pl \
+  local/langtags/subtag-registry local/langtags/ext-registry \
+  local/langtags/cldr-bcp47/update \
+  local/langtags/cldr-bcp47/calendar.xml \
+  local/langtags/cldr-bcp47/collation.xml \
+  local/langtags/cldr-bcp47/currency.xml \
+  local/langtags/cldr-bcp47/number.xml \
+  local/langtags/cldr-bcp47/timezone.xml \
+  local/langtags/cldr-bcp47/variant.xml \
+  local/langtags/cldr-bcp47/transform.xml
+	$(PERL) bin/langtags.pl \
+	  local/langtags/subtag-registry local/langtags/ext-registry \
+	  local/langtags/cldr-bcp47/*.xml > $@
