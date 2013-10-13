@@ -47,7 +47,7 @@ local/langtags/cldr-bcp47:
 	mkdir -p local/langtags
 	ls $@ || $(SVN) co http://www.unicode.org/repos/cldr/trunk/common/bcp47 $@
 	touch $@/update
-local/langtags/cldr-bcp47/update:
+local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
 	cd local/langtags/cldr-bcp47 && $(SVN) update
 	touch $@
 
