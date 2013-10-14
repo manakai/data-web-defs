@@ -58,3 +58,8 @@ data/langtags.json: bin/langtags.pl \
 	$(PERL) bin/langtags.pl \
 	  local/langtags/subtag-registry local/langtags/ext-registry \
 	  local/langtags/cldr-bcp47/*.xml > $@
+
+## ------ Validation ------
+
+test:
+	# (placeholder)
