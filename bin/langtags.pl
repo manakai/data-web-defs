@@ -227,17 +227,27 @@ __END__
 
 =head1 SEE ALSO
 
-RFC 4646 <http://tools.ietf.org/html/rfc4646>.
+RFC 4646: Tags for Identifying Languages
+<http://tools.ietf.org/html/rfc4646>.
 
-RFC 5646 <http://tools.ietf.org/html/rfc5646>.
+RFC 5646: Tags for Identifying Languages
+<http://tools.ietf.org/html/rfc5646>.
+
+RFC 6067: BCP 47 Extension U <http://tools.ietf.org/html/rfc6067>.
+
+RFC 6497: BCP 47 Extension T - Transformed Content
+<http://tools.ietf.org/html/rfc6497>.
 
 IANA Language Subtag Registry
 <http://www.iana.org/assignments/language-subtag-registry>.
 
+IANA Language Tag Extensions Registry
+<http://www.iana.org/assignments/language-tag-extensions-registry/language-tag-extensions-registry>.
+
 UTS #35: Unicode Locale Data Markup Language
 <http://unicode.org/reports/tr35/>.
 
-Unicode Locale Extension (‘u’) for BCP 47
+Unicode Locale Extensions for BCP 47
 <http://cldr.unicode.org/index/bcp47-extension>,
 <http://unicode.org/repos/cldr/trunk/common/bcp47/>.
 
