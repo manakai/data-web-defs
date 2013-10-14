@@ -54,13 +54,7 @@ local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
 data/langtags.json: bin/langtags.pl \
   local/langtags/subtag-registry local/langtags/ext-registry \
   local/langtags/cldr-bcp47/update \
-  local/langtags/cldr-bcp47/calendar.xml \
-  local/langtags/cldr-bcp47/collation.xml \
-  local/langtags/cldr-bcp47/currency.xml \
-  local/langtags/cldr-bcp47/number.xml \
-  local/langtags/cldr-bcp47/timezone.xml \
-  local/langtags/cldr-bcp47/variant.xml \
-  local/langtags/cldr-bcp47/transform.xml
+  local/langtags/cldr-bcp47/*.xml
 	$(PERL) bin/langtags.pl \
 	  local/langtags/subtag-registry local/langtags/ext-registry \
 	  local/langtags/cldr-bcp47/*.xml > $@
