@@ -30,10 +30,9 @@ while (<$file>) {
   }
 }
 
-{
+for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
   my $scheme;
-  open my $file, '<', 'local/sw-url-schemes.txt'
-      or die "$0: local/sw-url-schemes.txt: $!";
+  open my $file, '<', $file_name or die "$0: $file_name: $!";
   while (<$file>) {
     if (/^\s*#/) {
       next;
@@ -42,6 +41,8 @@ while (<$file>) {
       $Data->{$scheme}->{props} ||= {};
     } elsif (/^\s+([\w-]+)\s*$/) {
       $Data->{$scheme}->{props}->{$1} = 1;
+    } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
+      $Data->{$scheme}->{props}->{$1} = $2;
     } elsif (/\S/) {
       die "Broken data: $_";
     }

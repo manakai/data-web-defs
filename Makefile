@@ -34,7 +34,8 @@ pmbp-install: pmbp-upgrade
 
 all-urls: data/url-schemes.json
 clean-urls:
-	rm -fr local/sw-url-schemes.xml local/sw-url-schemes.txt
+	rm -fr local/sw-url-schemes.*
+	rm -fr local/iana-url-schemes.*
 
 local/sw-url-schemes.xml:
 	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20URL%20schemes?mode=xml"
@@ -42,8 +43,13 @@ local/sw-url-schemes.txt: local/sw-url-schemes.xml \
     bin/extract-sw-url-schemes.pl
 	$(PERL) bin/extract-sw-url-schemes.pl < $< > $@
 
+local/iana-url-schemes.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/uri-schemes/uri-schemes.xml
+local/iana-url-schemes.txt: local/iana-url-schemes.xml
+	$(PERL) bin/extract-iana-url-schemes.pl < $< > $@
+
 data/url-schemes.json: bin/url-schemes.pl \
-    src/url-schemes.txt local/sw-url-schemes.txt
+    src/url-schemes.txt local/sw-url-schemes.txt local/iana-url-schemes.txt
 	$(PERL) bin/url-schemes.pl
 
 ## ------ Language tags ------
