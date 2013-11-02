@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 
-all: all-langtags
+all: all-langtags all-urls
 
-clean: clean-langtags
+clean: clean-langtags clean-urls
 
 WGET = wget
 GIT = git
@@ -29,6 +29,14 @@ pmbp-update: git-submodules pmbp-upgrade
 pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
             --create-perl-command-shortcut perl
+
+## ------ URLs ------
+
+all-urls: data/url-schemes.json
+clean-urls:
+
+data/url-schemes.json: bin/url-schemes.pl src/url-schemes.txt
+	$(PERL) bin/url-schemes.pl
 
 ## ------ Language tags ------
 
