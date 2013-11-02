@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 
-all: all-langtags all-urls
+all: all-langtags all-urls all-http
 
-clean: clean-langtags clean-urls
+clean: clean-langtags clean-urls clean-http
 
 WGET = wget
 GIT = git
@@ -80,6 +80,29 @@ data/langtags.json: bin/langtags.pl \
 	$(PERL) bin/langtags.pl \
 	  local/langtags/subtag-registry local/langtags/ext-registry \
 	  local/langtags/cldr-bcp47/*.xml > $@
+
+## ------ HTTP ------
+
+all-http: data/http-status-codes.json
+
+clean-http:
+	rm -fr local/sw-http-statuses.xml local/iana-http-statuses.xml
+	rm -fr local/iana-rtsp-statuses.xml local/iana-sip-statuses.xml
+
+local/sw-http-statuses.xml:
+	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20status%20codes?format=xml"
+local/iana-http-statuses.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/http-status-codes/http-status-codes.xml
+local/iana-rtsp-statuses.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
+local/iana-sip-statuses.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
+
+data/http-status-codes.json: \
+    local/sw-http-statuses.xml local/iana-http-statuses.xml \
+    local/iana-rtsp-statuses.xml local/iana-sip-statuses.xml \
+    bin/http-status-codes.pl
+	$(PERL) bin/http-status-codes.pl > $@
 
 ## ------ Validation ------
 
