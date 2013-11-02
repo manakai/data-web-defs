@@ -7,10 +7,12 @@
 ## browser      - Used by Web browsers for internal use or extensions
 ## conflict     - There are multiple independent definitions or usages
 ## contact      - Contact address such as email address or tel number
+## default-port - Default port <http://url.spec.whatwg.org/#default-port>
 ## ill-formed   - Syntactically broken as URL scheme name
 ## local        - Resource in user's local environment
 ## protocol     - Resource retrevable by the protocol of the scheme
 ## registerable - whitelisted schemes <http://c.whatwg.org/#whitelisted-scheme>
+## relative     - Relative scheme <http://url.spec.whatwg.org/#relative-scheme>
 ## scriptable   - May contain insecure data within the URL
 ## web-core     - Important URL schemes of the Web platform
 ## wildcard     - Wildcard "*" is used for URL scheme name
@@ -236,6 +238,7 @@ feedsearch:
 file:
   local
   web-core
+  relative
 moz-filedata:
 filedesc:
 filerun:
@@ -260,6 +263,8 @@ freenet:
 ftp:
   web-core
   protocol
+  relative
+  default-port=21
 ffcpl:
 ftps:
   protocol
@@ -300,6 +305,8 @@ googlechromes:
 gopher:
   web-core
   protocol
+  relative
+  default-port=70
 gridlog.udp:
   protocol
 groupwise:
@@ -335,6 +342,8 @@ htt:
 http:
   web-core
   protocol
+  relative
+  default-port=80
 h++p:
 ht*tp:
   ill-formed
@@ -347,6 +356,8 @@ httpmu:
 https:
   web-core
   protocol
+  relative
+  default-port=443
 https+aes:
   protocol
 httpsy:
@@ -957,9 +968,13 @@ wmq:
 wpn:
 ws:
   web-core
+  relative
+  default-port=80
 wsman:
 wss:
   web-core
+  relative
+  default-port=443
 wtai:
   registerable
 www:

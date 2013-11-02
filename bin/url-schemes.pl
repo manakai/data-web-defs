@@ -23,6 +23,8 @@ while (<$file>) {
     $Data->{$scheme} = {props => {}};
   } elsif (/^\s+([\w-]+)\s*$/) {
     $Data->{$scheme}->{props}->{$1} = 1;
+  } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
+    $Data->{$scheme}->{props}->{$1} = $2;
   } elsif (/\S/) {
     die "Broken data: $_";
   }
