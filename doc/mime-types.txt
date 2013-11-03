@@ -21,6 +21,10 @@ audiovideo [boolean]
   <http://mimesniff.spec.whatwg.org/#audio-or-video-type>.  This flag
   is not set for subtypes in the |audio| or |video| type.
 
+composite [boolean]
+
+  Whether it is a composite type or not.
+
 extensions [object?]
 
   List of commonly-used file name extensions (without preceding |.|
@@ -41,11 +45,41 @@ image [boolean]
   <http://mimesniff.spec.whatwg.org/#image-type>.  This flag is not
   set for subtypes in the |image| type.
 
+mac_creators [object?]
+
+  Containing pairs of typical Macintosh creator identifiers for the
+  MIME type and boolean true values.
+
+mac_types [object?]
+
+  Containing pairs of typical Macintosh file types for the MIME type
+  and boolean true values.
+
+params [object?]
+
+  Containing pairs of known parameter names (attributes) and JSON
+  objects.
+
+preferred_cte [string?]
+
+  Preferred content transfer encoding for 7-bit transport.  Either
+  |quoted-printable| or |base64|, if specified.
+
 scriptable [boolean]
 
   Whether it is a scriptable MIME type or not
   <http://mimesniff.spec.whatwg.org/#scriptable-mime-type>.  This flag
   is not set for MIME types with the |+xml| structured syntax suffix.
+
+styling [boolean]
+
+  Whether it is a styling language or not.
+
+text [boolean]
+
+  Whether it is a text-based MIME type or not.  This flag is not set
+  for MIME types in |text/*|, |message/*|, or |multipart/*| type, or
+  with the |+xml|, |+csv|, or |+json| structured syntax suffix.
 
 type [string]
 
@@ -74,7 +108,7 @@ xml [boolean]
 
 * Source
 
-MIME Sniffing <http://mimesniff.spec.whatwg.org/>.
+MIME Sniffing Standard <http://mimesniff.spec.whatwg.org/>.
 
 MIME Media Types <http://www.iana.org/assignments/media-types>.
 

@@ -79,7 +79,7 @@ for my $doc (parse 'iana-mime-type-suffixes.xml') {
 for (file (__FILE__)->dir->parent->subdir ('local')->file ('apache-mime-types')->slurp) {
   if (m{\A(?:\# )?([0-9A-Za-z_+.-]+/[0-9A-Za-z_+.-]+)\s*([0-9A-Za-z_-][0-9A-Za-z_\s-]*)?\z}) {
     my $type = $1;
-    my $exts = [split /\s+/, $2 // ''];
+    my $exts = [split /\s+/, lc ($2 // '')];
     $Data->{$type}->{type} ||= 'subtype';
     $Data->{$type}->{extensions}->{$_} = 1 for @$exts;
   }
@@ -102,7 +102,44 @@ $Data->{$_}->{scriptable} = 1 for qw(
   text/html application/pdf
 );
 
+my $type;
+for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slurp) {
+  if (m{^([0-9A-Za-z_+./*-]+)$}) {
+    $type = $1;
+    $type =~ tr/A-Z/a-z/;
+    $Data->{$type}->{type} ||= $type =~ m{/\*$} ? 'type' : $type =~ m{^\*/\*\+} ? 'suffix' : $type =~ /\*/ ? 'pattern' : 'subtype';
+  } elsif (m{^  ([0-9A-Za-z_-]+)$}) {
+    $Data->{$type}->{$1} ||= 1;
+  } elsif (m{^  ([0-9A-Za-z_-]+)=""$}) {
+    my $attr = $1;
+    $attr =~ tr/A-Z/a-z/;
+    $Data->{$type}->{params}->{$attr} ||= {};
+  } elsif (m{^  ([0-9A-Za-z_-]+):(\S+)$}) {
+    $Data->{$type}->{$1} ||= $2;
+  } elsif (m{^  ([0-9A-Za-z_-]+)\@(.+)$}) {
+    my $prop = $1;
+    my $values = [split /\s+/, $2];
+    if ($prop eq 'mac') {
+      $prop = 'mac_types';
+      $values = [map { substr ($_ . '   ', 0, 4) } @$values];
+    } elsif ($prop eq 'mac_creator') {
+      $prop = 'mac_creator';
+    } elsif ($prop eq 'ext') {
+      $prop = 'extensions';
+    }
+    $Data->{$type}->{$prop}->{$_} = 1 for @$values;
+  } elsif (/\S/) {
+    die "Broken line: $_";
+  }
+}
+
 $Data->{'*/*'}->{type} = 'subtype';
+for (keys %$Data) {
+  if ($Data->{$_}->{params} and $Data->{$_}->{params}->{charset}) {
+    $Data->{$_}->{text} = 1 unless m{^(?:text|message/multipart)/};
+  }
+  $Data->{$_}->{preferred_cte} ||= 'quoted-printable' if $Data->{$_}->{text};
+}
 
 use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;

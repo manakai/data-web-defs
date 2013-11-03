@@ -81,7 +81,8 @@ local/apache-mime-types:
 
 data/mime-types.json: bin/mime-types.pl \
     local/sw-mime-types-xml local/iana-mime-types-html \
-    local/iana-mime-type-suffixes.xml local/apache-mime-types
+    local/iana-mime-type-suffixes.xml local/apache-mime-types \
+    src/mime-types.txt
 	$(PERL) bin/mime-types.pl > $@
 
 ## ------ URLs ------
