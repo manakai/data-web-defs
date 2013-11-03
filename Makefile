@@ -75,6 +75,8 @@ local/iana-mime-types-html:
 	touch $@
 local/iana-mime-type-suffixes.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xml
+local/iana-mime-type-provisional.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/provisional-standard-media-types/provisional-standard-media-types.xml
 
 local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
@@ -82,7 +84,7 @@ local/apache-mime-types:
 data/mime-types.json: bin/mime-types.pl \
     local/sw-mime-types-xml local/iana-mime-types-html \
     local/iana-mime-type-suffixes.xml local/apache-mime-types \
-    src/mime-types.txt
+    src/mime-types.txt local/iana-mime-type-provisional.xml
 	$(PERL) bin/mime-types.pl > $@
 
 ## ------ URLs ------

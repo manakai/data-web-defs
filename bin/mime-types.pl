@@ -50,7 +50,7 @@ for my $doc (parse 'iana-mime-types-html-*') {
     if ($t =~ m{^\s*([0-9A-Za-z_+.-]+)\s*$}) {
       $type = $1;
       $Data->{"$type/*"}->{type} = 'type';
-      $Data->{"$type/*"}->{iana} = 1;
+      $Data->{"$type/*"}->{iana} = 'permanent';
       next;
     }
     my $subtype = ($cells->[1] or next)->text_content;
@@ -60,11 +60,21 @@ for my $doc (parse 'iana-mime-types-html-*') {
     $subtype = $1;
     $subtype =~ tr/A-Z/a-z/;
     $Data->{"$type/$subtype"}->{type} = 'subtype';
-    $Data->{"$type/$subtype"}->{iana} = 1;
+    $Data->{"$type/$subtype"}->{iana} = 'permanent';
   }
 }
 $Data->{"example/*"}->{type} = 'type';
-$Data->{"example/*"}->{iana} = 1;
+$Data->{"example/*"}->{iana} = 'permanent';
+
+for my $doc (parse 'iana-mime-type-provisional.xml') {
+  for (@{$doc->query_selector_all ('record > name')}) {
+    my $type = $_->text_content;
+    $type =~ m{\A[0-9A-Za-z_.+/-]+\z} or next;
+    $type =~ tr/A-Z/a-z/;
+    $Data->{$type}->{type} = 'subtype';
+    $Data->{$type}->{iana} ||= 'provisional';
+  }
+}
 
 for my $doc (parse 'iana-mime-type-suffixes.xml') {
   for (@{$doc->query_selector_all ('registry > registry > record > suffix')}) {
@@ -72,7 +82,7 @@ for my $doc (parse 'iana-mime-type-suffixes.xml') {
     $suffix =~ /\A\+[0-9A-Za-z_.-]+\z/ or next;
     $suffix =~ tr/A-Z/a-z/;
     $Data->{"*/*$suffix"}->{type} = 'suffix';
-    $Data->{"*/*$suffix"}->{iana} = 1;
+    $Data->{"*/*$suffix"}->{iana} = 'permanent';
   }
 }
 
