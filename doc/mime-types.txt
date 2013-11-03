@@ -10,6 +10,43 @@ their properties, represented as nested JSON objects.
 
 * Properties
 
+archive [boolean]
+
+  Whether it is an archive type or not
+  <http://mimesniff.spec.whatwg.org/#archive-type>.
+
+audiovideo [boolean]
+
+  Whether it is an audio or video type or not
+  <http://mimesniff.spec.whatwg.org/#audio-or-video-type>.  This flag
+  is not set for subtypes in the |audio| or |video| type.
+
+extensions [object?]
+
+  List of commonly-used file name extensions (without preceding |.|
+  character), given as extension/boolean-true pairs.
+
+font [boolean]
+
+  Whether it is a font type or not
+  <http://mimesniff.spec.whatwg.org/#font-type>.
+
+iana [boolean]
+
+  Whether the MIME type is registered with the IANA registry or not.
+
+image [boolean]
+
+  Whether it is an image type or not
+  <http://mimesniff.spec.whatwg.org/#image-type>.  This flag is not
+  set for subtypes in the |image| type.
+
+scriptable [boolean]
+
+  Whether it is a scriptable MIME type or not
+  <http://mimesniff.spec.whatwg.org/#scriptable-mime-type>.  This flag
+  is not set for MIME types with the |+xml| structured syntax suffix.
+
 type [string]
 
   The type of the value, one of:
@@ -23,11 +60,21 @@ type [string]
                         rather than a single type, using |*| as wildcard.
     |suffix|            |*/*+| followed by a structured syntax suffix.
 
-iana [boolean]
+zip [boolean]
 
-  Whether the MIME type is registered with the IANA registry or not.
+  Whether it is a ZIP-based type or not
+  <http://mimesniff.spec.whatwg.org/#zip-based-type>.  This flag is
+  not set for MIME types with the |+zip| structured syntax suffix.
+
+xml [boolean]
+
+  Whether it is an XML type or not
+  <http://mimesniff.spec.whatwg.org/#xml-type>.  This flag is not set
+  for MIME types with the |+xml| structured syntax suffix.
 
 * Source
+
+MIME Sniffing <http://mimesniff.spec.whatwg.org/>.
 
 MIME Media Types <http://www.iana.org/assignments/media-types>.
 
@@ -36,3 +83,6 @@ Structured Syntax Suffix Registry
 
 List of MIME types
 <http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20MIME%20types>.
+
+mime.types
+<http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types>.

@@ -76,6 +76,34 @@ for my $doc (parse 'iana-mime-type-suffixes.xml') {
   }
 }
 
+for (file (__FILE__)->dir->parent->subdir ('local')->file ('apache-mime-types')->slurp) {
+  if (m{\A(?:\# )?([0-9A-Za-z_+.-]+/[0-9A-Za-z_+.-]+)\s*([0-9A-Za-z_-][0-9A-Za-z_\s-]*)?\z}) {
+    my $type = $1;
+    my $exts = [split /\s+/, $2 // ''];
+    $Data->{$type}->{type} ||= 'subtype';
+    $Data->{$type}->{extensions}->{$_} = 1 for @$exts;
+  }
+}
+
+$Data->{$_}->{image} = 1 for qw(image/*);
+$Data->{$_}->{audiovideo} = 1 for qw(audio/* video/* application/ogg);
+$Data->{$_}->{font} = 1 for qw(
+  application/font-ttf application/font-cff application/font-off
+  application/font-sfnt application/vnd.ms-opentype
+  application/font-woff application/vnd.ms-fontobject
+);
+$Data->{$_}->{zip} = 1 for qw(*/*+zip application/zip);
+$Data->{$_}->{archive} = 1 for qw(
+  application/x-rar-compressed application/zip application/x-gzip
+);
+$Data->{$_}->{xml} = 1 for qw(*/*+xml text/xml application/xml);
+$Data->{$_}->{scriptable} = 1 for qw(
+  */*+xml text/xml application/xml
+  text/html application/pdf
+);
+
+$Data->{'*/*'}->{type} = 'subtype';
+
 use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
