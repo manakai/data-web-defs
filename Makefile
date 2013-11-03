@@ -34,7 +34,8 @@ pmbp-install: pmbp-upgrade
 
 all-mime: data/mime-types.json
 clean-mime: 
-	rm -fr local/sw-mime-types-xml*
+	rm -fr local/sw-mime-types-xml* local/iana-mime-types-html*
+	rm -fr local/iana-mime-type-suffixes.xml
 
 local/sw-mime-types-xml:
 	$(WGET) -O $@-top "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20MIME%20types?format=xml"
@@ -62,8 +63,22 @@ local/sw-mime-types-xml:
 	$(WGET) -O $@-xgi "http://suika.suikawiki.org/~wakaba/wiki/sw/n/xgi+%2A?format=xml"
 	touch $@
 
+local/iana-mime-types-html:
+	$(WGET) -O $@-application http://www.iana.org/assignments/media-types/application/
+	$(WGET) -O $@-audio http://www.iana.org/assignments/media-types/audio/
+	$(WGET) -O $@-image http://www.iana.org/assignments/media-types/image/
+	$(WGET) -O $@-message http://www.iana.org/assignments/media-types/message/
+	$(WGET) -O $@-model http://www.iana.org/assignments/media-types/model/
+	$(WGET) -O $@-multipart http://www.iana.org/assignments/media-types/multipart/
+	$(WGET) -O $@-text http://www.iana.org/assignments/media-types/text/
+	$(WGET) -O $@-video http://www.iana.org/assignments/media-types/video/
+	touch $@
+local/iana-mime-type-suffixes.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xml
+
 data/mime-types.json: bin/mime-types.pl \
-    local/sw-mime-types-xml
+    local/sw-mime-types-xml local/iana-mime-types-html \
+    local/iana-mime-type-suffixes.xml
 	$(PERL) bin/mime-types.pl > $@
 
 ## ------ URLs ------
