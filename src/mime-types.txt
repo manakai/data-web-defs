@@ -1,10 +1,14 @@
 */*+csv
   text
   preferred_cte:quoted-printable
-*/*+xml
-  text
 */*+json
   text
+*/*+xml
+  text
+  xml
+  scriptable
+*/*+zip
+  zip
 application/atom+xml
   charset=""
   type=""
@@ -17,6 +21,18 @@ application/ecmascript
   preferred_cte:quoted-printable
   ext@es ecma
   mac@TEXT
+application/font-cff
+  font
+application/font-off
+  font
+application/font-sfnt
+  font
+application/font-ttf
+  font
+application/font-woff
+  font
+application/x-gzip
+  archive
 application/http
   preferred_cte:quoted-printable
   msgtype=""
@@ -41,6 +57,14 @@ application/x-mail-message
 application/mathml+xml
   charset=""
   ext@mml
+application/mbox
+  text
+  format=""
+  ext@mbox
+application/vnd.ms-fontobject
+  font
+application/vnd.ms-opentype
+  font
 application/msword
   version=""
   ext@doc
@@ -58,6 +82,10 @@ application/octet-stream
   padding=""
   type=""
   preferred_cte:base64
+application/ogg
+  audiovideo
+application/pdf
+  scriptable
 application/x-perl
   charset=""
   ext@pl pm pod ph
@@ -68,6 +96,8 @@ application/pgp
 application/pgp-signature
   preferred_cte:quoted-printable
   text
+application/x-rar-compressed
+  archive
 application/rdf+xml
   charset=""
   ext@rdf
@@ -101,10 +131,14 @@ application/xhtml+xml
   profile=""
   ext@xhtml xht html xml
   mac@TEXT
+  blacklisted
 application/xml
   charset=""
   ext@xml
   mac@TEXT
+  xml
+  scriptable
+  blacklisted
 application/xml-dtd
   charset=""
   ext@mod dtd
@@ -118,20 +152,37 @@ application/xslt+xml
   styling
 application/x-www-form-urlencoded
   charset=""
+  blacklisted
+application/zip
+  zip
+  archive
+audio/*
+  audiovideo
 audio/3gpp
   codecs=""
 audio/3gpp2
   codecs=""
+audio/ogg
+  codecs=""
+image/*
+  image
 image/bmp
   ext@bmp dib
+image/gif
+  blacklisted
+image/jpeg
+  blacklisted
 image/naplps
   text
   preferred_cte:quoted-printable
   version=""
+image/png
+  blacklisted
 image/svg+xml
   charset=""
   ext@svg
   mac@svg
+  blacklisted
 image/svg-xml
   charset=""
 image/vnd.adobe.svg+xml
@@ -192,11 +243,15 @@ multipart/alternative
   differences=""
 multipart/appledouble
   name=""
+multipart/x-mixed-replace
+  blacklisted
 multipart/report
   report-type=""
 text/*
   preferred_cte:quoted-printable
   text
+text/cache-manifest
+  blacklisted
 text/calendar
   charset=""
   component=""
@@ -209,6 +264,7 @@ text/css
   charset=""
   ext@css
   mac@css
+  blacklisted
 text/x-csv
   ext@csv
 text/directory
@@ -229,6 +285,8 @@ text/html
   version=""
   ext@html htm
   mac@TEXT
+  scriptable
+  blacklisted
 text/javascript
   charset=""
   e4x=""
@@ -243,6 +301,8 @@ text/x-message-rfc1153
 text/x-pgp-cleartext-signed
   charset=""
   application:application/pgp
+text/ping
+  blacklisted
 text/prs.lines.tag
   ext@tag
 text/plain
@@ -252,6 +312,7 @@ text/plain
   format=""
   ext@txt text
   mac@TEXT
+  blacklisted
 text/richtext
   charset=""
 text/rtf
@@ -275,6 +336,9 @@ text/xml
   application:application/xml
   ext@xml
   mac@TEXT
+  xml
+  scriptable
+  blacklisted
 text/xml-external-parsed-entity
   charset=""
   application:application/xml-external-parsed-entity
@@ -285,7 +349,13 @@ text/xsl
   application:application/xslt+xml
   styling
   ext@xsl
+video/*
+  audiovideo
 video/3gpp
   codecs=""
 video/3gpp2
+  codecs=""
+video/mp4
+  codecs=""
+video/ogg
   codecs=""
