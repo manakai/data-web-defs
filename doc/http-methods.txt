@@ -1,0 +1,76 @@
+http-methods.txt
+~~~~~~~~~~~~~~~~
+
+This file contains request methods used in HTTP and derived protocols.
+
+* Structure
+
+The file contains a JSON object, whose members are method names.
+Their corresponding values are JSON objects containing methods'
+properties, including:
+
+  case_insensitive [boolean]
+
+    Whether the method name is ASCII case-insensitive per the XHR spec
+    or not <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-open>.
+
+  iana [object?]
+
+    List of the IANA registries in which the method is registered.
+    Its members are pairs of protocol names and boolean value
+    representing the appearence.
+
+  idempotent [boolean]
+
+    Whether the method is idempotent or not
+    <http://tools.ietf.org/html/rfc2616#section-9.1.2>.
+
+  protocols [object?]
+
+    List of the relevant protocols.  Its members are pairs of protocol
+    names and boolean value representing the relevance of the
+    protocol.
+
+  safe [boolean]
+
+    Whether the method is safe or not
+    <http://tools.ietf.org/html/rfc2616#section-9.1.1>.
+
+  simple [boolean]
+
+    Whether the method is a simple method
+    <http://fetch.spec.whatwg.org/#simple-method> or not.
+
+  wildcard [boolean]
+
+    If true, it is not a method, but rather a set of methods sharing
+    same name structure.  The |*| character is used as wildcard in the
+    method name.
+
+  xhr_insecure [boolean]
+
+    Whether the method is disallowed by XHR or not
+    <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-open>.
+
+  xhr_no_request_body [boolean]
+
+    Whether the request-body cannot be sent by XHR or not
+    <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>.
+
+* Sources
+
+Hypertext Transfer Protocol -- HTTP/1.1
+<http://tools.ietf.org/html/rfc2616>.
+
+Fetch Standard <http://fetch.spec.whatwg.org/>.
+
+XMLHttpRequest Standard <http://xhr.spec.whatwg.org/>.
+
+Real Time Streaming Protocol (RTSP)/1.0 Parameters
+<http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xhtml>.
+
+Session Initiation Protocol (SIP) Parameters
+<http://www.iana.org/assignments/sip-parameters/sip-parameters.xml>.
+
+List of HTTP methods
+<http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20methods>.

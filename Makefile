@@ -83,26 +83,34 @@ data/langtags.json: bin/langtags.pl \
 
 ## ------ HTTP ------
 
-all-http: data/http-status-codes.json
+all-http: data/http-status-codes.json data/http-methods.json
 
 clean-http:
-	rm -fr local/sw-http-statuses.xml local/iana-http-statuses.xml
-	rm -fr local/iana-rtsp-statuses.xml local/iana-sip-statuses.xml
+	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
+	rm -fr local/iana-http-statuses.xml
+	rm -fr local/iana-rtsp.xml local/iana-sip.xml
 
 local/sw-http-statuses.xml:
 	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20status%20codes?format=xml"
+local/sw-http-methods.xml:
+	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20methods?format=xml"
 local/iana-http-statuses.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/http-status-codes/http-status-codes.xml
-local/iana-rtsp-statuses.xml:
+local/iana-rtsp.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
-local/iana-sip-statuses.xml:
+local/iana-sip.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
 
 data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
-    local/iana-rtsp-statuses.xml local/iana-sip-statuses.xml \
+    local/iana-rtsp.xml local/iana-sip.xml \
     bin/http-status-codes.pl
 	$(PERL) bin/http-status-codes.pl > $@
+data/http-methods.json: \
+    local/sw-http-methods.xml \
+    local/iana-rtsp.xml local/iana-sip.xml \
+    bin/http-methods.pl
+	$(PERL) bin/http-methods.pl > $@
 
 ## ------ Validation ------
 
