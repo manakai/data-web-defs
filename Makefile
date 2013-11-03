@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 
-all: all-langtags all-urls all-http
+all: all-langtags all-urls all-http all-mime
 
-clean: clean-langtags clean-urls clean-http
+clean: clean-langtags clean-urls clean-http clean-mime
 
 WGET = wget
 GIT = git
@@ -29,6 +29,42 @@ pmbp-update: git-submodules pmbp-upgrade
 pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
             --create-perl-command-shortcut perl
+
+## ------ MIME types ------
+
+all-mime: data/mime-types.json
+clean-mime: 
+	rm -fr local/sw-mime-types-xml*
+
+local/sw-mime-types-xml:
+	$(WGET) -O $@-top "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20MIME%20types?format=xml"
+	$(WGET) -O $@-suffix "http://suika.suikawiki.org/~wakaba/wiki/sw/n/structured%20syntax%20suffix?format=xml"
+	$(WGET) -O $@-xapplication "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-application+%2A?format=xml"
+	$(WGET) -O $@-application "http://suika.suikawiki.org/~wakaba/wiki/sw/n/application+%2A?format=xml"
+	$(WGET) -O $@-audio "http://suika.suikawiki.org/~wakaba/wiki/sw/n/audio+%2A?format=xml"
+	$(WGET) -O $@-chemical "http://suika.suikawiki.org/~wakaba/wiki/sw/n/chemical+%2A?format=xml"
+	$(WGET) -O $@-xferrumhead "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-ferrum-head+%2A?format=xml"
+	$(WGET) -O $@-xferrummenu "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-ferrum-menu+%2A?format=xml"
+	$(WGET) -O $@-font "http://suika.suikawiki.org/~wakaba/wiki/sw/n/font+%2A?format=xml"
+	$(WGET) -O $@-image "http://suika.suikawiki.org/~wakaba/wiki/sw/n/image+%2A?format=xml"
+	$(WGET) -O $@-inode "http://suika.suikawiki.org/~wakaba/wiki/sw/n/inode+%2A?format=xml"
+	$(WGET) -O $@-math "http://suika.suikawiki.org/~wakaba/wiki/sw/n/math+%2A?format=xml"
+	$(WGET) -O $@-message "http://suika.suikawiki.org/~wakaba/wiki/sw/n/message+%2A?format=xml"
+	$(WGET) -O $@-model "http://suika.suikawiki.org/~wakaba/wiki/sw/n/model+%2A?format=xml"
+	$(WGET) -O $@-multipart "http://suika.suikawiki.org/~wakaba/wiki/sw/n/multipart+%2A?format=xml"
+	$(WGET) -O $@-plugin "http://suika.suikawiki.org/~wakaba/wiki/sw/n/plugin+%2A?format=xml"
+	$(WGET) -O $@-xpostpet "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-postpet+%2A?format=xml"
+	$(WGET) -O $@-text "http://suika.suikawiki.org/~wakaba/wiki/sw/n/text+%2A?format=xml"
+	$(WGET) -O $@-vector "http://suika.suikawiki.org/~wakaba/wiki/sw/n/vector+%2A?format=xml"
+	$(WGET) -O $@-video "http://suika.suikawiki.org/~wakaba/wiki/sw/n/video+%2A?format=xml"
+	$(WGET) -O $@-windows "http://suika.suikawiki.org/~wakaba/wiki/sw/n/windows+%2A?format=xml"
+	$(WGET) -O $@-xworld "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-world+%2A?format=xml"
+	$(WGET) -O $@-xgi "http://suika.suikawiki.org/~wakaba/wiki/sw/n/xgi+%2A?format=xml"
+	touch $@
+
+data/mime-types.json: bin/mime-types.pl \
+    local/sw-mime-types-xml
+	$(PERL) bin/mime-types.pl > $@
 
 ## ------ URLs ------
 
