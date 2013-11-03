@@ -46,6 +46,7 @@ my $subtags;
       } else {
         $subtag->{_canon} = $tag_name_start;
       }
+      $subtag->{_registry}->{iana} = 1;
       $tag_name_start =~ tr/A-Z/a-z/;
       my $tag_name_end;
       if ($tag_name_start =~ /^(.+)\.\.(.+)$/) {
@@ -101,6 +102,7 @@ if ($full) {
     if ($subtags->{extension}) {
       my $tag_name = $subtag->{Identifier}->[0];
       #$subtag->{_canon} = '_lowercase';
+      $subtag->{_registry}->{iana} = 1;
       if ($subtags->{extension}->{$tag_name}) {
         warn "Duplicate tag: $tag_name\n";
       } else {
@@ -129,6 +131,7 @@ for my $xml_file_name (@ARGV) {
     my $key_desc = $key->get_attribute ('description');
     $subtags->{$key_ext . '_key'}->{$key_name} = {
       Description => [$key_desc],
+      _registry => {unicode => 1},
     };
     my $types = $key->query_selector_all ('type');
     for my $type (@$types) {
@@ -138,6 +141,7 @@ for my $xml_file_name (@ARGV) {
       my $type_desc = $type->get_attribute ('description');
       $subtags->{$key_ext . '_' . $key_name}->{$type_name} = {
         Description => [$type_desc],
+        _registry => {unicode => 1},
       };
     }
   }
