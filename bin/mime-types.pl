@@ -44,7 +44,7 @@ for my $doc (parse 'sw-mime-types-xml-*') {
 
 for my $doc (parse 'iana-mime-types-html-*') {
   my $type;
-  for (@{$doc->query_selector_all ('table > tbody > tr > td > table > tbody > tr')}) {
+  for (@{$doc->query_selector_all ('table > tbody > tr > td table > tbody > tr')}) {
     my $cells = $_->query_selector_all ('td');
     my $t = ($cells->[0] or next)->text_content;
     if ($t =~ m{^\s*([0-9A-Za-z_+.-]+)\s*$}) {
