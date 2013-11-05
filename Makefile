@@ -1,8 +1,8 @@
 # -*- Makefile -*-
 
-all: all-langtags all-urls all-http all-mime
+all: all-langtags all-urls all-http all-mime all-dom all-css
 
-clean: clean-langtags clean-urls clean-http clean-mime
+clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css
 
 WGET = wget
 GIT = git
@@ -168,6 +168,25 @@ data/http-methods.json: \
     local/iana-rtsp.xml local/iana-sip.xml \
     bin/http-methods.pl
 	$(PERL) bin/http-methods.pl > $@
+
+## ------ DOM ------
+
+all-dom: data/dom.json data/elements.json
+clean-dom:
+
+data/dom.json: bin/dom.pl src/dom-nodes.txt
+	$(PERL) bin/dom.pl > $@
+
+data/elements.json: bin/elements.pl src/element-interfaces.txt
+	$(PERL) bin/elements.pl > $@
+
+## ------ CSS ------
+
+all-css: data/css.json
+clean-css:
+
+data/css.json: bin/css.pl src/css-at-rules.txt
+	$(PERL) bin/css.pl > $@
 
 ## ------ Validation ------
 
