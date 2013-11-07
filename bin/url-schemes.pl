@@ -20,11 +20,11 @@ while (<$file>) {
     if ($Data->{$scheme}) {
       die "Duplicate URL scheme: |$scheme|\n";
     }
-    $Data->{$scheme} = {props => {}};
+    $Data->{$scheme} = {};
   } elsif (/^\s+([\w-]+)\s*$/) {
-    $Data->{$scheme}->{props}->{$1} = 1;
+    $Data->{$scheme}->{$1} = 1;
   } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
-    $Data->{$scheme}->{props}->{$1} = $2;
+    $Data->{$scheme}->{$1} = $2;
   } elsif (/\S/) {
     die "Broken data: $_";
   }
@@ -38,11 +38,11 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
       next;
     } elsif (/^(.*):\s*$/) {
       $scheme = $1;
-      $Data->{$scheme}->{props} ||= {};
+      $Data->{$scheme} ||= {};
     } elsif (/^\s+([\w-]+)\s*$/) {
-      $Data->{$scheme}->{props}->{$1} = 1;
+      $Data->{$scheme}->{$1} = 1;
     } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
-      $Data->{$scheme}->{props}->{$1} = $2;
+      $Data->{$scheme}->{$1} = $2;
     } elsif (/\S/) {
       die "Broken data: $_";
     }
