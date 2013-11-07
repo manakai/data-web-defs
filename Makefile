@@ -1,8 +1,9 @@
 # -*- Makefile -*-
 
-all: all-langtags all-urls all-http all-mime all-dom all-css
+all: all-langtags all-urls all-http all-mime all-dom all-css all-encodings
 
-clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css
+clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
+    clean-encodings
 
 WGET = wget
 GIT = git
@@ -168,6 +169,14 @@ data/http-methods.json: \
     local/iana-rtsp.xml local/iana-sip.xml \
     bin/http-methods.pl
 	$(PERL) bin/http-methods.pl > $@
+
+## ------ Encodings ------
+
+all-encodings: data/encodings.json
+clean-encodings:
+
+data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt
+	$(PERL) bin/encodings.pl > $@
 
 ## ------ DOM ------
 
