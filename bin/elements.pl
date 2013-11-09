@@ -59,6 +59,24 @@ my $Data = {};
   }
 }
 
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'elements.txt');
+  for (($f->slurp)) {
+    if (/^([^=]+)=(.+)$/) {
+      my $value = $2;
+      my @path = split /\|/, $1, -1;
+      my $name = pop @path;
+      my $data = $Data;
+      for (@path) {
+        $data = $data->{$_} ||= {};
+      }
+      $data->{$name} = $value;
+    } elsif (/\S/) {
+      die "Broken data |$_|";
+    }
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
