@@ -93,6 +93,78 @@ my $statuses = {};
   }
 }
 
+my $id_for_status = {
+  'attr-lang' => 'the-lang-and-xml:lang-attributes',
+  'attr-translate' => 'global-attributes', # ...
+  'attr-class' => 'classes',
+  'attr-hyperlink-href' => 'links',
+  'attr-hyperlink-target' => 'links',
+  'attr-hyperlink-ping' => 'links',
+  'attr-hyperlink-rel' => 'links',
+  'attr-hyperlink-hreflang' => 'links',
+  'attr-hyperlink-type' => 'links',
+  'attr-hyperlink-usemap' => 'authoring',
+  'attr-media-src' => 'location-of-the-media-resource',
+  'attr-media-crossorigin' => 'location-of-the-media-resource',
+  'attr-media-preload' => 'loading-the-media-resource',
+  'attr-media-loop' => 'offsets-into-the-media-resource',
+  'attr-media-autoplay' => 'media-elements', # ...
+  'attr-media-mediagroup' => 'synchronising-multiple-media-elements', # ...
+  'attr-media-controls' => 'user-interface',
+  'attr-media-muted' => 'user-interface',
+  #attr-input-accept => ... the-input-element
+  #attr-input-src => ... the-input-element
+  #attr-input-alt => ... the-input-element
+  'attr-input-maxlength' => 'common-input-element-attributes', # ...
+  'attr-input-minlength' => 'common-input-element-attributes', # ...
+  'attr-input-size' => 'the-size-attribute',
+  'attr-input-readonly' => 'the-readonly-attribute',
+  'attr-input-required' => 'the-required-attribute',
+  'attr-input-multiple' => 'the-multiple-attribute',
+  'attr-input-pattern' => 'the-pattern-attribute',
+  'attr-input-min' => 'the-min-and-max-attributes',
+  'attr-input-max' => 'the-min-and-max-attributes',
+  'attr-input-step' => 'the-step-attribute',
+  'attr-input-list' => 'the-list-attribute',
+  'attr-input-placeholder' => 'the-placeholder-attribute',
+  'attr-fae-form' => 'association-of-controls-and-forms',
+  'attr-fe-name' => 'attributes-common-to-form-controls', # ...
+  'attr-fe-dirname' => 'attributes-common-to-form-controls', # ...
+  'attr-fe-disabled' => 'attributes-common-to-form-controls', # ...
+  'attr-fs-action' => 'form-submission-0',
+  'attr-fs-formaction' => 'form-submission-0',
+  'attr-fs-method' => 'form-submission-0',
+  'attr-fs-formmethod' => 'form-submission-0',
+  'attr-fs-enctype' => 'form-submission-0',
+  'attr-fs-formenctype' => 'form-submission-0',
+  'attr-fs-target' => 'form-submission-0',
+  'attr-fs-formtarget' => 'form-submission-0',
+  'attr-fs-novalidate' => 'form-submission-0',
+  'attr-fs-formnovalidate' => 'form-submission-0',
+  'attr-fe-autofocus' => 'attributes-common-to-form-controls', # ...
+  'attr-fe-inputmode' => 'attributes-common-to-form-controls', # ...
+  'attr-fe-autocomplete' => 'autofilling-form-controls:-the-autocomplete-attribute',
+  'attr-mod-cite' => 'attributes-common-to-ins-and-del-elements',
+  'attr-mod-datetime' => 'attributes-common-to-ins-and-del-elements',
+  'attr-dim-width' => 'dimension-attributes',
+  'attr-dim-height' => 'dimension-attributes',
+  'attr-meta-http-equiv' => 'pragma-directives',
+  'attr-table-sortable' => 'table-sorting-model',
+  'attr-tdth-colspan' => 'attributes-common-to-td-and-th-elements',
+  'attr-tdth-rowspan' => 'attributes-common-to-td-and-th-elements',
+  'attr-tdth-headers' => 'attributes-common-to-td-and-th-elements',
+  'attr-contenteditable' => 'contenteditable',
+  'attr-contextmenu' => 'context-menus',
+  'attr-inert' => 'inert-subtrees', # the-inert-attribute
+  'attr-spellcheck' => 'spelling-and-grammar-checking',
+  'attr-tabindex' => 'focus', # ...
+  'attr-itemscope' => 'items',
+  'attr-itemtype' => 'items',
+  'attr-itemid' => 'items',
+  'attr-itemref' => 'items',
+  'attr-itemprop' => 'names:-the-itemprop-attribute',
+};
+
 for my $ns (keys %{$Data->{elements}}) {
   for my $ln (keys %{$Data->{elements}->{$ns}}) {
     my $v = $Data->{elements}->{$ns}->{$ln};
@@ -106,12 +178,23 @@ for my $ns (keys %{$Data->{elements}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
         if ($w->{id} and $statuses->{$w->{id}}) {
           $w->{status} ||= $statuses->{$w->{id}};
-          delete $w->{status} if $w->{status} eq 'UNKNOWN';
+        } elsif ($w->{id} and $id_for_status->{$w->{id}} and
+                 $statuses->{$id_for_status->{$w->{id}}}) {
+          $w->{status} ||= $statuses->{$id_for_status->{$w->{id}}};
+        } elsif ($w->{id} and $w->{id} =~ /^handler-/) {
+          $w->{status} ||= $statuses->{'event-handlers-on-elements,-document-objects,-and-window-objects'};
+        } elsif ($ans eq '' and $statuses->{"the-$aln-attribute"}) {
+          $w->{status} ||= $statuses->{"the-$aln-attribute"};
         }
+        delete $w->{status} if defined $w->{status} and $w->{status} eq 'UNKNOWN';
+        $w->{status} ||= $v->{status} if defined $v->{status};
       }
     }
   }
 }
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xml:lang'}->{status} = $statuses->{'the-lang-and-xml:lang-attributes'};
 
 print perl2json_bytes_for_record $Data;
 
