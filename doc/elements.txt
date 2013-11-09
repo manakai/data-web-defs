@@ -5,23 +5,116 @@ This file contains data on HTML/XML elements.
 
 * Structure
 
-The file contains an object, whose names are namespace URLs.
+The file contains a JSON object, which contains following name/value
+pairs:
 
-Values corresponding to them are objects containing local names of
-elements in the namespace, and/or "*", which represents the
-"fallback".
+  categories [object]
 
-Values corresponding to local names are objects containing properties
-of the element:
+    Element categories.  Unless otherwise specified, categories are
+    defined in the HTML Standard.  The names contained by the object
+    are identifiers of categories.  By replacing any U+0020 SPACE
+    character in the identifier with a U+002D HYPHEN-MINUS character,
+    it becomes an element ID in the HTML Standard for the category.
+    Values are properties of the category, including:
 
-  interface [string?]
+      elements [object?]
 
-    The element interface (see DOM Standard) for the element.  If this
-    property has a value, it is the interface used for the element.
-    Otherwise, if the "interface" property of the "*" local name in
-    the same namespace has a value, it is the interface used for the
-    element.  Otherwise, the |Element| interface is the used
-    interface.
+        Elements belonging to the category.  Names in the object are
+        namespace URLs.  Their corresponding values are JSON objects
+        containing local names of elements in the namespace as names
+        and boolean true values as values.  The list only contains
+        elements unconditionally classified to the category.
+
+      XXX conditional; text
+
+  elements [object]
+
+    Names in the object are namespace URLs (the null namespace is
+    represented by the empty string).  Their correspondng values are
+    JSON objects containing local names of elements in the namespaces.
+    The local name "*" has special semantics, as described later.
+    Objects corresponding to local names contain properties of the
+    element, including:
+
+      attrs [object?]
+
+        Names in the object are namespace URLs (the null namespace is
+        represented by the empty string).  Their corresponding values
+        are JSON objects containing local names of attributes in the
+        namespaces.  Objects corresponding to local names contain
+        properties of the attribute, including:
+
+          conforming [boolean]
+
+            Whether using the attribute is conforming or not.  If this
+            flag is not set, the attribute is non-standard or
+            obsolete.
+
+          desc [string?]
+
+            A short description of semantics of the element in
+            English, if known.
+
+          id [string?]
+
+            If the attribute is specified in the HTML Standard, the ID
+            in the specification for the attribute.
+
+        Note that the object for elements with non-"*" local name does
+        not contain global attributes.  If there is the objects for
+        element with "*" local name in the same namespace, its
+        attributes are also applicable to any other element in the
+        same namespace.  (If attributes with same namespace URL and
+        local name are defined for "*" and non-"*" elements, the
+        definition for non-"*" element takes precedence.)
+
+      conforming [boolean]
+
+        Whether using the element is conforming or not.  If this flag
+        is not set, the element is non-standard or obsolete.
+
+      content_model [string?]
+
+        The content model of the element.  If the value is "empty",
+        the element's content model is empty.  Otherwise, if the value
+        is the identifier of one of the categories, the element's
+        content model is that category.  Otherwise, either the
+        element's content model can't be represented as a category,
+        the element itself is non-conforming or non-standard, or the
+        content model is unknown.
+
+      desc [string?]
+
+        A short description of semantics of the element in English, if
+        known.
+
+      end_tag [string?]
+
+        If the value is "never", the element is void element.
+        Otherwise, if the value is "optional", the end tag can be
+        omitted in certain context.  Otherwise, the end tag is
+        required.
+
+      id [string?]
+
+        If the element is specified in the HTML Standard, the ID in
+        the specification for the element.
+
+      interface [string?]
+
+        The element interface (see DOM Standard) for the element.  If
+        this property has a value, it is the interface used for the
+        element.  Otherwise, if the "interface" property of the "*"
+        local name in the same namespace has a value, it is the
+        interface used for the element.  Otherwise, the |Element|
+        interface is the used interface.
+
+      start_tag [string?]
+
+        If the value is "optional", the start tag can be omitted in
+        certain context.  Otherwise, the start tag is required.
+
+  XXX h1-h6
 
 * Sources
 

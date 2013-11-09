@@ -178,16 +178,24 @@ clean-encodings:
 data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt
 	$(PERL) bin/encodings.pl > $@
 
-## ------ DOM ------
+## ------ DOM/HTML ------
 
 all-dom: data/dom.json data/elements.json
 clean-dom:
+	rm -fr local/html local/html-extracted.json
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
 
-data/elements.json: bin/elements.pl src/element-interfaces.txt
+data/elements.json: bin/elements.pl src/element-interfaces.txt \
+    local/html-extracted.json
 	$(PERL) bin/elements.pl > $@
+
+local/html:
+	cd local && $(WGET) -m -np http://www.whatwg.org/specs/web-apps/current-work/multipage/
+	touch $@
+local/html-extracted.json: local/html bin/extract-html-standard.pl
+	$(PERL) bin/extract-html-standard.pl > $@
 
 ## ------ CSS ------
 
