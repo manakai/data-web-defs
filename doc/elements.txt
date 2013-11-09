@@ -25,6 +25,15 @@ pairs:
         and boolean true values as values.  The list only contains
         elements unconditionally classified to the category.
 
+      elements_with_exceptions [object?]
+
+        Same as |elements|, but elements in this object might not
+        belong to the category depending on the context.
+
+      label [string]
+
+        The human-readable name of the category.
+
       text [boolean]
 
         If true, text is also in the category.
@@ -71,13 +80,16 @@ pairs:
         not contain global attributes.  If there is the objects for
         element with "*" local name in the same namespace, its
         attributes are also applicable to any other element in the
-        same namespace.  (If attributes with same namespace URL and
-        local name are defined for "*" and non-"*" elements, the
-        definition for non-"*" element takes precedence.)
+        same namespace.  Additionally, attributes for namespace "*"
+        and local name "*" is also applicable to any element.  (If
+        attributes with same namespace URL and local name are defined
+        for "*" and non-"*" elements, the definition for non-"*"
+        element takes precedence.)
 
         The |data-*| attributes, |aria-*| attributes, custom
         attributes for the HTML |embed| element, and XML namespace
-        declaration attributes are not listed.
+        declaration attributes are not listed.  XXX aria-* will be
+        added in due course.
 
       conforming [boolean]
 
