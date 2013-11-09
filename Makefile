@@ -182,13 +182,13 @@ data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt
 
 all-dom: data/dom.json data/elements.json
 clean-dom:
-	rm -fr local/html local/html-extracted.json
+	rm -fr local/html local/html-extracted.json local/html-status.xml
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
-    local/html-extracted.json src/elements.txt
+    local/html-extracted.json src/elements.txt local/html-status.xml
 	$(PERL) bin/elements.pl > $@
 
 local/html:
@@ -196,6 +196,8 @@ local/html:
 	touch $@
 local/html-extracted.json: local/html bin/extract-html-standard.pl
 	$(PERL) bin/extract-html-standard.pl > $@
+local/html-status.xml:
+	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/status.cgi?action=get-all-annotations
 
 ## ------ CSS ------
 

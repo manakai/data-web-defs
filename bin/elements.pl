@@ -77,6 +77,42 @@ my $Data = {};
   }
 }
 
+use Encode;
+use Web::DOM::Document;
+use Web::XML::Parser;
+my $statuses = {};
+{
+  my $doc = Web::DOM::Document->new;
+  {
+    my $f = file (__FILE__)->dir->parent->file ('local', 'html-status.xml');
+    Web::XML::Parser->new->parse_char_string
+        ((decode 'utf-8', scalar $f->slurp) => $doc);
+  }
+  for (@{$doc->query_selector_all ('annotations > entry[section][status]')}) {
+    $statuses->{$_->get_attribute ('section')} = $_->get_attribute ('status');
+  }
+}
+
+for my $ns (keys %{$Data->{elements}}) {
+  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+    my $v = $Data->{elements}->{$ns}->{$ln};
+    if ($v->{id} and $statuses->{$v->{id}}) {
+      $v->{status} ||= $statuses->{$v->{id}};
+      delete $v->{status} if $v->{status} eq 'UNKNOWN';
+    }
+
+    for my $ans (keys %{$v->{attrs} || {}}) {
+      for my $aln (keys %{$v->{attrs}->{$ans}}) {
+        my $w = $v->{attrs}->{$ans}->{$aln};
+        if ($w->{id} and $statuses->{$w->{id}}) {
+          $w->{status} ||= $statuses->{$w->{id}};
+          delete $w->{status} if $w->{status} eq 'UNKNOWN';
+        }
+      }
+    }
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
