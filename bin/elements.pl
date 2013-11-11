@@ -163,6 +163,9 @@ my $id_for_status = {
   'attr-itemid' => 'items',
   'attr-itemref' => 'items',
   'attr-itemprop' => 'names:-the-itemprop-attribute',
+  'attr-img-border' => 'obsolete-but-conforming-features',
+  'attr-script-language' => 'obsolete-but-conforming-features',
+  'attr-a-name' => 'obsolete-but-conforming-features',
 };
 
 for my $ns (keys %{$Data->{elements}}) {
