@@ -74,6 +74,52 @@ pairs:
             A short description of semantics of the element in
             English, if known.
 
+          enumerated [object?]
+
+            If the |value_type| is |enumerated|, this object contains
+            the list of known enumerated keywords for the attribute.
+            The names in the object are keywords, with two exceptions:
+            "#missing" represents the missing value default and
+            "#invalid" represents the invalid value default.  Note
+            that the empty string can be a keyword.  If the invalid
+            value default is same as the missing value default, the
+            invalid value default might not be explicitly shown.  The
+            value corresponding to the keyword contains properties of
+            the keyword, as following name/value pairs:
+
+              canonical [boolean]
+
+                If true, it is the canonical keyword for the state.
+                This flag is only set when the canonical one is
+                explicitly defined.
+
+              conforming [boolean]
+
+                Whether the keyword is conforming or not.  Note that
+                even if the value is true, the entire attribute (or in
+                fact the element of the attribute) might be
+                non-conforming.
+
+              id [string?]
+
+                The identifier of the state corresponding to the
+                keyword, if any, or the identifier of the keyword, if
+                any.  Both of them can be missing.
+
+              label [string]
+
+                The name of the state corresponding to the keyword,
+                without preceding "the" and following "state" words.
+
+            Note that the missing value default of the |preload|
+            attribute of media element is user-agent defined, but the
+            suggested default is listed.  The missing value default of
+            the |keytype| attribute of the |keygen| element depends on
+            whether the RSA state is supported or not, the list
+            assumes that the state is supported.  The missing value
+            default of the |type| attribute of the |menu| element
+            depends on the parent such that it is not listed.
+
           id [string?]
 
             If the attribute is specified in the HTML Standard, the ID
@@ -90,6 +136,46 @@ pairs:
           status [status?]
 
             The status of the attribute.
+
+          value_type [string?]
+
+            The type of the attribute value, if it is known and
+            representable as one of followings:
+
+              any                       (Any value)
+              boolean
+              browsing context name
+              browsing context name or keyword
+              character encoding label  (Encoding label)
+              CSS styling
+              date string with optional time
+              enumerated
+              event handler
+              floating-point number
+              floating-point number equal to or greater than zero
+              floating-point number greater than zero
+              hash-name reference
+              id                        (ID definition)
+              idref                     (ID reference)
+              integer
+              JavaScript Pattern        (JavaScript regular expression)
+              language tag              (BCP 47 language tag)
+              language tag or empty     (BCP 47 language tag or empty string)
+              list of integers
+              media query list
+              MIME type
+              non-empty                 (Any non-empty value)
+              non-empty text            (Text, not empty)
+              non-empty URL potentially surrounded by spaces
+              non-negative integer
+              non-negative integer greater than zero
+              one-line text             (Text without newlines)
+              ordered set of unique space-separated tokens
+              set of comma-separated tokens
+              set of space-separated tokens
+              text                      (Human-readable text)
+              unordered set of unique space-separated tokens
+              URL potentially surrounded by spaces
 
         Note that the object for elements with non-"*" local name does
         not contain global attributes.  If there is the objects for

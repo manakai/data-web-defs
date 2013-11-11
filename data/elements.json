@@ -499,7 +499,8 @@
                      "conforming" : "1"
                   },
                   "lang" : {
-                     "conforming" : "1"
+                     "conforming" : "1",
+                     "value_type" : "language tag or empty"
                   },
                   "space" : {
                      "conforming" : "1"
@@ -564,66 +565,124 @@
                      "conforming" : 1,
                      "desc" : "Keyboard shortcut to activate or focus element",
                      "id" : "attr-accesskey",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "ordered set of unique space-separated tokens"
                   },
                   "class" : {
                      "conforming" : 1,
                      "desc" : "Classes to which the element belongs",
                      "id" : "attr-class",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "contenteditable" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is editable",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "label" : "true"
+                        },
+                        "#missing" : {
+                           "label" : "inherit"
+                        },
+                        "false" : {
+                           "conforming" : 1,
+                           "label" : "false"
+                        },
+                        "true" : {
+                           "conforming" : 1,
+                           "label" : "true"
+                        }
+                     },
                      "id" : "attr-contenteditable",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "contextmenu" : {
                      "conforming" : 1,
                      "desc" : "The element's context menu",
-                     "id" : "attr-contextmenu"
+                     "id" : "attr-contextmenu",
+                     "value_type" : "idref"
                   },
                   "dir" : {
                      "conforming" : 1,
                      "desc" : "The text directionality of the element",
+                     "enumerated" : {
+                        "auto" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-auto-state",
+                           "label" : "auto"
+                        },
+                        "ltr" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-ltr-state",
+                           "label" : "ltr"
+                        },
+                        "rtl" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-rtl-state",
+                           "label" : "rtl"
+                        }
+                     },
                      "id" : "attr-dir",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "draggable" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is draggable",
+                     "enumerated" : {
+                        "#missing" : {
+                           "label" : "auto"
+                        },
+                        "false" : {
+                           "conforming" : 1,
+                           "label" : "false"
+                        },
+                        "true" : {
+                           "conforming" : 1,
+                           "label" : "true"
+                        }
+                     },
                      "id" : "attr-draggable",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "dropzone" : {
                      "conforming" : 1,
                      "desc" : "Accepted item types for drag-and-drop",
                      "id" : "attr-dropzone",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "hidden" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is relevant",
                      "id" : "attr-hidden",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "id" : {
                      "conforming" : 1,
                      "desc" : "The element's ID",
                      "id" : "attr-id",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "id"
                   },
                   "inert" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is inert",
                      "id" : "attr-inert",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "itemid" : {
                      "conforming" : 1,
                      "desc" : "Global identifier for a microdata item",
                      "id" : "attr-itemid",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "itemprop" : {
                      "conforming" : 1,
@@ -635,379 +694,442 @@
                      "conforming" : 1,
                      "desc" : "Referenced elements",
                      "id" : "attr-itemref",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "itemscope" : {
                      "conforming" : 1,
                      "desc" : "Introduces a microdata item",
                      "id" : "attr-itemscope",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "boolean"
                   },
                   "itemtype" : {
                      "conforming" : 1,
                      "desc" : "Item types of a microdata item",
                      "id" : "attr-itemtype",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "lang" : {
                      "conforming" : 1,
                      "desc" : "Language of the element",
                      "id" : "attr-lang",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "language tag or empty"
                   },
                   "onabort" : {
                      "conforming" : 1,
                      "desc" : "abort event handler",
                      "id" : "handler-onabort",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onblur" : {
                      "conforming" : 1,
                      "desc" : "blur event handler",
                      "id" : "handler-onblur",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oncancel" : {
                      "conforming" : 1,
                      "desc" : "cancel event handler",
                      "id" : "handler-oncancel",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oncanplay" : {
                      "conforming" : 1,
                      "desc" : "canplay event handler",
                      "id" : "handler-oncanplay",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oncanplaythrough" : {
                      "conforming" : 1,
                      "desc" : "canplaythrough event handler",
                      "id" : "handler-oncanplaythrough",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onchange" : {
                      "conforming" : 1,
                      "desc" : "change event handler",
                      "id" : "handler-onchange",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onclick" : {
                      "conforming" : 1,
                      "desc" : "click event handler",
                      "id" : "handler-onclick",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onclose" : {
                      "conforming" : 1,
                      "desc" : "close event handler",
                      "id" : "handler-onclose",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oncontextmenu" : {
                      "conforming" : 1,
                      "desc" : "contextmenu event handler",
                      "id" : "handler-oncontextmenu",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oncuechange" : {
                      "conforming" : 1,
                      "desc" : "cuechange event handler",
                      "id" : "handler-oncuechange",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondblclick" : {
                      "conforming" : 1,
                      "desc" : "dblclick event handler",
                      "id" : "handler-ondblclick",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondrag" : {
                      "conforming" : 1,
                      "desc" : "drag event handler",
                      "id" : "handler-ondrag",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondragend" : {
                      "conforming" : 1,
                      "desc" : "dragend event handler",
                      "id" : "handler-ondragend",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondragenter" : {
                      "conforming" : 1,
                      "desc" : "dragenter event handler",
                      "id" : "handler-ondragenter",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondragexit" : {
                      "conforming" : 1,
                      "desc" : "dragexit event handler",
                      "id" : "handler-ondragexit",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondragleave" : {
                      "conforming" : 1,
                      "desc" : "dragleave event handler",
                      "id" : "handler-ondragleave",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondragover" : {
                      "conforming" : 1,
                      "desc" : "dragover event handler",
                      "id" : "handler-ondragover",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondragstart" : {
                      "conforming" : 1,
                      "desc" : "dragstart event handler",
                      "id" : "handler-ondragstart",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondrop" : {
                      "conforming" : 1,
                      "desc" : "drop event handler",
                      "id" : "handler-ondrop",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ondurationchange" : {
                      "conforming" : 1,
                      "desc" : "durationchange event handler",
                      "id" : "handler-ondurationchange",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onemptied" : {
                      "conforming" : 1,
                      "desc" : "emptied event handler",
                      "id" : "handler-onemptied",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onended" : {
                      "conforming" : 1,
                      "desc" : "ended event handler",
                      "id" : "handler-onended",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onerror" : {
                      "conforming" : 1,
                      "desc" : "error event handler",
                      "id" : "handler-onerror",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onfocus" : {
                      "conforming" : 1,
                      "desc" : "focus event handler",
                      "id" : "handler-onfocus",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oninput" : {
                      "conforming" : 1,
                      "desc" : "input event handler",
                      "id" : "handler-oninput",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "oninvalid" : {
                      "conforming" : 1,
                      "desc" : "invalid event handler",
                      "id" : "handler-oninvalid",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onkeydown" : {
                      "conforming" : 1,
                      "desc" : "keydown event handler",
                      "id" : "handler-onkeydown",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onkeypress" : {
                      "conforming" : 1,
                      "desc" : "keypress event handler",
                      "id" : "handler-onkeypress",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onkeyup" : {
                      "conforming" : 1,
                      "desc" : "keyup event handler",
                      "id" : "handler-onkeyup",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onload" : {
                      "conforming" : 1,
                      "desc" : "load event handler",
                      "id" : "handler-onload",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onloadeddata" : {
                      "conforming" : 1,
                      "desc" : "loadeddata event handler",
                      "id" : "handler-onloadeddata",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onloadedmetadata" : {
                      "conforming" : 1,
                      "desc" : "loadedmetadata event handler",
                      "id" : "handler-onloadedmetadata",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onloadstart" : {
                      "conforming" : 1,
                      "desc" : "loadstart event handler",
                      "id" : "handler-onloadstart",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmousedown" : {
                      "conforming" : 1,
                      "desc" : "mousedown event handler",
                      "id" : "handler-onmousedown",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmouseenter" : {
                      "conforming" : 1,
                      "desc" : "mouseenter event handler",
                      "id" : "handler-onmouseenter",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmouseleave" : {
                      "conforming" : 1,
                      "desc" : "mouseleave event handler",
                      "id" : "handler-onmouseleave",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmousemove" : {
                      "conforming" : 1,
                      "desc" : "mousemove event handler",
                      "id" : "handler-onmousemove",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmouseout" : {
                      "conforming" : 1,
                      "desc" : "mouseout event handler",
                      "id" : "handler-onmouseout",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmouseover" : {
                      "conforming" : 1,
                      "desc" : "mouseover event handler",
                      "id" : "handler-onmouseover",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmouseup" : {
                      "conforming" : 1,
                      "desc" : "mouseup event handler",
                      "id" : "handler-onmouseup",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmousewheel" : {
                      "conforming" : 1,
                      "desc" : "mousewheel event handler",
                      "id" : "handler-onmousewheel",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onpause" : {
                      "conforming" : 1,
                      "desc" : "pause event handler",
                      "id" : "handler-onpause",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onplay" : {
                      "conforming" : 1,
                      "desc" : "play event handler",
                      "id" : "handler-onplay",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onplaying" : {
                      "conforming" : 1,
                      "desc" : "playing event handler",
                      "id" : "handler-onplaying",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onprogress" : {
                      "conforming" : 1,
                      "desc" : "progress event handler",
                      "id" : "handler-onprogress",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onratechange" : {
                      "conforming" : 1,
                      "desc" : "ratechange event handler",
                      "id" : "handler-onratechange",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onreset" : {
                      "conforming" : 1,
                      "desc" : "reset event handler",
                      "id" : "handler-onreset",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onscroll" : {
                      "conforming" : 1,
                      "desc" : "scroll event handler",
                      "id" : "handler-onscroll",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onseeked" : {
                      "conforming" : 1,
                      "desc" : "seeked event handler",
                      "id" : "handler-onseeked",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onseeking" : {
                      "conforming" : 1,
                      "desc" : "seeking event handler",
                      "id" : "handler-onseeking",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onselect" : {
                      "conforming" : 1,
                      "desc" : "select event handler",
                      "id" : "handler-onselect",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onshow" : {
                      "conforming" : 1,
                      "desc" : "show event handler",
                      "id" : "handler-onshow",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onsort" : {
                      "conforming" : 1,
                      "desc" : "sort event handler",
                      "id" : "handler-onsort",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onstalled" : {
                      "conforming" : 1,
                      "desc" : "stalled event handler",
                      "id" : "handler-onstalled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onsubmit" : {
                      "conforming" : 1,
                      "desc" : "submit event handler",
                      "id" : "handler-onsubmit",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onsuspend" : {
                      "conforming" : 1,
                      "desc" : "suspend event handler",
                      "id" : "handler-onsuspend",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ontimeupdate" : {
                      "conforming" : 1,
                      "desc" : "timeupdate event handler",
                      "id" : "handler-ontimeupdate",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onvolumechange" : {
                      "conforming" : 1,
                      "desc" : "volumechange event handler",
                      "id" : "handler-onvolumechange",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onwaiting" : {
                      "conforming" : 1,
                      "desc" : "waiting event handler",
                      "id" : "handler-onwaiting",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "role" : {
                      "conforming" : "1"
@@ -1015,32 +1137,71 @@
                   "spellcheck" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is to have its spelling and grammar checked",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "label" : "true"
+                        },
+                        "#missing" : {
+                           "label" : "default"
+                        },
+                        "false" : {
+                           "conforming" : 1,
+                           "label" : "false"
+                        },
+                        "true" : {
+                           "conforming" : 1,
+                           "label" : "true"
+                        }
+                     },
                      "id" : "attr-spellcheck",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "enumerated"
                   },
                   "style" : {
                      "conforming" : 1,
                      "desc" : "Presentational and formatting instructions",
                      "id" : "attr-style",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "CSS styling"
                   },
                   "tabindex" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is focusable, and the relative order of the element for the purposes of sequential focus navigation",
                      "id" : "attr-tabindex",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "integer"
                   },
                   "title" : {
                      "conforming" : 1,
                      "desc" : "Advisory information for the element",
                      "id" : "attr-title",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "translate" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is to be translated when the page is localized",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "label" : "yes"
+                        },
+                        "#missing" : {
+                           "label" : "inherit"
+                        },
+                        "no" : {
+                           "conforming" : 1,
+                           "label" : "no"
+                        },
+                        "yes" : {
+                           "conforming" : 1,
+                           "label" : "yes"
+                        }
+                     },
                      "id" : "attr-translate",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "xml:lang" : {
                      "conforming" : "1",
@@ -1061,19 +1222,22 @@
                      "conforming" : 1,
                      "desc" : "Whether to download the resource instead of navigating to it, and its file name if so",
                      "id" : "attr-hyperlink-download",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "href" : {
                      "conforming" : 1,
                      "desc" : "Address of the hyperlink",
                      "id" : "attr-hyperlink-href",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "hreflang" : {
                      "conforming" : 1,
                      "desc" : "Language of the linked resource",
                      "id" : "attr-hyperlink-hreflang",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "language tag"
                   },
                   "name" : {
                      "id" : "attr-a-name",
@@ -1084,25 +1248,29 @@
                      "conforming" : 1,
                      "desc" : "URLs to ping",
                      "id" : "attr-hyperlink-ping",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "rel" : {
                      "conforming" : 1,
                      "desc" : "Relationship between the document containing the hyperlink and the destination resource",
                      "id" : "attr-hyperlink-rel",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "target" : {
                      "conforming" : 1,
                      "desc" : "Browsing context for hyperlink navigation",
                      "id" : "attr-hyperlink-target",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name or keyword"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Hint for the type of the referenced resource",
                      "id" : "attr-hyperlink-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "MIME type"
                   }
                }
             },
@@ -1119,7 +1287,8 @@
                      "conforming" : 1,
                      "desc" : "Full term or expansion of abbreviation",
                      "id" : "attr-abbr-title",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   }
                }
             },
@@ -1150,61 +1319,109 @@
                      "conforming" : 1,
                      "desc" : "Replacement text for use when images are not available",
                      "id" : "attr-area-alt",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "coords" : {
                      "conforming" : 1,
                      "desc" : "Coordinates for the shape to be created in an image map",
                      "id" : "attr-area-coords",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "list of integers"
                   },
                   "download" : {
                      "conforming" : 1,
                      "desc" : "Whether to download the resource instead of navigating to it, and its file name if so",
                      "id" : "attr-hyperlink-download",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "href" : {
                      "conforming" : 1,
                      "desc" : "Address of the hyperlink",
                      "id" : "attr-hyperlink-href",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "hreflang" : {
                      "conforming" : 1,
                      "desc" : "Language of the linked resource",
                      "id" : "attr-hyperlink-hreflang",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "language tag"
                   },
                   "ping" : {
                      "conforming" : 1,
                      "desc" : "URLs to ping",
                      "id" : "attr-hyperlink-ping",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "rel" : {
                      "conforming" : 1,
                      "desc" : "Relationship between the document containing the hyperlink and the destination resource",
                      "id" : "attr-hyperlink-rel",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "shape" : {
                      "conforming" : 1,
                      "desc" : "The kind of shape to be created in an image map",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-area-shape-rect",
+                           "label" : "rectangle"
+                        },
+                        "circ" : {
+                           "id" : "attr-area-shape-circle",
+                           "label" : "circle"
+                        },
+                        "circle" : {
+                           "conforming" : 1,
+                           "id" : "attr-area-shape-circle",
+                           "label" : "circle"
+                        },
+                        "default" : {
+                           "conforming" : 1,
+                           "id" : "attr-area-shape-default",
+                           "label" : "default"
+                        },
+                        "poly" : {
+                           "conforming" : 1,
+                           "id" : "attr-area-shape-poly",
+                           "label" : "polygon"
+                        },
+                        "polygon" : {
+                           "id" : "attr-area-shape-poly",
+                           "label" : "polygon"
+                        },
+                        "rect" : {
+                           "conforming" : 1,
+                           "id" : "attr-area-shape-rect",
+                           "label" : "rectangle"
+                        },
+                        "rectangle" : {
+                           "id" : "attr-area-shape-rect",
+                           "label" : "rectangle"
+                        }
+                     },
                      "id" : "attr-area-shape",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "target" : {
                      "conforming" : 1,
                      "desc" : "Browsing context for hyperlink navigation",
                      "id" : "attr-hyperlink-target",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name or keyword"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Hint for the type of the referenced resource",
                      "id" : "attr-hyperlink-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "MIME type"
                   }
                }
             },
@@ -1238,49 +1455,109 @@
                      "conforming" : 1,
                      "desc" : "Hint that the media resource can be started automatically when the page is loaded",
                      "id" : "attr-media-autoplay",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "controls" : {
                      "conforming" : 1,
                      "desc" : "Show user agent controls",
                      "id" : "attr-media-controls",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "crossorigin" : {
                      "conforming" : 1,
                      "desc" : "How the element handles crossorigin requests",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#invalid" : {
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#missing" : {
+                           "id" : "attr-crossorigin-none",
+                           "label" : "No CORS"
+                        },
+                        "anonymous" : {
+                           "canonical" : 1,
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "use-credentials" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-use-credentials",
+                           "label" : "Use credentials"
+                        }
+                     },
                      "id" : "attr-media-crossorigin",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "loop" : {
                      "conforming" : 1,
                      "desc" : "Whether to loop the media resource",
                      "id" : "attr-media-loop",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "mediagroup" : {
                      "conforming" : 1,
                      "desc" : "Groups media elements together with an implicit MediaController",
                      "id" : "attr-media-mediagroup",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "any"
                   },
                   "muted" : {
                      "conforming" : 1,
                      "desc" : "Whether to mute the media resource by default",
                      "id" : "attr-media-muted",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "preload" : {
                      "conforming" : 1,
                      "desc" : "Hints how much buffering the media resource will likely need",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-auto",
+                           "label" : "Automatic"
+                        },
+                        "#missing" : {
+                           "id" : "attr-media-preload-metadata",
+                           "label" : "Metadata"
+                        },
+                        "auto" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-auto",
+                           "label" : "Automatic"
+                        },
+                        "metadata" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-metadata",
+                           "label" : "Metadata"
+                        },
+                        "none" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-none",
+                           "label" : "None"
+                        }
+                     },
                      "id" : "attr-media-preload",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-media-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   }
                }
             },
@@ -1305,13 +1582,15 @@
                      "conforming" : 1,
                      "desc" : "Document base URL",
                      "id" : "attr-base-href",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "target" : {
                      "conforming" : 1,
                      "desc" : "Default browsing context for hyperlink navigation and form submission",
                      "id" : "attr-base-target",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name or keyword"
                   }
                }
             },
@@ -1331,8 +1610,26 @@
                "" : {
                   "dir" : {
                      "conforming" : 1,
+                     "enumerated" : {
+                        "auto" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-auto-state",
+                           "label" : "auto"
+                        },
+                        "ltr" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-ltr-state",
+                           "label" : "ltr"
+                        },
+                        "rtl" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-rtl-state",
+                           "label" : "rtl"
+                        }
+                     },
                      "id" : "attr-dir",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   }
                }
             },
@@ -1348,8 +1645,26 @@
                "" : {
                   "dir" : {
                      "conforming" : 1,
+                     "enumerated" : {
+                        "auto" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-auto-state",
+                           "label" : "auto"
+                        },
+                        "ltr" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-ltr-state",
+                           "label" : "ltr"
+                        },
+                        "rtl" : {
+                           "conforming" : 1,
+                           "id" : "attr-dir-rtl-state",
+                           "label" : "rtl"
+                        }
+                     },
                      "id" : "attr-dir",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   }
                }
             },
@@ -1373,7 +1688,8 @@
                      "conforming" : 1,
                      "desc" : "Link to the source of the quotation or more information about the edit",
                      "id" : "attr-blockquote-cite",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   }
                }
             },
@@ -1391,79 +1707,92 @@
                      "conforming" : 1,
                      "desc" : "afterprint event handler for Window object",
                      "id" : "handler-window-onafterprint",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onbeforeprint" : {
                      "conforming" : 1,
                      "desc" : "beforeprint event handler for Window object",
                      "id" : "handler-window-onbeforeprint",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onbeforeunload" : {
                      "conforming" : 1,
                      "desc" : "beforeunload event handler for Window object",
                      "id" : "handler-window-onbeforeunload",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onhashchange" : {
                      "conforming" : 1,
                      "desc" : "hashchange event handler for Window object",
                      "id" : "handler-window-onhashchange",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onmessage" : {
                      "conforming" : 1,
                      "desc" : "message event handler for Window object",
                      "id" : "handler-window-onmessage",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onoffline" : {
                      "conforming" : 1,
                      "desc" : "offline event handler for Window object",
                      "id" : "handler-window-onoffline",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "ononline" : {
                      "conforming" : 1,
                      "desc" : "online event handler for Window object",
                      "id" : "handler-window-ononline",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onpagehide" : {
                      "conforming" : 1,
                      "desc" : "pagehide event handler for Window object",
                      "id" : "handler-window-onpagehide",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onpageshow" : {
                      "conforming" : 1,
                      "desc" : "pageshow event handler for Window object",
                      "id" : "handler-window-onpageshow",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onpopstate" : {
                      "conforming" : 1,
                      "desc" : "popstate event handler for Window object",
                      "id" : "handler-window-onpopstate",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onresize" : {
                      "conforming" : 1,
                      "desc" : "resize event handler for Window object",
                      "id" : "handler-window-onresize",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onstorage" : {
                      "conforming" : 1,
                      "desc" : "storage event handler for Window object",
                      "id" : "handler-window-onstorage",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   },
                   "onunload" : {
                      "conforming" : 1,
                      "desc" : "unload event handler for Window object",
                      "id" : "handler-window-onunload",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "event handler"
                   }
                }
             },
@@ -1492,73 +1821,153 @@
                      "conforming" : 1,
                      "desc" : "Automatically focus the form control when the page is loaded",
                      "id" : "attr-fe-autofocus",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "disabled" : {
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-fe-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "formaction" : {
                      "conforming" : 1,
                      "desc" : "URL to use for form submission",
                      "id" : "attr-fs-formaction",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "formenctype" : {
                      "conforming" : 1,
                      "desc" : "Form data set encoding type to use for form submission",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "application/x-www-form-urlencoded" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "multipart/form-data" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-formdata",
+                           "label" : "multipart/form-data"
+                        },
+                        "text/plain" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-text",
+                           "label" : "text/plain"
+                        }
+                     },
                      "id" : "attr-fs-formenctype",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "formmethod" : {
                      "conforming" : 1,
                      "desc" : "HTTP method to use for form submission",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "dialog" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-dialog",
+                           "label" : "dialog"
+                        },
+                        "get" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "post" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-POST",
+                           "label" : "POST"
+                        }
+                     },
                      "id" : "attr-fs-formmethod",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "formnovalidate" : {
                      "conforming" : 1,
                      "desc" : "Bypass form control validation for form submission",
                      "id" : "attr-fs-formnovalidate",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "formtarget" : {
                      "conforming" : 1,
                      "desc" : "Browsing context for form submission",
                      "id" : "attr-fs-formtarget",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name or keyword"
                   },
                   "menu" : {
                      "conforming" : 1,
                      "desc" : "Specifies the element's designated pop-up menu",
                      "id" : "attr-button-menu",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of button",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-button-type-submit",
+                           "label" : "Submit Button"
+                        },
+                        "button" : {
+                           "conforming" : 1,
+                           "id" : "attr-button-type-button",
+                           "label" : "Button"
+                        },
+                        "menu" : {
+                           "conforming" : 1,
+                           "id" : "attr-button-type-menu",
+                           "label" : "Menu"
+                        },
+                        "reset" : {
+                           "conforming" : 1,
+                           "id" : "attr-button-type-reset",
+                           "label" : "Reset Button"
+                        },
+                        "submit" : {
+                           "conforming" : 1,
+                           "id" : "attr-button-type-submit",
+                           "label" : "Submit Button"
+                        }
+                     },
                      "id" : "attr-button-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "value" : {
                      "conforming" : 1,
                      "desc" : "Value to be used for form submission",
                      "id" : "attr-button-value",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "any"
                   }
                }
             },
@@ -1575,13 +1984,15 @@
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-canvas-height",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "non-negative integer"
                   },
                   "width" : {
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-canvas-width",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -1624,7 +2035,8 @@
                      "conforming" : 1,
                      "desc" : "Number of columns spanned by the element",
                      "id" : "attr-col-span",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   }
                }
             },
@@ -1643,7 +2055,8 @@
                      "conforming" : 1,
                      "desc" : "Number of columns spanned by the element",
                      "id" : "attr-colgroup-span",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   }
                }
             },
@@ -1696,13 +2109,15 @@
                      "conforming" : 1,
                      "desc" : "Link to the source of the quotation or more information about the edit",
                      "id" : "attr-mod-cite",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "datetime" : {
                      "conforming" : 1,
                      "desc" : "Date and (optionally) time of the change",
                      "id" : "attr-mod-datetime",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "date string with optional time"
                   }
                }
             },
@@ -1720,7 +2135,8 @@
                      "conforming" : 1,
                      "desc" : "Whether the details are visible",
                      "id" : "attr-details-open",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   }
                }
             },
@@ -1737,7 +2153,8 @@
                      "conforming" : 1,
                      "desc" : "Full term or expansion of abbreviation",
                      "id" : "attr-dfn-title",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   }
                }
             },
@@ -1754,7 +2171,8 @@
                      "conforming" : 1,
                      "desc" : "Whether the dialog box is showing",
                      "id" : "attr-dialog-open",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   }
                }
             },
@@ -1806,25 +2224,29 @@
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-dim-height",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-embed-src",
-                     "status" : "CWD"
+                     "status" : "CWD",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of embedded resource",
                      "id" : "attr-embed-type",
-                     "status" : "CWD"
+                     "status" : "CWD",
+                     "value_type" : "MIME type"
                   },
                   "width" : {
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-dim-width",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -1843,19 +2265,22 @@
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-fieldset-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   }
                }
             },
@@ -1897,31 +2322,102 @@
                      "conforming" : 1,
                      "desc" : "Character encodings to use for form submission",
                      "id" : "attr-form-accept-charset",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "ordered set of unique space-separated tokens"
                   },
                   "action" : {
                      "conforming" : 1,
                      "desc" : "URL to use for form submission",
                      "id" : "attr-fs-action",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "autocomplete" : {
                      "conforming" : 1,
                      "desc" : "Default setting for autofill feature for controls in the form",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-form-autocomplete-on-state",
+                           "label" : "on"
+                        },
+                        "off" : {
+                           "conforming" : 1,
+                           "id" : "attr-form-autocomplete-off-state",
+                           "label" : "off"
+                        },
+                        "on" : {
+                           "conforming" : 1,
+                           "id" : "attr-form-autocomplete-on-state",
+                           "label" : "on"
+                        }
+                     },
                      "id" : "attr-form-autocomplete",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "enctype" : {
                      "conforming" : 1,
                      "desc" : "Form data set encoding type to use for form submission",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "#missing" : {
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "application/x-www-form-urlencoded" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "multipart/form-data" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-formdata",
+                           "label" : "multipart/form-data"
+                        },
+                        "text/plain" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-text",
+                           "label" : "text/plain"
+                        }
+                     },
                      "id" : "attr-fs-enctype",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "method" : {
                      "conforming" : 1,
                      "desc" : "HTTP method to use for form submission",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "#missing" : {
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "dialog" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-dialog",
+                           "label" : "dialog"
+                        },
+                        "get" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "post" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-POST",
+                           "label" : "POST"
+                        }
+                     },
                      "id" : "attr-fs-method",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "name" : {
                      "conforming" : 1,
@@ -1933,13 +2429,15 @@
                      "conforming" : 1,
                      "desc" : "Bypass form control validation for form submission",
                      "id" : "attr-fs-novalidate",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "target" : {
                      "conforming" : 1,
                      "desc" : "Browsing context for form submission",
                      "id" : "attr-fs-target",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name or keyword"
                   }
                }
             },
@@ -2042,7 +2540,8 @@
                      "conforming" : 1,
                      "desc" : "Application cache manifest",
                      "id" : "attr-html-manifest",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   }
                }
             },
@@ -2069,37 +2568,43 @@
                      "conforming" : 1,
                      "desc" : "Whether to allow the iframe's contents to use requestFullscreen()",
                      "id" : "attr-iframe-allowfullscreen",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "height" : {
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-dim-height",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of nested browsing context",
                      "id" : "attr-iframe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name"
                   },
                   "sandbox" : {
                      "conforming" : 1,
                      "desc" : "Security rules for nested content",
                      "id" : "attr-iframe-sandbox",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "seamless" : {
                      "conforming" : 1,
                      "desc" : "Whether to apply the document's styles to the nested content",
                      "id" : "attr-iframe-seamless",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-iframe-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "srcdoc" : {
                      "conforming" : 1,
@@ -2111,7 +2616,8 @@
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-dim-width",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -2128,7 +2634,8 @@
                      "conforming" : 1,
                      "desc" : "Replacement text for use when images are not available",
                      "id" : "attr-img-alt",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "border" : {
                      "id" : "attr-img-border",
@@ -2138,26 +2645,56 @@
                   "crossorigin" : {
                      "conforming" : 1,
                      "desc" : "How the element handles crossorigin requests",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#invalid" : {
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#missing" : {
+                           "id" : "attr-crossorigin-none",
+                           "label" : "No CORS"
+                        },
+                        "anonymous" : {
+                           "canonical" : 1,
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "use-credentials" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-use-credentials",
+                           "label" : "Use credentials"
+                        }
+                     },
                      "id" : "attr-img-crossorigin",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "height" : {
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-dim-height",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "ismap" : {
                      "conforming" : 1,
                      "desc" : "Whether the image is a server-side image map",
                      "id" : "attr-img-ismap",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-img-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "srcset" : {
                      "conforming" : 1,
@@ -2169,13 +2706,15 @@
                      "conforming" : 1,
                      "desc" : "Name of image map to use",
                      "id" : "attr-hyperlink-usemap",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "hash-name reference"
                   },
                   "width" : {
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-dim-width",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -2194,43 +2733,50 @@
                      "conforming" : 1,
                      "desc" : "Hint for expected file type in file upload controls",
                      "id" : "attr-input-accept",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of comma-separated tokens"
                   },
                   "alt" : {
                      "conforming" : 1,
                      "desc" : "Replacement text for use when images are not available",
                      "id" : "attr-input-alt",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty text"
                   },
                   "autocomplete" : {
                      "conforming" : 1,
                      "desc" : "Hint for form autofill feature",
                      "id" : "attr-fe-autocomplete",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "autofocus" : {
                      "conforming" : 1,
                      "desc" : "Automatically focus the form control when the page is loaded",
                      "id" : "attr-fe-autofocus",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "checked" : {
                      "conforming" : 1,
                      "desc" : "Whether the command or control is checked",
                      "id" : "attr-input-checked",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "dirname" : {
                      "conforming" : 1,
                      "desc" : "Name of form field to use for sending the element's directionality in form submission",
                      "id" : "attr-fe-dirname",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   },
                   "disabled" : {
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-fe-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
@@ -2242,49 +2788,160 @@
                      "conforming" : 1,
                      "desc" : "URL to use for form submission",
                      "id" : "attr-fs-formaction",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "formenctype" : {
                      "conforming" : 1,
                      "desc" : "Form data set encoding type to use for form submission",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "application/x-www-form-urlencoded" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-urlencoded",
+                           "label" : "application/x-www-form-urlencoded"
+                        },
+                        "multipart/form-data" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-formdata",
+                           "label" : "multipart/form-data"
+                        },
+                        "text/plain" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-enctype-text",
+                           "label" : "text/plain"
+                        }
+                     },
                      "id" : "attr-fs-formenctype",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "formmethod" : {
                      "conforming" : 1,
                      "desc" : "HTTP method to use for form submission",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "dialog" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-dialog",
+                           "label" : "dialog"
+                        },
+                        "get" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-GET",
+                           "label" : "GET"
+                        },
+                        "post" : {
+                           "conforming" : 1,
+                           "id" : "attr-fs-method-POST",
+                           "label" : "POST"
+                        }
+                     },
                      "id" : "attr-fs-formmethod",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "formnovalidate" : {
                      "conforming" : 1,
                      "desc" : "Bypass form control validation for form submission",
                      "id" : "attr-fs-formnovalidate",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "formtarget" : {
                      "conforming" : 1,
                      "desc" : "Browsing context for form submission",
                      "id" : "attr-fs-formtarget",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name or keyword"
                   },
                   "height" : {
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-dim-height",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "inputmode" : {
                      "conforming" : 1,
                      "desc" : "Hint for selecting an input modality",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-fe-inputmode-state-default",
+                           "label" : "Default"
+                        },
+                        "email" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-email",
+                           "label" : "E-mail"
+                        },
+                        "full-width-latin" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-full-width-latin",
+                           "label" : "Full-width Latin"
+                        },
+                        "kana" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-kana",
+                           "label" : "Kana"
+                        },
+                        "katakana" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-katakana",
+                           "label" : "Katakana"
+                        },
+                        "latin" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-latin",
+                           "label" : "Latin Text"
+                        },
+                        "latin-name" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-latin-name",
+                           "label" : "Latin Name"
+                        },
+                        "latin-prose" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-latin-prose",
+                           "label" : "Latin Prose"
+                        },
+                        "numeric" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-numeric",
+                           "label" : "Numeric"
+                        },
+                        "tel" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-telephone",
+                           "label" : "Telephone"
+                        },
+                        "url" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-url",
+                           "label" : "URL"
+                        },
+                        "verbatim" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-verbatim",
+                           "label" : "Latin Verbatim"
+                        }
+                     },
                      "id" : "attr-fe-inputmode",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "list" : {
                      "conforming" : 1,
                      "desc" : "List of autocomplete options",
                      "id" : "attr-input-list",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "max" : {
                      "conforming" : 1,
@@ -2296,7 +2953,8 @@
                      "conforming" : 1,
                      "desc" : "Maximum length of value",
                      "id" : "attr-input-maxlength",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "min" : {
                      "conforming" : 1,
@@ -2308,55 +2966,64 @@
                      "conforming" : 1,
                      "desc" : "Minimum length of value",
                      "id" : "attr-input-minlength",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "multiple" : {
                      "conforming" : 1,
                      "desc" : "Whether to allow multiple values",
                      "id" : "attr-input-multiple",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   },
                   "pattern" : {
                      "conforming" : 1,
                      "desc" : "Pattern to be matched by the form control's value",
                      "id" : "attr-input-pattern",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "JavaScript Pattern"
                   },
                   "placeholder" : {
                      "conforming" : 1,
                      "desc" : "User-visible label to be placed within the form control",
                      "id" : "attr-input-placeholder",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "one-line text"
                   },
                   "readonly" : {
                      "conforming" : 1,
                      "desc" : "Whether to allow the value to be edited by the user",
                      "id" : "attr-input-readonly",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "required" : {
                      "conforming" : 1,
                      "desc" : "Whether the control is required for form submission",
                      "id" : "attr-input-required",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "size" : {
                      "conforming" : 1,
                      "desc" : "Size of the control",
                      "id" : "attr-input-size",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-input-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "step" : {
                      "conforming" : 1,
@@ -2367,8 +3034,130 @@
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of form control",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-input-type-text-keyword",
+                           "label" : "Text"
+                        },
+                        "button" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-button-keyword",
+                           "label" : "Button"
+                        },
+                        "checkbox" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-checkbox-keyword",
+                           "label" : "Checkbox"
+                        },
+                        "color" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-color-keyword",
+                           "label" : "Color"
+                        },
+                        "date" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-date-keyword",
+                           "label" : "Date"
+                        },
+                        "datetime" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-datetime-keyword",
+                           "label" : "Date and Time"
+                        },
+                        "datetime-local" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-datetime-local-keyword",
+                           "label" : "Local Date and Time"
+                        },
+                        "email" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-email-keyword",
+                           "label" : "E-mail"
+                        },
+                        "file" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-file-keyword",
+                           "label" : "File Upload"
+                        },
+                        "hidden" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-hidden-keyword",
+                           "label" : "Hidden"
+                        },
+                        "image" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-image-keyword",
+                           "label" : "Image Button"
+                        },
+                        "month" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-month-keyword",
+                           "label" : "Month"
+                        },
+                        "number" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-number-keyword",
+                           "label" : "Number"
+                        },
+                        "password" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-password-keyword",
+                           "label" : "Password"
+                        },
+                        "radio" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-radio-keyword",
+                           "label" : "Radio Button"
+                        },
+                        "range" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-range-keyword",
+                           "label" : "Range"
+                        },
+                        "reset" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-reset-keyword",
+                           "label" : "Reset Button"
+                        },
+                        "search" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-search-keyword",
+                           "label" : "Search"
+                        },
+                        "submit" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-submit-keyword",
+                           "label" : "Submit Button"
+                        },
+                        "tel" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-tel-keyword",
+                           "label" : "Telephone"
+                        },
+                        "text" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-text-keyword",
+                           "label" : "Text"
+                        },
+                        "time" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-time-keyword",
+                           "label" : "Time"
+                        },
+                        "url" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-url-keyword",
+                           "label" : "URL"
+                        },
+                        "week" : {
+                           "conforming" : 1,
+                           "id" : "attr-input-type-week-keyword",
+                           "label" : "Week"
+                        }
+                     },
                      "id" : "attr-input-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "value" : {
                      "conforming" : 1,
@@ -2380,7 +3169,8 @@
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-dim-width",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -2399,13 +3189,15 @@
                      "conforming" : 1,
                      "desc" : "Link to the source of the quotation or more information about the edit",
                      "id" : "attr-mod-cite",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "datetime" : {
                      "conforming" : 1,
                      "desc" : "Date and (optionally) time of the change",
                      "id" : "attr-mod-datetime",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "date string with optional time"
                   }
                }
             },
@@ -2431,37 +3223,55 @@
                      "conforming" : 1,
                      "desc" : "Automatically focus the form control when the page is loaded",
                      "id" : "attr-fe-autofocus",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "challenge" : {
                      "conforming" : 1,
                      "desc" : "String to package with the generated and signed public key",
                      "id" : "attr-keygen-challenge",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "any"
                   },
                   "disabled" : {
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-fe-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "keytype" : {
                      "conforming" : 1,
                      "desc" : "The type of cryptographic key to generate",
+                     "enumerated" : {
+                        "#invalid" : {
+                           "label" : "unknown"
+                        },
+                        "#missing" : {
+                           "label" : "RSA"
+                        },
+                        "rsa" : {
+                           "conforming" : 1,
+                           "label" : "RSA"
+                        }
+                     },
                      "id" : "attr-keygen-keytype",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   }
                }
             },
@@ -2480,13 +3290,15 @@
                      "conforming" : 1,
                      "desc" : "Associate the label with form control",
                      "id" : "attr-label-for",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   }
                }
             },
@@ -2511,7 +3323,8 @@
                      "conforming" : 1,
                      "desc" : "Ordinal value of the list item",
                      "id" : "attr-li-value",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "integer"
                   }
                }
             },
@@ -2529,50 +3342,84 @@
                   "crossorigin" : {
                      "conforming" : 1,
                      "desc" : "How the element handles crossorigin requests",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#invalid" : {
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#missing" : {
+                           "id" : "attr-crossorigin-none",
+                           "label" : "No CORS"
+                        },
+                        "anonymous" : {
+                           "canonical" : 1,
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "use-credentials" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-use-credentials",
+                           "label" : "Use credentials"
+                        }
+                     },
                      "id" : "attr-link-crossorigin",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "href" : {
                      "conforming" : 1,
                      "desc" : "Address of the hyperlink",
                      "id" : "attr-link-href",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "hreflang" : {
                      "conforming" : 1,
                      "desc" : "Language of the linked resource",
                      "id" : "attr-link-hreflang",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "language tag"
                   },
                   "media" : {
                      "conforming" : 1,
                      "desc" : "Applicable media",
                      "id" : "attr-link-media",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "media query list"
                   },
                   "rel" : {
                      "conforming" : 1,
                      "desc" : "Relationship between the document containing the hyperlink and the destination resource",
                      "id" : "attr-link-rel",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "sizes" : {
                      "conforming" : 1,
                      "desc" : "Sizes of the icons (for rel=\"icon\")",
                      "id" : "attr-link-sizes",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "title" : {
                      "conforming" : 1,
                      "desc" : "Title of the link — Alternative style sheet set name",
                      "id" : "attr-link-title",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Hint for the type of the referenced resource",
                      "id" : "attr-link-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "MIME type"
                   }
                }
             },
@@ -2629,13 +3476,27 @@
                      "conforming" : 1,
                      "desc" : "User-visible label",
                      "id" : "attr-menu-label",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of menu",
+                     "enumerated" : {
+                        "popup" : {
+                           "conforming" : 1,
+                           "id" : "popup-menu-state",
+                           "label" : "popup menu"
+                        },
+                        "toolbar" : {
+                           "conforming" : 1,
+                           "id" : "toolbar-state",
+                           "label" : "toolbar"
+                        }
+                     },
                      "id" : "attr-menu-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   }
                }
             },
@@ -2651,48 +3512,78 @@
                   "checked" : {
                      "conforming" : 1,
                      "desc" : "Whether the command or control is checked",
-                     "id" : "attr-menuitem-checked"
+                     "id" : "attr-menuitem-checked",
+                     "value_type" : "boolean"
                   },
                   "command" : {
                      "conforming" : 1,
                      "desc" : "Command definition",
-                     "id" : "attr-menuitem-command"
+                     "id" : "attr-menuitem-command",
+                     "value_type" : "idref"
                   },
                   "default" : {
                      "conforming" : 1,
                      "desc" : "Mark the command as being a default command",
-                     "id" : "attr-menuitem-default"
+                     "id" : "attr-menuitem-default",
+                     "value_type" : "boolean"
                   },
                   "disabled" : {
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
-                     "id" : "attr-menuitem-disabled"
+                     "id" : "attr-menuitem-disabled",
+                     "value_type" : "boolean"
                   },
                   "icon" : {
                      "conforming" : 1,
                      "desc" : "Icon for the command",
-                     "id" : "attr-menuitem-icon"
+                     "id" : "attr-menuitem-icon",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "label" : {
                      "conforming" : 1,
                      "desc" : "User-visible label",
-                     "id" : "attr-menuitem-label"
+                     "id" : "attr-menuitem-label",
+                     "value_type" : "non-empty text"
                   },
                   "radiogroup" : {
                      "conforming" : 1,
                      "desc" : "Name of group of commands to treat as a radio button group",
-                     "id" : "attr-menuitem-radiogroup"
+                     "id" : "attr-menuitem-radiogroup",
+                     "value_type" : "non-empty"
                   },
                   "title" : {
                      "conforming" : 1,
                      "desc" : "Hint describing the command",
                      "id" : "attr-menuitem-title",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of command",
-                     "id" : "attr-menuitem-type"
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-menuitem-type-state-command",
+                           "label" : "Command"
+                        },
+                        "checkbox" : {
+                           "conforming" : 1,
+                           "id" : "attr-menuitem-type-state-checkbox",
+                           "label" : "Checkbox"
+                        },
+                        "command" : {
+                           "conforming" : 1,
+                           "id" : "attr-menuitem-type-state-command",
+                           "label" : "Command"
+                        },
+                        "radio" : {
+                           "conforming" : 1,
+                           "id" : "attr-menuitem-type-state-radio",
+                           "label" : "Radio"
+                        }
+                     },
+                     "id" : "attr-menuitem-type",
+                     "value_type" : "enumerated"
                   }
                }
             },
@@ -2710,7 +3601,8 @@
                      "conforming" : 1,
                      "desc" : "Character encoding declaration",
                      "id" : "attr-meta-charset",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "character encoding label"
                   },
                   "content" : {
                      "conforming" : 1,
@@ -2747,37 +3639,43 @@
                      "conforming" : 1,
                      "desc" : "Low limit of high range",
                      "id" : "attr-meter-high",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "floating-point number"
                   },
                   "low" : {
                      "conforming" : 1,
                      "desc" : "High limit of low range",
                      "id" : "attr-meter-low",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "floating-point number"
                   },
                   "max" : {
                      "conforming" : 1,
                      "desc" : "Upper bound of range",
                      "id" : "attr-meter-max",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "floating-point number"
                   },
                   "min" : {
                      "conforming" : 1,
                      "desc" : "Lower bound of range",
                      "id" : "attr-meter-min",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "floating-point number"
                   },
                   "optimum" : {
                      "conforming" : 1,
                      "desc" : "Optimum value in gauge",
                      "id" : "attr-meter-optimum",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "floating-point number"
                   },
                   "value" : {
                      "conforming" : 1,
                      "desc" : "Current value of the element",
                      "id" : "attr-meter-value",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "floating-point number"
                   }
                }
             },
@@ -2817,7 +3715,8 @@
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-object-data",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "form" : {
                      "conforming" : 1,
@@ -2829,37 +3728,43 @@
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-dim-height",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of nested browsing context",
                      "id" : "attr-object-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "browsing context name"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of embedded resource",
                      "id" : "attr-object-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "MIME type"
                   },
                   "typemustmatch" : {
                      "conforming" : 1,
                      "desc" : "Whether the type attribute and the Content-Type value need to match for the resource to be used",
                      "id" : "attr-object-typemustmatch",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "usemap" : {
                      "conforming" : 1,
                      "desc" : "Name of image map to use",
                      "id" : "attr-hyperlink-usemap",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "hash-name reference"
                   },
                   "width" : {
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-dim-width",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -2876,13 +3781,15 @@
                      "conforming" : 1,
                      "desc" : "Number the list backwards",
                      "id" : "attr-ol-reversed",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "start" : {
                      "conforming" : 1,
                      "desc" : "Ordinal value of the first item",
                      "id" : "attr-ol-start",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "integer"
                   },
                   "type" : {
                      "conforming" : 1,
@@ -2905,13 +3812,15 @@
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-optgroup-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "label" : {
                      "conforming" : 1,
                      "desc" : "User-visible label",
                      "id" : "attr-optgroup-label",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   }
                }
             },
@@ -2929,19 +3838,22 @@
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-option-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "label" : {
                      "conforming" : 1,
                      "desc" : "User-visible label",
                      "id" : "attr-option-label",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty text"
                   },
                   "selected" : {
                      "conforming" : 1,
                      "desc" : "Whether the option is selected by default",
                      "id" : "attr-option-selected",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "value" : {
                      "conforming" : 1,
@@ -2965,19 +3877,22 @@
                      "conforming" : 1,
                      "desc" : "Specifies controls from which the output was calculated",
                      "id" : "attr-output-for",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   }
                }
             },
@@ -3004,13 +3919,15 @@
                      "conforming" : 1,
                      "desc" : "Name of parameter",
                      "id" : "attr-param-name",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "any"
                   },
                   "value" : {
                      "conforming" : 1,
                      "desc" : "Value of parameter",
                      "id" : "attr-param-value",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "any"
                   }
                }
             },
@@ -3040,13 +3957,15 @@
                      "conforming" : 1,
                      "desc" : "Upper bound of range",
                      "id" : "attr-progress-max",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "floating-point number greater than zero"
                   },
                   "value" : {
                      "conforming" : 1,
                      "desc" : "Current value of the element",
                      "id" : "attr-progress-value",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "floating-point number equal to or greater than zero"
                   }
                }
             },
@@ -3063,7 +3982,8 @@
                      "conforming" : 1,
                      "desc" : "Link to the source of the quotation or more information about the edit",
                      "id" : "attr-q-cite",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "URL potentially surrounded by spaces"
                   }
                }
             },
@@ -3122,25 +4042,55 @@
                      "conforming" : 1,
                      "desc" : "Execute script asynchronously",
                      "id" : "attr-script-async",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "boolean"
                   },
                   "charset" : {
                      "conforming" : 1,
                      "desc" : "Character encoding of the external script resource",
                      "id" : "attr-script-charset",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "character encoding label"
                   },
                   "crossorigin" : {
                      "conforming" : 1,
                      "desc" : "How the element handles crossorigin requests",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#invalid" : {
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#missing" : {
+                           "id" : "attr-crossorigin-none",
+                           "label" : "No CORS"
+                        },
+                        "anonymous" : {
+                           "canonical" : 1,
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "use-credentials" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-use-credentials",
+                           "label" : "Use credentials"
+                        }
+                     },
                      "id" : "attr-script-crossorigin",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "enumerated"
                   },
                   "defer" : {
                      "conforming" : 1,
                      "desc" : "Defer script execution",
                      "id" : "attr-script-defer",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "boolean"
                   },
                   "language" : {
                      "id" : "attr-script-language",
@@ -3151,13 +4101,15 @@
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-script-src",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of embedded resource",
                      "id" : "attr-script-type",
-                     "status" : "REC"
+                     "status" : "REC",
+                     "value_type" : "MIME type"
                   }
                }
             },
@@ -3182,43 +4134,50 @@
                      "conforming" : 1,
                      "desc" : "Automatically focus the form control when the page is loaded",
                      "id" : "attr-fe-autofocus",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "disabled" : {
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-fe-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "multiple" : {
                      "conforming" : 1,
                      "desc" : "Whether to allow multiple values",
                      "id" : "attr-select-multiple",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   },
                   "required" : {
                      "conforming" : 1,
                      "desc" : "Whether the control is required for form submission",
                      "id" : "attr-select-required",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "size" : {
                      "conforming" : 1,
                      "desc" : "Size of the control",
                      "id" : "attr-select-size",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   }
                }
             },
@@ -3243,19 +4202,22 @@
                      "conforming" : 1,
                      "desc" : "Applicable media",
                      "id" : "attr-source-media",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "media query list"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-source-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of embedded resource",
                      "id" : "attr-source-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "MIME type"
                   }
                }
             },
@@ -3293,25 +4255,29 @@
                      "conforming" : 1,
                      "desc" : "Applicable media",
                      "id" : "attr-style-media",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "media query list"
                   },
                   "scoped" : {
                      "conforming" : 1,
                      "desc" : "Whether the styles apply to the entire document or just the parent subtree",
                      "id" : "attr-style-scoped",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "title" : {
                      "conforming" : 1,
                      "desc" : "Alternative style sheet set name",
                      "id" : "attr-style-title",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "type" : {
                      "conforming" : 1,
                      "desc" : "Type of embedded resource",
                      "id" : "attr-style-type",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "MIME type"
                   }
                }
             },
@@ -3350,7 +4316,8 @@
                   "sortable" : {
                      "conforming" : 1,
                      "id" : "attr-table-sortable",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   }
                }
             },
@@ -3376,19 +4343,22 @@
                      "conforming" : 1,
                      "desc" : "Number of columns that the cell is to span",
                      "id" : "attr-tdth-colspan",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   },
                   "headers" : {
                      "conforming" : 1,
                      "desc" : "The header cells for this cell",
                      "id" : "attr-tdth-headers",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "rowspan" : {
                      "conforming" : 1,
                      "desc" : "Number of rows that the cell is to span",
                      "id" : "attr-tdth-rowspan",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },
@@ -3413,91 +4383,183 @@
                      "conforming" : 1,
                      "desc" : "Hint for form autofill feature",
                      "id" : "attr-fe-autocomplete",
-                     "status" : "CR"
+                     "status" : "CR",
+                     "value_type" : "set of space-separated tokens"
                   },
                   "autofocus" : {
                      "conforming" : 1,
                      "desc" : "Automatically focus the form control when the page is loaded",
                      "id" : "attr-fe-autofocus",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "cols" : {
                      "conforming" : 1,
                      "desc" : "Maximum number of characters per line",
                      "id" : "attr-textarea-cols",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   },
                   "dirname" : {
                      "conforming" : 1,
                      "desc" : "Name of form field to use for sending the element's directionality in form submission",
                      "id" : "attr-fe-dirname",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   },
                   "disabled" : {
                      "conforming" : 1,
                      "desc" : "Whether the form control is disabled",
                      "id" : "attr-fe-disabled",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
                      "desc" : "Associates the control with a form element",
                      "id" : "attr-fae-form",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "idref"
                   },
                   "inputmode" : {
                      "conforming" : 1,
                      "desc" : "Hint for selecting an input modality",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-fe-inputmode-state-default",
+                           "label" : "Default"
+                        },
+                        "email" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-email",
+                           "label" : "E-mail"
+                        },
+                        "full-width-latin" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-full-width-latin",
+                           "label" : "Full-width Latin"
+                        },
+                        "kana" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-kana",
+                           "label" : "Kana"
+                        },
+                        "katakana" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-katakana",
+                           "label" : "Katakana"
+                        },
+                        "latin" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-latin",
+                           "label" : "Latin Text"
+                        },
+                        "latin-name" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-latin-name",
+                           "label" : "Latin Name"
+                        },
+                        "latin-prose" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-latin-prose",
+                           "label" : "Latin Prose"
+                        },
+                        "numeric" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-numeric",
+                           "label" : "Numeric"
+                        },
+                        "tel" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-telephone",
+                           "label" : "Telephone"
+                        },
+                        "url" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-url",
+                           "label" : "URL"
+                        },
+                        "verbatim" : {
+                           "conforming" : 1,
+                           "id" : "attr-fe-inputmode-state-verbatim",
+                           "label" : "Latin Verbatim"
+                        }
+                     },
                      "id" : "attr-fe-inputmode",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "maxlength" : {
                      "conforming" : 1,
                      "desc" : "Maximum length of value",
                      "id" : "attr-textarea-maxlength",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "minlength" : {
                      "conforming" : 1,
                      "desc" : "Minimum length of value",
                      "id" : "attr-textarea-minlength",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of form control to use for form submission and in the form.elements API",
                      "id" : "attr-fe-name",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty"
                   },
                   "placeholder" : {
                      "conforming" : 1,
                      "desc" : "User-visible label to be placed within the form control",
                      "id" : "attr-textarea-placeholder",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "readonly" : {
                      "conforming" : 1,
                      "desc" : "Whether to allow the value to be edited by the user",
                      "id" : "attr-textarea-readonly",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "required" : {
                      "conforming" : 1,
                      "desc" : "Whether the control is required for form submission",
                      "id" : "attr-textarea-required",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "rows" : {
                      "conforming" : 1,
                      "desc" : "Number of lines to show",
                      "id" : "attr-textarea-rows",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   },
                   "wrap" : {
                      "conforming" : 1,
                      "desc" : "How the value of the form control is to be wrapped for form submission",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-textarea-wrap-soft-state",
+                           "label" : "Soft"
+                        },
+                        "hard" : {
+                           "conforming" : 1,
+                           "id" : "attr-textarea-wrap-hard-state",
+                           "label" : "Hard"
+                        },
+                        "soft" : {
+                           "conforming" : 1,
+                           "id" : "attr-textarea-wrap-soft-state",
+                           "label" : "Soft"
+                        }
+                     },
                      "id" : "attr-textarea-wrap",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   }
                }
             },
@@ -3523,36 +4585,68 @@
                      "conforming" : 1,
                      "desc" : "Alternative label to use for the header cell when referencing the cell in other contexts",
                      "id" : "attr-th-abbr",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "text"
                   },
                   "colspan" : {
                      "conforming" : 1,
                      "desc" : "Number of columns that the cell is to span",
                      "id" : "attr-tdth-colspan",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer greater than zero"
                   },
                   "headers" : {
                      "conforming" : 1,
                      "desc" : "The header cells for this cell",
                      "id" : "attr-tdth-headers",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "unordered set of unique space-separated tokens"
                   },
                   "rowspan" : {
                      "conforming" : 1,
                      "desc" : "Number of rows that the cell is to span",
                      "id" : "attr-tdth-rowspan",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "scope" : {
                      "conforming" : 1,
                      "desc" : "Specifies which cells the header cell applies to",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-th-scope-auto",
+                           "label" : "auto"
+                        },
+                        "col" : {
+                           "conforming" : 1,
+                           "id" : "attr-th-scope-col",
+                           "label" : "column"
+                        },
+                        "colgroup" : {
+                           "conforming" : 1,
+                           "id" : "attr-th-scope-colgroup",
+                           "label" : "column group"
+                        },
+                        "row" : {
+                           "conforming" : 1,
+                           "id" : "attr-th-scope-row",
+                           "label" : "row"
+                        },
+                        "rowgroup" : {
+                           "conforming" : 1,
+                           "id" : "attr-th-scope-rowgroup",
+                           "label" : "row group"
+                        }
+                     },
                      "id" : "attr-th-scope",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "sorted" : {
                      "conforming" : 1,
                      "id" : "attr-th-sorted",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "set of space-separated tokens"
                   }
                }
             },
@@ -3611,31 +4705,67 @@
                      "conforming" : 1,
                      "desc" : "Enable the track if no other text track is more suitable",
                      "id" : "attr-track-default",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "kind" : {
                      "conforming" : 1,
                      "desc" : "The type of text track",
+                     "enumerated" : {
+                        "#missing" : {
+                           "id" : "attr-track-kind-keyword-subtitles",
+                           "label" : "Subtitles"
+                        },
+                        "captions" : {
+                           "conforming" : 1,
+                           "id" : "attr-track-kind-keyword-captions",
+                           "label" : "Captions"
+                        },
+                        "chapters" : {
+                           "conforming" : 1,
+                           "id" : "attr-track-kind-keyword-chapters",
+                           "label" : "Chapters"
+                        },
+                        "descriptions" : {
+                           "conforming" : 1,
+                           "id" : "attr-track-kind-keyword-descriptions",
+                           "label" : "Descriptions"
+                        },
+                        "metadata" : {
+                           "conforming" : 1,
+                           "id" : "attr-track-kind-keyword-metadata",
+                           "label" : "Metadata"
+                        },
+                        "subtitles" : {
+                           "conforming" : 1,
+                           "id" : "attr-track-kind-keyword-subtitles",
+                           "label" : "Subtitles"
+                        }
+                     },
                      "id" : "attr-track-kind",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "label" : {
                      "conforming" : 1,
                      "desc" : "User-visible label",
                      "id" : "attr-track-label",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty text"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-track-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "srclang" : {
                      "conforming" : 1,
                      "desc" : "Language of the text track",
                      "id" : "attr-track-srclang",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "language tag"
                   }
                }
             },
@@ -3680,67 +4810,130 @@
                      "conforming" : 1,
                      "desc" : "Hint that the media resource can be started automatically when the page is loaded",
                      "id" : "attr-media-autoplay",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "controls" : {
                      "conforming" : 1,
                      "desc" : "Show user agent controls",
                      "id" : "attr-media-controls",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "crossorigin" : {
                      "conforming" : 1,
                      "desc" : "How the element handles crossorigin requests",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#invalid" : {
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "#missing" : {
+                           "id" : "attr-crossorigin-none",
+                           "label" : "No CORS"
+                        },
+                        "anonymous" : {
+                           "canonical" : 1,
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-anonymous",
+                           "label" : "Anonymous"
+                        },
+                        "use-credentials" : {
+                           "conforming" : 1,
+                           "id" : "attr-crossorigin-use-credentials",
+                           "label" : "Use credentials"
+                        }
+                     },
                      "id" : "attr-media-crossorigin",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "height" : {
                      "conforming" : 1,
                      "desc" : "Vertical dimension",
                      "id" : "attr-dim-height",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   },
                   "loop" : {
                      "conforming" : 1,
                      "desc" : "Whether to loop the media resource",
                      "id" : "attr-media-loop",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "mediagroup" : {
                      "conforming" : 1,
                      "desc" : "Groups media elements together with an implicit MediaController",
                      "id" : "attr-media-mediagroup",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "any"
                   },
                   "muted" : {
                      "conforming" : 1,
                      "desc" : "Whether to mute the media resource by default",
                      "id" : "attr-media-muted",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "boolean"
                   },
                   "poster" : {
                      "conforming" : 1,
                      "desc" : "Poster frame to show prior to video playback",
                      "id" : "attr-video-poster",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "preload" : {
                      "conforming" : 1,
                      "desc" : "Hints how much buffering the media resource will likely need",
+                     "enumerated" : {
+                        "" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-auto",
+                           "label" : "Automatic"
+                        },
+                        "#missing" : {
+                           "id" : "attr-media-preload-metadata",
+                           "label" : "Metadata"
+                        },
+                        "auto" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-auto",
+                           "label" : "Automatic"
+                        },
+                        "metadata" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-metadata",
+                           "label" : "Metadata"
+                        },
+                        "none" : {
+                           "conforming" : 1,
+                           "id" : "attr-media-preload-none",
+                           "label" : "None"
+                        }
+                     },
                      "id" : "attr-media-preload",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "enumerated"
                   },
                   "src" : {
                      "conforming" : 1,
                      "desc" : "Address of the resource",
                      "id" : "attr-media-src",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "width" : {
                      "conforming" : 1,
                      "desc" : "Horizontal dimension",
                      "id" : "attr-dim-width",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "non-negative integer"
                   }
                }
             },

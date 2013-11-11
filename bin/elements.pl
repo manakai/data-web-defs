@@ -104,6 +104,7 @@ my $id_for_status = {
   'attr-hyperlink-hreflang' => 'links',
   'attr-hyperlink-type' => 'links',
   'attr-hyperlink-usemap' => 'authoring',
+  'attr-link-sizes' => 'rel-icon',
   'attr-media-src' => 'location-of-the-media-resource',
   'attr-media-crossorigin' => 'location-of-the-media-resource',
   'attr-media-preload' => 'loading-the-media-resource',
@@ -186,12 +187,38 @@ for my $ns (keys %{$Data->{elements}}) {
           $w->{status} ||= $statuses->{$id_for_status->{$w->{id}}};
         } elsif ($w->{id} and $w->{id} =~ /^handler-/) {
           $w->{status} ||= $statuses->{'event-handlers-on-elements,-document-objects,-and-window-objects'};
+          $w->{value_type} ||= 'event handler';
         } elsif ($ans eq '' and $statuses->{"the-$aln-attribute"}) {
           $w->{status} ||= $statuses->{"the-$aln-attribute"};
         }
         delete $w->{status} if defined $w->{status} and $w->{status} eq 'UNKNOWN';
         $w->{status} ||= $v->{status} if defined $v->{status};
       }
+    }
+  }
+}
+
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'attr-types.txt');
+  my $ns;
+  my $last_attr;
+  for (($f->slurp)) {
+    if (/^\@ns (\S+)$/) {
+      $ns = $1;
+    } elsif (/^(\S+)\s+(\S+)\s+(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+    } elsif (/^  (\S+)\s+(\S+)\s+(.+)$/) {
+      my ($keyword, $id, $label) = ($1, $2, $3);
+      my $canonical = $label =~ s/\s*!s*$//;
+      $keyword = '' if $keyword eq '#empty';
+      my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
+      $last_attr->{enumerated}->{$keyword}->{id} = $id if $id ne '-';
+      $last_attr->{enumerated}->{$keyword}->{label} = $label;
+      $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
+      $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
+    } elsif (/\S/) {
+      die "Broken line: $_";
     }
   }
 }

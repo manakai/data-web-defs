@@ -188,7 +188,8 @@ data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
-    local/html-extracted.json src/elements.txt local/html-status.xml
+    local/html-extracted.json src/elements.txt local/html-status.xml \
+    src/attr-types.txt
 	$(PERL) bin/elements.pl > $@
 
 local/html:
