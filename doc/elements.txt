@@ -43,6 +43,9 @@ pairs:
         If true, text other than inter-element whitespace is also in
         the category.
 
+    The category "document element" contains elements that can be used
+    as the document element according to relevant specifications.
+
   elements [object]
 
     Names in the object are namespace URLs (the null namespace is
@@ -102,13 +105,19 @@ pairs:
 
       content_model [string?]
 
-        The content model of the element.  If the value is "empty",
-        the element's content model is empty.  Otherwise, if the value
-        is the identifier of one of the categories, the element's
-        content model is that category.  Otherwise, either the
-        element's content model can't be represented as a category,
-        the element itself is non-conforming or non-standard, or the
-        content model is unknown.
+        The content model of the element.  Possible values include:
+
+          empty                 Empty.
+          text                  Text.
+          atomDateConstruct     Atom Date Construct [RFC 4287].
+          atomPersonConstruct   Atom Person Construct [RFC 4287].
+          atomTextConstruct     Atom Text Construct [RFC 4287].
+          (otherwise)           One of element categories.
+
+        If no value is provided, either the element's content model
+        can't be represented as a category, the element itself is
+        non-conforming or non-standard, or the content model is
+        unknown.
 
       desc [string?]
 
