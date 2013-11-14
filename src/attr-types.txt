@@ -258,6 +258,9 @@ textarea wrap      enumerated
   soft             attr-textarea-wrap-soft-state Soft
   hard             attr-textarea-wrap-hard-state Hard
   #missing         attr-textarea-wrap-soft-state Soft
+  off              -                     - X
+  virtual          -                     - X
+  physical         -                     - X
 textarea required  boolean
 textarea placeholder text
 textarea name      non-empty
@@ -267,6 +270,8 @@ keygen keytype     enumerated
   rsa              -                     RSA
   #invalid         -                     unknown
   #missing         -                     RSA
+  dsa              -                     - X
+  ec               -                     - X
 keygen form        idref
 keygen name        non-empty
 output for         unordered set of unique space-separated tokens
@@ -421,3 +426,943 @@ canvas height      non-negative integer
   false            -                     false
   #missing         -                     auto
 *      dropzone    unordered set of unique space-separated tokens
+
+
+head   profile     set of space-separated tokens
+html   version     any
+meta   scheme      any
+bgsound src        non-empty URL potentially surrounded by spaces
+bgsound balance    integer
+bgsound volume     enumerated
+  high             -                     -
+  middle           -                     -
+  low              -                     -
+  0                -                     -
+*      about       any
+*      resource    any
+*      content     any
+*      datatype    any
+*      typeof      any
+*      property    any
+*      rel         any
+*      rev         any
+*      prefix      any
+*      vocab       any
+dir    compact     boolean
+dl     compact     boolean
+menu   compact     boolean
+ol     compact     boolean
+ul     compact     boolean
+td     abbr        text
+td     axis        text
+th     axis        text
+td     scope       enumerated
+  row              attr-th-scope-row     row
+  col              attr-th-scope-col     column
+  rowgroup         attr-th-scope-rowgroup row group
+  colgroup         attr-th-scope-colgroup column group
+  #missing         attr-th-scope-auto    auto
+marquee scrolldelay non-negative integer
+marquee scrollamount non-negative integer
+marquee loop       integer
+marquee behavior   enumerated
+  scroll           attr-marquee-behavior-scroll scroll X
+  slide            attr-marquee-behavior-slide slide X
+  alternate        attr-marquee-behavior-alternate alternate X
+  #missing         attr-marquee-behavior-scroll scroll
+marquee direction  enumerated
+  left             attr-marquee-direction-left left X
+  right            attr-marquee-direction-right right X
+  up               attr-marquee-direction-up up X
+  down             attr-marquee-direction-down down X
+  #missing         attr-marquee-direction-left left
+marquee truespeed  boolean
+marquee onbounce   event handler
+marquee onfinish   event handler
+marquee onstart    event handler
+marquee height     non-negative integer
+marquee width      non-negative integer
+applet height      non-negative integer
+applet width       non-negative integer
+table  height      non-negative integer
+table  width       non-negative integer
+td     height      non-negative integer
+td     width       non-negative integer
+th     height      non-negative integer
+th     width       non-negative integer
+col    width       non-negative integer
+hr     width       non-negative integer
+tr     height      non-negative integer
+pre    width       non-negative integer
+hr     size        non-negative integer
+body   marginheight non-negative integer
+body   marginwidth non-negative integer
+body   topmargin   non-negative integer
+body   rightmargin non-negative integer
+iframe marginheight non-negative integer
+iframe marginwidth non-negative integer
+frame  marginheight non-negative integer
+frame  marginwidth non-negative integer
+table  cellspacing non-negative integer
+table  cellpadding non-negative integer
+table  cellborder  non-negative integer
+applet hspace      dimension value
+applet vspace      dimension value
+embed  hspace      dimension value
+embed  vspace      dimension value
+iframe hspace      dimension value
+iframe vspace      dimension value
+img    hspace      dimension value
+img    vspace      dimension value
+input  hspace      dimension value
+input  vspace      dimension value
+marquee hspace     dimension value
+marquee vspace     dimension value
+object hspace      dimension value
+object vspace      dimension value
+table  hspace      dimension value
+table  vspace      dimension value
+embed  units       enumerated
+  pixels           -                     -
+  px               -                     -
+  en               -                     -
+  em               -                     -
+table  rules       enumerated
+  none             -                     -
+  groups           -                     -
+  rows             -                     -
+  cols             -                     -
+  all              -                     -
+table  frame       enumerated
+  void             -                     -
+  above            -                     -
+  below            -                     -
+  hsides           -                     -
+  lhs              -                     -
+  rhs              -                     -
+  vsides           -                     -
+  box              -                     -
+  border           -                     -
+table  tableborder non-negative integer
+embed  border      non-negative integer
+img    border      non-negative integer
+object border      non-negative integer
+input  border      non-negative integer
+hr     noshade     boolean
+frame  scrolling   enumerated
+  on               -                     - X
+  scroll           -                     - X
+  yes              -                     -
+  off              -                     - X
+  noscroll         -                     - X
+  no               -                     -
+  auto             -                     -
+iframe scrolling   enumerated
+  on               -                     - X
+  scroll           -                     - X
+  yes              -                     -
+  off              -                     - X
+  noscroll         -                     - X
+  no               -                     -
+  auto             -                     -
+html   scroll      enumerated
+  yes              -                     -
+  no               -                     -
+  auto             -                     -
+body   scroll      enumerated
+  yes              -                     -
+  no               -                     -
+  auto             -                     -
+body   background  non-empty URL potentially surrounded by spaces
+table  background  non-empty URL potentially surrounded by spaces
+thead  background  non-empty URL potentially surrounded by spaces
+tbody  background  non-empty URL potentially surrounded by spaces
+tfoot  background  non-empty URL potentially surrounded by spaces
+tr     background  non-empty URL potentially surrounded by spaces
+td     background  non-empty URL potentially surrounded by spaces
+th     background  non-empty URL potentially surrounded by spaces
+body   bgcolor     legacy color value
+table  bgcolor     legacy color value
+thead  bgcolor     legacy color value
+tbody  bgcolor     legacy color value
+tfoot  bgcolor     legacy color value
+tr     bgcolor     legacy color value
+td     bgcolor     legacy color value
+th     bgcolor     legacy color value
+marquee bgcolor    legacy color value
+body   text        legacy color value
+body   link        legacy color value
+body   vlink       legacy color value
+body   alink       legacy color value
+table  bordercolor legacy color value
+tr     bordercolor legacy color value
+td     bordercolor legacy color value
+th     bordercolor legacy color value
+table  bordercolordark legacy color value
+table  bordercolorlight legacy color value
+tr     bordercolordark legacy color value
+tr     bordercolorlight legacy color value
+td     bordercolordark legacy color value
+td     bordercolorlight legacy color value
+th     bordercolordark legacy color value
+th     bordercolorlight legacy color value
+font   color       legacy color value
+hr     color       legacy color value
+frame  allowtransparency enumerated
+  true             -                     -
+  false            -                     -
+iframe allowtransparency enumerated
+  true             -                     -
+  false            -                     -
+frame  application enumerated
+  yes              -                     -
+  no               -                     -
+iframe application enumerated
+  yes              -                     -
+  no               -                     -
+body   bgproperties enumerated
+  fixed            -                     -
+  #empty           -                     -
+table  align       enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  middle           -                     - X
+  abscenter        -                     - X
+  absmiddle        -                     - X
+caption align      enumerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+legend  align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+div     align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+h1      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+h2      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+h3      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+h4      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+h5      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+h6      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+p       align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+hr      align      enumerated
+  left             -                     -
+  right            -                     -
+  center           -                     -
+  justify          -                     -
+col     align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+colgroup align     enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+thead   align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+tbody   align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+tfoot   align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+tr      align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+th      align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+td      align      enumerated
+  left             -                     -
+  center           -                     -
+  middle           -                     - X
+  absmiddle        -                     - X
+  right            -                     -
+  justify          -                     -
+  char             -                     -
+applet  align      enmerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+  baseline         -                     - X
+  center           -                     - X
+  middle           -                     -
+  texttop          -                     - X
+  absmiddle        -                     - X
+  abscenter        -                     - X
+embed   align      enmerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+  baseline         -                     - X
+  center           -                     - X
+  middle           -                     -
+  texttop          -                     - X
+  absmiddle        -                     - X
+  abscenter        -                     - X
+iframe  align      enmerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+  baseline         -                     - X
+  center           -                     - X
+  middle           -                     -
+  texttop          -                     - X
+  absmiddle        -                     - X
+  abscenter        -                     - X
+img     align      enmerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+  baseline         -                     - X
+  center           -                     - X
+  middle           -                     -
+  texttop          -                     - X
+  absmiddle        -                     - X
+  abscenter        -                     - X
+input   align      enmerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+  baseline         -                     - X
+  center           -                     - X
+  middle           -                     -
+  texttop          -                     - X
+  absmiddle        -                     - X
+  abscenter        -                     - X
+object  align      enmerated
+  left             -                     -
+  right            -                     -
+  top              -                     -
+  bottom           -                     -
+  baseline         -                     - X
+  center           -                     - X
+  middle           -                     -
+  texttop          -                     - X
+  absmiddle        -                     - X
+  abscenter        -                     - X
+col     valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+colgroup valign    enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+thead   valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+tbody   valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+tfoot   valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+tr      valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+th      valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+td      valign     enumerated
+  top              -                     -
+  middle           -                     -
+  bottom           -                     -
+  baseline         -                     -
+caption valign     enumerated
+  top              -                     -
+  bottom           -                     -
+col     charoff    dimension value
+colgroup charoff   dimension value
+thead   charoff    dimension value
+tbody   charoff    dimension value
+tfoot   charoff    dimension value
+tr      charoff    dimension value
+th      charoff    dimension value
+td      charoff    dimension value
+body    nowrap     boolean
+dt      nowrap     boolean
+dd      nowrap     boolean
+div     nowrap     boolean
+td      nowrap     boolean
+th      nowrap     boolean
+pre     wrap       boolean
+br      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+address clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+blockquote clear   enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+center  clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+h1      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+h2      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+h3      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+h4      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+h5      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+h6      clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+listing clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+p       clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+plaintext clear    enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+pre     clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+xmp     clear      enumerated
+  none             -                     -
+  left             -                     -
+  right            -                     -
+  all              -                     -
+  both             -                     - X
+font    face       any
+*       x-ms-format-detection enumerated
+  all              -                     -
+  none             -                     -
+  phone            -                     -
+a       src        non-empty URL potentially surrounded by spaces
+a       ista       idref
+a       ilet       hash-ID reference
+a       iswf       hash-ID reference
+a       irst       hash-ID reference
+a       ifb        URL potentially surrounded by spaces
+a       ib         URL potentially surrounded by spaces
+a       utn        boolean
+form    utn        boolean
+a       lcs        boolean
+form    lcs        boolean
+area    nohref     boolean
+a       charset    character encoding label
+link    charset    character encoding label
+a       telbook    text
+a       kana       text
+a       email      e-mail address
+a       directkey  ordered set of unique space-separated tokens
+input   directkey  ordered set of unique space-separated tokens
+a       shape      enumerated
+  circle           attr-area-shape-circle circle
+  circ             attr-area-shape-circle circle X
+  default          attr-area-shape-default default
+  poly             attr-area-shape-poly  polygon
+  polygon          attr-area-shape-poly  polygon X
+  rect             attr-area-shape-rect  rectangle
+  rectangle        attr-area-shape-rect  rectangle X
+  #missing         attr-area-shape-rect  rectangle
+a       coords     list of integers
+a       name       name
+applet  name       name
+embed   name       name
+img     name       name
+input   usemap     hash-ID reference
+frame   longdesc   URL potentially surrounded by spaces
+iframe  longdesc   URL potentially surrounded by spaces
+img     longdesc   URL potentially surrounded by spaces
+img     dynsrc     non-empty URL potentially surrounded by spaces
+input   dynsrc     non-empty URL potentially surrounded by spaces
+img     lowsrc     non-empty URL potentially surrounded by spaces
+input   lowsrc     non-empty URL potentially surrounded by spaces
+img     vrml       non-empty URL potentially surrounded by spaces
+input   vrml       non-empty URL potentially surrounded by spaces
+img     oversrc    non-empty URL potentially surrounded by spaces
+img     suppress   boolean
+img     composite  enumerated
+  source-over      -                     -
+img     galleryimg enumerated
+  yes              -                     -
+  true             -                     -
+  no               -                     -
+  false            -                     -
+img     nosave     boolean
+img     copyright  enumerated
+  yes              -                     -
+  no               -                     -
+object  copyright  enumerated
+  yes              -                     -
+  no               -                     -
+embed   pluginpage URL potentially surrounded by spaces
+embed   pluginspage URL potentially surrounded by spaces
+embed   pluginurl  URL potentially surrounded by spaces
+applet  alt        text
+applet  archive    set of comma-separated tokens
+object  archive    set of space-separated tokens
+object  classid    non-empty URL potentially surrounded by spaces
+applet  code       non-empty URL potentially surrounded by spaces
+embed   code       non-empty URL potentially surrounded by spaces
+object  code       non-empty URL potentially surrounded by spaces
+applet  object     non-empty URL potentially surrounded by spaces
+applet  codebase   non-empty URL potentially surrounded by spaces
+object  codebase   non-empty URL potentially surrounded by spaces
+object  codetype   MIME type
+object  declare    boolean
+object  standby    text
+applet  mayscript  boolean
+embed   palette    enumerated
+  foreground       -                     -
+  background       -                     -
+param   type       MIME type
+param   valuetype  enumerated
+  data             -                     -
+  ref              -                     -
+  object           -                     -
+img     start      enumerated
+  fileopen         -                     -
+  mouseover        -                     -
+input   start      enumerated
+  fileopen         -                     -
+  mouseover        -                     -
+a       soundstart enumerated
+  select           -                     -
+  focus            -                     -
+input   soundstart enumerated
+  select           -                     -
+  focus            -                     -
+input   loop       integer
+bgsound loop       integer
+a       volume     enumerated
+  high             -                     -
+  middle           -                     -
+  low              -                     -
+input   volume     enumerated
+  high             -                     -
+  middle           -                     -
+  low              -                     -
+a       vibration  enumerated
+  selected         -                     -
+  focus            -                     -
+input   vibration  enumerated
+  selected         -                     -
+  focus            -                     -
+a       viblength  non-negative integer
+input   viblength  non-negative integer
+a       datasrc    non-empty URL potentially surrounded by spaces
+applet  datasrc    non-empty URL potentially surrounded by spaces
+button  datasrc    non-empty URL potentially surrounded by spaces
+div     datasrc    non-empty URL potentially surrounded by spaces
+frame   datasrc    non-empty URL potentially surrounded by spaces
+iframe  datasrc    non-empty URL potentially surrounded by spaces
+img     datasrc    non-empty URL potentially surrounded by spaces
+input   datasrc    non-empty URL potentially surrounded by spaces
+label   datasrc    non-empty URL potentially surrounded by spaces
+legend  datasrc    non-empty URL potentially surrounded by spaces
+marquee datasrc    non-empty URL potentially surrounded by spaces
+object  datasrc    non-empty URL potentially surrounded by spaces
+option  datasrc    non-empty URL potentially surrounded by spaces
+select  datasrc    non-empty URL potentially surrounded by spaces
+span    datasrc    non-empty URL potentially surrounded by spaces
+table   datasrc    non-empty URL potentially surrounded by spaces
+textarea datasrc   non-empty URL potentially surrounded by spaces
+a       datafld    any
+applet  datafld    any
+button  datafld    any
+div     datafld    any
+fieldset datafld   any
+frame   datafld    any
+iframe  datafld    any
+img     datafld    any
+input   datafld    any
+label   datafld    any
+legend  datafld    any
+marquee datafld    any
+object  datafld    any
+param   datafld    any
+select  datafld    any
+span    datafld    any
+textarea datafld   any
+button  dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+div     dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+input   dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+label   dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+legend  dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+marquee dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+object  dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+option  dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+select  dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+span    dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+table   dataformatas enumerated
+  text             -                     -
+  html             -                     -
+  localized-text   -                     -
+table   datapagesize non-negative integer
+frameset cols        list of dimensions
+frameset rows        list of dimensions
+frame   src          non-empty URL potentially surrounded by spaces
+frame   name         browsing context name
+frame   noresize     boolean
+iframe  noresize     boolean
+frame   security     eumerated
+  restricted       -                     -
+iframe  security     eumerated
+  restricted       -                     -
+frame   frameborder  enumerated
+  1                -                     -
+  yes              -                     - X
+  0                -                     -
+  no               -                     - X
+frameset frameborder enumerated
+  1                -                     -
+  yes              -                     - X
+  0                -                     -
+  no               -                     - X
+iframe  frameborder enumerated
+  1                -                     -
+  yes              -                     - X
+  0                -                     -
+  no               -                     - X
+embed   frameborder enumerated
+  1                -                     -
+  yes              -                     - X
+  0                -                     -
+  no               -                     - X
+frameset border    non-negative integer
+iframe   border    non-negative integer
+frame    bordercolor legacy color value
+frameset bordercolor legacy color value
+frame    framespacing non-negative integer
+frameset framespacing non-negative integer
+iframe   framespacing non-negative integer
+script   for       idref
+script   event     any
+script   archive   non-empty URL potentially surrounded by spaces
+*        onactivate event handler
+*        onafterupdate event handler
+*        onbeforeactivate event handler
+*        onbeforecopy event handler
+*        onbeforecut event handler
+*        onbeforedeactivate event handler
+*        onbeforeeditfocus event handler
+*        onbeforepaste event handler
+*        onbeforeupdate event handler
+*        oncellchange event handler
+*        oncontrolselect event handler
+*        oncopy    event handler
+*        oncut     event handler
+*        ondataavailable event handler
+*        ondatasetchanged event handler
+*        ondatasetcomplete event handler
+*        ondeactivate event handler
+*        onerrorupdate event handler
+*        onfilterchange event handler
+*        onfocusin event handler
+*        onfocusout event handler
+*        onhelp    event handler
+*        onlayoutcomplete event handler
+*        onlosecapture event handler
+*        onmouseenter event handler
+*        onmouseleave event handler
+*        onmove    event handler
+*        onmoveend event handler
+*        onmovestart event handler
+*        onpaste   event handler
+*        onpropertychange event handler
+*        onresizeend event handler
+*        onresizestart event handler
+*        onrowenter event handler
+*        onrowexit event handler
+*        onrowsdelete event handler
+*        onrowsinserted event handler
+*        onselectstart event handler
+*        ongesturechange event handler
+*        ongestureend event handler
+*        ongesturestart event handler
+*        onorientationchange event handler
+*        onsearch  event handler
+*        ontouchcancel event handler
+*        ontouchend event handler
+*        ontouchmove event handler
+*        ontouchstart event handler
+input    autocapitalize enumerated
+  on               -                     -
+  off              -                     -
+input    autocorrect enumerated
+  on               -                     -
+  off              -                     -
+input    istyle    enumerated
+  1                -                     -
+  2                -                     -
+  3                -                     -
+  4                -                     -
+textarea istyle    enumerated
+  1                -                     -
+  2                -                     -
+  3                -                     -
+  4                -                     -
+input    mode      enumerated
+  hiragana         -                     -
+  katakana         -                     -
+  hankakukana      -                     -
+  alphabet         -                     -
+  numeric          -                     -
+textarea mode      enumerated
+  hiragana         -                     -
+  katakana         -                     -
+  hankakukana      -                     -
+  alphabet         -                     -
+  numeric          -                     -
+input    emptyok   enumerated
+  true             -                     -
+  false            -                     -
+textarea emptyok   enumerated
+  true             -                     -
+  false            -                     -
+input    autosave  any
+input    incremental boolean
+input    results   non-negative integer
+input    vcard_name enumerated
+  vcard.business.city -                  -
+  vcard.business.country -               -
+  vcard.business.fax -                   -
+  vcard.business.phone -                 -
+  vcard.business.state -                 -
+  vcard.business.streetaddress -         -
+  vcard.business.url -                   -
+  vcard.business.zipcode -               -
+  vcard.cellular   -                     -
+  vcard.company    -                     -
+  vcard.department -                     -
+  vcard.displayname -                    -
+  vcard.email      -                     -
+  vcard.firstname  -                     -
+  vcard.gender     -                     -
+  vcard.home.city  -                     -
+  vcard.home.country -                   -
+  vcard.home.fax   -                     -
+  vcard.home.phone -                     -
+  vcard.home.state -                     -
+  vcard.home.streetaddress -             -
+  vcard.home.zipcode -                   -
+  vcard.homepage   -                     -
+  vcard.jobtitle   -                     -
+  vcard.lastname   -                     -
+  vcard.middlename -                     -
+  vcard.notes      -                     -
+  vcard.office     -                     -
+  vcard.pager      -                     -
+input    iprof     enumerated
+  name1            -                     -
+  name2            -                     -
+  name             -                     -
+  kana1            -                     -
+  kana2            -                     -
+  kana             -                     -
+  tel1             -                     -
+  tel2             -                     -
+  mail1            -                     -
+  mail2            -                     -
+  zip              -                     -
+  address1         -                     -
+  address2         -                     -
+  address3         -                     -
+  address4         -                     -
+  address          -                     -
+  birthday1        -                     -
+  birthday2        -                     -
+  birthday3        -                     -
+  birthday         -                     -
+textarea iprof     enumerated
+  name1            -                     -
+  name2            -                     -
+  name             -                     -
+  kana1            -                     -
+  kana2            -                     -
+  kana             -                     -
+  tel1             -                     -
+  tel2             -                     -
+  mail1            -                     -
+  mail2            -                     -
+  zip              -                     -
+  address1         -                     -
+  address2         -                     -
+  address3         -                     -
+  address4         -                     -
+  address          -                     -
+  birthday1        -                     -
+  birthday2        -                     -
+  birthday3        -                     -
+  birthday         -                     -
+keygen   keyparams any
+keygen   pqg       any
+*        atomicselection enumerated
+  true             -                     -
+  false            -                     -
+*        hidefocus boolean
+*        unselectable enumerated
+  on               -                     -
+  off              -                     -
+*        disabled  boolean

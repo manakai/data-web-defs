@@ -43,6 +43,12 @@ my $Data = {};
   }
 }
 
+for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
+  next unless $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{id} =~ /^handler-/;
+  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{frameset}->{attrs}->{''}->{$attr_name}->{id} = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{id};
+  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{frameset}->{attrs}->{''}->{$attr_name}->{desc} = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{desc};
+}
+
 {
   my $f = file (__FILE__)->dir->parent->file ('src', 'element-interfaces.txt');
   my $ns = '';
@@ -214,9 +220,11 @@ for my $ns (keys %{$Data->{elements}}) {
       $keyword = '' if $keyword eq '#empty';
       my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
       $last_attr->{enumerated}->{$keyword}->{id} = $id if $id ne '-';
-      $last_attr->{enumerated}->{$keyword}->{label} = $label;
+      $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
       $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
       $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
+      $last_attr->{enumerated}->{$keyword}->{non_conforming} = 1
+          if $invalid and not $keyword =~ /^#/;
     } elsif (/\S/) {
       die "Broken line: $_";
     }

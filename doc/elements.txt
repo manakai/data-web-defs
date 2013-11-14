@@ -111,6 +111,13 @@ pairs:
                 The name of the state corresponding to the keyword,
                 without preceding "the" and following "state" words.
 
+              non_conforming [boolean]
+
+                Whether the keyword is specified in some relevant
+                specification but non-conforming.  Note that some
+                keywords might have none of |conforming| and
+                |non_conforming| flags set.
+
             Note that the missing value default of the |preload|
             attribute of media element is user-agent defined, but the
             suggested default is listed.  The missing value default of
@@ -143,39 +150,45 @@ pairs:
             representable as one of followings:
 
               any                       (Any value)
-              boolean
-              browsing context name
-              browsing context name or keyword
+              boolean                   [HTML]
+              browsing context name     [HTML]
+              browsing context name or keyword [HTML]
               character encoding label  (Encoding label)
-              CSS styling
-              date string with optional time
-              enumerated
-              event handler
-              floating-point number
-              floating-point number equal to or greater than zero
-              floating-point number greater than zero
-              hash-name reference
+              CSS styling               [HTML]
+              date string with optional time [HTML]
+              dimension value           [OBSVOCAB]
+              e-mail address            [HTML]
+              enumerated                [HTML]
+              event handler             [HTML]
+              floating-point number     [HTML]
+              floating-point number equal to or greater than zero [HTML]
+              floating-point number greater than zero [HTML]
+              hash-ID reference         [OBSVOCAB]
+              hash-name reference       [HTML]
               id                        (ID definition)
               idref                     (ID reference)
-              integer
+              integer                   [HTML]
               JavaScript Pattern        (JavaScript regular expression)
               language tag              (BCP 47 language tag)
               language tag or empty     (BCP 47 language tag or empty string)
-              list of integers
+              legacy color value        [OBSVOCAB]
+              list of dimensions        [OBSVOCAB]
+              list of integers          [HTML]
               media query list
-              MIME type
+              MIME type                 [HTML]
+              name                      (Same as <a name="">)
               non-empty                 (Any non-empty value)
               non-empty text            (Text, not empty)
               non-empty URL potentially surrounded by spaces
-              non-negative integer
-              non-negative integer greater than zero
+              non-negative integer      [HTML]
+              non-negative integer greater than zero [HTML]
               one-line text             (Text without newlines)
-              ordered set of unique space-separated tokens
-              set of comma-separated tokens
-              set of space-separated tokens
+              ordered set of unique space-separated tokens [HTML]
+              set of comma-separated tokens [HTML]
+              set of space-separated tokens [HTML]
               text                      (Human-readable text)
-              unordered set of unique space-separated tokens
-              URL potentially surrounded by spaces
+              unordered set of unique space-separated tokens [HTML]
+              URL potentially surrounded by spaces [HTML]
 
         Note that the object for elements with non-"*" local name does
         not contain global attributes.  If there is the objects for
@@ -203,6 +216,7 @@ pairs:
 
           empty                 Empty.
           text                  Text.
+          transparent           Transparent.
           atomDateConstruct     Atom Date Construct [RFC 4287].
           atomPersonConstruct   Atom Person Construct [RFC 4287].
           atomTextConstruct     Atom Text Construct [RFC 4287].
@@ -261,10 +275,18 @@ Typical status values include:
   WD     Working draft
   FD     First draft
 
+Note that obsolete or non-conforming feature might also have status
+value.
+
 * Sources
 
-HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
+[HTML] HTML Standard
+<http://www.whatwg.org/specs/web-apps/current-work/>.
 
 Scalable Vector Graphics (SVG) 2 <https://svgwg.org/svg2-draft/>.
 
 Atom DOM <http://suika.suikawiki.org/www/markup/xml/atomdom>.
+
+[OBSVOCAB] manakai's Conformance Checking Guideline for Obsolete HTML
+Elements and Attributes
+<http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab>.
