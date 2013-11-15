@@ -182,6 +182,8 @@ my $id_for_status = {
   'attr-img-border' => 'obsolete-but-conforming-features',
   'attr-script-language' => 'obsolete-but-conforming-features',
   'attr-a-name' => 'obsolete-but-conforming-features',
+  'frameset' => 'frames',
+  'frame' => 'frames',
 };
 
 for my $ns (keys %{$Data->{elements}}) {
@@ -260,8 +262,8 @@ for my $ns (keys %{$Data->{elements}}) {
         $el_name = '*';
       }
     } elsif ($el->local_name eq 'dd') {
-      my $a = $el->query_selector ('a');
-      if ($a) {
+      my $a = $el->first_element_child;
+      if ($a and $a->local_name eq 'a') {
         my $attr_name = $a->text_content;
         my $id = $a->title || $a->get_attribute ('href');
         if (defined $id and length $id) {
