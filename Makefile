@@ -192,13 +192,14 @@ data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt
 all-dom: data/dom.json data/elements.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
+	rm -fr local/obsvocab.html
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt local/html-status.xml \
-    src/attr-types.txt
+    src/attr-types.txt local/obsvocab.html
 	$(PERL) bin/elements.pl > $@
 
 local/html:
@@ -208,6 +209,8 @@ local/html-extracted.json: local/html bin/extract-html-standard.pl
 	$(PERL) bin/extract-html-standard.pl > $@
 local/html-status.xml:
 	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/status.cgi?action=get-all-annotations
+local/obsvocab.html:
+	$(WGET) -O $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
 
 ## ------ CSS ------
 

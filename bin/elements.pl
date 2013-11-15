@@ -243,6 +243,37 @@ for my $ns (keys %{$Data->{elements}}) {
   }
 }
 
+{
+  my $f = file (__FILE__)->dir->parent->file ('local', 'obsvocab.html');
+  my $doc = new Web::DOM::Document;
+  $doc->manakai_is_html (1);
+  $doc->inner_html (decode 'utf-8', scalar $f->slurp);
+  my $dl = $doc->get_element_by_id ('index')->query_selector ('dl');
+  my $el_name;
+  for my $el (@{$dl->children}) {
+    if ($el->local_name eq 'dt') {
+      if ($el->text_content =~ /^\s*The\s+(\S+)\s+element\s*$/) {
+        $el_name = $1;
+        $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{spec} ||= 'OBSVOCAB';
+        $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{id} ||= $el_name;
+      } else {
+        $el_name = '*';
+      }
+    } elsif ($el->local_name eq 'dd') {
+      my $a = $el->query_selector ('a');
+      if ($a) {
+        my $attr_name = $a->text_content;
+        my $id = $a->title || $a->get_attribute ('href');
+        if (defined $id and length $id) {
+          $id =~ s/^\#//;
+          $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{spec} ||= 'OBSVOCAB';
+          $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{id} ||= $id;
+        }
+      }
+    }
+  }
+}
+
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xml:lang'}->{status} = $statuses->{'the-lang-and-xml:lang-attributes'};
 
