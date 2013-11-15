@@ -10,12 +10,10 @@ pairs:
 
   categories [object]
 
-    Element categories.  Unless otherwise specified, categories are
-    defined in the HTML Standard.  The names contained by the object
-    are identifiers of categories.  By replacing any U+0020 SPACE
-    character in the identifier with a U+002D HYPHEN-MINUS character,
-    it becomes an element ID in the HTML Standard for the category.
-    Values are properties of the category, including:
+    Element categories.  The names contained by the object are
+    identifiers (id-in-category) of categories in the specification
+    identified by the |spec| property.  Values are properties of the
+    category, including:
 
       elements [object?]
 
@@ -33,6 +31,10 @@ pairs:
       label [string]
 
         The human-readable name of the category.
+
+      spec [spec]
+
+        The specification in which the category is defined.
 
       text [boolean]
 
@@ -135,10 +137,10 @@ pairs:
             default of the |type| attribute of the |menu| element
             depends on the parent such that it is not listed.
 
-          id [string?]
+          id [id-in-spec?]
 
-            If the attribute is specified in the HTML Standard, the ID
-            in the specification for the attribute.
+            The ID in the specification, identified by |spec|, for the
+            attribute.
 
           obsolete_but_conforming [boolean]
 
@@ -148,9 +150,15 @@ pairs:
             |input| elemenet as they are conforming for some input
             types.
 
+          spec [spec?]
+
+            The specification in which the attribute is defined, if
+            any.
+
           status [status?]
 
-            The status of the attribute.
+            The status of the attribute.  Note that obsolete or
+            non-conforming attribute might also have status value.
 
           translatable [string?]
 
@@ -257,10 +265,10 @@ pairs:
         omitted in certain context.  Otherwise, the end tag is
         required.
 
-      id [string?]
+      id [id-in-spec?]
 
-        If the element is specified in the HTML Standard, the ID in
-        the specification for the element.
+        The ID in the specification, identified by |spec|, for the
+        element.
 
       interface [string?]
 
@@ -276,6 +284,10 @@ pairs:
         Whether the element can be used as the document element
         according to relevant specifications.
 
+      spec [spec?]
+
+        The specification in which the element is defined, if any.
+
       start_tag [string?]
 
         If the value is "optional", the start tag can be omitted in
@@ -283,23 +295,8 @@ pairs:
 
       status [status?]
 
-        Status of the element.
-
-* Status
-
-Status is a short string representing the maturity, as described in
-<http://www.whatwg.org/specs/web-apps/current-work/status-documentation.html>.
-Typical status values include:
-
-  REC    Implemented and widely deployed
-  CR     Awaiting implementation feedback
-  LC     Ready for first implementations
-  CWD    Controversial Working draft
-  WD     Working draft
-  FD     First draft
-
-Note that obsolete or non-conforming feature might also have status
-value.
+        Status of the element.  Note that obsolete or non-conforming
+        element might also have status value.
 
 * Sources
 

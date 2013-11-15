@@ -1,9 +1,10 @@
 # -*- Makefile -*-
 
-all: all-langtags all-urls all-http all-mime all-dom all-css all-encodings
+all: all-langtags all-urls all-http all-mime all-dom all-css \
+    all-encodings all-meta
 
 clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
-    clean-encodings
+    clean-encodings clean-meta
 
 WGET = wget
 GIT = git
@@ -30,6 +31,14 @@ pmbp-update: git-submodules pmbp-upgrade
 pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
             --create-perl-command-shortcut perl
+
+## ------ Metadata ------
+
+all-meta: data/specs.json
+clean-meta:
+
+data/specs.json: bin/specs.pl src/specs.txt src/spec-*.txt
+	$(PERL) bin/specs.pl > $@
 
 ## ------ MIME types ------
 

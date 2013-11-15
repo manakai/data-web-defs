@@ -16,6 +16,7 @@ my $Data = {};
     for (qw(desc start_tag end_tag id)) {
       $prop->{$_} = $in->{$_} if defined $in->{$_};
     }
+    $prop->{spec} = 'HTML' if defined $prop->{id};
     if ($in->{content_model}) {
       if (not $in->{content_model}->{_complex} and
           1 == keys %{$in->{content_model}}) {
@@ -25,13 +26,17 @@ my $Data = {};
     for (keys %{$in->{categories} or {}}) {
       next if $_ eq '_complex';
       $Data->{categories}->{$_}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} = 1;
+      $Data->{categories}->{$_}->{spec} ||= 'HTML';
     }
     for my $attr_name (keys %{$in->{attrs} or {}}) {
       my $i = $in->{attrs}->{$attr_name};
       my $p = $prop->{attrs}->{''}->{$attr_name} ||= {};
       $p->{conforming} = 1;
       $p->{desc} = $i->{desc} if defined $i->{desc};
-      $p->{id} = $i->{id} if defined $i->{id};
+      if (defined $i->{id}) {
+        $p->{id} = $i->{id};
+        $p->{spec} = 'HTML';
+      }
     }
   }
   for my $attr_name (keys %{$json->{global_attrs} or {}}) {
@@ -39,14 +44,18 @@ my $Data = {};
     my $p = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr_name} ||= {};
     $p->{conforming} = 1;
     $p->{desc} = $prop->{desc} if defined $prop->{desc};
-    $p->{id} = $prop->{id} if defined $prop->{id};
+    if (defined $prop->{id}) {
+      $p->{id} = $prop->{id};
+      $p->{spec} = 'HTML';
+    };
   }
 }
 
 for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
   next unless $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{id} =~ /^handler-/;
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{frameset}->{attrs}->{''}->{$attr_name}->{id} = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{id};
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{frameset}->{attrs}->{''}->{$attr_name}->{desc} = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{desc};
+  for (qw(id spec desc)) {
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{frameset}->{attrs}->{''}->{$attr_name}->{$_} = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{$_};
+  }
 }
 
 {
@@ -178,26 +187,26 @@ my $id_for_status = {
 for my $ns (keys %{$Data->{elements}}) {
   for my $ln (keys %{$Data->{elements}->{$ns}}) {
     my $v = $Data->{elements}->{$ns}->{$ln};
-    if ($v->{id} and $statuses->{$v->{id}}) {
+    if ($v->{id} and $statuses->{$v->{id}} and $v->{spec} eq 'HTML') {
       $v->{status} ||= $statuses->{$v->{id}};
-      delete $v->{status} if $v->{status} eq 'UNKNOWN';
+      delete $v->{status} if $v->{status} eq 'UNKNOWN' or $v->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/;
     }
 
     for my $ans (keys %{$v->{attrs} || {}}) {
       for my $aln (keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
-        if ($w->{id} and $statuses->{$w->{id}}) {
+        if ($w->{id} and $statuses->{$w->{id}} and $w->{spec} eq 'HTML') {
           $w->{status} ||= $statuses->{$w->{id}};
         } elsif ($w->{id} and $id_for_status->{$w->{id}} and
                  $statuses->{$id_for_status->{$w->{id}}}) {
           $w->{status} ||= $statuses->{$id_for_status->{$w->{id}}};
-        } elsif ($w->{id} and $w->{id} =~ /^handler-/) {
+        } elsif ($w->{id} and $w->{id} =~ /^handler-/ and $w->{spec} eq 'HTML') {
           $w->{status} ||= $statuses->{'event-handlers-on-elements,-document-objects,-and-window-objects'};
           $w->{value_type} ||= 'event handler';
         } elsif ($ans eq '' and $statuses->{"the-$aln-attribute"}) {
           $w->{status} ||= $statuses->{"the-$aln-attribute"};
         }
-        delete $w->{status} if defined $w->{status} and $w->{status} eq 'UNKNOWN';
+        delete $w->{status} if defined $w->{status} and ($w->{status} eq 'UNKNOWN' or $w->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/);
         $w->{status} ||= $v->{status} if defined $v->{status};
       }
     }
@@ -219,7 +228,10 @@ for my $ns (keys %{$Data->{elements}}) {
       my $canonical = $label =~ s/\s*!s*$//;
       $keyword = '' if $keyword eq '#empty';
       my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
-      $last_attr->{enumerated}->{$keyword}->{id} = $id if $id ne '-';
+      if ($id ne '-') {
+        $last_attr->{enumerated}->{$keyword}->{id} = $id;
+        $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
+      }
       $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
       $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
       $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
