@@ -46,7 +46,7 @@ $Methods->{$_}->{simple} = 1 for qw(GET HEAD POST);
 $Methods->{$_}->{case_insensitive} = 1
     for qw(CONNECT DELETE GET HEAD OPTIONS POST PUT TRACE TRACK);
 
-## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-open>
+## <http://fetch.spec.whatwg.org/#concept-forbidden-methods>
 $Methods->{$_}->{xhr_insecure} = 1 for qw(CONNECT TRACE TRACK);
 
 ## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>
