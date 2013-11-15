@@ -126,6 +126,19 @@ for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slur
   }
 }
 
+for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime.types')->slurp) {
+  if (/^(\S+)\s+(\S.*)/) {
+    my $type = lc $1;
+    my $exts = [split /\s+/, lc $2];
+    $Data->{$type}->{type} = 'subtype';
+    $Data->{$type}->{extensions}->{$_} = 1 for @$exts;
+  } elsif (/^(\S+)\s*$/) {
+    $Data->{lc $1}->{type} = 'subtype';
+  } elsif (/\S/) {
+    die "Broken line |$_|";
+  }
+}
+
 $Data->{'*/*'}->{type} = 'subtype';
 for (keys %$Data) {
   if ($Data->{$_}->{params} and $Data->{$_}->{params}->{charset}) {
