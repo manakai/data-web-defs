@@ -19,13 +19,26 @@ archive [boolean]
 
   Archive and/or compression format.
 
+authority [string]
+
+  Semantics of the |authority| component, if known, other than
+  |x-callback-url|.  One of following values:
+
+    fake            Something other than |host|, |user|, or ID.
+    host            Host, optionally with user.
+    host+           Same as |host| but other options are also available.
+    id              Some kind of object ID.
+    reverse-domain  Reverse domain name.
+    user            Some kind of user ID.
+
 browser [boolean]
 
   Used by Web browsers for internal use or extensions.
 
 conflict [boolean]
 
-  There are multiple independent definitions or usages.
+  There are multiple independent definitions or usages, sometimes
+  incompatible.
 
 contact [boolean]
 
@@ -69,6 +82,10 @@ scriptable [boolean]
 
   May contain insecure data within the URL.
 
+url [string?]
+
+  Definition for the URL scheme, if any.
+
 web-core [boolean]
 
   Important URL schemes of the Web platform.
@@ -77,6 +94,11 @@ wildcard [boolean]
 
   Wildcard "*" is used in URL scheme name.  It is not a URL scheme but
   a set of URL schemes sharing same name pattern.
+
+x-callback-url [boolean]
+
+  Whether the URL scheme supports x-callback-url
+  <http://x-callback-url.com/> or not.
 
 * Sources
 
