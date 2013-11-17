@@ -50,6 +50,7 @@ my $Data = {};
     };
   }
   $Data->{input} = $json->{input};
+  $Data->{input}->{attrs} = delete $Data->{input}->{content_attrs};
 }
 
 for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
