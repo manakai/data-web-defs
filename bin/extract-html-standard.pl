@@ -17,12 +17,14 @@ sub sp ($) {
 
 my $d = file (__FILE__)->dir->parent->subdir ('local/www.whatwg.org/specs/web-apps/current-work/multipage/');
 my $index_doc;
+my $input_table;
 for my $f (($d->children)) {
   next unless $f =~ /\.html$/;
   my $doc = Web::DOM::Document->new;
   $doc->manakai_is_html (1);
   $doc->inner_html (decode 'utf-8', scalar $f->slurp);
   $index_doc = $doc if $f =~ /section-index/;
+  $input_table ||= $doc->get_element_by_id ('input-type-attr-summary');
 
   for my $dl (@{$doc->query_selector_all ('dl.element')}) {
     my $heading = $dl->previous_element_sibling;
@@ -183,6 +185,46 @@ if ($index_doc) {
         $Data->{elements}->{$a2->text_content}->{attrs}->{$a->text_content}
             ->{desc} ||= $desc;
       }
+    }
+  }
+}
+
+{
+  my @header;
+  my @rows = @{$input_table->rows};
+  for my $th (@{(shift @rows)->cells}) {
+    push @header, [map { s/^attr-input-type-//; $_ } grep { /^attr-input-type-/ } map { $_->title } @{$th->get_elements_by_tag_name ('a')}];
+  }
+  for my $tr (@rows) {
+    my @cell = @{$tr->cells};
+    my @link = @{(shift @cell)->get_elements_by_tag_name ('code')};
+    next unless @link;
+    my @content = map { $_->text_content } grep { $_->title =~ /^attr-/ } @link;
+    my @idl = map { $_->text_content } grep { $_->title =~ /^dom-/ } @link;
+    my @idl_attr = grep { not /\(/ } @idl;
+    my @method = map { s/\(\)$//; $_ } grep { /\(/ } @idl;
+    my @event = map { $_->text_content } grep { $_->title =~ /^event-/ } @link;
+    my $i = 1;
+    for my $td (@cell) {
+      my $value = $td->text_content;
+      $value =~ s/^\s+//;
+      $value =~ s/\s+$//;
+      if ($value eq 'Yes') {
+        $value = 1;
+      } elsif ($value =~ /^([\x20-\x7E]+)$/) {
+        #
+      } else {
+        undef $value;
+      }
+      if (defined $value) {
+        for my $type (@{$header[$i]}) {
+          $Data->{input}->{content_attrs}->{$_}->{$type} = $value for @content;
+          $Data->{input}->{idl_attrs}->{$_}->{$type} = $value for @idl_attr;
+          $Data->{input}->{methods}->{$_}->{$type} = $value for @method;
+          $Data->{input}->{events}->{$_}->{$type} = $value for @event;
+        }
+      }
+      $i++;
     }
   }
 }

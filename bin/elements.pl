@@ -49,6 +49,7 @@ my $Data = {};
       $p->{spec} = 'HTML';
     };
   }
+  $Data->{input} = $json->{input};
 }
 
 for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
