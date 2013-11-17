@@ -490,9 +490,29 @@
       "*" : {
          "*" : {
             "attrs" : {
+               "http://www.w3.org/1999/xlink" : {
+                  "arcrole" : {
+                     "url_role" : "id"
+                  },
+                  "href" : {
+                     "url_role" : "contextual"
+                  },
+                  "role" : {
+                     "url_role" : "id"
+                  }
+               },
+               "http://www.w3.org/2000/xmlns/" : {
+                  "*" : {
+                     "url_role" : "id"
+                  },
+                  "xmlns" : {
+                     "url_role" : "id"
+                  }
+               },
                "http://www.w3.org/XML/1998/namespace" : {
                   "base" : {
-                     "conforming" : "1"
+                     "conforming" : "1",
+                     "url_role" : "base"
                   },
                   "lang" : {
                      "conforming" : "1",
@@ -514,15 +534,18 @@
                "" : {
                   "href" : {
                      "conforming" : "1",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "url_role" : "hyperlink"
                   },
                   "ref" : {
                      "conforming" : "1",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "url_role" : "id"
                   },
                   "source" : {
                      "conforming" : "1",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "url_role" : "hyperlink"
                   },
                   "type" : {
                      "conforming" : "1",
@@ -557,6 +580,32 @@
       },
       "http://www.w3.org/1999/xhtml" : {
          "*" : {
+            "*" : {
+               "" : {
+                  "itemid" : {
+                     "url_role" : "id"
+                  },
+                  "itemprop" : {
+                     "url_role" : "id"
+                  },
+                  "itemtype" : {
+                     "url_role" : "id"
+                  },
+                  "xmlns" : {
+                     "url_role" : "id"
+                  }
+               },
+               "attrs" : {
+                  "" : {
+                     "about" : {
+                        "url_role" : "id"
+                     },
+                     "resource" : {
+                        "url_role" : "id"
+                     }
+                  }
+               }
+            },
             "attrs" : {
                "" : {
                   "about" : {
@@ -1795,6 +1844,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "directkey" : {
@@ -1822,6 +1872,7 @@
                      "id" : "attr-hyperlink-href",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "hreflang" : {
@@ -1910,6 +1961,7 @@
                      "id" : "attr-hyperlink-rel",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "id",
                      "value_type" : "set of space-separated tokens"
                   },
                   "rev" : {
@@ -2174,16 +2226,22 @@
                   "archive" : {
                      "id" : "attr-applet-archive",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "set of comma-separated tokens"
                   },
                   "code" : {
                      "id" : "attr-objects-code",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "codebase" : {
                      "id" : "attr-objects-codebase",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "base",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "datafld" : {
@@ -2196,6 +2254,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "height" : {
@@ -2221,6 +2280,8 @@
                   "object" : {
                      "id" : "attr-applet-object",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "vspace" : {
@@ -2276,6 +2337,7 @@
                      "id" : "attr-hyperlink-href",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "contextual",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "hreflang" : {
@@ -2306,6 +2368,7 @@
                      "id" : "attr-hyperlink-rel",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "id",
                      "value_type" : "set of space-separated tokens"
                   },
                   "shape" : {
@@ -2536,6 +2599,7 @@
                      "id" : "attr-media-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   }
                }
@@ -2565,6 +2629,7 @@
                      "id" : "attr-base-href",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "base",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "target" : {
@@ -2689,6 +2754,7 @@
                   "src" : {
                      "id" : "attr-bgsound-src",
                      "spec" : "OBSVOCAB",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "volume" : {
@@ -2740,6 +2806,7 @@
                      "id" : "attr-blockquote-cite",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "clear" : {
@@ -2785,6 +2852,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -3043,6 +3111,10 @@
          "button" : {
             "attrs" : {
                "" : {
+                  "action" : {
+                     "status" : "LC",
+                     "url_role" : "form"
+                  },
                   "autofocus" : {
                      "conforming" : 1,
                      "desc" : "Automatically focus the form control when the page is loaded",
@@ -3078,6 +3150,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "disabled" : {
@@ -3102,6 +3175,7 @@
                      "id" : "attr-fs-formaction",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "form",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "formenctype" : {
@@ -3552,6 +3626,15 @@
             "start_tag" : "optional",
             "status" : "LC"
          },
+         "command" : {
+            "attrs" : {
+               "" : {
+                  "icon" : {
+                     "url_role" : "embedded"
+                  }
+               }
+            }
+         },
          "data" : {
             "attrs" : {
                "" : {
@@ -3573,6 +3656,14 @@
             "status" : "LC"
          },
          "datalist" : {
+            "attrs" : {
+               "" : {
+                  "data" : {
+                     "status" : "LC",
+                     "url_role" : "resource"
+                  }
+               }
+            },
             "conforming" : 1,
             "desc" : "Container for options for combo box control",
             "id" : "the-datalist-element",
@@ -3608,6 +3699,7 @@
                      "id" : "attr-mod-cite",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "datetime" : {
@@ -3758,6 +3850,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "nowrap" : {
@@ -3869,6 +3962,8 @@
                   "code" : {
                      "id" : "attr-objects-code",
                      "spec" : "OBSVOCAB",
+                     "status" : "CWD",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "frameborder" : {
@@ -3924,16 +4019,22 @@
                   "pluginpage" : {
                      "id" : "attr-embed-pluginpage",
                      "spec" : "OBSVOCAB",
+                     "status" : "CWD",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "pluginspage" : {
                      "id" : "attr-embed-pluginspage",
                      "spec" : "OBSVOCAB",
+                     "status" : "CWD",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "pluginurl" : {
                      "id" : "attr-embed-pluginurl",
                      "spec" : "OBSVOCAB",
+                     "status" : "CWD",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "src" : {
@@ -3942,6 +4043,7 @@
                      "id" : "attr-embed-src",
                      "spec" : "HTML",
                      "status" : "CWD",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "type" : {
@@ -3995,6 +4097,24 @@
             "interface" : "HTMLEmbedElement",
             "spec" : "HTML",
             "status" : "CWD"
+         },
+         "event-source" : {
+            "attrs" : {
+               "" : {
+                  "src" : {
+                     "url_role" : "resource"
+                  }
+               }
+            }
+         },
+         "eventsource" : {
+            "attrs" : {
+               "" : {
+                  "src" : {
+                     "url_role" : "resource"
+                  }
+               }
+            }
          },
          "fieldset" : {
             "attrs" : {
@@ -4110,6 +4230,7 @@
                      "id" : "attr-fs-action",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "form",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "autocomplete" : {
@@ -4138,6 +4259,10 @@
                      "spec" : "HTML",
                      "status" : "LC",
                      "value_type" : "enumerated"
+                  },
+                  "data" : {
+                     "status" : "LC",
+                     "url_role" : "resource"
                   },
                   "enctype" : {
                      "conforming" : 1,
@@ -4301,6 +4426,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "frameborder" : {
@@ -4330,6 +4456,7 @@
                   "longdesc" : {
                      "id" : "attr-longdesc",
                      "spec" : "OBSVOCAB",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "marginheight" : {
@@ -4393,6 +4520,7 @@
                   "src" : {
                      "id" : "attr-frame-src",
                      "spec" : "OBSVOCAB",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   }
                }
@@ -4976,6 +5104,7 @@
                      "id" : "attr-html-manifest",
                      "spec" : "HTML",
                      "status" : "REC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "scroll" : {
@@ -5112,6 +5241,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "frameborder" : {
@@ -5157,6 +5287,7 @@
                      "id" : "attr-iframe-longdesc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "marginheight" : {
@@ -5245,6 +5376,7 @@
                      "id" : "attr-iframe-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "srcdoc" : {
@@ -5408,11 +5540,14 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "dynsrc" : {
                      "id" : "attr-dynsrc",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "galleryimg" : {
@@ -5464,12 +5599,14 @@
                      "id" : "attr-img-longdesc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "lowsrc" : {
                      "id" : "attr-img-lowsrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "mediaout" : {
@@ -5490,6 +5627,8 @@
                   "oversrc" : {
                      "id" : "attr-img-oversrc",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "private" : {
@@ -5502,6 +5641,7 @@
                      "id" : "attr-img-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "srcset" : {
@@ -5540,6 +5680,8 @@
                   "vrml" : {
                      "id" : "attr-vrml",
                      "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "vspace" : {
@@ -5577,6 +5719,10 @@
                      "spec" : "HTML",
                      "status" : "LC",
                      "value_type" : "set of comma-separated tokens"
+                  },
+                  "action" : {
+                     "status" : "LC",
+                     "url_role" : "form"
                   },
                   "align" : {
                      "enumerated" : {
@@ -5705,6 +5851,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "directkey" : {
@@ -5753,6 +5900,7 @@
                      "id" : "attr-fs-formaction",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "form",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "formenctype" : {
@@ -6164,6 +6312,7 @@
                      "id" : "attr-input-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "start" : {
@@ -6348,7 +6497,8 @@
                      "desc" : "Value of the form control",
                      "id" : "attr-input-value",
                      "spec" : "HTML",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "url_role" : "contextual"
                   },
                   "vcard_name" : {
                      "enumerated" : {
@@ -6507,6 +6657,7 @@
                      "id" : "attr-mod-cite",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "datetime" : {
@@ -6661,6 +6812,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "for" : {
@@ -6735,6 +6887,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   }
                }
@@ -6828,6 +6981,7 @@
                      "id" : "attr-link-href",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "contextual",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "hreflang" : {
@@ -6857,6 +7011,7 @@
                      "id" : "attr-link-rel",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "id",
                      "value_type" : "set of space-separated tokens"
                   },
                   "rev" : {
@@ -7042,6 +7197,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "direction" : {
@@ -7234,6 +7390,7 @@
                      "desc" : "Icon for the command",
                      "id" : "attr-menuitem-icon",
                      "spec" : "HTML",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "label" : {
@@ -7320,7 +7477,8 @@
                      "id" : "attr-meta-content",
                      "spec" : "HTML",
                      "status" : "LC",
-                     "translatable" : "contextual"
+                     "translatable" : "contextual",
+                     "url_role" : "contextual"
                   },
                   "http-equiv" : {
                      "conforming" : 1,
@@ -7504,6 +7662,7 @@
                      "id" : "attr-object-archive",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "set of space-separated tokens"
                   },
                   "border" : {
@@ -7516,18 +7675,21 @@
                      "id" : "attr-object-classid",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "code" : {
                      "id" : "attr-object-code",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "codebase" : {
                      "id" : "attr-object-codebase",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "base",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "codetype" : {
@@ -7555,6 +7717,7 @@
                      "id" : "attr-object-data",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "datafld" : {
@@ -7584,6 +7747,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "declare" : {
@@ -7778,6 +7942,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "disabled" : {
@@ -8097,6 +8262,7 @@
                      "id" : "attr-q-cite",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "hyperlink-secondary",
                      "value_type" : "URL potentially surrounded by spaces"
                   }
                }
@@ -8255,6 +8421,7 @@
                      "id" : "attr-script-src",
                      "spec" : "HTML",
                      "status" : "REC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "type" : {
@@ -8296,7 +8463,9 @@
                   },
                   "data" : {
                      "id" : "attr-select-data",
-                     "spec" : "OBSVOCAB"
+                     "spec" : "OBSVOCAB",
+                     "status" : "LC",
+                     "url_role" : "resource"
                   },
                   "datafld" : {
                      "id" : "attr-datafld",
@@ -8325,6 +8494,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "disabled" : {
@@ -8410,6 +8580,7 @@
                      "id" : "attr-source-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "type" : {
@@ -8466,6 +8637,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   }
                }
@@ -8597,6 +8769,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -8670,6 +8843,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "frame" : {
@@ -8813,6 +8987,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -8910,6 +9085,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -9114,6 +9290,10 @@
                      "status" : "LC",
                      "value_type" : "non-negative integer greater than zero"
                   },
+                  "data" : {
+                     "status" : "LC",
+                     "url_role" : "resource"
+                  },
                   "datafld" : {
                      "id" : "attr-datafld",
                      "spec" : "HTML",
@@ -9124,6 +9304,7 @@
                      "id" : "attr-datasrc",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "dirname" : {
@@ -9496,6 +9677,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -9596,6 +9778,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -9785,6 +9968,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -9897,6 +10081,7 @@
                      "id" : "attr-background",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "bgcolor" : {
@@ -10038,6 +10223,7 @@
                      "id" : "attr-track-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "srclang" : {
@@ -10203,6 +10389,7 @@
                      "id" : "attr-video-poster",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "preload" : {
@@ -10250,6 +10437,7 @@
                      "id" : "attr-media-src",
                      "spec" : "HTML",
                      "status" : "LC",
+                     "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
                   "width" : {
@@ -10278,6 +10466,15 @@
             "interface" : "HTMLElement",
             "spec" : "HTML",
             "status" : "LC"
+         },
+         "xml" : {
+            "attrs" : {
+               "" : {
+                  "src" : {
+                     "url_role" : "resource"
+                  }
+               }
+            }
          },
          "xmp" : {
             "attrs" : {
@@ -10560,7 +10757,8 @@
                "" : {
                   "uri" : {
                      "conforming" : "1",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "url_role" : "hyperlink-secondary"
                   },
                   "version" : {
                      "conforming" : "1",
@@ -10576,19 +10774,23 @@
          "icon" : {
             "conforming" : "1",
             "interface" : "AtomIconElement",
-            "status" : "LC"
+            "status" : "LC",
+            "url_role" : "embedded"
          },
          "id" : {
             "conforming" : "1",
             "interface" : "AtomIdElement",
-            "status" : "LC"
+            "status" : "LC",
+            "url_role" : "id"
          },
          "link" : {
             "attrs" : {
                "" : {
                   "href" : {
                      "conforming" : "1",
-                     "status" : "LC"
+                     "rel" : "id",
+                     "status" : "LC",
+                     "url_role" : "contextual"
                   },
                   "hreflang" : {
                      "conforming" : "1",
@@ -10630,7 +10832,8 @@
          "logo" : {
             "conforming" : "1",
             "interface" : "AtomLogoElement",
-            "status" : "LC"
+            "status" : "LC",
+            "url_role" : "embedded"
          },
          "name" : {
             "conforming" : "1",
@@ -10714,7 +10917,8 @@
          "uri" : {
             "conforming" : "1",
             "interface" : "AtomUriElement",
-            "status" : "LC"
+            "status" : "LC",
+            "url_role" : "contextual"
          }
       }
    }

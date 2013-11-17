@@ -170,6 +170,32 @@ pairs:
               contextual It might be a translatable depending on the context.
               partial    The value has to be parsed to translate.
 
+          url_role [string?]
+
+            Characteristics of URL(s) contained by the element, if
+            any.  If specified, the value is one of followings:
+
+              base                  The base URL.
+              contextual            The semantics changes depending on context.
+              embedded              The URL is used to retrieve an embedded
+                                    object in the document.
+              hyperlink             The URL is the destination of a hyperlink
+                                    link.
+              hyperlink-secondary   Same as |hyperlink| but the link is not
+                                    shown in typical primary rendering.
+              id                    The URL is used to identify or to reference
+                                    some type or concept without dereferenced.
+              resource              The URL is the destination of an external
+                                    resource link, used to process the
+                                    document, or used by elements or scripts
+                                    in the document as input data.
+
+            Note that the attribute might contain any number of URLs,
+            depending on the definition of the attribute.  In fact the
+            attribute might not contain any URL but contain some other
+            construct.  In any case, this property apply only to URLs
+            contained by the attribute.
+
           value_type [string?]
 
             The type of the attribute value, if it is known and
@@ -298,6 +324,12 @@ pairs:
 
         Status of the element.  Note that obsolete or non-conforming
         element might also have status value.
+
+      url_role [string?]
+
+        Characteristics of URL(s) contained by the element, if any.
+        See attributes' |url_role| property for the description for
+        values.
 
 * Sources
 
