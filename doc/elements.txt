@@ -207,14 +207,17 @@ pairs:
               browsing context name or keyword [HTML]
               character encoding label  (Encoding label)
               CSS styling               [HTML]
+              date string               [HTML]
               date string with optional time [HTML]
               dimension value           [OBSVOCAB]
               e-mail address            [HTML]
+              e-mail address list       [HTML]
               enumerated                [HTML]
               event handler             [HTML]
               floating-point number     [HTML]
               floating-point number equal to or greater than zero [HTML]
               floating-point number greater than zero [HTML]
+              global date and time string [HTML]
               hash-ID reference         [OBSVOCAB]
               hash-name reference       [HTML]
               id                        (ID definition)
@@ -226,8 +229,10 @@ pairs:
               legacy color value        [OBSVOCAB]
               list of dimensions        [OBSVOCAB]
               list of integers          [HTML]
+              local date and time string [HTML]
               media query list
               MIME type                 [HTML]
+              month string              [HTML]
               name                      (Same as <a name="">)
               non-empty                 (Any non-empty value)
               non-empty text            (Text, not empty)
@@ -238,9 +243,12 @@ pairs:
               ordered set of unique space-separated tokens [HTML]
               set of comma-separated tokens [HTML]
               set of space-separated tokens [HTML]
+              simple color              [HTML]
               text                      (Human-readable text)
+              time string               [HTML]
               unordered set of unique space-separated tokens [HTML]
               URL potentially surrounded by spaces [HTML]
+              week string               [HTML]
 
         Note that the object for elements with non-"*" local name does
         not contain global attributes.  If there is the objects for
@@ -352,6 +360,15 @@ pairs:
       If the value is |obsolete but conforming|, it does not apply, it
       should not be used, but use of it is "obsolete but conforming".
       Otherwise, the value represents the mode of the |value| IDL attribute.
+
+    For the |value| content attribute, instead of applicability,
+    following applies: If the value is not set, the attribute must not
+    be specified.  Otherwise, if the |value| content attribute has
+    non-empty value, it must be valid in the format described by the
+    value.  See the description for the |value_type| property for the
+    list of possible values.  Additionally, if the value is set and
+    the |min| and |max| attributes are applicable, the value also
+    describes the format that these attribute values must conform to.
 
 * Sources
 
