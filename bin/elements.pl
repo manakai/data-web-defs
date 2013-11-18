@@ -352,6 +352,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{tr}->{complex_content_mode
 ];
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{content_model} = 'flow content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{categories}->{'heading content'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{header} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{form}->{content_model} = 'flow content';
