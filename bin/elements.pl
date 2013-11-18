@@ -359,7 +359,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{form}->{disallowed_descend
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{label}->{content_model} = 'phrasing content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{label}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{label} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{content_model} = 'phrasing content';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{disallowed_descendants}->{elements}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{disallowed_descendants}->{categories}->{'interactive content'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{select}->{complex_content_model} = [
   {elements => {'http://www.w3.org/1999/xhtml' => {option => 1, optgroup => 1}},
    categories => {'script-supporting elements' => 1},
