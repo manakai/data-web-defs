@@ -273,6 +273,48 @@ pairs:
         Whether using the element is conforming or not.  If this flag
         is not set, the element is non-standard or obsolete.
 
+      complex_content_model
+
+        More detailed description of the content model of the element,
+        if it is not representable in |content_model|'s values.  (This
+        description also has limitations, however.)
+
+        If the value is a JSON array, elements represented by its
+        items must be included as content, in order.  Items are JSON
+        objects describing kinds of elements, using following
+        properties as name/value pairs:
+
+          categories [object?]
+
+            JSON object containing category names as names and
+            |boolean| true values are values.
+
+          elements [object?]
+
+            JSON object containing namespace URLs as names and
+            corresponding objects as values, which are objects
+            containing local names as names and |boolean| true values
+            are values.
+
+          max [number?]
+
+            The maximum allowed number of elements.  Infinity if not
+            specified.
+
+          min [number?]
+
+            The minimum required number of elements.  Zero if not
+            specified.
+
+          transparent [boolean]
+
+            If this property has true value, it represents the
+            "transparent" content model.
+
+        If |elements| and/or |categories| are specified, it represents
+        that there must be a sequence of elements that are in these
+        lists.
+
       content_model [string?]
 
         The content model of the element.  Possible values include:
@@ -295,6 +337,24 @@ pairs:
         A short description of semantics of the element in English, if
         known.
 
+      disallowed_descendants [object?]
+
+        List of elements that cannot be used as descendants of the
+        element, described using following properties as name/value
+        pairs:
+
+          categories [object?]
+
+            JSON object containing category names as names and
+            |boolean| true values are values.
+
+          elements [object?]
+
+            JSON object containing namespace URLs as names and
+            corresponding objects as values, which are objects
+            containing local names as names and |boolean| true values
+            are values.
+
       end_tag [string?]
 
         If the value is "never", the element is void element.
@@ -302,6 +362,15 @@ pairs:
         omitted in certain context.  Otherwise, the end tag is
         required.  Note that this property is not specified for
         non-conforming elements.
+
+      has_additional_content_constraints [boolean]
+
+        If true, there are additional constraints that can't be
+        represented by |content_model|, |complex_content_model|, and
+        |disallowed_descendants|, e.g. requirements depending on the
+        value of attributes.  Please note that even when this value is
+        false, there might be additional requirements on the content
+        of the element; read the spec carefully!
 
       id [id-in-spec?]
 

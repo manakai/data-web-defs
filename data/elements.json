@@ -2105,7 +2105,13 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "transparent",
             "desc" : "Hyperlink",
+            "disallowed_descendants" : {
+               "categories" : {
+                  "interactive content" : 1
+               }
+            },
             "id" : "the-a-element",
             "interface" : "HTMLAnchorElement",
             "spec" : "HTML",
@@ -2167,7 +2173,21 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Contact information for a page or article element",
+            "disallowed_descendants" : {
+               "categories" : {
+                  "heading content" : 1,
+                  "sectioning content" : 1
+               },
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "address" : 1,
+                     "footer" : 1,
+                     "header" : 1
+                  }
+               }
+            },
             "id" : "the-address-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -2291,6 +2311,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "param" : 1
+                     }
+                  },
+                  "min" : 0
+               },
+               {
+                  "transparent" : 1
+               }
+            ],
             "id" : "the-applet-element",
             "interface" : "HTMLAppletElement",
             "spec" : "HTML",
@@ -2462,7 +2495,15 @@
          },
          "aside" : {
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Sidebar for tangentially related content",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "main" : 1
+                  }
+               }
+            },
             "id" : "the-aside-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -2602,6 +2643,12 @@
             },
             "conforming" : 1,
             "desc" : "Audio player",
+            "disallowed_descendants" : {
+               "categories" : {
+                  "media element" : 1
+               }
+            },
+            "has_additional_content_constraints" : 1,
             "id" : "the-audio-element",
             "interface" : "HTMLAudioElement",
             "spec" : "HTML",
@@ -3322,7 +3369,13 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "phrasing content",
             "desc" : "Button control",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "interactive content" : 1
+               }
+            },
             "id" : "the-button-element",
             "interface" : "HTMLButtonElement",
             "spec" : "HTML",
@@ -3350,7 +3403,9 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "transparent",
             "desc" : "Scriptable bitmap canvas",
+            "has_additional_content_constraints" : 1,
             "id" : "the-canvas-element",
             "interface" : "HTMLCanvasElement",
             "spec" : "HTML",
@@ -3395,7 +3450,15 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Table caption",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "table" : 1
+                  }
+               }
+            },
             "id" : "the-caption-element",
             "interface" : "HTMLTableCaptionElement",
             "spec" : "HTML",
@@ -3616,6 +3679,7 @@
             "conforming" : 1,
             "desc" : "Group of columns in a table",
             "end_tag" : "optional",
+            "has_additional_content_constraints" : 1,
             "id" : "the-colgroup-element",
             "interface" : "HTMLTableColElement",
             "spec" : "HTML",
@@ -3662,6 +3726,7 @@
             },
             "conforming" : 1,
             "desc" : "Container for options for combo box control",
+            "has_additional_content_constraints" : 1,
             "id" : "the-datalist-element",
             "interface" : "HTMLDataListElement",
             "spec" : "HTML",
@@ -3729,6 +3794,22 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "summary" : 1
+                     }
+                  },
+                  "max" : 1,
+                  "min" : 1
+               },
+               {
+                  "categories" : {
+                     "flow content" : 1
+                  }
+               }
+            ],
             "conforming" : 1,
             "desc" : "Disclosure control for hiding details",
             "id" : "the-details-element",
@@ -3750,7 +3831,15 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Defining instance",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "dfn" : 1
+                  }
+               }
+            },
             "id" : "the-dfn-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -3791,6 +3880,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "li" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "id" : "dir",
             "interface" : "HTMLDirectoryElement",
             "spec" : "HTML",
@@ -3877,6 +3979,7 @@
             },
             "conforming" : 1,
             "desc" : "Association list consisting of zero or more name-value groups",
+            "has_additional_content_constraints" : 1,
             "id" : "the-dl-element",
             "interface" : "HTMLDListElement",
             "spec" : "HTML",
@@ -3893,7 +3996,20 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Legend for corresponding dd element(s)",
+            "disallowed_descendants" : {
+               "categories" : {
+                  "heading content" : 1,
+                  "sectioning content" : 1
+               },
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "footer" : 1,
+                     "header" : 1
+                  }
+               }
+            },
             "end_tag" : "optional",
             "id" : "the-dt-element",
             "interface" : "HTMLElement",
@@ -4147,6 +4263,22 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "legend" : 1
+                     }
+                  },
+                  "max" : 1,
+                  "min" : 1
+               },
+               {
+                  "categories" : {
+                     "flow content" : 1
+                  }
+               }
+            ],
             "conforming" : 1,
             "desc" : "Group of form controls",
             "id" : "the-fieldset-element",
@@ -4166,6 +4298,7 @@
          "figure" : {
             "conforming" : 1,
             "desc" : "Figure with optional caption",
+            "has_additional_content_constraints" : 1,
             "id" : "the-figure-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -4198,7 +4331,17 @@
          },
          "footer" : {
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Footer for a page or section",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "footer" : 1,
+                     "header" : 1,
+                     "main" : 1
+                  }
+               }
+            },
             "id" : "the-footer-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -4372,7 +4515,15 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "User-submittable form",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "form" : 1
+                  }
+               }
+            },
             "id" : "the-form-element",
             "interface" : "HTMLFormElement",
             "spec" : "HTML",
@@ -4666,6 +4817,7 @@
                   }
                }
             },
+            "has_additional_content_constraints" : 1,
             "id" : "frameset",
             "interface" : "HTMLFrameSetElement",
             "spec" : "HTML"
@@ -5013,8 +5165,10 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "metadata content",
             "desc" : "Container for document metadata",
             "end_tag" : "optional",
+            "has_additional_content_constraints" : 1,
             "id" : "the-head-element",
             "interface" : "HTMLHeadElement",
             "spec" : "HTML",
@@ -5023,13 +5177,41 @@
          },
          "header" : {
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Introductory or navigational aids for a page or section",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "footer" : 1,
+                     "header" : 1,
+                     "main" : 1
+                  }
+               }
+            },
             "id" : "the-header-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
             "status" : "CR"
          },
          "hgroup" : {
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "h1" : 1,
+                        "h2" : 1,
+                        "h3" : 1,
+                        "h4" : 1,
+                        "h5" : 1,
+                        "h6" : 1
+                     }
+                  },
+                  "min" : 1
+               }
+            ],
             "conforming" : 1,
             "desc" : "heading group",
             "id" : "the-hgroup-element",
@@ -5128,6 +5310,26 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "head" : 1
+                     }
+                  },
+                  "max" : 1,
+                  "min" : 1
+               },
+               {
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "body" : 1
+                     }
+                  },
+                  "max" : 1,
+                  "min" : 1
+               }
+            ],
             "conforming" : 1,
             "desc" : "Root element",
             "end_tag" : "optional",
@@ -5402,6 +5604,7 @@
             },
             "conforming" : 1,
             "desc" : "Nested browsing context",
+            "has_additional_content_constraints" : 1,
             "id" : "the-iframe-element",
             "interface" : "HTMLIFrameElement",
             "spec" : "HTML",
@@ -6830,7 +7033,16 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "phrasing content",
             "desc" : "Caption for a form control",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "label" : 1
+                  }
+               }
+            },
+            "has_additional_content_constraints" : 1,
             "id" : "the-label-element",
             "interface" : "HTMLLabelElement",
             "spec" : "HTML",
@@ -7345,6 +7557,7 @@
             },
             "conforming" : 1,
             "desc" : "Menu of commands",
+            "has_additional_content_constraints" : 1,
             "id" : "the-menu-element",
             "interface" : "HTMLMenuElement",
             "spec" : "HTML",
@@ -7561,7 +7774,15 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "phrasing content",
             "desc" : "Gauge",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "meter" : 1
+                  }
+               }
+            },
             "id" : "the-meter-element",
             "interface" : "HTMLMeterElement",
             "spec" : "HTML",
@@ -7575,7 +7796,15 @@
          },
          "nav" : {
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Section with navigational links",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "main" : 1
+                  }
+               }
+            },
             "id" : "the-nav-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -7594,12 +7823,14 @@
             "status" : "LC"
          },
          "noembed" : {
+            "has_additional_content_constraints" : 1,
             "id" : "noembed",
             "interface" : "HTMLElement",
             "spec" : "HTML",
             "status" : "LC"
          },
          "noframes" : {
+            "has_additional_content_constraints" : 1,
             "id" : "noframes",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -7608,6 +7839,7 @@
          "noscript" : {
             "conforming" : 1,
             "desc" : "Fallback content for script",
+            "has_additional_content_constraints" : 1,
             "id" : "the-noscript-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -7827,6 +8059,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "param" : 1
+                     }
+                  },
+                  "min" : 0
+               },
+               {
+                  "transparent" : 1
+               }
+            ],
             "conforming" : 1,
             "desc" : "Image, nested browsing context, or plugin",
             "id" : "the-object-element",
@@ -7868,6 +8113,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "li" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Ordered list",
             "id" : "the-ol-element",
@@ -7898,6 +8156,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "option" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Group of options in a list box",
             "end_tag" : "optional",
@@ -7975,8 +8246,10 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "text",
             "desc" : "Option in a list box or combo box control",
             "end_tag" : "optional",
+            "has_additional_content_constraints" : 1,
             "id" : "the-option-element",
             "interface" : "HTMLOptionElement",
             "spec" : "HTML",
@@ -8235,7 +8508,15 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "phrasing content",
             "desc" : "Progress bar",
+            "disallowed_descendants" : {
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "progress" : 1
+                  }
+               }
+            },
             "id" : "the-progress-element",
             "interface" : "HTMLProgressElement",
             "spec" : "HTML",
@@ -8291,6 +8572,7 @@
          "ruby" : {
             "conforming" : 1,
             "desc" : "Ruby annotation(s)",
+            "has_additional_content_constraints" : 1,
             "id" : "the-ruby-element",
             "interface" : "HTMLElement",
             "spec" : "HTML",
@@ -8424,6 +8706,7 @@
             },
             "conforming" : 1,
             "desc" : "Embedded script",
+            "has_additional_content_constraints" : 1,
             "id" : "the-script-element",
             "interface" : "HTMLScriptElement",
             "spec" : "HTML",
@@ -8535,6 +8818,20 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "optgroup" : 1,
+                        "option" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "List box control",
             "id" : "the-select-element",
@@ -8693,6 +8990,7 @@
             },
             "conforming" : 1,
             "desc" : "Embedded styling information",
+            "has_additional_content_constraints" : 1,
             "id" : "the-style-element",
             "interface" : "HTMLStyleElement",
             "spec" : "HTML",
@@ -8934,6 +9232,7 @@
             },
             "conforming" : 1,
             "desc" : "Table",
+            "has_additional_content_constraints" : 1,
             "id" : "the-table-element",
             "interface" : "HTMLTableElement",
             "spec" : "HTML",
@@ -9016,6 +9315,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "tr" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Group of rows in a table",
             "end_tag" : "optional",
@@ -9221,6 +9533,7 @@
          "template" : {
             "conforming" : 1,
             "desc" : "Template",
+            "has_additional_content_constraints" : 1,
             "id" : "the-template-element",
             "interface" : "HTMLTemplateElement",
             "spec" : "HTML"
@@ -9706,6 +10019,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "tr" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Group of footer rows in a table",
             "end_tag" : "optional",
@@ -9913,8 +10239,21 @@
                }
             },
             "conforming" : 1,
+            "content_model" : "flow content",
             "desc" : "Table header cell",
+            "disallowed_descendants" : {
+               "categories" : {
+                  "sectioning content" : 1
+               },
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "footer" : 1,
+                     "header" : 1
+                  }
+               }
+            },
             "end_tag" : "optional",
+            "has_additional_content_constraints" : 1,
             "id" : "the-th-element",
             "interface" : "HTMLTableHeaderCellElement",
             "spec" : "HTML",
@@ -9997,6 +10336,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "tr" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Group of heading rows in a table",
             "end_tag" : "optional",
@@ -10027,7 +10379,9 @@
          },
          "title" : {
             "conforming" : 1,
+            "content_model" : "text",
             "desc" : "Document title",
+            "has_additional_content_constraints" : 1,
             "id" : "the-title-element",
             "interface" : "HTMLTitleElement",
             "spec" : "HTML",
@@ -10131,6 +10485,20 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "td" : 1,
+                        "th" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Table row",
             "end_tag" : "optional",
@@ -10265,6 +10633,19 @@
                   }
                }
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "li" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "List",
             "id" : "the-ul-element",
@@ -10440,6 +10821,12 @@
             },
             "conforming" : 1,
             "desc" : "Video player",
+            "disallowed_descendants" : {
+               "categories" : {
+                  "media element" : 1
+               }
+            },
+            "has_additional_content_constraints" : 1,
             "id" : "the-video-element",
             "interface" : "HTMLVideoElement",
             "spec" : "HTML",

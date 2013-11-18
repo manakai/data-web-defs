@@ -281,6 +281,117 @@ for my $ns (keys %{$Data->{elements}}) {
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xml:lang'}->{status} = $statuses->{'the-lang-and-xml:lang-attributes'};
 
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{html}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {head => 1}},
+   min => 1, max => 1},
+  {elements => {'http://www.w3.org/1999/xhtml' => {body => 1}},
+   min => 1, max => 1},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{head}->{content_model} = 'metadata content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{title}->{content_model} = 'text';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{nav}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{nav}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{main} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{aside}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{aside}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{main} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{hgroup}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {h1 => 1, h2 => 1, h3 => 1, h4 => 1, h5 => 1, h6 => 1}},
+   categories => {'script-supporting elements' => 1},
+   min => 1},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{header}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{header}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{main} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{header}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{header} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{header}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{main} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{header} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{address} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{header} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_descendants}->{categories}->{'heading content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ol}->{complex_content_model} =
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ul}->{complex_content_model} =
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dir}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {li => 1}},
+   categories => {'script-supporting elements' => 1},
+   min => 0},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{header} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendants}->{categories}->{'heading content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{content_model} = 'transparent';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{disallowed_descendants}->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{object}->{complex_content_model} =
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{applet}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {param => 1}},
+   min => 0},
+  {transparent => 1},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{video}->{disallowed_descendants}->{categories}->{'media element'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{audio}->{disallowed_descendants}->{categories}->{'media element'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{caption}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{caption}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{table} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{tbody}->{complex_content_model} =
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{thead}->{complex_content_model} =
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{tfoot}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {tr => 1}},
+   categories => {'script-supporting elements' => 1},
+   min => 0},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{tr}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {th => 1, td => 1}},
+   categories => {'script-supporting elements' => 1},
+   min => 0},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{header} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{th}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{form}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{form}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{form} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{label}->{content_model} = 'phrasing content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{label}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{label} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{content_model} = 'phrasing content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{disallowed_descendants}->{elements}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{select}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {option => 1, optgroup => 1}},
+   categories => {'script-supporting elements' => 1},
+   min => 0},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{optgroup}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {option => 1}},
+   categories => {'script-supporting elements' => 1},
+   min => 0},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{option}->{content_model} = 'text';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress}->{content_model} = 'phrasing content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{meter}->{content_model} = 'phrasing content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{meter}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{meter} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{fieldset}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {legend => 1}},
+   min => 1, max => 1},
+  {categories => {'flow content' => 1}},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{details}->{complex_content_model} = [
+  {elements => {'http://www.w3.org/1999/xhtml' => {summary => 1}},
+   min => 1, max => 1},
+  {categories => {'flow content' => 1}},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{canvas}->{content_model} = 'transparent';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_additional_content_constraints} = 1
+    for qw(head title style dl figure ruby iframe video audio table
+           colgroup th label datalist option menu script noscript template
+           canvas
+           frameset noframes noembed);
+
 for (qw(acronym bgsound dir noframes isindex listing nextid
         noembed plaintext rb strike xmp basefont big blink
         center font multicol nobr spacer tt)) {
