@@ -266,6 +266,37 @@ pairs:
         |xmlns| attribute are not listed.  XXX aria-* will be added in
         due course.
 
+      auto_br [string?]
+
+        Whether the automatic <br> insertion in some kind of HTML
+        authoring support tools
+        (e.g. <http://staff.hatenablog.com/entry/2013/09/25/124816>)
+        should be enabled or not.  Whether HTML |br| elements should
+        be inserted at appropriate places as child of an element /E/
+        can be determined by following steps:
+
+          1. Set /value/ to the |auto_br| property value for namespace
+             "*" and local name "*".
+
+          2. Set /value/ to the |auto_br| property value for /E/'s
+             namespace and local name "*", if it is set to a non-null
+             value.
+
+          3. Set /value/ to the |auto_br| property value for /E/'s
+             namespace and local name, if it is set to a non-null
+             value.
+
+          4. If /E/ is an HTML |noscript| element and it has a parent
+             element, set /value/ to the result of applying these
+             steps to the parent element.
+
+          4. If /value/ is "allow", enable automatic <br> insertion.
+             Otherwise, if /value/ is "disallow", disable automatic
+             <br> insertion.
+
+        Note that a descendant element of "disallow"ed elements might
+        allow automatic <br> insertion.
+
       conforming [boolean]
 
         Whether using the element is conforming or not.  If this flag

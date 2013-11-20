@@ -611,6 +611,12 @@ while (@obs_attr) {
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{status} = $statuses->{'non-conforming-features'};
 }
 
+for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+  if (($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{content_model} // '') eq 'empty') {
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{auto_br} ||= 'disallow';
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
