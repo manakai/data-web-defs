@@ -53,7 +53,7 @@ for my $f (($d->children)) {
             #
           } elsif ($text =~ /^If the element is a child of an ol element: value \x{2014}/) {
             $props->{attrs}->{value}->{id} = 'attr-li-value';
-            $props->{attrs}->{value}->{desc} = [split /\x{2014}\s*|has special semantics on this element:\s*/, $text, 2]->[1];
+            $props->{attrs}->{value}->{desc} = [split /\x{2014}\s*/, $text, 2]->[1];
           #} elsif ($text =~ /^Also, /) {
           #  #
           } else {
@@ -63,7 +63,7 @@ for my $f (($d->children)) {
                 $code->title =~ /^(?:attr|handler)-/) {
               my $attr = $code->text_content;
               $props->{attrs}->{$attr}->{id} = $code->title;
-              $props->{attrs}->{$attr}->{desc} = [split /\x{2014}\s*/, $text, 2]->[1];
+              $props->{attrs}->{$attr}->{desc} = [split /\x{2014}\s*|has special semantics on this element:\s*/, $text, 2]->[1];
             } else {
               push @{$Data->{_errors} ||= []},
                   ['attrs', $local_name, $_->inner_html];
