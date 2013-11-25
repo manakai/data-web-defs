@@ -181,11 +181,20 @@ data/http-methods.json: \
 
 ## ------ Encodings ------
 
-all-encodings: data/encodings.json
+all-encodings: data/encodings.json data/encoding-indexes.json
 clean-encodings:
+	rm -fr local/encodings.json local/indexes.json
 
-data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt
+data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt \
+    local/encodings.json
 	$(PERL) bin/encodings.pl > $@
+data/encoding-indexes.json: local/indexes.json
+	cp $< $@
+
+local/encodings.json:
+	$(WGET) -O $@ http://encoding.spec.whatwg.org/encodings.json
+local/indexes.json:	
+	$(WGET) -O $@ http://encoding.spec.whatwg.org/indexes.json
 
 ## ------ DOM/HTML ------
 
