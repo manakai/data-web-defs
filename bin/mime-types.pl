@@ -42,29 +42,29 @@ for my $doc (parse 'sw-mime-types-xml-*') {
   }
 }
 
-for my $doc (parse 'iana-mime-types-html-*') {
-  my $type;
-  for (@{$doc->query_selector_all ('table > tbody > tr > td table > tbody > tr')}) {
-    my $cells = $_->query_selector_all ('td');
-    my $t = ($cells->[0] or next)->text_content;
-    if ($t =~ m{^\s*([0-9A-Za-z_+.-]+)\s*$}) {
-      $type = $1;
-      $Data->{"$type/*"}->{type} = 'type';
-      $Data->{"$type/*"}->{iana} = 'permanent';
-      next;
+for my $doc (parse 'iana-mime-types.xml') {
+  for my $el (@{$doc->document_element->children}) {
+    next unless $el->local_name eq 'registry';
+    my $type = ($el->query_selector ('title') or next)->text_content;
+    $type =~ tr/A-Z/a-z/;
+    $Data->{"$type/*"}->{type} = 'type';
+    $Data->{"$type/*"}->{iana} = 'permanent';
+    for my $el (@{$el->children}) {
+      next unless $el->local_name eq 'record';
+      my $subtype = ($el->query_selector ('name') or next)->text_content;
+      $subtype =~ tr/A-Z/a-z/;
+      my $dep_el = $el->query_selector ('deprecated');
+      my $obs_el = $el->query_selector ('obsolete');
+      
+      $Data->{"$type/$subtype"}->{type} = 'subtype';
+      $Data->{"$type/$subtype"}->{iana} = 'permanent';
+      $Data->{"$type/$subtype"}->{iana_deprecated} = $dep_el->text_content || 1
+          if $dep_el;
+      $Data->{"$type/$subtype"}->{iana_obsolete} = $obs_el->text_content || 1
+          if $obs_el;
     }
-    my $subtype = ($cells->[1] or next)->text_content;
-    $subtype =~ s{\s*\(deprecated\)\s*$}{}gi;
-    $subtype =~ s{\s*\(obsolete\)\s*$}{}gi;
-    $subtype =~ m{^\s*([0-9A-Za-z_+.-]+)\s*$} or next;
-    $subtype = $1;
-    $subtype =~ tr/A-Z/a-z/;
-    $Data->{"$type/$subtype"}->{type} = 'subtype';
-    $Data->{"$type/$subtype"}->{iana} = 'permanent';
   }
 }
-$Data->{"example/*"}->{type} = 'type';
-$Data->{"example/*"}->{iana} = 'permanent';
 
 for my $doc (parse 'iana-mime-type-provisional.xml') {
   for (@{$doc->query_selector_all ('record > name')}) {
