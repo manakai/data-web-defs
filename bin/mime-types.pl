@@ -97,7 +97,7 @@ for (file (__FILE__)->dir->parent->subdir ('local')->file ('apache-mime-types')-
 
 my $type;
 for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slurp) {
-  if (m{^([0-9A-Za-z_+./*-]+)$}) {
+  if (m{^([0-9A-Za-z_+./*\#-]+)$}) {
     $type = $1;
     $type =~ tr/A-Z/a-z/;
     $Data->{$type}->{type} ||= $type =~ m{/\*$} ? 'type' : $type =~ m{^\*/\*\+} ? 'suffix' : $type =~ /\*/ ? 'pattern' : 'subtype';
