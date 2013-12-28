@@ -617,6 +617,24 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
   }
 }
 
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
+    = 'special' for grep { length } split /\s*,\s*|\s+/, q{
+  address, applet, area, article, aside, base, basefont, bgsound, blockquote, body, br, button, caption, center, col, colgroup, dd, details, dir, div, dl, dt, embed, fieldset, figcaption, figure, footer, form, frame, frameset, h1, h2, h3, h4, h5, h6, head, header, hgroup, hr, html, iframe, img, input, isindex, li, link, listing, main, marquee, menu, menuitem, meta, nav, noembed, noframes, noscript, object, ol, p, param, plaintext, pre, script, section, select, source, style, summary, table, tbody, td, template, textarea, tfoot, th, thead, title, tr, track, ul, wbr, xmp
+};
+$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_category}
+    = 'special' for grep { length } split /\s*,\s*|\s+/, q{
+  mi, mo, mn, ms, mtext, annotation-xml
+};
+$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_category}
+    = 'special' for grep { length } split /\s*,\s*|\s+/, q{
+foreignObject, desc, title
+};
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
+    = 'formatting' for grep { length } split /\s*,\s*|\s+/, q{
+a, b, big, code, em, font, i, nobr, s, small, strike, strong, tt, u
+};
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
