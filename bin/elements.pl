@@ -635,6 +635,21 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
 a, b, big, code, em, font, i, nobr, s, small, strike, strong, tt, u
 };
 
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    = 'void' for grep { length } split /\s*,\s*|\s+/, q{
+area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
+};
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    = 'raw text' for grep { length } split /\s*,\s*|\s+/, q{
+script, style
+};
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    = 'escapable raw text' for grep { length } split /\s*,\s*|\s+/, q{
+textarea, title
+};
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
