@@ -617,6 +617,7 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
   }
 }
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#the-stack-of-open-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
     = 'special' for grep { length } split /\s*,\s*|\s+/, q{
   address, applet, area, article, aside, base, basefont, bgsound, blockquote, body, br, button, caption, center, col, colgroup, dd, details, dir, div, dl, dt, embed, fieldset, figcaption, figure, footer, form, frame, frameset, h1, h2, h3, h4, h5, h6, head, header, hgroup, hr, html, iframe, img, input, isindex, li, link, listing, main, marquee, menu, menuitem, meta, nav, noembed, noframes, noscript, object, ol, p, param, plaintext, pre, script, section, select, source, style, summary, table, tbody, td, template, textarea, tfoot, th, thead, title, tr, track, ul, wbr, xmp
@@ -629,26 +630,46 @@ $Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_category}
     = 'special' for grep { length } split /\s*,\s*|\s+/, q{
 foreignObject, desc, title
 };
-
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
     = 'formatting' for grep { length } split /\s*,\s*|\s+/, q{
 a, b, big, code, em, font, i, nobr, s, small, strike, strong, tt, u
 };
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'void' for grep { length } split /\s*,\s*|\s+/, q{
 area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
 };
-
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'raw text' for grep { length } split /\s*,\s*|\s+/, q{
 script, style
 };
-
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'escapable raw text' for grep { length } split /\s*,\s*|\s+/, q{
 textarea, title
 };
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    ||= 'obsolete void' for grep { length } split /\s*,\s*|\s+/, q{
+area, base, basefont, bgsound, br, col, embed, frame, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
+};
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    ||= 'obsolete void macro' for grep { length } split /\s*,\s*|\s+/, q{
+image, isindex
+};
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    ||= 'obsolete raw text' for grep { length } split /\s*,\s*|\s+/, q{
+style, script, xmp, noembed, noframes
+};
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
+    ||= 'special' for grep { length } split /\s*,\s*|\s+/, q{
+iframe, noscript, plaintext
+};
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{first_newline_ignored} = 1
+    for qw(pre textarea listing);
 
 print perl2json_bytes_for_record $Data;
 

@@ -411,6 +411,21 @@ pairs:
         required.  Note that this property is not specified for
         non-conforming elements.
 
+      first_newline_ignored [boolean]
+
+        If true, a newline character that is not part of the actual
+        data can be inserted just after the start tag in the HTML
+        syntax
+        <http://www.whatwg.org/specs/web-apps/current-work/#element-restrictions>,
+        the first newline character just after the start tag is
+        ignored by the HTML parser, and the HTML serializer inserts an
+        additional newline character just after the start tag
+        <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>.
+        (Note that the |listing| element is not allowed to insert a
+        newline in the HTML syntax as it is an obsolete element.  In
+        the parser and serializer, it is handled in the same way as
+        other elements in this category.)
+
       has_additional_content_constraints [boolean]
 
         If true, there are additional constraints that can't be
@@ -472,18 +487,52 @@ pairs:
       syntax_category [string?]
 
         The kind of the element in the HTML syntax
-        <http://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>.
+        <http://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
+        and how the element is serialized in the HTML syntax
+        <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>.
 
-        If the value is "void", it is a void element.  Otherwise, if
-        the value is "raw text", it is a raw text element.  Otherwise
-        if the value is "escapable raw text", it is an escapable raw
-        text element.  Otherwise, if the element in the SVG namespace
-        or in the MathML namespace, it is a foreign element.
-        Otherwise, if the element is a conforming element (c.f. the
-        |conforming| field) in the HTML namespace, it is a normal
-        element.  Otherwise, the element is in no category.  Please
-        note that obsolete and non-standard HTML elements are in no
-        category.
+        If specified, the value is one of "void", "obsolete void",
+        "raw text", "obsolete raw text", "escapable raw text", and
+        "special".
+
+        The kind of the element can be determined as follows:
+
+          If the value is "void", it is a void element.
+
+          Otherwise, if the value is "raw text", it is a raw text
+          element.
+
+          Otherwise if the value is "escapable raw text", it is an
+          escapable raw text element.
+
+          Otherwise, if the element in the SVG namespace or in the
+          MathML namespace, it is a foreign element.
+
+          Otherwise, if the element is a conforming element (c.f. the
+          |conforming| field) in the HTML namespace, it is a normal
+          element.
+
+          Otherwise, the element is in no category.
+
+        Please note that obsolete and non-standard HTML elements are
+        in no category.
+
+        The element is serialized as a void element if the value is
+        "void" or "obsolete void".  (Note that there are two elements
+        with the value "obsolete void macro", which is not treated as
+        void elements in the serialization algorithm, but used as void
+        elements in documents and expanded as macro by the parser.)
+
+        The element content texts are serialized without escapes
+        (i.e. treated as a raw text element) by the serializer if the
+        value is "raw text" or "obsolete raw text", if the value is
+        "special" and it is an |iframe| or |plaintext| element, or if
+        the value is "special", it is a |noscript| element, and
+        scripting is enabled for the element.  (Note that the |iframe|
+        element is not a raw text element by definition although it is
+        parsed as a raw text element.  The |plaintext| element is in
+        fact not a raw text element as the parser does not find its
+        end tag.)
 
       transparent [string?]
 
