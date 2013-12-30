@@ -671,6 +671,36 @@ iframe, noscript, plaintext
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{first_newline_ignored} = 1
     for qw(pre textarea listing);
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-scope>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_scoping} = 1,
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_li_scoping} = 1,
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_button_scoping} = 1
+    for qw(applet caption html table td th marquee object template);
+$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_scoping} = 1,
+$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_li_scoping} = 1,
+$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_button_scoping} = 1
+    for qw(mi mo mn ms mtext annotation-xml);
+$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_scoping} = 1,
+$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_li_scoping} = 1,
+$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_button_scoping} = 1
+    for qw(foreignObject desc title);
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-list-item-scope>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_li_scoping} = 1
+    for qw(ol ul);
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-button-scope>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_button_scoping} = 1
+    for qw(button);
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-table-scope>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_scoping} = 1
+    for qw(html table template);
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-select-scope>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_select_non_scoping} = 1
+    for qw(optgroup option);
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
