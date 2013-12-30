@@ -710,6 +710,16 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_row_sco
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_select_non_scoping} = 1
     for qw(optgroup option);
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#generate-implied-end-tags>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag} = 1
+    for qw(dd dt li option optgroup p rp rt);
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag_at_eof} = 1
+    for qw(dd dt li p tbody td tfoot th thead tr body html);
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag_at_body} = 1
+    for qw(dd dt li optgroup option p rp rt tbody td tfoot th thead tr body html);
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
