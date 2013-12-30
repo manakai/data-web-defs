@@ -693,9 +693,18 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_li_scoping} =
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_button_scoping} = 1
     for qw(button);
 
-## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-table-scope>
+## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-table-scope>,
+## <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-context>.
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_scoping} = 1
     for qw(html table template);
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-body-context>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_body_scoping} = 1
+    for qw(html tbody tfoot thead template);
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-row-context>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_row_scoping} = 1
+    for qw(html tr template);
 
 ## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-select-scope>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_select_non_scoping} = 1
