@@ -203,6 +203,10 @@ data/elements.json: bin/elements.pl src/element-interfaces.txt \
     src/attr-types.txt local/obsvocab.html
 	$(PERL) bin/elements.pl > $@
 
+## Not invoked by all and all-dom
+data/isindex-prompt.json: bin/isindex-prompt.pl
+	$(PERL) bin/isindex-prompt.pl > $@
+
 local/html:
 	cd local && $(WGET) -m -np http://www.whatwg.org/specs/web-apps/current-work/multipage/
 	touch $@
