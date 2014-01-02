@@ -15,6 +15,7 @@ sub uunescape ($) {
   my $s = decode 'utf-8', shift;
   $s =~ s{\s+$}{}s;
   $s =~ s{^\s+}{}s;
+  $s =~ s{\\$}{ }ge;
   $s =~ s{\\?\\u([0-9A-Fa-f]{4})}{chr hex $1}ge;
   $s =~ s{u0020$}{ }ge;
   return decode 'utf-16le', encode 'ucs-2le', $s;
