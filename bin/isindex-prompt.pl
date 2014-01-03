@@ -80,6 +80,8 @@ my $Data;
 for (
   ['es-es' => 'es'],
   ['pt-pt' => 'pt'],
+  ['nb-no' => 'nb'],
+  ['nn-no' => 'nn'],
 ) {
   $Data->{$_->[1]}->{chromium} ||= $Data->{$_->[0]}->{chromium}
       if defined $Data->{$_->[0]}->{chromium};
