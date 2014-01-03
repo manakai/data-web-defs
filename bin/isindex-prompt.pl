@@ -50,6 +50,9 @@ my $Data;
     my $data = get_url qq<https://hg.mozilla.org/l10n-central/$locale/raw-file/tip/dom/chrome/layout/HtmlForm.properties>;
     if ($data =~ /^IsIndexPromptWithSpace\s*=(.+)/m) {
       $Data->{lc $locale}->{gecko} = uunescape $1;
+      delete $Data->{lc $locale}->{gecko}
+          if not $locale =~ /^en(?:-|$)/ and
+             $Data->{lc $locale}->{gecko} =~ /^This is a searchable index. Enter search keywords:\s*$/;
     }
     sleep 1;
   }
@@ -66,9 +69,22 @@ my $Data;
     my $data = get_url qq<https://raw.github.com/mirror/chromium/trunk/webkit/glue/resources/webkit_strings_$locale.xtb>;
     if ($data =~ m{<translation\s+id=["']8141602879876242471["']\s*>(.+?)</translation\s*>}s) {
       $Data->{lc $locale}->{chromium} = htunescape $1;
+      delete $Data->{lc $locale}->{chromium}
+          if not $locale =~ /^en(?:-|$)/ and
+             $Data->{lc $locale}->{chromium} =~ /^This is a searchable index. Enter search keywords:\s*$/;
     }
     sleep 1;
   }
+}
+
+for (
+  ['es-es' => 'es'],
+  ['pt-pt' => 'pt'],
+) {
+  $Data->{$_->[1]}->{chromium} ||= $Data->{$_->[0]}->{chromium}
+      if defined $Data->{$_->[0]}->{chromium};
+  $Data->{$_->[1]}->{gecko} ||= $Data->{$_->[0]}->{gecko}
+      if defined $Data->{$_->[0]}->{gecko};
 }
 
 use JSON::Functions::XS qw(perl2json_bytes_for_record);
