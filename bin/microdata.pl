@@ -2,9 +2,9 @@ use strict;
 use warnings;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
+use JSON::Functions::XS qw(perl2json_bytes_for_record file2perl);
 
-my $Data = {};
+my $Data = file2perl file (__FILE__)->dir->parent->file ('src', 'microdata-dv.json');
 
 {
   my $f = file (__FILE__)->dir->parent->file ('src', 'microdata-vocabs.txt');
@@ -33,7 +33,11 @@ my $Data = {};
       $key = $1;
       $Data->{$itemtype}->{props}->{$itemprop}->{$key} ||= {};
     } elsif (/^    ([^\s=:]+)=(.*)$/) {
-      $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{$1} = $2;
+      if ($1 eq 'type') {
+        $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{types}->{$2} = 1;
+      } else {
+        $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{$1} = $2;
+      }
     } elsif (/^    ([^\s=:]+)$/) {
       $subitemprop = $1;
       ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop} ||= {};

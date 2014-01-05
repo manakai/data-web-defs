@@ -221,9 +221,22 @@ local/obsvocab.html:
 
 all-microdata: data/microdata.json
 clean-microdata:
+	#rm -fr local/data-vocabulary/files
 
-data/microdata.json: bin/microdata.pl src/microdata-*.txt
+src/microdata-dv.json: bin/microdata-dv.pl local/data-vocabulary/files
+	$(PERL) bin/microdata-dv.pl > $@
+
+data/microdata.json: bin/microdata.pl src/microdata-*.txt # and src/microdata-dv.json
 	$(PERL) bin/microdata.pl > $@
+
+local/data-vocabulary/files:
+	mkdir -p local/data-vocabulary
+	for x in itemtype itemprop Event Geo Address Organization Person \
+	         Product Review Review-aggregate Breadcrumb \
+	         Offer Offer-aggregate; do \
+	  $(WGET) -O local/data-vocabulary/$$x.html http://www.data-vocabulary.org/$$x/; \
+	done
+	touch $@
 
 ## ------ CSS ------
 

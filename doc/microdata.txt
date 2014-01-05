@@ -47,25 +47,30 @@ with following name/value pairs:
         The ID in the specification, identified by |spec|, for the
         property.
 
+      is_url [boolean]
+
+        If true, the item value can be an absolute URL.
+
       item [object?]
 
         If specified, the item value can be an item.  The object
         represents what kind of items can be specified.
 
-        If the object has a name/value pair with name "type", the item
-        can be an item whose item type is equal to the value.
-        Otherwise, the item can be an item without item type, and the
-        item has to conform to the definition recursively contained in
-        the object.
+        If the object has a name/value pair with name "types", the
+        item can be an item whose item type has the boolean true value
+        in the corresponding JSON object.  Otherwise, the item can be
+        an item without item type, and the item has to conform to the
+        definition recursively contained in the object.
 
-      max [number]
+      max [number?]
 
-        The maximum number of the property allowed for the item.  The
-        value can be inifinity.
+        The maximum number of the property allowed for the item, if
+        known.  The value can be inifinity.
 
-      min [number]
+      min [number?]
 
-        The minimum umber of the property required for the item.
+        The minimum umber of the property required for the item, if
+        known.
 
       spec [spec?]
 
@@ -75,10 +80,6 @@ with following name/value pairs:
 
         If true, when the property is specified multiple times for an
         item, their values must be unique.
-
-      url [boolean]
-
-        If true, the item value can be an absolute URL.
 
       value [value-type?]
 
@@ -100,6 +101,13 @@ with following name/value pairs:
     The URL of the specification in which the item type is defined, if
     known.
 
-* Source
+  use_itemid [boolean]
+
+    Whether the vocabulary of the item type is defined to support
+    global identifier for items.
+
+* Sources
 
 HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
+
+data-vocabulary.org <http://www.data-vocabulary.org/>.
