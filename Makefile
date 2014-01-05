@@ -222,11 +222,13 @@ local/obsvocab.html:
 all-microdata: data/microdata.json
 clean-microdata:
 	#rm -fr local/data-vocabulary/files
+	rm -fr local/schemaorg.html
 
 src/microdata-dv.json: bin/microdata-dv.pl local/data-vocabulary/files
 	$(PERL) bin/microdata-dv.pl > $@
 
-data/microdata.json: bin/microdata.pl src/microdata-*.txt # and src/microdata-dv.json
+data/microdata.json: bin/microdata.pl src/microdata-*.txt local/schemaorg.json
+	# and src/microdata-dv.json
 	$(PERL) bin/microdata.pl > $@
 
 local/data-vocabulary/files:
@@ -237,6 +239,11 @@ local/data-vocabulary/files:
 	  $(WGET) -O local/data-vocabulary/$$x.html http://www.data-vocabulary.org/$$x/; \
 	done
 	touch $@
+
+local/schemaorg.html:
+	$(WGET) -O $@ http://schema.org/docs/full_md.html
+local/schemaorg.json: local/schemaorg.html bin/microdata-schemaorg.pl
+	$(PERL) bin/microdata-schemaorg.pl > $@
 
 ## ------ CSS ------
 

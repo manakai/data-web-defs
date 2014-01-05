@@ -22,9 +22,16 @@ with following name/value pairs:
 
   props [object?]
 
-    The names are the defined property names for the item.  The values
-    are JSON objects containing their definitions.  They contain
-    following name/value pairs:
+    The names are defined property names for the item.  All possible
+    property names are enumerated for vobarularies defined in the HTML
+    Standard and data-vocabulary.org.  However, for the schema.org
+    vocabulary, only property names directly applied to the item type
+    are enumerated.  Property names for superclasses of the item type
+    (see the |subclass_of| field) are also applicable to the item.  In
+    addition, schema.org allows non-standard extensions.
+
+    The values are JSON objects containing their definitions.  They
+    contain following name/value pairs:
 
       enum [object?]
 
@@ -96,6 +103,20 @@ with following name/value pairs:
 
     The specification in which the item type is defined, if any.
 
+  subclass_of [object?]
+
+    Transitive closure of known subclasses ("subClassOf" property in
+    the schema.org vocabulary) of the item type.  Names are subclass
+    item types, whose values are "distance" between the subclass and
+    the item type.
+
+  superclass_of [object?]
+
+    Transitive closure of known superclasses (reverse relation of
+    "subClassOf" property in the schema.org vocabulary) of the item
+    type.  Names are superclass item types, whose values are
+    "distance" between the superclass and the item type.
+
   url [string?]
 
     The URL of the specification in which the item type is defined, if
@@ -114,3 +135,11 @@ data-vocabulary.org <http://www.data-vocabulary.org/>.
 
 Structured data
 <https://support.google.com/webmasters/topic/2643152?ref_topic=30163>.
+
+Schema.org <http://schema.org/>.
+
+* License
+
+Some of data drived from schema.org Web site, which is licensed under
+the Creative Commons Attribution-ShareAlike License (version 3.0).
+See <http://schema.org/docs/terms.html> for full terms.

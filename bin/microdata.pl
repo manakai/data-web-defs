@@ -95,6 +95,64 @@ for my $itemtype (keys %$Data) {
   }
 }
 
+{
+  my $f = file (__FILE__)->dir->parent->file ('local', 'schemaorg.json');
+  my $schema = file2perl $f;
+  for my $id (keys %$schema) {
+    if ($schema->{$id}->{types}->{'http://schema.org/Type'}) {
+      $Data->{$id}->{use_itemid} = 1;
+      $Data->{$id}->{spec} = 'SCHEMAORG';
+      $Data->{$id}->{subclass_of} = {%{$schema->{$id}->{subclass_of}}};
+      $Data->{$id}->{superclass_of} = {%{$schema->{$id}->{superclass_of}}};
+      delete $Data->{$id}->{subclass_of}->{$id};
+      delete $Data->{$id}->{superclass_of}->{$id};
+      delete $Data->{$id}->{subclass_of} unless keys $Data->{$id}->{subclass_of};
+      delete $Data->{$id}->{superclass_of} unless keys $Data->{$id}->{superclass_of};
+    }
+  }
+  for my $id (keys %$schema) {
+    if ($schema->{$id}->{types}->{'http://schema.org/Property'}) {
+      my $prop = $id;
+      $prop =~ s{^http://schema.org/}{};
+      my $def = {};
+      #$def->{spec} = 'SCHEMAORG';
+      if ($schema->{$id}->{range}->{'http://schema.org/Text'}) {
+        $def->{value} = 'text';
+      } elsif ($schema->{$id}->{range}->{'http://schema.org/Integer'}) {
+        $def->{value} = 'integer';
+      } elsif ($schema->{$id}->{range}->{'http://schema.org/Number'}) {
+        $def->{value} = 'floating-point number';
+      } elsif ($schema->{$id}->{range}->{'http://schema.org/DateTime'}) {
+        $def->{value} = 'global or local date and time string';
+      } elsif ($schema->{$id}->{range}->{'http://schema.org/Date'}) {
+        $def->{value} = 'date string';
+      } elsif ($schema->{$id}->{range}->{'http://schema.org/Time'}) {
+        $def->{value} = 'time string';
+      } elsif ($schema->{$id}->{range}->{'http://schema.org/URL'} or
+               $schema->{$id}->{range}->{'http://schema.org/Boolean'}) {
+        $def->{is_url} = 1;
+      }
+      for my $range (keys %{$schema->{$id}->{range} or {}}) {
+        if (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Thing'}) {
+          $def->{item}->{types}->{$range} = 1
+              if $schema->{$id}->{range}->{$range} == 1;
+          $def->{is_url} = 1;
+        } elsif (defined $schema->{$range}->{subclass_of}->{'http://schema.org/DataType'}) {
+          #
+        } elsif (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Type'}) {
+          #
+        } else {
+          warn "Unknown type of range: |$range|";
+        }
+      }
+      for my $type (keys %{$schema->{$id}->{domain} or {}}) {
+        $Data->{$type}->{props}->{$prop} = $def
+            if $schema->{$id}->{domain}->{$type} == 1;
+      }
+    }
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
