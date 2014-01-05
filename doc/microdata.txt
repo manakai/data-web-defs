@@ -1,0 +1,105 @@
+microdata.json
+~~~~~~~~~~~~~~
+
+This file contains data for the microdata vocabularies.
+
+* Structure
+
+The file contains a JSON object, which is a name/value pairs where
+names are item types and values are corresponding definitions.
+
+Definitions of the item identified by the item types are JSON objects
+with following name/value pairs:
+
+  id [id-in-spec?]
+
+    The ID in the specification, identified by |spec|, for the item
+    type.
+
+  label [string?]
+
+    The human-readable name of the item type, if any.
+
+  props [object?]
+
+    The names are the defined property names for the item.  The values
+    are JSON objects containing their definitions.  They contain
+    following name/value pairs:
+
+      enum [object?]
+
+        If specified, the item value can be a text.  The value can be
+        one of names in the JSON object.  Values in the JSON object
+        contain definitions for the enumerated values, using following
+        name/value pairs:
+
+          id [id-in-spec?]
+
+            The ID in the specification, identified by |spec|, for the
+            value.
+
+          spec [spec?]
+
+            The specification in which the value is defined, if any.
+
+      id [id-in-spec?]
+
+        The ID in the specification, identified by |spec|, for the
+        property.
+
+      item [object?]
+
+        If specified, the item value can be an item.  The object
+        represents what kind of items can be specified.
+
+        If the object has a name/value pair with name "type", the item
+        can be an item whose item type is equal to the value.
+        Otherwise, the item can be an item without item type, and the
+        item has to conform to the definition recursively contained in
+        the object.
+
+      max [number]
+
+        The maximum number of the property allowed for the item.  The
+        value can be inifinity.
+
+      min [number]
+
+        The minimum umber of the property required for the item.
+
+      spec [spec?]
+
+        The specification in which the property is defined, if any.
+
+      unique [boolean]
+
+        If true, when the property is specified multiple times for an
+        item, their values must be unique.
+
+      url [boolean]
+
+        If true, the item value can be an absolute URL.
+
+      value [value-type?]
+
+        If specified, the item value can be a text.  If the specified
+        value is different from "text", the value must conform to the
+        format identified by the specified value.
+
+    Possible item values are represented by |enum|, |item|, |url|, and
+    |value|.  If none of these values are specified, there is no
+    restriction on the item value according to the relevant
+    specification.
+
+  spec [spec?]
+
+    The specification in which the item type is defined, if any.
+
+  url [string?]
+
+    The URL of the specification in which the item type is defined, if
+    known.
+
+* Source
+
+HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.

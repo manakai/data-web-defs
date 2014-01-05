@@ -1,0 +1,301 @@
+* http://microformats.org/profile/hcard
+
+url=http://www.whatwg.org/specs/web-apps/current-work/#vcard
+label=vCard
+id=vcard
+spec=HTML
+kind
+  0..1
+  enum:
+    individual
+    group
+    org
+    location
+fn
+  1..1
+  value=text
+n
+  1..1
+  item:
+    family-name
+      0..inf
+      value=text
+    given-name
+      0..inf
+      value=text
+    additional-name
+      0..inf
+      value=text
+    honorific-prefix
+      0..inf
+      value=text
+    honorific-suffix
+      0..inf
+      value=text
+    nickname
+      0..inf
+      value=text
+photo
+  0..inf
+  url
+bday
+  0..1
+  value=date string
+anniversary
+  0..1
+  value=date string
+sex
+  0..1
+  value=vcard sex
+gender-identity
+  0..1
+  value=text
+adr
+  0..inf
+  item:
+    type
+      0..inf
+      unique
+      enum:
+        home
+        work
+    post-office-box
+      0..inf
+      value=text
+      discouraged
+    extended-address
+      0..inf
+      value=text
+      discouraged
+    street-address
+      0..inf
+      value=text
+    locality
+      0..1
+      value=text
+    region
+      0..1
+      value=text
+    postal-code
+      0..1
+      value=text
+    country-name
+      0..1
+      value=text
+tel
+  0..inf
+  value=vcard telephone number
+  item:
+    type
+      0..inf
+      unique
+      enum:
+        home
+        work
+        text
+        voice
+        fax
+        cell
+        video
+        pager
+        textphone
+    value
+      1..1
+      value=vcard telephone number
+email
+  0..inf
+  value=text
+impp
+  0..inf
+  url
+lang
+  0..inf
+  value=language tag
+tz
+  0..inf
+  value=vcard tz
+geo
+  0..inf
+  value=vcard geo
+title
+  0..inf
+  value=text
+role
+  0..inf
+  value=text
+logo
+  0..inf
+  url
+agent
+  0..inf
+  value=text
+  url
+  item:
+    type=http://microformats.org/profile/hcard
+org
+  0..inf
+  value=text
+  item:
+    organization-name
+      1..1
+      value=text
+    organization-unit
+      0..inf
+      value=text
+member
+  0..inf
+  url
+related
+  0..inf
+  item:
+    url
+      1..1
+      url
+    rel
+      1..1
+      enum:
+        emergency
+        agent
+        contact
+        acquaintance
+        friend
+        met
+        worker
+        colleague
+        resident
+        neighbor
+        child
+        parent
+        sibling
+        spouse
+        kin
+        muse
+        crush
+        date
+        sweetheart
+        me
+categories
+  0..inf
+  value=text
+note
+  0..inf
+  value=text
+rev
+  0..inf
+  value=global date and time string
+sound
+  0..inf
+  url
+uid
+  0..1
+  value=text
+url
+  0..inf
+  url
+
+* http://microformats.org/profile/hcalendar#vevent
+
+url=http://www.whatwg.org/specs/web-apps/current-work/#vevent
+label=vEvent
+id=vevent
+spec=HTML
+attach
+  0..inf
+  url
+categories
+  0..inf
+  value=text
+class
+  0..1
+  enum:
+    public
+    private
+    confidential
+comment
+  0..inf
+  value=text
+description
+  0..1
+  value=text
+geo
+  0..1
+  value=vcard geo
+location
+  0..1
+  value=text
+resources
+  0..inf
+  value=text
+status
+  0..1
+  enum:
+    tentative
+    confirmed
+    cancelled
+summary
+  0..1
+  value=text
+dtend
+  0..1
+  value=date string or global date and time string
+dtstart
+  1..1
+  value=date string or global date and time string
+duration
+  0..1
+  value=vevent duration
+transp
+  0..1
+  enum:
+    opaque
+    transparent
+contact
+  0..inf
+  value=text
+url
+  0..1
+  url
+uid
+  0..1
+  value=text
+exdate
+  0..inf
+  value=date string or global date and time string
+exrule
+  0..inf
+  value=icalendar recur
+rdate
+  0..inf
+  value=vevent rdate
+rrule
+  0..inf
+  value=icalendar recur
+created
+  0..1
+  value=global date and time string
+last-modified
+  0..1
+  value=global date and time string
+sequence
+  0..1
+  value=non-negative integer
+
+* http://n.whatwg.org/work
+
+label=Licensing works
+id=work
+spec=HTML
+url=http://www.whatwg.org/specs/web-apps/current-work/#licensing-works
+work
+  1..1
+  url
+title
+  0..1
+author
+  0..inf
+  value=text
+  item:
+    type=http://microformats.org/profile/hcard
+license
+  0..inf
+  url

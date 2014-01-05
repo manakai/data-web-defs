@@ -1,10 +1,10 @@
 # -*- Makefile -*-
 
 all: all-langtags all-urls all-http all-mime all-dom all-css \
-    all-encodings all-meta
+    all-encodings all-meta all-microdata
 
 clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
-    clean-encodings clean-meta
+    clean-encodings clean-meta clean-microdata
 
 WGET = wget
 GIT = git
@@ -216,6 +216,14 @@ local/html-status.xml:
 	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/status.cgi?action=get-all-annotations
 local/obsvocab.html:
 	$(WGET) -O $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
+
+## ------ Microdata ------
+
+all-microdata: data/microdata.json
+clean-microdata:
+
+data/microdata.json: bin/microdata.pl src/microdata-*.txt
+	$(PERL) bin/microdata.pl > $@
 
 ## ------ CSS ------
 
