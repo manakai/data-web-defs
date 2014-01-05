@@ -233,7 +233,7 @@ local/data-vocabulary/files:
 	mkdir -p local/data-vocabulary
 	for x in itemtype itemprop Event Geo Address Organization Person \
 	         Product Review Review-aggregate Breadcrumb \
-	         Offer Offer-aggregate; do \
+	         Offer Offer-aggregate Recipe; do \
 	  $(WGET) -O local/data-vocabulary/$$x.html http://www.data-vocabulary.org/$$x/; \
 	done
 	touch $@
