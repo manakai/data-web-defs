@@ -278,6 +278,12 @@ for my $ns (keys %{$Data->{elements}}) {
   }
 }
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#url-property-elements>.
+$Data->{categories}->{'URL property elements'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_} = 1
+    for qw(a area audio embed iframe img link object source track video);
+$Data->{categories}->{'URL property elements'}->{spec} = 'HTML';
+$Data->{categories}->{'URL property elements'}->{label} = 'URL property elements';
+
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xml:lang'}->{status} = $statuses->{'the-lang-and-xml:lang-attributes'};
 
