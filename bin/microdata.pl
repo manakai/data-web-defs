@@ -106,8 +106,8 @@ for my $itemtype (keys %$Data) {
       $Data->{$id}->{superclass_of} = {%{$schema->{$id}->{superclass_of}}};
       delete $Data->{$id}->{subclass_of}->{$id};
       delete $Data->{$id}->{superclass_of}->{$id};
-      delete $Data->{$id}->{subclass_of} unless keys $Data->{$id}->{subclass_of};
-      delete $Data->{$id}->{superclass_of} unless keys $Data->{$id}->{superclass_of};
+      (delete $Data->{$id}->{subclass_of}) unless keys $Data->{$id}->{subclass_of};
+      (delete $Data->{$id}->{superclass_of}) unless keys $Data->{$id}->{superclass_of};
     }
   }
   for my $id (keys %$schema) {
