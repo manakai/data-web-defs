@@ -6,6 +6,10 @@ use JSON::Functions::XS qw(perl2json_bytes_for_record file2perl);
 
 my $Data = file2perl file (__FILE__)->dir->parent->file ('src', 'microdata-dv.json');
 
+for my $itemtype (keys %$Data) {
+  $Data->{$itemtype}->{vocab} ||= 'http://data-vocabulary.org/';
+}
+
 sub n ($) {
   return $_[0] eq 'inf' ? 'Infinity' :
          $_[0] eq '-inf' ? '-Infinity' :
@@ -23,6 +27,7 @@ sub n ($) {
     if (/^\*\s*(\S+)$/) {
       $itemtype = $1;
       $Data->{$itemtype} ||= {};
+      $Data->{$itemtype}->{vocab} = 'http://data-vocabulary.org/';
     } elsif (/^([^\s=:]+)=(.*)$/) {
       $Data->{$itemtype}->{$1} = $2;
     } elsif (/^([^\s=:]+)$/) {
@@ -82,6 +87,8 @@ for my $itemtype (keys %$Data) {
         }
       }
       if ($Data->{$itemtype}->{props}->{$itemprop}->{item}) {
+        $Data->{$itemtype}->{props}->{$itemprop}->{item}->{vocab} ||= $Data->{$itemtype}->{vocab}
+            if $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props};
         for my $subitemprop (keys %{$Data->{$itemtype}->{props}->{$itemprop}->{item}->{props} || {}}) {
           $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{spec} ||= 'HTML';
           $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{id} ||= 'md-' . $id . '-' . $itemprop . '-' . $subitemprop;
@@ -106,6 +113,7 @@ for my $itemtype (keys %$Data) {
   my $schema = file2perl $f;
   for my $id (keys %$schema) {
     if ($schema->{$id}->{types}->{'http://schema.org/Type'}) {
+      $Data->{$id}->{vocab} = 'http://schema.org/';
       $Data->{$id}->{use_itemid} = 1;
       $Data->{$id}->{spec} = 'SCHEMAORG';
       $Data->{$id}->{subclass_of} = {%{$schema->{$id}->{subclass_of}}};
