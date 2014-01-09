@@ -6,6 +6,12 @@ use JSON::Functions::XS qw(perl2json_bytes_for_record file2perl);
 
 my $Data = file2perl file (__FILE__)->dir->parent->file ('src', 'microdata-dv.json');
 
+sub n ($) {
+  return $_[0] eq 'inf' ? 'Infinity' :
+         $_[0] eq '-inf' ? '-Infinity' :
+         $_[0] eq 'nan' ? 'NaN' : 0+$_[0];
+} # n
+
 {
   my $f = file (__FILE__)->dir->parent->file ('src', 'microdata-vocabs.txt');
   my $itemtype;
@@ -23,8 +29,8 @@ my $Data = file2perl file (__FILE__)->dir->parent->file ('src', 'microdata-dv.js
       $itemprop = $1;
       $Data->{$itemtype}->{props}->{$itemprop} ||= {};
     } elsif (/^  ([0-9]+)\.\.([0-9]+|inf)$/) {
-      $Data->{$itemtype}->{props}->{$itemprop}->{min} = 0+$1;
-      $Data->{$itemtype}->{props}->{$itemprop}->{max} = 0+$2;
+      $Data->{$itemtype}->{props}->{$itemprop}->{min} = n ($1);
+      $Data->{$itemtype}->{props}->{$itemprop}->{max} = n ($2);
     } elsif (/^  ([^\s=:]+)=(.*)$/) {
       $Data->{$itemtype}->{props}->{$itemprop}->{$1} = $2;
     } elsif (/^  ([^\s=:]+)$/) {
@@ -42,8 +48,8 @@ my $Data = file2perl file (__FILE__)->dir->parent->file ('src', 'microdata-dv.js
       $subitemprop = $1;
       ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop} ||= {};
     } elsif (/^      ([0-9]+)\.\.([0-9]+|inf)$/) {
-      ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{min} = 0+$1;
-      ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{max} = 0+$2;
+      ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{min} = n ($1);
+      ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{max} = n ($2);
     } elsif (/^      ([^\s=:]+)=(.*)$/) {
       ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{$1} = $2;
     } elsif (/^      ([^\s=:]+)$/) {
