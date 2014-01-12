@@ -186,6 +186,7 @@ my $id_for_status = {
   'attr-a-name' => 'obsolete-but-conforming-features',
   'frameset' => 'frames',
   'frame' => 'frames',
+  'attr-img-generator-unable-to-provide-required-alt' => 'guidance-for-markup-generators',
 };
 
 for my $ns (keys %{$Data->{elements}}) {
