@@ -200,7 +200,7 @@ data/dom.json: bin/dom.pl src/dom-nodes.txt
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt local/html-status.xml \
-    src/attr-types.txt local/obsvocab.html
+    src/attr-types.txt local/obsvocab.html data/aria.json
 	$(PERL) bin/elements.pl > $@
 
 ## Not invoked by all and all-dom

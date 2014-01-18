@@ -54,6 +54,35 @@ pairs:
     Objects corresponding to local names contain properties of the
     element, including:
 
+      aria_avail_roles [object?]
+
+        If the element restricts ARIA roles that can be specified in
+        the |role| attribute, the possible role names are contained as
+        names and corresponding values are set to boolean true values.
+        If |aria_default_role| or |aria_strong_role| is |#contextual|,
+        this value is not specified.
+
+      aria_default_role [string?]
+
+        If the element has an ARIA role defined as the default
+        implicit ARIA semantics (that is not a string native
+        semantics), its name is specified as the value.  If the
+        element is defined to have "no role" as the default implicit
+        ARIA semantics, the value |#norole| is specified.  If the
+        element contextually has the default implicit ARIA semantics
+        (that is not a string native semantics), the value
+        |#contextual| is specified.
+
+      aria_strong_role [string?]
+
+        If the element has an ARIA role defined as the strong native
+        semantics and corresponding default implicit ARIA semantics,
+        its name is specified as the value.  If the element is defined
+        to have "no role" as the strong native semantics and
+        corresponding default implicit ARIA semantics, the value
+        |#norole| is specified.  If the element contextually has the
+        strong native semantics, the value |#contextual| is specified.
+
       attrs [object?]
 
         Names in the object are namespace URLs (the null namespace is
