@@ -1,0 +1,119 @@
+aria.json
+~~~~~~~~~
+
+This file contains ARIA data.
+
+* Structure
+
+The file contains a JSON object, with following name/value pairs:
+
+attrs [object]
+
+  Names are ARIA attribute names (state names and property names),
+  while values are corresponding data, with following name/value
+  pairs:
+
+    default [string?]
+
+      The default value, used when the attribute is missing.  Note
+      that the value is not a token when the value can be multiple
+      tokens.
+
+    is_state [boolean]
+
+      If true, the attribute is a state.  Otherwise, the attribute is
+      a property.
+
+    preferred [object?]
+
+      If there is similar native markup feature that should be used
+      instead of the attribute, it is represented by the value.  See
+      the section later.
+
+    tokens [object?]
+
+      Allowed tokens for the attribute value, if the attribute value
+      is defined as token or tokens.  Names are values, while values
+      are objects.  If the |value_type| is |eumerated|, the attribute
+      value must be one of tokens.  If the |value_type| is |unordered
+      set of unique space-separated tokens|, the words in the
+      attribute value must be one of tokens.
+
+    value_type [value-type]
+
+      The type of the attribute value.
+
+roles [object]
+
+  Names are ARIA roles while values are corresponding data, with
+  following name/value pairs:
+
+    abstract [boolean]
+
+      Whether the role is an abstract role or not.
+
+    attrs [object?]
+
+      Names are ARIA attribute names allowed for the role and values
+      are corresponding data, with following name/value pairs:
+
+        must [boolean]
+
+          If true, the attribute must be specified.
+
+        should [boolean]
+
+          If true, the attribute should be specified.
+
+    must_contain [object?]
+
+      Any required owner elements of the role.  Names are role names
+      and values are boolean true values.
+
+    scope [object?]
+
+      Any required context roles of the role.  Names are role names
+      and values are boolean true values.
+
+    subclass_of [object?]
+
+      Any superclasses of the role.  Names are role names and values
+      are distances of superclass relationships between the role and
+      superclass roles.
+
+    superclass_of [object?]
+
+      Any subclasses of the role.  Names are role names and values are
+      distances of subclass relationships between the role and
+      subclass roles.
+
+* The "preferred" object
+
+If |type|'s value is |html-element|, an HTML element whose local name
+is |name|'s value should be used instead.
+
+If |type|'s value is |html-attr| and if the element is an HTML
+element, the attribute whose name is |name|'s value should be used
+instead.
+
+If |type|'s value is |input|, an HTML |input| element whose |type|
+attribute value is |name|'s value should be used instead.
+
+If |type|'s value is |textbox|, an HTML |<input type=text>| or
+|textarea| element should be used instead.
+
+If |type|'s value is |th|, an HTML |td| element whose |scope|
+attribute value is |scope|'s value should be used instead.
+
+If |type|'s value is |title|, an HTML |title| attribute or an SVG
+|title| element should be used instead if applicable.
+
+If |type|'s value is |math|, a MathML |math| element should be used
+instead.
+
+If |type|'s value is |css|, CSS should be used instead.
+
+* Source
+
+Accessible Rich Internet Applications (WAI-ARIA) 1.0
+<http://www.w3.org/WAI/PF/aria/complete>.

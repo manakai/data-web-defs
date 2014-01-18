@@ -190,10 +190,10 @@ local/indexes.json:
 
 ## ------ DOM/HTML ------
 
-all-dom: data/dom.json data/elements.json
+all-dom: data/dom.json data/elements.json data/aria.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
-	rm -fr local/obsvocab.html
+	rm -fr local/obsvocab.html local/aria.rdf
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
@@ -216,6 +216,12 @@ local/html-status.xml:
 	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/status.cgi?action=get-all-annotations
 local/obsvocab.html:
 	$(WGET) -O $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
+
+local/aria.rdf:
+	$(WGET) -O $@ http://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
+
+data/aria.json: local/aria.rdf bin/ariardf.pl
+	$(PERL) bin/ariardf.pl > $@
 
 ## ------ Microdata ------
 
