@@ -139,7 +139,6 @@ $Data->{roles}->{scrollbar}->{preferred} = {type => 'css'};
 $Data->{roles}->{slider}->{preferred} = {type => 'input', name => 'range'};
 $Data->{roles}->{spinbutton}->{preferred} = {type => 'input', name => 'number'};
 $Data->{roles}->{textbox}->{preferred} = {type => 'textbox'};
-$Data->{roles}->{timer}->{preferred} = {type => 'html-element', name => 'meter'};
 $Data->{roles}->{toolbar}->{preferred} = {type => 'html-element', name => 'menu'};
 $Data->{roles}->{tooltip}->{preferred} = {type => 'title'};
 
