@@ -737,7 +737,8 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{hr}->{aria_strong_role} = 
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{nav}->{aria_strong_role} = 'navigation';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress}->{aria_strong_role} = 'progressbar';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{select}->{aria_strong_role} = 'listbox';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{text}->{aria_strong_role} = 'textbox';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{textarea}->{aria_strong_role} = 'textbox';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{fieldset}->{aria_strong_role} = 'group';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{aria_strong_role} = '#contextual'
     for qw(area img input link option);
 
@@ -768,9 +769,9 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{header}->{aria_avail_roles
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{iframe}->{aria_avail_roles} = {application => 1, document => 1, img => 1};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{main}->{aria_avail_roles} = {application => 1, document => 1, main => 1};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{object}->{aria_avail_roles} = {application => 1, document => 1, img => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ol}->{aria_avail_roles} = {directory => 1, list => 1, listbox => 1, menu => 1, menubar => 1, tablist => 1, toolbar => 1, tree => 1};
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ol}->{aria_avail_roles} = {directory => 1, list => 1, listbox => 1, menu => 1, menubar => 1, tablist => 1, toolbar => 1, tree => 1, group => 1};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{section}->{aria_avail_roles} = {alert => 1, alertdialog => 1, application => 1, contentinfo => 1, dialog => 1, document => 1, log => 1, main => 1, marquee => 1, region => 1, search => 1, status => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ul}->{aria_avail_roles} = {directory => 1, list => 1, listbox => 1, menu => 1, menubar => 1, tablist => 1, toolbar => 1, tree => 1};
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ul}->{aria_avail_roles} = {directory => 1, list => 1, listbox => 1, menu => 1, menubar => 1, tablist => 1, toolbar => 1, tree => 1, group => 1};
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{video}->{aria_avail_roles} = {application => 1};
 ## a h1-h6 input li menu body frameset - not representable
 ## details - see below
@@ -800,6 +801,7 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
     $adef->{value_type} = $json->{attrs}->{$attr}->{value_type};
     $adef->{conforming} = 1;
     $adef->{spec} = 'ARIA';
+    $adef->{status} = 'CR';
     if ($json->{attrs}->{$attr}->{tokens}) {
       if ($adef->{value_type} eq 'enumerated') {
         for (keys %{$json->{attrs}->{$attr}->{tokens}}) {
