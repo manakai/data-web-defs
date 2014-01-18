@@ -816,6 +816,14 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
       }
     }
   }
+
+  for my $role (keys %{$json->{roles}}) {
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role} =
+    $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role} =
+        {spec => 'ARIA'};
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role}->{conforming} = 1
+        unless $json->{roles}->{$role}->{abstract};
+  }
 }
 
 print perl2json_bytes_for_record $Data;
