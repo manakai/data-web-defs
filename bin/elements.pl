@@ -727,72 +727,9 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag_at_body} = 1
     for qw(dd dt li optgroup option p rp rt tbody td tfoot th thead tr body html);
 
-## <http://www.whatwg.org/specs/web-apps/current-work/#wai-aria>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{aria_strong_role} = '#norole'
-    for qw(base head html keygen label meta meter noscript optgroup param
-           script source style summary template title);
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{datalist}->{aria_strong_role} = 'listbox';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{hgroup}->{aria_strong_role} = 'heading';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{hr}->{aria_strong_role} = 'separator';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{nav}->{aria_strong_role} = 'navigation';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress}->{aria_strong_role} = 'progressbar';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{select}->{aria_strong_role} = 'listbox';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{textarea}->{aria_strong_role} = 'textbox';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{fieldset}->{aria_strong_role} = 'group';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{aria_strong_role} = '#contextual'
-    for qw(area img input link option);
-
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{aria_default_role} = '#norole'
-    for qw(address audio embed footer header iframe object video);
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{article}->{aria_default_role} = 'article';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{aside}->{aria_default_role} = 'complementary';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{aria_default_role} = 'button';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{details}->{aria_default_role} = 'group';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dialog}->{aria_default_role} = 'dialog';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{main}->{aria_default_role} = 'main';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ol}->{aria_default_role} = 'list';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{output}->{aria_default_role} = 'status';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{section}->{aria_default_role} = 'region';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ul}->{aria_default_role} = 'list';
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{aria_default_role} = '#contextual'
-    for qw(a h1 h2 h3 h4 h5 h6 img input li menu body frameset);
-
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{aria_avail_roles} = {contentinfo => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{article}->{aria_avail_roles} = {article => 1, document => 1, application => 1, main => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{aside}->{aria_avail_roles} = {complementary => 1, note => 1, search => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{audio}->{aria_avail_roles} = {application => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{aria_avail_roles} = {button => 1, menuitem => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dialog}->{aria_avail_roles} = {alert => 1, alertdialog => 1, application => 1, contentinfo => 1, dialog => 1, document => 1, log => 1, main => 1, marquee => 1, region => 1, search => 1, status => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{aria_avail_roles} = {application => 1, document => 1, img => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{footer}->{aria_avail_roles} = {contentinfo => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{header}->{aria_avail_roles} = {banner => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{iframe}->{aria_avail_roles} = {application => 1, document => 1, img => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{main}->{aria_avail_roles} = {application => 1, document => 1, main => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{object}->{aria_avail_roles} = {application => 1, document => 1, img => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ol}->{aria_avail_roles} = {directory => 1, list => 1, listbox => 1, menu => 1, menubar => 1, tablist => 1, toolbar => 1, tree => 1, group => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{section}->{aria_avail_roles} = {alert => 1, alertdialog => 1, application => 1, contentinfo => 1, dialog => 1, document => 1, log => 1, main => 1, marquee => 1, region => 1, search => 1, status => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ul}->{aria_avail_roles} = {directory => 1, list => 1, listbox => 1, menu => 1, menubar => 1, tablist => 1, toolbar => 1, tree => 1, group => 1};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{video}->{aria_avail_roles} = {application => 1};
-## a h1-h6 input li menu body frameset - not representable
-## details - see below
-
-for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
-  my $role = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{aria_strong_role};
-  if (defined $role and not $role =~ /^#/) {
-    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{aria_avail_roles}->{$role} = 1;
-  }
-
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{aria_avail_roles}->{presentation} = 1
-      if (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{aria_avail_roles} or {}}) or
-         (defined $role and $role eq '#norole');
-}
-
 {
   my $f = file (__FILE__)->dir->parent->file ('data', 'aria.json');
   my $json = file2perl $f;
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{details}->{aria_avail_roles}->{$_} = 1
-      for grep { $json->{roles}->{$_}->{attrs}->{'aria-expanded'} } keys %{$json->{roles}};
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{details}->{aria_avail_roles}->{presentation} = 1;
 
   for my $attr (keys %{$json->{attrs}}) {
     my $adef =
