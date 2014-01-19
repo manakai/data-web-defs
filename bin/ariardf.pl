@@ -119,7 +119,7 @@ $Data->{roles}->{rowgroup}->{preferred} = {type => 'html-element', name => 'tbod
 $Data->{roles}->{row}->{preferred} = {type => 'html-element', name => 'tr'};
 $Data->{roles}->{group}->{preferred} = {type => 'html-element', name => 'fieldset'};
 $Data->{roles}->{heading}->{preferred} = {type => 'html-element', name => 'h1'};
-$Data->{roles}->{img}->{preferred} = {type => 'html-element', name => 'img'};
+$Data->{roles}->{img}->{preferred} = {type => 'html-element', name => 'figure'};
 $Data->{roles}->{link}->{preferred} = {type => 'html-element', name => 'a'};
 $Data->{roles}->{list}->{preferred} = {type => 'html-element', name => 'ul'};
 $Data->{roles}->{listbox}->{preferred} = {type => 'html-element', name => 'select'};
