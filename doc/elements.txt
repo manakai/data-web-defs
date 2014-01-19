@@ -54,6 +54,15 @@ pairs:
     Objects corresponding to local names contain properties of the
     element, including:
 
+      aria [object?]
+
+        The ARIA semantics of the element.  If an object is specified,
+        that contains the description of the element-specific ARIA
+        semantics.  In addition, if an object is specified for the "*"
+        local name, it is also applicable to the elements in that
+        namespace.  See later section for details of the object's
+        structure.
+
       aria_avail_roles [object?]
 
         If the element restricts ARIA roles that can be specified in
@@ -603,7 +612,7 @@ pairs:
     Applicability
     <http://www.whatwg.org/specs/web-apps/current-work/#concept-input-apply>
     of attributes, methods, and events for the HTML |input| element.
-    The object contains four names: |attrs|, |idl_attrs|, |methods|,
+    The object contains names: |attrs|, |idl_attrs|, |methods|,
     and |events|.  Their corresponding values are objects, containing
     name/value pairs whose names are names of content attributes, IDL
     attributes, methods, and events, respectively.  (All content
@@ -629,6 +638,12 @@ pairs:
     the |min| and |max| attributes are applicable, the value also
     describes the format that these attribute values must conform to.
 
+    The object also contains an object for the name "aria".  The
+    object contains name/value pairs where names are |input| |type|
+    keywords (in lowercase) and values are corresponding ARIA
+    semantics objects.  See later section for details of the structure
+    of objects.
+
   namespaces [object]
 
     Names are namespace URLs and values are their properties,
@@ -649,6 +664,140 @@ pairs:
         |element.json| file should consider the namespace as supported
         <http://suika.suikawiki.org/www/markup/xml/validation-langs#supported-namespace>
         or not.
+
+* ARIA semantics objects
+
+ARIA semantics objects contain definitions of the strong native
+semantics and the default implicit ARIA semantics, extracted from
+relevant standards and reorganized in mechine-readable form.
+
+An ARIA semantics object is a JSON object where names are representing
+states of the element and values are corresponding ARIA definitions.
+
+States are represented as one of following strings:
+
+  The empty string - Any state
+  |hidden-attr|    - If HTML |hidden| attribute is specified
+  |inert|          - If the element is inert
+  |hyperlink|      - If the element creates a hyperlink
+  |the-body|       - If the element is the body element of the document
+  |no-hgroup|      - If there is no ancestor |hgroup| element
+  |empty-alt|      - If the |alt| attribute is the empty string
+  |not-empty-alt|  - If there is no |alt| attribute or the |alt| attribute
+                     has non-empty value
+  |popup|          - If |type| IDL attribute is |popup|
+  |toolbar|        - If |type| IDL attribute is |toolbar|
+
+Values corresponding to the states are JSON objects, with following
+name/value pairs:
+
+  allowed_roles [object?]
+
+    If specified, a JSON object whose names are roles and values are
+    boolean true values.  It represents the list of the roles that can
+    be explicitly specified for the element.  Note that the list does
+    not contain the role defined as part of the default implicit ARIA
+    semantics, as the default role is not allowed to be specified
+    explicitly.
+
+  attrs [object?]
+
+    Names are ARIA attribute names and values are their properties
+    represented as JSON objects with following name/value pairs:
+
+      attr [string?]
+
+        The content attribute name (in no namespace) referenced by the
+        |value_type|.
+
+      state [string?]
+
+        The state referenced by the |value_type|.  If specified, one
+        of following values:
+
+          |:disabled|   Whether the element is disabled (#concept-fe-disabled)
+          |:invalid|    True iff the element is a candidate for constraint
+                        validation but that does not satisfy its constraints.
+          |:indeterminate:checked| If |indeterminate| IDL attribute is true,
+                        |mixed|.  Otherwise, the checkedness of the element.
+          |:checked|    The checkedness of the element.
+
+      strong [boolean]
+
+        If true, the ARIA attribute is part of the strong native
+        semantics (and therefore the attribute must not be specified
+        by author).  Otherwise, the ARIA attribute is only part of the
+        default implicit ARIA semantics (and therefore the author can
+        specify the attribute as long as it does not conflict with
+        other definitions).
+
+      value_type [string]
+
+        Represents how the ARIA attribute value is determined as part
+        of the default implicit ARIA semantics.  One of following
+        values:
+
+          |true|         - The value is |true|
+          |false|        - The value is |false|
+          |true/false|   - If /input/ is true, the value is |true|.
+                           Otherwise, the value is |false|.
+          |true/false/mixed| - If /input/ is true, the value is |true|.
+                           Otherwise, if /input/ is false, the value is
+                           |false|.  Otherwise, the value is |mixed|.
+          |true/missing| - If /input/ is true, the value is |true|.
+                           Otherwise, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |missing/true| - If /input/ is true, the attribute is not
+                           contained in the default implicit ARIA semantics.
+                           Otherwise, the value is |true|.
+          |outlinedepth| - The depth of the element in the outline.
+          |maximum|      - The maximum of the element.
+                           If not set, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |minimum|      - The minimum of the element.
+                           If not set, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |maximum-if-determinate| - If determinate, the maximum.
+                           Otherwise, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |value-if-number| - The value of the element, if it is a number.
+                           Otherwise, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |value-if-determinate| - If determinate, the value.
+                           Otherwise, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |0-if-determinate| - If determinate, the value |0|.
+                           Otherwise, the attribute is not contained in
+                           the default implicit ARIA semantics.
+          |list-if-combobox| - If there is the suggestion source element,
+                           the value of the |list| attribute.
+                           Otherwise, the attribute is not contained in
+                           the default implicit ARIA semantics.
+
+        For these definitions, /input/ is the existence of the content
+        attribute of the element specified by the |attr| value, if
+        any, or the state of the element identified by the |state|
+        value, otherwise.
+
+  default_role [string?]
+
+    The role for the element, which is used when no role is explicitly
+    specified by the author.  If it is the special value
+    |#textbox-or-combobox|, the role is |combobox| or |textbox|,
+    depending on whether there is an associated |datalist| element or
+    not.
+
+  strong_role [boolean]
+
+    Whether a role is defined as part of the strong native semantics
+    or not.
+
+    If true, the role of the strong native semantics is the value of
+    the |default_role| (if it is non-null), or defined as no role.
+
+    If false, the role of the default implicit ARIA semantics (but not
+    the strong native semantics) is the value of the |default_role| if
+    it is non-null), or defined (explicitly or implicitly) as no role.
 
 * Sources
 

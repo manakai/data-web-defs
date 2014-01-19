@@ -826,6 +826,31 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
   }
 }
 
+{
+  my $f = file (__FILE__)->dir->parent->file ('local', 'element-aria.json');
+  my $json = file2perl $f;
+  for my $el_name (keys %{$json->{html_elements}}) {
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria} = $json->{html_elements}->{$el_name};
+  }
+  $Data->{input}->{aria} = $json->{input};
+
+  ## :disabled
+  for my $el_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+    if (((($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs} or {})->{''}->{disabled} or {})->{id} || '') eq 'attr-fe-disabled') {
+      $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria}->{''}->{attrs}->{'attr-disabled'} = {value_type => 'true/missing', state => ':disabled', strong => 1};
+    }
+  }
+  delete $json->{common}->{''}->{disabled};
+
+  ## :invalid
+  for my $el_name (keys %{$Data->{categories}->{'category-submit'}->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria}->{''}->{attrs}->{'attr-invalid'} = {value_type => 'true/missing', state => ':invalid', strong => 1};
+  }
+  delete $json->{common}->{''}->{invalid};
+
+  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{aria} = $json->{common}->{''};
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
