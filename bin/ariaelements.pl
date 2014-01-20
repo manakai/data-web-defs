@@ -68,7 +68,7 @@ $elname='XXX';
       die "Role for |$elname| already defined"
           if defined $Data->{$key}->{$elname}->{$cond}->{default_role};
       my $default_role = $1;
-      my $more_roles = {map { $_ => 1 } split / /, $2};
+      my $more_roles = {presentation => 1, map { $_ => 1 } split / /, $2};
       if ($default_role eq '#norole') {
         $Data->{$key}->{$elname}->{$cond}->{allowed_roles} = $more_roles;
       } else {
