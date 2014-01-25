@@ -748,7 +748,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
     my $adef =
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr} =
     $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{$attr} = {};
-    for (qw(value_type item_type id_type)) {
+    for (qw(value_type item_type id_type preferred)) {
       $adef->{$_} = $json->{attrs}->{$attr}->{$_}
           if defined $json->{attrs}->{$attr}->{$_};
     }
