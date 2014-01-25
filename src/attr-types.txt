@@ -26,14 +26,14 @@ bdo    dir       enumerated
   ltr              attr-dir-ltr-state    ltr
   rtl              attr-dir-rtl-state    rtl
   auto             attr-dir-auto-state   auto
-*      class     set of space-separated tokens
+*      class     set of space-separated tokens:non-empty
 *      style     CSS styling
 
 html   manifest  non-empty URL potentially surrounded by spaces
 base   href      URL potentially surrounded by spaces
 base   target    browsing context name or keyword
 link   href      non-empty URL potentially surrounded by spaces
-link   rel       set of space-separated tokens
+link   rel       set of space-separated tokens:link type
 link   crossorigin enumerated
   anonymous        attr-crossorigin-anonymous Anonymous !
   use-credentials  attr-crossorigin-use-credentials Use credentials
@@ -160,10 +160,10 @@ a      target      browsing context name or keyword
 area   target      browsing context name or keyword
 a      download    text
 area   download    text
-a      ping        set of space-separated tokens
-area   ping        set of space-separated tokens
-a      rel         set of space-separated tokens
-area   rel         set of space-separated tokens
+a      ping        set of space-separated tokens:non-empty URL
+area   ping        set of space-separated tokens:non-empty URL
+a      rel         set of space-separated tokens:link type
+area   rel         set of space-separated tokens:link type
 a      hreflang    language tag
 area   hreflang    language tag
 a      type        MIME type
@@ -182,17 +182,17 @@ td     colspan     non-negative integer greater than zero
 th     colspan     non-negative integer greater than zero
 td     rowspan     non-negative integer
 th     rowspan     non-negative integer
-td     headers     unordered set of unique space-separated tokens
-th     headers     unordered set of unique space-separated tokens
+td     headers     unordered set of unique space-separated tokens:idref=th
+th     headers     unordered set of unique space-separated tokens:idref=th
 table  sortable    boolean
 th     sorted      set of space-separated tokens
-form   accept-charset ordered set of unique space-separated tokens
+form   accept-charset ordered set of unique space-separated tokens:character encoding label
 form   autocomplete enumerated
   on               attr-form-autocomplete-on-state on
   off              attr-form-autocomplete-off-state off
   #missing         attr-form-autocomplete-on-state on
-label  form        idref
-label  for         idref
+label  form        idref=form
+label  for         idref=labelable
 input  type        enumerated
   hidden           attr-input-type-hidden-keyword Hidden
   text             attr-input-type-text-keyword Text
@@ -227,7 +227,7 @@ input  readonly    boolean
 input  required    boolean
 input  multiple    boolean
 input  pattern     JavaScript Pattern
-input  list        idref
+input  list        idref=datalist
 input  placeholder one-line text
 input  name        non-empty
 input  dirname     non-empty
@@ -237,14 +237,14 @@ button type        enumerated
   button           attr-button-type-button Button
   menu             attr-button-type-menu Menu
   #missing         attr-button-type-submit Submit Button
-button form        idref
+button form        idref=form
 button value       any
-button menu        idref
+button menu        idref=popup
 button name        non-empty
 select multiple    boolean
 select size        non-negative integer greater than zero
 select required    boolean
-select form        idref
+select form        idref=form
 select name        non-empty
 optgroup disabled  boolean
 optgroup label     text
@@ -253,7 +253,7 @@ option label       non-empty text
 option selected    boolean
 option   value     any
 textarea readonly  boolean
-textarea form      idref
+textarea form      idref=form
 textarea cols      non-negative integer greater than zero
 textarea rows      non-negative integer greater than zero
 textarea wrap      enumerated
@@ -274,10 +274,10 @@ keygen keytype     enumerated
   #missing         -                     RSA
   dsa              -                     - X
   ec               -                     - X
-keygen form        idref
+keygen form        idref=form
 keygen name        non-empty
-output for         unordered set of unique space-separated tokens
-output form        idref
+output for         unordered set of unique space-separated tokens:idref=any
+output form        idref=form
 output name        non-empty
 progress value     floating-point number
 progress max       floating-point number
@@ -289,7 +289,7 @@ meter  high        floating-point number
 meter  optimum     floating-point number
 fieldset disabled  boolean
 fieldset name      non-empty
-fieldset form      idref
+fieldset form      idref=form
 input  maxlength   non-negative integer
 textarea maxlength non-negative integer
 input  minlength   non-negative integer
@@ -388,9 +388,9 @@ menuitem icon      non-empty URL potentially surrounded by spaces
 menuitem disabled  boolean
 menuitem checked   boolean
 menuitem radiogroup non-empty
-menuitem command   idref
+menuitem command   idref=command
 menuitem default   boolean
-*      contextmenu idref
+*      contextmenu idref=popup
 dialog open        boolean
 script type        MIME type
 script src         non-empty URL potentially surrounded by spaces
@@ -406,13 +406,13 @@ script crossorigin enumerated
 canvas width       non-negative integer
 canvas height      non-negative integer
 *      itemscope   boolean
-*      itemtype    unordered set of unique space-separated tokens
+*      itemtype    unordered set of unique space-separated tokens:non-empty URL
 *      itemid      URL potentially surrounded by spaces
-*      itemref     unordered set of unique space-separated tokens
+*      itemref     unordered set of unique space-separated tokens:idref=any
 *      hidden      boolean
 *      inert       boolean
 *      tabindex    integer
-*      accesskey   ordered set of unique space-separated tokens
+*      accesskey   ordered set of unique space-separated tokens:char
 *      contenteditable enumerated
   #empty           -                     true
   true             -                     true
@@ -430,7 +430,7 @@ canvas height      non-negative integer
 *      dropzone    unordered set of unique space-separated tokens
 
 
-head   profile     set of space-separated tokens
+head   profile     set of space-separated tokens:non-empty URL
 html   version     any
 meta   scheme      any
 bgsound src        non-empty URL potentially surrounded by spaces
@@ -972,10 +972,10 @@ font    face       any
   none             -                     -
   phone            -                     -
 a       src        non-empty URL potentially surrounded by spaces
-a       ista       idref
-a       ilet       hash-ID reference
-a       iswf       hash-ID reference
-a       irst       hash-ID reference
+a       ista       idref=object
+a       ilet       hash-ID reference=object
+a       iswf       hash-ID reference=object
+a       irst       hash-ID reference=object
 a       ifb        URL potentially surrounded by spaces
 a       ib         URL potentially surrounded by spaces
 a       utn        boolean
@@ -988,8 +988,8 @@ link    charset    character encoding label
 a       telbook    text
 a       kana       text
 a       email      e-mail address
-a       directkey  ordered set of unique space-separated tokens
-input   directkey  ordered set of unique space-separated tokens
+a       directkey  ordered set of unique space-separated tokens:char
+input   directkey  ordered set of unique space-separated tokens:char
 a       shape      enumerated
   circle           attr-area-shape-circle circle
   circ             attr-area-shape-circle circle X
@@ -1004,7 +1004,7 @@ a       name       name
 applet  name       name
 embed   name       name
 img     name       name
-input   usemap     hash-ID reference
+input   usemap     hash-name reference
 frame   longdesc   URL potentially surrounded by spaces
 iframe  longdesc   URL potentially surrounded by spaces
 img     longdesc   URL potentially surrounded by spaces
@@ -1034,8 +1034,8 @@ embed   pluginpage URL potentially surrounded by spaces
 embed   pluginspage URL potentially surrounded by spaces
 embed   pluginurl  URL potentially surrounded by spaces
 applet  alt        text
-applet  archive    set of comma-separated tokens
-object  archive    set of space-separated tokens
+applet  archive    set of comma-separated tokens:non-empty URL
+object  archive    set of space-separated tokens:non-empty URL
 object  classid    non-empty URL potentially surrounded by spaces
 applet  code       non-empty URL potentially surrounded by spaces
 embed   code       non-empty URL potentially surrounded by spaces
@@ -1201,7 +1201,7 @@ frameset bordercolor legacy color value
 frame    framespacing non-negative integer
 frameset framespacing non-negative integer
 iframe   framespacing non-negative integer
-script   for       idref
+script   for       idref=any
 script   event     any
 script   archive   non-empty URL potentially surrounded by spaces
 *        onactivate event handler

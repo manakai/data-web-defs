@@ -217,6 +217,10 @@ $Data->{attrs}->{$_}->{is_state} = 1
     my $type = shift @type;
     $type =~ tr/_/ /;
     $Data->{attrs}->{$name}->{value_type} = $ARIAValueTypes->{$type};
+    $Data->{attrs}->{$name}->{item_type} = 'idref',
+    $Data->{attrs}->{$name}->{id_type} = 'any'
+        if $type eq 'ID reference list';
+    $Data->{attrs}->{$name}->{id_type} = 'any' if $type eq 'ID reference';
     if ($type eq 'true/false') {
       $Data->{attrs}->{$name}->{tokens}->{$_} = {}
           for qw(true false);

@@ -151,6 +151,32 @@ pairs:
             The ID in the specification, identified by |spec|, for the
             attribute.
 
+          id_type [string?]
+
+            If the |value_type| or |item_type| is "idref" or "hash-ID
+            reference", the type of the expected referenced element of
+            IDs in the value.  One of followings:
+
+              any       - Any element
+              command   - An element that defines a command
+              datalist  - An HTML |datalist| element
+              form      - An HTML |form| element
+              labelable - A labelable element
+              object    - An HTML |object| element
+              popup     - An HTML |menu| element whose |type| is |popup|.
+              th        - An HTML |th| element
+
+            Note that there might be additional restrictions that
+            cannot be represented by one of these values.
+
+          item_type [value-type?]
+
+            If the |value_type| is one of "ordered set of unique
+            space-separated tokens", "set of comma-separated tokens",
+            "set of space-separated tokens", or "unordered set of
+            unique space-separated tokens", the data type of the words
+            in the value, if known and representable.
+
           keywords [object?]
 
             The list of keywords for the attribute.  How the keywords

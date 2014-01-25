@@ -225,6 +225,19 @@ for my $ns (keys %{$Data->{elements}}) {
   for (($f->slurp)) {
     if (/^\@ns (\S+)$/) {
       $ns = $1;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{item_type} = $4;
+      $last_attr->{id_type} = $5;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{item_type} = $4;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=]+)=(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{id_type} = $4;
     } elsif (/^(\S+)\s+(\S+)\s+(.+)$/) {
       $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
       $last_attr->{value_type} = $3;
@@ -735,7 +748,10 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
     my $adef =
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr} =
     $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{$attr} = {};
-    $adef->{value_type} = $json->{attrs}->{$attr}->{value_type};
+    for (qw(value_type item_type id_type)) {
+      $adef->{$_} = $json->{attrs}->{$attr}->{$_}
+          if defined $json->{attrs}->{$attr}->{$_};
+    }
     $adef->{conforming} = 1;
     $adef->{spec} = 'ARIA';
     $adef->{status} = 'CR';
