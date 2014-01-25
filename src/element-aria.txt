@@ -161,15 +161,34 @@ output
 datalist
   role=listbox !
   aria-multiselectable=false !
-select
-  role=listbox !
-  aria-multiselectable=true/false[multiple] !
-  aria-required=true/missing[required] !
 optgroup
   role=#norole !
-option:in-list
+select:multilist
+  role=listbox !
+  aria-multiselectable=true !
+  aria-required=true/missing[required] !
+select:singlelist
+  role=listbox !
+  aria-multiselectable=false !
+  aria-required=true/missing[required] !
+select:dropdown
+  role=listbox or menu
+  aria-multiselectable=false !
+  aria-required=true/missing[required] !
+option:in-datalist
+  role=option !
+option:in-select-multilist
   role=option !
   aria-selected=#selected !
+  aria-checked=#selected !
+option:in-select-singlelist
+  role=option !
+  aria-selected=#selected !
+  aria-checked=#selected !
+option:in-select-dropdown
+  role=option or menuitem menuitemradio separator
+  aria-selected=#selected !
+  aria-checked=#selected !
 
 details
   role=group or #aria-expanded
