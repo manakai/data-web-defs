@@ -14,6 +14,30 @@ _registry [object?]
                  Extensions Registry
     "unicode"    Unicode Locale Extensions for BCP 47
 
+* Extracting country codes
+
+As the two-letter country codes and some three-letter country codes
+are registered with IANA as language subtags, they can be extracted
+from the |langtag.json| file.  They are included in |region| value of
+the entire JSON object.
+
+Two-letter country codes and its properties can be extracted by the
+following jq filter:
+
+  $ cat data/langtags.json | \
+    ./jq ".region | to_entries | map(select(.key | length == 2)) | from_entries"
+
+* Extracting currency codes
+
+As the three-letter currency codes are registered as language tag "U"
+extension subtags, they can be extracted from the |langtag.json| file.
+They are included in |u_cu| value of the entire JSON object.
+
+Three-letter country codes and its properties can be extracted by the
+following jq filter:
+
+  $ cat data/langtags.json | ./jq ".u_cu"
+
 * Sources
 
 IANA Language Subtag Registry
