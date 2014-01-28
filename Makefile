@@ -190,7 +190,7 @@ local/indexes.json:
 
 ## ------ DOM/HTML ------
 
-all-dom: data/dom.json data/elements.json data/aria.json
+all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -227,6 +227,9 @@ data/aria.json: local/aria.rdf bin/ariardf.pl
 local/element-aria.json: src/element-aria.txt bin/ariaelements.pl \
     data/aria.json
 	$(PERL) bin/ariaelements.pl > $@
+
+data/dom-perl.json: src/dom-perl-methods.txt bin/dom-perl.pl
+	$(PERL) bin/dom-perl.pl > $@
 
 ## ------ Microdata ------
 
