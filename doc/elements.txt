@@ -628,9 +628,18 @@ pairs:
     following |string?| values:
 
       If the value is not set, it does not apply.
+
       If the value is |1|, it does apply.
+
+      If the value is |if-multiple|, it does apply when the |multiple|
+      attribute is specified.
+
+      If the value is |if-not-multiple|, it does apply when the
+      |multiple| attribute is /not/ specified.
+
       If the value is |obsolete but conforming|, it does not apply, it
       should not be used, but use of it is "obsolete but conforming".
+
       Otherwise, the value represents the mode of the |value| IDL attribute.
 
     For the |value| content attribute, instead of applicability,
@@ -698,6 +707,7 @@ States are represented as one of following strings:
   |in-select-multilist| - If it is an option in a |select| |multilist|
   |in-select-singlelist| - If it is an option in a |select| |singlelist|
   |in-select-dropdown| - If it is an option in a |select| |dropdown|
+  |multiple|       - If |multiple| attribute is specified
 
 Values corresponding to the states are JSON objects, with following
 name/value pairs:

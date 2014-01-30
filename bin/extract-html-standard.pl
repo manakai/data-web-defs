@@ -211,6 +211,10 @@ if ($index_doc) {
       $value =~ s/\s+$//;
       if ($value eq 'Yes') {
         $value = 1;
+      } elsif ($value eq 'Yes*') {
+        $value = 'if-not-multiple';
+      } elsif ($value eq 'Yes**') {
+        $value = 'if-multiple';
       } elsif ($value =~ /^([\x20-\x7E]+)$/) {
         #
       } else {

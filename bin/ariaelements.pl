@@ -49,6 +49,12 @@ $elname='XXX';
       $cond = '';
       die "Duplicate input type |$elname|"
           if defined $Data->{$key}->{$elname}->{$cond};
+    } elsif (/^input:type=([a-z-]+):([0-9A-Za-z_-]+)$/) {
+      $key = 'input';
+      $elname = $1;
+      $cond = $2;
+      die "Duplicate input type |$elname| :$cond"
+          if defined $Data->{$key}->{$elname}->{$cond};
     } elsif (/^  role=([a-z]+|#norole|#textbox-or-combobox) !$/) {
       die "No element" unless defined $elname;
       die "Role for |$elname| already defined"
