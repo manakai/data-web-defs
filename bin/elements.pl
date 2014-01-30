@@ -406,11 +406,14 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{details}->{complex_content
    min => 1, max => 1},
   {categories => {'flow content' => 1}},
 ];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{summary}->{complex_content_model} = [
+  {categories => {'flow content' => 1, 'heading content' => 1}},
+];
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{canvas}->{content_model} = 'transparent';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_additional_content_constraints} = 1
     for qw(head title style dl figure ruby iframe video audio table
            colgroup th label datalist option menu script noscript template
-           canvas
+           canvas summary
            frameset noframes noembed);
 
 for (qw(acronym bgsound dir noframes isindex listing nextid
