@@ -1,0 +1,50 @@
+html-syntax.txt
+~~~~~~~~~~~~~~~
+
+The file contains data on the HTML syntax (text/html document).  See
+also |elements.json|, which contains some HTML syntax related data
+associated with elements (e.g. tag omissionability of HTML elements).
+
+* Data structure
+
+The file contains a JSON object, which contains following name/value
+pairs:
+
+  adjusted_mathml_attr_names [object]
+
+    The attribute name fixup table, used in the steps to adjust MathML
+    attributes
+    <http://www.whatwg.org/specs/web-apps/current-work/#adjust-mathml-attributes>.
+    Names are original attribute names in HTML source, normalized to
+    ASCII lowercase.  Values are corresponding attribute local names.
+
+  adjusted_ns_attr_names [object]
+
+    The attribute name fixup table, used in the steps to adjust
+    foreign attributes
+    <http://www.whatwg.org/specs/web-apps/current-work/#adjust-foreign-attributes>.
+    Names are original attribute names in HTML source, normalized to
+    ASCII lowercase.  Values are arrays, where first items are
+    namespace URLs of attributes and second items are arrays of
+    namespace prefixes and local names of attributes.
+
+  adjusted_svg_attr_names [object]
+
+    The attribute name fixup table, used in the steps to adjust SVG
+    attributes
+    <http://www.whatwg.org/specs/web-apps/current-work/#adjust-svg-attributes>.
+    Names are original attribute names in HTML source, normalized to
+    ASCII lowercase.  Values are corresponding attribute local names.
+
+  adjusted_svg_element_names [object]
+
+    The element name fixup table, used in the rules for parsing tokens
+    in foreign content, any other start tag, an element in the SVG
+    namespace
+    <http://www.whatwg.org/specs/web-apps/current-work/#parsing-main-inforeign>.
+    Names are original tag names in HTML source, normalized to ASCII
+    lowercase.  Values are element local names.
+
+* Source
+
+HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
