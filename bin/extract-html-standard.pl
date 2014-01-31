@@ -3,6 +3,7 @@ use warnings;
 use Encode;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use MIME::Base64;
 use Web::DOM::Document;
 
 my $Data = {};
@@ -18,12 +19,14 @@ sub sp ($) {
 my $d = file (__FILE__)->dir->parent->subdir ('local/www.whatwg.org/specs/web-apps/current-work/multipage/');
 my $index_doc;
 my $input_table;
+my $xml_doc;
 for my $f (($d->children)) {
   next unless $f =~ /\.html$/;
   my $doc = Web::DOM::Document->new;
   $doc->manakai_is_html (1);
   $doc->inner_html (decode 'utf-8', scalar $f->slurp);
   $index_doc = $doc if $f =~ /section-index/;
+  $xml_doc = $doc if $f =~ /the-xhtml-syntax/;
   $input_table ||= $doc->get_element_by_id ('input-type-attr-summary');
 
   for my $dl (@{$doc->query_selector_all ('dl.element')}) {
@@ -235,5 +238,18 @@ if ($index_doc) {
 
 use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
+
+if ($xml_doc) {
+  my $a = $xml_doc->query_selector ('a[href^="data:application/xml-dtd;"]');
+  if (defined $a) {
+    my $data = $a->get_attribute ('href');
+    $data =~ s{^data:application/xml-dtd;base64,}{};
+    $data =~ s/%([0-9A-Fa-f]{2})/pack 'C', hex $1/ge;
+    $data = MIME::Base64::decode_base64 $data;
+
+    my $dtd_f = file (__FILE__)->dir->parent->file ('data', 'xhtml-charrefs.dtd');
+    print { $dtd_f->openw } $data;
+  }
+}
 
 ## License: Public Domain.
