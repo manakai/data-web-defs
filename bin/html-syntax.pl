@@ -119,6 +119,7 @@ $Data->{adjusted_svg_element_names} = {
   fediffuselighting => 'feDiffuseLighting',
   fedisplacementmap => 'feDisplacementMap',
   fedistantlight => 'feDistantLight',
+  fedropshadow => 'feDropShadow',
   feflood => 'feFlood',
   fefunca => 'feFuncA',
   fefuncb => 'feFuncB',
