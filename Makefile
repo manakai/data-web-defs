@@ -191,10 +191,12 @@ local/indexes.json:
 ## ------ DOM/HTML ------
 
 all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
-    data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json
+    data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
+    data/html-charrefs.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
+	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
@@ -231,6 +233,9 @@ local/element-aria.json: src/element-aria.txt bin/ariaelements.pl \
 
 data/dom-perl.json: src/dom-perl-methods.txt bin/dom-perl.pl
 	$(PERL) bin/dom-perl.pl > $@
+
+data/html-charrefs.json:
+	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/entities.json
 
 data/xhtml-charrefs.dtd: local/html-extracted.json
 
