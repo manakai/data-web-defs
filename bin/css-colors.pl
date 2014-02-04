@@ -156,7 +156,7 @@ our $X11Colors = {
 
 my $SystemColors = {};
 
-$SystemColors->{lc $_} = {camel_case_name => $_, conforming => 1} for qw(
+$SystemColors->{lc $_} = {camelcase_name => $_, conforming => 1} for qw(
 ActiveBorder ActiveCaption AppWorkspace Background ButtonFace
 ButtonHighlight ButtonShadow ButtonText CaptionText GrayText Highlight
 HighlightText InactiveBorder InactiveCaption InactiveCaptionText
@@ -178,6 +178,42 @@ while (@bgfg) {
   my $bg = lc shift @bgfg;
   my $fg = lc shift @bgfg;
   $SystemColors->{$bg}->{foreground} = $fg;
+}
+
+my @typical = qw(
+    ActiveBorder 180,180,180
+    ActiveCaption 153,180,209
+    AppWorkspace 171,171,171
+    Background 0,0,0
+    ButtonFace 240,240,240
+    ButtonHighlight 255,255,255
+    ButtonShadow 160,160,160
+    ButtonText 0,0,0
+    CaptionText 0,0,0
+    GrayText 109,109,109
+    Highlight 51,153,255
+    HighlightText 255,255,255
+    InactiveBorder 244,247,252
+    InactiveCaption 191,205,219
+    InactiveCaptionText 0,0,0
+    InfoBackground 255,255,199
+    InfoText 0,0,0
+    Menu 240,240,240
+    MenuText 0,0,0
+    Scrollbar 200,200,200
+    ThreeDDarkShadow 105,105,105
+    ThreeDFace 240,240,240
+    ThreeDHighlight 255,255,255
+    ThreeDLightShadow 227,227,227
+    ThreeDShadow 160,160,160
+    Window 255,255,255
+    WindowFrame 100,100,100
+    WindowText 0,0,0
+);
+while (@typical) {
+  my $n = shift @typical;
+  my $def = [map { 0+$_ } split /,/, shift @typical];
+  $SystemColors->{lc $n}->{typical} = $def;
 }
 
 my $Data = {named_colors => $X11Colors, system_colors => $SystemColors};
