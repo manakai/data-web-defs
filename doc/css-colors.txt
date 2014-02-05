@@ -7,19 +7,31 @@ This file contains lists of CSS colors.
 
 The file contains a JSON object with following name/value pairs:
 
+  keywords [object]
+
+    CSS <color> keywords except for named colors and system colors.
+    Names of the object are color keywords in lowercase canonical
+    form.  Values of the object are properties of them, represented as
+    JSON objects with following name/value pairs:
+
+      conforming [boolean]
+
+        Whether the color keyword is conforming or not.
+
   named_colors [object]
 
     CSS named color keywords, except for 'transparent' and
-    'currentcolor'.  Names of the object are color names in lowercase.
-    Values of the object are colors, represented as JSON arrays
-    containing R, G, and B number components of the RGB color.
+    'currentcolor'.  Names of the object are color names in lowercase
+    canonical form.  Values of the object are colors, represented as
+    JSON arrays containing R, G, and B number components of the RGB
+    color.
 
   system_colors [object]
 
     CSS system color keywords (deprecated).  Names of the object are
-    color names in lowercase.  Values of the object are descriptions
-    of them, represented as JSON objects with following name/value
-    pair:
+    color names in lowercase canonical form.  Values of the object are
+    descriptions of them, represented as JSON objects with following
+    name/value pairs:
 
       camelcase_name [string]
 

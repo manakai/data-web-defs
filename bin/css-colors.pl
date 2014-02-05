@@ -165,6 +165,24 @@ ThreeDFace ThreeDHighlight ThreeDLightShadow ThreeDShadow Window
 WindowFrame WindowText
 );
 
+## <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#System_Colors>
+$SystemColors->{lc $_} = {camelcase_name => $_} for qw(
+-moz-ButtonDefault -moz-ButtonHoverFace -moz-ButtonHoverText
+-moz-CellHighlight -moz-CellHighlightText -moz-Combobox -moz-ComboboxText
+-moz-Dialog -moz-DialogText -moz-dragtargetzone -moz-EvenTreeRow
+-moz-Field -moz-FieldText -moz-html-CellHighlight
+-moz-html-CellHighlightText -moz-mac-accentdarkestshadow
+-moz-mac-accentdarkshadow -moz-mac-accentface
+-moz-mac-accentlightesthighlight -moz-mac-accentlightshadow
+-moz-mac-accentregularhighlight -moz-mac-accentregularshadow
+-moz-mac-chrome-active -moz-mac-chrome-inactive -moz-mac-focusring
+-moz-mac-menuselect -moz-mac-menushadow -moz-mac-menutextselect
+-moz-MenuHover -moz-MenuHoverText -moz-MenuBarText -moz-MenuBarHoverText
+-moz-nativehyperlinktext -moz-OddTreeRow -moz-win-communicationstext
+-moz-win-mediatext
+);
+
+
 my @bgfg = qw{
   ActiveCaption   CaptionText
   ButtonFace      ButtonText
@@ -173,7 +191,17 @@ my @bgfg = qw{
   InfoBackground  InfoText
   Menu            MenuText
   Window          WindowText
+  -moz-ButtonHoverFace -moz-ButtonHoverText
+  -moz-CellHighlight -moz-CellHighlightText
+  -moz-Combobox   -moz-ComboboxText
+  -moz-Dialog     -moz-DialogText
+  -moz-EvenTreeRow -moz-FieldText
+  -moz-Field      -moz-FieldText
+  -moz-html-CellHighlight -moz-html-CellHighlightText
+  -moz-MenuHover  -moz-MenuHoverText
+  -moz-OddTreeRow -moz-FieldText
 };
+#  -moz-MenuHover  -moz-MenuBarHoverText
 while (@bgfg) {
   my $bg = lc shift @bgfg;
   my $fg = lc shift @bgfg;
@@ -217,6 +245,22 @@ while (@typical) {
 }
 
 my $Data = {named_colors => $X11Colors, system_colors => $SystemColors};
+
+$Data->{keywords}->{$_}->{conforming} = 1
+    for qw(currentcolor transparent);
+# 'invert' is only allowed for 'outline-color'
+
+$Data->{keywords}->{$_} ||= {}
+    for qw(
+flavor
+-manakai-default -manakai-invert-or-currentcolor
+),
+
+## <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Mozilla_Color_Preference_Extensions>
+qw(
+-moz-activehyperlinktext -moz-default-background-color
+-moz-default-color -moz-hyperlinktext -moz-visitedhyperlinktext
+);
 
 print perl2json_bytes_for_record $Data;
 
