@@ -28,7 +28,11 @@ while (<$file>) {
       $Data->{$scheme}->{$1} = 1;
     }
   } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
-    $Data->{$scheme}->{$1} = $2;
+    if ($1 eq 'application') {
+      $Data->{$scheme}->{$1}->{$2} = 1;
+    } else {
+      $Data->{$scheme}->{$1} = $2;
+    }
   } elsif (/\S/) {
     die "Broken data: $_";
   }
@@ -47,6 +51,30 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
       $Data->{$scheme}->{$1} = 1;
     } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
       $Data->{$scheme}->{$1} = $2;
+    } elsif (/\S/) {
+      die "Broken data: $_";
+    }
+  }
+}
+
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'url-schemes-iphone.txt');
+  for (($f->slurp)) {
+    if (/^([0-9A-Za-z._+-]+)$/) {
+      my $scheme = lc $1;
+      $Data->{$scheme}->{application}->{ios} = 1;
+    } elsif (/\S/) {
+      die "Broken data: $_";
+    }
+  }
+}
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'url-schemes-iphone-args.txt');
+  for (($f->slurp)) {
+    if (/^([0-9A-Za-z._+-]+)$/) {
+      my $scheme = lc $1;
+      $Data->{$scheme}->{application}->{ios} = 1;
+      $Data->{$scheme}->{authority} ||= 'fake';
     } elsif (/\S/) {
       die "Broken data: $_";
     }
