@@ -22,7 +22,11 @@ while (<$file>) {
     }
     $Data->{$scheme} = {};
   } elsif (/^\s+([\w-]+)\s*$/) {
-    $Data->{$scheme}->{$1} = 1;
+    if ($1 eq 'application') {
+      $Data->{$scheme}->{$1} = {};
+    } else {
+      $Data->{$scheme}->{$1} = 1;
+    }
   } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
     $Data->{$scheme}->{$1} = $2;
   } elsif (/\S/) {
