@@ -18,6 +18,11 @@ The file contains a JSON object with following name/value pairs:
 
         Whether the color keyword is conforming or not.
 
+      outline_only [boolean]
+
+        Whether the color keyword is only applied to the
+        'outline-color' property or not.
+
   named_colors [object]
 
     CSS named color keywords, except for 'transparent' and
@@ -53,6 +58,25 @@ The file contains a JSON object with following name/value pairs:
         Typical color for the keyword, represented as JSON arrays
         containing R, G, and B number components of the RGB color.
 
-* Source
+      win32
+
+        Typical mapping to the Win32 API function |GetSysColor|, if
+        known.  The value is represented as a JSON array, where the
+        first item is the constant name string and the second item is
+        the constant value, used as the argument to the function.
+
+* Sources
 
 CSS Color Module <http://dev.w3.org/csswg/css-color/>.
+
+<color> - CSS | MDN
+<https://developer.mozilla.org/en-US/docs/Web/CSS/color_value>.
+
+Gecko widget/windows/nsLookAndFeed.cpp
+<https://github.com/mozilla/gecko-dev/blob/master/widget/windows/nsLookAndFeel.cpp>.
+
+GetSysColor function
+<http://msdn.microsoft.com/en-us/library/windows/desktop/ms724371(v=vs.85).aspx>.
+
+manakai CSS Extensions
+<http://suika.suikawiki.org/~wakaba/wiki/sw/n/manakai%20CSS%20Extensions>.

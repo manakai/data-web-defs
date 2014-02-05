@@ -244,23 +244,113 @@ while (@typical) {
   $SystemColors->{lc $n}->{typical} = $def;
 }
 
+## <http://msdn.microsoft.com/en-us/library/windows/desktop/ms724371(v=vs.85).aspx>
+my @win32color = qw(
+COLOR_3DDKSHADOW 21 COLOR_3DFACE 15 COLOR_3DHIGHLIGHT 20
+COLOR_3DHILIGHT 20 COLOR_3DLIGHT 22 COLOR_3DSHADOW 16
+COLOR_ACTIVEBORDER 10 COLOR_ACTIVECAPTION 2 COLOR_APPWORKSPACE 12
+COLOR_BACKGROUND 1 COLOR_BTNFACE 15 COLOR_BTNHIGHLIGHT 20
+COLOR_BTNHILIGHT 20 COLOR_BTNSHADOW 16 COLOR_BTNTEXT 18
+COLOR_CAPTIONTEXT 9 COLOR_DESKTOP 1 COLOR_GRADIENTACTIVECAPTION 27
+COLOR_GRADIENTINACTIVECAPTION 28 COLOR_GRAYTEXT 17 COLOR_HIGHLIGHT 13
+COLOR_HIGHLIGHTTEXT 14 COLOR_HOTLIGHT 26 COLOR_INACTIVEBORDER 11
+COLOR_INACTIVECAPTION 3 COLOR_INACTIVECAPTIONTEXT 19 COLOR_INFOBK 24
+COLOR_INFOTEXT 23 COLOR_MENU 4 COLOR_MENUHILIGHT 29 COLOR_MENUBAR 30
+COLOR_MENUTEXT 7 COLOR_SCROLLBAR 0 COLOR_WINDOW 5 COLOR_WINDOWFRAME 6
+COLOR_WINDOWTEXT 8
+);
+my %win32color;
+while (@win32color) {
+  my $n = shift @win32color;
+  my $c = shift @win32color;
+  $win32color{$n} = $c;
+}
+
+## <https://github.com/mozilla/gecko-dev/blob/master/widget/windows/nsLookAndFeel.cpp>
+my @win32 = qw(
+    ActiveBorder      COLOR_ACTIVEBORDER
+    ActiveCaption     COLOR_ACTIVECAPTION
+    AppWorkspace      COLOR_APPWORKSPACE
+    Background        COLOR_BACKGROUND
+    ButtonFace        COLOR_BTNFACE
+    ButtonHighlight   COLOR_BTNHIGHLIGHT
+    ButtonShadow      COLOR_BTNSHADOW
+    ButtonText        COLOR_BTNTEXT
+    CaptionText       COLOR_CAPTIONTEXT
+    GrayText          COLOR_GRAYTEXT
+    Highlight         COLOR_HIGHLIGHT
+    HighlightText     COLOR_HIGHLIGHTTEXT
+    InactiveBorder    COLOR_INACTIVEBORDER
+    InactiveCaption   COLOR_INACTIVECAPTION
+    InactiveCaptionText COLOR_INACTIVECAPTIONTEXT
+    InfoBackground    COLOR_INFOBK
+    InfoText          COLOR_INFOTEXT
+    Menu              COLOR_MENU
+    MenuText          COLOR_MENUTEXT
+    Scrollbar         COLOR_SCROLLBAR
+    ThreeDDarkShadow  COLOR_3DDKSHADOW
+    ThreeDFace        COLOR_3DFACE
+    ThreeDHighlight   COLOR_3DHIGHLIGHT
+    ThreeDLightShadow COLOR_3DLIGHT
+    ThreeDShadow      COLOR_3DSHADOW
+    Window            COLOR_WINDOW
+    WindowFrame       COLOR_WINDOWFRAME
+    WindowText        COLOR_WINDOWTEXT
+
+    -moz-ButtonDefault COLOR_3DDKSHADOW
+    -moz-ButtonHoverFace COLOR_BTNFACE
+    -moz-ButtonHoverText COLOR_BTNTEXT
+    -moz-CellHighlight COLOR_3DFACE
+    -moz-CellHighlightText COLOR_WINDOWTEXT
+    -moz-Combobox     COLOR_WINDOW
+    -moz-ComboboxText COLOR_WINDOWTEXT
+    -moz-Dialog       COLOR_3DFACE
+    -moz-DialogText   COLOR_WINDOWTEXT
+    -moz-dragtargetzone COLOR_HIGHLIGHTTEXT
+    -moz-EvenTreeRow  COLOR_WINDOW
+    -moz-Field        COLOR_WINDOW
+    -moz-FieldText    COLOR_WINDOWTEXT
+    -moz-html-CellHighlight COLOR_HIGHLIGHT
+    -moz-html-CellHighlightText COLOR_HIGHLIGHTTEXT
+    -moz-MenuHover COLOR_HIGHLIGHT
+    -moz-MenuHoverText COLOR_HIGHLIGHTTEXT
+    -moz-MenuBarText COLOR_MENUTEXT
+    -moz-MenuBarHoverText COLOR_HIGHLIGHTTEXT
+    -moz-nativehyperlinktext COLOR_HOTLIGHT
+    -moz-OddTreeRow  COLOR_WINDOW
+    -moz-win-communicationstext COLOR_WINDOWTEXT
+    -moz-win-mediatext COLOR_WINDOWTEXT
+);
+#-moz-mac-accentdarkestshadow
+#-moz-mac-accentdarkshadow -moz-mac-accentface
+#-moz-mac-accentlightesthighlight -moz-mac-accentlightshadow
+#-moz-mac-accentregularhighlight -moz-mac-accentregularshadow
+#-moz-mac-chrome-active -moz-mac-chrome-inactive -moz-mac-focusring
+#-moz-mac-menuselect -moz-mac-menushadow -moz-mac-menutextselect
+while (@win32) {
+  my $n = lc shift @win32;
+  my $c = shift @win32;
+  $SystemColors->{$n}->{win32} = [$c, $win32color{$c}];
+}
+
 my $Data = {named_colors => $X11Colors, system_colors => $SystemColors};
 
 $Data->{keywords}->{$_}->{conforming} = 1
-    for qw(currentcolor transparent);
-# 'invert' is only allowed for 'outline-color'
+    for qw(currentcolor transparent invert);
 
 $Data->{keywords}->{$_} ||= {}
     for qw(
 flavor
 -manakai-default -manakai-invert-or-currentcolor
 ),
-
 ## <https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#Mozilla_Color_Preference_Extensions>
 qw(
 -moz-activehyperlinktext -moz-default-background-color
 -moz-default-color -moz-hyperlinktext -moz-visitedhyperlinktext
 );
+
+$Data->{keywords}->{$_}->{outline_only} = 1
+    for qw(invert -manakai-invert-or-currentcolor);
 
 print perl2json_bytes_for_record $Data;
 
