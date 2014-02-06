@@ -276,7 +276,7 @@ local/schemaorg.json: local/schemaorg.html bin/microdata-schemaorg.pl
 
 ## ------ CSS ------
 
-all-css: data/css.json data/css-colors.json
+all-css: data/css.json data/css-colors.json data/css-fonts.json
 clean-css:
 
 data/css.json: bin/css.pl src/css-at-rules.txt
@@ -284,6 +284,9 @@ data/css.json: bin/css.pl src/css-at-rules.txt
 
 data/css-colors.json: bin/css-colors.pl
 	$(PERL) bin/css-colors.pl > $@
+
+data/css-fonts.json: bin/css-fonts.pl
+	$(PERL) bin/css-fonts.pl > $@
 
 ## ------ Validation ------
 

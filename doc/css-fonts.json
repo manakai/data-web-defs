@@ -1,0 +1,73 @@
+css-fonts.json
+~~~~~~~~~~~~~~
+
+This file contains CSS font keywords.
+
+* Structure
+
+This file contains a JSON object with following name/value pairs:
+
+  font_family_keywords [object]
+
+    Names of the object are keywords representing font families, other
+    than generic font families, in lowercase canonical form.  Values
+    of the object are their properties, represented as objects with
+    following name/value pair:
+
+      conforming [boolean]
+
+        Whether the keyword is conforming or not.
+
+  generic_font_families [object]
+
+    Names of the object are generic font family keywords, in lowercase
+    canonical form.  Values of the object are their properties,
+    represented as objects with following name/value pair:
+
+      conforming [boolean]
+
+        Whether the keyword is conforming or not.
+
+  system_fonts [object]
+
+    Names of the object are system font keywords, in lowercase
+    canonical form.  Values of the object are their properties,
+    represented as objects with following name/value pair:
+
+      conforming [boolean]
+
+        Whether the keyword is conforming or not.
+
+      win32
+
+        Mapping to the Win32 API invocation, if known.  If specified,
+        the value is a JSON array with two or three items.  The first
+        and second items represent the /uiParam/ parameter value for
+        the |SystemParametersInfo| function for the system color, as
+        constant name string and constant number value,
+        representively.  If there are only two items, the |LOGFONT|
+        structure for the system font can be obtained by the
+        invocation of the function with the parameter.  If there are
+        three items, the |NONCLIENTMETRICS| structure can be obtained
+        by the invocation of the function with the parameter.  Then
+        the |LOGFONT| structure for the system font can be obtained by
+        accessing the structure member whose name is equal to the
+        third item.
+
+* Sources
+
+CSS Fonts <http://dev.w3.org/csswg/css-fonts/>.
+
+SystemParametersInfo function
+<http://msdn.microsoft.com/en-us/library/windows/desktop/ms724947(v=vs.85).aspx>.
+
+NONCLIENTMETRICS structure
+<http://msdn.microsoft.com/en-us/library/windows/desktop/ff729175(v=vs.85).aspx>.
+
+Gecko - widget/windows/nsLookAndFeel.cpp
+<https://github.com/mozilla/gecko-dev/blob/master/widget/windows/nsLookAndFeel.cpp>.
+
+font - CSS | MDN <https://developer.mozilla.org/en/docs/Web/CSS/font>.
+
+manakai CSS Extensions
+<http://suika.suikawiki.org/~wakaba/wiki/sw/n/manakai%20CSS%20Extensions>.
