@@ -624,6 +624,7 @@ my @obs_attr = qw(
   tr background attr-background
   td background attr-background
   th background attr-background
+  source media attr-source-media
 );
 while (@obs_attr) {
   my $el_name = shift @obs_attr;
