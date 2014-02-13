@@ -80,6 +80,17 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
     }
   }
 }
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'url-schemes-windowsphone.txt');
+  for (($f->slurp)) {
+    if (/^([0-9A-Za-z._+-]+)\s*$/) {
+      my $scheme = lc $1;
+      $Data->{$scheme}->{application}->{windowsphone} = 1;
+    } elsif (/\S/) {
+      die "Broken data: $_";
+    }
+  }
+}
 
 use JSON::Functions::XS qw(perl2json_bytes_for_record);
 open my $json_file, '>', 'data/url-schemes.json' or die "$0: url-schemes.json: $!";

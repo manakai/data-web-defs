@@ -109,7 +109,8 @@ local/iana-url-schemes.txt: local/iana-url-schemes.xml
 
 data/url-schemes.json: bin/url-schemes.pl \
     src/url-schemes.txt local/sw-url-schemes.txt local/iana-url-schemes.txt \
-    src/url-schemes-iphone.txt src/url-schemes-iphone-args.txt
+    src/url-schemes-iphone.txt src/url-schemes-iphone-args.txt \
+    src/url-schemes-windowsphone.txt
 	$(PERL) bin/url-schemes.pl
 
 ## ------ Language tags ------
