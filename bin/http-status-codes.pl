@@ -51,7 +51,11 @@ for ((map { [$_, 'HTTP'] } @{(parse 'iana-http-statuses.xml')->query_selector_al
          (not $StatusCodes->{$code}->{protocols}->{$proto} and
           $StatusCodes->{$code}->{reason} and
           $StatusCodes->{$code}->{reason} ne $reason);
-  $StatusCodes->{$code}->{protocols}->{$proto} = $reason;
+  if ($reason =~ /^\(.+\)$/) {
+    $StatusCodes->{$code}->{protocols}->{$proto} ||= $reason;
+  } else {
+    $StatusCodes->{$code}->{protocols}->{$proto} = $reason;
+  }
   $StatusCodes->{$code}->{iana}->{$proto} = 1;
 }
 
