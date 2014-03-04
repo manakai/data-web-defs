@@ -819,6 +819,9 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
     } elsif (/^<(\S+) (\S+)>$/) {
       die "$f: No alternative is specified for @$target" if $target;
       $target = [$1, $2];
+    } elsif (/^<\* (\S+)>$/) {
+      die "$f: No alternative is specified for @$target" if $target;
+      $target = ['*', $1];
     } elsif (defined $target and /^  (.+)$/) {
       my $alt = $1;
       if ($alt =~ /^<(\S+)>$/) {
@@ -833,7 +836,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
         $alts->{"@$target"} = {type => 'css_prop', name => $1, value => $2};
       } elsif ($alt =~ /^([a-z-]+)$/) {
         $alts->{"@$target"} = {type => 'css_prop', name => $1};
-      } elsif ($alt =~ /^#(script|progressive|comment)$/) {
+      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css)$/) {
         $alts->{"@$target"} = {type => $1};
       } elsif ($alt =~ m{^N/A$}) {
         $alts->{"@$target"} = {type => 'none'};
