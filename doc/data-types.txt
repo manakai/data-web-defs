@@ -126,3 +126,63 @@ value-type
     vevent duration           [HTML]
     vevent rdate              [HTML] #md-vevent-rdate
     week string               [HTML]
+
+* The "preferred" object
+
+The "preferred" object is used to represent the alternative form in
+|data/elements.json| and |data/aria.json|.
+
+Usually, the target of the "preferred" object is obsolete, deprecated,
+or otherwise discouraged such that should not be used and the
+"preferred" form should be used instead.  How it is discouraged might
+be described by other properties for the target.  The existence of the
+"preferred" object does not itself imply any status of the target.
+
+The "preferred" object is a JSON object with one or more name/value
+pairs.  It always contains |type| name/value pair.  Depending on the
+|type| value, there might be additional name/value pairs, as described
+below.
+
+If |type|'s value is |html-element|, an HTML element whose local name
+is |name|'s value should be used instead.
+
+If |type|'s value is |html-attr| and if the element is an HTML
+element, the attribute whose name is |name|'s value should be used
+instead.  If |element| is also specified, then an HTML element whose
+local name is equal to |element| should be used for the attribute.
+The |name| value can be |data-*|, which indicates that a custom data
+attribute should be used.
+
+If |type|'s value is |input|, an HTML |input| element whose |type|
+attribute value is |name|'s value should be used instead.
+
+If |type|'s value is |textbox|, an HTML |<input type=text>| or
+|textarea| element should be used instead.
+
+If |type|'s value is |th|, an HTML |td| element whose |scope|
+attribute value is |scope|'s value should be used instead.
+
+If |type|'s value is |title|, an HTML |title| attribute or an SVG
+|title| element should be used instead if applicable.
+
+If |type|'s value is |math|, a MathML |math| element should be used
+instead.
+
+If |type|'s value is |css|, CSS should be used instead.
+
+If |type|'s value is |css_prop|, CSS property whose name is equal to
+|name|'s value should be used instead.  If |value| is also specified,
+its value should be used as the property value.
+
+If |type|'s value is |script|, a script should be used instead.
+
+If |type|'s value is |comment|, an HTML or XML comment should be used
+instead.
+
+If |type|'s value is |progressive|, a progressive image format should
+be used instead.
+
+If |type|'s value is |omit|, the target should be omitted and no
+alternative is necessary (i.e. the target is redundant).
+
+If |type|'s value is |none|, there is no alternative.
