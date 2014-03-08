@@ -119,6 +119,7 @@ all-langtags: data/langtags.json
 clean-langtags:
 	rm -f local/langtags/subtag-registry local/langtags/ext-registry
 	rm -f local/langtags/cldr-bcp47/update
+	rm -fr local/chars-*.json
 
 local/langtags/subtag-registry:
 	mkdir -p local/langtags
@@ -134,10 +135,13 @@ local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
 	cd local/langtags/cldr-bcp47 && $(SVN) update
 	touch $@
 
+local/chars-scripts.json:
+	$(WGET) -O $@ https://raw.github.com/manakai/data-chars/master/data/scripts.json
+
 data/langtags.json: bin/langtags.pl \
   local/langtags/subtag-registry local/langtags/ext-registry \
   local/langtags/cldr-bcp47/update \
-  local/langtags/cldr-bcp47/*.xml
+  local/langtags/cldr-bcp47/*.xml local/chars-scripts.json
 	$(PERL) bin/langtags.pl \
 	  local/langtags/subtag-registry local/langtags/ext-registry \
 	  local/langtags/cldr-bcp47/*.xml > $@

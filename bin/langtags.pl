@@ -5,6 +5,7 @@ use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
 use Encode;
 use Web::DOM::Document;
+use JSON::Functions::XS qw(file2perl perl2json_bytes_for_record);
 
 my $full = 1;
 my $subtags;
@@ -136,13 +137,20 @@ for my $xml_file_name (@ARGV) {
     my $types = $key->query_selector_all ('type');
     for my $type (@$types) {
       my $type_name = $type->get_attribute ('name');
-      $type_name =~ tr/A-Z/a-z/;
-      next if $type_name eq 'codepoints';
-      my $type_desc = $type->get_attribute ('description');
-      $subtags->{$key_ext . '_' . $key_name}->{$type_name} = {
-        Description => [$type_desc],
-        _registry => {unicode => 1},
-      };
+      if ($type_name =~ /[A-Z]/) {
+        $subtags->{$key_ext . '_key'}->{$key_name}->{_value_type} = $type_name;
+      } else {
+        my $type_desc = $type->get_attribute ('description');
+        my $def = $subtags->{$key_ext . '_' . $key_name}->{$type_name} = {
+          Description => [$type_desc],
+          _registry => {unicode => 1},
+        };
+        if (($type->get_attribute ('deprecated') // '') eq 'true') {
+          $def->{_deprecated} = 1;
+        }
+        my $preferred = $type->get_attribute ('preferred');
+        $def->{_preferred} = lc $preferred if defined $preferred;
+      }
     }
   }
 }
@@ -224,7 +232,24 @@ for my $type (grep {!/^_/} keys %{$subtags}) {
   }
 }
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
+{
+  my $scripts = file2perl file (__FILE__)->dir->parent->file ('local', 'chars-scripts.json');
+  for (values %{$scripts->{scripts}}) {
+    next unless defined $_->{collation_reorder};
+    my $code = lc $_->{collation_reorder};
+    $subtags->{u_kr}->{$code} = {
+      _registry => {unicode => 1},
+    };
+    $subtags->{u_kr}->{$code}->{Description} = $_->{desc} if $_->{desc};
+    if (defined $_->{iso} and not $_->{collation_reorder} eq $_->{iso}) {
+      $subtags->{u_kr}->{lc $_->{iso}} = {
+        _registry => {unicode => 1},
+      };
+      $subtags->{u_kr}->{lc $_->{iso}}->{_preferred} = $code;
+    }
+  }
+}
+
 print perl2json_bytes_for_record $subtags;
 
 __END__
