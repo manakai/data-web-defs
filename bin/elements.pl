@@ -844,7 +844,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
         $alts->{"@$target"} = {type => 'css_prop', name => $1, value => $2};
       } elsif ($alt =~ /^([a-z-]+)$/) {
         $alts->{"@$target"} = {type => 'css_prop', name => $1};
-      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter)$/) {
+      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter|text)$/) {
         $alts->{"@$target"} = {type => $1};
       } elsif ($alt =~ m{^N/A$}) {
         $alts->{"@$target"} = {type => 'none'};
