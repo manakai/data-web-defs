@@ -865,6 +865,15 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
   }
 }
 
+for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+  for my $attr_name (keys %{($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs} or {})->{''} or {}}) {
+    next if defined $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs}->{''}->{$attr_name}->{id};
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs}->{''}->{$attr_name}->{value_type}
+        ||= ($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr_name} or {})->{value_type}
+        if defined (((($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs} or {})->{''} or {})->{$attr_name} or {})->{value_type});
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
