@@ -76,6 +76,12 @@ pairs:
         namespaces.  Objects corresponding to local names contain
         properties of the attribute, including:
 
+          browser [boolean]
+
+            If true, the attribute is intended for processing by the
+            browser (rather than plugins).  This flag is only set for
+            HTML |embed| element.
+
           conforming [boolean]
 
             Whether using the attribute is conforming or not.  If this
@@ -201,6 +207,12 @@ pairs:
                 The specification in which the keyword is defined, if
                 any.
 
+          non_conforming [boolean]
+
+            If true, the attribute is non-conforming.  This flag is
+            only set for HTML |embed| element as custom attributes are
+            conforming for the |embed| element.
+
           obsolete_but_conforming [boolean]
 
             Whether the attribute is obsolete but conforming according
@@ -280,11 +292,10 @@ pairs:
         for "*" and non-"*" elements, the definition for non-"*"
         element takes precedence.)
 
-        The |data-*| attributes, |x-*| and |_*| attributes, |aria-*|
-        attributes, custom attributes for the HTML |embed| element,
-        and XML namespace declaration attributes other than the
-        |xmlns| attribute are not listed.  XXX aria-* will be added in
-        due course.
+        The |data-*| attributes, |x-*| and |_*| attributes, custom
+        attributes for the HTML |embed| element, and XML namespace
+        declaration attributes other than the |xmlns| attribute are
+        not listed.
 
       auto_br [string?]
 
@@ -851,3 +862,16 @@ name/value pairs:
 [OBSVOCAB] manakai's Conformance Checking Guideline for Obsolete HTML
 Elements and Attributes
 <http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab>.
+
+* License
+
+The JSON file is partially derived from HTML Standard.  © Copyright
+2004-2011 Apple Computer, Inc., Mozilla Foundation, and Opera Software
+ASA.  You are granted a license to use, reproduce and create
+derivative works of this document.
+
+The JSON file is partially derived from the manakai's Conformance
+Checking Guideline for Obsolete HTML Elements and Attributes
+specification.  © 2010-2013 Wakaba. You are granted a license to use,
+reproduce and create derivative works of this document.
+

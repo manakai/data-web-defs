@@ -808,6 +808,14 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{aria} = $json->{common}->{''};
 }
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#the-embed-element>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_}->{non_conforming} = 1
+    for qw(align hspace vspace name);
+
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_}->{browser} = 1
+    for qw(align hspace vspace name
+           border units pluginpage pluginspage pluginurl palette);
+
 {
   my $f = file (__FILE__)->dir->parent->file ('src', 'html-obsolete.txt');
   my $alts = {};
