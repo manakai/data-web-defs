@@ -23,7 +23,6 @@ my $expanded_roles = {};
   my $key;
   my $elname;
   my $cond;
-$elname='XXX';
   for (($f->slurp)) {
     if (/^([0-9A-Za-z_-]+)$/) {
       $key = 'html_elements';
@@ -97,7 +96,7 @@ $elname='XXX';
       delete $Data->{$key}->{$elname}->{$cond}->{allowed_roles}->{$1};
     } elsif (/^  (aria-[0-9a-z]+)=(true|false)( !)?$/) {
       $Data->{$key}->{$elname}->{$cond}->{attrs}->{$1} = {value_type => $2, strong => $3 ? 1 : 0};
-    } elsif (/^  (aria-[0-9a-z]+)=#(outlinedepth|maximum|minimum|value-if-number|list-if-combobox|maximum-if-determinate|value-if-determinate|0-if-determinate|selected)( !)?$/) {
+    } elsif (/^  (aria-[0-9a-z]+)=#(outlinedepth|maximum|minimum|value-if-number|list-if-combobox|maximum-if-determinate|value-if-determinate|0-if-determinate|selected|sort-direction)( !)?$/) {
       $Data->{$key}->{$elname}->{$cond}->{attrs}->{$1} = {value_type => $2, strong => $3 ? 1 : 0};
     } elsif (m{^  (aria-[0-9a-z]+)=(true/missing|true/false/mixed|true/false|missing/true)\[([a-z]+)\]( !)?$}) {
       $Data->{$key}->{$elname}->{$cond}->{attrs}->{$1} = {value_type => $2, attr => $3, strong => $4 ? 1 : 0};
