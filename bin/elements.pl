@@ -641,6 +641,11 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
   }
 }
 
+## <http://www.whatwg.org/specs/web-apps/current-work/#all-named-elements>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{all_named} = 1
+    for split /\s*,\s*/, q(a, applet, button, embed, form, frame, frameset, iframe, img, input, map, meta, object, select, textarea);
+    ## |keygen| is commented out in spec
+
 ## <http://www.whatwg.org/specs/web-apps/current-work/#the-stack-of-open-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
     = 'special' for grep { length } split /\s*,\s*|\s+/, q{
