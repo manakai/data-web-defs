@@ -248,7 +248,6 @@ $Data->{attrs}->{'aria-dropeffect'}->{tokens}->{$_} = {}
     for qw(copy move link execute popup none);
 $Data->{attrs}->{'aria-dropeffect'}->{default} = 'none';
 $Data->{attrs}->{'aria-haspopup'}->{preferred} = {type => 'html-attr', name => 'contextmenu'};
-$Data->{attrs}->{'aria-disabled'}->{preferred} = {type => 'html-attr', name => 'inert'};
 $Data->{attrs}->{'aria-hidden'}->{preferred} = {type => 'html-attr', name => 'hidden'};
 $Data->{attrs}->{'aria-dropeffect'}->{preferred} = {type => 'html-attr', name => 'dropzone'};
 $Data->{attrs}->{'aria-invalid'}->{tokens}->{$_} = {}

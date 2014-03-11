@@ -173,7 +173,6 @@ my $id_for_status = {
   'attr-tdth-headers' => 'attributes-common-to-td-and-th-elements',
   'attr-contenteditable' => 'contenteditable',
   'attr-contextmenu' => 'context-menus',
-  'attr-inert' => 'inert-subtrees', # the-inert-attribute
   'attr-spellcheck' => 'spelling-and-grammar-checking',
   'attr-tabindex' => 'focus', # ...
   'attr-itemscope' => 'items',
