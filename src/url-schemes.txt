@@ -181,6 +181,14 @@ cloudrop:
 clr-namespace:
 clsid:
 cmd:
+coap:
+  protocol
+  authority=host
+  with-tls=coaps
+coaps:
+  protocol
+  authority=host
+  no-tls=coap
 cobitools:
   application
   authority=fake
@@ -362,10 +370,12 @@ ftp:
   relative
   default-port=21
   authority=host
+  with-tls=ftps
 ffcpl:
 ftps:
   protocol
   authority=host
+  no-tls=ftp
 ftss:
 fubscript:
   application
@@ -459,6 +469,7 @@ http:
   relative
   default-port=80
   authority=host
+  with-tls=https
 h++p:
   authority=host
 ht*tp:
@@ -479,6 +490,7 @@ https:
   relative
   default-port=443
   authority=host
+  no-tls=http
 https+aes:
   protocol
   authority=host
@@ -1425,11 +1437,13 @@ ws:
   web-core
   relative
   default-port=80
+  with-tls=wss
 wsman:
 wss:
   web-core
   relative
   default-port=443
+  no-tls=ws
 wtai:
   registerable
 www:
