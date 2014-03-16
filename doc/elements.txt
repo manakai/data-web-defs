@@ -212,6 +212,11 @@ pairs:
                 The specification in which the keyword is defined, if
                 any.
 
+          lang_sensitive [boolean]
+
+            Whether the attribute is language-sensitive
+            <http://tools.ietf.org/html/rfc4287#section-2> or not.
+
           non_conforming [boolean]
 
             If true, the attribute is non-conforming.  This flag is
@@ -333,6 +338,36 @@ pairs:
         Note that a descendant element of "disallow"ed elements might
         allow automatic <br> insertion.
 
+      child_elements [object?]
+
+        A description of content model, represented as list of allowed
+        elements.  Note that this description might not be complete
+        description of the content model.  Please check the relevant
+        specifications.  The object, if any, has name/value pairs
+        whose names are namespace URLs and values are objects, whose
+        names are local names in the namespace and values are objects,
+        which has following name/value pairs for the element with the
+        namespace URL and local name:
+
+          has_additional_rules [boolean]
+
+            If true, there are additional rules on the usage of the
+            element.  Please note that even when this flag is not set,
+            there might be additional rule depending on the context.
+
+          max [number?]
+
+            The maximum value of the number of the element allowed as
+            the children of the element in question.  If the value is
+            not specified, any number of elements can be specified
+            (unless there is any other constraint).
+
+          min [number]
+
+            The minimum (or required) value of the number of the
+            elements allowed as the children of the element in
+            question.
+
       conforming [boolean]
 
         Whether using the element is conforming or not.  If this flag
@@ -386,16 +421,22 @@ pairs:
 
           empty                 Empty.
           text                  Text.
-          transparent           Transparent.
-          atomDateConstruct     Atom Date Construct [RFC 4287].
-          atomPersonConstruct   Atom Person Construct [RFC 4287].
-          atomTextConstruct     Atom Text Construct [RFC 4287].
+          transparent           Transparent [HTML].
+          atomDateConstruct     Atom Date Construct [ATOM].
+          atomPersonConstruct   Atom Person Construct [ATOM].
+          atomTextConstruct     Atom Text Construct [ATOM].
+          atom09DateConstruct   Atom 0.3 Date Construct [ATOM03].
+          atom09PersonConstruct Atom 0.3 Person Construct [ATOM03].
+          atom09ContentConstruct Atom 0.3 Content Construct [ATOM03].
           (otherwise)           One of element categories.
 
         If no value is provided, either the element's content model
         can't be represented as a category, the element itself is
         non-conforming or non-standard, or the content model is
         unknown.
+
+        See also |child_elements|, |complex_content_model|, and
+        |disallowed_descendants|.
 
       desc [string?]
 
@@ -468,6 +509,11 @@ pairs:
 
         If you don't want to support Atom DOM, ignore |interface|
         values starting with "Atom".
+
+      lang_sensitive [boolean]
+
+        Whether the element is language-sensitive
+        <http://tools.ietf.org/html/rfc4287#section-2> or not.
 
       parser_button_scoping [boolean]
 
@@ -862,6 +908,13 @@ name/value pairs:
 <http://www.whatwg.org/specs/web-apps/current-work/>.
 
 [SVG] Scalable Vector Graphics (SVG) 2 <https://svgwg.org/svg2-draft/>.
+
+[ATOM] The Atom Syndication Format
+<http://tools.ietf.org/html/rfc4287>,
+<http://www.rfc-editor.org/errata_search.php?rfc=4287>.
+
+[ATOM03] The Atom Syndication Format 0.3 (PRE-DRAFT)
+<https://github.com/mnot/I-D/blob/master/Published/atom-format/draft-nottingham-atom-format-02.xml>.
 
 [ATOMDOM] Atom DOM
 <http://suika.suikawiki.org/www/markup/xml/atomdom>.

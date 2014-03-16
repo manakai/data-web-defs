@@ -307,6 +307,13 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{html}->{complex_content_mo
    min => 1, max => 1},
 ];
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{head}->{content_model} = 'metadata content';
+for ($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{head}->{child_elements}->{'http://www.w3.org/1999/xhtml'} ||= {}) {
+  $_->{title}->{min} = 0;
+  $_->{title}->{max} = 1;
+  $_->{title}->{has_additional_rules} = 1;
+  $_->{base}->{min} = 0;
+  $_->{base}->{max} = 1;
+}
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{title}->{content_model} = 'text';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{nav}->{content_model} = 'flow content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{nav}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{main} = 1;
@@ -421,6 +428,142 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{spec} = 'HTML';
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{id} = $_;
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{status} = $statuses->{'non-conforming-features'};
+}
+
+sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
+sub APP_NS () { 'http://www.w3.org/2007/app' }
+sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
+sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
+sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+for my $ce ($Data->{elements}->{+ATOM_NS}->{feed}->{child_elements} ||= {}) {
+  $ce->{+ATOM_NS}->{$_}->{min} = 0
+      for qw(author category contributor link entry);
+  $ce->{+APP_NS}->{collection}->{min} = 0;
+  $ce->{+ATOMDELETED_NS}->{'deleted-entry'}->{min} = 0;
+  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(generator icon logo rights subtitle);
+  $ce->{+ATOM_NS}->{$_}->{min} = 1,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(id title updated);
+  $ce->{+ATOM_NS}->{$_}->{has_additional_rules} = 1
+      for qw(author link entry);
+  $ce->{+DSIG_NS}->{Signature}->{min} = 0;
+  $ce->{+DSIG_NS}->{Signature}->{max} = 1;
+}
+for my $ce ($Data->{elements}->{+ATOM_NS}->{entry}->{child_elements} ||= {}) {
+  $ce->{+ATOM_NS}->{$_}->{min} = 0
+      for qw(author category contributor link);
+  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(content rights source summary);
+  $ce->{+APP_NS}->{$_}->{min} = 0,
+  $ce->{+APP_NS}->{$_}->{max} = 1
+      for qw(control edited);
+  $ce->{+ATOM_NS}->{$_}->{min} = 1,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(id title updated);
+  $ce->{+ATOM_NS}->{$_}->{has_additional_rules} = 1
+      for qw(author link summary);
+  $ce->{+APP_NS}->{$_}->{has_additional_rules} = 1
+      for qw(edited);
+  $ce->{+DSIG_NS}->{Signature}->{min} = 0;
+  $ce->{+DSIG_NS}->{Signature}->{max} = 1;
+}
+for my $ce ($Data->{elements}->{+ATOM_NS}->{source}->{child_elements} ||= {}) {
+  $ce->{+ATOM_NS}->{$_}->{min} = 0
+      for qw(author category contributor link);
+  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(generator icon id logo rights subtitle title updated);
+}
+for my $ce ($Data->{elements}->{+ATOM03_NS}->{feed}->{child_elements} ||= {}) {
+  $ce->{+ATOM03_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM03_NS}->{$_}->{max} = 1
+      for qw(author copyright generator id info tagline);
+  $ce->{+ATOM03_NS}->{$_}->{min} = 1,
+  $ce->{+ATOM03_NS}->{$_}->{max} = 1
+      for qw(modified title);
+  $ce->{+ATOM03_NS}->{$_}->{min} = 0
+      for qw(contributor entry);
+  $ce->{+ATOM03_NS}->{$_}->{min} = 1
+      for qw(link);
+}
+for my $ce ($Data->{elements}->{+ATOM03_NS}->{entry}->{child_elements} ||= {}) {
+  $ce->{+ATOM03_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM03_NS}->{$_}->{max} = 1
+      for qw(author content created id summary);
+  $ce->{+ATOM03_NS}->{$_}->{min} = 1,
+  $ce->{+ATOM03_NS}->{$_}->{max} = 1
+      for qw(issued modified title);
+  $ce->{+ATOM03_NS}->{$_}->{min} = 0
+      for qw(contributor);
+  $ce->{+ATOM03_NS}->{$_}->{min} = 1
+      for qw(link);
+}
+for my $ce ($Data->{elements}->{+APP_NS}->{categories}->{child_elements} ||= {}) {
+  $ce->{+ATOM_NS}->{$_}->{min} = 0
+      for qw(category);
+}
+for my $ce ($Data->{elements}->{+APP_NS}->{service}->{child_elements} ||= {}) {
+  $ce->{+APP_NS}->{$_}->{min} = 1
+      for qw(workspace);
+}
+for my $ce ($Data->{elements}->{+APP_NS}->{workspace}->{child_elements} ||= {}) {
+  $ce->{+APP_NS}->{$_}->{min} = 0
+      for qw(collection);
+  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(title);
+}
+for my $ce ($Data->{elements}->{+APP_NS}->{collection}->{child_elements} ||= {}) {
+  $ce->{+APP_NS}->{$_}->{min} = 0
+      for qw(accept categories);
+  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(title);
+}
+for my $ce ($Data->{elements}->{+APP_NS}->{control}->{child_elements} ||= {}) {
+  $ce->{+APP_NS}->{$_}->{min} = 0,
+  $ce->{+APP_NS}->{$_}->{max} = 1
+      for qw(draft);
+}
+for my $ce ($Data->{elements}->{+ATOMDELETED_NS}->{'deleted-entry'}->{child_elements} ||= {}) {
+  $ce->{+ATOM_NS}->{$_}->{min} = 0
+      for qw(link);
+  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{max} = 1
+      for qw(source);
+  $ce->{+ATOMDELETED_NS}->{$_}->{min} = 0,
+  $ce->{+ATOMDELETED_NS}->{$_}->{max} = 1
+      for qw(by comment);
+  $ce->{+DSIG_NS}->{Signature}->{min} = 0;
+  $ce->{+DSIG_NS}->{Signature}->{max} = 1;
+}
+for my $ns (keys %{$Data->{elements}}) {
+  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+    if (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomPersonConstruct') {
+      for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
+        $ce->{+ATOM_NS}->{$_}->{min} = 0,
+        $ce->{+ATOM_NS}->{$_}->{max} = 1
+            for qw(email uri);
+        $ce->{+ATOM_NS}->{$_}->{min} = 1,
+        $ce->{+ATOM_NS}->{$_}->{max} = 1
+            for qw(name);
+      }
+    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03PersonConstruct') {
+      for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
+        $ce->{+ATOM03_NS}->{$_}->{min} = 0,
+        $ce->{+ATOM03_NS}->{$_}->{max} = 1
+            for qw(email url);
+        $ce->{+ATOM03_NS}->{$_}->{min} = 1,
+        $ce->{+ATOM03_NS}->{$_}->{max} = 1
+            for qw(name);
+      }
+    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomTextConstruct') {
+      $Data->{elements}->{$ns}->{$ln}->{lang_sensitive} = 1;
+    }
+  }
 }
 
 my @obs_attr = qw(
