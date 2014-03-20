@@ -974,15 +974,14 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
     } elsif (/^<(\S+) (\S+)>$/) {
       die "$f: No alternative is specified for @$target" if $target;
       $target = [$1, $2];
-    } elsif (/^<\* (\S+)>$/) {
-      die "$f: No alternative is specified for @$target" if $target;
-      $target = ['*', $1];
     } elsif (defined $target and /^  (.+)$/) {
       my $alt = $1;
       if ($alt =~ /^<(\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_element', name => $1};
       } elsif ($alt =~ /^<\* (\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_attr', name => $1};
+      } elsif ($alt =~ /^<(input) (type)=(\S+)>$/) {
+        $alts->{"@$target"} = {type => 'input', name => $3};
       } elsif ($alt =~ /^<(\S+) (\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_attr', name => $2, element => $1};
       } elsif ($alt =~ /^-$/) {
