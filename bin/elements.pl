@@ -431,6 +431,7 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
 }
 
 sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
+sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
 sub APP_NS () { 'http://www.w3.org/2007/app' }
 sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
 sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
@@ -467,6 +468,9 @@ for my $ce ($Data->{elements}->{+ATOM_NS}->{entry}->{child_elements} ||= {}) {
       for qw(author link summary);
   $ce->{+APP_NS}->{$_}->{has_additional_rules} = 1
       for qw(edited);
+  $ce->{+THR_NS}->{'in-reply-to'}->{min} = 0;
+  $ce->{+THR_NS}->{total}->{min} = 0;
+  $ce->{+THR_NS}->{total}->{max} = 1;
   $ce->{+DSIG_NS}->{Signature}->{min} = 0;
   $ce->{+DSIG_NS}->{Signature}->{max} = 1;
 }
