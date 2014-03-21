@@ -433,6 +433,7 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
 sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
 sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
 sub APP_NS () { 'http://www.w3.org/2007/app' }
+sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
 sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
 sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
 sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
@@ -449,6 +450,9 @@ for my $ce ($Data->{elements}->{+ATOM_NS}->{feed}->{child_elements} ||= {}) {
       for qw(id title updated);
   $ce->{+ATOM_NS}->{$_}->{has_additional_rules} = 1
       for qw(author link entry);
+  $ce->{+FH_NS}->{$_}->{min} = 0,
+  $ce->{+FH_NS}->{$_}->{max} = 1
+      for qw(archive complete);
   $ce->{+DSIG_NS}->{Signature}->{min} = 0;
   $ce->{+DSIG_NS}->{Signature}->{max} = 1;
 }
