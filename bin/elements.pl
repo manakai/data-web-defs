@@ -559,6 +559,7 @@ for my $ns (keys %{$Data->{elements}}) {
         $ce->{+ATOM_NS}->{$_}->{max} = 1
             for qw(name);
       }
+      $Data->{elements}->{$ns}->{$ln}->{atom_extensible} = 1;
     } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03PersonConstruct') {
       for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
         $ce->{+ATOM03_NS}->{$_}->{min} = 0,
