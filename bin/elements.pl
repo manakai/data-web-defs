@@ -520,14 +520,14 @@ for my $ce ($Data->{elements}->{+APP_NS}->{service}->{child_elements} ||= {}) {
 for my $ce ($Data->{elements}->{+APP_NS}->{workspace}->{child_elements} ||= {}) {
   $ce->{+APP_NS}->{$_}->{min} = 0
       for qw(collection);
-  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{min} = 1,
   $ce->{+ATOM_NS}->{$_}->{max} = 1
       for qw(title);
 }
 for my $ce ($Data->{elements}->{+APP_NS}->{collection}->{child_elements} ||= {}) {
   $ce->{+APP_NS}->{$_}->{min} = 0
       for qw(accept categories);
-  $ce->{+ATOM_NS}->{$_}->{min} = 0,
+  $ce->{+ATOM_NS}->{$_}->{min} = 1,
   $ce->{+ATOM_NS}->{$_}->{max} = 1
       for qw(title);
 }
