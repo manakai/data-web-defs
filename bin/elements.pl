@@ -571,6 +571,8 @@ for my $ns (keys %{$Data->{elements}}) {
       }
     } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomTextConstruct') {
       $Data->{elements}->{$ns}->{$ln}->{lang_sensitive} = 1;
+      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{conforming} = 1;
+      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{status} = 'LC'; # Atom 1.0
     }
   }
 }
