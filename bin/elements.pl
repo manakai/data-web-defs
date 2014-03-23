@@ -626,6 +626,7 @@ for my $ns (keys %{$Data->{elements}}) {
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
             = {type => 'none'};
       }
+      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{value_type} ||= 'MIME type';
     }
   }
 }
