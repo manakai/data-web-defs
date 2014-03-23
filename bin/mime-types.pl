@@ -103,7 +103,7 @@ for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slur
     $Data->{$type}->{type} ||= $type =~ m{/\*$} ? 'type' : $type =~ m{^\*/\*\+} ? 'suffix' : $type =~ /\*/ ? 'pattern' : 'subtype';
   } elsif (m{^  ([0-9A-Za-z_-]+)$}) {
     $Data->{$type}->{$1} ||= 1;
-  } elsif (m{^  ([0-9A-Za-z_-]+)=""$}) {
+  } elsif (m{^  ([0-9A-Za-z_.-]+)=""$}) {
     my $attr = $1;
     $attr =~ tr/A-Z/a-z/;
     $Data->{$type}->{params}->{$attr} ||= {};
