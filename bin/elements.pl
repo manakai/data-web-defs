@@ -542,12 +542,12 @@ for my $ce ($Data->{elements}->{+ATOM03_NS}->{feed}->{child_elements} ||= {}) {
 for my $ce ($Data->{elements}->{+ATOM03_NS}->{entry}->{child_elements} ||= {}) {
   $ce->{+ATOM03_NS}->{$_}->{min} = 0,
   $ce->{+ATOM03_NS}->{$_}->{max} = 1
-      for qw(author content created id summary);
+      for qw(author created id summary);
   $ce->{+ATOM03_NS}->{$_}->{min} = 1,
   $ce->{+ATOM03_NS}->{$_}->{max} = 1
       for qw(issued modified title);
   $ce->{+ATOM03_NS}->{$_}->{min} = 0
-      for qw(contributor);
+      for qw(contributor content);
   $ce->{+ATOM03_NS}->{$_}->{min} = 1
       for qw(link);
 }
@@ -620,7 +620,7 @@ for my $ns (keys %{$Data->{elements}}) {
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
             = {type => 'atom_attr', name => 'type',
-               element => $Data->{elements}->{$ns}->{$ln}->{preferred}->{element}};
+               element => $Data->{elements}->{$ns}->{$ln}->{preferred}->{name}};
       } elsif ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'none') {
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
