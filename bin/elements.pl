@@ -437,6 +437,48 @@ sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
 sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
 sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
 sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+
+for (
+  ['feed'],
+  ['title'],
+  ['link'],
+  ['author'],
+  ['contributor'],
+  ['tagline' => 'subtitle'],
+  ['id'],
+  ['generator'],
+  ['copyright' => 'license'],
+  ['modified' => 'updated'],
+  ['entry'],
+  ['issued' => 'created'],
+  ['created'],
+  ['summary'],
+  ['content'],
+  ['name'],
+  ['url' => 'uri'],
+  ['email'],
+) {
+  $Data->{elements}->{(ATOM03_NS)}->{$_->[0]}->{preferred}
+      ||= {type => 'atom-element', name => $_->[1] // $_->[0]};
+}
+$Data->{elements}->{(ATOM03_NS)}->{feed}->{attrs}->{''}->{version}
+    ->{preferred} = {type => 'none'};
+$Data->{elements}->{(ATOM03_NS)}->{generator}->{attrs}->{''}->{url}
+    ->{preferred} = {type => 'atom-attr', name => 'uri',
+                     element => 'generator'};
+$Data->{elements}->{(ATOM03_NS)}->{generator}->{attrs}->{''}->{version}
+    ->{preferred} = {type => 'atom-attr', name => 'version',
+                     element => 'generator'};
+$Data->{elements}->{(ATOM03_NS)}->{info}->{preferred} = {type => 'none'};
+$Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{rel}
+    ->{preferred} = {type => 'atom-attr', name => 'rel', element => 'link'};
+$Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{type}
+    ->{preferred} = {type => 'atom-attr', name => 'type', element => 'link'};
+$Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{href}
+    ->{preferred} = {type => 'atom-attr', name => 'href', element => 'link'};
+$Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
+    ->{preferred} = {type => 'atom-attr', name => 'title', element => 'link'};
+
 for my $ce ($Data->{elements}->{+ATOM_NS}->{feed}->{child_elements} ||= {}) {
   $ce->{+ATOM_NS}->{$_}->{min} = 0
       for qw(author category contributor link entry);
@@ -453,8 +495,8 @@ for my $ce ($Data->{elements}->{+ATOM_NS}->{feed}->{child_elements} ||= {}) {
   $ce->{+FH_NS}->{$_}->{min} = 0,
   $ce->{+FH_NS}->{$_}->{max} = 1
       for qw(archive complete);
-  $ce->{+DSIG_NS}->{Signature}->{min} = 0;
-  $ce->{+DSIG_NS}->{Signature}->{max} = 1;
+  #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
+  #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
 }
 for my $ce ($Data->{elements}->{+ATOM_NS}->{entry}->{child_elements} ||= {}) {
   $ce->{+ATOM_NS}->{$_}->{min} = 0
@@ -475,8 +517,8 @@ for my $ce ($Data->{elements}->{+ATOM_NS}->{entry}->{child_elements} ||= {}) {
   $ce->{+THR_NS}->{'in-reply-to'}->{min} = 0;
   $ce->{+THR_NS}->{total}->{min} = 0;
   $ce->{+THR_NS}->{total}->{max} = 1;
-  $ce->{+DSIG_NS}->{Signature}->{min} = 0;
-  $ce->{+DSIG_NS}->{Signature}->{max} = 1;
+  #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
+  #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
 }
 for my $ce ($Data->{elements}->{+ATOM_NS}->{source}->{child_elements} ||= {}) {
   $ce->{+ATOM_NS}->{$_}->{min} = 0
@@ -545,8 +587,8 @@ for my $ce ($Data->{elements}->{+ATOMDELETED_NS}->{'deleted-entry'}->{child_elem
   $ce->{+ATOMDELETED_NS}->{$_}->{min} = 0,
   $ce->{+ATOMDELETED_NS}->{$_}->{max} = 1
       for qw(by comment);
-  $ce->{+DSIG_NS}->{Signature}->{min} = 0;
-  $ce->{+DSIG_NS}->{Signature}->{max} = 1;
+  #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
+  #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
 }
 for my $ns (keys %{$Data->{elements}}) {
   for my $ln (keys %{$Data->{elements}->{$ns}}) {
@@ -573,6 +615,17 @@ for my $ns (keys %{$Data->{elements}}) {
       $Data->{elements}->{$ns}->{$ln}->{lang_sensitive} = 1;
       $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{conforming} = 1;
       $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{status} = 'LC'; # Atom 1.0
+    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03ContentConstruct') {
+      if ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'atom-element') {
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
+            = {type => 'atom-attr', name => 'type',
+               element => $Data->{elements}->{$ns}->{$ln}->{preferred}->{element}};
+      } elsif ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'none') {
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
+            = {type => 'none'};
+      }
     }
   }
 }
