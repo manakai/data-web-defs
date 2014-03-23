@@ -44,8 +44,8 @@ data/specs.json: bin/specs.pl src/specs.txt src/spec-*.txt
 
 all-mime: data/mime-types.json
 clean-mime: 
-	rm -fr local/sw-mime-types-xml* local/iana-mime-types.xml
-	rm -fr local/iana-mime-type-suffixes.xml local/apache-mime-types
+	rm -fr local/sw-mime-types-xml*
+	rm -fr local/iana-mime-type* local/apache-mime-types
 
 local/sw-mime-types-xml:
 	$(WGET) -O $@-top "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20MIME%20types?format=xml"

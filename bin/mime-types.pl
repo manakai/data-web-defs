@@ -147,6 +147,11 @@ for (keys %$Data) {
   $Data->{$_}->{preferred_cte} ||= 'quoted-printable' if $Data->{$_}->{text};
 }
 
+for my $type (keys %$Data) {
+  $Data->{$type}->{any_xml} = 1 if $Data->{$type}->{xml};
+  $Data->{$type}->{text} = 1 if $Data->{$type}->{any_xml};
+}
+
 use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
