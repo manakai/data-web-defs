@@ -459,25 +459,25 @@ for (
   ['email'],
 ) {
   $Data->{elements}->{(ATOM03_NS)}->{$_->[0]}->{preferred}
-      ||= {type => 'atom-element', name => $_->[1] // $_->[0]};
+      ||= {type => 'atom_element', name => $_->[1] // $_->[0]};
 }
 $Data->{elements}->{(ATOM03_NS)}->{feed}->{attrs}->{''}->{version}
     ->{preferred} = {type => 'none'};
 $Data->{elements}->{(ATOM03_NS)}->{generator}->{attrs}->{''}->{url}
-    ->{preferred} = {type => 'atom-attr', name => 'uri',
+    ->{preferred} = {type => 'atom_attr', name => 'uri',
                      element => 'generator'};
 $Data->{elements}->{(ATOM03_NS)}->{generator}->{attrs}->{''}->{version}
-    ->{preferred} = {type => 'atom-attr', name => 'version',
+    ->{preferred} = {type => 'atom_attr', name => 'version',
                      element => 'generator'};
 $Data->{elements}->{(ATOM03_NS)}->{info}->{preferred} = {type => 'none'};
 $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{rel}
-    ->{preferred} = {type => 'atom-attr', name => 'rel', element => 'link'};
+    ->{preferred} = {type => 'atom_attr', name => 'rel', element => 'link'};
 $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{type}
-    ->{preferred} = {type => 'atom-attr', name => 'type', element => 'link'};
+    ->{preferred} = {type => 'atom_attr', name => 'type', element => 'link'};
 $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{href}
-    ->{preferred} = {type => 'atom-attr', name => 'href', element => 'link'};
+    ->{preferred} = {type => 'atom_attr', name => 'href', element => 'link'};
 $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
-    ->{preferred} = {type => 'atom-attr', name => 'title', element => 'link'};
+    ->{preferred} = {type => 'atom_attr', name => 'title', element => 'link'};
 
 for my $ce ($Data->{elements}->{+ATOM_NS}->{feed}->{child_elements} ||= {}) {
   $ce->{+ATOM_NS}->{$_}->{min} = 0
@@ -616,10 +616,10 @@ for my $ns (keys %{$Data->{elements}}) {
       $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{conforming} = 1;
       $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{status} = 'LC'; # Atom 1.0
     } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03ContentConstruct') {
-      if ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'atom-element') {
+      if ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'atom_element') {
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
-            = {type => 'atom-attr', name => 'type',
+            = {type => 'atom_attr', name => 'type',
                element => $Data->{elements}->{$ns}->{$ln}->{preferred}->{element}};
       } elsif ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'none') {
         $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
