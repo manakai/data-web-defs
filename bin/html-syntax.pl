@@ -30,7 +30,6 @@ $Data->{adjusted_svg_attr_names} = {
   diffuseconstant => 'diffuseConstant',
   edgemode => 'edgeMode',
   externalresourcesrequired => 'externalResourcesRequired',
-  filterres => 'filterRes',
   filterunits => 'filterUnits',
   glyphref => 'glyphRef',
   gradienttransform => 'gradientTransform',
