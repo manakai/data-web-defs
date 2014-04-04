@@ -11,6 +11,8 @@ GIT = git
 SVN = svn
 PERL = ./perl
 
+updatenightly: dataautoupdate
+
 dataautoupdate: clean deps all
 	$(GIT) add data/*.json
 
