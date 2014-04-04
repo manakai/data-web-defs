@@ -104,7 +104,8 @@ local/sw-url-schemes.txt: local/sw-url-schemes.xml \
 
 local/iana-url-schemes.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/uri-schemes/uri-schemes.xml
-local/iana-url-schemes.txt: local/iana-url-schemes.xml
+local/iana-url-schemes.txt: local/iana-url-schemes.xml \
+    bin/extract-iana-url-schemes.pl
 	$(PERL) bin/extract-iana-url-schemes.pl < $< > $@
 
 data/url-schemes.json: bin/url-schemes.pl \
