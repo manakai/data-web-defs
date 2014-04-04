@@ -3660,7 +3660,13 @@
                }
             },
             "auto_br" : "allow",
-            "interface" : "HTMLUnknownElement"
+            "interface" : "HTMLUnknownElement",
+            "states" : {
+               "interactive-by-tabindex" : {
+                  "canvas_fallback" : "1",
+                  "supported_canvas_fallback" : "1"
+               }
+            }
          },
          "a" : {
             "all_named" : 1,
@@ -4125,6 +4131,7 @@
                   }
                }
             },
+            "canvas_fallback" : "1",
             "conforming" : 1,
             "content_model" : "transparent",
             "desc" : "Hyperlink",
@@ -4137,6 +4144,11 @@
             "interface" : "HTMLAnchorElement",
             "parser_category" : "formatting",
             "spec" : "HTML",
+            "states" : {
+               "hyperlink-noimage" : {
+                  "supported_canvas_fallback" : "1"
+               }
+            },
             "status" : "LC",
             "transparent" : "1"
          },
@@ -6025,6 +6037,8 @@
                   }
                }
             },
+            "button" : "1",
+            "canvas_fallback" : "1",
             "conforming" : 1,
             "content_model" : "phrasing content",
             "desc" : "Button control",
@@ -6038,7 +6052,13 @@
             "parser_button_scoping" : 1,
             "parser_category" : "special",
             "spec" : "HTML",
-            "status" : "LC"
+            "states" : {
+               "submit-button" : {
+                  "submit_button" : "1"
+               }
+            },
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "byline" : {
             "preferred" : {
@@ -6146,7 +6166,8 @@
             "parser_li_scoping" : 1,
             "parser_scoping" : 1,
             "spec" : "HTML",
-            "status" : "REC"
+            "status" : "REC",
+            "supported_canvas_fallback" : "1"
          },
          "card" : {
             "preferred" : {
@@ -10237,6 +10258,11 @@
             "interface" : "HTMLImageElement",
             "parser_category" : "special",
             "spec" : "HTML",
+            "states" : {
+               "usemap-attr" : {
+                  "canvas_fallback" : "1"
+               }
+            },
             "status" : "LC",
             "syntax_category" : "void"
          },
@@ -13713,6 +13739,11 @@
             "parser_implied_end_tag_at_body" : 1,
             "parser_select_non_scoping" : 1,
             "spec" : "HTML",
+            "states" : {
+               "in-select-listbox" : {
+                  "supported_canvas_fallback" : "1"
+               }
+            },
             "status" : "LC",
             "text_type" : "text"
          },
@@ -14853,6 +14884,12 @@
             "interface" : "HTMLSelectElement",
             "parser_category" : "special",
             "spec" : "HTML",
+            "states" : {
+               "listbox" : {
+                  "canvas_fallback" : "1",
+                  "supported_canvas_fallback" : "1"
+               }
+            },
             "status" : "LC"
          },
          "select1" : {
@@ -15622,7 +15659,8 @@
             "parser_scoping" : 1,
             "parser_table_scoping" : 1,
             "spec" : "HTML",
-            "status" : "LC"
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "tbl" : {
             "preferred" : {
@@ -15763,7 +15801,8 @@
             "parser_table_body_scoping" : 1,
             "spec" : "HTML",
             "start_tag" : "optional",
-            "status" : "LC"
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "td" : {
             "aria" : {
@@ -16042,7 +16081,8 @@
             "parser_li_scoping" : 1,
             "parser_scoping" : 1,
             "spec" : "HTML",
-            "status" : "LC"
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "template" : {
             "aria" : {
@@ -16735,7 +16775,8 @@
             "parser_implied_end_tag_at_eof" : 1,
             "parser_table_body_scoping" : 1,
             "spec" : "HTML",
-            "status" : "LC"
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "th" : {
             "aria" : {
@@ -17036,7 +17077,13 @@
             "parser_li_scoping" : 1,
             "parser_scoping" : 1,
             "spec" : "HTML",
-            "status" : "LC"
+            "states" : {
+               "sorting-interface" : {
+                  "canvas_fallback" : "1"
+               }
+            },
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "thead" : {
             "aria" : {
@@ -17170,7 +17217,8 @@
             "parser_implied_end_tag_at_eof" : 1,
             "parser_table_body_scoping" : 1,
             "spec" : "HTML",
-            "status" : "LC"
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "tilde" : {
             "preferred" : {
@@ -17399,7 +17447,8 @@
             "parser_implied_end_tag_at_eof" : 1,
             "parser_table_row_scoping" : 1,
             "spec" : "HTML",
-            "status" : "LC"
+            "status" : "LC",
+            "supported_canvas_fallback" : "1"
          },
          "track" : {
             "attrs" : {
@@ -20513,6 +20562,37 @@
             "range" : 1,
             "time" : 1,
             "week" : 1
+         }
+      },
+      "states" : {
+         "button" : {
+            "button" : "1",
+            "canvas_fallback" : "1",
+            "supported_canvas_fallback" : "1"
+         },
+         "checkbox" : {
+            "canvas_fallback" : "1",
+            "supported_canvas_fallback" : "1"
+         },
+         "image" : {
+            "button" : "1",
+            "canvas_fallback" : "1",
+            "submit_button" : "1"
+         },
+         "radio" : {
+            "canvas_fallback" : "1",
+            "supported_canvas_fallback" : "1"
+         },
+         "reset" : {
+            "button" : "1",
+            "canvas_fallback" : "1",
+            "supported_canvas_fallback" : "1"
+         },
+         "submit" : {
+            "button" : "1",
+            "canvas_fallback" : "1",
+            "submit_button" : "1",
+            "supported_canvas_fallback" : "1"
          }
       }
    },

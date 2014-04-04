@@ -14,7 +14,7 @@ my $doc = Web::DOM::Document->new;
 }
 
 my %scheme;
-for (@{$doc->document_element->child_nodes}) {
+for (@{$doc->document_element->children}) {
   next unless $_->local_name eq 'registry';
   my $title = $_->query_selector ('title')->text_content;
   $title =~ s/ URI Schemes$//;

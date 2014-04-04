@@ -343,6 +343,23 @@ pairs:
         Note that a descendant element of "disallow"ed elements might
         allow automatic <br> insertion.
 
+      button [boolean]
+
+        Whether the element is a button
+        <http://www.whatwg.org/specs/web-apps/current-work/#concept-button>
+        or not.
+
+        This name/value pair can also be specified in |states| of HTML
+        |input| element.
+
+      canvas_fallback [boolean]
+
+        Whether the element is an interactive content that is allowed
+        as a descendant of an HTML |canvas| element or not.
+
+        This name/value pair can also be specified in |states| of
+        element or HTML |input| element.
+
       child_elements [object?]
 
         A description of content model, represented as list of allowed
@@ -621,10 +638,39 @@ pairs:
         If the value is "optional", the start tag can be omitted in
         certain context.  Otherwise, the start tag is required.
 
+      states [object?]
+
+        A JSON object whose names are "states" of the element and
+        values are JSON object containing properties apply to the
+        element only when it is in specific state.  States are
+        represented in "element state" type (see
+        |doc/data-types.txt|).  Name/value pairs for elements are also
+        available for element states if they are defined to be
+        applicable for element states.
+
       status [status?]
 
         Status of the element.  Note that obsolete or non-conforming
         element might also have status value.
+
+      submit_button [boolean]
+
+        Whether the element is a submit button
+        <http://www.whatwg.org/specs/web-apps/current-work/#concept-submit-button>
+        or not.
+
+        This name/value pair can also be specified in |states| of HTML
+        |input| element.
+
+      supported_canvas_fallback [boolean]
+
+        Whether the element is a supported interactive canvas fallback
+        element
+        <http://www.whatwg.org/specs/web-apps/current-work/#supported-interactive-canvas-fallback-element>
+        or not.
+
+        This name/value pair can also be specified in |states| of
+        element or HTML |input| element.
 
       syntax_category [string?]
 
@@ -746,6 +792,14 @@ pairs:
     semantics objects.  See later section for details of the structure
     of objects.
 
+    The object also contains an object for the name "states".  The
+    object contains name/value pairs where names are |input| |type|
+    keywords (in lowercase) and values are corresponding JSON objects
+    containing properties apply to the element only when whose |type|
+    attribute is in specific state.  Name/value pairs for elements are
+    also available for element states if they are defined to be
+    applicable for element states.
+
   namespaces [object]
 
     Names are namespace URLs and values are their properties,
@@ -787,30 +841,8 @@ relevant standards and reorganized in mechine-readable form.
 An ARIA semantics object is a JSON object where names are representing
 states of the element and values are corresponding ARIA definitions.
 
-States are represented as one of following strings:
-
-  The empty string - Any state
-  |hidden-attr|    - If HTML |hidden| attribute is specified
-  |inert|          - If the element is inert
-  |hyperlink|      - If the element creates a hyperlink
-  |the-body|       - If the element is the body element of the document
-  |no-hgroup|      - If there is no ancestor |hgroup| element
-  |empty-alt|      - If the |alt| attribute is the empty string
-  |not-empty-alt|  - If there is no |alt| attribute or the |alt| attribute
-                     has non-empty value
-  |popup|          - If |type| IDL attribute is |popup|
-  |toolbar|        - If |type| IDL attribute is |toolbar|
-  |multilist|      - If the element represents a multi-select list box
-  |singlelist|     - If the element represents a single-select list box
-  |dropdown|       - If the element represents a one-line drop down box
-  |in-datalist|    - If it represents a suggestion in |datalist|
-  |in-select-multilist| - If it is an option in a |select| |multilist|
-  |in-select-singlelist| - If it is an option in a |select| |singlelist|
-  |in-select-dropdown| - If it is an option in a |select| |dropdown|
-  |multiple|       - If |multiple| attribute is specified
-  |sort-1|         - If the element is a sorting-capable |th| element whose
-                     column key ordinality is 1
-  |not-sort-1|     - If not |sort-1|
+States are represented in "element-state" data type (see
+|doc/data-types.txt|).
 
 Values corresponding to the states are JSON objects, with following
 name/value pairs:
