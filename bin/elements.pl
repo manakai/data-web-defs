@@ -79,7 +79,9 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 {
   my $f = file (__FILE__)->dir->parent->file ('src', 'elements.txt');
   for (($f->slurp)) {
-    if (/^([^=]+)=(.+)$/) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^([^=]+)=(.+)$/) {
       my $value = $2;
       my @path = split /\|/, $1, -1;
       my $name = pop @path;
