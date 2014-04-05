@@ -210,15 +210,6 @@ $Data->{elements}->{(HTML_NS)}->{ul}->{states}->{'has-item'}
 $Data->{elements}->{(HTML_NS)}->{ol}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
 
-for (grep { $_ ne 'hidden' } @$input_states) {
-  $Data->{input}->{states}->{$_}->{categories}->{'interactive content'} = 1;
-  $Data->{input}->{states}->{$_}->{categories}->{'category-label'} = 1;
-  $Data->{input}->{states}->{$_}->{categories}->{'palpable content'} = 1;
-}
-$Data->{elements}->{(HTML_NS)}->{input}->{categories}->{$_} = 1
-    for 'category-listed', 'category-submit', 'category-reset',
-        'category-form-attr', 'form-associated element';
-
 $Data->{elements}->{(HTML_NS)}->{video}->{categories}->{'media element'} = 1;
 $Data->{elements}->{(HTML_NS)}->{audio}->{categories}->{'media element'} = 1;
 
@@ -231,6 +222,53 @@ for ('embedded content', 'phrasing content', 'flow content',
   $Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{math}
       ->{categories}->{$_} = 1;
 }
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#concept-button>
+## <http://www.whatwg.org/specs/web-apps/current-work/#concept-submit-button>
+$Data->{input}->{states}->{$_}->{button} = 1
+    for qw(button submit image reset);
+$Data->{input}->{states}->{$_}->{submit_button} = 1
+    for qw(submit image);
+$Data->{elements}->{(HTML_NS)}->{button}->{button} = 1;
+$Data->{elements}->{(HTML_NS)}->{button}->{states}->{'submit-button'}
+    ->{submit_button} = 1;
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#the-canvas-element>
+## <http://www.whatwg.org/specs/web-apps/current-work/#supported-interactive-canvas-fallback-element>
+$Data->{elements}->{(HTML_NS)}->{$_}->{canvas_fallback} = 1
+    for qw(a button);
+$Data->{elements}->{(HTML_NS)}->{$_}->{supported_canvas_fallback} = 1
+    for qw(button table caption thead tbody tfoot tr th td);
+$Data->{elements}->{(HTML_NS)}->{a}->{states}->{'hyperlink-noimage'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{select}->{states}->{'listbox'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{select}->{states}->{'listbox'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{option}->{states}->{'in-select-listbox'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{th}->{states}->{'sorting-interface'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{input}->{states}->{$_}->{canvas_fallback} = 1
+    for qw(checkbox radio submit reset button image);
+$Data->{input}->{states}->{$_}->{supported_canvas_fallback} = 1
+    for qw(checkbox radio submit reset button);
+
+## <input>
+for (grep { $_ ne 'hidden' } @$input_states) {
+  $Data->{input}->{states}->{$_}->{categories}->{'interactive content'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'category-label'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'palpable content'} = 1;
+}
+$Data->{elements}->{(HTML_NS)}->{input}->{categories}->{$_} = 1
+    for 'category-listed', 'category-submit', 'category-reset',
+        'category-form-attr', 'form-associated element';
 
 use Encode;
 use Web::DOM::Document;
