@@ -1751,7 +1751,26 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/Airline" : {
+      "props" : {
+         "iataCode" : {
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Organization" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Airport" : {
+      "props" : {
+         "iataCode" : {
+            "value" : "text"
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CivicStructure" : 1,
@@ -1960,6 +1979,31 @@
          "http://schema.org/Organization" : 2,
          "http://schema.org/Place" : 2,
          "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Answer" : {
+      "props" : {
+         "downvoteCount" : {
+            "value" : "integer"
+         },
+         "parentItem" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Question" : 1
+               }
+            }
+         },
+         "upvoteCount" : {
+            "value" : "integer"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -2711,6 +2755,16 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/BusReservation" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/BusStation" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -2727,6 +2781,56 @@
          "http://schema.org/CivicStructure" : 1,
          "http://schema.org/Place" : 2,
          "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/BusTrip" : {
+      "props" : {
+         "arrivalBusStop" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/BusStation" : 1,
+                  "http://schema.org/BusStop" : 1
+               }
+            }
+         },
+         "arrivalTime" : {
+            "value" : "global or local date and time string"
+         },
+         "busName" : {
+            "value" : "text"
+         },
+         "busNumber" : {
+            "value" : "text"
+         },
+         "departureBusStop" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/BusStation" : 1,
+                  "http://schema.org/BusStop" : 1
+               }
+            }
+         },
+         "departureTime" : {
+            "value" : "global or local date and time string"
+         },
+         "provider" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -2865,6 +2969,16 @@
          "http://schema.org/OrganizeAction" : 2,
          "http://schema.org/PlanAction" : 1,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Car" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Product" : 2,
+         "http://schema.org/Thing" : 3,
+         "http://schema.org/Vehicle" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -3234,6 +3348,22 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Comment" : {
+      "props" : {
+         "downvoteCount" : {
+            "value" : "integer"
+         },
+         "parentItem" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Question" : 1
+               }
+            }
+         },
+         "upvoteCount" : {
+            "value" : "integer"
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
@@ -3639,9 +3769,13 @@
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Comment" : 1,
                   "http://schema.org/UserComments" : 1
                }
             }
+         },
+         "commentCount" : {
+            "value" : "integer"
          },
          "contentLocation" : {
             "is_url" : 1,
@@ -3854,6 +3988,7 @@
       "superclass_of" : {
          "http://schema.org/APIReference" : 3,
          "http://schema.org/AboutPage" : 2,
+         "http://schema.org/Answer" : 1,
          "http://schema.org/Article" : 1,
          "http://schema.org/AudioObject" : 2,
          "http://schema.org/Blog" : 1,
@@ -3869,6 +4004,7 @@
          "http://schema.org/DataDownload" : 2,
          "http://schema.org/Dataset" : 1,
          "http://schema.org/Diet" : 1,
+         "http://schema.org/EmailMessage" : 1,
          "http://schema.org/Episode" : 1,
          "http://schema.org/ExercisePlan" : 1,
          "http://schema.org/ImageGallery" : 3,
@@ -3889,6 +4025,8 @@
          "http://schema.org/Painting" : 1,
          "http://schema.org/Photograph" : 1,
          "http://schema.org/ProfilePage" : 2,
+         "http://schema.org/QAPage" : 2,
+         "http://schema.org/Question" : 1,
          "http://schema.org/RadioClip" : 2,
          "http://schema.org/RadioEpisode" : 2,
          "http://schema.org/RadioSeason" : 2,
@@ -5098,6 +5236,15 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/EmailMessage" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Embassy" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -5212,6 +5359,7 @@
          "http://schema.org/ParcelService" : 2,
          "http://schema.org/PaymentMethod" : 1,
          "http://schema.org/QualitativeValue" : 1,
+         "http://schema.org/ReservationStatusType" : 1,
          "http://schema.org/Specialty" : 1,
          "http://schema.org/WarrantyScope" : 1
       },
@@ -5476,6 +5624,16 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/EventReservation" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/EventStatusType" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -5729,6 +5887,120 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/Flight" : {
+      "props" : {
+         "aircraft" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Vehicle" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "arrivalAirport" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Airport" : 1
+               }
+            }
+         },
+         "arrivalGate" : {
+            "value" : "text"
+         },
+         "arrivalTerminal" : {
+            "value" : "text"
+         },
+         "arrivalTime" : {
+            "value" : "global or local date and time string"
+         },
+         "carrier" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Airline" : 1,
+                  "http://schema.org/Organization" : 1
+               }
+            }
+         },
+         "departureAirport" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Airport" : 1
+               }
+            }
+         },
+         "departureGate" : {
+            "value" : "text"
+         },
+         "departureTerminal" : {
+            "value" : "text"
+         },
+         "departureTime" : {
+            "value" : "global or local date and time string"
+         },
+         "estimatedFlightDuration" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Duration" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "flightDistance" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Distance" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "flightNumber" : {
+            "value" : "text"
+         },
+         "mealService" : {
+            "value" : "text"
+         },
+         "provider" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "webCheckinTime" : {
+            "value" : "global or local date and time string"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/FlightReservation" : {
+      "props" : {
+         "boardingGroup" : {
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Float" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -5799,6 +6071,30 @@
          "http://schema.org/IceCreamShop" : 1,
          "http://schema.org/Restaurant" : 1,
          "http://schema.org/Winery" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/FoodEstablishmentReservation" : {
+      "props" : {
+         "partySize" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "startTime" : {
+            "value" : "global or local date and time string"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -6458,6 +6754,8 @@
          "http://schema.org/Audience" : 1,
          "http://schema.org/BookFormatType" : 2,
          "http://schema.org/Brand" : 1,
+         "http://schema.org/BusReservation" : 2,
+         "http://schema.org/BusTrip" : 1,
          "http://schema.org/BusinessAudience" : 2,
          "http://schema.org/BusinessEntityType" : 2,
          "http://schema.org/BusinessFunction" : 2,
@@ -6473,7 +6771,11 @@
          "http://schema.org/EducationalAudience" : 2,
          "http://schema.org/Energy" : 2,
          "http://schema.org/Enumeration" : 1,
+         "http://schema.org/EventReservation" : 2,
          "http://schema.org/EventStatusType" : 2,
+         "http://schema.org/Flight" : 1,
+         "http://schema.org/FlightReservation" : 2,
+         "http://schema.org/FoodEstablishmentReservation" : 2,
          "http://schema.org/GeoCoordinates" : 2,
          "http://schema.org/GeoShape" : 2,
          "http://schema.org/GovernmentPermit" : 2,
@@ -6482,6 +6784,7 @@
          "http://schema.org/JobPosting" : 1,
          "http://schema.org/Language" : 1,
          "http://schema.org/LockerDelivery" : 3,
+         "http://schema.org/LodgingReservation" : 2,
          "http://schema.org/Mass" : 2,
          "http://schema.org/MedicalAudience" : 2,
          "http://schema.org/MedicalSpecialty" : 3,
@@ -6502,14 +6805,25 @@
          "http://schema.org/Permit" : 1,
          "http://schema.org/PostalAddress" : 3,
          "http://schema.org/PriceSpecification" : 2,
+         "http://schema.org/ProgramMembership" : 1,
          "http://schema.org/QualitativeValue" : 2,
          "http://schema.org/QuantitativeValue" : 2,
          "http://schema.org/Quantity" : 1,
          "http://schema.org/Rating" : 1,
+         "http://schema.org/RentalCarReservation" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/ReservationPackage" : 2,
+         "http://schema.org/ReservationStatusType" : 2,
+         "http://schema.org/Seat" : 1,
          "http://schema.org/Service" : 1,
          "http://schema.org/ServiceChannel" : 1,
          "http://schema.org/Specialty" : 2,
          "http://schema.org/StructuredValue" : 1,
+         "http://schema.org/Taxi" : 2,
+         "http://schema.org/TaxiReservation" : 2,
+         "http://schema.org/Ticket" : 1,
+         "http://schema.org/TrainReservation" : 2,
+         "http://schema.org/TrainTrip" : 1,
          "http://schema.org/TypeAndQuantityNode" : 2,
          "http://schema.org/UnitPriceSpecification" : 3,
          "http://schema.org/WarrantyPromise" : 2,
@@ -7134,6 +7448,54 @@
          "http://schema.org/Hostel" : 1,
          "http://schema.org/Hotel" : 1,
          "http://schema.org/Motel" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/LodgingReservation" : {
+      "props" : {
+         "checkinTime" : {
+            "value" : "global or local date and time string"
+         },
+         "checkoutTime" : {
+            "value" : "global or local date and time string"
+         },
+         "lodgingUnitDescription" : {
+            "value" : "text"
+         },
+         "lodgingUnitType" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QualitativeValue" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "numAdults" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "numChildren" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -9945,6 +10307,7 @@
       "superclass_of" : {
          "http://schema.org/AccountingService" : 3,
          "http://schema.org/AdultEntertainment" : 3,
+         "http://schema.org/Airline" : 1,
          "http://schema.org/AmusementPark" : 3,
          "http://schema.org/AnimalShelter" : 2,
          "http://schema.org/ArtGallery" : 3,
@@ -10191,6 +10554,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Airline" : 1,
                   "http://schema.org/Organization" : 1
                }
             }
@@ -11754,9 +12118,11 @@
          "http://schema.org/Thing" : 1
       },
       "superclass_of" : {
+         "http://schema.org/Car" : 2,
          "http://schema.org/IndividualProduct" : 1,
          "http://schema.org/ProductModel" : 1,
-         "http://schema.org/SomeProducts" : 1
+         "http://schema.org/SomeProducts" : 1,
+         "http://schema.org/Vehicle" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -11825,6 +12191,40 @@
          "http://schema.org/CreativeWork" : 2,
          "http://schema.org/Thing" : 3,
          "http://schema.org/WebPage" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ProgramMembership" : {
+      "props" : {
+         "hostingOrganization" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1
+               }
+            }
+         },
+         "member" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "membershipNumber" : {
+            "value" : "text"
+         },
+         "programName" : {
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -11901,6 +12301,16 @@
       "superclass_of" : {
          "http://schema.org/BroadcastEvent" : 1,
          "http://schema.org/OnDemandEvent" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/QAPage" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Thing" : 3,
+         "http://schema.org/WebPage" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12018,6 +12428,42 @@
          "http://schema.org/Duration" : 1,
          "http://schema.org/Energy" : 1,
          "http://schema.org/Mass" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Question" : {
+      "props" : {
+         "acceptedAnswer" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Answer" : 1
+               }
+            }
+         },
+         "answerCount" : {
+            "value" : "integer"
+         },
+         "downvoteCount" : {
+            "value" : "integer"
+         },
+         "suggestedAnswer" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Answer" : 1
+               }
+            }
+         },
+         "upvoteCount" : {
+            "value" : "integer"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12568,6 +13014,40 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/RentalCarReservation" : {
+      "props" : {
+         "dropoffLocation" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
+         },
+         "dropoffTime" : {
+            "value" : "global or local date and time string"
+         },
+         "pickupLocation" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
+         },
+         "pickupTime" : {
+            "value" : "global or local date and time string"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/ReplaceAction" : {
       "props" : {
          "replacee" : {
@@ -12614,6 +13094,138 @@
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalIntangible" : 2,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Reservation" : {
+      "props" : {
+         "bookingAgent" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "bookingTime" : {
+            "value" : "global or local date and time string"
+         },
+         "modifiedTime" : {
+            "value" : "global or local date and time string"
+         },
+         "priceCurrency" : {
+            "value" : "text"
+         },
+         "programMembershipUsed" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ProgramMembership" : 1
+               }
+            }
+         },
+         "provider" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "reservationFor" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "reservationId" : {
+            "value" : "text"
+         },
+         "reservationStatus" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ReservationStatusType" : 1
+               }
+            }
+         },
+         "reservedTicket" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Ticket" : 1
+               }
+            }
+         },
+         "totalPrice" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PriceSpecification" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "underName" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/BusReservation" : 1,
+         "http://schema.org/EventReservation" : 1,
+         "http://schema.org/FlightReservation" : 1,
+         "http://schema.org/FoodEstablishmentReservation" : 1,
+         "http://schema.org/LodgingReservation" : 1,
+         "http://schema.org/RentalCarReservation" : 1,
+         "http://schema.org/ReservationPackage" : 1,
+         "http://schema.org/TaxiReservation" : 1,
+         "http://schema.org/TrainReservation" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ReservationPackage" : {
+      "props" : {
+         "subReservation" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Reservation" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ReservationStatusType" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12950,6 +13562,35 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/Seat" : {
+      "props" : {
+         "seatNumber" : {
+            "value" : "text"
+         },
+         "seatRow" : {
+            "value" : "text"
+         },
+         "seatSection" : {
+            "value" : "text"
+         },
+         "seatingType" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QualitativeValue" : 1
+               }
+            },
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/SelfStorage" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -13196,7 +13837,8 @@
          "http://schema.org/Thing" : 2
       },
       "superclass_of" : {
-         "http://schema.org/GovernmentService" : 1
+         "http://schema.org/GovernmentService" : 1,
+         "http://schema.org/Taxi" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -14037,6 +14679,48 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/Taxi" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Service" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/TaxiReservation" : {
+      "props" : {
+         "partySize" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "pickupLocation" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
+         },
+         "pickupTime" : {
+            "value" : "global or local date and time string"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/TaxiStand" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -14170,6 +14854,7 @@
          "http://schema.org/AggregateOffer" : 3,
          "http://schema.org/AggregateRating" : 3,
          "http://schema.org/AgreeAction" : 4,
+         "http://schema.org/Airline" : 2,
          "http://schema.org/Airport" : 3,
          "http://schema.org/AlignmentObject" : 2,
          "http://schema.org/AllocateAction" : 3,
@@ -14177,6 +14862,7 @@
          "http://schema.org/AnatomicalStructure" : 2,
          "http://schema.org/AnatomicalSystem" : 2,
          "http://schema.org/AnimalShelter" : 3,
+         "http://schema.org/Answer" : 2,
          "http://schema.org/ApartmentComplex" : 3,
          "http://schema.org/AppendAction" : 5,
          "http://schema.org/ApplyAction" : 3,
@@ -14226,8 +14912,10 @@
          "http://schema.org/BroadcastEvent" : 3,
          "http://schema.org/BroadcastService" : 1,
          "http://schema.org/BuddhistTemple" : 4,
+         "http://schema.org/BusReservation" : 3,
          "http://schema.org/BusStation" : 3,
          "http://schema.org/BusStop" : 3,
+         "http://schema.org/BusTrip" : 2,
          "http://schema.org/BusinessAudience" : 3,
          "http://schema.org/BusinessEntityType" : 3,
          "http://schema.org/BusinessEvent" : 2,
@@ -14237,6 +14925,7 @@
          "http://schema.org/Campground" : 3,
          "http://schema.org/Canal" : 4,
          "http://schema.org/CancelAction" : 4,
+         "http://schema.org/Car" : 3,
          "http://schema.org/Casino" : 4,
          "http://schema.org/CatholicChurch" : 4,
          "http://schema.org/Cemetery" : 3,
@@ -14325,6 +15014,7 @@
          "http://schema.org/Electrician" : 4,
          "http://schema.org/ElectronicsStore" : 4,
          "http://schema.org/ElementarySchool" : 3,
+         "http://schema.org/EmailMessage" : 2,
          "http://schema.org/Embassy" : 4,
          "http://schema.org/EmergencyService" : 3,
          "http://schema.org/EmploymentAgency" : 3,
@@ -14334,6 +15024,7 @@
          "http://schema.org/Enumeration" : 2,
          "http://schema.org/Episode" : 2,
          "http://schema.org/Event" : 1,
+         "http://schema.org/EventReservation" : 3,
          "http://schema.org/EventStatusType" : 3,
          "http://schema.org/EventVenue" : 3,
          "http://schema.org/ExerciseAction" : 3,
@@ -14345,9 +15036,12 @@
          "http://schema.org/FinancialService" : 3,
          "http://schema.org/FindAction" : 2,
          "http://schema.org/FireStation" : 3,
+         "http://schema.org/Flight" : 2,
+         "http://schema.org/FlightReservation" : 3,
          "http://schema.org/Florist" : 4,
          "http://schema.org/FollowAction" : 3,
          "http://schema.org/FoodEstablishment" : 3,
+         "http://schema.org/FoodEstablishmentReservation" : 3,
          "http://schema.org/FoodEvent" : 2,
          "http://schema.org/FurnitureStore" : 4,
          "http://schema.org/GardenStore" : 4,
@@ -14419,6 +15113,7 @@
          "http://schema.org/LockerDelivery" : 4,
          "http://schema.org/Locksmith" : 4,
          "http://schema.org/LodgingBusiness" : 3,
+         "http://schema.org/LodgingReservation" : 3,
          "http://schema.org/LoseAction" : 3,
          "http://schema.org/LymphaticVessel" : 4,
          "http://schema.org/Map" : 2,
@@ -14559,13 +15254,16 @@
          "http://schema.org/ProductModel" : 2,
          "http://schema.org/ProfessionalService" : 3,
          "http://schema.org/ProfilePage" : 3,
+         "http://schema.org/ProgramMembership" : 2,
          "http://schema.org/Property" : 1,
          "http://schema.org/PsychologicalTreatment" : 3,
          "http://schema.org/PublicSwimmingPool" : 4,
          "http://schema.org/PublicationEvent" : 2,
+         "http://schema.org/QAPage" : 3,
          "http://schema.org/QualitativeValue" : 3,
          "http://schema.org/QuantitativeValue" : 3,
          "http://schema.org/Quantity" : 2,
+         "http://schema.org/Question" : 2,
          "http://schema.org/QuoteAction" : 3,
          "http://schema.org/RVPark" : 3,
          "http://schema.org/RadiationTherapy" : 3,
@@ -14585,9 +15283,13 @@
          "http://schema.org/RegisterAction" : 3,
          "http://schema.org/RejectAction" : 4,
          "http://schema.org/RentAction" : 3,
+         "http://schema.org/RentalCarReservation" : 3,
          "http://schema.org/ReplaceAction" : 3,
          "http://schema.org/ReplyAction" : 4,
          "http://schema.org/ReportedDoseSchedule" : 4,
+         "http://schema.org/Reservation" : 2,
+         "http://schema.org/ReservationPackage" : 3,
+         "http://schema.org/ReservationStatusType" : 3,
          "http://schema.org/ReserveAction" : 4,
          "http://schema.org/Reservoir" : 4,
          "http://schema.org/Residence" : 2,
@@ -14607,6 +15309,7 @@
          "http://schema.org/SearchAction" : 2,
          "http://schema.org/SearchResultsPage" : 3,
          "http://schema.org/Season" : 2,
+         "http://schema.org/Seat" : 2,
          "http://schema.org/SelfStorage" : 3,
          "http://schema.org/SellAction" : 3,
          "http://schema.org/SendAction" : 3,
@@ -14643,6 +15346,8 @@
          "http://schema.org/Table" : 3,
          "http://schema.org/TakeAction" : 3,
          "http://schema.org/TattooParlor" : 4,
+         "http://schema.org/Taxi" : 3,
+         "http://schema.org/TaxiReservation" : 3,
          "http://schema.org/TaxiStand" : 3,
          "http://schema.org/TechArticle" : 3,
          "http://schema.org/TelevisionStation" : 3,
@@ -14650,6 +15355,7 @@
          "http://schema.org/TheaterEvent" : 2,
          "http://schema.org/TheaterGroup" : 3,
          "http://schema.org/TherapeuticProcedure" : 3,
+         "http://schema.org/Ticket" : 2,
          "http://schema.org/TieAction" : 3,
          "http://schema.org/TipAction" : 3,
          "http://schema.org/TireShop" : 4,
@@ -14658,7 +15364,9 @@
          "http://schema.org/ToyStore" : 4,
          "http://schema.org/TrackAction" : 3,
          "http://schema.org/TradeAction" : 2,
+         "http://schema.org/TrainReservation" : 3,
          "http://schema.org/TrainStation" : 3,
+         "http://schema.org/TrainTrip" : 2,
          "http://schema.org/TransferAction" : 2,
          "http://schema.org/TravelAction" : 3,
          "http://schema.org/TravelAgency" : 3,
@@ -14678,6 +15386,7 @@
          "http://schema.org/UserPlays" : 3,
          "http://schema.org/UserPlusOnes" : 3,
          "http://schema.org/UserTweets" : 3,
+         "http://schema.org/Vehicle" : 2,
          "http://schema.org/Vein" : 4,
          "http://schema.org/Vessel" : 3,
          "http://schema.org/VeterinaryCare" : 4,
@@ -14705,6 +15414,63 @@
          "http://schema.org/Winery" : 4,
          "http://schema.org/WriteAction" : 3,
          "http://schema.org/Zoo" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Ticket" : {
+      "props" : {
+         "dateIssued" : {
+            "value" : "global or local date and time string"
+         },
+         "issuedBy" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1
+               }
+            }
+         },
+         "priceCurrency" : {
+            "value" : "text"
+         },
+         "ticketNumber" : {
+            "value" : "text"
+         },
+         "ticketToken" : {
+            "value" : "text"
+         },
+         "ticketedSeat" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Seat" : 1
+               }
+            }
+         },
+         "totalPrice" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PriceSpecification" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "underName" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -14837,12 +15603,76 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/TrainReservation" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/TrainStation" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CivicStructure" : 1,
          "http://schema.org/Place" : 2,
          "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/TrainTrip" : {
+      "props" : {
+         "arrivalPlatform" : {
+            "value" : "text"
+         },
+         "arrivalStation" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/TrainStation" : 1
+               }
+            }
+         },
+         "arrivalTime" : {
+            "value" : "global or local date and time string"
+         },
+         "departurePlatform" : {
+            "value" : "text"
+         },
+         "departureStation" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/TrainStation" : 1
+               }
+            }
+         },
+         "departureTime" : {
+            "value" : "global or local date and time string"
+         },
+         "provider" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "trainName" : {
+            "value" : "text"
+         },
+         "trainNumber" : {
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -15181,6 +16011,18 @@
          "http://schema.org/Event" : 2,
          "http://schema.org/Thing" : 3,
          "http://schema.org/UserInteraction" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Vehicle" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Product" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/Car" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -15560,6 +16402,7 @@
          "http://schema.org/ItemPage" : 1,
          "http://schema.org/MedicalWebPage" : 1,
          "http://schema.org/ProfilePage" : 1,
+         "http://schema.org/QAPage" : 1,
          "http://schema.org/SearchResultsPage" : 1,
          "http://schema.org/VideoGallery" : 2
       },
