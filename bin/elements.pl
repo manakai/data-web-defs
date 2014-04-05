@@ -4,6 +4,15 @@ use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
 use JSON::Functions::XS qw(perl2json_bytes_for_record file2perl);
 
+sub HTML_NS () { 'http://www.w3.org/1999/xhtml' }
+sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
+sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
+sub APP_NS () { 'http://www.w3.org/2007/app' }
+sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
+sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
+sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
+sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+
 my $Data = {};
 
 {
@@ -25,8 +34,9 @@ my $Data = {};
     }
     for (keys %{$in->{categories} or {}}) {
       next if $_ eq '_complex';
-      $Data->{categories}->{$_}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} = 1;
+      $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{categories}->{$_} = 1;
       $Data->{categories}->{$_}->{spec} ||= 'HTML';
+      $Data->{categories}->{$_}->{id} ||= $_;
     }
     for my $attr_name (keys %{$in->{attrs} or {}}) {
       my $i = $in->{attrs}->{$attr_name};
@@ -74,6 +84,28 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
       die "Broken data |$_|";
     }
   }
+}
+
+## Heading elements
+for my $el_name (qw(h1 h2 h3 h4 h5 h6)) {
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-h1,-h2,-h3,-h4,-h5,-and-h6-elements';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{spec} = 'HTML';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{content_model} = 'phrasing content';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{conforming} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{desc} = 'Section heading';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'flow content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'heading content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
+}
+
+## |sub| and |sup|
+for my $el_name (qw(sub sup)) {
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{spec} = 'HTML';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-sub-and-sup-elements';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{content_model} = 'phrasing content';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'flow content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'phrasing content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
 }
 
 {
@@ -294,9 +326,10 @@ for my $ns (keys %{$Data->{elements}}) {
 }
 
 ## <http://www.whatwg.org/specs/web-apps/current-work/#url-property-elements>.
-$Data->{categories}->{'URL property elements'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_} = 1
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{categories}->{'URL property elements'} = 1
     for qw(a area audio embed iframe img link object source track video);
 $Data->{categories}->{'URL property elements'}->{spec} = 'HTML';
+$Data->{categories}->{'URL property elements'}->{id} = 'URL property elements';
 $Data->{categories}->{'URL property elements'}->{label} = 'URL property elements';
 
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
@@ -432,13 +465,13 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{status} = $statuses->{'non-conforming-features'};
 }
 
-sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
-sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
-sub APP_NS () { 'http://www.w3.org/2007/app' }
-sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
-sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
-sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
-sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+for my $ns (keys %{$Data->{elements} or {}}) {
+  for my $ln (keys %{$Data->{elements}->{$ns} or {}}) {
+    for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{categories} or {}}) {
+      $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
+    }
+  }
+}
 
 for (
   ['feed'],
