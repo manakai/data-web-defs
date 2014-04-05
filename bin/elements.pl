@@ -86,6 +86,69 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   }
 }
 
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'elements.txt');
+  for (($f->slurp)) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^([^=]+)=(.+)$/) {
+      my $value = $2;
+      my @path = split /\|/, $1, -1;
+      my $name = pop @path;
+      my $data = $Data;
+      for (@path) {
+        $data = $data->{$_} ||= {};
+      }
+      $data->{$name} = $value;
+    } elsif (/\S/) {
+      die "Broken data |$_|";
+    }
+  }
+}
+
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'attr-types.txt');
+  my $ns;
+  my $last_attr;
+  for (($f->slurp)) {
+    if (/^\@ns (\S+)$/) {
+      $ns = $1;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{item_type} = $4;
+      $last_attr->{id_type} = $5;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{item_type} = $4;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=]+)=(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{id_type} = $4;
+    } elsif (/^(\S+)\s+(\S+)\s+(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+    } elsif (/^  (\S+)\s+(\S+)\s+(.+)$/) {
+      my ($keyword, $id, $label) = ($1, $2, $3);
+      my $canonical = $label =~ s/\s*!s*$//;
+      $keyword = '' if $keyword eq '#empty';
+      my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
+      if ($id ne '-') {
+        $last_attr->{enumerated}->{$keyword}->{id} = $id;
+        $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
+      }
+      $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
+      $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
+      $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
+      $last_attr->{enumerated}->{$keyword}->{non_conforming} = 1
+          if $invalid and not $keyword =~ /^#/;
+    } elsif (/\S/) {
+      die "Broken line: $_";
+    }
+  }
+}
+
 ## Heading elements
 for my $el_name (qw(h1 h2 h3 h4 h5 h6)) {
   $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-h1,-h2,-h3,-h4,-h5,-and-h6-elements';
@@ -108,24 +171,65 @@ for my $el_name (qw(sub sup)) {
   $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
 }
 
-{
-  my $f = file (__FILE__)->dir->parent->file ('src', 'elements.txt');
-  for (($f->slurp)) {
-    if (/^\s*#/) {
-      #
-    } elsif (/^([^=]+)=(.+)$/) {
-      my $value = $2;
-      my @path = split /\|/, $1, -1;
-      my $name = pop @path;
-      my $data = $Data;
-      for (@path) {
-        $data = $data->{$_} ||= {};
-      }
-      $data->{$name} = $value;
-    } elsif (/\S/) {
-      die "Broken data |$_|";
-    }
-  }
+my $input_states = [grep {
+  $Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}->{$_}->{conforming} and not /^#/;
+} keys %{$Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}}];
+
+for ('flow content', 'phrasing content') {
+  $Data->{elements}->{(HTML_NS)}->{area}->{states}->{'in-map'}
+      ->{categories}->{$_} = 1;
+  $Data->{elements}->{(HTML_NS)}->{link}->{states}->{'itemprop-attr'}
+      ->{categories}->{$_} = 1;
+  $Data->{elements}->{(HTML_NS)}->{meta}->{states}->{'itemprop-attr'}
+      ->{categories}->{$_} = 1;
+}
+$Data->{elements}->{(HTML_NS)}->{style}->{states}->{'scoped-attr'}
+    ->{categories}->{'flow content'} = 1;
+
+$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{video}->{states}->{'controls-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{object}->{states}->{'usemap-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{th}->{states}->{'sorting-interface'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
+    ->{categories}->{'interactive content'} = 1;
+
+$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{dl}->{states}->{'has-item'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{menu}->{states}->{'toolbar'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{ul}->{states}->{'has-item'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{ol}->{states}->{'has-item'}
+    ->{categories}->{'palpable content'} = 1;
+
+for (grep { $_ ne 'hidden' } @$input_states) {
+  $Data->{input}->{states}->{$_}->{categories}->{'interactive content'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'category-label'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'palpable content'} = 1;
+}
+$Data->{elements}->{(HTML_NS)}->{input}->{categories}->{$_} = 1
+    for 'category-listed', 'category-submit', 'category-reset',
+        'category-form-attr', 'form-associated element';
+
+$Data->{elements}->{(HTML_NS)}->{video}->{categories}->{'media element'} = 1;
+$Data->{elements}->{(HTML_NS)}->{audio}->{categories}->{'media element'} = 1;
+
+$Data->{elements}->{'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}->{RDF}
+    ->{categories}->{'metadata content'} = 1;
+for ('embedded content', 'phrasing content', 'flow content',
+     'palpable content') {
+  $Data->{elements}->{'http://www.w3.org/2000/svg'}->{svg}
+      ->{categories}->{$_} = 1;
+  $Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{math}
+      ->{categories}->{$_} = 1;
 }
 
 use Encode;
@@ -233,6 +337,7 @@ for my $ns (keys %{$Data->{elements}}) {
     for my $ans (keys %{$v->{attrs} || {}}) {
       for my $aln (keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
+        next if defined $w->{status};
         if ($w->{id} and $statuses->{$w->{id}} and $w->{spec} eq 'HTML') {
           $w->{status} ||= $statuses->{$w->{id}};
         } elsif ($w->{id} and $id_for_status->{$w->{id}} and
@@ -246,50 +351,8 @@ for my $ns (keys %{$Data->{elements}}) {
         }
         delete $w->{status} if defined $w->{status} and ($w->{status} eq 'UNKNOWN' or $w->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/);
         $w->{status} ||= $v->{status} if defined $v->{status};
+        delete $w->{status} unless defined $w->{spec};
       }
-    }
-  }
-}
-
-{
-  my $f = file (__FILE__)->dir->parent->file ('src', 'attr-types.txt');
-  my $ns;
-  my $last_attr;
-  for (($f->slurp)) {
-    if (/^\@ns (\S+)$/) {
-      $ns = $1;
-    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-      $last_attr->{item_type} = $4;
-      $last_attr->{id_type} = $5;
-    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-      $last_attr->{item_type} = $4;
-    } elsif (/^(\S+)\s+(\S+)\s+([^=]+)=(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-      $last_attr->{id_type} = $4;
-    } elsif (/^(\S+)\s+(\S+)\s+(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-    } elsif (/^  (\S+)\s+(\S+)\s+(.+)$/) {
-      my ($keyword, $id, $label) = ($1, $2, $3);
-      my $canonical = $label =~ s/\s*!s*$//;
-      $keyword = '' if $keyword eq '#empty';
-      my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
-      if ($id ne '-') {
-        $last_attr->{enumerated}->{$keyword}->{id} = $id;
-        $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
-      }
-      $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
-      $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
-      $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
-      $last_attr->{enumerated}->{$keyword}->{non_conforming} = 1
-          if $invalid and not $keyword =~ /^#/;
-    } elsif (/\S/) {
-      die "Broken line: $_";
     }
   }
 }
@@ -470,6 +533,20 @@ for my $ns (keys %{$Data->{elements} or {}}) {
     for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{categories} or {}}) {
       $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
     }
+    for my $state (keys %{$Data->{elements}->{$ns}->{$ln}->{states} or {}}) {
+      for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{states}->{$state}->{categories} or {}}) {
+        if ($ln eq '*') {
+          $Data->{categories}->{$cat_name}->{has_additional_rules} = 1;
+        } else {
+          $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{$ns}->{$ln} = 1;
+        }
+      }
+    }
+  }
+}
+for my $state (keys %{$Data->{input}->{states} or {}}) {
+  for my $cat_name (keys %{$Data->{input}->{states}->{$state}->{categories} or {}}) {
+    $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{(HTML_NS)}->{input} = 1;
   }
 }
 
