@@ -4,6 +4,15 @@ use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
 use JSON::Functions::XS qw(perl2json_bytes_for_record file2perl);
 
+sub HTML_NS () { 'http://www.w3.org/1999/xhtml' }
+sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
+sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
+sub APP_NS () { 'http://www.w3.org/2007/app' }
+sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
+sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
+sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
+sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+
 my $Data = {};
 
 {
@@ -25,8 +34,9 @@ my $Data = {};
     }
     for (keys %{$in->{categories} or {}}) {
       next if $_ eq '_complex';
-      $Data->{categories}->{$_}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} = 1;
+      $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{categories}->{$_} = 1;
       $Data->{categories}->{$_}->{spec} ||= 'HTML';
+      $Data->{categories}->{$_}->{id} ||= $_;
     }
     for my $attr_name (keys %{$in->{attrs} or {}}) {
       my $i = $in->{attrs}->{$attr_name};
@@ -95,6 +105,170 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
     }
   }
 }
+
+{
+  my $f = file (__FILE__)->dir->parent->file ('src', 'attr-types.txt');
+  my $ns;
+  my $last_attr;
+  for (($f->slurp)) {
+    if (/^\@ns (\S+)$/) {
+      $ns = $1;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{item_type} = $4;
+      $last_attr->{id_type} = $5;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{item_type} = $4;
+    } elsif (/^(\S+)\s+(\S+)\s+([^=]+)=(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+      $last_attr->{id_type} = $4;
+    } elsif (/^(\S+)\s+(\S+)\s+(.+)$/) {
+      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
+      $last_attr->{value_type} = $3;
+    } elsif (/^  (\S+)\s+(\S+)\s+(.+)$/) {
+      my ($keyword, $id, $label) = ($1, $2, $3);
+      my $canonical = $label =~ s/\s*!s*$//;
+      $keyword = '' if $keyword eq '#empty';
+      my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
+      if ($id ne '-') {
+        $last_attr->{enumerated}->{$keyword}->{id} = $id;
+        $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
+      }
+      $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
+      $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
+      $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
+      $last_attr->{enumerated}->{$keyword}->{non_conforming} = 1
+          if $invalid and not $keyword =~ /^#/;
+    } elsif (/\S/) {
+      die "Broken line: $_";
+    }
+  }
+}
+
+## Heading elements
+for my $el_name (qw(h1 h2 h3 h4 h5 h6)) {
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-h1,-h2,-h3,-h4,-h5,-and-h6-elements';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{spec} = 'HTML';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{content_model} = 'phrasing content';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{conforming} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{desc} = 'Section heading';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'flow content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'heading content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
+}
+
+## |sub| and |sup|
+for my $el_name (qw(sub sup)) {
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{spec} = 'HTML';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-sub-and-sup-elements';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{content_model} = 'phrasing content';
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'flow content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'phrasing content'} = 1;
+  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
+}
+
+my $input_states = [grep {
+  $Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}->{$_}->{conforming} and not /^#/;
+} keys %{$Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}}];
+
+for ('flow content', 'phrasing content') {
+  $Data->{elements}->{(HTML_NS)}->{area}->{states}->{'in-map'}
+      ->{categories}->{$_} = 1;
+  $Data->{elements}->{(HTML_NS)}->{link}->{states}->{'itemprop-attr'}
+      ->{categories}->{$_} = 1;
+  $Data->{elements}->{(HTML_NS)}->{meta}->{states}->{'itemprop-attr'}
+      ->{categories}->{$_} = 1;
+}
+$Data->{elements}->{(HTML_NS)}->{style}->{states}->{'scoped-attr'}
+    ->{categories}->{'flow content'} = 1;
+
+$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{video}->{states}->{'controls-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{object}->{states}->{'usemap-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{th}->{states}->{'sorting-interface'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
+    ->{categories}->{'interactive content'} = 1;
+
+$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{dl}->{states}->{'has-item'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{menu}->{states}->{'toolbar'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{ul}->{states}->{'has-item'}
+    ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{ol}->{states}->{'has-item'}
+    ->{categories}->{'palpable content'} = 1;
+
+$Data->{elements}->{(HTML_NS)}->{video}->{categories}->{'media element'} = 1;
+$Data->{elements}->{(HTML_NS)}->{audio}->{categories}->{'media element'} = 1;
+
+$Data->{elements}->{'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}->{RDF}
+    ->{categories}->{'metadata content'} = 1;
+for ('embedded content', 'phrasing content', 'flow content',
+     'palpable content') {
+  $Data->{elements}->{'http://www.w3.org/2000/svg'}->{svg}
+      ->{categories}->{$_} = 1;
+  $Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{math}
+      ->{categories}->{$_} = 1;
+}
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#concept-button>
+## <http://www.whatwg.org/specs/web-apps/current-work/#concept-submit-button>
+$Data->{input}->{states}->{$_}->{button} = 1
+    for qw(button submit image reset);
+$Data->{input}->{states}->{$_}->{submit_button} = 1
+    for qw(submit image);
+$Data->{elements}->{(HTML_NS)}->{button}->{button} = 1;
+$Data->{elements}->{(HTML_NS)}->{button}->{states}->{'submit-button'}
+    ->{submit_button} = 1;
+
+## <http://www.whatwg.org/specs/web-apps/current-work/#the-canvas-element>
+## <http://www.whatwg.org/specs/web-apps/current-work/#supported-interactive-canvas-fallback-element>
+$Data->{elements}->{(HTML_NS)}->{$_}->{canvas_fallback} = 1
+    for qw(a button);
+$Data->{elements}->{(HTML_NS)}->{$_}->{supported_canvas_fallback} = 1
+    for qw(button table caption thead tbody tfoot tr th td);
+$Data->{elements}->{(HTML_NS)}->{a}->{states}->{'hyperlink-noimage'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{select}->{states}->{'listbox'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{select}->{states}->{'listbox'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{option}->{states}->{'in-select-listbox'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{th}->{states}->{'sorting-interface'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
+    ->{canvas_fallback} = 1;
+$Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
+    ->{supported_canvas_fallback} = 1;
+$Data->{input}->{states}->{$_}->{canvas_fallback} = 1
+    for qw(checkbox radio submit reset button image);
+$Data->{input}->{states}->{$_}->{supported_canvas_fallback} = 1
+    for qw(checkbox radio submit reset button);
+
+## <input>
+for (grep { $_ ne 'hidden' } @$input_states) {
+  $Data->{input}->{states}->{$_}->{categories}->{'interactive content'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'category-label'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'palpable content'} = 1;
+}
+$Data->{elements}->{(HTML_NS)}->{input}->{categories}->{$_} = 1
+    for 'category-listed', 'category-submit', 'category-reset',
+        'category-form-attr', 'form-associated element';
 
 use Encode;
 use Web::DOM::Document;
@@ -201,6 +375,7 @@ for my $ns (keys %{$Data->{elements}}) {
     for my $ans (keys %{$v->{attrs} || {}}) {
       for my $aln (keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
+        next if defined $w->{status};
         if ($w->{id} and $statuses->{$w->{id}} and $w->{spec} eq 'HTML') {
           $w->{status} ||= $statuses->{$w->{id}};
         } elsif ($w->{id} and $id_for_status->{$w->{id}} and
@@ -214,50 +389,8 @@ for my $ns (keys %{$Data->{elements}}) {
         }
         delete $w->{status} if defined $w->{status} and ($w->{status} eq 'UNKNOWN' or $w->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/);
         $w->{status} ||= $v->{status} if defined $v->{status};
+        delete $w->{status} unless defined $w->{spec};
       }
-    }
-  }
-}
-
-{
-  my $f = file (__FILE__)->dir->parent->file ('src', 'attr-types.txt');
-  my $ns;
-  my $last_attr;
-  for (($f->slurp)) {
-    if (/^\@ns (\S+)$/) {
-      $ns = $1;
-    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-      $last_attr->{item_type} = $4;
-      $last_attr->{id_type} = $5;
-    } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-      $last_attr->{item_type} = $4;
-    } elsif (/^(\S+)\s+(\S+)\s+([^=]+)=(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-      $last_attr->{id_type} = $4;
-    } elsif (/^(\S+)\s+(\S+)\s+(.+)$/) {
-      $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
-      $last_attr->{value_type} = $3;
-    } elsif (/^  (\S+)\s+(\S+)\s+(.+)$/) {
-      my ($keyword, $id, $label) = ($1, $2, $3);
-      my $canonical = $label =~ s/\s*!s*$//;
-      $keyword = '' if $keyword eq '#empty';
-      my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
-      if ($id ne '-') {
-        $last_attr->{enumerated}->{$keyword}->{id} = $id;
-        $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
-      }
-      $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
-      $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
-      $last_attr->{enumerated}->{$keyword}->{conforming} = 1 unless $invalid;
-      $last_attr->{enumerated}->{$keyword}->{non_conforming} = 1
-          if $invalid and not $keyword =~ /^#/;
-    } elsif (/\S/) {
-      die "Broken line: $_";
     }
   }
 }
@@ -294,9 +427,10 @@ for my $ns (keys %{$Data->{elements}}) {
 }
 
 ## <http://www.whatwg.org/specs/web-apps/current-work/#url-property-elements>.
-$Data->{categories}->{'URL property elements'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_} = 1
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{categories}->{'URL property elements'} = 1
     for qw(a area audio embed iframe img link object source track video);
 $Data->{categories}->{'URL property elements'}->{spec} = 'HTML';
+$Data->{categories}->{'URL property elements'}->{id} = 'URL property elements';
 $Data->{categories}->{'URL property elements'}->{label} = 'URL property elements';
 
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
@@ -432,13 +566,27 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{status} = $statuses->{'non-conforming-features'};
 }
 
-sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
-sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
-sub APP_NS () { 'http://www.w3.org/2007/app' }
-sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
-sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
-sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
-sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+for my $ns (keys %{$Data->{elements} or {}}) {
+  for my $ln (keys %{$Data->{elements}->{$ns} or {}}) {
+    for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{categories} or {}}) {
+      $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
+    }
+    for my $state (keys %{$Data->{elements}->{$ns}->{$ln}->{states} or {}}) {
+      for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{states}->{$state}->{categories} or {}}) {
+        if ($ln eq '*') {
+          $Data->{categories}->{$cat_name}->{has_additional_rules} = 1;
+        } else {
+          $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{$ns}->{$ln} = 1;
+        }
+      }
+    }
+  }
+}
+for my $state (keys %{$Data->{input}->{states} or {}}) {
+  for my $cat_name (keys %{$Data->{input}->{states}->{$state}->{categories} or {}}) {
+    $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{(HTML_NS)}->{input} = 1;
+  }
+}
 
 for (
   ['feed'],

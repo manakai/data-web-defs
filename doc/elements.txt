@@ -10,9 +10,8 @@ pairs:
 
   categories [object]
 
-    Element categories.  The names contained by the object are
-    identifiers (id-in-category) of categories in the specification
-    identified by the |spec| property.  Values are properties of the
+    Element categories.  The names are identifiers for the categories
+    used within this data file.  Values are properties of the
     category, including:
 
       elements [object?]
@@ -32,6 +31,11 @@ pairs:
 
         More content can be classified into the category, but the rule
         can't be expressed here.
+
+      id [id-in-spec?]
+
+        The identifier of the category in the specification identified
+        by the |spec| property, if any.
 
       label [string]
 
@@ -356,6 +360,15 @@ pairs:
 
         Whether the element is an interactive content that is allowed
         as a descendant of an HTML |canvas| element or not.
+
+        This name/value pair can also be specified in |states| of
+        element or HTML |input| element.
+
+      categories [object?]
+
+        A JSON object containing categories to which the element
+        belongs.  Names are identifiers of categories and values are
+        boolean true values.
 
         This name/value pair can also be specified in |states| of
         element or HTML |input| element.
