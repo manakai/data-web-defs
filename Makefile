@@ -201,7 +201,7 @@ local/indexes.json:
 
 all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
-    data/html-charrefs.json
+    data/html-charrefs.json data/browsers.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -253,6 +253,9 @@ data/html-syntax.json: bin/html-syntax.pl
 
 data/xml-syntax.json: bin/xml-syntax.pl
 	$(PERL) bin/xml-syntax.pl > $@
+
+data/browsers.json: bin/browsers.pl src/task-sources.txt
+	$(PERL) bin/browsers.pl > $@
 
 ## ------ Microdata ------
 
