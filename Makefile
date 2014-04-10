@@ -146,7 +146,7 @@ local/chars-scripts.json:
 data/langtags.json: bin/langtags.pl \
   local/langtags/subtag-registry local/langtags/ext-registry \
   local/langtags/cldr-bcp47/update \
-  local/langtags/cldr-bcp47/*.xml local/chars-scripts.json
+  local/chars-scripts.json
 	$(PERL) bin/langtags.pl \
 	  local/langtags/subtag-registry local/langtags/ext-registry \
 	  local/langtags/cldr-bcp47/*.xml > $@
