@@ -7,8 +7,8 @@ clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
     clean-encodings clean-meta clean-microdata
 
 WGET = wget
+CURL = curl
 GIT = git
-SVN = svn
 PERL = ./perl
 
 updatenightly: dataautoupdate
@@ -131,11 +131,13 @@ local/langtags/ext-registry:
 	mkdir -p local/langtags
 	$(WGET) http://www.iana.org/assignments/language-tag-extensions-registry -O $@
 local/langtags/cldr-bcp47:
-	mkdir -p local/langtags
-	ls $@ || $(SVN) co http://www.unicode.org/repos/cldr/trunk/common/bcp47 $@
+	mkdir -p local/langtags/cldr-bcp47
 	touch $@/update
 local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
-	cd local/langtags/cldr-bcp47 && $(SVN) update
+	cd local/langtags/cldr-bcp47 && \
+	$(CURL) http://www.unicode.org/repos/cldr/trunk/common/bcp47/ | \
+	perl -n -e 'print "$$1\n" if /([A-Za-z0-9_.-]+\.xml)/' | \
+	xargs -i% -- $(WGET) -O % http://www.unicode.org/repos/cldr/trunk/common/bcp47/%
 	touch $@
 
 local/chars-scripts.json:
