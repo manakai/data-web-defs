@@ -36,6 +36,24 @@ $Data->{generic_font_families}->{$_}->{conforming} = 1
 $Data->{font_family_keywords}->{$_} ||= {}
     for qw(-manakai-default -moz-use-system-font);
 
+{
+  use utf8;
+  for (
+    {name => "MS PGothic",
+     url => q<http://www.microsoft.com/typography/fonts/font.aspx?FMID=1271>},
+    {name => "IPAMonaPGothic",
+     url => q<http://www.geocities.jp/ipa_mona/>},
+    {name => "Monapo",
+     url => q<http://www.geocities.jp/ep3797/modified_fonts_01.html>},
+    {name => "Mona",
+     url => q<http://monafont.sourceforge.net/>},
+    {name => "小夏",
+     url => q<http://www.masuseki.com/?u=be/konatu.htm>},
+  ) {
+    push @{$Data->{aa_2ch_font_family} ||= []}, $_->{name};
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
