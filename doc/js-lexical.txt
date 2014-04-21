@@ -1,0 +1,35 @@
+js-lexical.json
+~~~~~~~~~~~~~~~
+
+This file contains data on JavaScript syntax.
+
+* Structure
+
+The file contains a JSON object with a name/value pair:
+
+  escape [object]
+
+    Contains name/value pairs, where names are one of followings:
+    
+      json     JSON strings
+      regexp   JavaScript regular expressions
+      string   JavaScript string literals
+    
+    Values are JSON objects, containing description of
+    single-character escape sequences, represented as name/value pairs
+    whose names are the character after the "\" and values are JSON
+    arrays of one of following structures:
+
+      ["char", string]      The escape sequence represents the string.
+      ["class", string]     The escape sequence represents a character class
+                            whose identifier is the string.
+      ["class-not", string] The escape sequence represents a negated character
+                            class whose (original) identifier is the string.
+      ["special"]           The escape sequence represents something else.
+
+* Sources
+
+ECMAScript 5.1 <http://es5.github.io/>.
+
+ECMA-404 - The JSON Data Interchange Format
+<http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf>.
