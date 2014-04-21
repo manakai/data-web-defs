@@ -3,6 +3,7 @@ use warnings;
 use Encode;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use JSON::PS;
 use Web::XML::Parser;
 use Web::DOM::Document;
 
@@ -152,7 +153,6 @@ for my $type (keys %$Data) {
   $Data->{$type}->{text} = 1 if $Data->{$type}->{any_xml};
 }
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.

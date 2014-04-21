@@ -3,6 +3,7 @@ use warnings;
 use Encode;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use JSON::PS;
 use Web::XML::Parser;
 use Web::DOM::Document;
 
@@ -58,7 +59,6 @@ $Methods->{$_}->{safe} = 1 for qw(GET HEAD);
 ## <http://tools.ietf.org/html/rfc2616#section-9.1.2>
 $Methods->{$_}->{idempotent} = 1 for qw(GET HEAD PUT DELETE TRACE OPTIONS);
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Methods;
 
 ## License: Public Domain.

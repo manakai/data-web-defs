@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
-use JSON::Functions::XS qw(perl2json_bytes_for_record file2perl);
+use JSON::PS qw(perl2json_bytes_for_record file2perl);
 
 sub HTML_NS () { 'http://www.w3.org/1999/xhtml' }
 sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }

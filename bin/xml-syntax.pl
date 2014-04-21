@@ -1,8 +1,6 @@
 use strict;
 use warnings;
-use Encode;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use JSON::PS;
 
 my $Data = {};
 
@@ -22,7 +20,6 @@ for (
   $Data->{charrefs_pubids}->{$_} = 1;
 }
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.

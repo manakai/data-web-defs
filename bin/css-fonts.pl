@@ -1,8 +1,6 @@
 use strict;
 use warnings;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
+use JSON::PS;
 
 my $Data = {};
 
