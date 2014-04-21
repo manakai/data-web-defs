@@ -1,10 +1,10 @@
 # -*- Makefile -*-
 
 all: all-langtags all-urls all-http all-mime all-dom all-css \
-    all-encodings all-meta all-microdata
+    all-encodings all-meta all-microdata all-js
 
 clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
-    clean-encodings clean-meta clean-microdata
+    clean-encodings clean-meta clean-microdata clean-js
 
 WGET = wget
 CURL = curl
@@ -198,6 +198,14 @@ local/encodings.json:
 	$(WGET) -O $@ http://encoding.spec.whatwg.org/encodings.json
 local/indexes.json:	
 	$(WGET) -O $@ http://encoding.spec.whatwg.org/indexes.json
+
+## ------ JavaScript ------
+
+all-js: data/js-lexical.json
+clean-js:
+
+data/js-lexical.json: bin/js-lexical.pl
+	$(PERL) bin/js-lexical.pl > $@
 
 ## ------ DOM/HTML ------
 
