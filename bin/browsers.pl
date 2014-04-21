@@ -1,8 +1,7 @@
 use strict;
 use warnings;
 use Path::Tiny;
-use lib glob path (__FILE__)->parent->child ('modules/*/lib')->stringify;
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
+use JSON::PS;
 
 my $Data = {};
 

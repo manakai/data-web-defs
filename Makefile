@@ -1,24 +1,29 @@
-# -*- Makefile -*-
-
 all: all-langtags all-urls all-http all-mime all-dom all-css \
     all-encodings all-meta all-microdata all-js
 
 clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
-    clean-encodings clean-meta clean-microdata clean-js
+    clean-encodings clean-meta clean-microdata clean-js \
+    clean-json-ps
 
 WGET = wget
 CURL = curl
 GIT = git
 PERL = ./perl
 
-updatenightly: dataautoupdate
+updatenightly: update-submodules dataautoupdate
+
+update-submodules:
+	$(CURL) https://gist.githubusercontent.com/motemen/667573/raw/git-submodule-track | sh
+	$(GIT) add bin/modules
+	perl local/bin/pmbp.pl --update
+	$(GIT) add config
 
 dataautoupdate: clean deps all
 	$(GIT) add data/*.json
 
 ## ------ Setup ------
 
-deps: git-submodules pmbp-install
+deps: git-submodules pmbp-install json-ps
 
 git-submodules:
 	$(GIT) submodule update --init
@@ -33,6 +38,13 @@ pmbp-update: git-submodules pmbp-upgrade
 pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
             --create-perl-command-shortcut perl
+
+json-ps: local/perl-latest/pm/lib/perl5/JSON/PS.pm
+clean-json-ps:
+	rm -fr local/perl-latest/pm/lib/perl5/JSON/PS.pm
+local/perl-latest/pm/lib/perl5/JSON/PS.pm:
+	mkdir -p local/perl-latest/pm/lib/perl5/JSON
+	$(WGET) -O $@ https://raw.githubusercontent.com/wakaba/perl-json-ps/master/lib/JSON/PS.pm
 
 ## ------ Metadata ------
 

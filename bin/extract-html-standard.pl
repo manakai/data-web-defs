@@ -3,6 +3,7 @@ use warnings;
 use Encode;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use JSON::PS;
 use MIME::Base64;
 use Web::DOM::Document;
 
@@ -236,7 +237,6 @@ if ($index_doc) {
   }
 }
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
 if ($xml_doc) {

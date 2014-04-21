@@ -1,11 +1,10 @@
-#!/usr/bin/perl
 use strict;
 use warnings;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
 use Encode;
 use Web::DOM::Document;
-use JSON::Functions::XS qw(file2perl perl2json_bytes_for_record);
+use JSON::PS qw(file2perl perl2json_bytes_for_record);
 
 my $full = 1;
 my $subtags;

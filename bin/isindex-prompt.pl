@@ -3,6 +3,7 @@ use warnings;
 use Path::Class;
 use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
 use Encode;
+use JSON::PS;
 use Web::HTML::Parser;
 use Web::DOM::Document;
 
@@ -89,7 +90,6 @@ for (
       if defined $Data->{$_->[0]}->{gecko};
 }
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.

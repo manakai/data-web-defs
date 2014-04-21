@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
+use JSON::PS;
 
 my $Data = {};
 
@@ -23,7 +23,6 @@ sub read_text ($$) {
 
 read_text 'dom-nodes.txt' => 'node_types';
 
-use JSON::Functions::XS qw(perl2json_bytes_for_record);
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
