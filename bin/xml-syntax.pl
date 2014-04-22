@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use Path::Tiny;
 use JSON::PS;
 
 my $Data = {};
@@ -18,6 +19,11 @@ for (
   '-//WAPFORUM//DTD XHTML Mobile 1.0//EN',
 ) {
   $Data->{charrefs_pubids}->{$_} = 1;
+}
+
+{
+  my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ('local/xml-tokenizer.json')->slurp;
+  $Data->{tokenizer} = $tokenizer;
 }
 
 print perl2json_bytes_for_record $Data;
