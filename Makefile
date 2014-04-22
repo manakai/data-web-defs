@@ -270,11 +270,14 @@ data/html-charrefs.json:
 
 data/xhtml-charrefs.dtd: local/html-extracted.json
 
-data/html-syntax.json: bin/html-syntax.pl
+data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json
 	$(PERL) bin/html-syntax.pl > $@
 
 data/xml-syntax.json: bin/xml-syntax.pl
 	$(PERL) bin/xml-syntax.pl > $@
+
+local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
+	$(PERL) bin/extract-html-tokenizer.pl > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@

@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use Path::Tiny;
 use JSON::PS;
 
 my $Data = {};
@@ -140,6 +141,11 @@ $Data->{adjusted_svg_element_names} = {
   #solidcolor => 'solidColor', ## NOTE: Commented in spec (SVG1.2)
   textpath => 'textPath',  
 };
+
+{
+  my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer.json')->slurp;
+  $Data->{tokenizer} = $tokenizer;
+}
 
 print perl2json_bytes_for_record $Data;
 
