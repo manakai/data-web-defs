@@ -9,5 +9,2959 @@
       "-//W3C//DTD XHTML 1.1//EN" : 1,
       "-//W3C//DTD XHTML Basic 1.0//EN" : 1,
       "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" : 1
+   },
+   "tokenizer" : {
+      "states" : {
+         "CDATA bracket state" : {
+            "conds" : {
+               "CHAR:005D" : {
+                  "actions" : [
+                     {
+                        "state" : "CDATA end state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-char",
+                        "value" : "]"
+                     },
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "CDATA end state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:005D" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-char",
+                        "value" : "]]"
+                     },
+                     {
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "CDATA state" : {
+            "conds" : {
+               "CHAR:005D" : {
+                  "actions" : [
+                     {
+                        "state" : "CDATA bracket state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute declaration after state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute value double quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute value single quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute declaration before state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute declaration state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute declaration state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute declaration after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute name after state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute name state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute type after state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute declaration before state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute type state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST attribute type after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute value double quoted state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST attribute value single quoted state" : {
+            "conds" : {
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST name after state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST name before state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST name state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ATTLIST state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST name before state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY identifier double quoted state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY identifier single quoted state" : {
+            "conds" : {
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY identifier state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY identifier double quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY identifier single quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "desc" : "append entity ...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY name after state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY value double quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY value single quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY name state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "name",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY parameter before state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY parameter state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY parameter state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "token" : "entity token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "set"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "field" : "entity flag",
+                        "type" : "set",
+                        "value" : "parameter"
+                     },
+                     {
+                        "state" : "DOCTYPE ENTITY name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY type before state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY type before state" : {
+            "conds" : {
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY parameter before state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "token" : "entity token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "set"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "DOCTYPE ENTITY name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY value after state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "append-entity"
+                     },
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY value double quoted state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY value after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "... normalize numeric entities only",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-entity"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE ENTITY value single quoted state" : {
+            "conds" : {
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "... normalize numeric entities only",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY value after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-entity"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE NOTATION identifier double quoted state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE NOTATION identifier single quoted state" : {
+            "conds" : {
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE NOTATION identifier state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION identifier double quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION identifier single quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE NOTATION state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE bogus comment state" : {
+         },
+         "DOCTYPE comment dash state" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment end state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE comment end state" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment dash state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE comment state" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment dash state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE identifier double quoted state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE root name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE identifier single quoted state" : {
+            "conds" : {
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE root name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE internal subset after state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE internal subset state" : {
+            "conds" : {
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "desc" : "consume parameter entity",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:005D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state" : {
+         },
+         "DOCTYPE pi after state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE pi state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE pi state" : {
+            "conds" : {
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE pi after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE root name after state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE identifier double quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE identifier single quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE root name before state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE root name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "DOCTYPE root name state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE root name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE root name before state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE tag state" : {
+            "conds" : {
+               "CHAR:0021" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE markup declaration state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE pi state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "bogus comment state" : {
+         },
+         "comment dash state" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "comment end state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append",
+                        "value" : "-"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "comment end state" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append",
+                        "value" : "--"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "comment state" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "comment dash state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state" : {
+            "conds" : {
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "state" : "tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-eof"
+                     }
+                  ]
+               }
+            }
+         },
+         "empty tag state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "token" : "empty tag token",
+                        "type" : "emit-as"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "tag attribute name before state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "end tag name after state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "end tag name state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "end tag name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "end tag state" : {
+            "conds" : {
+               "CHAR:0009" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:000A" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0020" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003A" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "token" : "short end tag token",
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "token" : "end tag token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "set"
+                     },
+                     {
+                        "state" : "end tag name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state" : {
+         },
+         "pi after state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "pi data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "pi data state" : {
+            "conds" : {
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "pi after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "pi state" : {
+            "conds" : {
+               "CHAR:0009" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:000A" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0020" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "token" : "processing instruction token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "target",
+                        "type" : "set"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "pi target state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "pi target after state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "pi data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "pi target state" : {
+            "conds" : {
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "pi after state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "pi target after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "tag attribute name after state" : {
+            "conds" : {
+               "CHAR:002F" : {
+                  "actions" : [
+                     {
+                        "state" : "empty tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute value before state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "create-attr"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "set-to-attr"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "set-empty-to-attr"
+                     },
+                     {
+                        "state" : "tag attribute name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "tag attribute name before state" : {
+            "conds" : {
+               "CHAR:002F" : {
+                  "actions" : [
+                     {
+                        "state" : "Empty tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003A" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "create-attr"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "set-to-attr"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "set-empty-to-attr"
+                     },
+                     {
+                        "state" : "tag attribute name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "tag attribute name state" : {
+            "conds" : {
+               "CHAR:002F" : {
+                  "actions" : [
+                     {
+                        "state" : "Empty tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute value before state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "token" : "start tag token",
+                        "type" : "emit-as"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "token" : "start tag token",
+                        "type" : "emit-as"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute name after state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "tag attribute value before state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute value double quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute value unquoted state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute value single quoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     },
+                     {
+                        "state" : "tag attribute value unquoted state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                  ]
+               }
+            }
+         },
+         "tag attribute value double quoted state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute name before state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "tag attribute value single quoted state" : {
+            "conds" : {
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute name before state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "tag attribute value unquoted state" : {
+            "conds" : {
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "desc" : "...",
+                        "type" : "misc"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "token" : "start tag token",
+                        "type" : "emit-as"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "token" : "start tag token",
+                        "type" : "emit-as"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute name before state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "tag name state" : {
+            "conds" : {
+               "CHAR:002F" : {
+                  "actions" : [
+                     {
+                        "state" : "empty tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:XML" : {
+                  "actions" : [
+                     {
+                        "state" : "tag attribute name before state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "tag state" : {
+            "conds" : {
+               "CHAR:0009" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:000A" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0020" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0021" : {
+                  "actions" : [
+                     {
+                        "state" : "markup declaration state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:002F" : {
+                  "actions" : [
+                     {
+                        "state" : "end tag state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003A" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "pi state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "token" : "tag token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "set"
+                     },
+                     {
+                        "state" : "tag name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         }
+      }
    }
 }
