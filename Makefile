@@ -111,7 +111,7 @@ clean-urls:
 	rm -fr local/iana-url-schemes.*
 
 local/sw-url-schemes.xml:
-	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20URL%20schemes?mode=xml"
+	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20URL%20schemes?format=xml"
 local/sw-url-schemes.txt: local/sw-url-schemes.xml \
     bin/extract-sw-url-schemes.pl
 	$(PERL) bin/extract-sw-url-schemes.pl < $< > $@
@@ -285,6 +285,9 @@ local/xml5-spec.html:
 
 local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 	$(PERL) bin/extract-html-tokenizer.pl local/xml5-spec.html > $@
+
+local/html-tree.json: bin/extract-html-tree.pl local/html
+	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@
