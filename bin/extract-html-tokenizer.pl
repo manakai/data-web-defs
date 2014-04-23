@@ -57,7 +57,7 @@ while (@node) {
             } elsif ($cond eq 'Lowercase ASCII letter') {
               $cond = 'LOWER';
             } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+(?:\([^()\s]+\)|)$/) {
-              $cond = 'CHAR:' . $1;
+              $cond = sprintf 'CHAR:%04X', hex $1;
             } elsif ($cond =~ /^u?U\+([0-9A-F]+)(?:\s+\([^()+]\)|):?\s*$/) { # xml5
               $cond = 'CHAR:' . $1;
             } else {
