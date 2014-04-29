@@ -13,7 +13,7 @@ for (qw(
   xsd:long xsd:unsignedByte xsd:unsignedShort xsd:unsignedInt
   xsd:unsignedLong xsd:positiveInteger xsd:nonNegativeInteger
   xsd:negativeInteger xsd:nonPositiveInteger xsd:hexBinary
-  xsd:base64BinaryB xsd:anyURI xsd:language xsd:normalizedString
+  xsd:base64Binary xsd:anyURI xsd:language xsd:normalizedString
   xsd:token xsd:NMTOKEN xsd:Name xsd:NCName
 )) {
   my $s = $_;
