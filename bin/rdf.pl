@@ -14,9 +14,10 @@ $Data->{rdf_vocab}->{$_}->{type} = 'property'
 $Data->{rdf_vocab}->{$_}->{type} = 'resource'
     for qw(nil);
 
+## <http://www.w3.org/TR/rdf11-concepts/#dfn-literal>
 ## <http://www.w3.org/TR/rdf11-concepts/#dfn-rdf-html>
 $Data->{rdf_vocab}->{$_}->{type} = 'class'
-    for qw(HTML);
+    for qw(langString HTML);
 
 ## <https://dvcs.w3.org/hg/rdf/raw-file/default/rdf-xml/index.html#oldTerms>
 $Data->{rdf_vocab}->{$_}->{type} = 'obsolete'
