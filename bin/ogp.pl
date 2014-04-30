@@ -22,7 +22,8 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/ogp.txt')->
       $Data->{props}->{$prop}->{target_type}->{'*'} = 1;
     }
   } elsif (/^  = (.+)$/) {
-    $Data->{props}->{$prop}->{is} = $1;
+    $Data->{props}->{$prop}->{aliases}->{$1} = 1;
+    $Data->{props}->{$1}->{aliases}->{$prop} = 1;
   } elsif (/^\*\s*(\S+)$/) {
     $type = $1;
     $Data->{types}->{$type} ||= {};
