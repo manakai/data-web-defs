@@ -301,7 +301,7 @@ data/xml-datatypes.json: bin/xml-datatypes.pl
 
 ## ------ Microdata ------
 
-all-microdata: data/microdata.json
+all-microdata: data/microdata.json data/ogp.json
 clean-microdata:
 	#rm -fr local/data-vocabulary/files
 	rm -fr local/schemaorg.html
@@ -326,6 +326,9 @@ local/schemaorg.html:
 	$(WGET) -O $@ http://schema.org/docs/full_md.html
 local/schemaorg.json: local/schemaorg.html bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
+
+data/ogp.json: bin/ogp.pl src/ogp.txt
+	$(PERL) bin/ogp.pl > $@
 
 ## ------ CSS ------
 

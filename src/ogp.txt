@@ -1,0 +1,799 @@
+og:title
+  required
+og:type
+  required
+og:url
+  URL
+og:description
+og:determiner
+  enum:a|an|the||auto
+og:locale
+  OGP locale
+og:locale:alternate
+  OGP locale
+  array
+og:site_name
+og:see_also
+  URL
+  array
+og:updated_time
+  OGP DateTime
+og:ttl
+
+og:image
+  URL
+  array
+og:image:url
+  URL
+  required
+  = og:image
+og:image:secure_url
+  URL
+og:image:type
+  MIME type
+og:image:width
+  non-negative integer
+og:image:height
+  non-negative integer
+og:image:user_generated
+  enum:true|false|1|0
+
+og:video
+  URL
+  array
+og:video:url
+  URL
+  required
+  = og:video
+og:video:secure_url
+  URL
+og:video:type
+  MIME type
+og:video:width
+  non-negative integer
+og:video:height
+  non-negative integer
+
+og:audio
+  URL
+  array
+og:audio:url
+  URL
+  required
+  = og:audio
+og:audio:secure_url
+  URL
+og:audio:type
+  MIME type
+og:audio:width
+  non-negative integer
+og:audio:height
+  non-negative integer
+og:audio:title
+  DEPRECATED
+og:audio:artist
+  DEPRECATED
+og:audio:album
+  DEPRECATED
+
+og:restrictions
+og:restrictions:country
+og:restrictions:country:allowed
+  OGP country
+  array
+og:restrictions:country:disallowed
+  OGP country
+  array
+og:restrictions:age
+  enum:13+|17+|18+|19+|21+
+og:restrictions:content
+  enum:alcohol
+  array
+
+og:latitude
+  DEPRECATED
+  floating-point number
+og:longitude
+  DEPRECATED
+  floating-point number
+og:street-address
+  DEPRECATED
+og:locality
+  DEPRECATED
+og:region
+  DEPRECATED
+og:postal-code
+  DEPRECATED
+og:country-name
+  DEPRECATED
+og:email
+  DEPRECATED
+og:phone_number
+  DEPRECATED
+og:fax_number
+  DEPRECATED
+og:isbn
+  DEPRECATED
+og:upc
+  DEPRECATED
+
+al:android
+  array
+al:android:url
+  URL
+al:android:package
+  required
+al:android:app_name
+al:android:class
+al:ios
+  array
+al:ios:url
+  required
+al:ios:app_store_id
+al:ios:app_name
+al:ipad
+  array
+al:ipad:url
+  required
+al:ipad:app_store_id
+al:ipad:app_name
+al:iphone
+  array
+al:iphone:url
+  required
+al:iphone:app_store_id
+al:iphone:app_name
+al:web
+al:web:url
+al:web:should_fallback
+al:windows_phone
+  array
+al:windows_phone:url
+  required
+al:windows_phone:app_name
+
+fb:admins
+  array
+fb:app_id
+fb:profile_id
+
+mixi:title
+mixi:description
+mixi:content-rating
+  enum:1
+mixi:device-smartphone
+  URL
+mixi:device-mobile
+  URL
+mixi:device-docomo
+  URL
+mixi:device-au
+  URL
+mixi:device-softbank
+  URL
+mixi:image
+  URL
+
+gr:feature_phone_url
+  URL
+gr:smart_phone_url
+  URL
+gr:image
+  URL
+gr:image_1
+  URL
+gr:small_image_1
+  URL
+gr:small_image_2
+  URL
+
+* object
+
+* place
+
+place:location
+  required
+place:location:latitude
+  required
+  floating-point number
+place:location:longitude
+  required
+  floating-point number
+place:location:altitude
+  floating-point number
+
+* music.song
+
+music:duration
+  positive integer
+music:album
+  array
+music:album:url
+  URL
+  required
+music:album:disc
+  positive integer
+music:album:track
+  positive integer
+music:musician
+  array
+music:preview_url
+  array
+music:preview_url:url
+  URL
+  required
+music:preview_url:secure_url
+  URL
+music:preview_url:type
+  MIME type
+music:release_date
+  OGP DateTime
+music:release_type
+  enum:original_release|re_release|anthology
+
+* music.album
+
+music:song
+  array
+music:song:url
+  URL
+  required
+music:song:disc
+  positive integer
+music:song:track
+  positive integer
+music:musician
+  array
+music:release_date
+  OGP DateTime
+music:release_type
+  enum:original_release|re_release|anthology
+
+* music.playlist
+
+music:song
+  array
+music:song:url
+  required
+  URL
+music:song:disc
+  positive integer
+music:song:track
+  positive integer
+music:creator
+music:song_count
+  integer
+
+* music.radio_station
+
+music:creator
+
+* video.movie
+
+video:actor
+  array
+video:actor:id
+  required
+video:actor:role
+video:director
+  array
+video:writer
+  array
+video:duration
+  positive integer
+video:release_date
+  OGP DateTime
+video:tag
+  array
+
+* video.episode
+
+video:actor
+  array
+video:actor:id
+  required
+video:actor:role
+video:director
+  array
+video:writer
+  array
+video:duration
+  positive integer
+video:release_date
+  OGP DateTime
+video:tag
+  array
+video:series
+
+* video.tv_show
+
+video:actor
+  array
+video:actor:id
+  required
+video:actor:role
+video:director
+  array
+video:writer
+  array
+video:duration
+  positive integer
+video:release_date
+  OGP DateTime
+video:tag
+  array
+
+* video.other
+
+video:actor
+  array
+video:actor:id
+  required
+video:actor:role
+video:director
+  array
+video:writer
+  array
+video:duration
+  positive integer
+video:release_date
+  OGP DateTime
+video:tag
+  array
+
+* article
+
+article:published_time
+  OGP DateTime
+article:modified_time
+  OGP DateTime
+article:expiration_time
+  OGP DateTime
+article:author
+  array
+article:section
+article:tag
+  array
+article:publisher
+
+* book
+
+book:author
+  array
+book:isbn
+book:release_date
+  OGP DateTime
+book:tag
+  array
+
+* book.author
+
+books:book
+  array
+books:gender
+  enum:male|female
+books:genre
+  array
+books:official_site
+  URL
+
+* book.genre
+
+books:author
+  array
+books:book
+  array
+books:canonical_name
+  required
+
+* profile
+
+profile:first_name
+profile:last_name
+profile:username
+profile:gender
+  enum:male|female
+
+* website
+
+* business.business
+
+business:contact_data
+  required
+business:contact_data:street_address
+  required
+business:contact_data:locality
+  required
+business:contact_data:region
+business:contact_data:postal_code
+  required
+business:contact_data:country_name
+  required
+business:contact_data:email
+  e-mail address
+business:contact_data:phone_number
+business:contact_data:fax_number
+business:contact_data:website
+  URL
+business:hours
+  array
+business:hours:day
+  enum:monday|tuesday|wednesday|thursday|friday|saturday|sunday
+business:hours:start
+business:hours:end
+
+place:location
+  required
+place:location:latitude
+  required
+  floating-point number
+place:location:longitude
+  required
+  floating-point number
+place:location:altitude
+  floating-point number
+
+* fitness.course
+
+fitness:calories
+  integer
+fitness:custom_unit_energy
+fitness:custom_unit_energy:value
+  required
+  floating-point number
+fitness:custom_unit_energy:units
+  required
+  OGP unit
+fitness:distance
+fitness:distance:value
+  required
+  floating-point number
+fitness:distance:units
+  required
+  OGP unit
+fitness:duration
+fitness:duration:value
+  required
+  floating-point number
+fitness:duration:units
+  required
+  OGP unit
+fitness:live_text
+fitness:metrics
+  array
+fitness:metrics:calories
+  integer
+fitness:metrics:custom_unit_energy
+fitness:metrics:custom_unit_energy:value
+  required
+  floating-point number
+fitness:metrics:custom_unit_energy:units
+  required
+  OGP unit
+fitness:metrics:distance
+fitness:metrics:distance:value
+  required
+  floating-point number
+fitness:metrics:distance:units
+  required
+  OGP unit
+fitness:metrics:location
+fitness:metrics:location:latitude
+  required
+  floating-point number
+fitness:metrics:location:longitude
+  required
+  floating-point number
+fitness:metrics:location:altitude
+  floating-point number
+fitness:metrics:steps
+  integer
+fitness:metrics:speed
+fitness:metrics:speed:value
+  required
+  floating-point number
+fitness:metrics:speed:units
+  required
+  OGP unit
+fitness:mertics:timestamp
+  OGP DateTime
+fitness:metrics:pace
+fitness:metrics:pace:value
+  required
+  floating-point number
+fitness:metrics:pace:units
+  required
+  OGP unit
+fitness:pace
+fitness:pace:value
+  required
+  floating-point number
+fitness:pace:units
+  required
+  OGP unit
+fitness:speed
+fitness:speed:value
+  required
+  floating-point number
+fitness:speed:units
+  required
+  OGP unit
+fitness:splits
+fitness:splits:unit
+  OGP unit
+fitness:splits:values
+  array
+fitness:splits:values:value
+  floating-point number
+  required
+fitness:splits:values:units
+  OGP unit
+  required
+fitness:steps
+  integer
+
+* fitness.unit
+
+* product
+
+product:age_group
+  enum:kids|adult
+product:availability
+  enum:instock|oos|pending
+product:brand
+product:category
+product:color
+product:condition
+  enum:new|refurbished|used
+product:ean
+product:expiration_time
+  OGP DateTime
+product:isbn
+product:material
+product:mfr_part_no
+product:original_price
+  array
+product:original_price:amount
+  required
+  floating-point number
+product:original_price:currency
+  required
+product:pattern
+product:plural_title
+product:pretax_price
+  array
+product:pretax_price:amount
+  required
+product:pretax_price:currency
+  required
+product:price
+  array
+product:price:amount
+  required
+  floating-point number
+product:price:currency
+  required
+product:product_link
+  URL
+product:retailer
+product:retailer_category
+product:retailer_part_no
+product:retailer_title
+product:sale_price
+product:sale_price:amount
+  required
+  floating-point number
+product:sale_price:currency
+  required
+product:sale_price_dates
+product:sale_price_dates:start
+  required
+  OGP DateTime
+product:sale_price_dates:end
+  required
+  OGP DateTime
+product:shipping_cost
+  array
+product:shipping_cost:amount
+  required
+  floating-point number
+product:shipping_cost:currency
+  required
+product:shipping_weight
+product:shipping_weight:value
+  required
+  floating-point number
+product:shipping_weight:units
+  required
+  OGP unit
+product:size
+product:target_gender
+  enum:female|male|unisex
+product:upc
+product:weight
+product:weight:value
+  required
+  floating-point number
+product:weight:units
+  required
+  OGP unit
+
+* product.group
+
+product:retailer_group_id
+
+* product.item
+
+product:age_group
+  enum:kids|adult
+product:availability
+  enum:instock|oos|pending
+  required
+product:brand
+product:category
+product:color
+product:condition
+  enum:new|refurbished|used
+  required
+product:expiration_time
+  OGP DateTime
+product:group_ref
+product:gtin
+product:material
+product:mfr_part_no
+product:pattern
+product:price
+  array
+  required
+product:price:amount
+  required
+  floating-point number
+product:price:currency
+  required
+product:product_link
+  URL
+product:retailer_category
+product:retailer_group_id
+product:retailer_item_id
+  required
+product:sale_price
+product:sale_price:amount
+  required
+  floating-point number
+product:sale_price:currency
+  required
+product:sale_price_dates
+product:sale_price_dates:start
+  required
+  OGP DateTime
+product:sale_price_dates:end
+  required
+  OGP DateTime
+product:shipping_cost
+  array
+product:shipping_cost:amount
+  required
+  floating-point number
+product:shipping_cost:currency
+  required
+product:shipping_weight
+product:shipping_weight:value
+  required
+  floating-point number
+product:shipping_weight:units
+  required
+  OGP unit
+product:size
+product:target_gender
+  enum:female|male|unisex
+
+* quick_election.election
+
+* restaurant.menu
+
+restaurant:restaurant
+  required
+restaurant:section
+  array
+
+* restaurant.menu_item
+
+restaurant:section
+  array
+  required
+restaurant:variation
+  array
+restaurant:variation:price
+  required
+restaurant:variation:price:amount
+  floating-point number
+  required
+restaurant:variation:price:currency
+  required
+restaurant:variation:name
+  required
+
+* restaurant.menu_section
+
+restaurant:item
+  array
+restaurant:menu
+  required
+
+* restaurant.restaurant
+
+restaurant:category
+  array
+restaurant:contact_info
+restaurant:contact_info:street_address
+restaurant:contact_info:locality
+restaurant:contact_info:region
+restaurant:contact_info:postal_code
+restaurant:contact_info:country_name
+restaurant:contact_info:email
+  e-mail address
+restaurant:contact_info:phone_number
+restaurant:contact_info:fax_number
+restaurant:contact_info:website
+  URL
+restaurant:menu
+  array
+
+place:location
+  required
+place:location:latitude
+  required
+  floating-point number
+place:location:longitude
+  required
+  floating-point number
+place:location:altitude
+  floating-point number
+
+* game.achievement
+
+## <http://web.archive.org/web/20111006152122/http://developers.facebook.com/docs/opengraph/>
+## <https://developers.facebook.com/docs/games/achievements>
+
+game:points
+
+## <http://web.archive.org/web/20111006152122/http://developers.facebook.com/docs/opengraph/>
+
+*activity
+*sport
+*bar
+*company
+*cafe
+*hotel
+*restaurant
+*cause
+*sports_league
+*sports_team
+*band
+*government
+*non_profit
+*school
+*university
+*actor
+*athlete
+*author
+*director
+*musician
+*politician
+*public_figure
+*city
+*country
+*landmark
+*state_province
+*album
+*book
+*drink
+*food
+*game
+*product
+*song
+*movie
+*tv_show
+*blog
+*website
+*article
