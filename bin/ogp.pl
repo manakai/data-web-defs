@@ -34,7 +34,7 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/ogp.txt')->
       'MIME type' => 1,
       'e-mail address' => 1,
       'integer' => 1,
-      'positive integer' => 1,
+      'non-negative integer greater than zero' => 1,
       'non-negative integer' => 1,
       'floating-point number' => 1,
       'OGP country' => 1,
