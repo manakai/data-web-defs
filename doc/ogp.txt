@@ -1,0 +1,104 @@
+ogp.json
+~~~~~~~~
+
+This file contains data on OGP.
+
+* Structure
+
+The file contains a JSON object with following name/value pairs:
+
+  prefixes [object]
+
+    Names are known prefixes of common properties and values are
+    boolean true values.
+
+  props [object]
+
+    Names are common property names and values are their descriptions,
+    represented as JSON objects with following name/value pairs:
+
+      array [boolean]
+
+        Whether the property is defined as an array or not.  (If true,
+        there can be multiple |meta| elements with this property.)
+
+      array_item [boolean]
+
+        Whether the property belongs to another property which is an
+        array.  (If true, there can be multiple |meta| elements with
+        this property.)
+
+      deprecated [boolean]
+
+        Whether the property is deprecated or not.
+
+      enums [object]
+
+        Names are possible values and values are boolean true values.
+        If specified, the |content| attribute value of a |meta|
+        element whose |property| attribute value is this property must
+        be one of names.  Note that a name can be the empty string.
+
+      requires [object?]
+
+        Names are property names and values are boolean true values.
+        If there is a |meta| element with this property, there must
+        also be |meta| elements with properties specified as names.
+
+      target_type [object?]
+
+        Names are |og:type| values and/or |*| and values are boolean
+        true values.  The property must be combined with a |meta|
+        element whose |property| is |og:type| and |content| is one of
+        names (or can be any value if there is |*|).
+
+      value_type [value-type?]
+
+        Data type for the |content| attribute of the |meta| element
+        whose |property| attribute value is this property, if known.
+
+  types [object]
+
+    Names are |og:type| values or |*| (which represents "any" or "all"
+    types) and values are their descriptions, represented as JSON
+    objects with following name/value pair:
+
+      requires [object?]
+
+        Names are property names and values are boolean true values.
+        If the |og:type| of a document is this type, there must be
+        |meta| elements with properties specified as names.
+
+  units [object]
+
+    Names are possible units and values are boolean true values.
+    These are possible "OGP unit" values.
+
+* Sources
+
+The Open Graph protocol <http://ogp.me/>.
+
+The RDF schema <http://ogp.me/ns/ogp.me.ttl>.
+
+Open Graph Reference Documentation
+<https://developers.facebook.com/docs/reference/opengraph>.
+
+Creating Custom Stories
+<https://developers.facebook.com/docs/opengraph/creating-custom-stories/>.
+
+Achievements API
+<https://developers.facebook.com/docs/games/achievements>.
+
+Open Graph protocol
+<http://web.archive.org/web/20111006152122/http://developers.facebook.com/docs/opengraph/>.
+
+技術仕様 << mixi Developer Center (ミクシィ デベロッパーセンター)
+<http://developer.mixi.co.jp/connect/mixi_plugin/mixi_check/spec_mixi_check/>.
+
+Social Feedback - GREE Developer Center
+<https://docs.developer.gree.net/ja/platform/connect/socialfeedback>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of this files.
