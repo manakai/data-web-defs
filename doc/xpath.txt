@@ -1,0 +1,66 @@
+xpath.json
+~~~~~~~~~~
+
+This file contains data on XPath.
+
+* Structure
+
+The file contains a JSON object with following name/value pair:
+
+  functions [object]
+
+    Names are namespace URL or "" for null namespace and values are
+    JSON objects, whose names are function names in that namespace and
+    values are their descriptions, represented as JSON objects with
+    following name/value pairs:
+
+      args
+
+        A JSON array containing XPath type names of the arguments
+        accepted by the function, in order.  If the function accepts
+        infinite number of arguments, last arguments must be of type
+        shown in the last item in the array.  Array items are one of
+        following values: |boolean|, |number|, |string|, |node-set|,
+        or |object|.
+
+      args_min [number]
+
+        Minimum number of arguments required by the function.
+
+      args_max [number]
+
+        Maximum number of arguments allowed by the function.  The
+        value can be "Infinity".
+
+      context [object?]
+
+        Names are allowed context and values are boolean true values.
+        Currently, the only available context is "core".  If a
+        function is in "core" set, it is available in all XPath
+        evaluations.
+
+      id [id-in-spec?]
+
+        The ID of the function in the specification.
+
+      return_type [string]
+
+        The data type of the return value of the function.  It must be
+        one of following values: |boolean|, |number|, |string|,
+        |node-set|, or |object|.
+
+      spec [spec?]
+
+        The ID of the specification in which the function is defined.
+
+* Sources
+
+XML Path Language (XPath) Version 1.0 <http://www.w3.org/TR/xpath/>.
+
+XML Path Language (XPath) Version 1.0 Specification Errata
+<http://www.w3.org/1999/11/REC-xpath-19991116-errata/>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of this JSON file.
