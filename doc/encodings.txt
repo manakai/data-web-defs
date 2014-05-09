@@ -5,33 +5,54 @@ This file contains data on character encodings for the Web.
 
 * Structure
 
-The file contains a JSON object containing following data:
+The file contains a JSON object with following name/value pairs:
 
-locale_default [object]
+  html_decl_map [object]
 
-  Locale-dependent default encoding as suggested by
-  <http://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>.
-  The names represent locales, identified by BCP 47 language tags, in
-  lowercase.  The values represent the corresponding encoding labels
-  in the Encoding Standard, in lowercase.  The name "*" represents the
-  fallback, i.e. the default encoding used when the current locale is
-  not otherwise listed.
+    A JSON object whose names and values are encoding names (not
+    encoding labels!).  When interpreting an HTML character encoding
+    declaration, an encoding name that is one of names must be
+    replaced by the encoding name in the corresponding value,
+    according to the prescan algorithm
+    <http://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
+    and the change the encoding algorithm
+    <http://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
 
-supported_labels [object]
+  locale_default [object]
 
-  List of all supported encoding labels for the Web platform, as
-  specified by the Encoding Standard.  The object contains name/value
-  pairs where names are encoding labels (in lowercase non white space
-  surrounded canonical form) and values are encoding names of the
-  corresponding labels.  Note that the encoding name might not be a
-  valid label (at the time of writing, the only such encoding is
-  "replacement").  According to the Encoding Standard, only the
-  "utf-8" label is conforming.  This list does not (and will not)
-  contain labels not in the Encoding Standard.
+    Locale-dependent default encoding as suggested by
+    <http://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>.
+    The names represent locales, identified by BCP 47 language tags,
+    in lowercase.  The values represent the corresponding encoding
+    labels in the Encoding Standard, in lowercase.  The name "*"
+    represents the fallback, i.e. the default encoding used when the
+    current locale is not otherwise listed.
+
+  supported_labels [object]
+
+    List of all supported encoding labels for the Web platform, as
+    specified by the Encoding Standard.  The object contains
+    name/value pairs where names are encoding labels (in lowercase non
+    white space surrounded canonical form) and values are encoding
+    names of the corresponding labels.  Note that the encoding name
+    might not be a valid label (at the time of writing, the only such
+    encoding is "replacement").  According to the Encoding Standard,
+    only the "utf-8" label is conforming.  This list does not (and
+    will not) contain labels not in the Encoding Standard.
 
 * Sources
 
 Encoding Standard <http://encoding.spec.whatwg.org/>.
 
-HTML Standard
-<http://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>.
+HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of this JSON file.
+
+This JSON file partially derived from the HTML Standard: "Written by
+Ian Hickson (Google, ian@hixie.ch) - Parts © Copyright 2004-2014 Apple
+Inc., Mozilla Foundation, and Opera Software ASA; You are granted a
+license to use, reproduce and create derivative works of this
+document".
