@@ -43,7 +43,7 @@ for my $f (($d->children)) {
     for (@{$dl->children}) {
       if ($_->local_name eq 'dt') {
         my $a = $_->first_element_child;
-        if ($a and ($a->title =~ /^element-dfn-(.+)$/)) {
+        if ($a and ($a->title =~ /^concept-element-(.+)$/)) {
           $field = $1;
         } else {
           undef $field;
