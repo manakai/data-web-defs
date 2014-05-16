@@ -9,6 +9,7 @@ WGET = wget
 CURL = curl
 GIT = git
 PERL = ./perl
+PROVE = ./prove
 
 updatenightly: update-submodules dataautoupdate
 
@@ -37,7 +38,8 @@ pmbp-update: git-submodules pmbp-upgrade
 	perl local/bin/pmbp.pl --update
 pmbp-install: pmbp-upgrade
 	perl local/bin/pmbp.pl --install \
-            --create-perl-command-shortcut perl
+            --create-perl-command-shortcut perl \
+            --create-perl-command-shortcut prove
 
 json-ps: local/perl-latest/pm/lib/perl5/JSON/PS.pm
 clean-json-ps:
@@ -45,6 +47,11 @@ clean-json-ps:
 local/perl-latest/pm/lib/perl5/JSON/PS.pm:
 	mkdir -p local/perl-latest/pm/lib/perl5/JSON
 	$(WGET) -O $@ https://raw.githubusercontent.com/wakaba/perl-json-ps/master/lib/JSON/PS.pm
+
+local/bin/jq:
+	mkdir -p local/bin
+	$(WGET) -O $@ http://stedolan.github.io/jq/download/linux64/jq
+	chmod u+x $@
 
 ## ------ Metadata ------
 
@@ -349,5 +356,9 @@ data/css-fonts.json: bin/css-fonts.pl
 
 ## ------ Validation ------
 
-test:
-	# (placeholder)
+test: test-deps test-main
+
+test-deps: deps local/bin/jq
+
+test-main:
+	$(PROVE) t/*.t
