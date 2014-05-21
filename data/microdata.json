@@ -63,12 +63,12 @@
          "duration" : {
             "id" : "http://data-vocabulary.org/Event/duration",
             "spec" : "DATAVOCAB",
-            "value" : "vevent duration"
+            "value" : "ISO 8601 duration"
          },
          "endDate" : {
             "id" : "http://data-vocabulary.org/Event/endDate",
             "spec" : "DATAVOCAB",
-            "value" : "date string or global date and time string"
+            "value" : "ISO 8601 date"
          },
          "eventType" : {
             "id" : "http://data-vocabulary.org/Event/eventType",
@@ -102,7 +102,7 @@
             "id" : "http://data-vocabulary.org/Event/startDate",
             "min" : 1,
             "spec" : "DATAVOCAB",
-            "value" : "date string or global date and time string"
+            "value" : "ISO 8601 date"
          },
          "summary" : {
             "id" : "http://data-vocabulary.org/Event/summary",
@@ -221,7 +221,7 @@
          "priceValidUntil" : {
             "id" : "http://data-vocabulary.org/Offer/priceValidUntil",
             "spec" : "DATAVOCAB",
-            "value" : "date string or global date and time string"
+            "value" : "ISO 8601 date"
          },
          "seller" : {
             "id" : "http://data-vocabulary.org/Offer/seller",
@@ -465,7 +465,7 @@
          "cookTime" : {
             "id" : "http://data-vocabulary.org/Recipe/cookTime",
             "spec" : "DATAVOCAB",
-            "value" : "vevent duration"
+            "value" : "ISO 8601 duration"
          },
          "ingredient" : {
             "id" : "http://data-vocabulary.org/Recipe/ingredient",
@@ -501,12 +501,12 @@
          "prepTime" : {
             "id" : "http://data-vocabulary.org/Recipe/prepTime",
             "spec" : "DATAVOCAB",
-            "value" : "vevent duration"
+            "value" : "ISO 8601 duration"
          },
          "published" : {
             "id" : "http://data-vocabulary.org/Recipe/published",
             "spec" : "DATAVOCAB",
-            "value" : "date string or global date and time string"
+            "value" : "ISO 8601 date"
          },
          "recipeType" : {
             "id" : "http://data-vocabulary.org/Recipe/recipeType",
@@ -529,7 +529,7 @@
          "totalTime" : {
             "id" : "http://data-vocabulary.org/Recipe/totalTime",
             "spec" : "DATAVOCAB",
-            "value" : "vevent duration"
+            "value" : "ISO 8601 duration"
          },
          "yield" : {
             "id" : "http://data-vocabulary.org/Recipe/yield",
@@ -561,7 +561,7 @@
          "dtreviewed" : {
             "id" : "http://data-vocabulary.org/Review/dtreviewed",
             "spec" : "DATAVOCAB",
-            "value" : "date string or global date and time string"
+            "value" : "ISO 8601 date"
          },
          "itemreviewed" : {
             "id" : "http://data-vocabulary.org/Review/itemreviewed",
@@ -675,10 +675,12 @@
       "vocab" : "http://data-vocabulary.org/"
    },
    "http://microformats.org/profile/hcalendar#vevent" : {
+      "desc" : "An event.",
       "id" : "md-vevent",
       "label" : "vEvent",
       "props" : {
          "attach" : {
+            "desc" : "Gives the address of an associated document for the event.",
             "id" : "md-vevent-attach",
             "is_url" : 1,
             "max" : "Infinity",
@@ -686,6 +688,7 @@
             "spec" : "HTML"
          },
          "categories" : {
+            "desc" : "Gives the name of a category or tag that the event could be classified as.",
             "id" : "md-vevent-categories",
             "max" : "Infinity",
             "min" : 0,
@@ -693,6 +696,7 @@
             "value" : "text"
          },
          "class" : {
+            "desc" : "Gives the access classification of the information regarding the event.",
             "enum" : {
                "confidential" : {
                },
@@ -707,6 +711,7 @@
             "spec" : "HTML"
          },
          "comment" : {
+            "desc" : "Gives a comment regarding the event.",
             "id" : "md-vevent-comment",
             "max" : "Infinity",
             "min" : 0,
@@ -714,6 +719,7 @@
             "value" : "text"
          },
          "contact" : {
+            "desc" : "Gives the contact information for the event.",
             "id" : "md-vevent-contact",
             "max" : "Infinity",
             "min" : 0,
@@ -721,6 +727,7 @@
             "value" : "text"
          },
          "created" : {
+            "desc" : "Gives the date and time at which the event information was first created in a calendaring system.",
             "id" : "md-vevent-created",
             "max" : 1,
             "min" : 0,
@@ -728,6 +735,7 @@
             "value" : "global date and time string"
          },
          "description" : {
+            "desc" : "Gives a detailed description of the event.",
             "id" : "md-vevent-description",
             "max" : 1,
             "min" : 0,
@@ -735,20 +743,23 @@
             "value" : "text"
          },
          "dtend" : {
+            "desc" : "Gives the date and time by which the event ends.",
             "id" : "md-vevent-dtend",
             "max" : 1,
             "min" : 0,
             "spec" : "HTML",
-            "value" : "date string or global date and time string"
+            "value" : "date string with optional time"
          },
          "dtstart" : {
+            "desc" : "Gives the date and time at which the event starts.",
             "id" : "md-vevent-dtstart",
             "max" : 1,
             "min" : 1,
             "spec" : "HTML",
-            "value" : "date string or global date and time string"
+            "value" : "date string with optional time"
          },
          "duration" : {
+            "desc" : "Gives the duration of the event.",
             "id" : "md-vevent-duration",
             "max" : 1,
             "min" : 0,
@@ -756,13 +767,15 @@
             "value" : "vevent duration"
          },
          "exdate" : {
+            "desc" : "Gives a date and time at which the event does not occur despite the recurrence rules.",
             "id" : "md-vevent-exdate",
             "max" : "Infinity",
             "min" : 0,
             "spec" : "HTML",
-            "value" : "date string or global date and time string"
+            "value" : "date string with optional time"
          },
          "exrule" : {
+            "desc" : "Gives a rule for finding dates and times at which the event does not occur despite the recurrence rules.",
             "id" : "md-vevent-exrule",
             "max" : "Infinity",
             "min" : 0,
@@ -770,6 +783,7 @@
             "value" : "icalendar recur"
          },
          "geo" : {
+            "desc" : "Gives the geographical position of the event.",
             "id" : "md-vevent-geo",
             "max" : 1,
             "min" : 0,
@@ -777,6 +791,7 @@
             "value" : "vcard geo"
          },
          "last-modified" : {
+            "desc" : "Gives the date and time at which the event information was last modified in a calendaring system.",
             "id" : "md-vevent-last-modified",
             "max" : 1,
             "min" : 0,
@@ -784,6 +799,7 @@
             "value" : "global date and time string"
          },
          "location" : {
+            "desc" : "Gives the location of the event.",
             "id" : "md-vevent-location",
             "max" : 1,
             "min" : 0,
@@ -791,6 +807,7 @@
             "value" : "text"
          },
          "rdate" : {
+            "desc" : "Gives a date and time at which the event recurs.",
             "id" : "md-vevent-rdate",
             "max" : "Infinity",
             "min" : 0,
@@ -798,6 +815,7 @@
             "value" : "vevent rdate"
          },
          "resources" : {
+            "desc" : "Gives a resource that will be needed for the event.",
             "id" : "md-vevent-resources",
             "max" : "Infinity",
             "min" : 0,
@@ -805,6 +823,7 @@
             "value" : "text"
          },
          "rrule" : {
+            "desc" : "Gives a rule for finding dates and times at which the event occurs.",
             "id" : "md-vevent-rrule",
             "max" : "Infinity",
             "min" : 0,
@@ -812,6 +831,7 @@
             "value" : "icalendar recur"
          },
          "sequence" : {
+            "desc" : "Gives a revision number for the event information.",
             "id" : "md-vevent-sequence",
             "max" : 1,
             "min" : 0,
@@ -819,6 +839,7 @@
             "value" : "non-negative integer"
          },
          "status" : {
+            "desc" : "Gives the confirmation status of the event.",
             "enum" : {
                "cancelled" : {
                },
@@ -833,6 +854,7 @@
             "spec" : "HTML"
          },
          "summary" : {
+            "desc" : "Gives a short summary of the event.",
             "id" : "md-vevent-summary",
             "max" : 1,
             "min" : 0,
@@ -840,6 +862,7 @@
             "value" : "text"
          },
          "transp" : {
+            "desc" : "Gives whether the event is to be considered as consuming time on a calendar, for the purpose of free-busy time searches.",
             "enum" : {
                "opaque" : {
                },
@@ -852,6 +875,7 @@
             "spec" : "HTML"
          },
          "uid" : {
+            "desc" : "Gives a globally unique identifier corresponding to the event.",
             "id" : "md-vevent-uid",
             "max" : 1,
             "min" : 0,
@@ -859,6 +883,7 @@
             "value" : "text"
          },
          "url" : {
+            "desc" : "Gives a URL for the event.",
             "id" : "md-vevent-url",
             "is_url" : 1,
             "max" : 1,
@@ -871,14 +896,17 @@
       "vocab" : "http://microformats.org/profile/hcalendar#vevent"
    },
    "http://microformats.org/profile/hcard" : {
+      "desc" : "A person's or organization's contact information.",
       "id" : "md-vcard",
       "label" : "vCard",
       "props" : {
          "adr" : {
+            "desc" : "Gives the delivery address of the person or organization.",
             "id" : "md-vcard-adr",
             "item" : {
                "props" : {
                   "country-name" : {
+                     "desc" : "Gives the country name component of the delivery address of the person or organization.",
                      "id" : "md-vcard-adr-country-name",
                      "max" : 1,
                      "min" : 0,
@@ -886,6 +914,7 @@
                      "value" : "text"
                   },
                   "extended-address" : {
+                     "desc" : "Gives an additional component of the delivery address of the person or organization.",
                      "discouraged" : 1,
                      "id" : "md-vcard-adr-extended-address",
                      "max" : "Infinity",
@@ -894,6 +923,7 @@
                      "value" : "text"
                   },
                   "locality" : {
+                     "desc" : "Gives the locality component (e.g. city) of the delivery address of the person or organization.",
                      "id" : "md-vcard-adr-locality",
                      "max" : 1,
                      "min" : 0,
@@ -901,6 +931,7 @@
                      "value" : "text"
                   },
                   "post-office-box" : {
+                     "desc" : "Gives the post office box component of the delivery address of the person or organization.",
                      "discouraged" : 1,
                      "id" : "md-vcard-adr-post-office-box",
                      "max" : "Infinity",
@@ -909,6 +940,7 @@
                      "value" : "text"
                   },
                   "postal-code" : {
+                     "desc" : "Gives the postal code component of the delivery address of the person or organization.",
                      "id" : "md-vcard-adr-postal-code",
                      "max" : 1,
                      "min" : 0,
@@ -916,6 +948,7 @@
                      "value" : "text"
                   },
                   "region" : {
+                     "desc" : "Gives the region component (e.g. state or province) of the delivery address of the person or organization.",
                      "id" : "md-vcard-adr-region",
                      "max" : 1,
                      "min" : 0,
@@ -923,6 +956,7 @@
                      "value" : "text"
                   },
                   "street-address" : {
+                     "desc" : "Gives the street address component of the delivery address of the person or organization.",
                      "id" : "md-vcard-adr-street-address",
                      "max" : "Infinity",
                      "min" : 0,
@@ -930,12 +964,15 @@
                      "value" : "text"
                   },
                   "type" : {
+                     "desc" : "Gives the type of delivery address.",
                      "enum" : {
                         "home" : {
+                           "desc" : "Indicates a delivery address for a residence.",
                            "id" : "md-vcard-type-adr-home",
                            "spec" : "HTML"
                         },
                         "work" : {
+                           "desc" : "Indicates a delivery address for a place of work.",
                            "id" : "md-vcard-type-adr-work",
                            "spec" : "HTML"
                         }
@@ -954,6 +991,7 @@
             "spec" : "HTML"
          },
          "agent" : {
+            "desc" : "Gives the contact information of another person who will act on behalf of the person or organization.",
             "id" : "md-vcard-agent",
             "is_url" : 1,
             "item" : {
@@ -967,6 +1005,7 @@
             "value" : "text"
          },
          "anniversary" : {
+            "desc" : "Gives the birth date of the person or organization.",
             "id" : "md-vcard-anniversary",
             "max" : 1,
             "min" : 0,
@@ -974,6 +1013,7 @@
             "value" : "date string"
          },
          "bday" : {
+            "desc" : "Gives the birth date of the person or organization.",
             "id" : "md-vcard-bday",
             "max" : 1,
             "min" : 0,
@@ -981,6 +1021,7 @@
             "value" : "date string"
          },
          "categories" : {
+            "desc" : "Gives the name of a category or tag that the person or organization could be classified as.",
             "id" : "md-vcard-categories",
             "max" : "Infinity",
             "min" : 0,
@@ -988,6 +1029,7 @@
             "value" : "text"
          },
          "email" : {
+            "desc" : "Gives the e-mail address of the person or organization.",
             "id" : "md-vcard-email",
             "max" : "Infinity",
             "min" : 0,
@@ -995,6 +1037,7 @@
             "value" : "text"
          },
          "fn" : {
+            "desc" : "Gives the formatted text corresponding to the name of the person or organization.",
             "id" : "md-vcard-fn",
             "max" : 1,
             "min" : 1,
@@ -1002,6 +1045,7 @@
             "value" : "text"
          },
          "gender-identity" : {
+            "desc" : "Gives the gender identity of the person.",
             "id" : "md-vcard-gender-identity",
             "max" : 1,
             "min" : 0,
@@ -1009,6 +1053,7 @@
             "value" : "text"
          },
          "geo" : {
+            "desc" : "Gives the geographical position of the person or organization.",
             "id" : "md-vcard-geo",
             "max" : "Infinity",
             "min" : 0,
@@ -1016,6 +1061,7 @@
             "value" : "vcard geo"
          },
          "impp" : {
+            "desc" : "Gives a URL for instant messaging and presence protocol communications with the person or organization.",
             "id" : "md-vcard-impp",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1023,20 +1069,25 @@
             "spec" : "HTML"
          },
          "kind" : {
+            "desc" : "Describes what kind of contact the item represents.",
             "enum" : {
                "group" : {
+                  "desc" : "Indicates multiple entities (e.g. a mailing list).",
                   "id" : "md-vcard-kind-group",
                   "spec" : "HTML"
                },
                "individual" : {
+                  "desc" : "Indicates a single entity (e.g. a person).",
                   "id" : "md-vcard-kind-individual",
                   "spec" : "HTML"
                },
                "location" : {
+                  "desc" : "Indicates a geographical place (e.g. an office building).",
                   "id" : "md-vcard-kind-location",
                   "spec" : "HTML"
                },
                "org" : {
+                  "desc" : "Indicates a single entity that is not a person (e.g. a company).",
                   "id" : "md-vcard-kind-org",
                   "spec" : "HTML"
                }
@@ -1047,6 +1098,7 @@
             "spec" : "HTML"
          },
          "lang" : {
+            "desc" : "Gives a language understood by the person or organization.",
             "id" : "md-vcard-lang",
             "max" : "Infinity",
             "min" : 0,
@@ -1054,6 +1106,7 @@
             "value" : "language tag"
          },
          "logo" : {
+            "desc" : "Gives the logo of the person or organization.",
             "id" : "md-vcard-logo",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1061,6 +1114,7 @@
             "spec" : "HTML"
          },
          "member" : {
+            "desc" : "Gives a URL that represents a member of the group.",
             "id" : "md-vcard-member",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1068,10 +1122,12 @@
             "spec" : "HTML"
          },
          "n" : {
+            "desc" : "Gives the structured name of the person or organization.",
             "id" : "md-vcard-n",
             "item" : {
                "props" : {
                   "additional-name" : {
+                     "desc" : "Gives the any additional names of the person.",
                      "id" : "md-vcard-n-additional-name",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1079,6 +1135,7 @@
                      "value" : "text"
                   },
                   "family-name" : {
+                     "desc" : "Gives the family name of the person, or the full name of the organization.",
                      "id" : "md-vcard-n-family-name",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1086,6 +1143,7 @@
                      "value" : "text"
                   },
                   "given-name" : {
+                     "desc" : "Gives the given-name of the person.",
                      "id" : "md-vcard-n-given-name",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1093,6 +1151,7 @@
                      "value" : "text"
                   },
                   "honorific-prefix" : {
+                     "desc" : "Gives the honorific prefix of the person.",
                      "id" : "md-vcard-n-honorific-prefix",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1100,6 +1159,7 @@
                      "value" : "text"
                   },
                   "honorific-suffix" : {
+                     "desc" : "Gives the honorific suffix of the person.",
                      "id" : "md-vcard-n-honorific-suffix",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1107,6 +1167,7 @@
                      "value" : "text"
                   },
                   "nickname" : {
+                     "desc" : "Gives the nickname of the person or organization.",
                      "id" : "md-vcard-n-nickname",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1121,6 +1182,7 @@
             "spec" : "HTML"
          },
          "note" : {
+            "desc" : "Gives supplemental information or a comment about the person or organization.",
             "id" : "md-vcard-note",
             "max" : "Infinity",
             "min" : 0,
@@ -1128,10 +1190,12 @@
             "value" : "text"
          },
          "org" : {
+            "desc" : "Gives the name and units of the organization.",
             "id" : "md-vcard-org",
             "item" : {
                "props" : {
                   "organization-name" : {
+                     "desc" : "Gives the name of the organization.",
                      "id" : "md-vcard-org-organization-name",
                      "max" : 1,
                      "min" : 1,
@@ -1139,6 +1203,7 @@
                      "value" : "text"
                   },
                   "organization-unit" : {
+                     "desc" : "Gives the name of the organization unit.",
                      "id" : "md-vcard-org-organization-unit",
                      "max" : "Infinity",
                      "min" : 0,
@@ -1154,6 +1219,7 @@
             "value" : "text"
          },
          "photo" : {
+            "desc" : "Gives a photograph of the person or organization.",
             "id" : "md-vcard-photo",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1161,16 +1227,19 @@
             "spec" : "HTML"
          },
          "related" : {
+            "desc" : "Gives a relationship to another entity.",
             "id" : "md-vcard-related",
             "item" : {
                "props" : {
                   "rel" : {
+                     "desc" : "Gives the relationship between the entity and the related entity.",
                      "enum" : {
                         "acquaintance" : {
                            "id" : "md-vcard-rel-acquaintance",
                            "spec" : "HTML"
                         },
                         "agent" : {
+                           "desc" : "Another entity that acts on behalf of this entity.",
                            "id" : "md-vcard-rel-agent",
                            "spec" : "HTML"
                         },
@@ -1195,6 +1264,7 @@
                            "spec" : "HTML"
                         },
                         "emergency" : {
+                           "desc" : "An emergency contact.",
                            "id" : "md-vcard-rel-emergency",
                            "spec" : "HTML"
                         },
@@ -1253,6 +1323,7 @@
                      "spec" : "HTML"
                   },
                   "url" : {
+                     "desc" : "Gives the URL for the related entity.",
                      "id" : "md-vcard-related-url",
                      "is_url" : 1,
                      "max" : 1,
@@ -1267,6 +1338,7 @@
             "spec" : "HTML"
          },
          "rev" : {
+            "desc" : "Gives the revision date and time of the contact information.",
             "id" : "md-vcard-rev",
             "max" : "Infinity",
             "min" : 0,
@@ -1274,6 +1346,7 @@
             "value" : "global date and time string"
          },
          "role" : {
+            "desc" : "Gives the role, occupation, or business category of the person or organization.",
             "id" : "md-vcard-role",
             "max" : "Infinity",
             "min" : 0,
@@ -1281,6 +1354,7 @@
             "value" : "text"
          },
          "sex" : {
+            "desc" : "Gives the biological sex of the person.",
             "id" : "md-vcard-sex",
             "max" : 1,
             "min" : 0,
@@ -1288,6 +1362,7 @@
             "value" : "vcard sex"
          },
          "sound" : {
+            "desc" : "Gives a sound file relating to the person or organization.",
             "id" : "md-vcard-sound",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1295,44 +1370,55 @@
             "spec" : "HTML"
          },
          "tel" : {
+            "desc" : "Gives the telephone number of the person or organization.",
             "id" : "md-vcard-tel",
             "item" : {
                "props" : {
                   "type" : {
+                     "desc" : "Gives the type of telephone number.",
                      "enum" : {
                         "cell" : {
+                           "desc" : "Indicates a cellular telephone number.",
                            "id" : "md-vcard-type-tel-cell",
                            "spec" : "HTML"
                         },
                         "fax" : {
+                           "desc" : "Indicates a facsimile telephone number.",
                            "id" : "md-vcard-type-tel-fax",
                            "spec" : "HTML"
                         },
                         "home" : {
+                           "desc" : "Indicates a residential number.",
                            "id" : "md-vcard-type-tel-home",
                            "spec" : "HTML"
                         },
                         "pager" : {
+                           "desc" : "Indicates a paging device telephone number.",
                            "id" : "md-vcard-type-tel-pager",
                            "spec" : "HTML"
                         },
                         "text" : {
+                           "desc" : "Indicates that the telephone number supports text messages (SMS).",
                            "id" : "md-vcard-type-tel-text",
                            "spec" : "HTML"
                         },
                         "textphone" : {
+                           "desc" : "Indicates a telecommunication device for people with hearing or speech difficulties.",
                            "id" : "md-vcard-type-tel-textphone",
                            "spec" : "HTML"
                         },
                         "video" : {
+                           "desc" : "Indicates a video conferencing telephone number.",
                            "id" : "md-vcard-type-tel-video",
                            "spec" : "HTML"
                         },
                         "voice" : {
+                           "desc" : "Indicates a voice telephone number.",
                            "id" : "md-vcard-type-tel-voice",
                            "spec" : "HTML"
                         },
                         "work" : {
+                           "desc" : "Indicates a telephone number for a place of work.",
                            "id" : "md-vcard-type-tel-work",
                            "spec" : "HTML"
                         }
@@ -1344,6 +1430,7 @@
                      "unique" : 1
                   },
                   "value" : {
+                     "desc" : "Gives the actual telephone number of the person or organization.",
                      "id" : "md-vcard-tel-value",
                      "max" : 1,
                      "min" : 1,
@@ -1359,6 +1446,7 @@
             "value" : "vcard telephone number"
          },
          "title" : {
+            "desc" : "Gives the job title, functional position or function of the person or organization.",
             "id" : "md-vcard-title",
             "max" : "Infinity",
             "min" : 0,
@@ -1366,6 +1454,7 @@
             "value" : "text"
          },
          "tz" : {
+            "desc" : "Gives the time zone of the person or organization.",
             "id" : "md-vcard-tz",
             "max" : "Infinity",
             "min" : 0,
@@ -1373,6 +1462,7 @@
             "value" : "vcard tz"
          },
          "uid" : {
+            "desc" : "Gives a globally unique identifier corresponding to the person or organization.",
             "id" : "md-vcard-uid",
             "max" : 1,
             "min" : 0,
@@ -1380,6 +1470,7 @@
             "value" : "text"
          },
          "url" : {
+            "desc" : "Gives a URL relating to the person or organization.",
             "id" : "md-vcard-url",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1392,10 +1483,12 @@
       "vocab" : "http://microformats.org/profile/hcard"
    },
    "http://n.whatwg.org/work" : {
+      "desc" : "A work (e.g. an article, an image, a video, a song, etc). ",
       "id" : "md-work",
       "label" : "Licensing works",
       "props" : {
          "author" : {
+            "desc" : "Gives the name or contact information of one of the authors or creators of the work.",
             "id" : "md-work-author",
             "item" : {
                "types" : {
@@ -1408,6 +1501,7 @@
             "value" : "text"
          },
          "license" : {
+            "desc" : "Identifies one of the licenses under which the work is available.",
             "id" : "md-work-license",
             "is_url" : 1,
             "max" : "Infinity",
@@ -1415,12 +1509,14 @@
             "spec" : "HTML"
          },
          "title" : {
+            "desc" : "Gives the name of the work.",
             "id" : "md-work-title",
             "max" : 1,
             "min" : 0,
             "spec" : "HTML"
          },
          "work" : {
+            "desc" : "Identifies the work being described.",
             "id" : "md-work-work",
             "is_url" : 1,
             "max" : 1,
@@ -4822,7 +4918,7 @@
                   "http://schema.org/GeoShape" : 1
                }
             },
-            "value" : "schema.org country code"
+            "value" : "schema.org region code"
          }
       },
       "spec" : "SCHEMAORG",
@@ -4992,7 +5088,7 @@
                   "http://schema.org/GeoShape" : 1
                }
             },
-            "value" : "schema.org country code"
+            "value" : "schema.org region code"
          },
          "eligibleTransactionVolume" : {
             "desc" : "The transaction volume, in a monetary unit, for which the offer or price specification is valid, e.g. for indicating a minimal purchasing volume, to express free shipping above a certain order volume, or to limit the acceptance of credit cards to purchases to a certain minimal amount.",
@@ -5661,7 +5757,7 @@
          },
          "costCurrency" : {
             "desc" : "The currency (in 3-letter ISO 4217 format) of the drug cost.",
-            "value" : "text"
+            "value" : "currency"
          },
          "costOrigin" : {
             "desc" : "Additional details to capture the origin of the cost data. For example, 'Medicare Part B'.",
@@ -7922,7 +8018,7 @@
          },
          "salaryCurrency" : {
             "desc" : "The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 used for the main salary information in this job posting.",
-            "value" : "text"
+            "value" : "currency"
          },
          "skills" : {
             "desc" : "Skills required to fulfill this role.",
@@ -8207,7 +8303,7 @@
          },
          "currenciesAccepted" : {
             "desc" : "The currency accepted (in ISO 4217 currency format).",
-            "value" : "text"
+            "value" : "currency"
          },
          "openingHours" : {
             "desc" : "The opening hours for a business. Opening hours can be specified as a weekly time range, starting with days, then times per day. Multiple days can be listed with commas ',' separating each day. Day or time ranges are specified using a hyphen '-'.- Days are specified using the following two-letter combinations: Mo, Tu, We, Th, Fr, Sa, Su.- Times are specified using 24:00 time. For example, 3pm is specified as 15:00. - Here is an example: \u003Ctime itemprop=\u0022openingHours\u0022 datetime=\u0022Tu,Th 16:00-20:00\u0022>Tuesdays and Thursdays 4-8pm\u003C/time>. - If a business is open 7 days a week, then it can be specified as \u003Ctime itemprop=\u0022openingHours\u0022 datetime=\u0022Mo-Su\u0022>Monday through Sunday, all day\u003C/time>.",
@@ -10901,7 +10997,7 @@
                   "http://schema.org/GeoShape" : 1
                }
             },
-            "value" : "schema.org country code"
+            "value" : "schema.org region code"
          },
          "eligibleTransactionVolume" : {
             "desc" : "The transaction volume, in a monetary unit, for which the offer or price specification is valid, e.g. for indicating a minimal purchasing volume, to express free shipping above a certain order volume, or to limit the acceptance of credit cards to purchases to a certain minimal amount.",
@@ -10970,7 +11066,7 @@
          },
          "priceCurrency" : {
             "desc" : "The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to PriceSpecification and its subtypes.",
-            "value" : "text"
+            "value" : "currency"
          },
          "priceSpecification" : {
             "desc" : "One or more detailed price specifications, indicating the unit price and delivery or payment charges.",
@@ -11182,7 +11278,7 @@
          },
          "discountCurrency" : {
             "desc" : "The currency (in 3-letter ISO 4217 format) of the discount.",
-            "value" : "text"
+            "value" : "currency"
          },
          "isGift" : {
             "desc" : "Was the offer accepted as a gift for someone other than the buyer.",
@@ -13336,7 +13432,7 @@
          },
          "priceCurrency" : {
             "desc" : "The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to PriceSpecification and its subtypes.",
-            "value" : "text"
+            "value" : "currency"
          },
          "validFrom" : {
             "desc" : "The date when the item becomes valid.",
@@ -18832,7 +18928,7 @@
          },
          "priceCurrency" : {
             "desc" : "The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to PriceSpecification and its subtypes.",
-            "value" : "text"
+            "value" : "currency"
          },
          "programMembershipUsed" : {
             "desc" : "Any membership in a frequent flyer, hotel loyalty program, etc. being applied to the reservation.",
@@ -21380,7 +21476,7 @@
          },
          "priceCurrency" : {
             "desc" : "The currency (in 3-letter ISO 4217 format) of the price or a price component, when attached to PriceSpecification and its subtypes.",
-            "value" : "text"
+            "value" : "currency"
          },
          "ticketNumber" : {
             "desc" : "The unique identifier for the ticket.",

@@ -3,160 +3,220 @@
 vocab=http://microformats.org/profile/hcard
 url=http://www.whatwg.org/specs/web-apps/current-work/#vcard
 label=vCard
+desc=A person's or organization's contact information.
 id=vcard
 spec=HTML
 kind
   0..1
+  desc=Describes what kind of contact the item represents.
   enum:
     individual
+      desc=Indicates a single entity (e.g. a person).
     group
+      desc=Indicates multiple entities (e.g. a mailing list).
     org
+      desc=Indicates a single entity that is not a person (e.g. a company).
     location
+      desc=Indicates a geographical place (e.g. an office building).
 fn
   1..1
+  desc=Gives the formatted text corresponding to the name of the person or organization.
   value=text
 n
   1..1
+  desc=Gives the structured name of the person or organization.
   item:
     family-name
       0..inf
+      desc=Gives the family name of the person, or the full name of the organization.
       value=text
     given-name
       0..inf
+      desc=Gives the given-name of the person.
       value=text
     additional-name
       0..inf
+      desc=Gives the any additional names of the person.
       value=text
     honorific-prefix
       0..inf
+      desc=Gives the honorific prefix of the person.
       value=text
     honorific-suffix
       0..inf
+      desc=Gives the honorific suffix of the person.
       value=text
     nickname
       0..inf
+      desc=Gives the nickname of the person or organization.
       value=text
 photo
   0..inf
+  desc=Gives a photograph of the person or organization.
   is_url
 bday
   0..1
+  desc=Gives the birth date of the person or organization.
   value=date string
 anniversary
   0..1
+  desc=Gives the birth date of the person or organization.
   value=date string
 sex
   0..1
+  desc=Gives the biological sex of the person.
   value=vcard sex
 gender-identity
   0..1
+  desc=Gives the gender identity of the person.
   value=text
 adr
   0..inf
+  desc=Gives the delivery address of the person or organization.
   item:
     type
       0..inf
+      desc=Gives the type of delivery address.
       unique
       enum:
         home
+          desc=Indicates a delivery address for a residence.
         work
+          desc=Indicates a delivery address for a place of work.
     post-office-box
       0..inf
+      desc=Gives the post office box component of the delivery address of the person or organization.
       value=text
       discouraged
     extended-address
       0..inf
+      desc=Gives an additional component of the delivery address of the person or organization.
       value=text
       discouraged
     street-address
       0..inf
+      desc=Gives the street address component of the delivery address of the person or organization.
       value=text
     locality
       0..1
+      desc=Gives the locality component (e.g. city) of the delivery address of the person or organization.
       value=text
     region
       0..1
+      desc=Gives the region component (e.g. state or province) of the delivery address of the person or organization.
       value=text
     postal-code
       0..1
+      desc=Gives the postal code component of the delivery address of the person or organization.
       value=text
     country-name
       0..1
+      desc=Gives the country name component of the delivery address of the person or organization.
       value=text
 tel
   0..inf
   value=vcard telephone number
+  desc=Gives the telephone number of the person or organization.
   item:
     type
       0..inf
       unique
+      desc=Gives the type of telephone number.
       enum:
         home
+          desc=Indicates a residential number.
         work
+          desc=Indicates a telephone number for a place of work.
         text
+          desc=Indicates that the telephone number supports text messages (SMS).
         voice
+          desc=Indicates a voice telephone number.
         fax
+          desc=Indicates a facsimile telephone number.
         cell
+          desc=Indicates a cellular telephone number.
         video
+          desc=Indicates a video conferencing telephone number.
         pager
+          desc=Indicates a paging device telephone number.
         textphone
+          desc=Indicates a telecommunication device for people with hearing or speech difficulties.
     value
       1..1
+      desc=Gives the actual telephone number of the person or organization.
       value=vcard telephone number
 email
   0..inf
+  desc=Gives the e-mail address of the person or organization.
   value=text
 impp
   0..inf
+  desc=Gives a URL for instant messaging and presence protocol communications with the person or organization.
   is_url
 lang
   0..inf
+  desc=Gives a language understood by the person or organization.
   value=language tag
 tz
   0..inf
+  desc=Gives the time zone of the person or organization.
   value=vcard tz
 geo
   0..inf
+  desc=Gives the geographical position of the person or organization.
   value=vcard geo
 title
   0..inf
+  desc=Gives the job title, functional position or function of the person or organization.
   value=text
 role
   0..inf
+  desc=Gives the role, occupation, or business category of the person or organization.
   value=text
 logo
   0..inf
+  desc=Gives the logo of the person or organization.
   is_url
 agent
   0..inf
+  desc=Gives the contact information of another person who will act on behalf of the person or organization.
   value=text
   is_url
   item:
     type=http://microformats.org/profile/hcard
 org
   0..inf
+  desc=Gives the name and units of the organization.
   value=text
   item:
     organization-name
       1..1
+      desc=Gives the name of the organization.
       value=text
     organization-unit
       0..inf
+      desc=Gives the name of the organization unit.
       value=text
 member
   0..inf
+  desc=Gives a URL that represents a member of the group.
   is_url
 related
   0..inf
+  desc=Gives a relationship to another entity.
   item:
     url
       1..1
       is_url
+      desc=Gives the URL for the related entity.
     rel
       1..1
+      desc=Gives the relationship between the entity and the related entity.
       enum:
         emergency
+          desc=An emergency contact.
         agent
+          desc=Another entity that acts on behalf of this entity.
         contact
         acquaintance
         friend
@@ -177,21 +237,27 @@ related
         me
 categories
   0..inf
+  desc=Gives the name of a category or tag that the person or organization could be classified as.
   value=text
 note
   0..inf
+  desc=Gives supplemental information or a comment about the person or organization.
   value=text
 rev
   0..inf
+  desc=Gives the revision date and time of the contact information.
   value=global date and time string
 sound
   0..inf
   is_url
+  desc=Gives a sound file relating to the person or organization.
 uid
   0..1
+  desc=Gives a globally unique identifier corresponding to the person or organization.
   value=text
 url
   0..inf
+  desc=Gives a URL relating to the person or organization.
   is_url
 
 * http://microformats.org/profile/hcalendar#vevent
@@ -201,85 +267,110 @@ url=http://www.whatwg.org/specs/web-apps/current-work/#vevent
 label=vEvent
 id=vevent
 spec=HTML
+desc=An event.
 attach
   0..inf
   is_url
+  desc=Gives the address of an associated document for the event.
 categories
   0..inf
   value=text
+  desc=Gives the name of a category or tag that the event could be classified as.
 class
   0..1
+  desc=Gives the access classification of the information regarding the event.
   enum:
     public
     private
     confidential
 comment
   0..inf
+  desc=Gives a comment regarding the event.
   value=text
 description
   0..1
+  desc=Gives a detailed description of the event.
   value=text
 geo
   0..1
+  desc=Gives the geographical position of the event.
   value=vcard geo
 location
   0..1
+  desc=Gives the location of the event.
   value=text
 resources
   0..inf
+  desc=Gives a resource that will be needed for the event.
   value=text
 status
   0..1
+  desc=Gives the confirmation status of the event.
   enum:
     tentative
     confirmed
     cancelled
 summary
   0..1
+  desc=Gives a short summary of the event.
   value=text
 dtend
   0..1
-  value=date string or global date and time string
+  desc=Gives the date and time by which the event ends.
+  value=date string with optional time
 dtstart
   1..1
-  value=date string or global date and time string
+  desc=Gives the date and time at which the event starts.
+  value=date string with optional time
 duration
   0..1
+  desc=Gives the duration of the event.
   value=vevent duration
 transp
   0..1
+  desc=Gives whether the event is to be considered as consuming time on a calendar, for the purpose of free-busy time searches.
   enum:
     opaque
     transparent
 contact
   0..inf
+  desc=Gives the contact information for the event.
   value=text
 url
   0..1
+  desc=Gives a URL for the event.
   is_url
 uid
   0..1
+  desc=Gives a globally unique identifier corresponding to the event.
   value=text
 exdate
   0..inf
-  value=date string or global date and time string
+  desc=Gives a date and time at which the event does not occur despite the recurrence rules.
+  value=date string with optional time
 exrule
   0..inf
+  desc=Gives a rule for finding dates and times at which the event does not occur despite the recurrence rules.
   value=icalendar recur
 rdate
   0..inf
+  desc=Gives a date and time at which the event recurs.
   value=vevent rdate
 rrule
   0..inf
+  desc=Gives a rule for finding dates and times at which the event occurs.
   value=icalendar recur
 created
   0..1
+  desc=Gives the date and time at which the event information was first created in a calendaring system.
   value=global date and time string
 last-modified
   0..1
+  desc=Gives the date and time at which the event information was last modified in a calendaring system.
   value=global date and time string
 sequence
   0..1
+  desc=Gives a revision number for the event information.
   value=non-negative integer
 
 * http://n.whatwg.org/work
@@ -288,20 +379,25 @@ vocab=http://n.whatwg.org/work
 label=Licensing works
 id=work
 spec=HTML
+desc=A work (e.g. an article, an image, a video, a song, etc). 
 url=http://www.whatwg.org/specs/web-apps/current-work/#licensing-works
 work
   1..1
+  desc=Identifies the work being described.
   is_url
 title
   0..1
+  desc=Gives the name of the work.
 author
   0..inf
+  desc=Gives the name or contact information of one of the authors or creators of the work.
   value=text
   item:
     type=http://microformats.org/profile/hcard
 license
   0..inf
   is_url
+  desc=Identifies one of the licenses under which the work is available.
 
 * http://data-vocabulary.org/Nutrition
 

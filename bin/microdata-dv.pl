@@ -46,15 +46,15 @@ for (qw(itemtype itemprop Event Geo Address Organization Person
   }
 }
 
-## "ISO date" in the spec is replaced by "date string or global date and time string".
-## "ISO duration" in the spec is replaced by "vevent duration".
+## "ISO date" in the spec is replaced by "ISO 8601 date"
+## "ISO duration" in the spec is replaced by "ISO 8601 duration".
 ## |is_url| flag is set if the value is defined as a URL, image, or link.
 $Data->{'http://data-vocabulary.org/itemtype'}->{use_itemid} = 1;
 $Data->{'http://data-vocabulary.org/itemprop'}->{use_itemid} = 1;
 $Data->{'http://data-vocabulary.org/Event'}->{props}->{url}->{is_url} = 1;
-$Data->{'http://data-vocabulary.org/Event'}->{props}->{startDate}->{value} ||= 'date string or global date and time string';
-$Data->{'http://data-vocabulary.org/Event'}->{props}->{endDate}->{value} ||= 'date string or global date and time string';
-$Data->{'http://data-vocabulary.org/Event'}->{props}->{duration}->{value} ||= 'vevent duration';
+$Data->{'http://data-vocabulary.org/Event'}->{props}->{startDate}->{value} ||= 'ISO 8601 date';
+$Data->{'http://data-vocabulary.org/Event'}->{props}->{endDate}->{value} ||= 'ISO 8601 date';
+$Data->{'http://data-vocabulary.org/Event'}->{props}->{duration}->{value} ||= 'ISO 8601 duration';
 $Data->{'http://data-vocabulary.org/Event'}->{props}->{location}->{value} ||= 'text';
 $Data->{'http://data-vocabulary.org/Event'}->{props}->{location}->{item}->{types}->{'http://data-vocabulary.org/Organization'} = 1;
 $Data->{'http://data-vocabulary.org/Event'}->{props}->{location}->{item}->{types}->{'http://data-vocabulary.org/Address'} = 1;
@@ -76,7 +76,7 @@ $Data->{'http://data-vocabulary.org/Product'}->{props}->{review}->{item}->{types
 $Data->{'http://data-vocabulary.org/Product'}->{props}->{review}->{item}->{types}->{'http://data-vocabulary.org/Review-aggregate'} = 1;
 $Data->{'http://data-vocabulary.org/Product'}->{props}->{offerdetails}->{item}->{types}->{'http://data-vocabulary.org/Offer'} = 1;
 $Data->{'http://data-vocabulary.org/Product'}->{props}->{offerdetails}->{item}->{types}->{'http://data-vocabulary.org/Offer-aggregate'} = 1;
-$Data->{'http://data-vocabulary.org/Review'}->{props}->{dtreviewed}->{value} ||= 'date string or global date and time string';
+$Data->{'http://data-vocabulary.org/Review'}->{props}->{dtreviewed}->{value} ||= 'ISO 8601 date';
 $Data->{'http://data-vocabulary.org/Review'}->{props}->{rating}->{value} ||= 'text';
 $Data->{'http://data-vocabulary.org/Review'}->{props}->{rating}->{item}->{types}->{'http://data-vocabulary.org/Rating'} = 1;
 $Data->{'http://data-vocabulary.org/Review-aggregate'}->{props}->{rating}->{value} ||= 'text';
@@ -85,19 +85,19 @@ $Data->{'http://data-vocabulary.org/Breadcrumb'}->{props}->{url}->{is_url} = 1;
 $Data->{'http://data-vocabulary.org/Breadcrumb'}->{props}->{child}->{item}->{types}->{'http://data-vocabulary.org/Breadcrumb'} = 1;
 $Data->{'http://data-vocabulary.org/Offer'}->{props}->{price}->{value} ||= 'floating-point number';
 $Data->{'http://data-vocabulary.org/Offer'}->{props}->{currency}->{value} ||= 'currency';
-$Data->{'http://data-vocabulary.org/Offer'}->{props}->{priceValidUntil}->{value} ||= 'date string or global date and time string';
+$Data->{'http://data-vocabulary.org/Offer'}->{props}->{priceValidUntil}->{value} ||= 'ISO 8601 date';
 $Data->{'http://data-vocabulary.org/Offer'}->{props}->{seller}->{item}->{types}->{'http://data-vocabulary.org/Person'} = 1;
 $Data->{'http://data-vocabulary.org/Offer'}->{props}->{seller}->{item}->{types}->{'http://data-vocabulary.org/Organization'} = 1;
 $Data->{'http://data-vocabulary.org/Offer-aggregate'}->{props}->{lowPrice}->{value} ||= 'floating-point number';
 $Data->{'http://data-vocabulary.org/Offer-aggregate'}->{props}->{highPrice}->{value} ||= 'floating-point number';
 $Data->{'http://data-vocabulary.org/Offer-aggregate'}->{props}->{currency}->{value} ||= 'currency';
 $Data->{'http://data-vocabulary.org/Recipe'}->{props}->{photo}->{is_url} = 1;
-$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{published}->{value} ||= 'date string or global date and time string';
+$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{published}->{value} ||= 'ISO 8601 date';
 $Data->{'http://data-vocabulary.org/Recipe'}->{props}->{review}->{item}->{types}->{'http://data-vocabulary.org/Review'} = 1;
 $Data->{'http://data-vocabulary.org/Recipe'}->{props}->{review}->{item}->{types}->{'http://data-vocabulary.org/Review-aggregate'} = 1;
-$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{prepTime}->{value} ||= 'vevent duration';
-$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{cookTime}->{value} ||= 'vevent duration';
-$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{totalTime}->{value} ||= 'vevent duration';
+$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{prepTime}->{value} ||= 'ISO 8601 duration';
+$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{cookTime}->{value} ||= 'ISO 8601 duration';
+$Data->{'http://data-vocabulary.org/Recipe'}->{props}->{totalTime}->{value} ||= 'ISO 8601 duration';
 $Data->{'http://data-vocabulary.org/Recipe'}->{props}->{author}->{item}->{types}->{'http://data-vocabulary.org/Person'} = 1;
 $Data->{'http://data-vocabulary.org/Recipe'}->{props}->{nutrition}->{item}->{types}->{'http://data-vocabulary.org/Nutrition'} = 1;
 $Data->{'http://data-vocabulary.org/Recipe'}->{props}->{ingredient}->{item}->{types}->{'http://data-vocabulary.org/RecipeIngredient'} = 1;

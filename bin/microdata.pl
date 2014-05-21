@@ -22,6 +22,7 @@ sub n ($) {
   my $subitemprop;
   my $key;
   my $subkey;
+  my $subsubkey;
   for (split /\x0D?\x0A/, $path->slurp_utf8) {
     if (/^\*\s*(\S+)$/) {
       $itemtype = $1;
@@ -62,7 +63,14 @@ sub n ($) {
       $subkey = $1;
       ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{$subkey} ||= {};
     } elsif (/^        ([^\s=:]+)$/) {
+      $subsubkey = $1;
       ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{$subkey}->{$1} ||= {};
+    } elsif (/^          ([^\s=:]+)=(.*)$/) {
+      if ($1 eq 'type') {
+        ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{$subkey}->{$subsubkey}->{types}->{$2} = 1;
+      } else {
+        ($key eq 'item' ? $Data->{$itemtype}->{props}->{$itemprop}->{$key}->{props} : $Data->{$itemtype}->{props}->{$itemprop}->{$key})->{$subitemprop}->{$subkey}->{$subsubkey}->{$1} = $2;
+      }
     } elsif (/\S/) {
       die "Broken line: |$_|";
     }
@@ -208,6 +216,11 @@ for my $itemtype (keys %$Data) {
         }
         if ($desc =~ / can be specified as a weekly time range, starting with days, then times per day\./) {
           $def->{value} = 'weekly time range';
+        }
+        if ($desc =~ /^The currency \(in 3-letter ISO 4217 format\)/ or
+            $desc =~ m{^The currency \(coded using ISO 4217, } or
+            $desc =~ /\(in ISO 4217 currency format\)\.?\s*$/) {
+          $def->{value} = 'currency';
         }
         $def->{desc} = $desc;
       }
