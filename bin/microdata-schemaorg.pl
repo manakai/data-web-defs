@@ -1,11 +1,10 @@
 use strict;
 use warnings;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
+use Path::Tiny;
+use lib glob path (__FILE__)->parent->child ('modules/*/lib');
 use Encode;
 use JSON::PS;
 use Web::DOM::Document;
-use Web::HTML::Microdata;
 
 my $Data = {};
 
@@ -14,24 +13,59 @@ sub min ($$) {
   return $_[1] < $_[0] ? $_[1] : $_[0];
 } # min
 
-my $f = file (__FILE__)->dir->parent->file ('local', 'schemaorg.html');
-my $doc = new Web::DOM::Document;
-$doc->manakai_is_html (1);
-$doc->inner_html (decode 'utf-8', scalar $f->slurp);
-$doc->inner_html ($doc->body->text_content);
-my $md = Web::HTML::Microdata->new;
-my $items = $md->get_top_level_items ($doc);
-for my $item (@$items) {
-  $Data->{$item->{id}}->{types} = $item->{types};
-  for (@{$item->{props}->{subClassOf}}) {
-    $Data->{$item->{id}}->{subclass_of}->{$_->{text}} = 1;
-    $Data->{$_->{text}}->{superclass_of}->{$item->{id}} = 1;
+if (1) {
+  my $path = path (__FILE__)->parent->parent->child ('local/schemaorg.rdfa');
+  my $doc = new Web::DOM::Document;
+  $doc->manakai_is_html (1);
+  $doc->inner_html (decode 'utf-8', scalar $path->slurp);
+
+  for (@{$doc->query_selector_all ('div[resource]')}) {
+    my $url = $_->get_attribute ('resource');
+
+    my $type = $_->get_attribute ('typeof');
+    if (defined $type) {
+      $type = {'rdfs:Class' => 'http://schema.org/Type',
+               'rdf:Property' => 'http://schema.org/Property'}->{$type} // $type;
+      next if $type eq 'http://schema.org/Organization';
+      $Data->{$url}->{types} = {$type => 1};
+    }
+
+    for (@{$_->query_selector_all ('[property]')}) {
+      my $prop = $_->get_attribute ('property');
+      my $value = $_->get_attribute ('href') // $_->text_content;
+      if ($prop eq 'rdfs:subClassOf') {
+        $Data->{$url}->{subclass_of}->{$value} = 1;
+        $Data->{$value}->{superclass_of}->{$url} = 1;
+      } elsif ($prop eq 'http://schema.org/domainIncludes') {
+        $Data->{$url}->{domain}->{$value} = 1;
+      } elsif ($prop eq 'http://schema.org/rangeIncludes') {
+        $Data->{$url}->{range}->{$value} = 1;
+      }
+    }
   }
-  for (@{$item->{props}->{domain}}) {
-    $Data->{$item->{id}}->{domain}->{$_->{text}} = 1;
-  }
-  for (@{$item->{props}->{range}}) {
-    $Data->{$item->{id}}->{range}->{$_->{text}} = 1;
+}
+
+if (0) {
+  my $path = path (__FILE__)->parent->parent->child ('local/schemaorg.html');
+  my $doc = new Web::DOM::Document;
+  $doc->manakai_is_html (1);
+  $doc->inner_html (decode 'utf-8', scalar $path->slurp);
+  $doc->inner_html ($doc->body->text_content);
+  require Web::HTML::Microdata;
+  my $md = Web::HTML::Microdata->new;
+  my $items = $md->get_top_level_items ($doc);
+  for my $item (@$items) {
+    $Data->{$item->{id}}->{types} = $item->{types};
+    for (@{$item->{props}->{subClassOf}}) {
+      $Data->{$item->{id}}->{subclass_of}->{$_->{text}} = 1;
+      $Data->{$_->{text}}->{superclass_of}->{$item->{id}} = 1;
+    }
+    for (@{$item->{props}->{domain}}) {
+      $Data->{$item->{id}}->{domain}->{$_->{text}} = 1;
+    }
+    for (@{$item->{props}->{range}}) {
+      $Data->{$item->{id}}->{range}->{$_->{text}} = 1;
+    }
   }
 }
 

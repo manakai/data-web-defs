@@ -1507,6 +1507,14 @@
    },
    "http://schema.org/Action" : {
       "props" : {
+         "actionStatus" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ActionStatusType" : 1
+               }
+            }
+         },
          "agent" : {
             "is_url" : 1,
             "item" : {
@@ -1563,6 +1571,14 @@
          },
          "startTime" : {
             "value" : "global or local date and time string"
+         },
+         "target" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/EntryPoint" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -1672,6 +1688,16 @@
          "http://schema.org/WearAction" : 3,
          "http://schema.org/WinAction" : 2,
          "http://schema.org/WriteAction" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ActionStatusType" : {
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -4360,7 +4386,6 @@
       },
       "superclass_of" : {
          "http://schema.org/LockerDelivery" : 1,
-         "http://schema.org/OnSitePickup" : 1,
          "http://schema.org/ParcelService" : 1
       },
       "use_itemid" : 1,
@@ -5064,10 +5089,12 @@
    "http://schema.org/DrugCostCategory" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
-         "http://schema.org/Thing" : 4
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -5095,6 +5122,8 @@
    "http://schema.org/DrugPregnancyCategory" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -5106,6 +5135,8 @@
    "http://schema.org/DrugPrescriptionStatus" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -5359,6 +5390,34 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/EntryPoint" : {
+      "props" : {
+         "application" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/SoftwareApplication" : 1
+               }
+            }
+         },
+         "contentType" : {
+            "value" : "text"
+         },
+         "encodingType" : {
+            "value" : "text"
+         },
+         "httpMethod" : {
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Enumeration" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
@@ -5366,6 +5425,7 @@
          "http://schema.org/Thing" : 2
       },
       "superclass_of" : {
+         "http://schema.org/ActionStatusType" : 1,
          "http://schema.org/BookFormatType" : 1,
          "http://schema.org/BusinessEntityType" : 1,
          "http://schema.org/BusinessFunction" : 1,
@@ -5373,15 +5433,30 @@
          "http://schema.org/CreditCard" : 2,
          "http://schema.org/DayOfWeek" : 1,
          "http://schema.org/DeliveryMethod" : 1,
+         "http://schema.org/DrugCostCategory" : 1,
+         "http://schema.org/DrugPregnancyCategory" : 1,
+         "http://schema.org/DrugPrescriptionStatus" : 1,
          "http://schema.org/EventStatusType" : 1,
+         "http://schema.org/InfectiousAgentClass" : 1,
          "http://schema.org/ItemAvailability" : 1,
          "http://schema.org/LockerDelivery" : 2,
-         "http://schema.org/MedicalSpecialty" : 2,
+         "http://schema.org/MedicalAudience" : 1,
+         "http://schema.org/MedicalDevicePurpose" : 1,
+         "http://schema.org/MedicalEnumeration" : 1,
+         "http://schema.org/MedicalEvidenceLevel" : 1,
+         "http://schema.org/MedicalImagingTechnique" : 1,
+         "http://schema.org/MedicalObservationalStudyDesign" : 1,
+         "http://schema.org/MedicalProcedureType" : 1,
+         "http://schema.org/MedicalSpecialty" : 1,
+         "http://schema.org/MedicalStudyStatus" : 1,
+         "http://schema.org/MedicalTrialDesign" : 1,
+         "http://schema.org/MedicineSystem" : 1,
          "http://schema.org/OfferItemCondition" : 1,
-         "http://schema.org/OnSitePickup" : 2,
          "http://schema.org/OrderStatus" : 1,
          "http://schema.org/ParcelService" : 2,
          "http://schema.org/PaymentMethod" : 1,
+         "http://schema.org/PhysicalActivityCategory" : 1,
+         "http://schema.org/PhysicalExam" : 1,
          "http://schema.org/QualitativeValue" : 1,
          "http://schema.org/ReservationStatusType" : 1,
          "http://schema.org/Specialty" : 1,
@@ -5609,6 +5684,14 @@
          },
          "typicalAgeRange" : {
             "value" : "text"
+         },
+         "workPerformed" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -6659,6 +6742,8 @@
    "http://schema.org/InfectiousAgentClass" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -6772,6 +6857,7 @@
          "http://schema.org/Thing" : 1
       },
       "superclass_of" : {
+         "http://schema.org/ActionStatusType" : 2,
          "http://schema.org/AggregateOffer" : 2,
          "http://schema.org/AggregateRating" : 2,
          "http://schema.org/AlignmentObject" : 1,
@@ -6791,9 +6877,13 @@
          "http://schema.org/DeliveryMethod" : 2,
          "http://schema.org/Demand" : 1,
          "http://schema.org/Distance" : 2,
+         "http://schema.org/DrugCostCategory" : 2,
+         "http://schema.org/DrugPregnancyCategory" : 2,
+         "http://schema.org/DrugPrescriptionStatus" : 2,
          "http://schema.org/Duration" : 2,
          "http://schema.org/EducationalAudience" : 2,
          "http://schema.org/Energy" : 2,
+         "http://schema.org/EntryPoint" : 1,
          "http://schema.org/Enumeration" : 1,
          "http://schema.org/EventReservation" : 2,
          "http://schema.org/EventStatusType" : 2,
@@ -6804,6 +6894,7 @@
          "http://schema.org/GeoShape" : 2,
          "http://schema.org/GovernmentPermit" : 2,
          "http://schema.org/GovernmentService" : 2,
+         "http://schema.org/InfectiousAgentClass" : 2,
          "http://schema.org/ItemAvailability" : 2,
          "http://schema.org/JobPosting" : 1,
          "http://schema.org/Language" : 1,
@@ -6811,11 +6902,19 @@
          "http://schema.org/LodgingReservation" : 2,
          "http://schema.org/Mass" : 2,
          "http://schema.org/MedicalAudience" : 2,
-         "http://schema.org/MedicalSpecialty" : 3,
+         "http://schema.org/MedicalDevicePurpose" : 2,
+         "http://schema.org/MedicalEnumeration" : 2,
+         "http://schema.org/MedicalEvidenceLevel" : 2,
+         "http://schema.org/MedicalImagingTechnique" : 2,
+         "http://schema.org/MedicalObservationalStudyDesign" : 2,
+         "http://schema.org/MedicalProcedureType" : 2,
+         "http://schema.org/MedicalSpecialty" : 2,
+         "http://schema.org/MedicalStudyStatus" : 2,
+         "http://schema.org/MedicalTrialDesign" : 2,
+         "http://schema.org/MedicineSystem" : 2,
          "http://schema.org/NutritionInformation" : 2,
          "http://schema.org/Offer" : 1,
          "http://schema.org/OfferItemCondition" : 2,
-         "http://schema.org/OnSitePickup" : 3,
          "http://schema.org/OpeningHoursSpecification" : 2,
          "http://schema.org/Order" : 1,
          "http://schema.org/OrderStatus" : 2,
@@ -6827,9 +6926,12 @@
          "http://schema.org/PaymentMethod" : 2,
          "http://schema.org/PeopleAudience" : 2,
          "http://schema.org/Permit" : 1,
+         "http://schema.org/PhysicalActivityCategory" : 2,
+         "http://schema.org/PhysicalExam" : 2,
          "http://schema.org/PostalAddress" : 3,
          "http://schema.org/PriceSpecification" : 2,
          "http://schema.org/ProgramMembership" : 1,
+         "http://schema.org/PropertyValueSpecification" : 1,
          "http://schema.org/QualitativeValue" : 2,
          "http://schema.org/QuantitativeValue" : 2,
          "http://schema.org/Quantity" : 1,
@@ -7748,7 +7850,8 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Audience" : 1,
-         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -8032,10 +8135,12 @@
    "http://schema.org/MedicalDevicePurpose" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
-         "http://schema.org/Thing" : 4
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -8189,6 +8294,8 @@
    "http://schema.org/MedicalEnumeration" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
          "http://schema.org/MedicalEntity" : 2,
          "http://schema.org/MedicalIntangible" : 1,
          "http://schema.org/Thing" : 3
@@ -8217,6 +8324,8 @@
    "http://schema.org/MedicalEvidenceLevel" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -8290,10 +8399,12 @@
    "http://schema.org/MedicalImagingTechnique" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
-         "http://schema.org/Thing" : 4
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -8373,6 +8484,8 @@
    "http://schema.org/MedicalObservationalStudyDesign" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -8438,6 +8551,8 @@
    "http://schema.org/MedicalProcedureType" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -8599,7 +8714,7 @@
    "http://schema.org/MedicalSpecialty" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/Enumeration" : 2,
+         "http://schema.org/Enumeration" : 1,
          "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
@@ -8666,6 +8781,8 @@
    "http://schema.org/MedicalStudyStatus" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -8848,6 +8965,8 @@
    "http://schema.org/MedicalTrialDesign" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -8874,6 +8993,8 @@
    "http://schema.org/MedicineSystem" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -9171,6 +9292,9 @@
                   "http://schema.org/AnatomicalStructure" : 1
                }
             }
+         },
+         "muscleAction" : {
+            "value" : "text"
          },
          "nerve" : {
             "is_url" : 1,
@@ -9918,17 +10042,6 @@
          "http://schema.org/Event" : 2,
          "http://schema.org/PublicationEvent" : 1,
          "http://schema.org/Thing" : 3
-      },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
-   "http://schema.org/OnSitePickup" : {
-      "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DeliveryMethod" : 1,
-         "http://schema.org/Enumeration" : 2,
-         "http://schema.org/Intangible" : 3,
-         "http://schema.org/Thing" : 4
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -11329,6 +11442,8 @@
    "http://schema.org/PhysicalActivityCategory" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 3,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
@@ -11340,10 +11455,12 @@
    "http://schema.org/PhysicalExam" : {
       "spec" : "SCHEMAORG",
       "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
          "http://schema.org/MedicalEntity" : 3,
          "http://schema.org/MedicalEnumeration" : 1,
          "http://schema.org/MedicalIntangible" : 2,
-         "http://schema.org/Thing" : 4
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12255,8 +12372,6 @@
    },
    "http://schema.org/Property" : {
       "props" : {
-         "domain" : {
-         },
          "domainIncludes" : {
             "is_url" : 1,
             "item" : {
@@ -12264,8 +12379,6 @@
                   "http://schema.org/Class" : 1
                }
             }
-         },
-         "range" : {
          },
          "rangeIncludes" : {
             "is_url" : 1,
@@ -12279,6 +12392,52 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Thing" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/PropertyValueSpecification" : {
+      "props" : {
+         "defaultValue" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "maxValue" : {
+            "value" : "integer"
+         },
+         "minValue" : {
+            "value" : "integer"
+         },
+         "multipleValues" : {
+            "is_url" : 1
+         },
+         "readonlyValue" : {
+            "is_url" : 1
+         },
+         "stepValue" : {
+            "value" : "integer"
+         },
+         "valueMaxLength" : {
+            "value" : "integer"
+         },
+         "valueMinLength" : {
+            "value" : "integer"
+         },
+         "valuePattern" : {
+            "value" : "integer"
+         },
+         "valueRequired" : {
+            "is_url" : 1
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -14859,6 +15018,14 @@
          "name" : {
             "value" : "text"
          },
+         "potentialAction" : {
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Action" : 1
+               }
+            }
+         },
          "sameAs" : {
             "is_url" : 1
          },
@@ -14874,6 +15041,7 @@
          "http://schema.org/AccountingService" : 4,
          "http://schema.org/AchieveAction" : 2,
          "http://schema.org/Action" : 1,
+         "http://schema.org/ActionStatusType" : 3,
          "http://schema.org/AddAction" : 3,
          "http://schema.org/AdministrativeArea" : 2,
          "http://schema.org/AdultEntertainment" : 4,
@@ -15047,6 +15215,7 @@
          "http://schema.org/EndorseAction" : 4,
          "http://schema.org/Energy" : 3,
          "http://schema.org/EntertainmentBusiness" : 3,
+         "http://schema.org/EntryPoint" : 2,
          "http://schema.org/Enumeration" : 2,
          "http://schema.org/Episode" : 2,
          "http://schema.org/Event" : 1,
@@ -15224,7 +15393,6 @@
          "http://schema.org/OfferItemCondition" : 3,
          "http://schema.org/OfficeEquipmentStore" : 4,
          "http://schema.org/OnDemandEvent" : 3,
-         "http://schema.org/OnSitePickup" : 4,
          "http://schema.org/OpeningHoursSpecification" : 3,
          "http://schema.org/Optician" : 4,
          "http://schema.org/Order" : 2,
@@ -15282,6 +15450,7 @@
          "http://schema.org/ProfilePage" : 3,
          "http://schema.org/ProgramMembership" : 2,
          "http://schema.org/Property" : 1,
+         "http://schema.org/PropertyValueSpecification" : 2,
          "http://schema.org/PsychologicalTreatment" : 3,
          "http://schema.org/PublicSwimmingPool" : 4,
          "http://schema.org/PublicationEvent" : 2,
@@ -15780,11 +15949,6 @@
          "http://schema.org/MedicalIndication" : 1,
          "http://schema.org/Thing" : 3
       },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
-   "http://schema.org/Type" : {
-      "spec" : "SCHEMAORG",
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },

@@ -236,7 +236,7 @@ clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
 	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
-	rm -fr local/xml5-spec.html
+	rm -fr local/xml5-spec.html local/schemaorg.*
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
@@ -334,7 +334,9 @@ local/data-vocabulary/files:
 
 local/schemaorg.html:
 	$(WGET) -O $@ http://schema.org/docs/full_md.html
-local/schemaorg.json: local/schemaorg.html bin/microdata-schemaorg.pl
+local/schemaorg.rdfa:
+	$(WGET) -O $@ http://schema.org/docs/schema_org_rdfa.html
+local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
 
 data/ogp.json: bin/ogp.pl src/ogp.txt
