@@ -117,6 +117,8 @@ for my $itemtype (keys %$Data) {
       $Data->{$id}->{spec} = 'SCHEMAORG';
       $Data->{$id}->{subclass_of} = {%{$schema->{$id}->{subclass_of}}};
       $Data->{$id}->{superclass_of} = {%{$schema->{$id}->{superclass_of}}};
+      $Data->{$id}->{desc} = $schema->{$id}->{desc}
+          if defined $schema->{$id}->{desc};
       delete $Data->{$id}->{subclass_of}->{$id};
       delete $Data->{$id}->{superclass_of}->{$id};
       delete $Data->{$id}->{subclass_of} unless keys %{$Data->{$id}->{subclass_of}};
@@ -158,6 +160,7 @@ for my $itemtype (keys %$Data) {
           warn "Unknown type of range: |$range|";
         }
       }
+      $def->{desc} = $schema->{$id}->{desc} if defined $schema->{$id}->{desc};
       for my $type (keys %{$schema->{$id}->{domain} or {}}) {
         $Data->{$type}->{props}->{$prop} = $def
             if $schema->{$id}->{domain}->{$type} == 1;

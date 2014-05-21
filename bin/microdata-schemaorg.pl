@@ -40,6 +40,15 @@ if (1) {
         $Data->{$url}->{domain}->{$value} = 1;
       } elsif ($prop eq 'http://schema.org/rangeIncludes') {
         $Data->{$url}->{range}->{$value} = 1;
+      } elsif ($prop eq 'rdfs:comment') {
+        my $el = $doc->create_element ('div');
+        $el->inner_html ($value);
+        my $r = $el->query_selector
+            (':-manakai-contains("Related actions"), :-manakai-contains("Related to ")');
+        $r->parent_node->remove_child ($r->next_sibling)
+            if defined $r and $r->next_sibling;
+        $r->parent_node->remove_child ($r) if defined $r;
+        $Data->{$url}->{desc} = $el->text_content;
       }
     }
   }
