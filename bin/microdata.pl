@@ -1,9 +1,9 @@
 use strict;
 use warnings;
-use Path::Class;
-use JSON::PS qw(perl2json_bytes_for_record file2perl);
+use Path::Tiny;
+use JSON::PS;
 
-my $Data = file2perl file (__FILE__)->dir->parent->file ('src', 'microdata-dv.json');
+my $Data = json_bytes2perl path (__FILE__)->parent->parent->child ('src/microdata-dv.json')->slurp;
 
 for my $itemtype (keys %$Data) {
   $Data->{$itemtype}->{vocab} ||= 'http://data-vocabulary.org/';
@@ -16,13 +16,13 @@ sub n ($) {
 } # n
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'microdata-vocabs.txt');
+  my $path = path (__FILE__)->parent->parent->child ('src/microdata-vocabs.txt');
   my $itemtype;
   my $itemprop;
   my $subitemprop;
   my $key;
   my $subkey;
-  for (($f->slurp)) {
+  for (split /\x0D?\x0A/, $path->slurp_utf8) {
     if (/^\*\s*(\S+)$/) {
       $itemtype = $1;
       $Data->{$itemtype} ||= {};
@@ -108,8 +108,12 @@ for my $itemtype (keys %$Data) {
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('local', 'schemaorg.json');
-  my $schema = file2perl $f;
+  my $wsa_list = json_bytes2perl path (__FILE__)->parent->parent->child ('local/schemaorg-wsa.json')->slurp;
+
+  my $cc_list = [split / /, path (__FILE__)->parent->parent->child ('intermediate/rec20-common-codes.txt')->slurp_utf8];
+
+  my $path = path (__FILE__)->parent->parent->child ('local/schemaorg.json');
+  my $schema = json_bytes2perl $path->slurp;
   for my $id (keys %$schema) {
     if ($schema->{$id}->{types}->{'http://schema.org/Type'}) {
       $Data->{$id}->{vocab} = 'http://schema.org/';
@@ -138,17 +142,30 @@ for my $itemtype (keys %$Data) {
       } elsif ($schema->{$id}->{range}->{'http://schema.org/Number'}) {
         $def->{value} = 'floating-point number';
       } elsif ($schema->{$id}->{range}->{'http://schema.org/DateTime'}) {
-        $def->{value} = 'global or local date and time string';
+        $def->{value} = 'schema.org datetime';
       } elsif ($schema->{$id}->{range}->{'http://schema.org/Date'}) {
-        $def->{value} = 'date string';
+        $def->{value} = 'schema.org date';
       } elsif ($schema->{$id}->{range}->{'http://schema.org/Time'}) {
-        $def->{value} = 'time string';
+        $def->{value} = 'schema.org time';
       } elsif ($schema->{$id}->{range}->{'http://schema.org/URL'} or
                $schema->{$id}->{range}->{'http://schema.org/Boolean'}) {
         $def->{is_url} = 1;
       }
+      if (not $schema->{$id}->{range}->{'http://schema.org/Quantity'}) {
+        if ($schema->{$id}->{range}->{'http://schema.org/Duration'}) {
+          $def->{value} = 'schema.org duration';
+        } elsif ($schema->{$id}->{range}->{'http://schema.org/Distance'}) {
+          $def->{value} = 'schema.org distance';
+        } elsif ($schema->{$id}->{range}->{'http://schema.org/Energy'}) {
+          $def->{value} = 'schema.org energy';
+        } elsif ($schema->{$id}->{range}->{'http://schema.org/Mass'}) {
+          $def->{value} = 'schema.org mass';
+        }
+      }
       for my $range (keys %{$schema->{$id}->{range} or {}}) {
-        if (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Thing'}) {
+        if (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Quantity'}) {
+          #
+        } elsif (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Thing'}) {
           $def->{item}->{types}->{$range} = 1
               if $schema->{$id}->{range}->{$range} == 1;
           $def->{is_url} = 1;
@@ -160,7 +177,40 @@ for my $itemtype (keys %$Data) {
           warn "Unknown type of range: |$range|";
         }
       }
-      $def->{desc} = $schema->{$id}->{desc} if defined $schema->{$id}->{desc};
+      my $desc = $schema->{$id}->{desc};
+      if (defined $desc) {
+        if ($desc =~ /Acceptable\s+values\s+are\s+('[^']+'(?:,\s*(?:or\s*)?'[^']+')+)\.\s*$/) {
+          my $v = $1;
+          while ($v =~ /'([^']+)'/g) {
+            $def->{enum}->{$1}->{spec} = 'SCHEMAORG';
+          }
+        }
+        if ($desc =~ s/\s*\(WebSchemas wiki lists possible values\)(\.?)\s*$/$1/) {
+          my $name = $prop;
+          $name =~ s{^http://schema.org/}{};
+          if ($wsa_list->{$name}) {
+            $def->{enum}->{$_}->{spec} = 'WEBSCHEMAS'
+                for keys %{$wsa_list->{$name}->{values}};
+          }
+        }
+        if ($desc =~ /\(legacy spelling; see singular form, .+\)/) {
+          $def->{discouraged} = 1;
+        }
+        if ($desc =~ /please use one of the language codes from the IETF BCP 47 standard\.\s*/) {
+          $def->{value} = 'language tag';
+        }
+        if ($desc =~ m{using the UN/CEFACT Common Code \(3 characters\).\s*}) {
+          $def->{enum}->{$_}->{spec} = 'UNCEFACTREC20'
+              for @$cc_list;
+        }
+        if ($desc =~ /^The ISO 3166-1 \(ISO 3166-1 alpha-2\) or ISO 3166-2 code, or the GeoShape/) {
+          $def->{value} = 'schema.org region code';
+        }
+        if ($desc =~ / can be specified as a weekly time range, starting with days, then times per day\./) {
+          $def->{value} = 'weekly time range';
+        }
+        $def->{desc} = $desc;
+      }
       for my $type (keys %{$schema->{$id}->{domain} or {}}) {
         $Data->{$type}->{props}->{$prop} = $def
             if $schema->{$id}->{domain}->{$type} == 1;

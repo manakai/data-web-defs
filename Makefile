@@ -236,7 +236,7 @@ clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
 	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
-	rm -fr local/xml5-spec.html local/schemaorg.*
+	rm -fr local/xml5-spec.html local/schemaorg*
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt
 	$(PERL) bin/dom.pl > $@
@@ -319,8 +319,9 @@ clean-microdata:
 src/microdata-dv.json: bin/microdata-dv.pl local/data-vocabulary/files
 	$(PERL) bin/microdata-dv.pl > $@
 
-data/microdata.json: bin/microdata.pl src/microdata-*.txt local/schemaorg.json
-	# and src/microdata-dv.json
+data/microdata.json: bin/microdata.pl src/microdata-*.txt \
+    local/schemaorg.json local/schemaorg-wsa.json
+	# and src/microdata-dv.json intermediate/rec20-common-codes.txt
 	$(PERL) bin/microdata.pl > $@
 
 local/data-vocabulary/files:
@@ -338,6 +339,26 @@ local/schemaorg.rdfa:
 	$(WGET) -O $@ http://schema.org/docs/schema_org_rdfa.html
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
+
+local/schemaorg-wsa.html:
+	$(WGET) -O $@ http://www.w3.org/wiki/WebSchemas/Accessibility
+local/schemaorg-wsa.json: local/schemaorg-wsa.html bin/extract-schemaorg-wsa.pl
+	$(PERL) bin/extract-schemaorg-wsa.pl > $@
+
+local/xls2txt:
+	$(GIT) clone https://github.com/hroptatyr/xls2txt.git $@
+	cd $@ && $(MAKE)
+local/xls2txt/xls2txt: local/xls2txt
+
+local/rec20.xls:
+	$(WGET) -O $@ http://www.unece.org/fileadmin/DAM/cefact/recommendations/rec20/rec20_Rev9e_2014.xls
+local/rec20-1.tsv: local/xls2txt/xls2txt local/rec20.xls
+	local/xls2txt/xls2txt -n 1 local/rec20.xls > $@
+local/rec20-common-codes.json: local/rec20-1.tsv bin/extract-rec20.pl
+	$(PERL) bin/extract-rec20.pl < local/rec20-1.tsv > $@
+intermediate/rec20-common-codes.txt: local/rec20-common-codes.json \
+    bin/common-codes.pl
+	$(PERL) bin/common-codes.pl < $< > $@
 
 data/ogp.json: bin/ogp.pl src/ogp.txt
 	$(PERL) bin/ogp.pl > $@
