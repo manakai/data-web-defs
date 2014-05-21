@@ -4,7 +4,7 @@ basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
 test() {
-  (cat data/elements.json | $jq "$2" | sh && echo "ok $1") || echo "not ok $1"
+  (cat $basedir/data/elements.json | $jq "$2" | sh && echo "ok $1") || echo "not ok $1"
 }
 
 test 1 '.elements["http://www.w3.org/1999/xhtml"].a.id == "the-a-element"'
