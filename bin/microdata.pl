@@ -222,6 +222,27 @@ for my $itemtype (keys %$Data) {
             $desc =~ /\(in ISO 4217 currency format\)\.?\s*$/) {
           $def->{value} = 'currency';
         }
+        if ($desc =~ /^MIME format of /) {
+          $def->{value} = 'MIME type';
+        }
+        if ($desc =~ /^The (GTIN-(?:13|14|8)) code of/) {
+          $def->{value} = $1;
+        }
+        if ($desc =~ /^The Global Location Number /) {
+          $def->{value} = 'GLN';
+        }
+        if ($desc =~ /^A count of a specific user interactions with this item/) {
+          $def->{value} = 'schema.org user interaction count';
+        }
+        if ($desc =~ /^The International Standard of Industrial Classification of All Economic Activities \(ISIC\), Revision 4 code /) {
+          $def->{value} = 'ISIC';
+        }
+        if ($desc =~ /^The Dun & Bradstreet DUNS number/) {
+          $def->{value} = 'DUNS number';
+        }
+        if ($desc =~ /^The North American Industry Classification System \(NAICS\) code /) {
+          $def->{value} = 'NAICS';
+        }
         $def->{desc} = $desc;
       }
       for my $type (keys %{$schema->{$id}->{domain} or {}}) {
