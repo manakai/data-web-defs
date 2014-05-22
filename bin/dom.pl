@@ -23,6 +23,22 @@ sub read_text ($$) {
 
 read_text 'dom-nodes.txt' => 'node_types';
 
+## <http://dom.spec.whatwg.org/#dom-document-createevent>
+$Data->{create_event}->{$_->[0]} = $_->[1]
+    for
+        [customevent => 'CustomEvent'],
+        [event => 'Event'],
+        [events => 'Event'],
+        [htmlevents => 'Event'],
+        [keyboardevent => 'KeyboardEvent'],
+        [keyevents => 'KeyboardEvent'],
+        [messageevent => 'MessageEvent'],
+        [mouseevent => 'MouseEvent'],
+        [mouseevents => 'MouseEvent'],
+        [touchevent => 'TouchEvent'],
+        [uievent => 'UIEvent'],
+        [uievents => 'UIEvent'];
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
