@@ -231,7 +231,7 @@ data/js-lexical.json: bin/js-lexical.pl
 all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
-    data/xml-datatypes.json data/xpath.json
+    data/xml-datatypes.json data/xpath.json data/webidl.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -308,6 +308,9 @@ data/xml-datatypes.json: bin/xml-datatypes.pl
 
 data/xpath.json: bin/xpath.pl src/xpath-functions.txt
 	$(PERL) bin/xpath.pl > $@
+
+data/webidl.json: bin/webidl.pl
+	$(PERL) bin/webidl.pl > $@
 
 ## ------ Microdata ------
 
