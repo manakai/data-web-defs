@@ -1,0 +1,53 @@
+webidl.json
+~~~~~~~~~~~
+
+This file contains data on Web IDL.
+
+* Structure
+
+The file contains following name/value pairs:
+
+  keyword_tokens [object]
+
+    Tokens that are otherwise recognized as an |identifier| token.
+    Names are literal values of tokens and values are boolean true
+    values.
+
+  other_tokens [object]
+
+    Tokens that are otherwise recognized as an |other| token.  Names
+    are literal values of tokens and values are boolean true values.
+
+  tokens [object]
+
+    Tokens in Web IDL fragments.  Names of the object are token names
+    and values of the object are their descriptions, which are JSON
+    objects with following name/value pairs:
+
+      priority [number]
+
+        The priority in token types in the |tokens| object, which
+        should be taken into account when the input is examined with
+        those token types in order.  Token types with larger
+        priorities should be examined first.
+
+      pattern [string?]
+
+        A Perl regular expression for the token.
+
+      value [string?]
+
+        The exact string that should generate this token.
+
+    Exactly one of |pattern| and |value| is specified.  Note that this
+    object does not contain token types in |keyword_tokens| and
+    |other_tokens|.
+
+* Source
+
+Web IDL <http://heycam.github.io/webidl/>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of this JSON file.
