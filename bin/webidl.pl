@@ -27,7 +27,7 @@ for (qw(
   { } ( ) [ ] ; = : ... - . < > ?
 ), ',') {
   if ($_ =~ /\A_?[A-Za-z][0-9A-Z_a-z]*\z/) {
-    $Data->{keyword_tokens}->{$_} = 1;
+    $Data->{keyword_tokens}->{$_} = {};
   } elsif ($_ =~ /\A[^\x09\x0A\x0D\x200-9A-Za-z]\z/) {
     $Data->{other_tokens}->{$_} = 1;
   } else {
@@ -35,6 +35,12 @@ for (qw(
     $Data->{tokens}->{$_}->{priority} = 10 + length $_;
   }
 }
+
+$Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
+  attribute callback const creator deleter dictionary enum exception
+  getter implements inherit interface legacycaller partial serializer
+  setter static stringifier typedef unrestricted
+);
 
 print perl2json_bytes_for_record $Data;
 
