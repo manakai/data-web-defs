@@ -24,6 +24,10 @@ for (qw(
   iterator object optional ByteString Date DOMString RegExp any boolean
   byte double float long octet or sequence short unsigned void
   exception unrestricted
+
+  class extends
+  Promise
+
   { } ( ) [ ] ; = : ... - . < > ?
 ), ',') {
   if ($_ =~ /\A_?[A-Za-z][0-9A-Z_a-z]*\z/) {
@@ -40,7 +44,15 @@ $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const creator deleter dictionary enum exception
   getter implements inherit interface legacycaller partial serializer
   setter static stringifier typedef unrestricted
+
+  class extends
 );
+
+## "class" and "extends" are not in spec but extended at:
+## <http://dom.spec.whatwg.org/#elements>,
+## <https://www.w3.org/Bugs/Public/show_bug.cgi?id=23225>.
+
+## "Promise" is not in spec but in use.
 
 print perl2json_bytes_for_record $Data;
 
