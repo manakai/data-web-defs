@@ -1952,6 +1952,10 @@
          "iataCode" : {
             "desc" : "IATA identifier for an airline or airport",
             "value" : "text"
+         },
+         "icaoCode" : {
+            "desc" : "IACO identifier for an airport.",
+            "value" : "text"
          }
       },
       "spec" : "SCHEMAORG",
@@ -3115,7 +3119,7 @@
             "value" : "schema.org datetime"
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work.",
+            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -3744,7 +3748,7 @@
             }
          },
          "language" : {
-            "desc" : "A sub property of instrument. The languaged used on this action.",
+            "desc" : "A sub property of instrument. The language used on this action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4482,7 +4486,7 @@
             "is_url" : 1
          },
          "keywords" : {
-            "desc" : "The keywords/tags used to describe this content.",
+            "desc" : "Keywords or tags used to describe this content. Multiple entries in a keywords list are typically delimited by commas.",
             "value" : "text"
          },
          "learningResourceType" : {
@@ -4508,7 +4512,7 @@
             }
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work.",
+            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4965,7 +4969,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/DeliveryMethod" : {
-      "desc" : "A delivery method is a standardized procedure for transferring the product or service to the destination of fulfilment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#DeliveryModeDirectDownload\u000A    http://purl.org/goodrelations/v1#DeliveryModeFreight\u000A    http://purl.org/goodrelations/v1#DeliveryModeMail\u000A    http://purl.org/goodrelations/v1#DeliveryModeOwnFleet\u000A    http://purl.org/goodrelations/v1#DeliveryModePickUp\u000A    http://purl.org/goodrelations/v1#DHL\u000A    http://purl.org/goodrelations/v1#FederalExpress\u000A    http://purl.org/goodrelations/v1#UPS\u000A    \u0009\u0009",
+      "desc" : "A delivery method is a standardized procedure for transferring the product or service to the destination of fulfillment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#DeliveryModeDirectDownload\u000A    http://purl.org/goodrelations/v1#DeliveryModeFreight\u000A    http://purl.org/goodrelations/v1#DeliveryModeMail\u000A    http://purl.org/goodrelations/v1#DeliveryModeOwnFleet\u000A    http://purl.org/goodrelations/v1#DeliveryModePickUp\u000A    http://purl.org/goodrelations/v1#DHL\u000A    http://purl.org/goodrelations/v1#FederalExpress\u000A    http://purl.org/goodrelations/v1#UPS\u000A    \u0009\u0009",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -5267,7 +5271,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/DiagnosticProcedure" : {
-      "desc" : "A medical procedure intended primarly for diagnostic, as opposed to therapeutic, purposes.",
+      "desc" : "A medical procedure intended primarily for diagnostic, as opposed to therapeutic, purposes.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/MedicalEntity" : 2,
@@ -6083,7 +6087,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Energy" : {
-      "desc" : "Properties that take Enerygy as values are of the form '\u003CNumber> \u003CEnergy unit of measure>'",
+      "desc" : "Properties that take Energy as values are of the form '\u003CNumber> \u003CEnergy unit of measure>'",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Intangible" : 2,
@@ -6136,6 +6140,14 @@
          },
          "httpMethod" : {
             "desc" : "An HTTP method that specifies the appropriate HTTP method for a request to an HTTP EntryPoint. Values are capitalized strings as used in HTTP.",
+            "value" : "text"
+         },
+         "urlTemplate" : {
+            "desc" : "An url template (RFC6570) that will be used to construct the target of the execution of the action.",
+            "value" : "text"
+         },
+         "valueName" : {
+            "desc" : "Indicates the name of the PropertyValueSpecification to be used in URL templates and form encoding in a manner analogous to HTML's input@name.",
             "value" : "text"
          }
       },
@@ -6807,11 +6819,10 @@
             "value" : "schema.org datetime"
          },
          "carrier" : {
-            "desc" : "The airline designated as the carrier for the flight.",
+            "desc" : "The party responsible for the parcel delivery.",
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Airline" : 1,
                   "http://schema.org/Organization" : 1
                }
             }
@@ -6846,7 +6857,7 @@
             "value" : "schema.org distance"
          },
          "flightNumber" : {
-            "desc" : "The unique identifier for a flight.",
+            "desc" : "The unique identifier for a flight, not including the airline IATA code. For example, if describing United flight 110, the flightNumber is '110'. The IATA code can be set on the Airline.",
             "value" : "text"
          },
          "mealService" : {
@@ -6854,7 +6865,7 @@
             "value" : "text"
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work.",
+            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -7105,7 +7116,7 @@
       "desc" : "The geographic shape of a place.",
       "props" : {
          "box" : {
-            "desc" : "A polygon is the area enclosed by a point-to-point path for which the starting and ending points are the same. A polygon is expressed as a series of four or more spacedelimited points where the first and final points are identical.",
+            "desc" : "A polygon is the area enclosed by a point-to-point path for which the starting and ending points are the same. A polygon is expressed as a series of four or more space delimited points where the first and final points are identical.",
             "value" : "text"
          },
          "circle" : {
@@ -11431,6 +11442,10 @@
                }
             }
          },
+         "dissolutionDate" : {
+            "desc" : "The date that this organization was dissolved.",
+            "value" : "schema.org date"
+         },
          "duns" : {
             "desc" : "The Dun & Bradstreet DUNS number for identifying an organization or business person.",
             "value" : "DUNS number"
@@ -11638,7 +11653,7 @@
             "value" : "text"
          },
          "vatID" : {
-            "desc" : "The Value-added Tax ID of the organisation or person.",
+            "desc" : "The Value-added Tax ID of the organization or person.",
             "value" : "text"
          }
       },
@@ -11889,7 +11904,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PalliativeProcedure" : {
-      "desc" : "A medical procedure intended primarly for palliative purposes, aimed at relieving the symptoms of an underlying health condition.",
+      "desc" : "A medical procedure intended primarily for palliative purposes, aimed at relieving the symptoms of an underlying health condition.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/MedicalEntity" : 2,
@@ -11904,11 +11919,10 @@
       "desc" : "The delivery of a parcel either via the postal service or a commercial service.",
       "props" : {
          "carrier" : {
-            "desc" : "The airline designated as the carrier for the flight.",
+            "desc" : "The party responsible for the parcel delivery.",
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Airline" : 1,
                   "http://schema.org/Organization" : 1
                }
             }
@@ -12066,7 +12080,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PawnShop" : {
-      "desc" : "A pawnstore.",
+      "desc" : "A pawn store.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -12231,7 +12245,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PerformingArtsTheater" : {
-      "desc" : "A theatre or other performing art center.",
+      "desc" : "A theater or other performing art center.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CivicStructure" : 1,
@@ -12636,7 +12650,7 @@
             "value" : "text"
          },
          "vatID" : {
-            "desc" : "The Value-added Tax ID of the organisation or person.",
+            "desc" : "The Value-added Tax ID of the organization or person.",
             "value" : "text"
          },
          "workLocation" : {
@@ -18241,7 +18255,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/RadioClip" : {
-      "desc" : "A short radio progam or a segment/part of a radio program.",
+      "desc" : "A short radio program or a segment/part of a radio program.",
       "props" : {
          "partOfSeason" : {
             "desc" : "The season to which this episode belongs.",
@@ -18708,7 +18722,7 @@
             "value" : "text"
          },
          "recipeCuisine" : {
-            "desc" : "The cuisine of the recipe (for example, French or Ethopian).",
+            "desc" : "The cuisine of the recipe (for example, French or Ethiopian).",
             "value" : "text"
          },
          "recipeInstructions" : {
@@ -18940,7 +18954,7 @@
             }
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work.",
+            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19218,7 +19232,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/RsvpAction" : {
-      "desc" : "The act of notifying an event organiser as to whether you expect to attend the event.",
+      "desc" : "The act of notifying an event organizer as to whether you expect to attend the event.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Action" : 4,
@@ -19700,7 +19714,7 @@
             }
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work.",
+            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20283,7 +20297,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/TVClip" : {
-      "desc" : "A short TV progam or a segment/part of a TV program.",
+      "desc" : "A short TV program or a segment/part of a TV program.",
       "props" : {
          "partOfSeason" : {
             "desc" : "The season to which this episode belongs.",
@@ -20826,7 +20840,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/TherapeuticProcedure" : {
-      "desc" : "A medical procedure intended primarly for therapeutic purposes, aimed at improving a health condition.",
+      "desc" : "A medical procedure intended primarily for therapeutic purposes, aimed at improving a health condition.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/MedicalEntity" : 2,
@@ -21604,7 +21618,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/ToyStore" : {
-      "desc" : "A toystore.",
+      "desc" : "A toy store.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -21724,7 +21738,7 @@
             "value" : "schema.org datetime"
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work.",
+            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -30461,7 +30475,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Volcano" : {
-      "desc" : "A volcano, like Fuji san",
+      "desc" : "A volcano, like Fuji san.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Landform" : 1,
@@ -30806,7 +30820,7 @@
       "desc" : "The act of authoring written creative content.",
       "props" : {
          "language" : {
-            "desc" : "A sub property of instrument. The languaged used on this action.",
+            "desc" : "A sub property of instrument. The language used on this action.",
             "is_url" : 1,
             "item" : {
                "types" : {
