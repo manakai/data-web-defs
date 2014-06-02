@@ -44,14 +44,21 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
         [uievents => 'UIEvent'];
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('local/html-extracted.json');
+  my $html_path = path (__FILE__)->parent->parent->child ('local/html-extracted.json');
+  my $html_json = json_bytes2perl $html_path->slurp;
+
+  my $path = path (__FILE__)->parent->parent->child ('local/idl-extracted.json');
   my $json = json_bytes2perl $path->slurp;
+  $json->{HTML} = [sort { $a cmp $b } @{$html_json->{idl_fragments}}];
+
   my $doc = new Web::DOM::Document;
+  $doc->manakai_is_html (1);
   my $el = $doc->create_element ('div');
   my $processor = Web::IDL::Processor->new;
   my $next_di = 1;
   my $di;
   my $di_to_content = {};
+  my $spec;
   my @error;
   my $onerror = sub {
     push @error, {@_};
@@ -61,19 +68,22 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     } elsif (defined $error[-1]->{di}) {
       $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 20;
     }
-    $error[-1]->{spec} = 'HTML';
+    $error[-1]->{spec} = $spec;
   };
   $processor->onerror ($onerror);
-  for (sort { $a cmp $b } @{$json->{idl_fragments} or []}) {
-    $di = $next_di++;
-    $el->inner_html ($_);
-    my $idl = $el->text_content;
-    next if $idl =~ /^\s*interface\s+Example\b/;
-    $di_to_content->{$di} = $idl;
-    my $parser = Web::IDL::Parser->new;
-    $parser->onerror ($onerror);
-    $parser->parse_char_string ($idl);
-    $processor->process_parsed_struct ($di, $parser->parsed_struct);
+  for (sort { $a cmp $b } keys %$json) {
+    $spec = $_;
+    for (@{$json->{$spec}}) {
+      $di = $next_di++;
+      $el->inner_html ($_);
+      my $idl = $el->text_content;
+      next if $spec eq 'HTML' and $idl =~ /^\s*interface\s+Example\b/;
+      $di_to_content->{$di} = $idl;
+      my $parser = Web::IDL::Parser->new;
+      $parser->onerror ($onerror);
+      $parser->parse_char_string ($idl);
+      $processor->process_parsed_struct ($di, $parser->parsed_struct);
+    }
   }
   $processor->end_processing;
   my $data = $processor->processed;
