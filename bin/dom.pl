@@ -51,6 +51,11 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   my $json = json_bytes2perl $path->slurp;
   $json->{HTML} = [sort { $a cmp $b } @{$html_json->{idl_fragments}}];
 
+  my $idl_path = path (__FILE__)->parent->parent->child ('src/idl');
+  push @{$json->{''} ||= []},
+      map { '<plaintext>' . $idl_path->child ($_)->slurp_utf8 }
+      qw(xpath.idl xpath-whatwgwiki.idl);
+
   my $doc = new Web::DOM::Document;
   $doc->manakai_is_html (1);
   my $el = $doc->create_element ('div');
@@ -68,7 +73,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     } elsif (defined $error[-1]->{di}) {
       $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 20;
     }
-    $error[-1]->{spec} = $spec;
+    $error[-1]->{spec} = $spec if length $spec;
   };
   $processor->onerror ($onerror);
   for (sort { $a cmp $b } keys %$json) {
@@ -78,6 +83,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
       $el->inner_html ($_);
       my $idl = $el->text_content;
       next if $spec eq 'HTML' and $idl =~ /^\s*interface\s+Example\b/;
+      next if $spec eq 'HTML' and $idl =~ /^\s*void\s+select\s*\(\);/;
       $di_to_content->{$di} = $idl;
       my $parser = Web::IDL::Parser->new;
       $parser->onerror ($onerror);
