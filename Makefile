@@ -237,8 +237,10 @@ clean-dom:
 	rm -fr local/obsvocab.html local/aria.rdf
 	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
 	rm -fr local/xml5-spec.html local/schemaorg*
+	rm -fr local/dom.html local/domparsing.html
 
-data/dom.json: bin/dom.pl src/dom-nodes.txt
+data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
+  local/idl-extracted.json
 	$(PERL) bin/dom.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
@@ -311,6 +313,14 @@ data/xpath.json: bin/xpath.pl src/xpath-functions.txt
 
 data/webidl.json: bin/webidl.pl
 	$(PERL) bin/webidl.pl > $@
+
+local/dom.html:
+	$(WGET) -O $@ http://dom.spec.whatwg.org/
+local/domparsing.html:
+	$(WGET) -O $@ http://domparsing.spec.whatwg.org/
+local/idl-extracted.json: local/dom.html local/domparsing.html \
+    bin/extract-idls.pl
+	$(PERL) bin/extract-idls.pl > $@
 
 ## ------ Microdata ------
 
