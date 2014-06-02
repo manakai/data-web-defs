@@ -240,7 +240,8 @@ clean-dom:
 	rm -fr local/dom.html local/domparsing.html
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
-  local/idl-extracted.json
+  local/idl-extracted.json \
+  src/idl/xpath.idl src/idl/xpath-whatwgwiki.idl
 	$(PERL) bin/dom.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
