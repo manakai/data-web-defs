@@ -21,6 +21,7 @@ my $d = file (__FILE__)->dir->parent->subdir ('local/www.whatwg.org/specs/web-ap
 my $index_doc;
 my $input_table;
 my $xml_doc;
+my @idl;
 for my $f (($d->children)) {
   next unless $f =~ /\.html$/;
   my $doc = Web::DOM::Document->new;
@@ -138,8 +139,14 @@ for my $f (($d->children)) {
       }
     }
     $Data->{elements}->{$local_name} = $props;
+  } # dl.element
+
+  for my $pre (@{$doc->query_selector_all ('pre.idl')}) {
+    push @idl, $pre->inner_html;
   }
-}
+} # files
+
+$Data->{idl_fragments} = \@idl;
 
 if ($index_doc) {
   my $els = $index_doc->query_selector ('caption:-manakai-contains("List of elements")');
