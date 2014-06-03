@@ -54,7 +54,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   my $idl_path = path (__FILE__)->parent->parent->child ('src/idl');
   push @{$json->{''} ||= []},
       map { '<plaintext>' . $idl_path->child ($_)->slurp_utf8 }
-      qw(xpath.idl xpath-whatwgwiki.idl);
+      qw(webidl.idl xpath.idl xpath-whatwgwiki.idl);
 
   my $doc = new Web::DOM::Document;
   $doc->manakai_is_html (1);
