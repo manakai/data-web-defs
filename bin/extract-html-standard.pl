@@ -142,7 +142,11 @@ for my $f (($d->children)) {
   } # dl.element
 
   for my $pre (@{$doc->query_selector_all ('pre.idl')}) {
-    push @idl, $pre->inner_html;
+    if ($f =~ /obsolete/) {
+      push @idl, '[*obsolete*]' . $pre->inner_html;
+    } else {
+      push @idl, $pre->inner_html;
+    }
   }
 } # files
 
