@@ -21,6 +21,15 @@ sub _n ($) {
   return $s;
 } # _n
 
+$Data->{char_sets}->{'WS:HTML'}->{$_} = 1
+    for 0x0009, 0x000A, 0x000C, 0x0020;
+$Data->{char_sets}->{'WS:XML'}->{$_} = 1
+    for 0x0009, 0x000A, 0x0020;
+$Data->{char_sets}->{'UPPER'}->{$_} = 1
+    for (ord 'A')..(ord 'Z');
+$Data->{char_sets}->{'LOWER'}->{$_} = 1
+    for (ord 'a')..(ord 'z');
+
 my $state_name;
 my @node = @{$doc->body->child_nodes};
 while (@node) {
