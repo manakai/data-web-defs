@@ -29,6 +29,10 @@ $Data->{char_sets}->{'UPPER'}->{$_} = 1
     for (ord 'A')..(ord 'Z');
 $Data->{char_sets}->{'LOWER'}->{$_} = 1
     for (ord 'a')..(ord 'z');
+$Data->{char_sets}->{'DIGIT'}->{$_} = 1
+    for (ord '0')..(ord '9');
+$Data->{char_sets}->{'HEXDIGIT'}->{$_} = 1
+    for (ord '0')..(ord '9'), (ord 'A')..(ord 'F'), (ord 'a')..(ord 'f');
 
 my $state_name;
 my $PreserveStateBeforeSwitching = {};
@@ -38,6 +42,7 @@ sub parse_action ($) {
   my @action;
   my %lookahead;
   while (1) {
+    $action =~ s/^\s+//;
               if ($action =~ s/^Parse error\.\s*// or
                   $action =~ s/^Otherwise, this is a parse error\.\s*//) {
                 push @action, {type => 'error'};
@@ -273,6 +278,69 @@ sub parse_action ($) {
       #
     } elsif ($action =~ s/^Otherwise, switch to the DOCTYPE bogus comment state\.//) {
       push @action, {type => 'switch', state => 'DOCTYPE bogus comment state'};
+
+    } elsif ($action =~ s/^\QThis section defines how to consume a character reference, optionally with an additional allowed character, which, if specified where the algorithm is invoked, adds a character to the list of characters that cause there to not be a character reference.\E// or
+             $action =~ s/^\QThis definition is used when parsing character references in text and in attributes.\E// or
+             $action =~ s/^\QThe behavior depends on the identity of the next character (the one immediately after the U+0026 AMPERSAND character), as follows:\E//) {
+      #
+    } elsif ($action =~ s/^\QNot a character reference. No characters are consumed, and nothing is returned. (This is not an error, either.)\E//) {
+      push @action, {type => 'RETURN-NOTHING'};
+    } elsif ($action =~ s/^\QConsume the U+0023 NUMBER SIGN.\E// or
+             $action =~ s/^\QConsume the X.\E//) {
+      push @action, {type => 'append-to-temp'};
+    } elsif ($action =~ s/^\QThe behavior further depends on the character after the U+0023 NUMBER SIGN:\E// or
+             $action =~ s/^\QWhen it comes to interpreting the number, interpret it as a hexadecimal number.\E// or
+             $action =~ s/^\QWhen it comes to interpreting the number, interpret it as a decimal number.\E//) {
+      #
+    } elsif ($action =~ s/^Follow the steps below, but using ASCII hex digits\.//) {
+      push @action, {type => 'SET-CHARREF-MODE', value => 'ASCII hex digits'};
+    } elsif ($action =~ s/^\QFollow the steps below, but using ASCII digits.\E//) {
+      push @action, {type => 'SET-CHARREF-MODE', value => 'ASCII digits'};
+    } elsif ($action =~ s/^\QConsume as many characters as match the range of characters given above (ASCII hex digits or ASCII digits).\E//) {
+      push @action, {type => 'CONSUME-DIGITS'};
+    } elsif ($action =~ s/^\QIf no characters match the range, then don't consume any characters (and unconsume the U+0023 NUMBER SIGN character and, if appropriate, the X character). This is a parse error; nothing is returned.\E//) {
+      push @action, {type => 'ERROR-RETURN-NOTHING-UNLESS-DIGITS'};
+    } elsif ($action =~ s/^\QOtherwise, if the next character is a U+003B SEMICOLON, consume that too. If it isn't, there is a parse error.\E//) {
+      push @action, {type => 'SEMICOLON-OR-ERROR'};
+    } elsif ($action =~ s/^\QIf one or more characters match the range, then take them all and interpret the string of characters as a number (either hexadecimal or decimal as appropriate).\E// or
+             $action =~ s/^Number Unicode character 0x00.+//) {
+      #
+    } elsif ($action =~ s/^\QIf that number is one of the numbers in the first column of the following table, then this is a parse error. Find the row with that number in the first column, and return a character token for the Unicode character given in the second column of that row.\E//) {
+      push @action, {type => 'EMIT-BY-TABLE-IF-C1'};
+    } elsif ($action =~ s/^\QOtherwise, if the number is in the range 0xD800 to 0xDFFF or is greater than 0x10FFFF, then this is a parse error. Return a U+FFFD REPLACEMENT CHARACTER character token.\E//) {
+      push @action, {type => 'EMIT-REPLACEMENT-IF-NOT-UNICODE'};
+    } elsif ($action =~ s/^Otherwise, return a character token for the Unicode character whose code point is that number\.//) {
+      push @action, {type => 'EMIT-BY-DIGITS'};
+    } elsif ($action =~ s/^Additionally, if the number is in the range 0x0001 to 0x0008, 0x000D to 0x001F, 0x007F to 0x009F, 0xFDD0 to 0xFDEF, or is one of 0x[0-9A-F]+(?:, (?:or |)0x[0-9A-F]+)+, then this is a parse error\.//) {
+      push @action, {type => 'ERROR-IF-IN-RANGE'};
+    } elsif ($action =~ s/^\QConsume the maximum number of characters possible, with the consumed characters matching one of the identifiers in the first column of the named character references table (in a case-sensitive manner).\E//) {
+      push @action, {type => 'CONSUME-BY-TABLE'};
+    } elsif ($action =~ s/^\QIf no match can be made, then no characters are consumed, and nothing is returned. In this case, if the characters after the U+0026 AMPERSAND character (&) consist of a sequence of one or more alphanumeric ASCII characters followed by a U+003B SEMICOLON character (;), then this is a parse error.\E//) {
+      push @action, {type => 'SEMICOLON-THEN-ERROR-AND-RETURN-NOTHING-UNLESS-MATCH'};
+    } elsif ($action =~ s/^\QIf the character reference is being consumed as part of an attribute, and the last character matched is not a U+003B SEMICOLON character (;), and the next character is either a U+003D EQUALS SIGN character (=) or an alphanumeric ASCII character, then, for historical reasons, all the characters that were matched after the U+0026 AMPERSAND character (&) must be unconsumed, and nothing is returned. However, if this next character is in fact a U+003D EQUALS SIGN character (=), then this is a parse error, because some legacy user agents will misinterpret the markup in those cases.\E//) {
+      push @action, {type => 'UNCONSUME-UNLESS-SEMICOLON-AND-EQUAL-ERROR'};
+    } elsif ($action =~ s/^\QOtherwise, a character reference is parsed. If the last character matched is not a U+003B SEMICOLON character (;), there is a parse error.\E//) {
+      push @action, {type => 'ERROR-UNLESS-SEMICOLON'};
+    } elsif ($action =~ s/^\QReturn one or two character tokens for the character(s) corresponding to the character reference name (as given by the second column of the named character references table).\E//) {
+      push @action, {type => 'RETURN-CHARS'};
+
+    } elsif ($action =~ s/^Switch back to the original state\.//) {
+      push @action, {type => 'switch-back'};
+    } elsif ($action =~ s/^Process the temporary buffer as a decimal reference\.//) {
+      push @action, {type => 'process-temp-as-decimal'};
+    } elsif ($action =~ s/^Process the temporary buffer as a hexadecimal reference\.//) {
+      push @action, {type => 'process-temp-as-hexadecimal'};
+    } elsif ($action =~ s/^Process the temporary buffer as a named reference\.//) {
+      push @action, {type => 'process-temp-as-named'};
+    } elsif ($action =~ s/^Process the temporary buffer as a named reference with before equals flag set\.//) {
+      push @action, {type => 'process-temp-as-named-equals'};
+    } elsif ($action =~ s/^Flush the temporary buffer\.//) {
+      push @action, {type => 'emit-or-append-to-attr-temp'};
+    } elsif ($action =~ s/^Unset the additional allowed character\.//) {
+      push @action, {type => 'set-allowed-char', value => undef};
+    } elsif ($action =~ s/^Set the original state to (.+ state)\.//) {
+      push @action, {type => 'set-original-state', state => $1};
+
     } elsif ($action =~ s/^([^.]+\.+)\s*//) {
       push @action, {type => 'misc', desc => $1};
     } else {
@@ -296,6 +364,80 @@ sub parse_action ($) {
   return (\@act, \%lookahead);
 } # parse_action
 
+sub parse_switch ($);
+sub parse_switch ($) {
+  my $node = shift;
+  my $switch_conds = [];
+  my $was_dd;
+  my $conds = {};
+  for my $n (@{$node->children}) {
+    my $ln = $n->local_name;
+    if ($ln eq 'dt') {
+      my $cond = _n $n->text_content;
+      if ($cond eq 'EOF') {
+        #
+      } elsif ($cond eq 'Anything else') {
+        $cond = 'ELSE';
+      } elsif ($cond eq 'Uppercase ASCII letter') {
+        $cond = 'UPPER';
+      } elsif ($cond eq 'Lowercase ASCII letter') {
+        $cond = 'LOWER';
+      } elsif ($cond eq 'ASCII digit') {
+        $cond = 'DIGIT';
+      } elsif ($cond eq 'ASCII hex digit') {
+        $cond = 'HEXDIGIT';
+      } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+(?:\([^()\s]+\)|)$/) {
+        $cond = sprintf 'CHAR:%04X', hex $1;
+      } elsif ($cond =~ /^u?U\+([0-9A-F]+)(?:\s+\([^()+]\)|):?\s*$/) { # xml5
+        $cond = 'CHAR:' . $1;
+      } elsif ($cond =~ /^The additional allowed character, if there is one$/) {
+        $cond = 'ALLOWED_CHAR';
+      } else {
+        $cond = 'MISC:' . $cond;
+      }
+      $conds->{$cond} ||= {};
+      $switch_conds = [] if $was_dd;
+      push @$switch_conds, $cond;
+      $was_dd = 0;
+    } elsif ($ln eq 'dd') {
+      my $fc = $n->first_element_child;
+      if ('CHAR:0009 CHAR:000A CHAR:000C CHAR:0020' eq join ' ', @$switch_conds) {
+        delete $conds->{$_} for @$switch_conds;
+        $switch_conds = ['WS:HTML'];
+      } elsif ('CHAR:0009 CHAR:000A CHAR:0020' eq join ' ', @$switch_conds) {
+        delete $conds->{$_} for @$switch_conds;
+        $switch_conds = ['WS:XML'];
+      }
+      my @node;
+      if (defined $fc and $fc->local_name eq 'p') {
+        push @node, @{$n->children};
+      } else {
+        push @node, $n;
+      }
+      for my $n (@node) {
+        next if $n->class_list->contains ('note');
+        next if $n->class_list->contains ('example');
+        my $actions = [];
+        my $lookaheads = {};
+        if ($n->local_name eq 'dl' and $n->class_list->contains ('switch')) {
+          my $conds = parse_switch $n;
+          push @$actions, {type => 'CONSUME-CONDS', value => $conds};
+        } else {
+          ($actions, $lookaheads) = parse_action _n $n->text_content;
+        }
+        for (@$switch_conds) {
+          push @{$conds->{$_}->{actions} ||= []}, @$actions;
+          for my $key (keys %$lookaheads) {
+            $conds->{$_}->{lookahead}->{$key} = $lookaheads->{$key};
+          }
+        }
+      } # @node
+      $was_dd = 1;
+    }
+  }
+  return $conds;
+} # parse_switch
+
 my @node = @{$doc->body->child_nodes};
 while (@node) {
   my $node = shift @node;
@@ -316,56 +458,16 @@ while (@node) {
       }
     } elsif ($ln eq 'dl') {
       if (defined $state_name and $node->class_list->contains ('switch')) {
-        my $switch_conds = [];
-        my $was_dd;
-        for my $n (@{$node->children}) {
-          my $ln = $n->local_name;
-          if ($ln eq 'dt') {
-            my $cond = _n $n->text_content;
-            if ($cond eq 'EOF') {
-              #
-            } elsif ($cond eq 'Anything else') {
-              $cond = 'ELSE';
-            } elsif ($cond eq 'Uppercase ASCII letter') {
-              $cond = 'UPPER';
-            } elsif ($cond eq 'Lowercase ASCII letter') {
-              $cond = 'LOWER';
-            } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+(?:\([^()\s]+\)|)$/) {
-              $cond = sprintf 'CHAR:%04X', hex $1;
-            } elsif ($cond =~ /^u?U\+([0-9A-F]+)(?:\s+\([^()+]\)|):?\s*$/) { # xml5
-              $cond = 'CHAR:' . $1;
-            } else {
-              $cond = 'MISC:' . $cond;
-            }
-            $Data->{states}->{$state_name}->{conds}->{$cond} ||= {};
-            $switch_conds = [] if $was_dd;
-            push @$switch_conds, $cond;
-            $was_dd = 0;
-          } elsif ($ln eq 'dd') {
-            my ($actions, $lookaheads) = parse_action _n $n->text_content;
-            if ('CHAR:0009 CHAR:000A CHAR:000C CHAR:0020' eq join ' ', @$switch_conds) {
-              delete $Data->{states}->{$state_name}->{conds}->{$_}
-                  for @$switch_conds;
-              $switch_conds = ['WS:HTML'];
-            } elsif ('CHAR:0009 CHAR:000A CHAR:0020' eq join ' ', @$switch_conds) {
-              delete $Data->{states}->{$state_name}->{conds}->{$_}
-                  for @$switch_conds;
-              $switch_conds = ['WS:XML'];
-            }
-            for (@$switch_conds) {
-              push @{$Data->{states}->{$state_name}->{conds}->{$_}->{actions} ||= []}, @$actions;
-              for my $key (keys %$lookaheads) {
-                $Data->{states}->{$state_name}->{conds}->{$_}->{lookahead}->{$key} = $lookaheads->{$key};
-              }
-            }
-            $was_dd = 1;
-          }
+        my $conds = parse_switch $node;
+        for (keys %$conds) {
+          $Data->{states}->{$state_name}->{conds}->{$_} = $conds->{$_};
         }
       } else { # not .switch
         unshift @node, $node->child_nodes->to_list;
       }
     } elsif ($ln eq 'p') {
       next if $node->class_list->contains ('note');
+      next if $node->class_list->contains ('example');
       my $tc = _n $node->text_content;
       next unless defined $state_name;
       if ($tc =~ /^Consume the next input character:$/) {
@@ -378,27 +480,44 @@ while (@node) {
         }
       }
     } else { # $ln
+      next if $node->class_list->contains ('note');
+      next if $node->class_list->contains ('example');
       unshift @node, $node->child_nodes->to_list;
     } # $ln
   } # $node->node_type
 }
 
-for my $state (keys %{$Data->{states}}) {
-  for my $cond (keys %{$Data->{states}->{$state}->{conds} or {}}) {
-    my $acts = $Data->{states}->{$state}->{conds}->{$cond}->{actions} or next;
+sub modify_actions (&) {
+  my $code = shift;
+  for my $state (keys %{$Data->{states}}) {
+    for my $cond (keys %{$Data->{states}->{$state}->{conds} or {}}) {
+      my $acts = $Data->{states}->{$state}->{conds}->{$cond}->{actions} or next;
+      my $new_acts = [];
+      $code->($acts => $new_acts, $state);
+      @$acts = @$new_acts;
+    }
+  }
+} # modify_actions
+
+{
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
     if (@$acts and $acts->[-1]->{type} eq 'SAME-AS-ELSE') {
       pop @$acts;
       push @$acts, @{$Data->{states}->{$state}->{conds}->{ELSE}->{actions}};
     }
+    @$new_acts = @$acts;
+  };
 
+  modify_actions {
+    my ($acts => $new_acts) = @_;
     if (@$acts) {
-      my $new_acts = [];
       push @$new_acts, shift @$acts;
       for (@$acts) {
         if ({
-              'emit-char' => 1,
-              'append' => 1,
-            }->{$_->{type}} and
+          'emit-char' => 1,
+          'append' => 1,
+        }->{$_->{type}} and
             $new_acts->[-1]->{type} eq $_->{type} and
             ((not defined $new_acts->[-1]->{field} and
               not defined $_->{field}) or
@@ -416,25 +535,25 @@ for my $state (keys %{$Data->{states}}) {
           push @$new_acts, {%$_};
         }
       }
-      @$acts = @$new_acts;
+    }
+  };
 
-      $new_acts = [];
-      for (@$acts) {
-        if ($_->{type} eq 'switch') {
-          if ($PreserveStateBeforeSwitching->{$_->{state}}) {
-            push @$new_acts,
-                {type => 'save-state'},
-                {%$_};
-          } else {
-            push @$new_acts, {%$_};
-          }
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
+    for (@$acts) {
+      if ($_->{type} eq 'switch') {
+        if ($PreserveStateBeforeSwitching->{$_->{state}}) {
+          push @$new_acts,
+              {type => 'set-original-state', state => $state},
+              {%$_};
         } else {
           push @$new_acts, {%$_};
         }
+      } else {
+        push @$new_acts, {%$_};
       }
-      @$acts = @$new_acts;
     }
-  }
+  };
 }
 
 print perl2json_bytes_for_record $Data;

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<title>Character reference tokenizer</title>
+
+<h1><dfn>Character reference state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)
+<dt>U+0020 SPACE
+<dt>U+003C LESS-THAN SIGN
+<dt>U+0026 AMPERSAND
+<dt>The <span>additional allowed character</span>, if there is one
+
+<dd>
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>EOF
+<dd>
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>U+0023 NUMBER SIGN (#)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference number state</span>.
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference name state</span>.
+  
+<dt>Anything else
+<dd>
+  <!-- Not a parse error -->
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+</dl>  
+
+<h1><dfn>Character reference number state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0078 LATIN SMALL LETTER X
+<dt>U+0058 LATIN CAPITAL LETTER X
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference before hexadecimal number state</span>.
+
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference decimal number state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference before hexadecimal number state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>ASCII hex digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference hexadecimal character reference state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference hexadecimal number state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>ASCII hex digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p><span>Process the temporary buffer as a decimal reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Process the temporary buffer as a hexadecimal reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference decimal number state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p><span>Process the temporary buffer as a decimal reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Process the temporary buffer as a decimal reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Process the temporary buffer as a named reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+
+<dt>U+003D EQUALS SIGN (=)
+<dd>
+  <p><span>Process the temporary buffer as a named reference</span> with <var title>before equals</var> flag set.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Process the temporary buffer as a named reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference in data state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>Anything else
+<dd>
+  <p>Unset the <span>additional allowed character</span>.
+  <p>Set the <span>original state</span> to <span>data state</span>.
+  <p>Switch to the <span>character reference state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference in RCDATA state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>Anything else
+<dd>
+  <p>Unset the <span>additional allowed character</span>.
+  <p>Set the <span>original state</span> to <span>RCDATA state</span>.
+  <p>Switch to the <span>character reference state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>Character reference in attribute value state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>Anything else
+<dd>
+  <!--<p>Set the <span>original state</span> to <span>RCDATA state</span>.-->
+  <p>Switch to the <span>character reference state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<!--
+
+The steps in this document has to be equivalent to the
+<a href="http://www.whatwg.org/specs/web-apps/current-work/#consume-a-character-reference">consume
+a character reference</a> steps in the HTML Standard.
+
+-->
