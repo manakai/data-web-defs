@@ -1264,19 +1264,54 @@
                      }
                   ]
                },
+               "CHAR:0050" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- P",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0053" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- S",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0070" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- P",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0073" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- S",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
-                        "break" : 1,
-                        "keyword" : "PUBLIC",
-                        "state" : "after DOCTYPE public keyword state",
-                        "type" : "consume-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "SYSTEM",
-                        "state" : "after DOCTYPE system keyword state",
-                        "type" : "consume-and-switch-if-keyword"
+                        "type" : "set-to-temp-empty"
                      },
                      {
                         "type" : "error"
@@ -1289,11 +1324,7 @@
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
                      }
-                  ],
-                  "lookahead" : {
-                     "PUBLIC" : 1,
-                     "SYSTEM" : 1
-                  }
+                  ]
                },
                "EOF" : {
                   "actions" : [
@@ -1318,6 +1349,404 @@
                },
                "WS:HTML" : {
                   "actions" : [
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- P" : {
+            "conds" : {
+               "CHAR:0055" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PU",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0075" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PU",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- PU" : {
+            "conds" : {
+               "CHAR:0042" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PUB",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0062" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PUB",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- PUB" : {
+            "conds" : {
+               "CHAR:004C" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PUBL",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006C" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PUBL",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- PUBL" : {
+            "conds" : {
+               "CHAR:0049" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PUBLI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0069" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- PUBLI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- PUBLI" : {
+            "conds" : {
+               "CHAR:0043" : {
+                  "actions" : [
+                     {
+                        "state" : "after DOCTYPE public keyword state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0063" : {
+                  "actions" : [
+                     {
+                        "state" : "after DOCTYPE public keyword state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- S" : {
+            "conds" : {
+               "CHAR:0059" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SY",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0079" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SY",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- SY" : {
+            "conds" : {
+               "CHAR:0053" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SYS",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0073" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SYS",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- SYS" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SYST",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SYST",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- SYST" : {
+            "conds" : {
+               "CHAR:0045" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SYSTE",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0065" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "after DOCTYPE name state -- SYSTE",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "after DOCTYPE name state -- SYSTE" : {
+            "conds" : {
+               "CHAR:004D" : {
+                  "actions" : [
+                     {
+                        "state" : "after DOCTYPE system keyword state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006D" : {
+                  "actions" : [
+                     {
+                        "state" : "after DOCTYPE system keyword state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
                   ]
                }
             }
@@ -4043,29 +4472,61 @@
          },
          "markup declaration open state" : {
             "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- -",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0044" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:005B:in-foreign" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0064" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
-                        "break" : 1,
-                        "keyword" : "--",
-                        "state" : "comment start state",
-                        "type" : "consume-and-create-empty-comment-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "DOCTYPE",
-                        "state" : "comment start state",
-                        "type" : "consume-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "in-foreign",
-                        "keyword" : "[CDATA[",
-                        "state" : "CDATA section state",
-                        "type" : "consume-and-switch-if-keyword"
+                        "type" : "set-to-temp-empty"
                      },
                      {
                         "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
                      },
                      {
                         "field" : "type",
@@ -4080,12 +4541,631 @@
                         "state" : "bogus comment state",
                         "type" : "switch"
                      }
-                  ],
-                  "lookahead" : {
-                     "--" : 1,
-                     "DOCTYPE" : 1,
-                     "[CDATA[" : 1
-                  }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- -" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "comment start state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- D" : {
+            "conds" : {
+               "CHAR:004F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- DO" : {
+            "conds" : {
+               "CHAR:0043" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOC",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0063" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOC",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- DOC" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOCT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOCT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- DOCT" : {
+            "conds" : {
+               "CHAR:0059" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOCTY",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0079" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOCTY",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- DOCTY" : {
+            "conds" : {
+               "CHAR:0050" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOCTYP",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0070" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- DOCTYP",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- DOCTYP" : {
+            "conds" : {
+               "CHAR:0045" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0065" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- [" : {
+            "conds" : {
+               "CHAR:0043" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0063" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- [C" : {
+            "conds" : {
+               "CHAR:0044" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0064" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- [CD" : {
+            "conds" : {
+               "CHAR:0041" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0061" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- [CDA" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- [CDAT" : {
+            "conds" : {
+               "CHAR:0041" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0061" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration open state -- [CDATA" : {
+            "conds" : {
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
                }
             }
          },
