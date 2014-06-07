@@ -64,15 +64,6 @@
          "value" : "arguments"
       },
       {
-         "di" : 226,
-         "fragment" : "CanvasFillRule fillRule = [*id=\u0022dom-context-2d-fillRule-nonzero\u0022*]\u0022nonzero\u0022),\u000A [*id=\u0022dom-Path2D-with",
-         "index" : 14142,
-         "level" : "m",
-         "spec" : "HTML",
-         "type" : "webidl:non-optional default",
-         "value" : "fillRule"
-      },
-      {
          "di" : 225,
          "fragment" : "typedef (CanvasRenderingContext2D or WebGLRenderingContext) [*id=\u0022RenderingContext\u0022*]RenderingContex",
          "index" : 13,
@@ -501,6 +492,8 @@
          "operation",
          {
             "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
                "Window" : 1
             },
             "overload_set" : {
@@ -4113,6 +4106,8 @@
          "interface",
          {
             "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
                "Window" : 1
             },
             "id" : "BroadcastChannel",
@@ -4122,6 +4117,20 @@
                }
             },
             "members" : {
+               "close" : [
+                  "operation",
+                  {
+                     "id" : "dom-BroadcastChannel-close",
+                     "overload_set" : {
+                        "" : {
+                           "args" : [
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
                "name" : [
                   "attribute",
                   {
@@ -12828,6 +12837,23 @@
                                        ]
                                     }
                                  }
+                              ]
+                           ]
+                        },
+                        "unsigned long" : {
+                           "args" : [
+                              {
+                                 "name" : "index",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "unsigned long"
+                              }
+                           ],
+                           "type" : [
+                              "nullable",
+                              [
+                                 "ref_interface",
+                                 "Element"
                               ]
                            ]
                         }
@@ -21793,7 +21819,7 @@
             "indexed_setter" : [
                "operation",
                {
-                  "id" : "dom-HTMLOptionsCollection-setter",
+                  "id" : "dom-select-setter",
                   "overload_set" : {
                      "unsigned long,nullable[ref[HTMLOptionElement]]" : {
                         "args" : [
@@ -21928,6 +21954,16 @@
                         }
                      },
                      "spec" : "HTML"
+                  }
+               ],
+               "autocomplete" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-fe-autocomplete",
+                     "setter" : 1,
+                     "spec" : "HTML",
+                     "type" : "DOMString"
                   }
                ],
                "autofocus" : [
@@ -33098,13 +33134,9 @@
                            "args" : [
                               {
                                  "name" : "message",
-                                 "optionality" : "optional",
+                                 "optionality" : "required",
                                  "spec" : "HTML",
-                                 "type" : "DOMString",
-                                 "value" : [
-                                    "string",
-                                    ""
-                                 ]
+                                 "type" : "DOMString"
                               }
                            ],
                            "type" : "void"
@@ -33514,13 +33546,7 @@
                      "id" : "dom-opener",
                      "setter" : 1,
                      "spec" : "HTML",
-                     "type" : [
-                        "nullable",
-                        [
-                           "ref_interface",
-                           "WindowProxy"
-                        ]
-                     ]
+                     "type" : "any"
                   }
                ],
                "parent" : [
