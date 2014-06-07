@@ -1235,13 +1235,27 @@
          },
          "DOCTYPE bogus comment state" : {
             "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
                         "field" : "data",
-                        "type" : "append-until",
-                        "value" : ">"
-                     },
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
                      {
                         "type" : "emit"
                      },
@@ -1250,7 +1264,7 @@
                         "type" : "switch"
                      },
                      {
-                        "type" : "reprocess-if-eof"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -2505,13 +2519,27 @@
          },
          "bogus comment state" : {
             "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
                         "field" : "data",
-                        "type" : "append-until",
-                        "value" : ">"
-                     },
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
                      {
                         "type" : "emit"
                      },
@@ -2520,7 +2548,7 @@
                         "type" : "switch"
                      },
                      {
-                        "type" : "reprocess-if-eof"
+                        "type" : "reconsume"
                      }
                   ]
                }

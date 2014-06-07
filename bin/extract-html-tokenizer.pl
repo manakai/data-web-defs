@@ -198,28 +198,31 @@ sub parse_action ($) {
       #
     } elsif ($action =~ s/^Consume every character up to the next occurrence of the three character sequence U\+005D RIGHT SQUARE BRACKET U\+005D RIGHT SQUARE BRACKET U\+003E GREATER-THAN SIGN \(\]\]>\), or the end of the file \(EOF\), whichever comes first\. Emit a series of character tokens consisting of all the characters consumed except the matching three character sequence at the end \(if one was found before the end of the file\)\.//) {
       push @action,
-          {type => 'create', token => 'character token'},
-          {type => 'append-until', field => 'data', value => ']]>'},
-          {type => 'emit-if-length'};
+          {type => 'IF-KEYWORD',
+           keyword => ']]>',
+           value => [{type => 'SWITCH'}],
+           not_anchored => 1,
+           else_value => [{type => 'emit-temp'}]},
+          {type => 'emit-char'};
     } elsif ($action =~ s/^Consume every character up to and including the first U\+003E GREATER-THAN SIGN character \(>\) or the end of the file \(EOF\), whichever comes first\. Emit a comment token whose data is the concatenation of all the characters starting from and including the character that caused the state machine to switch into the bogus comment state, up to and including the character immediately before the last consumed character \(i\.e\. up to the character just before the U\+003E or EOF character\), but with any U\+0000 NULL characters replaced by U\+FFFD REPLACEMENT CHARACTER characters\. \(.+\)//) {
       push @action,
-          {type => 'append-until', field => 'data', value => '>',
+          {type => 'APPEND-UNTIL', field => 'data', value => '>',
            replace_null => 1},
           {type => 'emit'};
     } elsif ($action =~ s/^Consume every character up to the first U\+003E \(>\) or EOF, whichever comes first\. Emit a comment token whose data is the concatenation of all those consumed characters\. Then consume the next input character and switch to the data state reprocessing the EOF character if that was the character consumed\.//) { # xml5
       push @action,
-          {type => 'append-until', field => 'data', value => '>'},
+          {type => 'APPEND-UNTIL', field => 'data', value => '>'},
           {type => 'emit'},
           {type => 'switch', state => 'data state'},
-          {type => 'reprocess-if-eof'};
+          {type => 'RECONSUME-IF-EOF'};
     } elsif ($action =~ s/^Consume every character up to the first U\+003E \(>\) or EOF, whichever comes first\. Emit a comment token whose data is the concatenation of all those consumed characters\. Then consume the next input character and switch to the DOCTYPE internal subset state reprocessing the EOF character if that was the character consumed\.//) { # xml5
       push @action,
-          {type => 'append-until', field => 'data', value => '>'},
+          {type => 'APPEND-UNTIL', field => 'data', value => '>'},
           {type => 'emit'},
           {type => 'switch', state => 'DOCTYPE internal subset state'},
-          {type => 'reprocess-if-eof'};
+          {type => 'RECONSUME-IF-EOF'};
     } elsif ($action =~ s/^If the end of the file was reached, reconsume the EOF character\.//) {
-      push @action, {type => 'reconsume-if-eof'};
+      push @action, {type => 'RECONSUME-IF-EOF'};
     } elsif ($action =~ s/^When the user agent leaves the attribute name state \(and before emitting the tag token, if appropriate\), the complete attribute's name must be compared to the other attributes on the same token; if there is already an attribute on the token with the exact same name, then this is a parse error and the new attribute must be removed from the token\.// or
              $action =~ s/^When the user agent leaves this state \(and before emitting the tag token, if appropriate\), the complete attribute's name must be compared to the other attributes on the same token; if there is already an attribute on the token with the exact same name, then this is a parse error and the new attribute must be dropped, along with the value that gets associated with it \(if any\)\.//) {
       #
@@ -507,9 +510,45 @@ sub modify_actions (&) {
 {
   modify_actions {
     my ($acts => $new_acts, $state) = @_;
+    if (@$acts >= 2 and
+        $acts->[0]->{type} eq 'switch' and
+        $acts->[1]->{type} eq 'IF-KEYWORD' and
+        @{$acts->[1]->{value}} and
+        $acts->[1]->{value}->[0]->{type} eq 'SWITCH') {
+      $acts->[1]->{value}->[0]->{type} = 'switch';
+      $acts->[1]->{value}->[0]->{state} = $acts->[0]->{state};
+      shift @$acts;
+    }
+    @$new_acts = @$acts;
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
     if (@$acts and $acts->[-1]->{type} eq 'SAME-AS-ELSE') {
       pop @$acts;
       push @$acts, @{$Data->{states}->{$state}->{conds}->{ELSE}->{actions}};
+    }
+    if (@$acts and $acts->[-1]->{type} eq 'RECONSUME-IF-EOF') {
+      pop @$acts;
+      $Data->{states}->{$state}->{conds}->{EOF}->{actions} = [
+        grep {
+          not $_->{type} eq 'APPEND-UNTIL' and
+          not $_->{type} eq 'IF-KEYWORD';
+        } @$acts, {type => 'reconsume'},
+      ];
+    }
+    @$new_acts = @$acts;
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state, $cond) = @_;
+    for (0..$#$acts) {
+      if ($acts->[$_]->{type} eq 'APPEND-UNTIL' and
+          1 == length $acts->[$_]->{value}) {
+        $Data->{states}->{$state}->{conds}->{sprintf 'CHAR:%04X', ord $acts->[$_]->{value}}->{actions} = [@$acts[0..($_-1)], @$acts[($_+1)..$#$acts]];
+        $acts = [@$acts[0..($_-1)], {type => 'append', field => $acts->[$_]->{field}}];
+        last;
+      }
     }
     @$new_acts = @$acts;
   };
@@ -543,7 +582,11 @@ sub modify_actions (&) {
             }
             $Data->{states}->{$new_state}->{conds}->{ELSE}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
-            } @$acts];
+            } @{$act->{else_value} || []}, @$acts];
+            if ($act->{not_anchored} and $cs eq $c . $c) {
+              $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} =
+              $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$save];
+            }
           }
           $old_state = $new_state;
         }
