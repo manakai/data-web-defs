@@ -143,6 +143,11 @@ $Data->{adjusted_svg_element_names} = {
 {
   my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer.json')->slurp;
   $Data->{tokenizer} = $tokenizer;
+
+  my $tokenizer_charrefs = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer-charrefs.json')->slurp;
+  for (keys %{$tokenizer_charrefs->{states}}) {
+    $Data->{tokenizer}->{states}->{$_} = $tokenizer_charrefs->{states}->{$_};
+  }
 }
 
 print perl2json_bytes_for_record $Data;
