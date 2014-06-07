@@ -54,7 +54,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   my $idl_path = path (__FILE__)->parent->parent->child ('src/idl');
   push @{$json->{''} ||= []},
       map { '<plaintext>' . $idl_path->child ($_)->slurp_utf8 }
-      qw(xpath.idl xpath-whatwgwiki.idl);
+      qw(webidl.idl html-additional.idl xpath.idl xpath-whatwgwiki.idl);
 
   my $doc = new Web::DOM::Document;
   $doc->manakai_is_html (1);
@@ -69,9 +69,9 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     push @error, {@_};
     $error[-1]->{di} = $di if defined $di and not defined $error[-1]->{di};
     if (defined $error[-1]->{di} and defined $error[-1]->{index}) {
-      $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, $error[-1]->{index}, 20;
+      $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, $error[-1]->{index}, 100;
     } elsif (defined $error[-1]->{di}) {
-      $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 20;
+      $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 100;
     }
     $error[-1]->{spec} = $spec if length $spec;
   };
@@ -81,9 +81,35 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     for (@{$json->{$spec}}) {
       $di = $next_di++;
       $el->inner_html ($_);
+      for (@{$el->query_selector_all ('a[title], dfn[id]')}) {
+        my $title = $_->title || $_->id;
+        next unless $title;
+        if ($_->local_name eq 'dfn' and $title eq lc $_->text_content) {
+          $title = $_->text_content;
+        }
+        my $prev = $_->previous_sibling;
+        if (defined $prev and $prev->node_type == $prev->TEXT_NODE) {
+          my $v = $prev->text_content;
+          if ($v =~ /"$/) {
+            $v =~ s/"$/[*id="$title"*]"/;
+            $prev->text_content ($v);
+            next;
+          } elsif ($v =~ m{"" /\* $}) {
+            $v =~ s{"" /\* $}{[*id="$title"*]"" /* };
+            $prev->text_content ($v);
+            next;
+          } elsif ($v =~ m{\b_$}) {
+            $v =~ s{_$}{[*id="$title"*]_};
+            $prev->text_content ($v);
+            next;
+          }
+        }
+        $_->text_content ('[*id="' . $title . '"*]' . $_->text_content);
+      }
       my $idl = $el->text_content;
-      next if $spec eq 'HTML' and $idl =~ /^\s*interface\s+Example\b/;
-      next if $spec eq 'HTML' and $idl =~ /^\s*void\s+select\s*\(\);/;
+      $idl = '[*spec='.$spec.'*]' . $idl if length $spec;
+      next if $spec eq 'HTML' and $idl =~ m{^\s*\[\*[^*]*\*\]\s*interface\s+(?:\[\*[^*]*\*\]|)?Example\b};
+      next if $spec eq 'HTML' and $idl =~ /^\s*\[\*[^*]*\*\]\s*void\s+\[\*[^*]*\*\]select/;
       $di_to_content->{$di} = $idl;
       my $parser = Web::IDL::Parser->new;
       $parser->onerror ($onerror);
