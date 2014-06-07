@@ -1198,6 +1198,27 @@
             }
          },
          "DOCTYPE bogus comment state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-until",
+                        "value" : ">"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "DOCTYPE internal subset state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reprocess-if-eof"
+                     }
+                  ]
+               }
+            }
          },
          "DOCTYPE comment dash state" : {
             "conds" : {
@@ -1442,6 +1463,46 @@
             }
          },
          "DOCTYPE markup declaration state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "break" : 1,
+                        "keyword" : "--",
+                        "state" : "DOCTYPE comment state",
+                        "type" : "consume-and-create-empty-comment-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "keyword" : "ENTITY",
+                        "state" : "DOCTYPE ENTITY state",
+                        "type" : "consume-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "keyword" : "ATTLIST",
+                        "state" : "DOCTYPE ATTLIST state",
+                        "type" : "consume-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "keyword" : "NOTATION",
+                        "state" : "DOCTYPE NOTATION state",
+                        "type" : "consume-and-switch-if-keyword"
+                     },
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ],
+                  "lookahead" : {
+                     "--" : 1,
+                     "ATTLIST" : 1,
+                     "ENTITY" : 1,
+                     "NOTATION" : 1
+                  }
+               }
+            }
          },
          "DOCTYPE pi after state" : {
             "conds" : {
@@ -1651,6 +1712,15 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
                      },
@@ -1726,6 +1796,27 @@
             }
          },
          "bogus comment state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-until",
+                        "value" : ">"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reprocess-if-eof"
+                     }
+                  ]
+               }
+            }
          },
          "comment dash state" : {
             "conds" : {
@@ -2159,6 +2250,51 @@
             }
          },
          "markup declaration state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "break" : 1,
+                        "keyword" : "--",
+                        "state" : "comment state",
+                        "type" : "consume-and-create-empty-comment-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "keyword" : "[CDATA[",
+                        "state" : "CDATA state",
+                        "type" : "consume-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "keyword" : "DOCTYPE",
+                        "state" : "DOCTYPE state",
+                        "type" : "consume-and-error-and-switch-if-keyword"
+                     },
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ],
+                  "lookahead" : {
+                     "--" : 1,
+                     "DOCTYPE" : 1,
+                     "[CDATA[" : 1
+                  }
+               }
+            }
          },
          "pi after state" : {
             "conds" : {
@@ -2239,6 +2375,15 @@
                         "type" : "error"
                      },
                      {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
                      },
@@ -2253,6 +2398,15 @@
                         "type" : "error"
                      },
                      {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
                      },
@@ -2265,6 +2419,15 @@
                   "actions" : [
                      {
                         "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
                         "state" : "bogus comment state",
@@ -2299,6 +2462,15 @@
                   "actions" : [
                      {
                         "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
                         "state" : "bogus comment state",

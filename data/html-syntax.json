@@ -260,6 +260,31 @@
       },
       "states" : {
          "CDATA section state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "token" : "character token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-until",
+                        "value" : "]]>"
+                     },
+                     {
+                        "type" : "emit-if-length"
+                     },
+                     {
+                        "type" : "reconsume-if-eof"
+                     }
+                  ]
+               }
+            }
          },
          "DOCTYPE name state" : {
             "conds" : {
@@ -1228,7 +1253,11 @@
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
                      }
-                  ]
+                  ],
+                  "lookahead" : {
+                     "PUBLIC" : 1,
+                     "SYSTEM" : 1
+                  }
                },
                "EOF" : {
                   "actions" : [
@@ -1864,6 +1893,9 @@
                "CHAR:002F" : {
                   "actions" : [
                      {
+                        "type" : "set-attr"
+                     },
+                     {
                         "state" : "self-closing start tag state",
                         "type" : "switch"
                      }
@@ -1883,6 +1915,9 @@
                "CHAR:003D" : {
                   "actions" : [
                      {
+                        "type" : "set-attr"
+                     },
+                     {
                         "state" : "before attribute value state",
                         "type" : "switch"
                      }
@@ -1890,6 +1925,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "set-attr"
+                     },
                      {
                         "state" : "data state",
                         "type" : "switch"
@@ -1913,6 +1951,9 @@
                         "type" : "error"
                      },
                      {
+                        "type" : "set-attr"
+                     },
+                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -1932,6 +1973,9 @@
                },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "type" : "set-attr"
+                     },
                      {
                         "state" : "after attribute name state",
                         "type" : "switch"
@@ -1965,7 +2009,13 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "allowed_char" : "\u0022",
+                        "type" : "set-allowed-char",
+                        "value" : "\u0022"
+                     },
+                     {
+                        "type" : "save-state"
+                     },
+                     {
                         "state" : "character reference in attribute value state",
                         "type" : "switch"
                      }
@@ -2012,7 +2062,13 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "allowed_char" : "'",
+                        "type" : "set-allowed-char",
+                        "value" : "'"
+                     },
+                     {
+                        "type" : "save-state"
+                     },
+                     {
                         "state" : "character reference in attribute value state",
                         "type" : "switch"
                      }
@@ -2078,7 +2134,13 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "allowed_char" : ">",
+                        "type" : "set-allowed-char",
+                        "value" : ">"
+                     },
+                     {
+                        "type" : "save-state"
+                     },
+                     {
                         "state" : "character reference in attribute value state",
                         "type" : "switch"
                      }
@@ -2891,12 +2953,101 @@
             }
          },
          "bogus comment state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "replace_null" : 1,
+                        "type" : "append-until",
+                        "value" : ">"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume-if-eof"
+                     }
+                  ]
+               }
+            }
          },
          "character reference in RCDATA state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-allowed-char",
+                        "value" : null
+                     },
+                     {
+                        "type" : "consume-charref"
+                     },
+                     {
+                        "type" : "emit-char-if-nothing",
+                        "value" : "&"
+                     },
+                     {
+                        "type" : "emit-unless-nothing"
+                     }
+                  ]
+               }
+            }
          },
          "character reference in attribute value state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "consume-charref"
+                     },
+                     {
+                        "type" : "append-to-attr-if-nothing",
+                        "value" : "&"
+                     },
+                     {
+                        "type" : "append-to-attr-unless-nothing"
+                     },
+                     {
+                        "type" : "switch-back"
+                     }
+                  ]
+               }
+            }
          },
          "character reference in data state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-allowed-char",
+                        "value" : null
+                     },
+                     {
+                        "type" : "consume-charref"
+                     },
+                     {
+                        "type" : "emit-char-if-nothing",
+                        "value" : "&"
+                     },
+                     {
+                        "type" : "emit-unless-nothing"
+                     }
+                  ]
+               }
+            }
          },
          "comment end bang state" : {
             "conds" : {
@@ -3388,6 +3539,15 @@
                         "type" : "error"
                      },
                      {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
                      }
@@ -3447,6 +3607,52 @@
             }
          },
          "markup declaration open state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "break" : 1,
+                        "keyword" : "--",
+                        "state" : "comment start state",
+                        "type" : "consume-and-create-empty-comment-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "keyword" : "DOCTYPE",
+                        "state" : "comment start state",
+                        "type" : "consume-and-switch-if-keyword"
+                     },
+                     {
+                        "break" : 1,
+                        "if" : "in-foreign",
+                        "keyword" : "[CDATA[",
+                        "state" : "CDATA section state",
+                        "type" : "consume-and-switch-if-keyword"
+                     },
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ],
+                  "lookahead" : {
+                     "--" : 1,
+                     "DOCTYPE" : 1,
+                     "[CDATA[" : 1
+                  }
+               }
+            }
          },
          "script data double escape end state" : {
             "conds" : {
@@ -4789,6 +4995,15 @@
                   "actions" : [
                      {
                         "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
                         "state" : "bogus comment state",
