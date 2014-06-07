@@ -1500,43 +1500,715 @@
          },
          "DOCTYPE markup declaration state" : {
             "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- -",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0041" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- A",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0045" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- E",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:004E" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- N",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0061" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- A",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0065" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- E",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006E" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- N",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
-                        "break" : 1,
-                        "keyword" : "--",
-                        "state" : "DOCTYPE comment state",
-                        "type" : "consume-and-create-empty-comment-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "ENTITY",
-                        "state" : "DOCTYPE ENTITY state",
-                        "type" : "consume-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "ATTLIST",
-                        "state" : "DOCTYPE ATTLIST state",
-                        "type" : "consume-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "NOTATION",
-                        "state" : "DOCTYPE NOTATION state",
-                        "type" : "consume-and-switch-if-keyword"
+                        "type" : "set-to-temp-empty"
                      },
                      {
                         "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      }
-                  ],
-                  "lookahead" : {
-                     "--" : 1,
-                     "ATTLIST" : 1,
-                     "ENTITY" : 1,
-                     "NOTATION" : 1
-                  }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- -" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- A" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- AT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- AT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- AT" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ATT" : {
+            "conds" : {
+               "CHAR:004C" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATTL",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006C" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATTL",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ATTL" : {
+            "conds" : {
+               "CHAR:0049" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATTLI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0069" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATTLI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ATTLI" : {
+            "conds" : {
+               "CHAR:0053" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATTLIS",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0073" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ATTLIS",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ATTLIS" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ATTLIST state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- E" : {
+            "conds" : {
+               "CHAR:004E" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- EN",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006E" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- EN",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- EN" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ENT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ENT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ENT" : {
+            "conds" : {
+               "CHAR:0049" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ENTI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0069" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ENTI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ENTI" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ENTIT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- ENTIT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- ENTIT" : {
+            "conds" : {
+               "CHAR:0059" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0079" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE ENTITY state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- N" : {
+            "conds" : {
+               "CHAR:004F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- NO" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- NOT" : {
+            "conds" : {
+               "CHAR:0041" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0061" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- NOTA" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTAT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTAT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- NOTAT" : {
+            "conds" : {
+               "CHAR:0049" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTATI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0069" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTATI",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- NOTATI" : {
+            "conds" : {
+               "CHAR:004F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTATIO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "DOCTYPE markup declaration state -- NOTATIO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "DOCTYPE markup declaration state -- NOTATIO" : {
+            "conds" : {
+               "CHAR:004E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006E" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE NOTATION state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
                }
             }
          },
@@ -2756,25 +3428,54 @@
          },
          "markup declaration state" : {
             "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- -",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0044" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0064" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
-                        "break" : 1,
-                        "keyword" : "--",
-                        "state" : "comment state",
-                        "type" : "consume-and-create-empty-comment-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "[CDATA[",
-                        "state" : "CDATA state",
-                        "type" : "consume-and-switch-if-keyword"
-                     },
-                     {
-                        "break" : 1,
-                        "keyword" : "DOCTYPE",
-                        "state" : "DOCTYPE state",
-                        "type" : "consume-and-error-and-switch-if-keyword"
+                        "type" : "set-to-temp-empty"
                      },
                      {
                         "type" : "error"
@@ -2792,12 +3493,585 @@
                         "state" : "bogus comment state",
                         "type" : "switch"
                      }
-                  ],
-                  "lookahead" : {
-                     "--" : 1,
-                     "DOCTYPE" : 1,
-                     "[CDATA[" : 1
-                  }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- -" : {
+            "conds" : {
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- D" : {
+            "conds" : {
+               "CHAR:004F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:006F" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DO",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- DO" : {
+            "conds" : {
+               "CHAR:0043" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOC",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0063" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOC",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- DOC" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOCT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOCT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- DOCT" : {
+            "conds" : {
+               "CHAR:0059" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOCTY",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0079" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOCTY",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- DOCTY" : {
+            "conds" : {
+               "CHAR:0050" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOCTYP",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0070" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- DOCTYP",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- DOCTYP" : {
+            "conds" : {
+               "CHAR:0045" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0065" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- [" : {
+            "conds" : {
+               "CHAR:0043" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [C",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0063" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [C",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- [C" : {
+            "conds" : {
+               "CHAR:0044" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CD",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0064" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CD",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- [CD" : {
+            "conds" : {
+               "CHAR:0041" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CDA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0061" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CDA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- [CDA" : {
+            "conds" : {
+               "CHAR:0054" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CDAT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0074" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CDAT",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- [CDAT" : {
+            "conds" : {
+               "CHAR:0041" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CDATA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0061" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration state -- [CDATA",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "markup declaration state -- [CDATA" : {
+            "conds" : {
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "state" : "CDATA state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "type",
+                        "type" : "set",
+                        "value" : "comment token"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     }
+                  ]
                }
             }
          },

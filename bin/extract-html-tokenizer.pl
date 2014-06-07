@@ -40,27 +40,31 @@ my $PreserveStateBeforeSwitching = {};
 sub parse_action ($) {
   my $action = shift;
   my @action;
-  my %lookahead;
   while (1) {
     $action =~ s/^\s+//;
-              if ($action =~ s/^Parse error\.\s*// or
-                  $action =~ s/^Otherwise, this is a parse error\.\s*//) {
-                push @action, {type => 'error'};
-              } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
-                push @action, {type => 'switch', state => $1};
-              } elsif ($action =~ s/^Switch to the ([A-Za-z0-9 ._()-]+ state), with the additional allowed character being U\+([0-9A-F]+) [A-Z0-9 _-]+ \([^()]+\)\.\s*//) {
-                push @action,
-                    {type => 'set-allowed-char', value => chr hex $2},
-                    {type => 'switch', state => $1};
-              } elsif ($action =~ s/^If the temporary buffer is the string "script", then switch to the ([A-Za-z0-9 ._()-]+ state)\. Otherwise, switch to the ([A-Za-z0-9 ._()-]+ state)\.\s*//) {
-                push @action, {type => 'switch-by-temp',
-                               state => $2,
-                               script_state => $1};
-              } elsif ($action =~ s/^Emit the token\.\s*// or
-                       $action =~ s/^Emit (?:the current|that|the) (?:tag|DOCTYPE|comment) token(?:\.\s*| and then )// or
-                       $action =~ s/^Emit the current token and then //) { # xml5
-                push @action, {type => 'emit'};
-              } elsif ($action =~ s/^Emit the current (?:tag |)token as (start tag token|empty tag token|short end tag token)(?:\.\s*| and then )//) { # xml5
+    if ($action =~ s/^Otherwise, this is a parse error. Switch to the bogus comment state. The next character that is consumed, if any, is the first character that will be in the comment\.//) {
+      push @action,
+          {type => 'error'},
+          {type => 'append-temp', field => 'data'},
+          {type => 'switch', state => 'bogus comment state'};
+    } elsif ($action =~ s/^Parse error\.\s*// or
+             $action =~ s/^Otherwise, this is a parse error\.\s*//) {
+      push @action, {type => 'error'};
+    } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
+      push @action, {type => 'switch', state => $1};
+    } elsif ($action =~ s/^Switch to the ([A-Za-z0-9 ._()-]+ state), with the additional allowed character being U\+([0-9A-F]+) [A-Z0-9 _-]+ \([^()]+\)\.\s*//) {
+      push @action,
+          {type => 'set-allowed-char', value => chr hex $2},
+          {type => 'switch', state => $1};
+    } elsif ($action =~ s/^If the temporary buffer is the string "script", then switch to the ([A-Za-z0-9 ._()-]+ state)\. Otherwise, switch to the ([A-Za-z0-9 ._()-]+ state)\.\s*//) {
+      push @action, {type => 'switch-by-temp',
+                     state => $2,
+                     script_state => $1};
+    } elsif ($action =~ s/^Emit the token\.\s*// or
+             $action =~ s/^Emit (?:the current|that|the) (?:tag|DOCTYPE|comment) token(?:\.\s*| and then )// or
+             $action =~ s/^Emit the current token and then //) { # xml5
+      push @action, {type => 'emit'};
+    } elsif ($action =~ s/^Emit the current (?:tag |)token as (start tag token|empty tag token|short end tag token)(?:\.\s*| and then )//) { # xml5
                 push @action, {type => 'emit-as', token => $1};
               } elsif ($action =~ s/^Emit a short end tag token and then //) { # xml5
                 push @action, {type => 'emit', token => 'short end tag token'};
@@ -170,17 +174,19 @@ sub parse_action ($) {
                                if => 'appropriate end tag',
                                break => 1};
               } elsif ($action =~ s/^If the six characters starting from the current input character are an ASCII case-insensitive match for the word "PUBLIC", then consume those characters and switch to the after DOCTYPE public keyword state\.\s*//) {
-                push @action, {type => 'consume-and-switch-if-keyword',
-                               state => 'after DOCTYPE public keyword state',
+                push @action, {type => 'IF-KEYWORD',
                                keyword => 'PUBLIC',
-                               break => 1};
-                $lookahead{PUBLIC} = 1;
+                               value => [
+                                 {type => 'switch',
+                                  'state' => 'after DOCTYPE public keyword state'},
+                               ]};
               } elsif ($action =~ s/Otherwise, if the six characters starting from the current input character are an ASCII case-insensitive match for the word "SYSTEM", then consume those characters and switch to the after DOCTYPE system keyword state\.\s*//) {
-                push @action, {type => 'consume-and-switch-if-keyword',
-                               state => 'after DOCTYPE system keyword state',
+                push @action, {type => 'IF-KEYWORD',
                                keyword => 'SYSTEM',
-                               break => 1};
-                $lookahead{SYSTEM} = 1;
+                               value => [
+                                 {type => 'switch',
+                                  'state' => 'after DOCTYPE system keyword state'},
+                               ]};
               } elsif ($action =~ s/^(?:T|Otherwise, t)reat it as per the "anything else" entry below\.\s*//) {
                 push @action, {type => 'SAME-AS-ELSE'};
     } elsif ($action =~ s/^Ignore the character\.\s*//) {
@@ -238,44 +244,50 @@ sub parse_action ($) {
              $action =~ s/^If the next two characters are both U\+002D \(-\) characters, consume those two characters, create a comment token whose data is the empty string and then switch to the (comment state)\.// or # xml5
              $action =~ s/^If the next two characters are both U\+002D \(-\) characters, then consume those characters and switch to the (DOCTYPE comment state)\.//) { # xml5
       push @action,
-          {type => 'consume-and-create-empty-comment-and-switch-if-keyword',
-           state => $1,
+          {type => 'IF-KEYWORD',
            keyword => '--',
-           break => 1};
-      $lookahead{'--'} = 1;
+           value => [
+             {type => 'create', token => 'comment token'},
+             {type => 'set-empty', field => 'data'},
+             {type => 'switch', state => $1},
+           ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an ASCII case-insensitive match for the word "DOCTYPE", then consume those characters and switch to the DOCTYPE state\.//) {
-      push @action, {type => 'consume-and-switch-if-keyword',
-                     state => 'comment start state',
-                     keyword => 'DOCTYPE',
-                     break => 1};
-      $lookahead{DOCTYPE} = 1;
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => 'DOCTYPE',
+           value => [
+             {type => 'switch', state => 'DOCTYPE state'},
+           ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an exact match for "DOCTYPE", then this is a parse error\. Consume those characters and switch to the DOCTYPE state\.//) { # xml5
-      push @action, {type => 'consume-and-error-and-switch-if-keyword',
-                     state => 'DOCTYPE state',
-                     keyword => 'DOCTYPE',
-                     break => 1};
-      $lookahead{DOCTYPE} = 1;
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => 'DOCTYPE',
+           value => [
+             {type => 'error'},
+             {type => 'switch', state => 'DOCTYPE state'},
+           ]};
     } elsif ($action =~ s/^Otherwise, if the next (?:six|seven|eight) characters are an exact match for "(ENTITY|ATTLIST|NOTATION)", then consume those characters and switch to the (DOCTYPE (?:ENTITY|ATTLIST|NOTATION) state)\.//) { # xml5
-      push @action, {type => 'consume-and-switch-if-keyword',
-                     state => $2,
-                     keyword => $1,
-                     break => 1};
-      $lookahead{$1} = 1;
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => $1,
+           value => [
+             {type => 'switch', state => $2},
+           ]};
     } elsif ($action =~ s/^Otherwise, if there is an adjusted current node and it is not an element in the HTML namespace and the next seven characters are a case-sensitive match for the string "\[CDATA\[" \([^()]+\), then consume those characters and switch to the CDATA section state\.//) {
-      push @action, {type => 'consume-and-switch-if-keyword',
-                     state => 'CDATA section state',
-                     keyword => '[CDATA[',
-                     if => 'in-foreign',
-                     break => 1};
-      $lookahead{'[CDATA['} = 1;
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => '[CDATA[',
+           if => 'in-foreign',
+           value => [
+             {type => 'switch', state => 'CDATA section state'},
+           ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an exact match for "\[CDATA\[", then consume those characters and switch to the CDATA state\.//) {
-      push @action, {type => 'consume-and-switch-if-keyword',
-                     state => 'CDATA state',
-                     keyword => '[CDATA[',
-                     break => 1};
-      $lookahead{'[CDATA['} = 1;
-    } elsif ($action =~ s/^The next character that is consumed, if any, is the first character that will be in the comment\.//) {
-      #
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => '[CDATA[',
+           value => [
+             {type => 'switch', state => 'CDATA state'},
+           ]};
     } elsif ($action =~ s/^Otherwise, switch to the DOCTYPE bogus comment state\.//) {
       push @action, {type => 'switch', state => 'DOCTYPE bogus comment state'};
 
@@ -361,7 +373,7 @@ sub parse_action ($) {
     push @act, $_;
   }
 
-  return (\@act, \%lookahead);
+  return (\@act);
 } # parse_action
 
 sub parse_switch ($);
@@ -418,18 +430,14 @@ sub parse_switch ($) {
         next if $n->class_list->contains ('note');
         next if $n->class_list->contains ('example');
         my $actions = [];
-        my $lookaheads = {};
         if ($n->local_name eq 'dl' and $n->class_list->contains ('switch')) {
           my $conds = parse_switch $n;
           push @$actions, {type => 'CONSUME-CONDS', value => $conds};
         } else {
-          ($actions, $lookaheads) = parse_action _n $n->text_content;
+          ($actions) = parse_action _n $n->text_content;
         }
         for (@$switch_conds) {
           push @{$conds->{$_}->{actions} ||= []}, @$actions;
-          for my $key (keys %$lookaheads) {
-            $conds->{$_}->{lookahead}->{$key} = $lookaheads->{$key};
-          }
         }
       } # @node
       $was_dd = 1;
@@ -473,11 +481,8 @@ while (@node) {
       if ($tc =~ /^Consume the next input character:$/) {
         #
       } else {
-        my ($actions, $lookaheads) = parse_action $tc;
+        my ($actions) = parse_action $tc;
         push @{$Data->{states}->{$state_name}->{conds}->{ELSE}->{actions} ||= []}, @$actions;
-        for my $key (keys %$lookaheads) {
-          $Data->{states}->{$state_name}->{conds}->{ELSE}->{lookahead}->{$key} = $lookaheads->{$key};
-        }
       }
     } else { # $ln
       next if $node->class_list->contains ('note');
@@ -493,7 +498,7 @@ sub modify_actions (&) {
     for my $cond (keys %{$Data->{states}->{$state}->{conds} or {}}) {
       my $acts = $Data->{states}->{$state}->{conds}->{$cond}->{actions} or next;
       my $new_acts = [];
-      $code->($acts => $new_acts, $state);
+      $code->($acts => $new_acts, $state, $cond);
       @$acts = @$new_acts;
     }
   }
@@ -505,6 +510,48 @@ sub modify_actions (&) {
     if (@$acts and $acts->[-1]->{type} eq 'SAME-AS-ELSE') {
       pop @$acts;
       push @$acts, @{$Data->{states}->{$state}->{conds}->{ELSE}->{actions}};
+    }
+    @$new_acts = @$acts;
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state, $cond) = @_;
+    my $need_set_to_empty;
+    if ($cond eq 'ELSE') {
+      while (@$acts and $acts->[0]->{type} eq 'IF-KEYWORD') {
+        my $act = shift @$acts;
+        my $old_state = $state;
+        my $new_state = $state . ' -- ';
+        my $cs = '';
+        my $save = {type => 'append-to-temp'};
+        my $suffix = defined $act->{if} ? ':' . $act->{if} : '';
+        while (length $act->{keyword}) {
+          my $c = substr $act->{keyword}, 0, 1;
+          $cs .= $c;
+          $new_state .= $c;
+          (substr $act->{keyword}, 0, 1) = '';
+          if (0 == length $act->{keyword}) {
+            $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = $act->{value};
+            $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
+          } else {
+            if ($old_state eq $state) {
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord $c}->{actions} =
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord lc $c}->{actions} = [{type => 'set-to-temp'}, {type => 'switch', state => $new_state}];
+            } else {
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} =
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$save, {type => 'switch', state => $new_state}];
+            }
+            $Data->{states}->{$new_state}->{conds}->{ELSE}->{actions} = [grep {
+              not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
+            } @$acts];
+          }
+          $old_state = $new_state;
+        }
+        $need_set_to_empty = 1;
+      }
+    }
+    if ($need_set_to_empty) {
+      unshift @$acts, {type => 'set-to-temp-empty'};
     }
     @$new_acts = @$acts;
   };
