@@ -311,7 +311,7 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "set-to-temp-empty"
+                        "type" : "set-empty-to-temp"
                      },
                      {
                         "type" : "emit-char"
@@ -1373,7 +1373,7 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "set-to-temp-empty"
+                        "type" : "set-empty-to-temp"
                      },
                      {
                         "type" : "error"
@@ -3527,7 +3527,7 @@
                         "type" : "error"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3558,7 +3558,7 @@
                         "type" : "process-temp-as-decimal"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3581,7 +3581,7 @@
                         "type" : "process-temp-as-decimal"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3601,7 +3601,7 @@
                         "type" : "process-temp-as-decimal"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3617,7 +3617,7 @@
                         "type" : "process-temp-as-hexadecimal"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3640,6 +3640,10 @@
             "conds" : {
                "ELSE" : {
                   "actions" : [
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
                      {
                         "type" : "set-allowed-char",
                         "value" : null
@@ -3664,6 +3668,10 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
                         "state" : "character reference state",
                         "type" : "switch"
                      },
@@ -3678,6 +3686,10 @@
             "conds" : {
                "ELSE" : {
                   "actions" : [
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
                      {
                         "type" : "set-allowed-char",
                         "value" : null
@@ -3708,7 +3720,7 @@
                         "type" : "process-temp-as-named"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3721,7 +3733,7 @@
                         "type" : "process-temp-as-named-equals"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3744,7 +3756,7 @@
                         "type" : "process-temp-as-named"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3811,7 +3823,7 @@
                         "type" : "error"
                      },
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3828,7 +3840,7 @@
                "ALLOWED_CHAR" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3841,7 +3853,7 @@
                "CHAR:0009" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3854,7 +3866,7 @@
                "CHAR:000A" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3867,7 +3879,7 @@
                "CHAR:000C" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3880,7 +3892,7 @@
                "CHAR:0020" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3904,7 +3916,7 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3917,7 +3929,7 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3941,7 +3953,7 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -3954,7 +3966,7 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "type" : "emit-or-append-to-attr-temp"
+                        "type" : "emit-or-append-temp-to-attr"
                      },
                      {
                         "type" : "switch-back"
@@ -4478,17 +4490,19 @@
                         "type" : "error"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
+                        "token" : "comment token",
+                        "type" : "create"
                      },
                      {
                         "field" : "data",
-                        "type" : "append"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -4594,27 +4608,29 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "set-to-temp-empty"
+                        "type" : "set-empty-to-temp"
                      },
                      {
                         "type" : "error"
+                     },
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
                      },
                      {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4644,21 +4660,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4694,21 +4712,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4744,21 +4764,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4794,21 +4816,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4844,21 +4868,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4894,21 +4920,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4938,21 +4966,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4971,38 +5001,29 @@
                      }
                   ]
                },
-               "CHAR:0063" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -5021,38 +5042,29 @@
                      }
                   ]
                },
-               "CHAR:0064" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -5071,38 +5083,29 @@
                      }
                   ]
                },
-               "CHAR:0061" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -5121,38 +5124,29 @@
                      }
                   ]
                },
-               "CHAR:0074" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -5171,38 +5165,29 @@
                      }
                   ]
                },
-               "CHAR:0061" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -5224,21 +5209,23 @@
                         "type" : "error"
                      },
                      {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
                         "field" : "data",
                         "type" : "append-temp"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -6587,17 +6574,19 @@
                         "type" : "error"
                      },
                      {
-                        "field" : "type",
-                        "type" : "set",
-                        "value" : "comment token"
+                        "token" : "comment token",
+                        "type" : "create"
                      },
                      {
                         "field" : "data",
-                        "type" : "append"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },

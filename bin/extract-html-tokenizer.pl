@@ -126,6 +126,8 @@ sub parse_action ($) {
                 push @action, {type => 'append-to-entity', field => 'value'};
               } elsif ($action =~ s/^Set the temporary buffer to the empty string\.\s*//) {
                 push @action, {type => 'set-empty-to-temp'};
+              } elsif ($action =~ s/^Set a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the temporary buffer\.//) {
+                push @action, {type => 'set-to-temp', value => chr hex $1};
               } elsif ($action =~ s/^Create (?:a new|an) ((?:start tag|end tag|tag|DOCTYPE|processing instruction) token)(?:\.\s*|,? and |, )//) {
                 push @action, {type => 'create', token => $1};
               } elsif ($action =~ s/^Create an entity token with the name set to the current input character and the value set to the empty string\.\s*//) { # xml5
@@ -176,6 +178,7 @@ sub parse_action ($) {
               } elsif ($action =~ s/^If the six characters starting from the current input character are an ASCII case-insensitive match for the word "PUBLIC", then consume those characters and switch to the after DOCTYPE public keyword state\.\s*//) {
                 push @action, {type => 'IF-KEYWORD',
                                keyword => 'PUBLIC',
+                               case_insensitive => 1,
                                value => [
                                  {type => 'switch',
                                   'state' => 'after DOCTYPE public keyword state'},
@@ -183,6 +186,7 @@ sub parse_action ($) {
               } elsif ($action =~ s/Otherwise, if the six characters starting from the current input character are an ASCII case-insensitive match for the word "SYSTEM", then consume those characters and switch to the after DOCTYPE system keyword state\.\s*//) {
                 push @action, {type => 'IF-KEYWORD',
                                keyword => 'SYSTEM',
+                               case_insensitive => 1,
                                value => [
                                  {type => 'switch',
                                   'state' => 'after DOCTYPE system keyword state'},
@@ -258,6 +262,7 @@ sub parse_action ($) {
       push @action,
           {type => 'IF-KEYWORD',
            keyword => 'DOCTYPE',
+           case_insensitive => 1,
            value => [
              {type => 'switch', state => 'DOCTYPE state'},
            ]};
@@ -350,7 +355,7 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Process the temporary buffer as a named reference with before equals flag set\.//) {
       push @action, {type => 'process-temp-as-named-equals'};
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
-      push @action, {type => 'emit-or-append-to-attr-temp'};
+      push @action, {type => 'emit-or-append-temp-to-attr'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
       push @action, {type => 'set-allowed-char', value => undef};
     } elsif ($action =~ s/^Set the original state to (.+ state)\.//) {
@@ -370,10 +375,19 @@ sub parse_action ($) {
       push @act, {type => 'set-attr'};
     }
     if ($_->{type} eq 'switch' and $_->{state} eq 'bogus comment state') {
-      push @act, {type => 'set', field => 'type', value => 'comment token'};
-      push @act, {type => 'append', field => 'data'};
+      my @a;
+      if (@act and $act[-1]->{type} eq 'append-temp') {
+        push @a, pop @act;
+      }
+      push @act,
+          {type => 'create', token => 'comment token'},
+          {type => 'set-empty', field => 'data'},
+          @a,
+          $_,
+          {type => 'reconsume'};
+    } else {
+      push @act, $_;
     }
-    push @act, $_;
   }
 
   return (\@act);
@@ -574,18 +588,27 @@ sub modify_actions (&) {
             $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
           } else {
             if ($old_state eq $state) {
-              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord $c}->{actions} =
-              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord lc $c}->{actions} = [{type => 'set-to-temp'}, {type => 'switch', state => $new_state}];
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord $c}->{actions} = [{type => 'set-to-temp'}, {type => 'switch', state => $new_state}];
+              if ($act->{case_insensitive}) {
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord lc $c}->{actions} = [{type => 'set-to-temp'}, {type => 'switch', state => $new_state}];
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord uc $c}->{actions} = [{type => 'set-to-temp'}, {type => 'switch', state => $new_state}];
+              }
             } else {
-              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} =
-              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$save, {type => 'switch', state => $new_state}];
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = [$save, {type => 'switch', state => $new_state}];
+              if ($act->{case_insensitive}) {
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$save, {type => 'switch', state => $new_state}];
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [$save, {type => 'switch', state => $new_state}];
+              }
             }
             $Data->{states}->{$new_state}->{conds}->{ELSE}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
             } @{$act->{else_value} || []}, @$acts];
             if ($act->{not_anchored} and $cs eq $c . $c) {
-              $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} =
-              $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$save];
+              $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = [$save];
+              if ($act->{case_insensitive}) {
+                $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$save];
+                $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [$save];
+              }
             }
           }
           $old_state = $new_state;
@@ -594,7 +617,7 @@ sub modify_actions (&) {
       }
     }
     if ($need_set_to_empty) {
-      unshift @$acts, {type => 'set-to-temp-empty'};
+      unshift @$acts, {type => 'set-empty-to-temp'};
     }
     @$new_acts = @$acts;
   };
