@@ -129,6 +129,24 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   }
 }
 
+for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  COND: for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+    my $acts = $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
+    for (@$acts) {
+      if ({
+        'emit-char' => 1,
+        'append-to-attr' => 1,
+        'append-to-temp' => 1,
+      }->{$_->{type}}) {
+        next COND if defined $_->{offset};
+      } else {
+        next COND;
+      }
+    }
+    $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{repeat} = 1;
+  }
+}
+
 $Data->{tokenizer}->{char_sets} = delete $Data->{tokenizer}->{char_classes};
 
 print perl2json_bytes_for_record $Data;
