@@ -528,7 +528,8 @@ sub modify_actions (&) {
       $Data->{states}->{$state}->{conds}->{EOF}->{actions} = [
         grep {
           not $_->{type} eq 'APPEND-UNTIL' and
-          not $_->{type} eq 'IF-KEYWORD';
+          not $_->{type} eq 'IF-KEYWORD' and
+          not $_->{type} eq 'emit-char';
         } @$acts, {type => 'reconsume'},
       ];
     }
