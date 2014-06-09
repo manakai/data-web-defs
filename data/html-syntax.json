@@ -3850,58 +3850,6 @@
                      }
                   ]
                },
-               "CHAR:0009" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:000A" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:000C" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:0020" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -3995,6 +3943,19 @@
                      {
                         "state" : "character reference name state",
                         "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-or-append-temp-to-attr"
+                     },
+                     {
+                        "type" : "switch-back"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4583,7 +4544,7 @@
                      }
                   ]
                },
-               "CHAR:005B:in-foreign" : {
+               "CHAR:005B" : {
                   "actions" : [
                      {
                         "type" : "set-to-temp"
@@ -5198,8 +5159,32 @@
                "CHAR:005B" : {
                   "actions" : [
                      {
+                        "break" : 1,
+                        "if" : "in-foreign",
                         "state" : "CDATA section state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -5233,54 +5218,6 @@
          },
          "script data double escape end state" : {
             "conds" : {
-               "CHAR:0009" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data escaped state",
-                        "state" : "script data double escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "CHAR:000A" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data escaped state",
-                        "state" : "script data double escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "CHAR:000C" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data escaped state",
-                        "state" : "script data double escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "CHAR:0020" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data escaped state",
-                        "state" : "script data double escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
                "CHAR:002F" : {
                   "actions" : [
                      {
@@ -5331,6 +5268,18 @@
                      {
                         "offset" : 32,
                         "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "script_state" : "script data escaped state",
+                        "state" : "script data double escaped state",
+                        "type" : "switch-by-temp"
                      },
                      {
                         "type" : "emit-char"
@@ -5341,54 +5290,6 @@
          },
          "script data double escape start state" : {
             "conds" : {
-               "CHAR:0009" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data double escaped state",
-                        "state" : "script data escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "CHAR:000A" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data double escaped state",
-                        "state" : "script data escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "CHAR:000C" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data double escaped state",
-                        "state" : "script data escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "CHAR:0020" : {
-                  "actions" : [
-                     {
-                        "script_state" : "script data double escaped state",
-                        "state" : "script data escaped state",
-                        "type" : "switch-by-temp"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
                "CHAR:002F" : {
                   "actions" : [
                      {
@@ -5439,6 +5340,18 @@
                      {
                         "offset" : 32,
                         "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "script_state" : "script data double escaped state",
+                        "state" : "script data escaped state",
+                        "type" : "switch-by-temp"
                      },
                      {
                         "type" : "emit-char"

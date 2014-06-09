@@ -285,10 +285,12 @@ data/xhtml-charrefs.dtd: local/html-extracted.json
 data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
     local/html-tokenizer-charrefs.json
 	$(PERL) bin/html-syntax.pl > $@
-
 data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json \
     local/html-tokenizer-charrefs.json
 	$(PERL) bin/xml-syntax.pl > $@
+local/html-tokenizer-expanded.json: data/html-syntax.json \
+    bin/tokenizer-variants.pl
+	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html > $@

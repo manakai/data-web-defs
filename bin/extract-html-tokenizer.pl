@@ -285,9 +285,10 @@ sub parse_action ($) {
       push @action,
           {type => 'IF-KEYWORD',
            keyword => '[CDATA[',
-           if => 'in-foreign',
            value => [
-             {type => 'switch', state => 'CDATA section state'},
+             {type => 'switch', state => 'CDATA section state',
+              if => 'in-foreign', break => 1},
+             {type => 'SAME-AS-ELSE'},
            ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an exact match for "\[CDATA\[", then consume those characters and switch to the CDATA state\.//) {
       push @action,
@@ -430,13 +431,11 @@ sub parse_switch ($) {
       $was_dd = 0;
     } elsif ($ln eq 'dd') {
       my $fc = $n->first_element_child;
-      if ('CHAR:0009 CHAR:000A CHAR:000C CHAR:0020' eq join ' ', @$switch_conds) {
-        delete $conds->{$_} for @$switch_conds;
-        $switch_conds = ['WS:HTML'];
-      } elsif ('CHAR:0009 CHAR:000A CHAR:0020' eq join ' ', @$switch_conds) {
-        delete $conds->{$_} for @$switch_conds;
-        $switch_conds = ['WS:XML'];
-      }
+      my $switches = join ' ', '', (sort { $a cmp $b } @$switch_conds), '';
+      $switches =~ s/ CHAR:0009 CHAR:000A CHAR:000C CHAR:0020 / WS:HTML /;
+      $switches =~ s/ CHAR:0009 CHAR:000A CHAR:0020 / WS:XML /;
+      delete $conds->{$_} for @$switch_conds;
+      $switch_conds = [grep { length } split / /, $switches];
       my @node;
       if (defined $fc and $fc->local_name eq 'p') {
         push @node, @{$n->children};
@@ -538,10 +537,6 @@ sub modify_actions (&) {
 
   modify_actions {
     my ($acts => $new_acts, $state) = @_;
-    if (@$acts and $acts->[-1]->{type} eq 'SAME-AS-ELSE') {
-      pop @$acts;
-      push @$acts, @{$Data->{states}->{$state}->{conds}->{ELSE}->{actions}};
-    }
     if (@$acts and $acts->[-1]->{type} eq 'RECONSUME-IF-EOF') {
       pop @$acts;
       $Data->{states}->{$state}->{conds}->{EOF}->{actions} = [
@@ -618,6 +613,15 @@ sub modify_actions (&) {
     }
     if ($need_set_to_empty) {
       unshift @$acts, {type => 'set-empty-to-temp'};
+    }
+    @$new_acts = @$acts;
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
+    if (@$acts and $acts->[-1]->{type} eq 'SAME-AS-ELSE') {
+      pop @$acts;
+      push @$acts, @{$Data->{states}->{$state}->{conds}->{ELSE}->{actions}};
     }
     @$new_acts = @$acts;
   };
