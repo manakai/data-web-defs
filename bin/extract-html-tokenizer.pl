@@ -523,20 +523,6 @@ sub modify_actions (&) {
 {
   modify_actions {
     my ($acts => $new_acts, $state) = @_;
-    if (@$acts >= 2 and
-        $acts->[0]->{type} eq 'switch' and
-        $acts->[1]->{type} eq 'IF-KEYWORD' and
-        @{$acts->[1]->{value}} and
-        $acts->[1]->{value}->[0]->{type} eq 'SWITCH') {
-      $acts->[1]->{value}->[0]->{type} = 'switch';
-      $acts->[1]->{value}->[0]->{state} = $acts->[0]->{state};
-      shift @$acts;
-    }
-    @$new_acts = @$acts;
-  };
-
-  modify_actions {
-    my ($acts => $new_acts, $state) = @_;
     if (@$acts and $acts->[-1]->{type} eq 'RECONSUME-IF-EOF') {
       pop @$acts;
       $Data->{states}->{$state}->{conds}->{EOF}->{actions} = [
@@ -545,6 +531,20 @@ sub modify_actions (&) {
           not $_->{type} eq 'IF-KEYWORD';
         } @$acts, {type => 'reconsume'},
       ];
+    }
+    @$new_acts = @$acts;
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
+    if (@$acts >= 2 and
+        $acts->[0]->{type} eq 'switch' and
+        $acts->[1]->{type} eq 'IF-KEYWORD' and
+        @{$acts->[1]->{value}} and
+        $acts->[1]->{value}->[0]->{type} eq 'SWITCH') {
+      $acts->[1]->{value}->[0]->{type} = 'switch';
+      $acts->[1]->{value}->[0]->{state} = $acts->[0]->{state};
+      shift @$acts;
     }
     @$new_acts = @$acts;
   };
@@ -580,7 +580,10 @@ sub modify_actions (&) {
           (substr $act->{keyword}, 0, 1) = '';
           if (0 == length $act->{keyword}) {
             $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = $act->{value};
-            $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
+            if ($act->{case_insensitive}) {
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
+              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = $act->{value};
+            }
           } else {
             if ($old_state eq $state) {
               $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X'.$suffix, ord $c}->{actions} = [{type => 'set-to-temp'}, {type => 'switch', state => $new_state}];
@@ -598,6 +601,9 @@ sub modify_actions (&) {
             $Data->{states}->{$new_state}->{conds}->{ELSE}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
             } @{$act->{else_value} || []}, @$acts];
+            $Data->{states}->{$new_state}->{conds}->{EOF}->{actions} = [grep {
+              not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
+            } @{$act->{else_value} || []}, {type => 'switch', state => $state}, {type => 'reconsume'}];
             if ($act->{not_anchored} and $cs eq $c . $c) {
               $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = [$save];
               if ($act->{case_insensitive}) {
