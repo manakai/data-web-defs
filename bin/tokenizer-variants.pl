@@ -151,6 +151,21 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   }
 }
 
+my $Capturing = {
+  'set' => 1,
+  'set-to-attr' => 1,
+  'set-to-temp' => 1,
+  'append' => 1,
+  'emit-char' => 1,
+  'append-to-attr' => 1,
+  'append-to-temp' => 1,
+};
+
+sub actions_with_capture_index ($$) {
+  my ($acts, $index) = @_;
+  return [map { $Capturing->{$_->{type}} ? {%$_, capture_index => $index} : $_ } @$acts]
+} # actions_with_capture_index
+
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
   COND: for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
     my $acts = $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
@@ -158,9 +173,18 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
     my $error = 0;
     my $next_state;
     my $emit = 0;
+    my $branched;
+    my $capture = 0;
     for (@$acts) {
       if ($_->{type} =~ /^emit/) {
         $emit = 1;
+      }
+      if ($_->{break} or defined $_->{if}) {
+        $branched = 1;
+        $repeatable = 0;
+      }
+      if ($Capturing->{$_->{type}}) {
+        $capture = 1 if not defined $_->{value};
       }
       if ({
         'emit-char' => 1,
@@ -181,12 +205,14 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
     }
     $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{repeat} = 1
         if $repeatable;
+    $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{capture} = 1
+        if $capture;
     $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{error} = 1
         if $error;
     $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{next_state} = $next_state
-        if defined $next_state;
+        if defined $next_state and not $branched;
     $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{emit} = 1
-        if $emit;
+        if $emit and not $branched;
   }
 }
 
@@ -222,35 +248,51 @@ while (@path) {
 }
 {
   @found = grep { @$_ > 2 } @found;
-  my @path;
   FOUND: for (@found) {
-    my (undef, $prev_state, @o) = @$_;
-    my $pattern = '';
+    my (undef, $orig_state, @o) = @$_;
     my @pattern;
+    my $prev_state = $orig_state;
+    my $capture_index = 0;
     while (@o) {
       my ($cond, $state) = (shift @o, shift @o);
       next FOUND if $cond =~ /EOF/;
       my $p = cond_to_charclass $cond;
-      $pattern .= $p;
-      push @pattern, [$p, $prev_state, $cond];
+      my $cond_def = $Data->{tokenizer}->{states}->{$prev_state}->{conds}->{$cond};
+      if ($cond_def->{capture}) {
+        $p = "($p)";
+        push @pattern, [$p, $cond_def->{actions}, ++$capture_index];
+      } else {
+        push @pattern, [$p, $cond_def->{actions}];
+      }
 
       unless ($state eq 'data state') {
         for my $c (sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
           if ($Data->{tokenizer}->{states}->{$state}->{conds}->{$c}->{repeat}) {
             my $p = cond_to_charclass $c;
             $p .= '*';
-            $pattern .= $p;
-            push @pattern, [$p, $state, $c];
+            my $cond_def = $Data->{tokenizer}->{states}->{$state}->{conds}->{$c};
+            if ($cond_def->{capture}) {
+              $p = "($p)";
+              push @pattern, [$p, $cond_def->{actions}, ++$capture_index];
+            } else {
+              push @pattern, [$p, $cond_def->{actions}];
+            }
           }
         }
       }
       $prev_state = $state;
     }
-    push @path, [$pattern, \@pattern];
+    $Data->{tokenizer}->{states}->{$orig_state}->{compound_conds}->{join '', map { $_->[0] } @pattern}->{actions} = [map { @$_ } map { actions_with_capture_index $_->[1], $_->[2] } @pattern];
   }
-  $Data->{_path} = \@path;
 }
 
+## Cleanup
+for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+    delete $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{$_}
+        for qw(capture emit next_state error); # don't remove |repeat|
+  }
+}
 $Data->{tokenizer}->{char_sets} = delete $Data->{tokenizer}->{char_classes};
 
 print perl2json_bytes_for_record $Data;
