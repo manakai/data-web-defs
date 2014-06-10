@@ -53,11 +53,17 @@ sub parse_action ($) {
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0022 QUOTATION MARK (").\E//) {
-      push @action, {type => 'switch', state => 'attribute value (double-quoted) state - character reference state'};
+      push @action,
+          {type => 'set-to-temp', value => '&'},
+          {type => 'switch', state => 'attribute value (double-quoted) state - character reference state'};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0027 APOSTROPHE (').\E//) {
-      push @action, {type => 'switch', state => 'attribute value (single-quoted) state - character reference state'};
+      push @action, 
+          {type => 'set-to-temp', value => '&'},
+          {type => 'switch', state => 'attribute value (single-quoted) state - character reference state'};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+003E GREATER-THAN SIGN (>).\E//) {
-      push @action, {type => 'switch', state => 'attribute value (unquoted) state - character reference state'};
+      push @action, 
+          {type => 'set-to-temp', value => '&'},
+          {type => 'switch', state => 'attribute value (unquoted) state - character reference state'};
     } elsif ($action =~ s/^If the temporary buffer is the string "script", then switch to the ([A-Za-z0-9 ._()-]+ state)\. Otherwise, switch to the ([A-Za-z0-9 ._()-]+ state)\.\s*//) {
       push @action, {type => 'switch-by-temp',
                      state => $2,
@@ -603,7 +609,7 @@ sub modify_actions (&) {
             }
             $Data->{states}->{$new_state}->{conds}->{ELSE}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
-            } @{$act->{else_value} || []}, @$acts];
+            } @{$act->{else_value} || []}, {type => 'switch', state => $state}, @$acts];
             $Data->{states}->{$new_state}->{conds}->{EOF}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
             } @{$act->{else_value} || []}, {type => 'switch', state => $state}, {type => 'reconsume'}];
