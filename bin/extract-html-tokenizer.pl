@@ -52,10 +52,12 @@ sub parse_action ($) {
       push @action, {type => 'error'};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
-    } elsif ($action =~ s/^Switch to the ([A-Za-z0-9 ._()-]+ state), with the additional allowed character being U\+([0-9A-F]+) [A-Z0-9 _-]+ \([^()]+\)\.\s*//) {
-      push @action,
-          {type => 'set-allowed-char', value => chr hex $2},
-          {type => 'switch', state => $1};
+    } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0022 QUOTATION MARK (").\E//) {
+      push @action, {type => 'switch', state => 'attribute value (double-quoted) state - character reference state'};
+    } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0027 APOSTROPHE (').\E//) {
+      push @action, {type => 'switch', state => 'attribute value (single-quoted) state - character reference state'};
+    } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+003E GREATER-THAN SIGN (>).\E//) {
+      push @action, {type => 'switch', state => 'attribute value (unquoted) state - character reference state'};
     } elsif ($action =~ s/^If the temporary buffer is the string "script", then switch to the ([A-Za-z0-9 ._()-]+ state)\. Otherwise, switch to the ([A-Za-z0-9 ._()-]+ state)\.\s*//) {
       push @action, {type => 'switch-by-temp',
                      state => $2,
@@ -234,7 +236,7 @@ sub parse_action ($) {
       push @action, {type => 'consume-charref'};
     } elsif ($action =~ s/^Attempt to consume a character reference, with no additional allowed character.//) {
       push @action,
-          {type => 'set-allowed-char', value => undef},
+          {type => 'SET-ALLOWED-CHAR', value => undef},
           {type => 'consume-charref'};
     } elsif ($action =~ s/^If nothing is returned, emit a U\+0026 AMPERSAND character \(&\) token\.//) {
       push @action, {type => 'emit-char-if-nothing', value => '&'};
@@ -245,7 +247,7 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Otherwise, append the returned character tokens to the current attribute's value\.//) {
       push @action, {type => 'append-to-attr-unless-nothing'};
     } elsif ($action =~ s/^Finally, switch back to the attribute value state that switched into this state\.//) {
-      push @action, {type => 'switch-back'};
+      push @action, {type => 'SWITCH-BACK'};
       $PreserveStateBeforeSwitching->{$state_name} = 1;
     } elsif ($action =~ s/^If the next two characters are both U\+002D HYPHEN-MINUS characters \(-\), consume those two characters, create a comment token whose data is the empty string, and switch to the (comment start state)\.// or
              $action =~ s/^If the next two characters are both U\+002D \(-\) characters, consume those two characters, create a comment token whose data is the empty string and then switch to the (comment state)\.// or # xml5
@@ -346,7 +348,7 @@ sub parse_action ($) {
       push @action, {type => 'RETURN-CHARS'};
 
     } elsif ($action =~ s/^Switch back to the original state\.//) {
-      push @action, {type => 'switch-back'};
+      push @action, {type => 'SWITCH-BACK'};
     } elsif ($action =~ s/^Process the temporary buffer as a decimal reference\.//) {
       push @action, {type => 'process-temp-as-decimal'};
     } elsif ($action =~ s/^Process the temporary buffer as a hexadecimal reference\.//) {
@@ -356,9 +358,9 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Process the temporary buffer as a named reference with before equals flag set\.//) {
       push @action, {type => 'process-temp-as-named-equals'};
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
-      push @action, {type => 'emit-or-append-temp-to-attr'};
+      push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'data'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
-      push @action, {type => 'set-allowed-char', value => undef};
+      push @action, {type => 'SET-ALLOWED-CHAR', value => undef};
     } elsif ($action =~ s/^Set the original state to (.+ state)\.//) {
       push @action, {type => 'set-original-state', state => $1};
 

@@ -235,7 +235,7 @@ while (@path) {
           $c->{next_state} eq 'before attribute name state') {
         push @found, [@$path, $cond, $c->{next_state}];
       } elsif ($c->{next_state} eq 'DOCTYPE state' or
-               $c->{next_state} =~ /^character reference/) {
+               $c->{next_state} =~ /character reference/) {
         #
       } elsif ($path->[0]->{$c->{next_state}}) {
         push @found, [@$path, $cond, $c->{next_state}];

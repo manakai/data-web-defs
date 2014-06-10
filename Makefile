@@ -283,10 +283,9 @@ data/html-charrefs.json:
 data/xhtml-charrefs.dtd: local/html-extracted.json
 
 data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
-    local/html-tokenizer-charrefs.json
+    local/html-tokenizer-charrefs.json local/html-tokenizer-charrefs-jump.json
 	$(PERL) bin/html-syntax.pl > $@
-data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json \
-    local/html-tokenizer-charrefs.json
+data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json
 	$(PERL) bin/xml-syntax.pl > $@
 local/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl
@@ -297,6 +296,9 @@ local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 local/html-tokenizer-charrefs.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs.html > $@
+local/html-tokenizer-charrefs-jump.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/charrefs-jump.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-jump.html > $@
 
 local/xml5-spec.html:
 	$(WGET) -O $@ https://dvcs.w3.org/hg/xml-er/raw-file/3fb2e443ca50/Overview.src.html

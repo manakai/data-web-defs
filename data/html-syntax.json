@@ -1342,6 +1342,376 @@
                }
             }
          },
+         "RCDATA state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "RCDATA state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "RCDATA state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "RCDATA state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named-equals"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "RCDATA state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "RCDATA state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
          "after DOCTYPE name state" : {
             "conds" : {
                "CHAR:003E" : {
@@ -2675,15 +3045,7 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "type" : "set-allowed-char",
-                        "value" : "\u0022"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "set-original-state"
-                     },
-                     {
-                        "state" : "character reference in attribute value state",
+                        "state" : "attribute value (double-quoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -2712,6 +3074,405 @@
                }
             }
          },
+         "attribute value (double-quoted) state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (double-quoted) state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (double-quoted) state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (double-quoted) state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named-equals"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (double-quoted) state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (double-quoted) state - character reference state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
          "attribute value (single-quoted) state" : {
             "conds" : {
                "CHAR:0000" : {
@@ -2729,15 +3490,7 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "type" : "set-allowed-char",
-                        "value" : "'"
-                     },
-                     {
-                        "state" : "attribute value (single-quoted) state",
-                        "type" : "set-original-state"
-                     },
-                     {
-                        "state" : "character reference in attribute value state",
+                        "state" : "attribute value (single-quoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -2765,6 +3518,405 @@
                      },
                      {
                         "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (single-quoted) state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (single-quoted) state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (single-quoted) state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (single-quoted) state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named-equals"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (single-quoted) state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (single-quoted) state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
                      },
                      {
@@ -2802,15 +3954,7 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "type" : "set-allowed-char",
-                        "value" : ">"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "set-original-state"
-                     },
-                     {
-                        "state" : "character reference in attribute value state",
+                        "state" : "attribute value (unquoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -2897,6 +4041,390 @@
                      {
                         "state" : "before attribute name state",
                         "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (unquoted) state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (unquoted) state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (unquoted) state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (unquoted) state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named-equals"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (unquoted) state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value (unquoted) state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -3658,123 +5186,6 @@
                }
             }
          },
-         "character reference before hexadecimal number state" : {
-            "conds" : {
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "error"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "HEXDIGIT" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference hexadecimal number state",
-                        "type" : "switch"
-                     }
-                  ]
-               }
-            }
-         },
-         "character reference decimal number state" : {
-            "conds" : {
-               "CHAR:003B" : {
-                  "actions" : [
-                     {
-                        "type" : "process-temp-as-decimal"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     }
-                  ]
-               },
-               "DIGIT" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "error"
-                     },
-                     {
-                        "type" : "process-temp-as-decimal"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            }
-         },
-         "character reference hexadecimal number state" : {
-            "conds" : {
-               "CHAR:003B" : {
-                  "actions" : [
-                     {
-                        "type" : "process-temp-as-decimal"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "error"
-                     },
-                     {
-                        "type" : "process-temp-as-hexadecimal"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "HEXDIGIT" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               }
-            }
-         },
          "character reference in RCDATA state" : {
             "conds" : {
                "ELSE" : {
@@ -3784,34 +5195,7 @@
                         "value" : "&"
                      },
                      {
-                        "type" : "set-allowed-char",
-                        "value" : null
-                     },
-                     {
-                        "state" : "RCDATA state",
-                        "type" : "set-original-state"
-                     },
-                     {
-                        "state" : "character reference state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            }
-         },
-         "character reference in attribute value state" : {
-            "conds" : {
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "set-to-temp",
-                        "value" : "&"
-                     },
-                     {
-                        "state" : "character reference state",
+                        "state" : "RCDATA state - character reference state",
                         "type" : "switch"
                      },
                      {
@@ -3830,268 +5214,8 @@
                         "value" : "&"
                      },
                      {
-                        "type" : "set-allowed-char",
-                        "value" : null
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "set-original-state"
-                     },
-                     {
-                        "state" : "character reference state",
+                        "state" : "data state - character reference state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            }
-         },
-         "character reference name state" : {
-            "conds" : {
-               "CHAR:003B" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "type" : "process-temp-as-named"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     }
-                  ]
-               },
-               "CHAR:003D" : {
-                  "actions" : [
-                     {
-                        "type" : "process-temp-as-named-equals"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "DIGIT" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "process-temp-as-named"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               }
-            }
-         },
-         "character reference number state" : {
-            "conds" : {
-               "CHAR:0058" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference before hexadecimal number state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0078" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference before hexadecimal number state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "DIGIT" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference decimal number state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "error"
-                     },
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            }
-         },
-         "character reference state" : {
-            "conds" : {
-               "ALLOWED_CHAR" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:0023" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference number state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0026" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "DIGIT" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "WS:HTML" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-or-append-temp-to-attr"
-                     },
-                     {
-                        "type" : "switch-back"
                      },
                      {
                         "type" : "reconsume"
@@ -4566,6 +5690,376 @@
                   "actions" : [
                      {
                         "type" : "emit-eof"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named-equals"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "data state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
