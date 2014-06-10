@@ -5,7 +5,17 @@ use JSON::PS;
 local $/ = undef;
 my $Data = {tokenizer => (json_bytes2perl <>)->{tokenizer}};
 
-# XXX ALLOWED_CHAR support is missing!
+my $Capturing = {
+  'set' => 1,
+  'set-to-attr' => 1,
+  'set-to-temp' => 1,
+  'append' => 1,
+  'emit-char' => 1,
+  'append-to-attr' => 1,
+  'append-to-temp' => 1,
+};
+
+## Expanding character classes
 
 sub cond_to_charclass ($) {
   my $cond = shift;
@@ -56,6 +66,7 @@ sub cond_to_charclass ($) {
       $chars->{$c} .= $; . ($char_to_cond_in_state->{$state, $c} || 'ELSE');
     }
   }
+  $chars->{0x000A} .= $; . 'dummy';
 
   my %map;
   for my $c (keys %$chars) {
@@ -87,6 +98,92 @@ sub cond_to_charclass ($) {
     delete $Data->{tokenizer}->{states}->{$state}->{char_class_to_cond};
   }
 }
+
+## U+000D CR characters
+
+{
+  my $need_000D_variant = {};
+  for my $state (keys %{$Data->{tokenizer}->{states}}) {
+    my $state_def = $Data->{tokenizer}->{states}->{$state};
+    my $lf_rule = [grep { /\b000A\b/ } keys %{$state_def->{conds}}]->[0]
+        or die "|$state| has no rule for U+000A";
+    my $acts = $state_def->{conds}->{$lf_rule}->{actions};
+    my $next_state;
+    my $ignored = 1;
+    for (@$acts) {
+      if ($_->{type} eq 'switch') {
+        $next_state = $_->{state};
+        $ignored = 0;
+      } else {
+        $ignored = 0;
+      }
+    }
+    my $add_000D = 0;
+    if ($ignored) {
+      $add_000D = 1;
+    } elsif (defined $next_state) {
+      my $next_state_def = $Data->{tokenizer}->{states}->{$next_state};
+      my $next_lf_rule = [grep { /\b000A\b/ } keys %{$next_state_def->{conds}}]->[0]
+          or die "|$next_state| has no rule for U+000A";
+      my $next_acts = $next_state_def->{conds}->{$next_lf_rule}->{actions};
+      my $next_ignored = 1;
+      for (@$next_acts) {
+        $next_ignored = 0;
+      }
+      if ($next_ignored) {
+        $add_000D = 1;
+      }
+    }
+    if ($add_000D) {
+      my $new_cond = join ' ', sort { $a cmp $b } (split / /, $lf_rule), '000D';
+      $Data->{tokenizer}->{states}->{$state}->{conds}->{$new_cond}
+          = delete $Data->{tokenizer}->{states}->{$state}->{conds}->{$lf_rule};
+    } else {
+      $next_state //= $state;
+      $need_000D_variant->{$next_state} = 1;
+      $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions} = [
+        (map {
+          if ($_->{break}) {
+            if (defined $_->{state}) {
+              my $n_state_def = $Data->{tokenizer}->{states}->{$_->{state}};
+              my $n_lf_rule = [grep { /\b000A\b/ } keys %{$n_state_def->{conds}}]->[0]
+                  or die "|$_->{state}| has no rule for U+000A";
+              my $n_acts = $n_state_def->{conds}->{$n_lf_rule}->{actions};
+              my $n_ignored = 1;
+              for (@$n_acts) {
+                $n_ignored = 0;
+              }
+              if ($n_ignored) {
+                $_;
+              } else {
+                $need_000D_variant->{$_->{state}} = 1;
+                +{%$_, state => "$_->{state} after 000D"};
+              }
+            } else {
+              die "|$state| |$lf_rule| has |break| but no |state|";
+            }
+          } elsif ($_->{type} eq 'switch') {
+            ();
+          } elsif ($Capturing->{$_->{type}}) {
+            +{value => "\x0A", %$_};
+          } else {
+            $_;
+          }
+        } @{$Data->{tokenizer}->{states}->{$state}->{conds}->{$lf_rule}->{actions}}),
+        {type => 'switch', state => "$next_state after 000D"},
+      ];
+    }
+  }
+  my $else_key = join ' ', sort { $a cmp $b } grep { $_ ne '000A' } keys %{$Data->{tokenizer}->{char_classes}}, 'ELSE';
+  $Data->{tokenizer}->{char_classes}->{'000D'}->{0x000D} = 1;
+  for my $state (keys %$need_000D_variant) {
+    $Data->{tokenizer}->{states}->{"$state after 000D"}->{conds}->{$else_key}->{actions} = [{type => 'switch', state => $state}, {type => 'reconsume'}];
+    $Data->{tokenizer}->{states}->{"$state after 000D"}->{conds}->{'000D'}->{actions} = [{type => 'switch', state => $state}, {type => 'reconsume'}];
+    $Data->{tokenizer}->{states}->{"$state after 000D"}->{conds}->{'000A'}->{actions} = [{type => 'switch', state => $state}];
+  }
+}
+
+## Expanding |reconsume|s
 
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
   for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
@@ -128,13 +225,13 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   for my $state (keys %{$Data->{tokenizer}->{states}}) {
     $Data->{tokenizer}->{states}->{$state}->{new_conds} = {%{$Data->{tokenizer}->{states}->{$state}->{conds}}};
     for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
-      my $acts = $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
+      my $acts = $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions} || [];
       if (@$acts and
           $acts->[-1]->{type} eq 'reconsume' and
           $acts->[-1]->{_conds}) {
         delete $Data->{tokenizer}->{states}->{$state}->{new_conds}->{$cond};
         for my $sub_cond (keys %{$acts->[-1]->{_conds}}) {
-          my $sub_acts = $Data->{tokenizer}->{states}->{$acts->[-1]->{_state}}->{orig_conds}->{$sub_cond}->{actions};
+          my $sub_acts = $Data->{tokenizer}->{states}->{$acts->[-1]->{_state}}->{orig_conds}->{$sub_cond}->{actions} || [];
           $Data->{tokenizer}->{states}->{$state}->{new_conds}->{join ' ', sort { $a cmp $b } keys %{$acts->[-1]->{_conds}->{$sub_cond}} }->{actions} = [@$acts[0..($#$acts-1)], @$sub_acts];
         }
         $changed = 1;
@@ -151,20 +248,12 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   }
 }
 
-my $Capturing = {
-  'set' => 1,
-  'set-to-attr' => 1,
-  'set-to-temp' => 1,
-  'append' => 1,
-  'emit-char' => 1,
-  'append-to-attr' => 1,
-  'append-to-temp' => 1,
-};
-
 sub actions_with_capture_index ($$) {
   my ($acts, $index) = @_;
   return [map { $Capturing->{$_->{type}} ? {%$_, capture_index => $index} : $_ } @$acts]
 } # actions_with_capture_index
+
+## Setting |repeat| flags
 
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
   COND: for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
@@ -216,6 +305,8 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   }
 }
 
+## Creating |compound_conds|
+
 #my @path = (map { [{$_ => 1}, $_] } keys %{$Data->{tokenizer}->{states}});
 my @path = (map { [{$_ => 1}, $_] } 'tag open state', 'before attribute name state');
 my @found;
@@ -235,7 +326,8 @@ while (@path) {
           $c->{next_state} eq 'before attribute name state') {
         push @found, [@$path, $cond, $c->{next_state}];
       } elsif ($c->{next_state} eq 'DOCTYPE state' or
-               $c->{next_state} =~ /character reference/) {
+               $c->{next_state} =~ /character reference/ or
+               $c->{next_state} =~ /000D/) {
         #
       } elsif ($path->[0]->{$c->{next_state}}) {
         push @found, [@$path, $cond, $c->{next_state}];
