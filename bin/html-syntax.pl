@@ -144,11 +144,53 @@ $Data->{adjusted_svg_element_names} = {
   my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer.json')->slurp;
   $Data->{tokenizer} = $tokenizer;
 
+  for ('local/html-tokenizer-charrefs-jump.json') {
+    my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ($_)->slurp;
+    for (keys %{$tokenizer->{states}}) {
+      $Data->{tokenizer}->{states}->{$_} = $tokenizer->{states}->{$_};
+    }
+  }
+
   my $tokenizer_charrefs = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer-charrefs.json')->slurp;
-  for (keys %{$tokenizer_charrefs->{states}}) {
-    $Data->{tokenizer}->{states}->{$_} = $tokenizer_charrefs->{states}->{$_};
+  for (
+    ['data state', undef],
+    ['RCDATA state', undef],
+    ['attribute value (double-quoted) state', '"'],
+    ['attribute value (single-quoted) state', "'"],
+    ['attribute value (unquoted) state', '<'],
+  ) {
+    my ($orig_state, $additional) = @$_;
+    for my $state (keys %{$tokenizer_charrefs->{states}}) {
+      for my $cond (keys %{$tokenizer_charrefs->{states}->{$state}->{conds}}) {
+        my $def = $tokenizer_charrefs->{states}->{$state}->{conds}->{$cond};
+        my $acts = [map {
+          if ($_->{type} eq 'SWITCH-BACK') {
+            +{%$_, type => 'switch', state => $orig_state};
+          } elsif ($_->{type} eq 'switch') {
+            +{%$_, state => "$orig_state - $_->{state}"};
+          } elsif ($_->{type} eq 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR') {
+            if ($orig_state =~ /attribute/) {
+              +{type => 'append-temp-to-attr', field => $_->{field}};
+            } else {
+              +{type => 'emit-temp'};
+            }
+          } else {
+            $_;
+          }
+        } @{$def->{actions}}];
+        if ($cond eq 'ALLOWED_CHAR') {
+          if (defined $additional) {
+            $cond = sprintf 'CHAR:%04X', ord $additional;
+          } else {
+            next;
+          }
+        }
+        $Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}->{$cond} = {%$def, actions => $acts};
+      }
+    }
   }
 }
+delete $Data->{tokenizer}->{states}->{'character reference in attribute value state'};
 
 print perl2json_bytes_for_record $Data;
 
