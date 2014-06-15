@@ -11,7 +11,8 @@ use Web::RDF::XML::Parser;
 my $Data = {};
 
 sub _v ($) {
-  return defined $_[0]->{uri} ? $_[0]->{uri} : defined $_[0]->{value} ? $_[0]->{value} : $_[0];
+  return defined $_[0]->{url} ? $_[0]->{url} :
+         defined $_[0]->{lexical} ? $_[0]->{lexical} : $_[0];
 } # _v
 
 my $Triples = [];
@@ -41,6 +42,10 @@ while (1) {
         }) {
       my $role = $triple->[0];
       $role =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
+
+      ## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
+      next if $role eq 'radio' and $super eq 'option';
+
       $new = 1 unless $Data->{roles}->{$role};
       $Data->{roles}->{$role}->{subclass_of}->{$super} = 1;
       $Data->{roles}->{$role}->{subclass_of}->{$_} = $Data->{roles}->{$super}->{subclass_of}->{$_} + 1
@@ -84,6 +89,12 @@ for my $triple (@$Triples) {
     $Data->{roles}->{$role}->{scope}->{$role2} = 1;
   }
 }
+
+## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
+$Data->{roles}->{radio}->{attrs}->{'aria-posinset'} ||= {};
+$Data->{roles}->{radio}->{attrs}->{'aria-setsize'} ||= {};
+$Data->{roles}->{tab}->{attrs}->{'aria-posinset'} ||= {};
+$Data->{roles}->{tab}->{attrs}->{'aria-setsize'} ||= {};
 
 for my $role (keys %{$Data->{roles}}) {
   for my $super (keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
@@ -166,6 +177,7 @@ my $ARIAValueTypes = {
   'string' => 'any',
   'token' => 'enumerated',
   'token list' => 'unordered set of unique space-separated tokens', ## Spec is vaguer
+  'URI' => 'URL',
 };
 
 ## <http://www.w3.org/WAI/PF/aria/complete#index_state_prop>
@@ -211,6 +223,7 @@ $Data->{attrs}->{$_}->{is_state} = 1
     aria-valuemin number
     aria-valuenow number
     aria-valuetext string
+    aria-describedat URI
   );
   while (@type) {
     my $name = shift @type;
@@ -257,14 +270,23 @@ $Data->{attrs}->{'aria-live'}->{tokens}->{$_} = {}
     for qw(off polite assertive);
 $Data->{attrs}->{'aria-live'}->{default} = 'off';
 $Data->{attrs}->{'aria-orientation'}->{tokens}->{$_} = {}
-    for qw(vertical horizontal);
-$Data->{attrs}->{'aria-orientation'}->{default} = 'horizontal';
+    for qw(vertical horizontal
+           undefined);
 $Data->{attrs}->{'aria-relevant'}->{tokens}->{$_} = {}
     for qw(additions removals text all);
 $Data->{attrs}->{'aria-relevant'}->{default} = 'additions text';
 $Data->{attrs}->{'aria-sort'}->{tokens}->{$_} = {}
     for qw(ascending descending none other);
 $Data->{attrs}->{'aria-sort'}->{default} = 'none';
+
+## <http://rawgit.com/w3c/aria/master/spec/aria.html#aria-orientation>
+#$Data->{attrs}->{'aria-orientation'}->{default} = 'horizontal'; # 1.0
+$Data->{attrs}->{'aria-orientation'}->{default} = 'undefined'; # 1.1
+
+$Data->{attrs}->{'aria-describedat'}->{preferred} = {type => 'html_element', name => 'a'};
+
+## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
+$Data->{roles}->{none} = $Data->{roles}->{presentation};
 
 print perl2json_bytes_for_record $Data;
 
