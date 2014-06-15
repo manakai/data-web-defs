@@ -530,6 +530,25 @@ sub modify_actions (&) {
 
 {
   modify_actions {
+    my ($acts => $new_acts, $state, $cond) = @_;
+    for (@$acts) {
+      if ($_->{type} eq 'error') {
+        my $name = $state;
+        $name =~ s/ state$//;
+        $name .= '-' . $cond;
+        $name =~ s/CHAR://;
+        $name =~ s/WS:[A-Z]+/WS/;
+        $name = lc $name;
+        $name =~ s/([^a-z0-9]+)/-/g;
+        $name = 'EOF' if $name =~ /-eof$/;
+        $name = 'NULL' if $name =~ /-0000$/;
+        $_->{name} = $name;
+      }
+    }
+    @$new_acts = @$acts;
+  };
+
+  modify_actions {
     my ($acts => $new_acts, $state) = @_;
     if (@$acts and $acts->[-1]->{type} eq 'RECONSUME-IF-EOF') {
       pop @$acts;
