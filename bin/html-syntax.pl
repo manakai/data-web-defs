@@ -26,7 +26,6 @@ $Data->{adjusted_svg_attr_names} = {
   clippathunits => 'clipPathUnits',
   diffuseconstant => 'diffuseConstant',
   edgemode => 'edgeMode',
-  externalresourcesrequired => 'externalResourcesRequired',
   filterunits => 'filterUnits',
   glyphref => 'glyphRef',
   gradienttransform => 'gradientTransform',
