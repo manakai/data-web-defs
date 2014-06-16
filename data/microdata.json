@@ -1633,7 +1633,7 @@
             }
          },
          "endTime" : {
-            "desc" : "When the Action was performed: end time. This is for actions that span a period of time. e.g. John wrote a book from January to *December*.",
+            "desc" : "The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. e.g. John wrote a book from January to *December*.\u000A\u000ANote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.\u000A",
             "value" : "schema.org datetime"
          },
          "instrument" : {
@@ -1684,7 +1684,7 @@
             }
          },
          "startTime" : {
-            "desc" : "When a FoodEstablishmentReservation starts or an Action was performed: start time. This is for actions that span a period of time. e.g. John wrote a book from *January* to December.",
+            "desc" : "The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. e.g. John wrote a book from *January* to December.\u000A\u000ANote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.\u000A",
             "value" : "schema.org datetime"
          },
          "target" : {
@@ -2902,6 +2902,10 @@
       "subclass_of" : {
          "http://schema.org/DataType" : 1
       },
+      "superclass_of" : {
+         "http://schema.org/False" : 1,
+         "http://schema.org/True" : 1
+      },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
@@ -3525,7 +3529,8 @@
       "desc" : "A class, also often called a 'Type'; equivalent to rdfs:Class.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/Thing" : 1
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -4493,6 +4498,15 @@
             "desc" : "The predominant type or kind characterizing the learning resource. For example, 'presentation', 'handout'.",
             "value" : "text"
          },
+         "license" : {
+            "desc" : "A license document that applies to this content, typically indicated by URL.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
          "mentions" : {
             "desc" : "Indicates that the CreativeWork contains a reference to, but is not necessarily about a concept.",
             "is_url" : 1,
@@ -4784,11 +4798,13 @@
          "http://schema.org/Boolean" : 1,
          "http://schema.org/Date" : 1,
          "http://schema.org/DateTime" : 1,
+         "http://schema.org/False" : 2,
          "http://schema.org/Float" : 2,
          "http://schema.org/Integer" : 2,
          "http://schema.org/Number" : 1,
          "http://schema.org/Text" : 1,
          "http://schema.org/Time" : 1,
+         "http://schema.org/True" : 2,
          "http://schema.org/URL" : 2
       },
       "use_itemid" : 1,
@@ -6145,10 +6161,6 @@
          "urlTemplate" : {
             "desc" : "An url template (RFC6570) that will be used to construct the target of the execution of the action.",
             "value" : "text"
-         },
-         "valueName" : {
-            "desc" : "Indicates the name of the PropertyValueSpecification to be used in URL templates and form encoding in a manner analogous to HTML's input@name.",
-            "value" : "text"
          }
       },
       "spec" : "SCHEMAORG",
@@ -6366,7 +6378,7 @@
             "value" : "schema.org duration"
          },
          "endDate" : {
-            "desc" : "The end date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "eventStatus" : {
@@ -6423,7 +6435,7 @@
             "value" : "schema.org date"
          },
          "startDate" : {
-            "desc" : "The start date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "subEvent" : {
@@ -6551,7 +6563,7 @@
             }
          },
          "diet" : {
-            "desc" : "A sub property of instrument. The died used in this action.",
+            "desc" : "A sub property of instrument. The diet used in this action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6560,7 +6572,7 @@
             }
          },
          "distance" : {
-            "desc" : "A sub property of asset. The distance travelled.",
+            "desc" : "The distance travelled, e.g. exercising or travelling.",
             "value" : "schema.org distance"
          },
          "exercisePlan" : {
@@ -6954,7 +6966,7 @@
       "desc" : "A food-related business.",
       "props" : {
          "acceptsReservations" : {
-            "desc" : "Does the establishment accept reservations?",
+            "desc" : "Indicates whether a FoodEstablishment accepts reservations. Values can be Boolean, an URL at which reservations can be made or (for backwards compatibility) the strings Yes or No.",
             "value" : "text"
          },
          "menu" : {
@@ -6989,6 +7001,10 @@
    "http://schema.org/FoodEstablishmentReservation" : {
       "desc" : "A reservation to dine at a food-related business.Note: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations.",
       "props" : {
+         "endTime" : {
+            "desc" : "The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. e.g. John wrote a book from January to *December*.\u000A\u000ANote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.\u000A",
+            "value" : "schema.org datetime"
+         },
          "partySize" : {
             "desc" : "Number of people the reservation should accommodate.",
             "is_url" : 1,
@@ -7000,7 +7016,7 @@
             "value" : "integer"
          },
          "startTime" : {
-            "desc" : "When a FoodEstablishmentReservation starts or an Action was performed: start time. This is for actions that span a period of time. e.g. John wrote a book from *January* to December.",
+            "desc" : "The startTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to start. For actions that span a period of time, when the action was performed. e.g. John wrote a book from *January* to December.\u000A\u000ANote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.\u000A",
             "value" : "schema.org datetime"
          }
       },
@@ -7742,6 +7758,7 @@
          "http://schema.org/BusinessAudience" : 2,
          "http://schema.org/BusinessEntityType" : 2,
          "http://schema.org/BusinessFunction" : 2,
+         "http://schema.org/Class" : 1,
          "http://schema.org/ContactPoint" : 2,
          "http://schema.org/ContactPointOption" : 2,
          "http://schema.org/CreditCard" : 3,
@@ -7791,6 +7808,7 @@
          "http://schema.org/OpeningHoursSpecification" : 2,
          "http://schema.org/Order" : 1,
          "http://schema.org/OrderStatus" : 2,
+         "http://schema.org/OrganizationRole" : 2,
          "http://schema.org/OwnershipInfo" : 2,
          "http://schema.org/ParcelDelivery" : 1,
          "http://schema.org/ParcelService" : 3,
@@ -7798,12 +7816,14 @@
          "http://schema.org/PaymentChargeSpecification" : 3,
          "http://schema.org/PaymentMethod" : 2,
          "http://schema.org/PeopleAudience" : 2,
+         "http://schema.org/PerformanceRole" : 2,
          "http://schema.org/Permit" : 1,
          "http://schema.org/PhysicalActivityCategory" : 2,
          "http://schema.org/PhysicalExam" : 2,
          "http://schema.org/PostalAddress" : 3,
          "http://schema.org/PriceSpecification" : 2,
          "http://schema.org/ProgramMembership" : 1,
+         "http://schema.org/Property" : 1,
          "http://schema.org/PropertyValueSpecification" : 1,
          "http://schema.org/QualitativeValue" : 2,
          "http://schema.org/QuantitativeValue" : 2,
@@ -7813,6 +7833,7 @@
          "http://schema.org/Reservation" : 1,
          "http://schema.org/ReservationPackage" : 2,
          "http://schema.org/ReservationStatusType" : 2,
+         "http://schema.org/Role" : 1,
          "http://schema.org/Seat" : 1,
          "http://schema.org/Service" : 1,
          "http://schema.org/ServiceChannel" : 1,
@@ -10498,7 +10519,7 @@
             }
          },
          "musicGroupMember" : {
-            "desc" : "A member of the music group—for example, John, Paul, George, or Ringo.",
+            "desc" : "A member of a music group—for example, John, Paul, George, or Ringo.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11573,12 +11594,22 @@
             }
          },
          "member" : {
-            "desc" : "The individual with the membership.",
+            "desc" : "A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals.",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/Organization" : 1,
                   "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "memberOf" : {
+            "desc" : "An Organization (or ProgramMembership) to which this Person or Organization belongs.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/ProgramMembership" : 1
                }
             }
          },
@@ -11802,6 +11833,23 @@
          "http://schema.org/VeterinaryCare" : 3,
          "http://schema.org/WholesaleStore" : 3,
          "http://schema.org/Winery" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/OrganizationRole" : {
+      "desc" : "A subclass of Role used to describe roles within organizations.",
+      "props" : {
+         "namedPosition" : {
+            "desc" : "A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.",
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Role" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12244,6 +12292,23 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/PerformanceRole" : {
+      "desc" : "A PerformanceRole is a Role that some entity places with regard to a theatrical performance, e.g. in a Movie, TVSeries etc.",
+      "props" : {
+         "characterName" : {
+            "desc" : "The name of a character played in some acting or performing role, i.e. in a PerformanceRole.",
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Role" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/PerformingArtsTheater" : {
       "desc" : "A theater or other performing art center.",
       "spec" : "SCHEMAORG",
@@ -12536,11 +12601,12 @@
             }
          },
          "memberOf" : {
-            "desc" : "An organization to which the person belongs.",
+            "desc" : "An Organization (or ProgramMembership) to which this Person or Organization belongs.",
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Organization" : 1
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/ProgramMembership" : 1
                }
             }
          },
@@ -13236,7 +13302,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PlayAction" : {
-      "desc" : "The act of playing/exercising/training/performing for enjoyment, leisure, recreation, competion or exercise.",
+      "desc" : "The act of playing/exercising/training/performing for enjoyment, leisure, recreation, Competition or exercise.",
       "props" : {
          "audience" : {
             "desc" : "The intended audience of the item, i.e. the group for whom the item was created.",
@@ -13780,7 +13846,18 @@
             }
          },
          "member" : {
-            "desc" : "The individual with the membership.",
+            "desc" : "A member of an Organization or a ProgramMembership. Organizations can be members of organizations; ProgramMembership is typically for individuals.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "members" : {
+            "desc" : "A member of this organization (legacy spelling; see singular form, member).",
+            "discouraged" : 1,
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13818,6 +13895,15 @@
                }
             }
          },
+         "inverseOf" : {
+            "desc" : "Relates a property to a property that is its inverse. Inverse properties relate the same pairs of items to each other, but in reversed direction. For example, the 'alumni' and 'alumniOf' properties are inverseOf each other. Some properties don't have explicit inverses; in these situations RDFa and JSON-LD syntax for reverse properties can be used.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Property" : 1
+               }
+            }
+         },
          "rangeIncludes" : {
             "desc" : "Relates a property to a class that constitutes (one of) the expected type(s) for values of the property.",
             "is_url" : 1,
@@ -13826,11 +13912,21 @@
                   "http://schema.org/Class" : 1
                }
             }
+         },
+         "supercededBy" : {
+            "desc" : "Relates a property to one that supercedes it.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Property" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/Thing" : 1
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -13845,14 +13941,15 @@
                "types" : {
                   "http://schema.org/Thing" : 1
                }
-            }
+            },
+            "value" : "text"
          },
          "maxValue" : {
-            "desc" : "Specifies a regular expression for testing literal values according to the HTML spec.",
+            "desc" : "The upper value of some characteristic or property.",
             "value" : "integer"
          },
          "minValue" : {
-            "desc" : "Specifies a regular expression for testing literal values according to the HTML spec.",
+            "desc" : "The lower value of some characteristic or property.",
             "value" : "integer"
          },
          "multipleValues" : {
@@ -13864,7 +13961,7 @@
             "is_url" : 1
          },
          "stepValue" : {
-            "desc" : "Specifies a regular expression for testing literal values according to the HTML spec.",
+            "desc" : "The stepValue attribute indicates the granularity that is expected (and required) of the value in a PropertyValueSpecification.",
             "value" : "integer"
          },
          "valueMaxLength" : {
@@ -13874,6 +13971,10 @@
          "valueMinLength" : {
             "desc" : "Specifies the minimum allowed range for number of characters in a literal value.",
             "value" : "integer"
+         },
+         "valueName" : {
+            "desc" : "Indicates the name of the PropertyValueSpecification to be used in URL templates and form encoding in a manner analogous to HTML's input@name.",
+            "value" : "text"
          },
          "valuePattern" : {
             "desc" : "Specifies a regular expression for testing literal values according to the HTML spec.",
@@ -14037,11 +14138,11 @@
       "desc" : " A point value or interval for product characteristics and other purposes.",
       "props" : {
          "maxValue" : {
-            "desc" : "Specifies a regular expression for testing literal values according to the HTML spec.",
+            "desc" : "The upper value of some characteristic or property.",
             "value" : "integer"
          },
          "minValue" : {
-            "desc" : "Specifies a regular expression for testing literal values according to the HTML spec.",
+            "desc" : "The lower value of some characteristic or property.",
             "value" : "integer"
          },
          "unitCode" : {
@@ -18200,7 +18301,7 @@
             "value" : "integer"
          },
          "suggestedAnswer" : {
-            "desc" : "An answer (possibly one of several, possibly incorrect) to a Question, e.g. on a Question/Answer site, often collected in a QAPage.",
+            "desc" : "An answer (possibly one of several, possibly incorrect) to a Question, e.g. on a Question/Answer site.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19217,6 +19318,30 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/Role" : {
+      "desc" : "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occured during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'.\u000A    ",
+      "props" : {
+         "endDate" : {
+            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         },
+         "startDate" : {
+            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/OrganizationRole" : 1,
+         "http://schema.org/PerformanceRole" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/RoofingContractor" : {
       "desc" : "A roofing contractor.",
       "spec" : "SCHEMAORG",
@@ -19350,7 +19475,7 @@
       "desc" : "A TV or radio season.",
       "props" : {
          "endDate" : {
-            "desc" : "The end date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "episode" : {
@@ -19412,7 +19537,7 @@
             "value" : "integer"
          },
          "startDate" : {
-            "desc" : "The start date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "trailer" : {
@@ -19589,7 +19714,7 @@
             }
          },
          "endDate" : {
-            "desc" : "The end date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "episode" : {
@@ -19667,7 +19792,7 @@
             }
          },
          "startDate" : {
-            "desc" : "The start date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "trailer" : {
@@ -20455,7 +20580,7 @@
       "desc" : "Season dedicated to TV broadcast and associated online delivery.",
       "props" : {
          "endDate" : {
-            "desc" : "The end date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "episode" : {
@@ -20504,7 +20629,7 @@
             "value" : "integer"
          },
          "startDate" : {
-            "desc" : "The start date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "trailer" : {
@@ -20568,7 +20693,7 @@
             }
          },
          "endDate" : {
-            "desc" : "The end date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "episode" : {
@@ -20642,7 +20767,7 @@
             }
          },
          "startDate" : {
-            "desc" : "The start date and time of the event or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "trailer" : {
@@ -20993,7 +21118,7 @@
          "http://schema.org/City" : 3,
          "http://schema.org/CityHall" : 4,
          "http://schema.org/CivicStructure" : 2,
-         "http://schema.org/Class" : 1,
+         "http://schema.org/Class" : 2,
          "http://schema.org/Clip" : 2,
          "http://schema.org/ClothingStore" : 4,
          "http://schema.org/Code" : 2,
@@ -21258,6 +21383,7 @@
          "http://schema.org/OrderAction" : 3,
          "http://schema.org/OrderStatus" : 3,
          "http://schema.org/Organization" : 1,
+         "http://schema.org/OrganizationRole" : 3,
          "http://schema.org/OrganizeAction" : 2,
          "http://schema.org/OutletStore" : 4,
          "http://schema.org/OwnershipInfo" : 3,
@@ -21276,6 +21402,7 @@
          "http://schema.org/PaymentMethod" : 3,
          "http://schema.org/PeopleAudience" : 3,
          "http://schema.org/PerformAction" : 3,
+         "http://schema.org/PerformanceRole" : 3,
          "http://schema.org/PerformingArtsTheater" : 3,
          "http://schema.org/PerformingGroup" : 2,
          "http://schema.org/Permit" : 2,
@@ -21308,7 +21435,7 @@
          "http://schema.org/ProfessionalService" : 3,
          "http://schema.org/ProfilePage" : 3,
          "http://schema.org/ProgramMembership" : 2,
-         "http://schema.org/Property" : 1,
+         "http://schema.org/Property" : 2,
          "http://schema.org/PropertyValueSpecification" : 2,
          "http://schema.org/PsychologicalTreatment" : 3,
          "http://schema.org/PublicSwimmingPool" : 4,
@@ -21352,6 +21479,7 @@
          "http://schema.org/Review" : 2,
          "http://schema.org/ReviewAction" : 3,
          "http://schema.org/RiverBodyOfWater" : 4,
+         "http://schema.org/Role" : 2,
          "http://schema.org/RoofingContractor" : 4,
          "http://schema.org/RsvpAction" : 5,
          "http://schema.org/SaleEvent" : 2,
@@ -21810,7 +21938,7 @@
       "desc" : "The act of traveling from an fromLocation to a destination by a specified mode of transport, optionally with participants.",
       "props" : {
          "distance" : {
-            "desc" : "A sub property of asset. The distance travelled.",
+            "desc" : "The distance travelled, e.g. exercising or travelling.",
             "value" : "schema.org distance"
          }
       },
