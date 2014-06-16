@@ -461,7 +461,7 @@ sub parse_switch ($) {
           ($actions) = parse_action _n $n->text_content;
         }
         for (@$switch_conds) {
-          push @{$conds->{$_}->{actions} ||= []}, @$actions;
+          push @{$conds->{$_}->{actions} ||= []}, map { +{%$_} } @$actions;
         }
       } # @node
       $was_dd = 1;
