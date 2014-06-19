@@ -61,6 +61,8 @@ my $Data = {};
   }
   $Data->{input} = $json->{input};
   $Data->{input}->{attrs} = delete $Data->{input}->{content_attrs};
+  push @{$Data->{_errors} ||= []}, $json->{_errors}
+      if @{$json->{_errors} or []};
 }
 
 for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
