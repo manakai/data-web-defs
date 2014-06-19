@@ -39,7 +39,11 @@ for my $f (($d->children)) {
     next unless $heading;
     next unless $heading->id =~ /^the-([0-9a-z_-]+)-element$/; # h1-h6 do not match
     my $local_name = $1;
-    my $props = {id => "the-$local_name-element"};
+    if ($local_name eq 'source-element-when-used-with-the-picture') {
+      $local_name = 'source';
+    }
+    my $props = $Data->{elements}->{$local_name} ||= {};
+    $props->{id} ||= "the-$local_name-element";
     my $field;
     for (@{$dl->children}) {
       if ($_->local_name eq 'dt') {
@@ -67,8 +71,13 @@ for my $f (($d->children)) {
                 $code->local_name eq 'code' and
                 $code->title =~ /^(?:attr|handler)-/) {
               my $attr = $code->text_content;
-              $props->{attrs}->{$attr}->{id} = $code->title;
-              $props->{attrs}->{$attr}->{desc} = [split /\x{2014}\s*|has special semantics on this element:\s*/, $text, 2]->[1];
+              if (not $props->{attrs}->{$attr}) {
+                $props->{attrs}->{$attr}->{id} = $code->title;
+                $props->{attrs}->{$attr}->{desc} = [split /\x{2014}\s*|has special semantics on this element:\s*/, $text, 2]->[1];
+              } else {
+                push @{$Data->{_errors} ||= []},
+                    ['attrs', $local_name, 'Duplicate', $_->inner_html];
+              }
             } else {
               push @{$Data->{_errors} ||= []},
                   ['attrs', $local_name, $_->inner_html];
@@ -92,6 +101,8 @@ for my $f (($d->children)) {
                    $text =~ /^Otherwise/) {
             $props->{categories}->{_complex} = 1;
           } elsif ($text eq 'None.') {
+            #
+          } elsif ($text eq 'Same as for the source element.') {
             #
           } else {
             push @{$Data->{_errors} ||= []},
@@ -117,6 +128,8 @@ for my $f (($d->children)) {
                    $text =~ /Zero or more/ or
                    $text =~ /that is not/) {
             $props->{content_model}->{_complex} = 1;
+          } elsif ($text eq 'Same as for the source element.') {
+            #
           } else {
             push @{$Data->{_errors} ||= []},
                 ['content_model', $local_name, $_->inner_html];
@@ -138,7 +151,6 @@ for my $f (($d->children)) {
         } # $field
       }
     }
-    $Data->{elements}->{$local_name} = $props;
   } # dl.element
 
   for my $pre (@{$doc->query_selector_all ('pre.idl')}) {
