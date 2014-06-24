@@ -201,7 +201,7 @@ data/http-methods.json: \
     local/iana-rtsp.xml local/iana-sip.xml \
     bin/http-methods.pl
 	$(PERL) bin/http-methods.pl > $@
-data/headers.json: bin/headers.pl src/http-headers.txt
+data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------

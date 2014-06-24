@@ -74,6 +74,99 @@ for (keys %{$Data->{headers}}) {
          $header->{http}->{payload_processing};
 }
 
+my $protocol_name;
+for (split /\x0D?\x0A/, $src_path->child ('http-protocols.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*(\S+)\s*$/) {
+    my $name = $1;
+    $protocol_name = $name;
+    $Data->{protocols}->{$protocol_name} ||= {};
+    next;
+  } elsif (/\S/) {
+    die "Protocol not defined at first line" unless defined $protocol_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $Data->{protocols}->{$protocol_name}->{spec} = "RFC$1";
+      $Data->{protocols}->{$protocol_name}->{id} = $2;
+    } else {
+      $Data->{protocols}->{$protocol_name}->{url} = $url;
+    }
+  } elsif (m{^(upgrade|start-line|via|server-protocol)\s*$}) {
+    my $key = $1;
+    $key =~ s/-/_/g;
+    $Data->{protocols}->{$protocol_name}->{$key} = 1;
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
+
+my $coding_name;
+for (split /\x0D?\x0A/, $src_path->child ('http-transfer-codings.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*(\S+)\s*$/) {
+    my $name = $1;
+    $coding_name = $name;
+    $Data->{codings}->{$coding_name}->{transfer}->{TE} = 1;
+    $Data->{codings}->{$coding_name}->{transfer}->{'Transfer-Encoding'} = 1;
+    next;
+  } elsif (/\S/) {
+    die "Coding not defined at first line" unless defined $coding_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $Data->{codings}->{$coding_name}->{transfer}->{spec} = "RFC$1";
+      $Data->{codings}->{$coding_name}->{transfer}->{id} = $2;
+    } else {
+      $Data->{codings}->{$coding_name}->{transfer}->{url} = $url;
+    }
+  } elsif (/^deprecated\s*->\s*(\S+)$/) {
+    $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
+    $Data->{codings}->{$coding_name}->{transfer}->{preferred_name} = $1;
+  } elsif (/^not-in-TE$/) {
+    delete $Data->{codings}->{$coding_name}->{transfer}->{TE};
+  } elsif (/^TE-only$/) {
+    delete $Data->{codings}->{$coding_name}->{transfer}->{'Transfer-Encoding'};
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
+
+undef $coding_name;
+for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*(\S+)\s*$/) {
+    my $name = $1;
+    $coding_name = $name;
+    $Data->{codings}->{$coding_name}->{content} ||= {};
+    next;
+  } elsif (/\S/) {
+    die "Coding not defined at first line" unless defined $coding_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $Data->{codings}->{$coding_name}->{content}->{spec} = "RFC$1";
+      $Data->{codings}->{$coding_name}->{content}->{id} = $2;
+    } else {
+      $Data->{codings}->{$coding_name}->{content}->{url} = $url;
+    }
+  } elsif (/^deprecated\s*->\s*(\S+)$/) {
+    $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
+    $Data->{codings}->{$coding_name}->{content}->{preferred_name} = $1;
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
