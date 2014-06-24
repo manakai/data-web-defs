@@ -1,0 +1,158 @@
+headers.json
+~~~~~~~~~~~~
+
+The file contains data on headers in various RFC 822 derived message
+formats.
+
+* Structure
+
+The file contains a JSON object with following name/value pair:
+
+  headers [object]
+
+    Names are header names in lowercase (without |:| suffix) and
+    values are their descriptions.  Values are JSON objects with
+    following name/value pairs:
+
+      http [object?]
+
+        Descriptions for the header, when used in HTTP.  The value is
+        a JSON object with following name/value pairs:
+
+          authentication [boolean]
+
+            Whether the header is classified as authentication
+            according to
+            <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          connection_option [boolean]
+
+            Whether the header name is used as a |connection-option|
+            (i.e. a value in the |Connection:| header) or not.
+
+          id [id-in-spec?]
+
+            The ID in the relevant specification, if any.
+
+          message_framing [boolean]
+
+            Whether the header is used for message framing according
+            to <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          multiple [boolean]
+
+            Whether the header can be used multiple times in a message
+            or not.
+
+          not_for_http10 [boolean]
+
+            Whether the header is allowed in HTTP/1.0 or not.
+
+          not_for_trailer [boolean]
+
+            Whether the header cannot be used in trailers according to
+            <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          payload_processing [boolean]
+
+            Whether the header is used to determine how to process the
+            payload according to
+            <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          request [object?]
+
+            Conformance of the existence of the header in an HTTP
+            request message.  The effective value of this field for an
+            HTTP request message whose method is /method/ can be
+            obtained by following steps:
+
+              1. If there is a name/value pair whose name is /method/,
+                 return the value and abort these steps.
+
+              2. Otherwise, if there is a name/value pair whose name
+                 is |*|, return the value and abort these steps.
+
+              3. Otherwise, return nothing.
+
+            If the return value is one of RFC 2119 keywords |MUST|,
+            |MUST NOT|, |SHOULD|, |SHOULD NOT|, or |MAY|, it is the
+            conformance of the header.  Otherwise, if the return value
+            is the empty string, the conformance cannot be represented
+            as a value or the conformance is not known.  Otherwise,
+            the header is not known to be applicable to request
+            messages.
+
+          request_modifier [boolean]
+
+            Whether the header is classified as request modifier
+            according to
+            <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          response [object?]
+
+            Conformance of the existence of the header in an HTTP
+            response message.  The effective value of this field for
+            an HTTP response message whose status code is three digits
+            |/l//m//n/| can be obtained by following steps:
+
+              1. If there is a name/value pair whose name is
+                 |/l//m//n/|, return the value and abort these steps.
+
+              2. Otherwise, if there is a name/value pair whose name
+                 is |/l/xx|, return the value and abort these steps.
+
+              3. Otherwise, if there is a name/value pair whose name
+                 is |xxx|, return the value and abort these steps.
+
+              4. Otherwise, return nothing.
+
+            If the return value is one of RFC 2119 keywords |MUST|,
+            |MUST NOT|, |SHOULD|, |SHOULD NOT|, or |MAY|, it is the
+            conformance of the header.  Otherwise, if the return value
+            is the empty string, the conformance cannot be represented
+            as a value or the conformance is not known.  Otherwise,
+            the header is not known to be applicable to response
+            messages.
+
+          response_control_data [boolean]
+
+            Whether the header is classified as response control data
+            according to
+            <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          routing [boolean]
+
+            Whether the header is used for routing according to
+            <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
+            not.
+
+          spec [spec?]
+
+            The relevant specification, if any.
+
+          value_is_list [string?]
+
+            If the value is |*|, the value of the header is defined as
+            a list of zero or more values (i.e. by ABNF |#| syntax).
+            Otherwise, if the value is |+|, the value of the header is
+            defined as a list of one or more values (i.e. by ABNF |1#|
+            syntax).  Otherwise, the value of the header is not
+            defined as a list.
+
+          value_type [value-type?]
+
+            The type of the header value, if known and representable
+            as a value type.  If the header value is defined as a
+            list, this filed has the type of its items.
+
+      name [string]
+
+        The name of the header in canonical form (i.e. the form shown
+        in the relevant specification, if any, or titlecased form).
+

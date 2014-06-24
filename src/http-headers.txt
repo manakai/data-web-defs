@@ -1,0 +1,96 @@
+* Transfer-Encoding
+
+spec https://tools.ietf.org/html/rfc7230#section-3.3.1
+value 1#transfer-coding
+HTTP/1.1
+request
+response
+1xx MUST NOT
+204 MUST NOT
+message-framing
+
+* Content-Length
+
+spec https://tools.ietf.org/html/rfc7230#section-3.3.2
+value 1*DIGIT
+request
+response
+1xx MUST NOT
+204 MUST NOT
+message-framing
+
+* TE
+
+spec https://tools.ietf.org/html/rfc7230#section-4.3
+value #t-codings
+connection-option
+request
+response
+
+* Trailer
+
+spec https://tools.ietf.org/html/rfc7230#section-4.4
+value 1#field-name
+request
+response
+payload-processing
+
+* Host
+
+spec https://tools.ietf.org/html/rfc7230#section-5.4
+request
+??? MUST
+routing
+
+* Via
+
+spec https://tools.ietf.org/html/rfc7230#section-5.7.1
+value 1#
+request
+response
+
+## Implied by section title in spec
+routing
+
+* Connection
+
+spec https://tools.ietf.org/html/rfc7230#section-6.1
+value 1#connection-option
+request
+response
+
+* close
+
+spec https://tools.ietf.org/html/rfc7230#section-6.1
+connection-option
+
+* Upgrade
+
+spec https://tools.ietf.org/html/rfc7230#section-6.7
+value 1#protocol
+request
+response
+connection-option
+101 MUST
+426 MUST
+HTTP/1.1
+
+* Content-Encoding
+
+payload-processing
+
+* Content-Type
+
+payload-processing
+
+* Content-Range
+
+payload-processing
+
+* Trailer
+
+payload-processing
+
+# XXX request_modifier (e.g., controls and conditionals in Section 5 of [RFC7231])
+# XXX authentication (e.g., see [RFC7235] and [RFC6265])
+# XXX response_control_data (e.g., see Section 7.1 of [RFC7231])

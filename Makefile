@@ -172,7 +172,8 @@ data/langtags.json: bin/langtags.pl \
 
 ## ------ HTTP ------
 
-all-http: data/http-status-codes.json data/http-methods.json
+all-http: data/http-status-codes.json data/http-methods.json \
+    data/headers.json
 
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
@@ -200,6 +201,8 @@ data/http-methods.json: \
     local/iana-rtsp.xml local/iana-sip.xml \
     bin/http-methods.pl
 	$(PERL) bin/http-methods.pl > $@
+data/headers.json: bin/headers.pl src/http-headers.txt
+	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
 
