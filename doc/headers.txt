@@ -6,7 +6,46 @@ formats.
 
 * Structure
 
-The file contains a JSON object with following name/value pair:
+The file contains a JSON object with following name/value pairs:
+
+  codings [object]
+
+    Names are coding names in lowercase and values are their
+    descriptions.  Values are JSON objects with following name/value
+    pairs:
+
+      content, transfer [object?]
+
+        Descriptions for the content-coding or transfer-coding,
+        respectively, if applicable.  Values are JSON objects with
+        following name/value pairs:
+
+          deprecated [boolean]
+
+            Whether the coding is deprecated or not.
+
+          id [id-in-spec?]
+
+            The ID in the relevant specification, if any.
+
+          preferred_name [string?]
+
+            The preferred name of the coding, if the coding name is
+            deprecated, in lowercase.
+
+          spec [spec?]
+
+            The relevant specification, if any.
+
+          TE [boolean]
+
+            Whether the coding can be specified in the HTTP |TE|
+            header or not.
+
+          Transfer-Encoding [boolean]
+
+            Whether the coding can be specified in the HTTP
+            |Transfer-Encoding| header or not.
 
   headers [object]
 
@@ -156,3 +195,47 @@ The file contains a JSON object with following name/value pair:
         The name of the header in canonical form (i.e. the form shown
         in the relevant specification, if any, or titlecased form).
 
+  protocol [object]
+
+    Names are protocols (name and optional version) and values are
+    their descriptions.  Values are JSON objects with following
+    name/value pairs:
+
+      id [id-in-spec?]
+
+        The ID in the relevant specification, if any.
+
+      server_protocol [boolean]
+
+        Whether the protocol is used in CGI |SERVER_PROTOCOL|
+        meta-variable or not.
+
+      spec [spec?]
+
+        The relevant specification, if any.
+
+      start_line [boolean]
+
+        Whether the protocol is used in start-line (or equivalent) in
+        HTTP or derived protocols.
+
+      upgrade [boolean]
+
+        Whether the protocol is used in HTTP |Upgrade:| header or not.
+
+      via [boolean]
+
+        Whether the protocol is used in the protocol field of the
+        |Via:| header or not.
+
+* Sources
+
+RFC 7230, Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and
+Routing <https://tools.ietf.org/html/rfc7230>.
+
+SuikaWiki:protocol <http://wiki.suikawiki.org/n/protocol$22089>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of the JSON file.
