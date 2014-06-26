@@ -38,7 +38,10 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
       $Data->{headers}->{$header_name}->{http}->{multiple} = 1;
     }
     if ($type =~ /^([a-z0-9-]+)$/) {
-      $Data->{headers}->{$header_name}->{http}->{value_type} = $type;
+      $Data->{headers}->{$header_name}->{http}->{value_type} = {
+        'media-type' => 'MIME type',
+        'language-tag' => 'language tag',
+      }->{$type} || $type;
     } elsif ($type =~ /^1\*DIGIT$/) {
       $Data->{headers}->{$header_name}->{http}->{value_type} = 'non-negative integer';
     } elsif (length $type) {
@@ -54,7 +57,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
     $Data->{headers}->{$header_name}->{http}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing|representation-metadata|payload)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $Data->{headers}->{$header_name}->{http}->{$key} = 1;
@@ -65,6 +68,13 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
 
 for (keys %{$Data->{headers}}) {
   my $header = $Data->{headers}->{$_};
+
+  ## Not explicitly specified...
+  $header->{http}->{payload_processing} = 1
+      if $header->{http}->{representation_metadata} or
+         $header->{http}->{payload};
+
+  ## Per RFC 7230 Trailer:'s definition
   $header->{http}->{not_for_trailer} = 1
       if $header->{http}->{message_framing} or
          $header->{http}->{routing} or
