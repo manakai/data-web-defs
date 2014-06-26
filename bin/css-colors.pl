@@ -150,6 +150,9 @@ our $X11Colors = {
                   'whitesmoke' =>	[0xf5, 0xf5, 0xf5],
                   'yellow' =>	[0xff, 0xff, 0x00],
                   'yellowgreen' =>	[0x9a, 0xcd, 0x32],
+
+  ## <https://dvcs.w3.org/hg/csswg/rev/75b697db0b559cce9bc8fdc322cdeb5e465c6967>
+  rebeccapurple => [102,51,153],
 }; # $X11Colors
 
 my $SystemColors = {};
@@ -206,7 +209,7 @@ while (@bgfg) {
   $SystemColors->{$bg}->{foreground} = $fg;
 }
 
-my @typical = qw(
+my @typical = grep { length } split /\s+/, q(
     ActiveBorder 180,180,180
     ActiveCaption 153,180,209
     AppWorkspace 171,171,171
