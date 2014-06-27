@@ -54,10 +54,20 @@ $Methods->{$_}->{xhr_insecure} = 1 for qw(CONNECT TRACE TRACK);
 $Methods->{$_}->{xhr_no_request_body} = 1 for qw(GET HEAD);
 
 ## <http://tools.ietf.org/html/rfc2616#section-9.1.1>
-$Methods->{$_}->{safe} = 1 for qw(GET HEAD);
+#$Methods->{$_}->{safe} = 1 for qw(GET HEAD);
+## <https://tools.ietf.org/html/rfc7231#section-4.2.1>
+## <https://tools.ietf.org/html/rfc7231#section-4.2.2>
+$Methods->{$_}->{safe} = 1,
+$Methods->{$_}->{idempotent} = 1
+    for qw(GET HEAD OPTIONS TRACE);
 
 ## <http://tools.ietf.org/html/rfc2616#section-9.1.2>
-$Methods->{$_}->{idempotent} = 1 for qw(GET HEAD PUT DELETE TRACE OPTIONS);
+#$Methods->{$_}->{idempotent} = 1 for qw(GET HEAD PUT DELETE TRACE OPTIONS);
+## <https://tools.ietf.org/html/rfc7231#section-4.2.2>
+$Methods->{$_}->{idempotent} = 1 for qw(PUT DELETE);
+
+## <https://tools.ietf.org/html/rfc7231#section-4.2.3>
+$Methods->{$_}->{cacheable} = 1 for qw(GET HEAD POST);
 
 print perl2json_bytes_for_record $Methods;
 
