@@ -81,6 +81,20 @@ no-tls [string?]
   Name of a variant URL scheme (without ":" suffix) which shares the
   same underlying protocol but without TLS.
 
+origin [string?]
+
+  How to determine the origin
+  <http://url.spec.whatwg.org/#concept-url-origin> of a URL whose
+  scheme is this scheme.  If specified, one of following values:
+
+    |file|     The origin of the URL is determined by an
+               implementation-dependent rule.
+    |hostport| The origin of the URL is a tuple of (scheme, host, port).
+    |nested|   The origin of the URL is the origin of the scheme data
+               parsed as a URL.
+
+  If not specified, the origin of the URL is an opaque identifier.
+
 protocol [boolean]
 
   Resource retrevable by the protocol of the scheme.
@@ -131,3 +145,8 @@ Uniform Resource Identifier (URI) Schemes
 
 List of URL schemes
 <http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20URL%20schemes>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of the JSON file.
