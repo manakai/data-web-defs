@@ -10419,6 +10419,11 @@
                      "status" : "LC",
                      "value_type" : "enumerated"
                   },
+                  "allowcrossdomainxhr" : {
+                     "preferred" : {
+                        "type" : "none"
+                     }
+                  },
                   "allowfullscreen" : {
                      "conforming" : 1,
                      "desc" : "Whether to allow the iframe's contents to use requestFullscreen()",
@@ -10488,6 +10493,11 @@
                      "status" : "LC",
                      "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
+                  },
+                  "documentroot" : {
+                     "preferred" : {
+                        "type" : "none"
+                     }
                   },
                   "frameborder" : {
                      "enumerated" : {
@@ -10588,6 +10598,13 @@
                      "spec" : "OBSVOCAB",
                      "value_type" : "boolean"
                   },
+                  "ondominitialize" : {
+                     "preferred" : {
+                        "element" : "iframe",
+                        "name" : "onload",
+                        "type" : "html_attr"
+                     }
+                  },
                   "sandbox" : {
                      "conforming" : 1,
                      "desc" : "Security rules for nested content",
@@ -10627,6 +10644,11 @@
                      "spec" : "HTML",
                      "status" : "LC",
                      "value_type" : "unordered set of unique space-separated tokens"
+                  },
+                  "sandboxroot" : {
+                     "preferred" : {
+                        "type" : "none"
+                     }
                   },
                   "scrolling" : {
                      "enumerated" : {
@@ -15534,7 +15556,9 @@
                "phrasing content" : 1
             },
             "conforming" : 1,
+            "has_additional_content_constraints" : 1,
             "id" : "the-picture-element",
+            "interface" : "HTMLPictureElement",
             "spec" : "HTML"
          },
          "pinhead" : {
@@ -16641,11 +16665,9 @@
                   "media" : {
                      "conforming" : 1,
                      "id" : "attr-source-media",
-                     "preferred" : {
-                        "type" : "script"
-                     },
                      "spec" : "HTML",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "media query"
                   },
                   "pixelratio" : {
                      "preferred" : {
@@ -16656,7 +16678,8 @@
                      "conforming" : 1,
                      "id" : "attr-picture-source-sizes",
                      "spec" : "HTML",
-                     "status" : "LC"
+                     "status" : "LC",
+                     "value_type" : "source size list"
                   },
                   "src" : {
                      "conforming" : 1,
