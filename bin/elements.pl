@@ -557,7 +557,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{canvas}->{content_model} =
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_additional_content_constraints} = 1
     for qw(head title style dl figure ruby iframe video audio table
            colgroup th label datalist option menu script noscript template
-           canvas summary
+           canvas summary picture
            frameset noframes noembed);
 
 for (qw(acronym bgsound dir noframes isindex listing nextid
