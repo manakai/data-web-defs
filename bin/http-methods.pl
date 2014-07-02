@@ -69,6 +69,9 @@ $Methods->{$_}->{idempotent} = 1 for qw(PUT DELETE);
 ## <https://tools.ietf.org/html/rfc7231#section-4.2.3>
 $Methods->{$_}->{cacheable} = 1 for qw(GET HEAD POST);
 
+## <https://tools.ietf.org/html/rfc7231#page-22>
+$Methods->{$_}->{required} = 1 for qw(GET HEAD);
+
 print perl2json_bytes_for_record $Methods;
 
 ## License: Public Domain.
