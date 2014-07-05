@@ -233,6 +233,7 @@ data/js-lexical.json: bin/js-lexical.pl
 
 all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
+    data/html-tokenizer-expanded.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
     data/xml-datatypes.json data/xpath.json data/webidl.json
 clean-dom:
@@ -290,7 +291,7 @@ data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
 	$(PERL) bin/html-syntax.pl > $@
 data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json
 	$(PERL) bin/xml-syntax.pl > $@
-local/html-tokenizer-expanded.json: data/html-syntax.json \
+data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 
