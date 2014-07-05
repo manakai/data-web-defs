@@ -1653,6 +1653,9 @@
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -1665,15 +1668,15 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "RAWTEXT state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RAWTEXT state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "RAWTEXT state",
@@ -1829,6 +1832,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -1841,18 +1852,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "RAWTEXT state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "RAWTEXT state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "RAWTEXT state",
@@ -1877,6 +1891,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "RAWTEXT less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -1928,6 +1946,9 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -1944,10 +1965,6 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
-                     },
-                     {
-                        "state" : "RAWTEXT state",
-                        "type" : "switch"
                      },
                      {
                         "name" : "NULL",
@@ -1968,18 +1985,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "RAWTEXT state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "RAWTEXT state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "RAWTEXT state",
@@ -2017,10 +2037,6 @@
                         "value" : "\u003C"
                      },
                      {
-                        "state" : "RAWTEXT state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "RAWTEXT less-than sign state",
                         "type" : "switch"
                      }
@@ -2035,10 +2051,6 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
-                     },
-                     {
-                        "state" : "RAWTEXT state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -2115,9 +2127,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -2222,6 +2231,9 @@
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -2234,15 +2246,15 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA state",
@@ -2419,10 +2431,6 @@
                         "value" : "\u003C/"
                      },
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -2441,18 +2449,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "RCDATA state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA state",
@@ -2479,10 +2490,6 @@
                         "value" : "\u003C/"
                      },
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "character reference in RCDATA state",
                         "type" : "switch"
                      }
@@ -2497,10 +2504,6 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
-                     },
-                     {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA less-than sign state",
@@ -2558,10 +2561,6 @@
                         "value" : "\u003C/"
                      },
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -2579,6 +2578,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -2591,18 +2598,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "RCDATA state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA state",
@@ -2627,6 +2637,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "character reference in RCDATA state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -2650,6 +2664,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "RCDATA less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -2662,6 +2680,9 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -2740,6 +2761,14 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -2755,6 +2784,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -2768,7 +2800,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -2796,6 +2828,10 @@
                      },
                      {
                         "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in RCDATA state",
                         "type" : "switch"
                      }
                   ]
@@ -2823,6 +2859,10 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "RCDATA less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -2838,6 +2878,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -2860,6 +2903,14 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -2878,6 +2929,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -2894,7 +2948,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -2925,6 +2979,10 @@
                      },
                      {
                         "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in RCDATA state",
                         "type" : "switch"
                      }
                   ]
@@ -2966,6 +3024,10 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "RCDATA less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -2984,6 +3046,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -3006,6 +3071,14 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -3024,6 +3097,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -3040,7 +3116,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -3071,6 +3147,10 @@
                      },
                      {
                         "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in RCDATA state",
                         "type" : "switch"
                      }
                   ]
@@ -3112,6 +3192,10 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "RCDATA less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -3130,6 +3214,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -3144,10 +3231,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA state",
@@ -3174,6 +3257,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -3186,7 +3272,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -3210,10 +3296,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA state",
@@ -3257,10 +3339,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "RCDATA state",
@@ -3318,10 +3396,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "RCDATA state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -3342,6 +3416,14 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -3357,6 +3439,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -3370,7 +3455,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -3399,6 +3484,10 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in RCDATA state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -3424,6 +3513,10 @@
                      },
                      {
                         "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "RCDATA less-than sign state",
                         "type" : "switch"
                      }
                   ]
@@ -3462,6 +3555,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -3496,6 +3592,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -3505,7 +3604,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -3663,6 +3762,9 @@
                      {
                         "state" : "RCDATA state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -3684,7 +3786,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -3854,9 +3956,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0022 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -5757,6 +5856,15 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -5773,6 +5881,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5787,7 +5899,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -5818,6 +5930,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -5833,6 +5949,14 @@
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -5861,6 +5985,17 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -5880,10 +6015,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
@@ -5916,6 +6047,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5933,7 +6068,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -5969,10 +6104,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
@@ -5990,10 +6121,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
@@ -6050,10 +6177,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "EOF",
                         "type" : "error"
                      },
@@ -6086,6 +6209,15 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -6105,6 +6237,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -6122,7 +6258,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -6156,6 +6292,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -6174,6 +6314,14 @@
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -6217,6 +6365,17 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -6232,10 +6391,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
@@ -6264,6 +6419,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -6277,7 +6436,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -6309,10 +6468,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
@@ -6326,10 +6481,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
@@ -6420,10 +6571,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "EOF",
                         "type" : "error"
                      },
@@ -6455,10 +6602,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -6482,6 +6625,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -6496,7 +6643,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -6529,10 +6676,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
@@ -6547,10 +6690,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (double-quoted) state",
@@ -6614,10 +6753,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "EOF",
                         "type" : "error"
                      },
@@ -6664,6 +6799,10 @@
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -6674,7 +6813,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -6847,9 +6986,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -7026,6 +7162,15 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -7042,6 +7187,10 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -7056,7 +7205,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -7087,6 +7236,14 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -7102,6 +7259,10 @@
                      },
                      {
                         "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
                   ]
@@ -7130,6 +7291,17 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -7153,6 +7325,15 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -7172,6 +7353,10 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -7189,7 +7374,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -7223,6 +7408,14 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -7241,6 +7434,10 @@
                      },
                      {
                         "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
                   ]
@@ -7284,6 +7481,17 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -7307,6 +7515,15 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -7326,6 +7543,10 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -7343,7 +7564,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -7377,6 +7598,14 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -7395,6 +7624,10 @@
                      },
                      {
                         "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
                   ]
@@ -7438,6 +7671,17 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -7457,6 +7701,15 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -7472,6 +7725,10 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -7485,7 +7742,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -7515,6 +7772,14 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -7529,6 +7794,10 @@
                      },
                      {
                         "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
                   ]
@@ -7606,6 +7875,17 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -7626,6 +7906,15 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -7642,6 +7931,10 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -7656,7 +7949,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -7687,6 +7980,14 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -7702,6 +8003,10 @@
                      },
                      {
                         "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "after attribute value (quoted) state",
                         "type" : "switch"
                      }
                   ]
@@ -7752,6 +8057,17 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -7789,6 +8105,10 @@
                      {
                         "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -7799,7 +8119,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -7972,9 +8292,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0022 0023 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -8209,6 +8526,15 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -8225,6 +8551,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "before attribute name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -8239,7 +8569,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -8265,6 +8595,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8281,6 +8615,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-0022",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8296,6 +8638,14 @@
                      },
                      {
                         "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -8313,6 +8663,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-0027",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8340,6 +8698,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-003c",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8356,6 +8722,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-003d",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8372,6 +8746,13 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit"
                      }
                   ]
                },
@@ -8388,6 +8769,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-0060",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8404,6 +8793,17 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -8427,6 +8827,15 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -8446,6 +8855,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "before attribute name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -8463,7 +8876,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -8492,6 +8905,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8511,6 +8928,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-0022",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8529,6 +8954,14 @@
                      },
                      {
                         "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -8549,6 +8982,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-0027",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8591,6 +9032,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-003c",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8610,6 +9059,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-003d",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8629,6 +9086,13 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit"
                      }
                   ]
                },
@@ -8648,6 +9112,14 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "attribute-value-unquoted-0060",
+                        "type" : "error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -8667,6 +9139,17 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -8686,10 +9169,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -8722,6 +9201,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "before attribute name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -8739,7 +9222,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -8770,10 +9253,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "field" : "value",
                         "type" : "append-to-attr"
                      }
@@ -8791,10 +9270,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -8828,10 +9303,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "set-to-temp",
                         "value" : "&"
                      },
@@ -8853,10 +9324,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -8913,10 +9380,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "attribute-value-unquoted-003c",
                         "type" : "error"
                      },
@@ -8938,10 +9401,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -8975,10 +9434,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -8999,10 +9454,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9030,10 +9481,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9070,10 +9517,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -9096,6 +9539,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "before attribute name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -9109,7 +9556,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -9136,10 +9583,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "field" : "value",
                         "type" : "append-to-attr"
                      }
@@ -9153,10 +9596,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9186,10 +9625,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "set-to-temp",
                         "value" : "&"
                      },
@@ -9207,10 +9642,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9260,10 +9691,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9316,10 +9743,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -9344,10 +9767,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9385,10 +9804,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "EOF",
                         "type" : "error"
                      },
@@ -9420,10 +9835,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -9447,6 +9858,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "before attribute name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -9461,7 +9876,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -9489,10 +9904,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "field" : "value",
                         "type" : "append-to-attr"
                      }
@@ -9507,10 +9918,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9541,10 +9948,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "set-to-temp",
                         "value" : "&"
                      },
@@ -9563,10 +9966,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9608,10 +10007,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "attribute-value-unquoted-003c",
                         "type" : "error"
                      },
@@ -9636,10 +10031,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "attribute-value-unquoted-003d",
                         "type" : "error"
                      },
@@ -9658,10 +10049,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9702,10 +10089,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "attribute-value-unquoted-0060",
                         "type" : "error"
                      },
@@ -9735,10 +10118,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "attribute value (unquoted) state",
@@ -9791,6 +10170,10 @@
                      {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "before attribute name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -9801,7 +10184,7 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -10068,9 +10451,6 @@
                         "type" : "switch"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 000D" : {
-                  "repeat" : 1
                },
                "000A" : {
                   "actions" : [
@@ -13403,9 +13783,6 @@
          },
          "bogus comment state after 000D" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
-               },
                "0000 0009,000C,0020 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
@@ -13480,7 +13857,7 @@
          },
          "character reference in RCDATA state" : {
             "conds" : {
-               "0000 0021 0022 0027 002D 002F 003B 003D 003E 003F 005B 005D 0060 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "type" : "set-to-temp",
@@ -13489,6 +13866,21 @@
                      {
                         "state" : "RCDATA state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -13501,6 +13893,16 @@
                      {
                         "state" : "RCDATA state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -13511,7 +13913,7 @@
                         "value" : "&"
                      },
                      {
-                        "state" : "RCDATA state - character reference state",
+                        "state" : "RCDATA state - character reference state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -13522,7 +13924,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "RCDATA state",
+                        "state" : "RCDATA state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -13539,6 +13941,28 @@
                      }
                   ]
                },
+               "0021 0022 0027 002D 002F 003B 003D 003E 003F 005B 005D 0060 ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
                "0023" : {
                   "actions" : [
                      {
@@ -13547,6 +13971,13 @@
                      },
                      {
                         "state" : "RCDATA state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference number state",
                         "type" : "switch"
                      }
                   ]
@@ -13560,6 +13991,17 @@
                      {
                         "state" : "RCDATA state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in RCDATA state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13571,6 +14013,13 @@
                      },
                      {
                         "state" : "RCDATA state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference name state",
                         "type" : "switch"
                      }
                   ]
@@ -13584,6 +14033,17 @@
                      {
                         "state" : "RCDATA state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "RCDATA less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13595,6 +14055,13 @@
                      },
                      {
                         "state" : "RCDATA state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference name state",
                         "type" : "switch"
                      }
                   ]
@@ -13608,6 +14075,13 @@
                      {
                         "state" : "RCDATA state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "RCDATA state - character reference name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13620,6 +14094,16 @@
                      {
                         "state" : "RCDATA state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "RCDATA state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -13627,7 +14111,7 @@
          },
          "character reference in data state" : {
             "conds" : {
-               "0000 0021 0022 0027 002D 002F 003B 003D 003E 003F 005B 005D 0060 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "type" : "set-to-temp",
@@ -13636,6 +14120,20 @@
                      {
                         "state" : "data state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -13648,6 +14146,16 @@
                      {
                         "state" : "data state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -13658,7 +14166,7 @@
                         "value" : "&"
                      },
                      {
-                        "state" : "data state - character reference state",
+                        "state" : "data state - character reference state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -13669,24 +14177,42 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "_classes" : [
-                           "000D"
-                        ],
-                        "_conds" : {
-                           "0009,000C,0020 000A 0021 0022 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                              "0009,000C,0020" : 1,
-                              "000A" : 1
-                           },
-                           "000D" : {
-                              "000D" : 1
-                           }
-                        },
-                        "_state" : "data state after 000D",
-                        "type" : "reconsume"
+                        "state" : "data state after 000D",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u000A"
                      },
                      {
                         "state" : "data state after 000D",
                         "type" : "switch"
+                     }
+                  ]
+               },
+               "0021 0022 0027 002D 002F 003B 003D 003E 003F 005B 005D 0060 ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "data state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -13698,6 +14224,13 @@
                      },
                      {
                         "state" : "data state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference number state",
                         "type" : "switch"
                      }
                   ]
@@ -13711,6 +14244,17 @@
                      {
                         "state" : "data state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in data state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13722,6 +14266,13 @@
                      },
                      {
                         "state" : "data state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
                         "type" : "switch"
                      }
                   ]
@@ -13735,6 +14286,17 @@
                      {
                         "state" : "data state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "tag open state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13746,6 +14308,13 @@
                      },
                      {
                         "state" : "data state - character reference state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
                         "type" : "switch"
                      }
                   ]
@@ -13759,6 +14328,13 @@
                      {
                         "state" : "data state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13771,6 +14347,16 @@
                      {
                         "state" : "data state - character reference state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -14489,10 +15075,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -14513,6 +15095,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -14526,7 +15111,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -14551,10 +15136,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -14591,10 +15172,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "tag open state",
                         "type" : "switch"
                      }
@@ -14608,10 +15185,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -14643,10 +15216,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -14670,6 +15239,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -14686,7 +15258,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -14714,10 +15286,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -14768,10 +15336,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "tag open state",
                         "type" : "switch"
                      }
@@ -14788,10 +15352,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -14823,10 +15383,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "name" : "NULL",
                         "type" : "error"
                      },
@@ -14850,6 +15406,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -14866,7 +15425,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -14894,10 +15453,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -14948,10 +15503,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "tag open state",
                         "type" : "switch"
                      }
@@ -14968,10 +15519,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -14997,6 +15544,13 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -15011,6 +15565,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -15023,7 +15580,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -15050,6 +15607,10 @@
                      },
                      {
                         "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "character reference in data state",
                         "type" : "switch"
                      }
                   ]
@@ -15089,6 +15650,10 @@
                      },
                      {
                         "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "tag open state",
                         "type" : "switch"
                      }
                   ]
@@ -15137,6 +15702,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -15152,10 +15720,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -15182,6 +15746,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -15195,7 +15762,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -15226,10 +15793,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "state" : "character reference in data state",
                         "type" : "switch"
                      }
@@ -15254,10 +15817,6 @@
                      },
                      {
                         "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -15305,10 +15864,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -15343,6 +15898,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -15352,7 +15910,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -15509,6 +16067,9 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -15530,7 +16091,7 @@
                         "type" : "emit-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -15700,9 +16261,6 @@
                      }
                   ]
                },
-               "0009,000C,0020 000A 0021 0022 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
-               },
                "0009,000C,0020 0021 0022 0023 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
@@ -15816,6 +16374,10 @@
                         "type" : "set-empty"
                      },
                      {
+                        "state" : "bogus comment state after 000D",
+                        "type" : "switch"
+                     },
+                     {
                         "state" : "bogus comment state",
                         "type" : "switch"
                      },
@@ -15922,6 +16484,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -15947,7 +16513,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -15999,6 +16565,13 @@
                      },
                      {
                         "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
                         "type" : "switch"
                      }
                   ]
@@ -16060,6 +16633,16 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -16127,18 +16710,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -16156,7 +16736,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -16220,10 +16800,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -16256,10 +16832,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -16341,18 +16913,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -16370,7 +16939,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -16412,10 +16981,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -16482,10 +17047,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -16526,6 +17087,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -16557,18 +17122,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -16586,7 +17148,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -16628,10 +17190,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -16698,10 +17256,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -16742,6 +17296,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -16773,18 +17331,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -16802,7 +17357,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -16844,10 +17399,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -16914,10 +17465,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -16958,6 +17505,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -16989,18 +17540,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -17018,7 +17566,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -17060,10 +17608,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -17130,10 +17674,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -17174,6 +17714,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -17205,18 +17749,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -17234,7 +17775,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -17276,10 +17817,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -17340,10 +17877,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -17425,18 +17958,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -17454,7 +17984,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -17496,10 +18026,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -17560,10 +18086,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -17604,6 +18126,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -17635,18 +18161,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -17664,7 +18187,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -17706,10 +18229,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -17765,10 +18284,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -17809,6 +18324,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -17840,18 +18359,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -17869,7 +18385,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -17911,10 +18427,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -17970,10 +18482,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -18014,6 +18522,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -18045,18 +18557,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -18074,7 +18583,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -18116,10 +18625,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -18175,10 +18680,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -18219,6 +18720,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -18250,18 +18755,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -18279,7 +18781,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -18321,10 +18823,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -18380,10 +18878,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -18424,6 +18918,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -18455,18 +18953,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -18484,7 +18979,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -18526,10 +19021,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -18585,10 +19076,6 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit"
                      },
                      {
@@ -18629,6 +19116,10 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -18660,18 +19151,15 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
                      {
                         "name" : "markup-declaration-open-else",
                         "type" : "error"
@@ -18689,7 +19177,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "bogus comment state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -18731,10 +19219,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -18811,10 +19295,6 @@
                      {
                         "field" : "data",
                         "type" : "append-temp"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
                      },
                      {
                         "state" : "bogus comment state",
@@ -19736,6 +20216,14 @@
                      {
                         "state" : "script data double escaped state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -19744,13 +20232,16 @@
                      {
                         "state" : "script data double escaped state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "script data double escaped state",
+                        "state" : "script data double escaped state after 000D",
                         "type" : "switch"
                      },
                      {
@@ -19772,6 +20263,14 @@
                      {
                         "state" : "script data double escaped state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "script data double escaped dash state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "-"
                      }
                   ]
                },
@@ -19795,6 +20294,14 @@
                      {
                         "state" : "script data double escaped state",
                         "type" : "switch"
+                     },
+                     {
+                        "state" : "script data double escaped less-than sign state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "\u003C"
                      }
                   ]
                },
@@ -19803,6 +20310,17 @@
                      {
                         "state" : "script data double escaped state",
                         "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -19900,9 +20418,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0022 0023 0026 0027 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -20035,6 +20550,9 @@
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -20047,15 +20565,15 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "script data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "script data state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "script data state",
@@ -20211,6 +20729,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -20223,18 +20749,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "script data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "script data state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "script data state",
@@ -20259,6 +20788,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "script data less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -20310,6 +20843,9 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -20346,6 +20882,10 @@
                },
                "000D" : {
                   "actions" : [
+                     {
+                        "state" : "script data state after 000D",
+                        "type" : "switch"
+                     },
                      {
                         "state" : "script data state",
                         "type" : "switch"
@@ -20428,6 +20968,10 @@
                },
                "000D" : {
                   "actions" : [
+                     {
+                        "state" : "script data state after 000D",
+                        "type" : "switch"
+                     },
                      {
                         "state" : "script data state",
                         "type" : "switch"
@@ -20687,6 +21231,9 @@
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -20699,15 +21246,15 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "script data escaped state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
                      },
                      {
                         "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "script data escaped state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "script data escaped state",
@@ -20894,6 +21441,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -20906,18 +21461,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "script data escaped state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "script data escaped state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "script data escaped state",
@@ -20942,6 +21500,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "script data escaped dash state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "-"
                      }
                   ]
                },
@@ -20954,6 +21520,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "script data escaped less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -21005,6 +21575,17 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C/"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -21021,6 +21602,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "�"
                      }
                   ]
                },
@@ -21033,18 +21622,21 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "script data escaped state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "script data escaped state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "script data escaped state",
@@ -21069,6 +21661,14 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "script data escaped dash state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char",
+                        "value" : "-"
                      }
                   ]
                },
@@ -21092,6 +21692,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "script data escaped less-than sign state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -21147,6 +21751,17 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "name" : "EOF",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }
@@ -21240,9 +21855,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0022 0023 0026 0027 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -21368,12 +21980,16 @@
                "000D" : {
                   "actions" : [
                      {
-                        "state" : "script data state",
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "state" : "script data state after 000D",
                         "type" : "switch"
                      },
                      {
-                        "type" : "emit-char",
-                        "value" : "\u003C"
+                        "state" : "script data state",
+                        "type" : "switch"
                      },
                      {
                         "type" : "emit-char",
@@ -21509,9 +22125,6 @@
                         "value" : "�"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "repeat" : 1
                },
                "0009,000C,0020 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
@@ -22647,6 +23260,13 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "name" : "NULL",
+                        "type" : "error"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -22663,6 +23283,9 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-char"
                      }
                   ]
                },
@@ -22673,12 +23296,12 @@
                         "type" : "error"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "data state after 000D",
+                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -22715,6 +23338,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "character reference in data state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -22739,6 +23366,10 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "state" : "tag open state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -22812,6 +23443,9 @@
                      {
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                }

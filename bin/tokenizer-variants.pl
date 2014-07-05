@@ -167,11 +167,16 @@ sub cond_to_charclass ($) {
           } elsif ($Capturing->{$_->{type}}) {
             +{value => "\x0A", %$_};
           } else {
-            $_;
+            +{%$_};
           }
         } @{$Data->{tokenizer}->{states}->{$state}->{conds}->{$lf_rule}->{actions}}),
         {type => 'switch', state => "$next_state after 000D"},
       ];
+      if (@{$Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}} >= 2 and
+          $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-1]->{type} eq 'switch' and
+          $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-2]->{type} eq 'reconsume') {
+        ($Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-2], $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-1]) = ($Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-1], $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-2]);
+      }
     }
   }
   my $else_key = join ' ', sort { $a cmp $b } grep { $_ ne '000A' } keys %{$Data->{tokenizer}->{char_classes}}, 'ELSE';
