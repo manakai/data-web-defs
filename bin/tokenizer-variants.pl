@@ -383,6 +383,27 @@ while (@path) {
   }
 }
 
+for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+    my $new_acts = [];
+    my $has_switch;
+    for (reverse @{$Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions}}) {
+      if ($_->{type} eq 'switch' and
+          not defined $_->{if} and not $_->{break}) {
+        if ($has_switch) {
+          #
+        } else {
+          $has_switch = 1;
+          unshift @$new_acts, $_;
+        }
+      } else {
+        unshift @$new_acts, $_;
+      }
+    }
+    $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions} = $new_acts;
+  }
+}
+
 ## Cleanup
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
   for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
