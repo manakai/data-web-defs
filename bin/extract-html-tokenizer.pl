@@ -646,7 +646,9 @@ sub modify_actions (&) {
       }
     }
     if ($need_set_to_empty) {
-      unshift @$acts, {type => 'set-empty-to-temp'};
+      @$acts = grep {
+        not ($_->{type} eq 'append-temp' and $_->{field} eq 'data');
+      } @$acts;
     }
     @$new_acts = @$acts;
   };
