@@ -550,6 +550,23 @@ sub modify_actions (&) {
 
   modify_actions {
     my ($acts => $new_acts, $state) = @_;
+    for (@$acts) {
+      if ($_->{type} eq 'switch') {
+        if ($_->{state} eq 'markup declaration open state') {
+          push @$new_acts,
+              {type => 'set-empty-to-temp'},
+              {%$_};
+        } else {
+          push @$new_acts, {%$_};
+        }
+      } else {
+        push @$new_acts, {%$_};
+      }
+    }
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
     if (@$acts and $acts->[-1]->{type} eq 'RECONSUME-IF-EOF') {
       pop @$acts;
       $Data->{states}->{$state}->{conds}->{EOF}->{actions} = [
@@ -592,7 +609,6 @@ sub modify_actions (&) {
 
   modify_actions {
     my ($acts => $new_acts, $state, $cond) = @_;
-    my $need_set_to_empty;
     if ($cond eq 'ELSE') {
       while (@$acts and $acts->[0]->{type} eq 'IF-KEYWORD') {
         my $act = shift @$acts;
@@ -642,13 +658,7 @@ sub modify_actions (&) {
           }
           $old_state = $new_state;
         }
-        $need_set_to_empty = 1;
       }
-    }
-    if ($need_set_to_empty) {
-      @$acts = grep {
-        not ($_->{type} eq 'append-temp' and $_->{field} eq 'data');
-      } @$acts;
     }
     @$new_acts = @$acts;
   };
