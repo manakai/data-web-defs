@@ -84,6 +84,72 @@
       }
    },
    "headers" : {
+      "accept" : {
+         "http" : {
+            "content_negotiation" : 1,
+            "id" : "section-5.3.2",
+            "multiple" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC7231",
+            "value_is_list" : "*"
+         },
+         "name" : "Accept"
+      },
+      "accept-charset" : {
+         "http" : {
+            "content_negotiation" : 1,
+            "id" : "section-5.3.3",
+            "multiple" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC7231",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Accept-Charset"
+      },
+      "accept-encoding" : {
+         "http" : {
+            "content_negotiation" : 1,
+            "id" : "section-5.3.4",
+            "multiple" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC7231",
+            "value_is_list" : "*"
+         },
+         "name" : "Accept-Encoding"
+      },
+      "accept-language" : {
+         "http" : {
+            "content_negotiation" : 1,
+            "id" : "section-5.3.5",
+            "multiple" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC7231",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Accept-Language"
+      },
+      "authorization" : {
+         "http" : {
+            "trace_unsafe" : 1
+         },
+         "name" : "Authorization"
+      },
+      "cache-control" : {
+         "http" : {
+            "control" : 1,
+            "not_for_trailer" : 1,
+            "request_modifier" : 1
+         },
+         "name" : "Cache-Control"
+      },
       "close" : {
          "http" : {
             "connection_option" : 1,
@@ -207,13 +273,46 @@
          },
          "name" : "Content-Type"
       },
+      "cookie" : {
+         "http" : {
+            "trace_unsafe" : 1
+         },
+         "name" : "Cookie"
+      },
+      "cookie2" : {
+         "http" : {
+            "trace_unsafe" : 1
+         },
+         "name" : "Cookie2"
+      },
+      "etag" : {
+         "http" : {
+            "validator" : 1
+         },
+         "name" : "ETag"
+      },
+      "expect" : {
+         "http" : {
+            "control" : 1,
+            "id" : "section-5.1.1",
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1,
+            "spec" : "RFC7231"
+         },
+         "name" : "Expect"
+      },
       "host" : {
          "http" : {
+            "control" : 1,
             "id" : "section-5.4",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
             },
+            "request_modifier" : 1,
             "response" : {
                "*" : "MUST"
             },
@@ -222,14 +321,114 @@
          },
          "name" : "Host"
       },
-      "te" : {
+      "if-match" : {
          "http" : {
-            "connection_option" : 1,
-            "id" : "section-4.3",
-            "multiple" : 1,
+            "conditional" : 1,
+            "not_for_trailer" : 1,
             "request" : {
                "*" : ""
             },
+            "request_modifier" : 1
+         },
+         "name" : "If-Match"
+      },
+      "if-modified-since" : {
+         "http" : {
+            "conditional" : 1,
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1
+         },
+         "name" : "If-Modified-Since"
+      },
+      "if-none-match" : {
+         "http" : {
+            "conditional" : 1,
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1
+         },
+         "name" : "If-None-Match"
+      },
+      "if-range" : {
+         "http" : {
+            "conditional" : 1,
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1
+         },
+         "name" : "If-Range"
+      },
+      "if-unmodified-since" : {
+         "http" : {
+            "conditional" : 1,
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1
+         },
+         "name" : "If-Unmodified-Since"
+      },
+      "last-modified" : {
+         "http" : {
+            "validator" : 1
+         },
+         "name" : "Last-Modified"
+      },
+      "max-forwards" : {
+         "http" : {
+            "control" : 1,
+            "id" : "section-5.1.2",
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1,
+            "spec" : "RFC7231",
+            "value_type" : "non-negative integer"
+         },
+         "name" : "Max-Forwards"
+      },
+      "pragma" : {
+         "http" : {
+            "control" : 1,
+            "not_for_trailer" : 1,
+            "request_modifier" : 1
+         },
+         "name" : "Pragma"
+      },
+      "proxy-authorization" : {
+         "http" : {
+            "trace_unsafe" : 1
+         },
+         "name" : "Proxy-Authorization"
+      },
+      "range" : {
+         "http" : {
+            "control" : 1,
+            "not_for_trailer" : 1,
+            "request_modifier" : 1
+         },
+         "name" : "Range"
+      },
+      "te" : {
+         "http" : {
+            "connection_option" : 1,
+            "control" : 1,
+            "id" : "section-4.3",
+            "multiple" : 1,
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1,
             "response" : {
                "xxx" : ""
             },

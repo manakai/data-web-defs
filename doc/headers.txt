@@ -65,10 +65,25 @@ The file contains a JSON object with following name/value pairs:
             <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
             not.
 
+          conditional [boolean]
+
+            Whether the header is classified as conditionals
+            <https://tools.ietf.org/html/rfc7231#section-5.2> or not.
+
           connection_option [boolean]
 
             Whether the header name is used as a |connection-option|
             (i.e. a value in the |Connection:| header) or not.
+
+          content_negotiation [boolean]
+
+            Whether the header is classified as content negotiation
+            <https://tools.ietf.org/html/rfc7231#section-5.3> or not.
+
+          control [boolean]
+
+            Whether the header is classfied as controls
+            <https://tools.ietf.org/html/rfc7231#section-5.1> or not.
 
           id [id-in-spec?]
 
@@ -184,6 +199,16 @@ The file contains a JSON object with following name/value pairs:
           spec [spec?]
 
             The relevant specification, if any.
+
+          trace_unsafe [boolean]
+
+            Whether the header contains a sensitive data such that it
+            should not be included in a TRACE request and should be
+            excluded from a response to a TRACE request.
+
+          validator [boolean]
+
+            Whether the header is a validator header or not.
 
           value_is_list [string?]
 
