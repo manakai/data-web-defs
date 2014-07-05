@@ -364,7 +364,7 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Process the temporary buffer as a named reference with before equals flag set\.//) {
       push @action, {type => 'process-temp-as-named-equals'};
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
-      push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'data'};
+      push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'value'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
       push @action, {type => 'SET-ALLOWED-CHAR', value => undef};
     } elsif ($action =~ s/^Set the original state to (.+ state)\.//) {
