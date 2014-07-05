@@ -199,7 +199,7 @@ data/http-status-codes.json: \
 data/http-methods.json: \
     local/sw-http-methods.xml \
     local/iana-rtsp.xml local/iana-sip.xml \
-    bin/http-methods.pl
+    bin/http-methods.pl src/http-methods.txt
 	$(PERL) bin/http-methods.pl > $@
 data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt
 	$(PERL) bin/headers.pl > $@

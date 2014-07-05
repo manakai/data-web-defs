@@ -1,18 +1,19 @@
 use strict;
 use warnings;
 use Encode;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use Path::Tiny;
+use lib glob path (__FILE__)->parent->child ('modules', '*', 'lib');
 use JSON::PS;
 use Web::XML::Parser;
 use Web::DOM::Document;
 
+my $root_path = path (__FILE__)->parent->parent;
+
 sub parse ($) {
   my $doc = Web::DOM::Document->new;
-  my $f = file (__FILE__)->dir->parent->subdir ('local')->file ($_[0]);
+  my $path = $root_path->child ('local', $_[0]);
   local $/ = undef;
-  Web::XML::Parser->new->parse_char_string
-      ((decode 'utf-8', scalar $f->slurp) => $doc);
+  Web::XML::Parser->new->parse_char_string ($path->slurp_utf8 => $doc);
   return $doc;
 } # parse
 
@@ -71,6 +72,41 @@ $Methods->{$_}->{cacheable} = 1 for qw(GET HEAD POST);
 
 ## <https://tools.ietf.org/html/rfc7231#page-22>
 $Methods->{$_}->{required} = 1 for qw(GET HEAD);
+
+my $method_name;
+for (split /\x0D?\x0A/, $root_path->child ('src', 'http-methods.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*(\S+)\s*$/) {
+    my $name = $1;
+    $method_name = $name;
+    $Methods->{$method_name} ||= {};
+    next;
+  } elsif (/\S/) {
+    die "Method not defined at first line" unless defined $method_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $Methods->{$method_name}->{spec} = "RFC$1";
+      $Methods->{$method_name}->{id} = $2;
+    } else {
+      $Methods->{$method_name}->{url} = $url;
+    }
+  } elsif (m{^(request-body)\s+(undefined|MAY|MUST|MUST NOT)\s*$}) {
+    my $key = $1;
+    my $value = $2;
+    $key =~ s/-/_/g;
+    $Methods->{$method_name}->{$key} = $value;
+  } elsif (m{^(XXX)\s*$}) {
+    my $key = $1;
+    $key =~ s/-/_/g;
+    $Methods->{$method_name}->{$key} = 1;
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
 
 print perl2json_bytes_for_record $Methods;
 
