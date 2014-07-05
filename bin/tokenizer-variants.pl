@@ -167,11 +167,16 @@ sub cond_to_charclass ($) {
           } elsif ($Capturing->{$_->{type}}) {
             +{value => "\x0A", %$_};
           } else {
-            $_;
+            +{%$_};
           }
         } @{$Data->{tokenizer}->{states}->{$state}->{conds}->{$lf_rule}->{actions}}),
         {type => 'switch', state => "$next_state after 000D"},
       ];
+      if (@{$Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}} >= 2 and
+          $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-1]->{type} eq 'switch' and
+          $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-2]->{type} eq 'reconsume') {
+        ($Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-2], $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-1]) = ($Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-1], $Data->{tokenizer}->{states}->{$state}->{conds}->{'000D'}->{actions}->[-2]);
+      }
     }
   }
   my $else_key = join ' ', sort { $a cmp $b } grep { $_ ne '000A' } keys %{$Data->{tokenizer}->{char_classes}}, 'ELSE';
@@ -375,6 +380,27 @@ while (@path) {
       $prev_state = $state;
     }
     $Data->{tokenizer}->{states}->{$orig_state}->{compound_conds}->{join '', map { $_->[0] } @pattern}->{actions} = [map { @$_ } map { actions_with_capture_index $_->[1], $_->[2] } @pattern];
+  }
+}
+
+for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+    my $new_acts = [];
+    my $has_switch;
+    for (reverse @{$Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions}}) {
+      if ($_->{type} eq 'switch' and
+          not defined $_->{if} and not $_->{break}) {
+        if ($has_switch) {
+          #
+        } else {
+          $has_switch = 1;
+          unshift @$new_acts, $_;
+        }
+      } else {
+        unshift @$new_acts, $_;
+      }
+    }
+    $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions} = $new_acts;
   }
 }
 
