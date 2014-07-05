@@ -28,6 +28,7 @@ value #t-codings
 connection-option
 request
 response
+control
 
 * Trailer
 
@@ -44,6 +45,7 @@ spec https://tools.ietf.org/html/rfc7230#section-5.4
 request
 ??? MUST
 routing
+control
 
 * Via
 
@@ -111,11 +113,116 @@ representation-metadata
 request
 response
 
+* Expect
+
+spec https://tools.ietf.org/html/rfc7231#section-5.1.1
+request
+control
+
+* Max-Forwards
+
+spec https://tools.ietf.org/html/rfc7231#section-5.1.2
+value 1*DIGIT
+request
+control
+
+* Accept
+
+spec https://tools.ietf.org/html/rfc7231#section-5.3.2
+value #
+request
+content-negotiation
+
+* Accept-Charset
+
+spec https://tools.ietf.org/html/rfc7231#section-5.3.3
+value 1#
+request
+content-negotiation
+
+* Accept-Encoding
+
+spec https://tools.ietf.org/html/rfc7231#section-5.3.4
+value #
+request
+content-negotiation
+
+* Accept-Language
+
+spec https://tools.ietf.org/html/rfc7231#section-5.3.5
+value 1#
+request
+content-negotiation
+
+* If-Match
+
+conditional
+request
+
+* If-None-Match
+
+conditional
+request
+
+* If-Modified-Since
+
+conditional
+request
+
+* If-Unmodified-Since
+
+conditional
+request
+
+* If-Range
+
+conditional
+request
+
 * Content-Range
 
 payload
 payload-processing
 
-# XXX request_modifier (e.g., controls and conditionals in Section 5 of [RFC7231])
+* Range
+
+control
+
+* Cache-Control
+
+control
+
+* Pragma
+
+control
+
+* ETag
+
+validator
+
+* Last-Modified
+
+validator
+
+* Authorization
+
+trace-unsafe
+
+* Proxy-Authorization
+
+trace-unsafe
+
+* Max-Forwards
+
+control
+
+* Cookie
+
+trace-unsafe
+
+* Cookie2
+
+trace-unsafe
+
 # XXX authentication (e.g., see [RFC7235] and [RFC6265])
 # XXX response_control_data (e.g., see Section 7.1 of [RFC7231])

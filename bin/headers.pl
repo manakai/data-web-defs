@@ -57,7 +57,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
     $Data->{headers}->{$header_name}->{http}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing|representation-metadata|payload)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $Data->{headers}->{$header_name}->{http}->{$key} = 1;
@@ -73,6 +73,11 @@ for (keys %{$Data->{headers}}) {
   $header->{http}->{payload_processing} = 1
       if $header->{http}->{representation_metadata} or
          $header->{http}->{payload};
+
+  ## RFC 7230 "e.g., controls and conditionals in Section 5 of [RFC7231]"
+  $header->{http}->{request_modifier} = 1
+      if $header->{http}->{control} or
+         $header->{http}->{conditional};
 
   ## Per RFC 7230 Trailer:'s definition
   $header->{http}->{not_for_trailer} = 1
