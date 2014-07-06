@@ -296,6 +296,7 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
       } else {
         $repeatable = 0;
       }
+      $repeatable = 0 if defined $_->{value};
     }
     $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{repeat} = 1
         if $repeatable;
