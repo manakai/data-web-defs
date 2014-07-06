@@ -167,6 +167,12 @@ $Data->{adjusted_svg_element_names} = {
             +{%$_, type => 'switch', state => $orig_state};
           } elsif ($_->{type} eq 'switch') {
             +{%$_, state => "$orig_state - $_->{state}"};
+          } elsif ($_->{type} =~ /^process-temp-as-named/) {
+            if ($orig_state =~ /attribute/) {
+              +{%$_, in_attr => 1};
+            } else {
+              +{%$_};
+            }
           } elsif ($_->{type} eq 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR') {
             if ($orig_state =~ /attribute/) {
               +{type => 'append-temp-to-attr', field => $_->{field}};
