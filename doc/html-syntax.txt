@@ -66,7 +66,7 @@ pairs:
 
           |break|, |field|, |if|, |keyword|, |offset|, |script_state|,
           |state|, |token|, |type|, |value|, |replace_null|, |in_attr|,
-          |before_equals|
+          |before_equals|, |possible_token_types|, |check_end_tag_token|
 
         State action's |type| can have following values:
 
@@ -78,7 +78,19 @@ pairs:
           |switch-and-emit|, |switch-by-temp|,
           |process-temp-as-decimal|, |process-temp-as-hexadecimal|,
           |process-temp-as-named|, |emit-or-append-temp-to-attr|,
-          |set-original-state|, |misc|
+          |misc|
+
+        States contains following name/value pair:
+
+          initial_token_types [object?]
+
+            Names are token types that can be the type of the current
+            token when the tokenizer starts processing of the input in
+            this state.  Values are either 1, which means the token is
+            relevant or -1, which means the token is in fact
+            irrelevant (i.e. the token was set by some previous state
+            but was implicitly discarded such that it will never be
+            accessed by the tokenizer).
 
 * Related data files
 
