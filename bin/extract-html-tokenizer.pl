@@ -362,7 +362,7 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Process the temporary buffer as a named reference\.//) {
       push @action, {type => 'process-temp-as-named'};
     } elsif ($action =~ s/^Process the temporary buffer as a named reference with before equals flag set\.//) {
-      push @action, {type => 'process-temp-as-named-equals'};
+      push @action, {type => 'process-temp-as-named', before_equals => 1};
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
       push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'value'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
