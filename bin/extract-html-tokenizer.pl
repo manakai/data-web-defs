@@ -601,7 +601,7 @@ sub modify_actions (&) {
           1 == length $acts->[$_]->{value}) {
         $Data->{states}->{$state}->{conds}->{sprintf 'CHAR:%04X', ord $acts->[$_]->{value}}->{actions} = [@$acts[0..($_-1)], @$acts[($_+1)..$#$acts]];
         if ($acts->[$_]->{replace_null}) {
-          $Data->{states}->{$state}->{conds}->{sprintf 'CHAR:%04X', 0x0000}->{actions} = [@$acts[0..($_-1)], {type => 'append', field => $acts->[$_]->{field}, value => "\x00"}];
+          $Data->{states}->{$state}->{conds}->{sprintf 'CHAR:%04X', 0x0000}->{actions} = [@$acts[0..($_-1)], {type => 'append', field => $acts->[$_]->{field}, value => "\x{FFFD}"}];
         }
         $acts = [@$acts[0..($_-1)], {type => 'append', field => $acts->[$_]->{field}}];
         last;
