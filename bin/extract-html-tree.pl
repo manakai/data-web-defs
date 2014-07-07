@@ -28,331 +28,205 @@ my $patterns = [
   ['Stop parsing.' => 'stop-parsing'],
 ];
 
+my $VERB = '(?:' . (join '|', map { quotemeta $_ } qw(
+  abort
+  acknowledge
+  act
+  ignore
+  insert
+  let
+  mark
+  move
+  pop
+  process
+  push
+  reconstruct
+  reprocess
+  return
+  set
+  stop
+  switch
+  unmark
+  unset
+)) . ')';
+my $SENTENCE = qr/[A-Za-z0-9"'()+ -]+(?:, (?:relative|including|converted) [A-Za-z0-9"'()+ -]+(?:, is [A-Za-z0-9"'()+ -]+|)|)(?:, if any|)/;
+
 sub parse_step ($);
 sub parse_step ($) {
   my $tc = shift;
   my @action;
 
-  $tc =~ s/\s*\(fragment case\)\s*$//;
+  return () if $tc =~ /^\s*Prompt:\s*If the token has an attribute /;
 
-  while (length $tc) {
-    $tc =~ s/^\s+//;
-
-    if ($tc =~ s/^((?!Otherwise)[A-Za-z0-9]+):\s*//) {
-      push @action, {type => 'label', label => lc $1};
-    }
-
-    $tc =~ s/^Finally, //;
-    $tc =~ s/^then //;
-    $tc = ucfirst $tc;
-    if ($tc =~ s/^Parse error\.// or
-        $tc =~ s/^This is a parse error(?:\.|;)//) {
-      push @action, {type => 'error'};
-    } elsif ($tc =~ s/^If there is a (template) element on the stack of open elements, then run these substeps instead:\s*$//) {
-      push @action, {type => 'IF-INSTEAD',
-                     cond => 'in-scope',
-                     elements => [$1],
-                     scope => 'stack',
-                     actions => [{type => 'RUN-NEXT'}]};
-    } elsif ($tc =~ s/^If the newly created element has a manifest attribute whose value is not the empty string, then resolve the value of that attribute to an absolute URL, relative to the newly created element, and if that is successful, run the application cache selection algorithm with the result of applying the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set; otherwise, if there is no such attribute, or its value is the empty string, or resolving its value fails, run the application cache selection algorithm with no manifest. The algorithm must be passed the Document object.//) {
-      push @action, {type => 'appcache-selection'};
-    } elsif ($tc =~ s/^If //) {
-      if ($tc =~ s/^the parser was originally created as part of the HTML fragment parsing algorithm, //) {
-        push @action, {type => 'if',
-                       cond => 'fragment',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of open elements has an? ([a-z0-9_.-]+) element in scope, then //) {
-        push @action, {type => 'if',
-                       cond => 'in-scope',
-                       elements => [$1],
-                       scope => 'scope',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of open elements has an? ([a-z0-9_.-]+) element in ([a-z ]+ scope), then //) {
-        push @action, {type => 'if',
-                       cond => 'in-scope',
-                       elements => [$1],
-                       scope => $2,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of open elements does not have an? ([a-z0-9_.-]+) element in scope, //) {
-        push @action, {type => 'if',
-                       cond => 'not-in-scope',
-                       elements => [$1],
-                       scope => 'scope',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of open elements does not have an? ([a-z0-9_.-]+) element in ([a-z ]+ scope), then //) {
-        push @action, {type => 'if',
-                       cond => 'not-in-scope',
-                       elements => [$1],
-                       scope => $2,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of open elements does not have an element in scope that is an HTML element and whose tag name is one of ("[^"]+"(?:(?:, or|,|or) "[^"]+")*), then //) {
-        my $s = $1;
-        my @s;
-        push @s, $1 while $s =~ /"([^"]+)"/g;
-        push @action, {type => 'if',
-                       cond => 'not-in-scope',
-                       elements => [sort { $a cmp $b } @s],
-                       scope => 'scope',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^there is no ([a-z0-9_.-]+) element on the stack of open elements, then //) {
-        push @action, {type => 'if',
-                       cond => 'not-in-scope',
-                       elements => [$1],
-                       scope => 'stack',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^there is a node in the stack of open elements that is not either ((?:an?|the) [a-z0-9_.-]+ element(?:(?:, or|,| or) (?:an?|the) [a-z0-9_.-]+ element)*), then //) {
-        my $s = $1;
-        my @s;
-        push @s, $1 while $s =~ /an? ([a-z0-9_.-]+) element/g;
-        push @action, {type => 'if',
-                       cond => 'in-scope',
-                       not_elements => [sort { $a cmp $b } @s],
-                       scope => 'stack',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of open elements does not have an element in scope that is an HTML element (?:and |)with the same tag name as that of the token, then //) {
-        push @action, {type => 'if',
-                       cond => 'not-in-scope',
-                       same_tag_name => 1,
-                       scope => 'stack',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^(node) is null or if the stack of open elements does not have node in scope, then //) {
-        push @action, {type => 'if',
-                       cond => 'var-null-or-not-in-scope',
-                       var => $1,
-                       scope => 'stack',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the stack of template insertion modes is not empty, then //) {
-        push @action, {type => 'if',
-                       cond => 'template-ims-not-empty',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the Document is being loaded as part of navigation of a browsing context, then: //) {
-        push @action, {type => 'if',
-                       cond => 'in-navigate',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the current node is not an? ([a-z0-9_.-]+) element, then //) {
-        push @action, {type => 'if',
-                       cond => 'current-node',
-                       elements => [$1],
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the current node is not an HTML element with the same tag name as that of the token, then //) {
-        push @action, {type => 'if',
-                       cond => 'current-node',
-                       same_tag_name => 1,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the list of active formatting elements contains an (a) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\), then //) {
-        push @action, {type => 'if',
-                       cond => 'in-afe-scope',
-                       elements => [$1],
-                       var => 'that-element',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the frameset-ok flag is set to "not ok", //) {
-        push @action, {type => 'if',
-                       cond => 'frameset-not-ok',
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^(node) is an HTML element with the same tag name as the token, then//) {
-        push @action, {type => 'if',
-                       cond => 'same-tag-name-var-token',
-                       var => $1,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^(node) is not the current node, then//) {
-        push @action, {type => 'if',
-                       cond => 'var-is-not-current-node',
-                       var => $1,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the current node is not (node), then//) {
-        push @action, {type => 'if',
-                       cond => 'var-is-not-current-node',
-                       var => $1,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^(node) is in the (special) category, but is not an (\w+(?:, (?:or |)\w+)+) element, then //) {
-        my $var = $1;
-        my $cat = $2;
-        my @s = split /, (?:or |)/, $3;
-        push @action, {type => 'if',
-                       cond => 'var-is-in-category',
-                       var => $1, category => $2,
-                       except => \@s,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^(node) is in the (special) category, then//) {
-        push @action, {type => 'if',
-                       cond => 'var-is-in-category',
-                       var => $1, category => $2,
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^(node) is an? (\w+) element, then //) {
-        push @action, {type => 'if',
-                       cond => 'var-is-element',
-                       var => $1, elements => [$2],
-                       actions => [parse_step $tc]};
-      } elsif ($tc =~ s/^the second element on the stack of open elements is not a body element, if the stack of open elements has only one node on it, or if there is a template element on the stack of open elements, then //) {
-        push @action, {type => 'if',
-                       cond => 'oe-length-1-or-oe-second-is-not-body-or-oe-has-template',
-                       actions => [parse_step $tc]};
-      } else {
-        push @action, {type => 'if',
-                       cond => 'misc',
-                       desc => $tc};
-      }
-      last;
-    } elsif ($tc =~ s/^Otherwise:$//) {
-      push @action, {type => 'OTHERWISE'};
-    } elsif ($tc =~ s/^Otherwise, //) {
-      push @action, {type => 'otherwise',
-                     actions => [parse_step $tc]};
-      last;
-    } elsif ($tc =~ s/^Process the token using the rules for the "([^"]+)" insertion mode\.\s*//) {
-      push @action, {type => 'USING', im => $1};
-    } elsif ($tc =~ s/^(?:R|Then, r)eprocess the (?:current |)token\.\s*//) {
-      push @action, {type => 'reprocess'};
-    } elsif ($tc =~ s/^\QChange the token's tag name to "img" and reprocess it. (Don't ask.)\E//) {
-      push @action,
-          {type => 'set-token-tag-name', tag_name => 'img'},
-          {type => 'reprocess'};
-    } elsif ($tc =~ s/^[Ss]witch the insertion mode to "([^"]+)"\.\s*//) {
-      push @action, {type => 'switch', im => $1};
-    } elsif ($tc =~ s/^[Ss]witch the insertion mode to "([^"]+)"(?: and|, then) reprocess the token\.\s*//) {
-      push @action, {type => 'switch', im => $1};
-      push @action, {type => 'reprocess'};
-    } elsif ($tc =~ s/^Reset the insertion mode appropriately\.\s*//) {
-      push @action, {type => 'reset-im'};
-    } elsif ($tc =~ s/^Create an html element whose ownerDocument is the Document object\.//) {
-      push @action, {type => 'create-html-element', name => 'html'};
-    } elsif ($tc =~ s/^Create an element for the token in the HTML namespace, with the Document as the intended parent\.//) {
-      push @action, {type => 'create-html-element'};
-    } elsif ($tc =~ s/^Append it to the Document object\.//) {
-      push @action, {type => 'append-to-document'};
-    } elsif ($tc =~ s/^Insert the character\.// or
-             $tc =~ s/^Insert the token's character\.\s*//) {
-      push @action, {type => 'insert-char'};
-                  } elsif ($tc =~ s/^Insert a U\+FFFD REPLACEMENT CHARACTER character\.\s*//) {
-                    push @action, {type => 'insert-char',
-                                   value => "\x{FFFD}"};
-                  } elsif ($tc =~ s/^Insert a comment\.\s*//) {
-                    push @action, {type => 'insert-comment'};
-                  } elsif ($tc =~ s/^Insert a comment as the last child of the Document object\.\s*//) {
-                    push @action, {type => 'insert-comment',
-                                   position => 'document-last-child'};
-                  } elsif ($tc =~ s/^Insert a comment as the last child of the first element in the stack of open elements \(the html element\)\.\s*//) {
-                    push @action, {type => 'insert-comment',
-                                   position => 'oe-first-last-child'};
-                  } elsif ($tc =~ s/^Insert an HTML element for the token(?:\.|, then )//) {
-                    push @action, {type => 'insert-html-element'};
-                  } elsif ($tc =~ s/^Insert an HTML element for a "([^"]+)" start tag token with no attributes(?:\.|, then )//) {
-                    push @action, {type => 'insert-html-element',
-                                   name => $1};
-                  } elsif ($tc =~ s/^Follow the generic raw text element parsing algorithm\.\s*//) {
-                    push @action, {type => 'raw-text'};
-                  } elsif ($tc =~ s/^Follow the generic PCDATA element parsing algorithm\.\s*//) {
-                    push @action, {type => 'pcdata'};
-                  } elsif ($tc =~ s/^Put this element in the stack of open elements\.//) {
-                    push @action, {type => 'push-to-oe'};
-                  } elsif ($tc =~ s/^Pop the current node (?:which \([^().]+\))?(?:off|from) the stack of open elements(?:; the new current node will be [^.]+)?\.\s*//) {
-                    push @action, {type => 'pop-oe'};
-     } elsif ($tc =~ s/^Immediately pop the current node off the stack of open elements.//) {
-       push @action, {type => 'pop-oe'};
-                  } elsif ($tc =~ s/^Pop elements from the stack of open elements until an? ([a-z0-9_.-]+) element has been popped from the stack\.\s*//) {
-                    push @action, {type => 'pop-oe', until => [$1]};
-                  } elsif ($tc =~ s/^Pop elements from the stack of open elements until an HTML element with the same tag name as the token has been popped from the stack\.//) {
-                    push @action, {type => 'pop-oe', until_same_tag_name => 1};
-                  } elsif ($tc =~ s/^Pop elements from the stack of open elements until an HTML element whose tag name is one of ("[^"]+"(?:(?:, or|,|or) "[^"]+")*) has been popped from the stack\.//) {
-        my $s = $1;
-        my @s;
-        push @s, $1 while $s =~ /"([^"]+)"/g;
-        push @action, {type => 'pop-oe', until => [sort { $a cmp $b } @s]};
-      } elsif ($tc =~ s/^Acknowledge the token's self-closing flag, if it is set\.\s*//) {
-        push @action, {type => 'ack-self-closing'};
-      } elsif ($tc =~ s/^Generate implied end tags\.\s*//) {
-        push @action, {type => 'implied-end-tags'};
-      } elsif ($tc =~ s/^Generate implied end tags, except for ([a-z0-9_.-]+) elements\.//) {
-        push @action, {type => 'implied-end-tags',
-                       except => [$1]};
-      } elsif ($tc =~ s/^Generate implied end tags, except for HTML elements with the same tag name as the token\.//) {
-        push @action, {type => 'implied-end-tags',
-                       except_same_tag_name => 1};
-      } elsif ($tc =~ s/^Close a p element\.\s*//) {
-                    push @action, {type => 'close-p'};
-                  } elsif ($tc =~ s/^Clear the stack back to a ([a-z ]+ context)\. \(See below\.\)\s*//) {
-                    push @action, {type => 'pop-oe', context => $1};
-                  } elsif ($tc =~ s/^Run the adoption agency algorithm for the token's tag name\.\s*//) {
-                    push @action, {type => 'aaa'};
-                  } elsif ($tc =~ s/^Reconstruct the active formatting elements, if any\.\s*//) {
-                    push @action, {type => 'reconstruct-afe'};
-      } elsif ($tc =~ s/^Push onto the list of active formatting elements that element.//) {
-        push @action, {type => 'push-onto-afe'};
-      } elsif ($tc =~ s/^Insert a marker at the end of the list of active formatting elements\.\s*//) {
-                    push @action, {type => 'push-marker-to-afe'};
-                  } elsif ($tc =~ s/^Clear the list of active formatting elements up to the last marker\.\s*//) {
-                    push @action, {type => 'clear-afe-upto-marker'};
-                  } elsif ($tc =~ s/^Push the node pointed to by the head element pointer onto the stack of open elements\.\s*//) {
-                    push @action, {type => 'push-head-element-to-oe'};
-                  } elsif ($tc =~ s/^Remove the node pointed to by the head element pointer from the stack of open elements\.\s*(?:\([^()]+\)|)\s*//) {
-                    push @action, {type => 'remove-head-element-from-oe'};
-                  } elsif ($tc =~ s/^Set the head element pointer to the newly created head element\.\s*//) {
-                    push @action, {type => 'set-head-element'};
-      } elsif ($tc =~ s/^Set the frameset-ok flag to "not ok"\.\s*//) {
-        push @action, {type => 'frameset-not-ok'};
-      } elsif ($tc =~ s/^Set the frameset-ok flag to "not ok"; then, //) {
-        push @action, {type => 'frameset-not-ok'};
-      } elsif ($tc =~ s/^Initialise (node) to be the current node \(the bottommost node of the stack\).//) {
-        push @action, {type => 'set-current-node-to-var', var => $1};
-      } elsif ($tc =~ s/^Set (node) to the previous entry in the stack of open elements.//) {
-        push @action, {type => 'set-prev-in-oe-to-var', var => $1};
-      } elsif ($tc =~ s/^Pop all the nodes from the current node up to (node), including node, then stop these steps.//) {
-        push @action, {type => 'pop-oe-upto-var',
-                       var => $1},
-                      {type => 'break'};
-      } elsif ($tc =~ s/^Remove (node) from the stack of open elements.//) {
-        push @action, {type => 'remove-var-from-oe', var => $1};
-      } elsif ($tc =~ s/^Let (node) be the element that the form element pointer is set to, or null if it is not set to an element.//) {
-        push @action, {type => 'set-form-to-var', var => $1};
-      } elsif ($tc =~ s/^Run the adoption agency algorithm for the tag name "([^"]+)", then //) {
-        push @action, {type => 'aaa', tag_name => $1};
-      } elsif ($tc =~ s/^Remove that element from the list of active formatting elements and the stack of open elements if the adoption agency algorithm didn't already remove it \(it might not have if the element is not in table scope\).//) {
-        push @action, {type => 'remove-var-from-afe', var => 'that-element'},
-                      {type => 'remove-var-from-oe', var => 'that-element'};
-      } elsif ($tc =~ s/^\QFor each attribute on the token, check to see if the attribute is already present on the body element (the second element) on the stack of open elements, and if it is not, add the attribute and its corresponding value to that element.\E//) {
-        push @action, {type => 'set-missing-attrs-to-the-body'};
-
-      } elsif ($tc =~ s/^(?:R|And r)eturn to the step labeled (\w+).//) {
-        push @action, {type => 'go-back', label => $1};
-      } elsif ($tc =~ s/^Jump to the step labeled (\w+) below.//) {
-        push @action, {type => 'skip-to', label => $1};
-      } else {
-        my $matched;
-        for (@$patterns) {
-          if ($tc =~ s/^\Q$_->[0]\E//) {
-            push @action, {type => $_->[1]};
-            $matched = 1;
-            last;
-          }
-      }
-      
-      if ($matched) {
-        #
-      } elsif ($tc =~ s/^Act as described in the "anything else" entry below\.\s*//) {
-        push @action, {type => 'SAME-AS-ELSE'};
-      } elsif ($tc =~ s/^Take a deep breath, then act as described in the "any other end tag" entry below\.\s*//) {
-        push @action, {type => 'breath'};
-        push @action, {type => 'SAME-AS-END-ELSE'};
-      } elsif ($tc =~ s/^(?:Run|Follow) (?:these|the following) (?:sub|)steps:\s*//) {
-        push @action, {type => 'RUN-NEXT'};
-      } elsif ($tc =~ s/^:\s*$//) {
-        push @action, {type => 'RUN-NEXT'};
-      } elsif ($tc =~ s/^Ignore the token\.\s*//) {
-        #
-      } elsif ($tc =~ s/^Ignore the token, and //) {
-        #
-      } elsif ($tc =~ s/^Abort these steps\.// or
-               $tc =~ s/^Abort these steps and ignore the token\.//) {
-        push @action, {type => 'break'};
-      } elsif ($tc =~ s/^([^.]+\.)//) {
-        push @action, {type => 'misc', desc => $1};
-      } elsif ($tc =~ /\S/) {
-        push @action, {type => 'misc', desc => $tc};
-        last;
-      }
-    }
+  if ($tc =~ s/^((?!Otherwise:)[A-Za-z]+):\s*//) {
+    push @action, {type => 'label', label => lc $1};
   }
-  return @action;
+
+  1 while $tc =~ s/\s*\[\w+\]\s*$//;
+
+  if ($tc =~ s/^([^.]+? for each [^.]+)\.\s+If (it is not, [^.]+)\.\s*//) {
+    push @action, {type => 'UNPARSED', DESC => "$1, and if $2"};
+  }
+
+  while ($tc =~ s/^((?>[^.()]+|\.e\.|\([^()]+\))+)\.\s*(\([^()]+\)\s*|)//) {
+    push @action, {type => 'UNPARSED', DESC => $1};
+  }
+  push @action, {type => 'UNPARSED', DESC => $tc} if length $tc;
+
+  @action = map {
+    if (defined $_->{DESC}) {
+      $_->{DESC} =~ s/\s+$//;
+      $_->{DESC} = lcfirst $_->{DESC};
+      $_->{DESC} =~ s/^(?:now,|finally,|then,|first,|then,|in any case,|immediately|once again|at this stage,) //;
+    }
+    if (not defined $_->{DESC}) {
+      $_;
+    } elsif ($_->{DESC} eq 'otherwise:') {
+      {type => 'ELSE', RUN_NEXT_ALL => 1};
+    } elsif ($_->{DESC} =~ s/^(otherwise, |)if ($SENTENCE), then: //o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      $_->{actions} = [parse_step $_->{DESC}];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), (?:then |)($SENTENCE)$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      $_->{actions} = [parse_step $3];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), (?:then |)($SENTENCE)(?:;|:|, and then) ($SENTENCE)$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      my $f = $4;
+      $_->{actions} = [(parse_step $3), (parse_step $f)];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), (?:then |)($SENTENCE)[;:] ($SENTENCE), (?:and(?: then|)|then) ($SENTENCE)$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      my $f = $4;
+      my $i = $5;
+      $_->{actions} = [(parse_step $3), (parse_step $f), (parse_step $i)];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), then(?: run these substeps|)(?: instead|):$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      $_->{RUN_NEXT} = 1;
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE), then ($SENTENCE), and if ($SENTENCE), ($SENTENCE); otherwise, if ($SENTENCE(?:, or $SENTENCE)*), ($SENTENCE)$/o) {
+      $_->{type} = 'IF';
+      my @a = ($3, $4, $5, $6);
+      $_->{actions} = [(parse_step $2), {type => 'IF', COND => $a[0], actions => [parse_step $a[1]]}];
+      delete $_->{DESC};
+      ($_, {type => 'ELSIF', COND => $a[2], actions => [parse_step $a[3]]});
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ([A-Za-z0-9" -]+? is one of [A-Za-z0-9" -]+(?:, (?:or |)[A-Za-z0-9" -]+)+), then ($SENTENCE); ($SENTENCE)$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      my $f = $4;
+      $_->{actions} = [(parse_step $3), (parse_step $f)];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ([A-Za-z0-9" -]+? that is not either (?:an?|the) \w+ element(?:, (?:or |)(?:an?|the) \w+ element)+), then ($SENTENCE)$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      $_->{actions} = [parse_step $3];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE(?:, (?:or |and |)$SENTENCE)+), (?:then |)($SENTENCE)$/o) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      $_->{actions} = [parse_step $2];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE(?:, (?:or |and |)$SENTENCE)+), then ($SENTENCE); ($SENTENCE)$/o) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      $_->{actions} = [parse_step $2];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^if ([A-Za-z0-9" -]+, but is not an? [A-Za-z0-9" -]+(?:, (?:or |)[A-Za-z0-9" -]+)+ [A-Za-z0-9" -]+), then ($SENTENCE)$/o) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      $_->{actions} = [parse_step $2];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE, or if it does, but $SENTENCE), then: ($SENTENCE)$/o) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      $_->{actions} = [parse_step $2];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE), then ($SENTENCE), and if that is successful, ($SENTENCE); otherwise, if ($SENTENCE(?:, or $SENTENCE)+), ($SENTENCE)$/) {
+      my @a = ($2, $3, $4, $5);
+      ({type => 'IF', COND => $1, actions => [parse_step $a[0]]},
+       {type => 'IF', COND => 'that is successful', actions => [parse_step $a[1]]},
+       {type => 'ELSIF', COND => $a[2], actions => [parse_step $a[3]]});
+    } elsif ($_->{DESC} =~ /^if ([A-Za-z0-9" -]+(?:, (?:or |)[A-Za-z0-9"-]+)+ [A-Za-z0-9" -]+), ($SENTENCE); ($SENTENCE)$/o) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      my $f = $3;
+      $_->{actions} = [(parse_step $2), (parse_step $f)];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^otherwise, ($SENTENCE)$/o) {
+      $_->{type} = 'ELSE';
+      $_->{actions} = [parse_step $1];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^otherwise, ($SENTENCE); ($SENTENCE)$/o) {
+      $_->{type} = 'ELSE';
+      my $f = $2;
+      $_->{actions} = [(parse_step $1), (parse_step $2)];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^($SENTENCE?) until ($SENTENCE)$/o) {
+      $_->{type} = 'UNTIL';
+      $_->{COND} = $2;
+      $_->{actions} = [parse_step $1];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^($SENTENCE)(?:,? and|, then) ($VERB $SENTENCE)$/o) {
+      my $f = $2;
+      ((parse_step $1), (parse_step $f));
+    } elsif ($_->{DESC} =~ /^($SENTENCE), and, if ($SENTENCE), ($SENTENCE)$/o) {
+      my @a = ($1, $2, $3);
+      ((parse_step $a[0]),
+       {type => 'IF', cond => $a[1], actions => [parse_step $a[2]]});
+    } elsif ($_->{DESC} =~ /^check to see if ($SENTENCE)(?:, and|\.) if it is not, ($SENTENCE)$/o) {
+      {type => 'IF', COND => $1, actions => [parse_step $2]};
+    } elsif ($_->{DESC} =~ /^(?:run|follow) (?:these|the following) steps:$/) {
+      {type => 'STEP', RUN_NEXT => 1};
+    } elsif ($_->{DESC} =~ /^otherwise, (?:run|follow) (?:these|the following) steps:$/) {
+      {type => 'ELSE', RUN_NEXT => 1};
+    } elsif ($_->{DESC} =~ /^otherwise, ($SENTENCE); then, for each ($SENTENCE), (.+)$/) {
+      my $h = $2;
+      my $f = $3;
+      {type => 'ELSE', actions => [
+        (parse_step $1),
+        {type => 'FOR-EACH', ITEMS => $h, actions => [parse_step $f]},
+      ]};
+    } elsif ($_->{DESC} =~ /^otherwise, for each ($SENTENCE), (.+)$/) {
+      my $i = $1;
+      my $f = $2;
+      {type => 'FOR-EACH', ITEMS => $i, actions => [parse_step $f]};
+    } elsif ($_->{DESC} =~ /^enable foster parenting, ($SENTENCE), and then disable foster parenting$/o) {
+      {type => 'with-foster-parenting', actions => [parse_step $1]};
+    } elsif ($_->{DESC} =~ /^($SENTENCE, including node), then ($SENTENCE)$/o) {
+      my $f = $2;
+      ((parse_step $1), (parse_step $f));
+    } else {
+      $_;
+    }
+  } @action;
+  
+  if (@action == 1) {
+    return @action;
+  } else {
+    return {type => 'STEP', actions => \@action};
+  }
 } # parse_step
 
 my $im_name;
@@ -482,6 +356,184 @@ while (@node) {
       unshift @node, $node->child_nodes->to_list;
     } # $ln
   } # $node->node_type
+}
+
+my $DescIsType = {};
+$DescIsType->{$_} = 1 for
+  'abort these steps',
+  "acknowledge the token's self-closing flag",
+  'adjust foreign attributes',
+  'adjust MathML attributes',
+  'adjust SVG attributes',
+  'application cache selection algorithm',
+  'change the encoding',
+  'clear the list of active formatting elements up to the last marker',
+  'clear the stack back to a table body context',
+  'clear the stack back to a table context',
+  'clear the stack back to a table row context',
+  'close a p element',
+  'close the cell',
+  'generate all implied end tags thoroughly',
+  'generate implied end tags',
+  'generic raw text element parsing algorithm',
+  'generic RCDATA element parsing algorithm',
+  'insert a character',
+  'insert a comment',
+  'ignore the token',
+  'insert an HTML element',
+  'parse error',
+  'perform a microtask checkpoint',
+  'prepare a script',
+  'process the SVG script element',
+  'push onto the list of active formatting elements',
+  'reconstruct the active formatting elements',
+  'reprocess the token',
+  'reset the insertion mode appropriately',
+  'stop parsing',
+  'take a deep breath',
+  'add the attribute and its corresponding value to that element',
+  ;
+my $NormalizeDesc = {};
+$NormalizeDesc->{$_->[0]} = $_->[1] for
+    ["acknowledge the token's self-closing flag, if it is set" => "acknowledge the token's self-closing flag"],
+    ['adjust foreign attributes for the token' => 'adjust foreign attributes'],
+    ['adjust MathML attributes for the token' => 'adjust MathML attributes'],
+    ['adjust SVG attributes for the token' => 'adjust SVG attributes'],
+    ['close the cell (see below)' => 'close the cell'],
+    ['insert the character' => 'insert a character'],
+    ['insert an HTML element for the token', 'insert an HTML element'],
+    ["insert the token's character" => 'insert a character'],
+    ['prepare the script' => 'prepare a script'],
+    ['push onto the list of active formatting elements that element' => 'push onto the list of active formatting elements'],
+    ['reconstruct the active formatting elements, if any' => 'reconstruct the active formatting elements'],
+    ['reprocess it' => 'reprocess the token'],
+    ['reprocess the current token' => 'reprocess the token'],
+    ['run the application cache selection algorithm with no manifest' => 'application cache selection algorithm'],
+    ['run the application cache selection algorithm with no manifest, passing it the Document object' => 'application cache selection algorithm'],
+    ['stop these steps' => 'abort these steps'],
+    ['process the script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
+    ['change the encoding to the resulting encoding' => 'change the encoding'],
+
+    ['the algorithm must be passed the Document object' => ''],
+    ;
+
+my $DescPatterns = [
+  [qr/act as described in the "([^"]+)" entry below/,
+   'SAME-AS', 'field'],
+  [qr/push (.+) onto (.+)/, 'push', 'ITEM', 'LIST'],
+  [qr/remove (.+) from (.+)/, 'remove', 'ITEM', 'LIST'],
+  [qr/pop all the nodes (?:from (.+?), |)from (the current node) up to(.+)/,
+   'pop', 'LIST', 'FROM-ITEM', 'TO-ITEM'],
+  [qr/pop (.+) (?:off|from) (.+)/, 'pop', 'ITEM', 'LIST'],
+  [qr/put (.+) in (.+)/, 'put', 'ITEM', 'LIST'],
+  [qr/set (.+) to (.+)/, 'set', 'TARGET', 'VALUE'],
+  [qr/let (.+) (?:be|have) (.+)/, 'set', 'TARGET', 'VALUE'],
+  [qr/mark (.+) as (.+)/, 'mark', 'TARGET', 'VALUE'],
+  [qr/unset (.+)/, 'unset', 'TARGET'],
+  [qr/append (.+) to (.+)/, 'append', 'ITEM', 'LIST'],
+  [qr/initialise (.+) to be (.+)/, 'set', 'TARGET', 'VALUE'],
+  [qr/increment (.+) by one/, 'increment', 'TARGET'],
+  [qr/decrement (.+) by one/, 'decrement', 'TARGET'],
+  [qr/process the token using the rules for the "([^"]+)" insertion mode/,
+   'USING-THE-RULES-FOR', 'im'],
+  [qr/process the token according to the rules given in the section corresponding to the (current insertion mode) in HTML content/,
+   'USING-THE-RULES-FOR', 'IM'],
+  [qr/insert (.+) at the end of (.+)/, 'insert at the end', 'ITEM', 'LIST'],
+  [qr/insert a comment as (.+)/, 'insert a comment', 'AS'],
+  [qr/insert a (.+) character/, 'insert a character', 'CHAR'],
+  [qr/insert the characters given by (.+)/, 'insert a character', 'CHAR'],
+  [qr/insert (?:more |)characters \((see below for what they should say)\)/,
+   'insert a character', 'CHAR'],
+  [qr/switch the insertion mode to (.+)/,
+   'switch the insertion mode', 'IM'],
+  [qr/switch the tokenizer to the (.+) state/,
+   'switch the tokenizer', 'state'],
+  [qr/insert an HTML element for an? "([^"]+)" start tag token with (.+)/,
+   'insert an HTML element', 'tag_name', 'ATTRS'],
+  [qr/insert a foreign element for the token, in (.+)/,
+   'insert a foreign element', 'NS'],
+  [qr/insert the newly created element at (.+)/,
+   'insert an element', 'LOCATION'],
+  [qr/create an? (\w+) element whose ownerDocument is the Document object/,
+   'create an HTML element', 'local_name'],
+  [qr/create an element for the token in the HTML namespace, with (.+) as the intended parent/,
+   'create an HTML element', 'INTENDED_PARENT'],
+  [qr/create an element for the token in the HTML namespace, with the intended parent being (.+)/,
+   'create an HTML element', 'INTENDED_PARENT'],
+  [qr/generate implied end tags, except for (HTML elements with the same tag name as the token)/,
+   'generate implied end tags', 'EXCEPT'],
+  [qr/generate implied end tags, except for (\w+ elements)/,
+   'generate implied end tags', 'EXCEPT'],
+  [qr/change the token's tag name to "([^"]+)"/,
+   "change the token's tag name", 'tag_name'],
+  [qr/jump to the step labeled (\w+) below/,
+   'skip to', 'label'],
+  [qr/return to the step labeled (\w+)/,
+   'jump back', 'label'],
+  [qr/move on to the next one/, 'NEXT-TOKEN'],
+  [qr/run the adoption agency algorithm for the tag name "([^"]+)"/,
+   'adoption agency algorithm', 'tag_name'],
+  [qr/run the adoption agency algorithm for the token's tag name/,
+   'adoption agency algorithm'],
+  [qr/run the application cache selection algorithm with (the result of applying the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set)/,
+   'application cache selection algorithm', 'INPUT'],
+  [qr/reprocess (.+) using the rules given in (.+)/,
+   'reprocess', 'TARGET', 'RULE'],
+  [qr/resolve (.+) to an absolute URL, relative to (.+)/,
+   'resolve', 'INPUT', 'BASE'],
+  [qr/drop the attributes from the token, and act as described in the next entry; i.e. act as if this was a ("br" start tag token) with no attributes, rather than the end tag token that it actually is/,
+   'reprocess', 'RULE'],
+  [qr/ignore that token/ => 'IGNORE-THAT-TOKEN'],
+];
+
+sub process_actions ($);
+sub process_actions ($) {
+  my $acts = shift;
+  my $new_acts = [];
+
+  ACT: for my $act (@$acts) {
+    $act->{DESC} = $NormalizeDesc->{$act->{DESC}} // $act->{DESC}
+        if defined $act->{DESC};
+    next if $act->{type} eq 'UNPARSED' and not length $act->{DESC};
+    next if $act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^this might cause /;
+
+    if ($act->{type} eq 'UNPARSED' and
+        $DescIsType->{$act->{DESC}}) {
+      push @$new_acts, {type => $act->{DESC}};
+    } elsif ($act->{type} eq 'UNPARSED' and
+             $act->{DESC} =~ /^(?:this is a|follow the) (.+)$/ and
+             $DescIsType->{$1}) {
+      push @$new_acts, {type => $1};
+    } else {
+      if ($act->{type} eq 'UNPARSED') {
+        for my $p (@$DescPatterns) {
+          if ($act->{DESC} =~ /^$p->[0]$/) {
+            my $t = {type => $p->[1]};
+            for (2..$#$p) {
+              no strict 'refs';
+              $t->{$p->[$_]} = ${$_-1};
+            }
+            push @$new_acts, $t;
+            next ACT;
+          }
+        }
+      }
+
+      if ($act->{actions}) {
+        $act->{actions} = process_actions $act->{actions};
+      }
+      push @$new_acts, $act;
+    }
+  }
+
+  return $new_acts;
+} # process_actions
+
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
+    my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions} or next;
+    $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = process_actions $acts;
+  }
 }
 
 for my $im (keys %{$Data->{ims}}) {
