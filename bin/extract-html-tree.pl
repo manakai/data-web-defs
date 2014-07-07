@@ -446,7 +446,7 @@ my $DescPatterns = [
    'insert a character', 'CHAR'],
   [qr/switch the insertion mode to (.+)/,
    'switch the insertion mode', 'IM'],
-  [qr/switch the tokenizer to the (.+) state/,
+  [qr/switch the tokenizer to the (.+ state)/,
    'switch the tokenizer', 'state'],
   [qr/insert an HTML element for an? "([^"]+)" start tag token with (.+)/,
    'insert an HTML element', 'tag_name', 'ATTRS'],
@@ -486,6 +486,147 @@ my $DescPatterns = [
   [qr/ignore that token/ => 'IGNORE-THAT-TOKEN'],
 ];
 
+sub parse_cond ($);
+sub parse_cond ($) {
+  my $COND = shift;
+
+  my $cond;
+  if ($COND =~ /^([^,]+), and ([^,]+)$/) {
+    my ($l, $r) = ($1, $2);
+    $cond = ['and',
+      (parse_cond ($l) // ['COND', $l]),
+      (parse_cond ($r) // ['COND', $r]),
+    ];
+  } elsif ($COND =~ /^([^,]+), or if ([^,]+)$/) {
+    my ($l, $r) = ($1, $2);
+    $cond = ['or',
+      (parse_cond ($l) // ['COND', $l]),
+      (parse_cond ($r) // ['COND', $r]),
+    ];
+  } elsif ($COND =~ /^([^,]+), (?:if |)([^,]+), or if ([^,]+)$/) {
+    my ($l, $r, $m) = ($1, $2, $3);
+    $cond = ['or',
+      (parse_cond ($l) // ['COND', $l]),
+      (parse_cond ($r) // ['COND', $r]),
+      (parse_cond ($m) // ['COND', $m]),
+    ];
+  } elsif ($COND =~ /^the current node is an? (\w+) element$/) {
+    $cond = ['current node', 'is', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the current node is not (?:then |)an? (\w+) element$/) {
+    $cond = ['current node', 'is not', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the current node is the root (html) element$/ or
+           $COND =~ /^the stack of open elements has only one node on it$/) {
+    $cond = ['current node', 'is', {ns => 'HTML', name => 'html'}];
+  } elsif ($COND =~ /^the current node is not the root (html) element$/) {
+    $cond = ['current node', 'is not', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the current node is no longer an? (\w+) element$/) {
+    $cond = ['current node', 'is not', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the node immediately before it in the stack of open elements is an optgroup element$/) {
+    $cond = ['current node-1', 'is', {ns => 'HTML', name => 'optgroup'}];
+  } elsif ($COND =~ /^the current node is not an HTML element with the same tag name as (?:that of |)the token$/) {
+    $cond = ['current node', 'is not', {ns => 'HTML', same_tag_name_as_token => 1}];
+  } elsif ($COND =~ /^the current node is an HTML element whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"$/) {
+    $cond = ['current node', 'is', {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
+  } elsif ($COND =~ /^the adjusted current node is an element in the (SVG|MathML) namespace$/) {
+    $cond = ['adjusted current node', 'is', {ns => $1}];
+  } elsif ($COND =~ /^the current node is not node$/ or
+           $COND =~ /^node is not the current node$/) {
+    $cond = ['current node', 'is', 'node'];
+  } elsif ($COND =~ /^the second element on the stack of open elements is not a body element$/) {
+    $cond = ['oe 2', 'is not', {ns => 'HTML', name => 'body'}];
+  } elsif ($COND =~ /^node is not an element in the HTML namespace$/) {
+    $cond = ['node', 'is not', {ns => 'HTML'}];
+  } elsif ($COND =~ /^node is an HTML element with the same tag name as the token$/) {
+    $cond = ['node', 'is', {ns => 'HTML', same_tag_name_as_token => 1}];
+  } elsif ($COND =~ /^node's tag name, converted to ASCII lowercase, is the same as the tag name of the token$/) {
+    $cond = ['node', 'lc is', {same_tag_name_as_token => 1}];
+  } elsif ($COND =~ /^node's tag name, converted to ASCII lowercase, is not the same as the tag name of the token$/) {
+    $cond = ['node', 'lc is not', {same_tag_name_as_token => 1}];
+  } elsif ($COND =~ /^node is an? (\w+) element$/) {
+    $cond = ['node', 'is', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^node is in the special category$/) {
+    $cond = ['node', 'is', {category => 'special'}];
+  } elsif ($COND =~ /^node is in the special category, but is not an address, div, or p element$/) {
+    $cond = ['node', 'is', {category => 'special', except => ['address', 'div', 'p']}];
+  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) element$/) {
+    $cond = ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^there is an? (\w+) element on the stack of open elements$/) {
+    $cond = ['oe', 'in scope', {scope => 'all', ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^there is no (\w+) element on the stack of open elements$/) {
+    $cond = ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the stack of open elements has an? (\w+) element in scope$/) {
+    $cond = ['oe', 'in scope', {scope => 'scope', ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) element in scope$/) {
+    $cond = ['oe', 'not in scope', {scope => 'scope', ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the stack of open elements has an? (\w+) element in ([\w ]+) scope$/) {
+    $cond = ['oe', 'in scope', {scope => $2, ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) element in ([\w ]+) scope$/) {
+    $cond = ['oe', 'not in scope', {scope => $2, ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) or (\w+) element in ([\w ]+) scope$/) {
+    $cond = ['oe', 'not in scope', {scope => $3, ns => 'HTML', name => [$1, $2]}];
+  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+), (\w+), or (\w+) element in ([\w ]+) scope$/) {
+    $cond = ['oe', 'not in scope', {scope => $4, ns => 'HTML', name => [$1, $2, $3]}];
+  } elsif ($COND =~ /^the stack of open elements does not have an element in scope that is an HTML element with the same tag name as that of the token$/) {
+    $cond = ['oe', 'in scope', {scope => 'scope', ns => 'HTML', same_tag_name_as_token => 1}];
+  } elsif ($COND =~ /^the stack of open elements does not have an element in ([\w ]+) scope that is an HTML element with the same tag name as (?:that of |)the token$/) {
+    $cond = ['oe', 'in scope', {scope => $1, ns => 'HTML', same_tag_name_as_token => 1}];
+  } elsif ($COND =~ /^the stack of open elements does not have an element in scope that is an HTML element and whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"$/) {
+    $cond = ['oe', 'not in scope', {scope => 'scope', ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
+  } elsif ($COND =~ /^there is a node in the stack of open elements that is not either ((?:an?|the) \w+ element(?:, (?:or |)(?:an?|the) \w+ element)+)$/) {
+    my @s;
+    my $s = $1;
+    push @s, $1 while $s =~ /(?:an?|the) (\w+) element/g;
+    $cond = ['oe', 'in scope not', {ns => 'HTML', name => \@s}];
+  } elsif ($COND =~ /^node is null or if the stack of open elements does not have node in scope$/) {
+    $cond = ['or',
+      ['node', 'is null'],
+      ['oe', 'not in scope', 'node'],
+    ];
+  } elsif ($COND =~ /^there is no template element on the stack of open elements and the form element pointer is not null$/) {
+    $cond = ['and',
+      ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => 'template'}],
+      ['form element pointer', 'is not null'],
+    ];
+  } elsif ($COND =~ /^node is the topmost element in the stack of open elements$/) {
+    $cond = ['node', 'is', {ns => 'HTML', name => 'html'}];
+  } elsif ($COND =~ /^the form element pointer is not null$/) {
+    $cond = ['form element pointer', 'is not null'];
+  } elsif ($COND =~ /^the token has its self-closing flag set$/) {
+    $cond = ['token', 'has', 'self-closing flag'];
+  } elsif ($COND =~ /^the list of active formatting elements contains an? (\w+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
+    $cond = ['afe', 'in scope', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
+    $cond = ['pending table character tokens list', 'has non-space'];
+  } elsif ($COND =~ /^the stack of template insertion modes is not empty$/) {
+    $cond = ['stack of template insertion modes', 'is not empty'];
+  } elsif ($COND =~ /^the next token is a U\+000A LINE FEED \(LF\) character token$/) {
+    $cond = ['NEXT_IS_LF_TOKEN'];
+  } elsif ($COND =~ /^the document is not an iframe srcdoc document$/) {
+    $cond = ['iframe srcdoc document'];
+  } elsif ($COND =~ /^the parser was originally created (?:for|as part of) the HTML fragment parsing algorithm$/) {
+    $cond = ['fragment'];
+  } elsif ($COND =~ /^the Document is being loaded as part of navigation of a browsing context$/) {
+    $cond = ['navigate'];
+  } elsif ($COND =~ /^the Document is not set to quirks mode$/) {
+    $cond = ['quirks'];
+  } elsif ($COND =~ /^the frameset-ok flag is set to "not ok"$/) {
+    $cond = ['frameset-ok flag', 'is', 'not ok'];
+  } elsif ($COND =~ /^the parser was not originally created as part of the HTML fragment parsing algorithm \(fragment case\)$/) {
+    $cond = ['fragment'];
+  } elsif ($COND =~ /^the insertion mode is one of "in table", "in caption", "in table body", "in row", or "in cell"$/) {
+    $cond = ['im', 'is', ['in table', 'in caption', 'in table body', 'in row', 'in cell']];
+  } elsif ($COND =~ /^the parser's script nesting level is zero$/) {
+    $cond = ['script nesting level', 'is', 0];
+  } elsif ($COND =~ /^there is a pending parsing-blocking script$/) {
+    $cond = ['pending parsing-blocking script'];
+  } elsif ($COND =~ /^the stack of script settings objects is empty$/) {
+    $cond = ['stack of script settings objects', 'is empty'];
+  }
+
+  #warn $COND if not defined $cond;
+  return $cond;
+} # parse_cond
+
 sub process_actions ($);
 sub process_actions ($) {
   my $acts = shift;
@@ -519,10 +660,62 @@ sub process_actions ($) {
         }
       }
 
+      if (($act->{type} eq 'IF' or $act->{type} eq 'ELSIF') and
+          defined $act->{COND}) {
+        my $cond = parse_cond $act->{COND};
+        if (defined $cond) {
+          $act->{cond} = $cond;
+          delete $act->{COND};
+        }
+      }
+
       if ($act->{actions}) {
         $act->{actions} = process_actions $act->{actions};
       }
       push @$new_acts, $act;
+    }
+  }
+
+  for my $act (@$new_acts) {
+    if (defined $act->{IM}) {
+      if ($act->{IM} =~ /^"([^"]+)"$/) {
+        $act->{im} = ['im', $1];
+        delete $act->{IM};
+      } elsif ($act->{IM} eq 'the original insertion mode') {
+        $act->{im} = ['original'];
+        delete $act->{IM};
+      } elsif ($act->{IM} eq 'current insertion mode') {
+        $act->{im} = ['current'];
+        delete $act->{IM};
+      } else {
+        warn $act->{IM};
+      }
+    }
+
+    if ($act->{type} eq 'pop') {
+      if ($act->{LIST} eq 'the stack of open elements' or
+          $act->{LIST} eq 'the stack of open elements stack' or
+          $act->{LIST} eq 'this stack' or
+          $act->{LIST} eq 'the stack' or
+          $act->{LIST} eq 'the bottom of the stack of open elements') {
+        if ($act->{ITEM} =~ /^(?:the current node(?: \([^()]+\)|)|elements|that \w+ element|that node)$/) {
+          $act->{type} = 'pop-oe';
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } else {
+          warn $act->{ITEM};
+        }
+      } elsif ($act->{LIST} eq 'the stack of template insertion modes') {
+        if ($act->{ITEM} eq 'the current template insertion mode') {
+          $act->{type} = 'pop-template-ims';
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } else {
+          warn $act->{ITEM};
+        }
+      } else {
+        warn $act->{LIST};
+      }
     }
   }
 
