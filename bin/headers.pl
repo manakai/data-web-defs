@@ -144,6 +144,11 @@ for (split /\x0D?\x0A/, $src_path->child ('http-transfer-codings.txt')->slurp_ut
   } elsif (/^deprecated\s*->\s*(\S+)$/) {
     $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
     $Data->{codings}->{$coding_name}->{transfer}->{preferred_name} = $1;
+  } elsif (/^deprecated$/) {
+    $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
+  } elsif (/^bad$/) {
+    delete $Data->{codings}->{$coding_name}->{transfer}->{TE};
+    delete $Data->{codings}->{$coding_name}->{transfer}->{'Transfer-Encoding'};
   } elsif (/^not-in-TE$/) {
     delete $Data->{codings}->{$coding_name}->{transfer}->{TE};
   } elsif (/^TE-only$/) {
@@ -160,6 +165,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
   } elsif (/^\*\s*(\S+)\s*$/) {
     my $name = $1;
     $coding_name = $name;
+    $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'} = 1;
+    $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'} = 1;
     $Data->{codings}->{$coding_name}->{content} ||= {};
     next;
   } elsif (/\S/) {
@@ -177,6 +184,13 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
   } elsif (/^deprecated\s*->\s*(\S+)$/) {
     $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
     $Data->{codings}->{$coding_name}->{content}->{preferred_name} = $1;
+  } elsif (/^deprecated$/) {
+    $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
+  } elsif (/^bad$/) {
+    delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
+    delete $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'};
+  } elsif (/^Accept-Encoding only$/) {
+    delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
