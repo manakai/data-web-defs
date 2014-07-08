@@ -182,13 +182,21 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $1), (parse_step $2)];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^($SENTENCE?) until ($SENTENCE)$/o) {
+    } elsif ($_->{DESC} =~ /^($SENTENCE) until ($SENTENCE(?:, (?:or |)[A-Za-z0-9" -]+)*)$/o) {
       $_->{type} = 'UNTIL';
       $_->{COND} = $2;
       $_->{actions} = [parse_step $1];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^($SENTENCE)(?:,? and|, then) ($VERB $SENTENCE)$/o) {
+    } elsif ($_->{DESC} =~ /^($SENTENCE), and then (keep [A-Za-z0-9" -]+) until ($SENTENCE(?:, (?:or |)[A-Za-z0-9" -]+)+)$/o) {
+      my $f = $1;
+      my $g = $2;
+      $_->{type} = 'UNTIL';
+      $_->{COND} = $3;
+      $_->{actions} = [parse_step $g];
+      delete $_->{DESC};
+      ((parse_step $f), $_);
+   } elsif ($_->{DESC} =~ /^($SENTENCE)(?:,? and|, then) ($VERB $SENTENCE)$/o) {
       my $f = $2;
       ((parse_step $1), (parse_step $f));
     } elsif ($_->{DESC} =~ /^($SENTENCE), and, if ($SENTENCE), ($SENTENCE)$/o) {
@@ -423,8 +431,10 @@ my $DescPatterns = [
   [qr/push (.+) onto (.+)/, 'push', 'ITEM', 'LIST'],
   [qr/remove (.+) from (.+)/, 'remove', 'ITEM', 'LIST'],
   [qr/pop all the nodes (?:from (.+?), |)from (the current node) up to(.+)/,
-   'pop', 'LIST', 'FROM-ITEM', 'TO-ITEM'],
-  [qr/pop (.+) (?:off|from) (.+)/, 'pop', 'ITEM', 'LIST'],
+   'POP', 'LIST', 'FROM-ITEM', 'TO-ITEM'],
+  [qr/pop (.+) (?:off|from) (.+?); the new current node will be .+/, 'POP', 'ITEM', 'LIST'],
+  [qr/pop (.+) (?:off|from) (.+)/, 'POP', 'ITEM', 'LIST'],
+  [qr/keep popping more (.+) from (.+)/, 'POP', 'ITEM', 'LIST'],
   [qr/put (.+) in (.+)/, 'put', 'ITEM', 'LIST'],
   [qr/set (.+) to (.+)/, 'set', 'TARGET', 'VALUE'],
   [qr/let (.+) (?:be|have) (.+)/, 'set', 'TARGET', 'VALUE'],
@@ -692,13 +702,16 @@ sub process_actions ($) {
       }
     }
 
-    if ($act->{type} eq 'pop') {
-      if ($act->{LIST} eq 'the stack of open elements' or
+    if ($act->{type} eq 'POP') {
+      if (not defined $act->{LIST} or
+          $act->{LIST} eq 'the stack of open elements' or
           $act->{LIST} eq 'the stack of open elements stack' or
           $act->{LIST} eq 'this stack' or
           $act->{LIST} eq 'the stack' or
           $act->{LIST} eq 'the bottom of the stack of open elements') {
-        if ($act->{ITEM} =~ /^(?:the current node(?: \([^()]+\)|)|elements|that \w+ element|that node)$/) {
+        if (not defined $act->{ITEM}) {
+          # XXX
+        } elsif ($act->{ITEM} =~ /^(?:the current node(?: \([^()]+\)|)|elements|that \w+ element|that node|an element)$/) {
           $act->{type} = 'pop-oe';
           delete $act->{LIST};
           delete $act->{ITEM};
@@ -706,7 +719,9 @@ sub process_actions ($) {
           warn $act->{ITEM};
         }
       } elsif ($act->{LIST} eq 'the stack of template insertion modes') {
-        if ($act->{ITEM} eq 'the current template insertion mode') {
+        if (not defined $act->{ITEM}) {
+          #
+        } elsif ($act->{ITEM} eq 'the current template insertion mode') {
           $act->{type} = 'pop-template-ims';
           delete $act->{LIST};
           delete $act->{ITEM};
