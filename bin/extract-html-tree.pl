@@ -444,14 +444,14 @@ my $DescPatterns = [
   [qr/initialise (.+) to be (.+)/, 'SET', 'TARGET', 'VALUE'],
   [qr/mark (.+) as (?:being |)(.+)/, 'MARK', 'TARGET', 'VALUE'],
   [qr/unset (.+)/, 'UNSET', 'TARGET'],
-  [qr/append (.+) to (.+)/, 'append', 'ITEM', 'LIST'],
-  [qr/increment (.+) by one/, 'increment', 'TARGET'],
-  [qr/decrement (.+) by one/, 'decrement', 'TARGET'],
+  [qr/increment (.+) by one/, 'INCREMENT', 'TARGET'],
+  [qr/decrement (.+) by one/, 'DECREMENT', 'TARGET'],
   [qr/process the token using the rules for the "([^"]+)" insertion mode/,
    'USING-THE-RULES-FOR', 'im'],
   [qr/process the token according to the rules given in the section corresponding to the (current insertion mode) in HTML content/,
    'USING-THE-RULES-FOR', 'IM'],
-  [qr/insert (.+) at the end of (.+)/, 'insert at the end', 'ITEM', 'LIST'],
+  [qr/append (.+?) to (.+)/, 'APPEND', 'ITEM', 'LIST'],
+  [qr/insert (.+?) at the end of (.+)/, 'APPEND', 'ITEM', 'LIST'],
   [qr/insert a comment as (.+)/, 'insert a comment', 'AS'],
   [qr/insert a (.+) character/, 'insert a character', 'CHAR'],
   [qr/insert the characters given by (.+)/, 'insert a character', 'CHAR'],
@@ -465,8 +465,7 @@ my $DescPatterns = [
    'insert an HTML element', 'tag_name', 'ATTRS'],
   [qr/insert a foreign element for the token, in (.+)/,
    'insert a foreign element', 'NS'],
-  [qr/insert the newly created element at (.+)/,
-   'insert an element', 'LOCATION'],
+  [qr/insert the newly created element at (.+)/, 'APPEND', 'LOCATION'],
   [qr/create an? (\w+) element whose ownerDocument is the Document object/,
    'create an HTML element', 'local_name'],
   [qr/create an element for the token in the HTML namespace, with (.+) as the intended parent/,
@@ -479,10 +478,8 @@ my $DescPatterns = [
    'generate implied end tags', 'EXCEPT'],
   [qr/change the token's tag name to "([^"]+)"/,
    "change the token's tag name", 'tag_name'],
-  [qr/jump to the step labeled (\w+) below/,
-   'skip to', 'label'],
-  [qr/return to the step labeled (\w+)/,
-   'jump back', 'label'],
+  [qr/jump to the step labeled (\w+) below/, 'SKIP-TO', 'label'],
+  [qr/return to the step labeled (\w+)/, 'JUMP-BACK', 'label'],
   [qr/move on to the next one/, 'NEXT-TOKEN'],
   [qr/run the adoption agency algorithm for the tag name "([^"]+)"/,
    'adoption agency algorithm', 'tag_name'],
@@ -490,12 +487,12 @@ my $DescPatterns = [
    'adoption agency algorithm'],
   [qr/run the application cache selection algorithm with (the result of applying the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set)/,
    'application cache selection algorithm', 'INPUT'],
-  [qr/reprocess (.+) using the rules given in (.+)/,
-   'reprocess', 'TARGET', 'RULE'],
   [qr/resolve (.+) to an absolute URL, relative to (.+)/,
    'resolve', 'INPUT', 'BASE'],
+  [qr/reprocess (.+) using the rules given in (.+)/,
+   'REPROCESS', 'TARGET', 'RULE'],
   [qr/drop the attributes from the token, and act as described in the next entry; i.e. act as if this was a ("br" start tag token) with no attributes, rather than the end tag token that it actually is/,
-   'reprocess', 'RULE'],
+   'REPROCESS', 'RULE'],
   [qr/ignore that token/ => 'IGNORE-THAT-TOKEN'],
 ];
 
@@ -955,6 +952,131 @@ sub process_actions ($) {
         warn $act->{TARGET};
       }
     } # UNSET
+
+    if ($act->{type} eq 'APPEND') {
+      if (defined $act->{LOCATION}) {
+        if ($act->{LOCATION} eq 'the adjusted insertion location') {
+          $act->{type} = 'append-to-adjusted-insertion-location';
+          delete $act->{LOCATION};
+        } else {
+          warn $act->{LOCATION};
+        }
+      } elsif ($act->{LIST} eq 'the Document object' and
+               $act->{ITEM} eq 'it') {
+        $act->{type} = 'append-to-document';
+        delete $act->{LIST};
+        delete $act->{ITEM};
+      } elsif ($act->{LIST} eq 'the pending table character tokens list' and
+               $act->{ITEM} eq 'the character token') {
+        $act->{type} = 'append-to-pending-table-character-tokens-list';
+        delete $act->{LIST};
+        delete $act->{ITEM};
+      } elsif ($act->{ITEM} eq 'a DocumentType node') {
+        $act->{type} = 'append-to-document';
+        $act->{item} = 'DocumentType';
+        delete $act->{LIST};
+        delete $act->{ITEM};
+      } elsif ($act->{LIST} eq 'the list of active formatting elements' and
+               $act->{ITEM} eq 'a marker') {
+        $act->{type} = 'append-marker-to-afe';
+        delete $act->{LIST};
+        delete $act->{ITEM};
+      } else {
+        warn $act->{LIST};
+      }
+    } # APPEND
+
+    if ($act->{type} eq 'INCREMENT' or
+        $act->{type} eq 'DECREMENT') {
+      $act->{type} = lc $act->{type};
+      $act->{target} = $act->{TARGET};
+      $act->{target} =~ s/^the //;
+      $act->{target} =~ s/^parser's //;
+      delete $act->{TARGET};
+    } # INCREMENT/DECREMENT
+
+    if ($act->{type} eq 'insert a comment' and
+        defined $act->{AS}) {
+      if ($act->{AS} eq 'the last child of the Document object') {
+        $act->{position} = 'document';
+        delete $act->{AS};
+      } elsif ($act->{AS} eq 'the last child of the first element in the stack of open elements (the html element)') {
+        $act->{position} = 'oe[0]';
+        delete $act->{AS};
+      } else {
+        warn $act->{AS};
+      }
+    } # insert a comment
+
+    if ($act->{type} eq 'insert a character' and
+        defined $act->{CHAR}) {
+      if ($act->{CHAR} eq 'see below for what they should say') {
+        $act->{value} = ['prompt-string'];
+        delete $act->{CHAR};
+      } elsif ($act->{CHAR} eq 'the pending table character tokens list') {
+        $act->{value} = ['pending table character tokens list'];
+        delete $act->{CHAR};
+      } elsif ($act->{CHAR} =~ /^U\+([0-9A-F]+) [A-Z ]+$/) {
+        $act->{value} = chr hex $1;
+        delete $act->{CHAR};
+      } else {
+        warn $act->{CHAR};
+      }
+    } # insert a character
+
+    if ($act->{type} eq 'insert an HTML element') {
+      if (defined $act->{ATTRS}) {
+        if ($act->{ATTRS} eq 'no attributes') {
+          $act->{attrs} = 'none';
+          delete $act->{ATTRS};
+        } elsif ($act->{ATTRS} =~ /^all the attributes from the "isindex" token except "name", "action", and "prompt", and with an attribute named "name" with the value "isindex"$/) {
+          $act->{attrs} = 'isindex';
+          delete $act->{ATTRS};
+        } else {
+          warn $act->{ATTRS};
+        }
+      }
+    } # insert an HTML element
+
+    if ($act->{type} eq 'insert a foreign element') {
+      if ($act->{NS} eq 'the same namespace as the adjusted current node') {
+        $act->{ns} = 'inherit';
+        delete $act->{NS};
+      } elsif ($act->{NS} =~ /^the (\w+) namespace$/) {
+        $act->{ns} = $1;
+        delete $act->{NS};
+      } else {
+        warn $act->{NS};
+      }
+    } # insert a foreign element
+
+    if ($act->{type} eq 'create an HTML element') {
+      if (defined $act->{INTENDED_PARENT}) {
+        if ($act->{INTENDED_PARENT} eq 'the element in which the adjusted insertion location finds itself') {
+          $act->{intended_parent} = 'adjusted insertion location parent';
+          delete $act->{INTENDED_PARENT};
+        } elsif ($act->{INTENDED_PARENT} eq 'the Document') {
+          $act->{INTENDED_PARENT} = 'document';
+          delete $act->{INTENDED_PARENT};
+        } else {
+          warn $act->{INTENDED_PARENT};
+        }
+      }
+    } # create an HTML element
+
+    if ($act->{type} eq 'generate implied end tags') {
+      if (defined $act->{EXCEPT}) {
+        if ($act->{EXCEPT} eq 'HTML elements with the same tag name as the token') {
+          $act->{except} = {ns => 'HTML', same_tag_name_as_token => 1};
+          delete $act->{EXCEPT};
+        } elsif ($act->{EXCEPT} =~ /^(\w+) elements$/) {
+          $act->{except} = {ns => 'HTML', name => $1};
+          delete $act->{EXCEPT};
+        } else {
+          warn $act->{EXCEPT};
+        }
+      }
+    } # generate implied end tags
   }
 
   return $new_acts;
