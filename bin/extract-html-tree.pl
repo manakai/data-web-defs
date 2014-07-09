@@ -428,20 +428,23 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
 my $DescPatterns = [
   [qr/act as described in the "([^"]+)" entry below/,
    'SAME-AS', 'field'],
-  [qr/push (.+) onto (.+)/, 'push', 'ITEM', 'LIST'],
-  [qr/remove (.+) from (.+)/, 'remove', 'ITEM', 'LIST'],
+  [qr/push (.+) onto (.+)/, 'PUSH', 'ITEM', 'LIST'],
+  [qr/remove that element from the list of active formatting elements and the stack of open elements if the adoption agency algorithm didn't already remove it \([^()]+\)/,
+   'REMOVE-THAT-FROM-AFE-AND-OE'],
+  [qr/remove (.+) from (.+)/, 'REMOVE', 'ITEM', 'LIST'],
   [qr/pop all the nodes (?:from (.+?), |)from (the current node) up to(.+)/,
    'POP', 'LIST', 'FROM-ITEM', 'TO-ITEM'],
-  [qr/pop (.+) (?:off|from) (.+?); the new current node will be .+/, 'POP', 'ITEM', 'LIST'],
+  [qr/pop (.+) (?:off|from) (.+?); the new current node will be .+/,
+   'POP', 'ITEM', 'LIST'],
   [qr/pop (.+) (?:off|from) (.+)/, 'POP', 'ITEM', 'LIST'],
   [qr/keep popping more (.+) from (.+)/, 'POP', 'ITEM', 'LIST'],
-  [qr/put (.+) in (.+)/, 'put', 'ITEM', 'LIST'],
-  [qr/set (.+) to (.+)/, 'set', 'TARGET', 'VALUE'],
-  [qr/let (.+) (?:be|have) (.+)/, 'set', 'TARGET', 'VALUE'],
-  [qr/mark (.+) as (.+)/, 'mark', 'TARGET', 'VALUE'],
-  [qr/unset (.+)/, 'unset', 'TARGET'],
+  [qr/put (.+) in (.+)/, 'PUSH', 'ITEM', 'LIST'],
+  [qr/set (.+?) (?:back |)to (?:point to |)(.+)/, 'SET', 'TARGET', 'VALUE'],
+  [qr/let (.+?) (?:be|have) (.+)/, 'SET', 'TARGET', 'VALUE'],
+  [qr/initialise (.+) to be (.+)/, 'SET', 'TARGET', 'VALUE'],
+  [qr/mark (.+) as (?:being |)(.+)/, 'MARK', 'TARGET', 'VALUE'],
+  [qr/unset (.+)/, 'UNSET', 'TARGET'],
   [qr/append (.+) to (.+)/, 'append', 'ITEM', 'LIST'],
-  [qr/initialise (.+) to be (.+)/, 'set', 'TARGET', 'VALUE'],
   [qr/increment (.+) by one/, 'increment', 'TARGET'],
   [qr/decrement (.+) by one/, 'decrement', 'TARGET'],
   [qr/process the token using the rules for the "([^"]+)" insertion mode/,
@@ -521,29 +524,29 @@ sub parse_cond ($) {
       (parse_cond ($m) // ['COND', $m]),
     ];
   } elsif ($COND =~ /^the current node is an? (\w+) element$/) {
-    $cond = ['current node', 'is', {ns => 'HTML', name => $1}];
+    $cond = ['oe[-1]', 'is', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is not (?:then |)an? (\w+) element$/) {
-    $cond = ['current node', 'is not', {ns => 'HTML', name => $1}];
+    $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is the root (html) element$/ or
            $COND =~ /^the stack of open elements has only one node on it$/) {
-    $cond = ['current node', 'is', {ns => 'HTML', name => 'html'}];
+    $cond = ['oe[-1]', 'is', {ns => 'HTML', name => 'html'}];
   } elsif ($COND =~ /^the current node is not the root (html) element$/) {
-    $cond = ['current node', 'is not', {ns => 'HTML', name => $1}];
+    $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is no longer an? (\w+) element$/) {
-    $cond = ['current node', 'is not', {ns => 'HTML', name => $1}];
+    $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the node immediately before it in the stack of open elements is an optgroup element$/) {
-    $cond = ['current node-1', 'is', {ns => 'HTML', name => 'optgroup'}];
+    $cond = ['oe[-2]', 'is', {ns => 'HTML', name => 'optgroup'}];
   } elsif ($COND =~ /^the current node is not an HTML element with the same tag name as (?:that of |)the token$/) {
-    $cond = ['current node', 'is not', {ns => 'HTML', same_tag_name_as_token => 1}];
+    $cond = ['oe[-1]', 'is not', {ns => 'HTML', same_tag_name_as_token => 1}];
   } elsif ($COND =~ /^the current node is an HTML element whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"$/) {
-    $cond = ['current node', 'is', {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
+    $cond = ['oe[-1]', 'is', {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
   } elsif ($COND =~ /^the adjusted current node is an element in the (SVG|MathML) namespace$/) {
     $cond = ['adjusted current node', 'is', {ns => $1}];
   } elsif ($COND =~ /^the current node is not node$/ or
            $COND =~ /^node is not the current node$/) {
-    $cond = ['current node', 'is', 'node'];
+    $cond = ['oe[-1]', 'is', 'node'];
   } elsif ($COND =~ /^the second element on the stack of open elements is not a body element$/) {
-    $cond = ['oe 2', 'is not', {ns => 'HTML', name => 'body'}];
+    $cond = ['oe[1]', 'is not', {ns => 'HTML', name => 'body'}];
   } elsif ($COND =~ /^node is not an element in the HTML namespace$/) {
     $cond = ['node', 'is not', {ns => 'HTML'}];
   } elsif ($COND =~ /^node is an HTML element with the same tag name as the token$/) {
@@ -710,7 +713,21 @@ sub process_actions ($) {
           $act->{LIST} eq 'the stack' or
           $act->{LIST} eq 'the bottom of the stack of open elements') {
         if (not defined $act->{ITEM}) {
-          # XXX
+          if ($act->{'FROM-ITEM'} eq 'the current node') {
+            if ($act->{'TO-ITEM'} eq ' node, including node') {
+              $act->{type} = 'pop-oe';
+              $act->{until} = 'node';
+              delete $act->{'FROM-ITEM'};
+              delete $act->{'TO-ITEM'};
+              delete $act->{LIST};
+            } elsif ($act->{'TO-ITEM'} eq ', but not including, the root html element') {
+              $act->{type} = 'pop-oe';
+              $act->{until} = 'oe[1]';
+              delete $act->{'FROM-ITEM'};
+              delete $act->{'TO-ITEM'};
+              delete $act->{LIST};
+            }
+          }
         } elsif ($act->{ITEM} =~ /^(?:the current node(?: \([^()]+\)|)|elements|that \w+ element|that node|an element)$/) {
           $act->{type} = 'pop-oe';
           delete $act->{LIST};
@@ -731,7 +748,213 @@ sub process_actions ($) {
       } else {
         warn $act->{LIST};
       }
-    }
+    } # POP
+
+    if ($act->{type} eq 'PUSH') {
+      if ($act->{LIST} eq 'the stack of open elements' or
+          $act->{LIST} eq 'the stack of open elements so that it is the new current node') {
+        if ($act->{ITEM} eq 'the node pointed to by the head element pointer') {
+          $act->{type} = 'push-oe';
+          $act->{item} = 'head element pointer';
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } elsif ($act->{ITEM} eq 'this element' or
+                 $act->{ITEM} eq 'the element') {
+          $act->{type} = 'push-oe';
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } else {
+          warn $act->{ITEM};
+        }
+      } elsif ($act->{LIST} eq 'the stack of template insertion modes so that it is the new current template insertion mode') {
+        if ($act->{ITEM} =~ /^"([^"]+)"$/) {
+          $act->{type} = 'push-template-ims';
+          $act->{im} = $1;
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } else {
+          warn $act->{ITEM};
+        }
+      } else {
+        warn $act->{LIST};
+      }
+    } # PUSH
+
+    if ($act->{type} eq 'REMOVE') {
+      if ($act->{LIST} eq 'the stack of open elements') {
+        if ($act->{ITEM} eq 'the node pointed to by the head element pointer') {
+          $act->{type} = 'remove-oe';
+          $act->{item} = 'head element pointer';
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } elsif ($act->{ITEM} eq 'node') {
+          $act->{type} = 'remove-oe';
+          $act->{item} = 'node';
+          delete $act->{LIST};
+          delete $act->{ITEM};
+        } else {
+          warn $act->{ITEM};
+        }
+      } elsif ($act->{LIST} eq 'its parent node, if it has one' and
+               $act->{ITEM} eq 'the second element on the stack of open elements') {
+        $act->{type} = 'remove-tree';
+        $act->{item} = 'oe[1]';
+        delete $act->{LIST};
+        delete $act->{ITEM};
+      } else {
+        warn $act->{LIST};
+      }
+    } # REMOVE
+
+    if ($act->{type} eq 'SET') {
+      if ($act->{TARGET} eq 'node') {
+        if ($act->{VALUE} eq 'the current node (the bottommost node of the stack)') {
+          $act->{type} = 'set-node';
+          $act->{value} = 'oe[-1]';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } elsif ($act->{VALUE} eq 'the previous entry in the stack of open elements') {
+          $act->{type} = 'set-node';
+          $act->{value} = 'oe[i-1]';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } elsif ($act->{VALUE} eq 'the element that the form element pointer is set to, or null if it is not set to an element') {
+          $act->{type} = 'set-node';
+          $act->{value} = 'form element pointer';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } elsif ($act->{TARGET} eq 'script' and
+               $act->{VALUE} eq 'the current node (which will be a script element)') {
+        $act->{type} = 'set-script';
+        $act->{value} = 'oe[-1]';
+      } elsif ($act->{TARGET} eq 'the frameset-ok flag') {
+        if ($act->{VALUE} eq '"not ok"') {
+          $act->{type} = 'set-false';
+          $act->{target} = 'frameset-ok';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } elsif ($act->{TARGET} eq 'the pending table character tokens') {
+        if ($act->{VALUE} eq 'an empty list of tokens') {
+          $act->{type} = 'set-empty';
+          $act->{target} = 'pending table character tokens';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } elsif ($act->{TARGET} eq 'the original insertion mode') {
+        if ($act->{VALUE} eq 'the current insertion mode') {
+          $act->{type} = 'set-current-im';
+          $act->{target} = 'original insertion mode';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } elsif ($act->{TARGET} eq 'the head element pointer' and
+               $act->{VALUE} eq 'the newly created head element') {
+        $act->{type} = 'set-head-element-pointer';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq 'the form element pointer') {
+        if ($act->{VALUE} eq 'the element created') {
+          $act->{type} = 'set-form-element-pointer';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } elsif ($act->{VALUE} eq 'null') {
+          $act->{type} = 'set-null';
+          $act->{target} = 'form element pointer';
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } elsif ($act->{TARGET} eq 'the parser pause flag') {
+        if ($act->{VALUE} eq 'true' or
+            $act->{VALUE} eq 'false') {
+          $act->{type} = 'set-' . $act->{VALUE};
+          $act->{target} = $act->{TARGET};
+          $act->{target} =~ s/^the //;
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } elsif ($act->{TARGET} =~ /^the (\w+) attribute on the resulting form element$/ and
+               $act->{VALUE} =~ /^the value of the "(\Q$1\E)" attribute of the token$/) {
+        $act->{type} = 'set-form-attr';
+        $act->{target} = $1;
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq 'the old insertion point' and
+               $act->{VALUE} eq 'the same value as the current insertion point') {
+        $act->{type} = 'set-insertion-point';
+        $act->{target} = 'old insertion point';
+        $act->{value} = 'current insertion point';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq 'the insertion point' and
+               $act->{VALUE} eq 'just before the next input character') {
+        $act->{type} = 'set-insertion-point';
+        $act->{target} = 'insertion point';
+        $act->{value} = 'before next input character';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq 'the insertion point' and
+               $act->{VALUE} eq 'the value of the old insertion point') {
+        $act->{type} = 'set-insertion-point';
+        $act->{target} = 'insertion point';
+        $act->{value} = 'old insertion point';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq 'the adjusted insertion location' and
+               $act->{VALUE} eq 'the appropriate place for inserting a node') {
+        $act->{type} = 'set-appropriate-place';
+        $act->{target} = 'adjusted insertion location';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq 'the Document' and 
+               $act->{VALUE} eq 'quirks mode') {
+        $act->{type} = 'set-compat-mode';
+        $act->{value} = 'quirks';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } else {
+        warn $act->{TARGET};
+      }
+    } # SET
+
+    if ($act->{type} eq 'MARK') {
+      if ($act->{TARGET} eq 'the element' or
+          $act->{TARGET} eq 'the script element') {
+        if ($act->{VALUE} =~ /^"([^"]+)"$/) {
+          $act->{type} = 'set-node-flag';
+          $act->{target} = $1;
+          delete $act->{TARGET};
+          delete $act->{VALUE};
+        } else {
+          warn $act->{VALUE};
+        }
+      } else {
+        warn $act->{TARGET};
+      }
+    } # MARK
+
+    if ($act->{type} eq 'UNSET') {
+      if ($act->{TARGET} =~ /^the element's "([^"]+)" flag$/) {
+        $act->{type} = 'unset-node-flag';
+        $act->{target} = $1;
+        delete $act->{TARGET};
+      } else {
+        warn $act->{TARGET};
+      }
+    } # UNSET
   }
 
   return $new_acts;
