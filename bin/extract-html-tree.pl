@@ -216,7 +216,7 @@ sub parse_step ($) {
     } elsif ($_->{DESC} =~ /^($SENTENCE), and, if ($SENTENCE), ($SENTENCE)$/o) {
       my @a = ($1, $2, $3);
       ((parse_step $a[0]),
-       {type => 'IF', cond => $a[1], actions => [parse_step $a[2]]});
+       {type => 'IF', COND => $a[1], actions => [parse_step $a[2]]});
     } elsif ($_->{DESC} =~ /^check to see if ($SENTENCE)(?:, and|\.) if it is not, ($SENTENCE)$/o) {
       {type => 'IF', COND => $1, actions => [parse_step $2]};
     } elsif ($_->{DESC} =~ /^(?:run|follow) (?:these|the following) steps:$/) {
@@ -1387,6 +1387,33 @@ for my $im (keys %{$Data->{ims}}) {
   }
 }
 
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
+    my @def = $Data->{ims}->{$im}->{conds}->{$cond};
+    while (@def) {
+      my $def = shift @def;
+      for my $key (qw(actions false_actions)) {
+        my $acts = $def->{$key} or next;
+        my $new_acts = [];
+        while (@$acts) {
+          my $act = pop @$acts;
+          if ($act->{type} eq 'REMOVE-THAT-FROM-AFE-AND-OE' and
+              @$acts and
+              $acts->[-1]->{type} eq 'adoption agency algorithm') {
+            $acts->[-1]->{remove_from_afe_and_oe} = 1;
+            next;
+          }
+          if (defined $act->{actions} or defined $act->{false_actions}) {
+            push @def, $act;
+          }
+          unshift @$new_acts, $act;
+        }
+        $def->{$key} = $new_acts;
+      }
+    }
+  }
+}
+
 for my $def (
   $Data->{ims}->{text}->{conds}->{'END:script'},
   $Data->{ims}->{'in foreign content'}->{conds}->{'SVGSCRIPT-END:script'},
@@ -1477,6 +1504,51 @@ for my $def (
     }
   }
   $def->{actions} = $new_acts;
+}
+
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
+    my @def = $Data->{ims}->{$im}->{conds}->{$cond};
+    while (@def) {
+      my $def = shift @def;
+      for my $key (qw(actions false_actions)) {
+        my $acts = $def->{$key} or next;
+        my $new_acts = [];
+        for my $act (@$acts) {
+          if ($act->{type} eq 'SAME-AS') {
+            if ($act->{FIELD} eq 'anything else') {
+              my $else = $Data->{ims}->{$im}->{conds}->{ELSE}
+                  or die "Insertion mode |$im| has no |ELSE|";
+              push @$new_acts, @{$else->{actions}};
+              next;
+            } elsif ($act->{FIELD} eq 'any other end tag') {
+              my $else = $Data->{ims}->{$im}->{conds}->{'END-ELSE'}
+                  or die "Insertion mode |$im| has no |END-ELSE|";
+              push @$new_acts, @{$else->{actions}};
+              next;
+            } elsif ($act->{FIELD} eq 'any other start tag') {
+              my $else = $Data->{ims}->{$im}->{conds}->{'START-ELSE'}
+                  or die "Insertion mode |$im| has no |START-ELSE|";
+              push @$new_acts, @{$else->{actions}};
+              next;
+            } elsif ($act->{FIELD} eq '"script" end tag') {
+              my $else = $Data->{ims}->{$im}->{conds}->{'SVGSCRIPT-END:script'}
+                  or die "Insertion mode |$im| has no |SVGSCRIPT-END:script|";
+              push @$new_acts, @{$else->{actions}};
+              next;
+            } else {
+              warn $act->{FIELD};
+            }
+          }
+          if (defined $act->{actions} or defined $act->{false_actions}) {
+            push @def, $act;
+          }
+          push @$new_acts, $act;
+        }
+        $def->{$key} = $new_acts;
+      }
+    }
+  }
 }
 
 print perl2json_bytes_for_record $Data;
