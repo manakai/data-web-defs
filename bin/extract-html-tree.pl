@@ -1,5 +1,7 @@
 use strict;
 use warnings;
+no warnings 'utf8';
+use warnings FATAL => 'recursion';
 use Path::Tiny;
 use lib glob path (__FILE__)->parent->child ('modules/*/lib');
 use JSON::PS;
@@ -342,7 +344,7 @@ while (@node) {
                 } elsif ($ln eq 'ol') {
                   my $acts = [];
                   unshift @n, map { [$_, $acts] } $action->children->to_list;
-                  push @$action_list, {type => 'actions', actions => $acts};
+                  push @$action_list, {type => 'STEP', actions => $acts};
                 } else {
                   push @$action_list,
                       {type => 'misc', desc => $action->inner_html};
@@ -365,6 +367,118 @@ while (@node) {
     } # $ln
   } # $node->node_type
 }
+
+sub resolve_action_structure ($);
+sub resolve_action_structure ($) {
+  my $acts = [@{$_[0]}];
+
+  my $new_acts = [];
+  my $container = $new_acts;
+  while (@$acts) {
+    my $act = shift @$acts;
+    $act = {%$act};
+    push @$container, $act;
+    if ($act->{RUN_NEXT_ALL} and not $act->{actions}) {
+      $container = $act->{actions} = [];
+      delete $act->{RUN_NEXT_ALL};
+    }
+  }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{RUN_NEXT} and
+        not defined $act->{actions} and
+        @$acts and
+        $acts->[0]->{type} eq 'STEP' and
+        defined $acts->[0]->{actions} and
+        2 == keys %{$acts->[0]}) {
+      $act->{actions} = $acts->[0]->{actions};
+      delete $act->{RUN_NEXT};
+      shift @$acts;
+    } elsif ($act->{type} eq 'STEP' and
+             @{$act->{actions}} and
+             $act->{actions}->[-1]->{RUN_NEXT} and
+             not defined $act->{actions}->[-1]->{actions} and
+             $acts->[0]->{type} eq 'STEP' and
+             defined $acts->[0]->{actions} and
+             2 == keys %{$acts->[0]}) {
+      $act->{actions}->[-1]->{actions} = $acts->[0]->{actions};
+      delete $act->{actions}->[-1]->{RUN_NEXT};
+      shift @$acts;
+    }
+    push @$new_acts, $act;
+  }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'STEP' and
+        ($act->{actions}->[0]->{type} eq 'ELSE' or
+         $act->{actions}->[0]->{type} eq 'ELSIF')) {
+      my $if = {%{$act->{actions}->[0]}};
+      $if->{actions} = [@{$if->{actions}}, @{$act->{actions}}[1..$#{$act->{actions}}]];
+      push @$new_acts, $if;
+    } else {
+      push @$new_acts, $act;
+    }
+  }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  while (@$acts) {
+    my $act = pop @$acts;
+    if ($act->{type} eq 'ELSE' and
+        defined $act->{actions} and
+        2 == keys %$act) {
+      if (@$acts and
+          ($acts->[-1]->{type} eq 'IF' or $acts->[-1]->{type} eq 'ELSIF') and
+          not defined $acts->[-1]->{false_actions}) {
+        $acts->[-1]->{false_actions} = $act->{actions};
+        next;
+      }
+    } elsif ($act->{type} eq 'ELSIF') {
+      if (@$acts and
+          ($acts->[-1]->{type} eq 'IF' or $acts->[-1]->{type} eq 'ELSIF') and
+          not defined $acts->[-1]->{false_actions}) {
+        $act->{type} = 'IF';
+        $acts->[-1]->{false_actions} = [$act];
+        next;
+      } elsif (@$acts and
+               $acts->[-1]->{type} eq 'STEP' and
+               @{$acts->[-1]->{actions}} and
+               $acts->[-1]->{actions}->[-1]->{type} eq 'IF' and
+               not defined $acts->[-1]->{actions}->[-1]->{false_actions}) {
+        $act->{type} = 'IF';
+        $acts->[-1]->{actions}->[-1]->{false_actions} = [$act];
+        next;
+      }
+    }
+    unshift @$new_acts, $act;
+  }
+
+  for my $act (@$new_acts) {
+    for (qw(actions false_actions)) {
+      $act->{$_} = resolve_action_structure $act->{$_} if defined $act->{$_};
+    }
+  }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'STEP' and 2 == keys %$act) {
+      push @$new_acts, @{$act->{actions}};
+    } else {
+      push @$new_acts, $act;
+    }
+  }
+  $acts = $new_acts;
+
+  return $new_acts;
+} # resolve_action_structure
 
 my $DescIsType = {};
 $DescIsType->{$_} = 1 for
@@ -681,6 +795,9 @@ sub process_actions ($) {
 
       if ($act->{actions}) {
         $act->{actions} = process_actions $act->{actions};
+      }
+      if ($act->{false_actions}) {
+        $act->{false_actions} = process_actions $act->{false_actions};
       }
       push @$new_acts, $act;
     }
@@ -1085,17 +1202,16 @@ sub process_actions ($) {
 for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
     my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions} or next;
-    $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = process_actions $acts;
+    $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = resolve_action_structure $acts;
   }
 }
 
 for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
-    my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions} or next;
-#    if (@$acts and $acts->[-1]->{type} eq 'SAME-AS-ELSE') {
-#      pop @$acts;
-#      push @$acts, @{$Data->{ims}->{$im}->{conds}->{ELSE}->{actions}};
-#    }
+    for (qw(actions false_actions)) {
+      my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{$_};
+      $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = process_actions $acts if defined $acts;
+    }
   }
 }
 
