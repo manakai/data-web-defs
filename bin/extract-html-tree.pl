@@ -60,6 +60,12 @@ sub parse_step ($) {
 
   return () if $tc =~ /^\s*Prompt:\s*If the token has an attribute /;
 
+  if ($tc =~ s/^If the Document is being loaded as part of navigation of a browsing context, then: if the newly created element has a manifest attribute .*?\. The algorithm must be passed the Document object\.\s*//) {
+    push @action, {type => 'if', cond => ['navigate'], actions => [
+      {type => 'application cache selection algorithm'},
+    ]};
+  }
+
   if ($tc =~ s/^((?!Otherwise:)[A-Za-z]+):\s*//) {
     push @action, {type => 'label', label => lc $1};
   }
@@ -345,6 +351,9 @@ while (@node) {
                   my $acts = [];
                   unshift @n, map { [$_, $acts] } $action->children->to_list;
                   push @$action_list, {type => 'STEP', actions => $acts};
+                } elsif ($ln eq 'table') {
+                  push @$action_list,
+                      {type => 'TABLE', node => $action};
                 } else {
                   push @$action_list,
                       {type => 'misc', desc => $action->inner_html};
@@ -453,6 +462,11 @@ sub resolve_action_structure ($) {
                not defined $acts->[-1]->{actions}->[-1]->{false_actions}) {
         $act->{type} = 'IF';
         $acts->[-1]->{actions}->[-1]->{false_actions} = [$act];
+        next;
+      }
+    } elsif ($act->{type} eq 'TABLE') {
+      if (@$acts) {
+        $acts->[-1]->{TABLE_ELEMENT} = $act->{node};
         next;
       }
     }
@@ -745,6 +759,14 @@ sub parse_cond ($) {
     $cond = ['pending parsing-blocking script'];
   } elsif ($COND =~ /^the stack of script settings objects is empty$/) {
     $cond = ['stack of script settings objects', 'is empty'];
+  } elsif ($COND =~ /^the token does not have an attribute with the name "type", or if it does, but that attribute's value is not an ASCII case-insensitive match for the string "hidden"$/) {
+    $cond = ['token[type]', 'lc is not', 'hidden'];
+  } elsif ($COND =~ /^the token has an attribute called "action"$/) {
+    $cond = ['token', 'has attr', 'action'];
+  } elsif ($COND =~ /^the element has a charset attribute, and getting an encoding from its value results in a supported ASCII-compatible character encoding or a UTF-16 encoding, and the confidence is currently tentative$/) {
+    $cond = ['can change the encoding'];
+  } elsif ($COND =~ /^the token's tag name is one of the ones in the first column of the following table$/) {
+    $cond = ['TAG-NAME-IN-NEXT-TABLE'];
   }
 
   #warn $COND if not defined $cond;
@@ -1232,6 +1254,43 @@ sub process_actions ($) {
       } else {
         warn "Unknown UNTIL";
       }
+    } # UNTIL
+
+    if ($act->{type} eq 'FOR-EACH' and
+        $act->{ITEMS} eq 'attribute on the token' and
+        @{$act->{actions}} == 1 and
+        $act->{actions}->[0]->{type} eq 'IF' and
+        @{$act->{actions}->[0]->{actions}} == 1 and
+        $act->{actions}->[0]->{actions}->[0]->{type} eq 'add the attribute and its corresponding value to that element') {
+      if ($act->{actions}->[0]->{COND} =~ /^the attribute is already present on (the top element of the stack of open elements|the body element \(the second element\) on the stack of open elements)$/) {
+        $act->{type} = 'set-attrs-if-missing';
+        $act->{node} = $1 =~ /second/ ? 'oe[1]' : 'oe[0]';
+        delete $act->{actions};
+        delete $act->{ITEMS};
+      } else {
+        warn $act->{actions}->[0]->{COND};
+      }
+    }
+
+    if ($act->{type} eq 'IF' and
+        defined $act->{TABLE_ELEMENT} and
+        ref $act->{cond} eq 'ARRAY' and
+        @{$act->{cond}} == 3 and
+        $act->{cond}->[0] eq 'and' and
+        $act->{cond}->[1]->[0] eq 'adjusted current node' and
+        $act->{cond}->[1]->[1] eq 'is' and
+        $act->{cond}->[1]->[2]->{ns} eq 'SVG' and
+        $act->{cond}->[2]->[0] eq 'TAG-NAME-IN-NEXT-TABLE' and
+        @{$act->{actions}} == 1 and
+        $act->{actions}->[0]->{DESC} eq 'change the tag name to the name given in the corresponding cell in the second column') {
+      my $table_el = delete $act->{TABLE_ELEMENT};
+      $act->{cond} = $act->{cond}->[1];
+      $act->{actions} = [{type => 'fixup-svg-tag-name'}];
+      for (@{$table_el->tbodies->[0]->rows}) {
+        my $tag_name = $_->cells->[0]->query_selector ('code')->text_content;
+        my $local_name = $_->cells->[1]->query_selector ('code')->text_content;
+        $Data->{svg_tag_name_mapping}->{$tag_name} = $local_name;
+      }
     }
   } # $act
 
@@ -1247,7 +1306,7 @@ sub process_actions ($) {
                defined $act->{false_actions}) {
         $act->{type} = 'if';
       } else {
-        warn "Unknown IF";
+        #warn "Unknown IF";
       }
     }
   }
@@ -1269,6 +1328,44 @@ for my $im (keys %{$Data->{ims}}) {
       $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = process_actions $acts if defined $acts;
     }
   }
+}
+
+for my $def (
+  $Data->{ims}->{text}->{conds}->{'END:script'},
+  $Data->{ims}->{'in foreign content'}->{conds}->{'SVGSCRIPT-END:script'},
+) {
+  my $acts = $def->{actions} or next;
+  my $new_acts = [];
+  my $prev_was_script;
+  for my $act (@$acts) {
+    if ({
+          'set-script' => 1,
+          'set-insertion-point' => 1,
+          'prepare a script' => 1,
+          'process the SVG script element' => 1,
+          'misc' => 1,
+        }->{$act->{type}} or
+        (($act->{type} eq 'if' or $act->{type} eq 'IF') and
+         {
+           'stack of script settings objects' => 1,
+           'script nesting level' => 1,
+           'pending parsing-blocking script' => 1,
+         }->{$act->{cond}->[0]}) or
+        (defined $act->{target} and 
+         {
+           'script nesting level' => 1,
+           'parser pause flag' => 1,
+         }->{$act->{target}})) {
+      unless ($prev_was_script) {
+        push @$new_acts, {type => 'script-processing'};
+      }
+      $prev_was_script = 1;
+    } else {
+      push @$new_acts, $act;
+      $prev_was_script = 0;
+    }
+  }
+  $def->{actions} = $new_acts;
 }
 
 print perl2json_bytes_for_record $Data;
