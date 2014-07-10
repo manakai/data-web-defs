@@ -179,6 +179,12 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $2), (parse_step $f)];
       delete $_->{DESC};
       $_;
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE), then run the appropriate steps from the following list:$/o) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      $_->{RUN_NEXT} = 1;
+      delete $_->{DESC};
+      $_;
     } elsif ($_->{DESC} =~ /^otherwise, ($SENTENCE)$/o) {
       $_->{type} = 'ELSE';
       $_->{actions} = [parse_step $1];
@@ -204,7 +210,7 @@ sub parse_step ($) {
       $_->{actions} = [parse_step $g];
       delete $_->{DESC};
       ((parse_step $f), $_);
-   } elsif ($_->{DESC} =~ /^($SENTENCE)(?:,? and|, then) ($VERB $SENTENCE)$/o) {
+   } elsif ($_->{DESC} =~ /^($SENTENCE)(?:,? and|, then|, and then) ($VERB $SENTENCE)$/o) {
       my $f = $2;
       ((parse_step $1), (parse_step $f));
     } elsif ($_->{DESC} =~ /^($SENTENCE), and, if ($SENTENCE), ($SENTENCE)$/o) {
@@ -351,6 +357,37 @@ while (@node) {
                   my $acts = [];
                   unshift @n, map { [$_, $acts] } $action->children->to_list;
                   push @$action_list, {type => 'STEP', actions => $acts};
+                } elsif ($ln eq 'dl') {
+                  my $act_list = [];
+                  push @$action_list, {type => 'STEP', actions => $act_list};
+                  my $acts = $act_list;
+                  my $has_if;
+                  for (@{$action->children}) {
+                    my $n = $_->local_name;
+                    if ($n eq 'dt') {
+                      $acts = [];
+                      my $cond = $_->text_content;
+                      $cond =~ s/^If //;
+                      if ($cond eq 'Otherwise') {
+                        push @$act_list,
+                            {type => 'ELSE',
+                             actions => $acts};
+                      } else {
+                        push @$act_list,
+                            {type => $has_if ? 'ELSIF' : 'IF',
+                             COND => $_->text_content,
+                             actions => $acts};
+                      }
+                      $has_if = 1;
+                    } elsif ($n eq 'dd') {
+                      my $ac = [];
+                      unshift @n, map { [$_, $ac] } $_->children->to_list;
+                      push @$acts, {type => 'STEP', actions => $ac};
+                    } else {
+                      unshift @n, [$_, $acts];
+                      push @$acts, {type => 'STEP', actions => $acts};
+                    }
+                  }
                 } elsif ($ln eq 'table') {
                   push @$action_list,
                       {type => 'TABLE', node => $action};
@@ -555,7 +592,9 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
 
 my $DescPatterns = [
   [qr/act as described in the "([^"]+)" entry below/,
-   'SAME-AS', 'field'],
+   'SAME-AS', 'FIELD'],
+  [qr/act as described in the steps for an? ("[^"]+" end tag) below/,
+   'SAME-AS', 'FIELD'],
   [qr/push (.+) onto (.+)/, 'PUSH', 'ITEM', 'LIST'],
   [qr/remove that element from the list of active formatting elements and the stack of open elements if the adoption agency algorithm didn't already remove it \([^()]+\)/,
    'REMOVE-THAT-FROM-AFE-AND-OE'],
@@ -665,6 +704,8 @@ sub parse_cond ($) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', same_tag_name_as_token => 1}];
   } elsif ($COND =~ /^the current node is an HTML element whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"$/) {
     $cond = ['oe[-1]', 'is', {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
+  } elsif ($COND =~ /^the new current node is in the SVG namespace$/) {
+    $cond = ['oe[-1]', 'is', {ns => 'SVG'}];
   } elsif ($COND =~ /^the adjusted current node is an element in the (SVG|MathML) namespace$/) {
     $cond = ['adjusted current node', 'is', {ns => $1}];
   } elsif ($COND =~ /^the current node is not node$/ or
@@ -731,6 +772,8 @@ sub parse_cond ($) {
     $cond = ['form element pointer', 'is not null'];
   } elsif ($COND =~ /^the token has its self-closing flag set$/) {
     $cond = ['token', 'has', 'self-closing flag'];
+  } elsif ($COND =~ /^If the token's tag name is "([^"]+)"$/) {
+    $cond = ['token tag_name', 'is', $1];
   } elsif ($COND =~ /^the list of active formatting elements contains an? (\w+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
     $cond = ['afe', 'in scope', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
@@ -1020,7 +1063,7 @@ sub process_actions ($) {
           delete $act->{TARGET};
           delete $act->{VALUE};
         } else {
-          warn $act->{VALUE};
+          #warn $act->{VALUE};
         }
       } elsif ($act->{TARGET} =~ /^the (\w+) attribute on the resulting form element$/ and
                $act->{VALUE} =~ /^the value of the "(\Q$1\E)" attribute of the token$/) {
@@ -1062,7 +1105,7 @@ sub process_actions ($) {
         delete $act->{TARGET};
         delete $act->{VALUE};
       } else {
-        warn $act->{TARGET};
+        #warn $act->{TARGET};
       }
     } # SET
 
@@ -1292,6 +1335,20 @@ sub process_actions ($) {
         $Data->{svg_tag_name_mapping}->{$tag_name} = $local_name;
       }
     }
+
+    if ($act->{type} eq 'REPROCESS') {
+      if ($act->{RULE} eq '"br" start tag token') {
+        $act->{type} = 'reprocess <br>';
+        delete $act->{RULE};
+      } elsif ($act->{RULE} eq 'the "anything else" entry in the "in table" insertion mode' and
+               $act->{TARGET} eq 'the character tokens in the pending table character tokens list') {
+        $act->{type} = 'reprocess pending table character tokens list';
+        $act->{FIELD} = 'anything else';
+        $act->{im} = 'in table';
+        delete $act->{RULE};
+        delete $act->{TARGET};
+      }
+    } # REPROCES
   } # $act
 
   for my $act (@$new_acts) {
@@ -1363,6 +1420,60 @@ for my $def (
     } else {
       push @$new_acts, $act;
       $prev_was_script = 0;
+    }
+  }
+  $def->{actions} = $new_acts;
+}
+
+for my $def (
+  $Data->{ims}->{'in head'}->{conds}->{'START:meta'},
+) {
+  my $acts = $def->{actions} or next;
+  my $new_acts = [];
+  my $prev_was_script;
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'if' and
+        $act->{cond}->[0] eq 'can change the encoding' and
+        @$acts and
+        $acts->[0]->{DESC} =~ /^otherwise, if the element has an http-equiv/) {
+      push @$new_acts, {type => 'change-the-encoding-if-appropriate'};
+      shift @$acts;
+    } else {
+      push @$new_acts, $act;
+    }
+  }
+  $def->{actions} = $new_acts;
+}
+
+for my $def (
+  $Data->{ims}->{'initial'}->{conds}->{'DOCTYPE'},
+) {
+  my $acts = $def->{actions} or next;
+  my $new_acts = [];
+  my $prev_was_doctype;
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /parse error/) {
+      push @$new_acts, {type => 'if', cond => ['legacy doctype'],
+                        actions => [{type => 'parse error'}]};
+      $prev_was_doctype = 0;
+    } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /DOCTYPE token matches/) {
+      push @$new_acts, {type => 'doctype-switch'} unless $prev_was_doctype;
+      $prev_was_doctype = 1;
+    } elsif ($act->{type} eq 'misc' and $act->{desc} =~ /<li>/) {
+      #
+    } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^conformance checkers may,/) {
+      #
+    } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^associate the DocumentType node with the Document object/) {
+      #
+    } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^the system identifier and public identifier strings must be compared/) {
+      #
+    } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^a system identifier whose value is the empty string is not/) {
+      #
+    } else {
+      push @$new_acts, $act;
+      $prev_was_doctype = 0;
     }
   }
   $def->{actions} = $new_acts;
