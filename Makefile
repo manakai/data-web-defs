@@ -295,7 +295,7 @@ data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
-	(grep reconsume $@ && false) || true
+	!(grep reconsume $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html > $@
@@ -314,6 +314,12 @@ local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
 	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html > $@
+	!(grep '"DESC"' $@ > /dev/null)
+	!(grep '"COND"' $@ > /dev/null)
+	!(grep '"misc"' $@ > /dev/null)
+	!(grep '"IF"' $@ > /dev/null)
+	!(grep '"TARGET"' $@ > /dev/null)
+	!(grep '"PROCESS"' $@ > /dev/null)
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@
