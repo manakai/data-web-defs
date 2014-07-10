@@ -1194,6 +1194,62 @@ sub process_actions ($) {
         }
       }
     } # generate implied end tags
+
+    if ($act->{type} eq 'UNTIL') {
+      if (@{$act->{actions}} == 1 and
+          $act->{actions}->[0]->{type} eq 'pop-oe' and
+          1 == keys %{$act->{actions}->[0]} and
+          defined $act->{COND} and
+          3 == keys %$act) {
+        if ($act->{COND} =~ /^an? (\w+) element has been popped from the stack/) {
+          $act->{type} = 'pop-oe';
+          $act->{until} = {ns => 'HTML', name => $1};
+          delete $act->{actions};
+          delete $act->{COND};
+        } elsif ($act->{COND} =~ /^an HTML element with the same tag name as the token has been popped from the stack$/) {
+          $act->{type} = 'pop-oe';
+          $act->{until} = {ns => 'HTML', same_tag_name_as_token => 1};
+          delete $act->{actions};
+          delete $act->{COND};
+        } elsif ($act->{COND} =~ /^an HTML element whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the stack$/) {
+          $act->{type} = 'pop-oe';
+          $act->{until} = {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]};
+          delete $act->{actions};
+          delete $act->{COND};
+        } elsif ($act->{COND} =~ /^the current node is a MathML text integration point, an HTML integration point, or an element in the HTML namespace$/) {
+          $act->{type} = 'pop-oe';
+          $act->{until} = {html_context => 1};
+          delete $act->{actions};
+          delete $act->{COND};
+        } elsif ($act->{COND} =~ /^node has been popped from the stack$/) {
+          $act->{type} = 'pop-oe';
+          $act->{until} = 'node';
+          delete $act->{actions};
+          delete $act->{COND};
+        } else {
+          warn $act->{COND};
+        }
+      } else {
+        warn "Unknown UNTIL";
+      }
+    }
+  } # $act
+
+  for my $act (@$new_acts) {
+    if ($act->{type} eq 'IF') {
+      if (3 == keys %$act and
+          defined $act->{cond} and
+          defined $act->{actions}) {
+        $act->{type} = 'if';
+      } elsif (4 == keys %$act and
+               defined $act->{cond} and
+               defined $act->{actions} and
+               defined $act->{false_actions}) {
+        $act->{type} = 'if';
+      } else {
+        warn "Unknown IF";
+      }
+    }
   }
 
   return $new_acts;
