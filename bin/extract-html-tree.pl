@@ -253,6 +253,7 @@ sub parse_step ($) {
 
 my $im_name;
 my @node = @{$doc->body->child_nodes};
+my $steps_name;
 while (@node) {
   my $node = shift @node;
   if ($node->node_type == $node->ELEMENT_NODE) {
@@ -267,6 +268,33 @@ while (@node) {
         $Data->{ims}->{$im_name} ||= {};
       } else {
         undef $im_name;
+      }
+      undef $steps_name;
+    } elsif ($ln eq 'p') {
+      my $tc = _n $node->text_content;
+      if ($tc =~ /^(?:When|Where) the steps above say (?:the user agent is |)to (.+?), (?:it means|they mean) (?:that the user agent must|to) run the following (?:steps|algorithm):$/) {
+        $steps_name = $1;
+      } elsif ($tc =~ /^When the steps above require the UA to (.+?), it means that the UA must, while (.+?) is not (.+?), ([^,]+?)\.$/) {
+        $Data->{ims}->{_steps}->{conds}->{$1}->{actions}
+            = [{type => 'UNTIL',
+                WHILE => 1,
+                COND => "$2 is not $3",
+                actions => [{type => 'UNPARSED', DESC => $4}]}];
+      } elsif ($tc =~ /^When the steps below require the UA to (.+?), then, while (the current node is an? \w+ element(?:, (?:or |)an? \w+ element)+), the UA must (.+?).$/) {
+        my $s = $1;
+        $Data->{ims}->{_steps}->{conds}->{$1}->{actions}
+            = [{type => 'UNTIL',
+                WHILE => 1,
+                COND => $2,
+                actions => [{type => 'UNPARSED', DESC => $3}]}];
+      } elsif ($tc =~ /^The (generic raw text element parsing algorithm) and the generic RCDATA element parsing algorithm consist of the following steps. These algorithms are always invoked in response to a start tag token.$/) {
+        $steps_name = $1;
+      } elsif ($tc =~ /^When the steps below require the user agent to (.+?) for a token, then,.*?the following table/) {
+        $steps_name = $1;
+      } elsif ($tc =~ /^When the steps below require the user agent to (.+?) for a token, then, if the token has an attribute named (\w+), change its name to (\w+) \([^()]+\).$/) {
+        $Data->{tables}->{$1} = {$2 => $3};
+      } else {
+        unshift @node, $node->child_nodes->to_list;
       }
     } elsif ($ln eq 'dl') {
       if (defined $im_name and $node->class_list->contains ('switch')) {
@@ -408,6 +436,75 @@ while (@node) {
       } else { # not .switch
         unshift @node, $node->child_nodes->to_list;
       }
+    } elsif (defined $steps_name and $ln eq 'ol') {
+      my $acts = [];
+      my @n = map { [$_, $acts] } $node->children->to_list;
+      while (@n) {
+        my ($action, $action_list) = @{shift @n};
+        my $ln = $action->local_name;
+        if ($ln eq 'p') {
+          next if $action->class_list->contains ('note');
+          next if $action->class_list->contains ('example');
+          my $tc = _n $action->text_content;
+          push @$action_list, parse_step $tc;
+        } elsif ($ln eq 'li') {
+          if ($action->query_selector ('p')) {
+            unshift @n, map { [$_, $action_list] } $action->children->to_list;
+          } else {
+            my $tc = _n $action->text_content;
+            push @$action_list, parse_step $tc;
+          }
+        } else {
+          my $tc = _n $action->text_content;
+          push @$action_list, parse_step $tc;
+        }
+      }
+      $Data->{ims}->{_steps}->{conds}->{$steps_name}->{actions} = $acts;
+      if ($steps_name eq 'generic raw text element parsing algorithm') {
+        $steps_name =~ s/raw text/RCDATA/;
+        $Data->{ims}->{_steps}->{conds}->{$steps_name}->{actions} = [map { {%$_} } @$acts];
+
+        for my $act (@{$Data->{ims}->{_steps}->{conds}->{'generic raw text element parsing algorithm'}->{actions}}) {
+          $act->{DESC} =~ s/^if the algorithm that was invoked is the generic raw text element parsing algorithm, (.+?); otherwise the algorithm invoked was the generic RCDATA element parsing algorithm, (.+)$/$1/;
+        }
+        for my $act (@{$Data->{ims}->{_steps}->{conds}->{'generic RCDATA element parsing algorithm'}->{actions}}) {
+          $act->{DESC} =~ s/^if the algorithm that was invoked is the generic raw text element parsing algorithm, (.+?); otherwise the algorithm invoked was the generic RCDATA element parsing algorithm, (.+)$/$2/;
+        }
+      }
+      undef $steps_name;
+    } elsif (defined $steps_name and $ln eq 'table') {
+      my @label;
+      for (@{$node->query_selector_all ('thead > tr > *')}) {
+        push @label, _n $_->text_content;
+      }
+      my @data;
+      for (@{$node->query_selector_all ('tbody tr')}) {
+        my @cell = @{$_->cells};
+        my $data = {};
+        for (0..$#cell) {
+          my $code = $cell[$_]->query_selector ('code');
+          if (defined $code) {
+            $data->{$label[$_]} = $code->text_content;
+          } elsif ($label[$_] eq 'Namespace') {
+            my $tc = _n $cell[$_]->text_content;
+            $data->{$label[$_]} = $tc;
+          }
+        }
+        push @data, $data;
+      }
+      my %label = map { $_ => 1 } @label;
+      if ($label{'Attribute name on token'} and
+          $label{'Attribute name on element'}) {
+        $Data->{tables}->{$steps_name} = {map { $_->{'Attribute name on token'} => $_->{'Attribute name on element'} } @data};
+      } elsif ($label{'Attribute name'} and
+               $label{Prefix} and
+               $label{'Local name'} and
+               $label{Namespace}) {
+        $Data->{tables}->{$steps_name} = {map { $_->{'Attribute name'} => [$_->{Prefix}, $_->{'Local name'}, $_->{Namespace}] } @data};
+      } else {
+        die "Unknown table type |$steps_name|";
+      }
+      undef $steps_name;
     } else {
       unshift @node, $node->child_nodes->to_list;
     } # $ln
@@ -689,6 +786,8 @@ sub parse_cond ($) {
     ];
   } elsif ($COND =~ /^the current node is an? (\w+) element$/) {
     $cond = ['oe[-1]', 'is', {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the current node is not now an? (\w+) element or an? (\w+) element$/) {
+    $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => [$1, $2]}];
   } elsif ($COND =~ /^the current node is not (?:then |)an? (\w+) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is the root (html) element$/ or
@@ -1265,9 +1364,14 @@ sub process_actions ($) {
           1 == keys %{$act->{actions}->[0]} and
           defined $act->{COND} and
           3 == keys %$act) {
-        if ($act->{COND} =~ /^an? (\w+) element has been popped from the stack/) {
+        if ($act->{COND} =~ /^an? (\w+) element has been popped from the stack$/) {
           $act->{type} = 'pop-oe';
           $act->{until} = {ns => 'HTML', name => $1};
+          delete $act->{actions};
+          delete $act->{COND};
+        } elsif ($act->{COND} =~ /^an? (\w+) element or an? (\w+) element has been popped from the stack$/) {
+          $act->{type} = 'pop-oe';
+          $act->{until} = {ns => 'HTML', name => [$1, $2]};
           delete $act->{actions};
           delete $act->{COND};
         } elsif ($act->{COND} =~ /^an HTML element with the same tag name as the token has been popped from the stack$/) {
@@ -1291,7 +1395,26 @@ sub process_actions ($) {
           delete $act->{actions};
           delete $act->{COND};
         } else {
-          warn $act->{COND};
+          die "Unknown UNTIL COND |$act->{COND}|";
+        }
+      } elsif (4 == keys %$act and $act->{WHILE}) {
+        if ($act->{COND} =~ /^the current node is not an? (\w+(?:, (?:or |)\w+)+) element$/) {
+          $act->{type} = 'pop-oe';
+          $act->{while_not} = {ns => 'HTML', name => [split /, (?:or |)/, $1]};
+          delete $act->{actions};
+          delete $act->{COND};
+          delete $act->{WHILE};
+        } elsif ($act->{COND} =~ /^the current node is (an? \w+ element(?:, (?:or |)an? \w+ element)+)$/) {
+          my $s = $1;
+          my @s;
+          push @s, $1 while $s =~ /(\w+) element/g;
+          $act->{type} = 'pop-oe';
+          $act->{while_not} = {ns => 'HTML', name => \@s};
+          delete $act->{actions};
+          delete $act->{COND};
+          delete $act->{WHILE};
+        } else {
+          die "Unknown WHILE COND |$act->{COND}|";
         }
       } else {
         warn "Unknown UNTIL";
@@ -1331,7 +1454,7 @@ sub process_actions ($) {
       for (@{$table_el->tbodies->[0]->rows}) {
         my $tag_name = $_->cells->[0]->query_selector ('code')->text_content;
         my $local_name = $_->cells->[1]->query_selector ('code')->text_content;
-        $Data->{svg_tag_name_mapping}->{$tag_name} = $local_name;
+        $Data->{tables}->{svg_tag_name_mapping}->{$tag_name} = $local_name;
       }
     }
 
@@ -1726,5 +1849,8 @@ for my $im (keys %{$Data->{ims}}) {
     }
   }
 }
+
+$Data->{steps} = $Data->{ims}->{_steps}->{conds};
+delete $Data->{ims}->{_steps};
 
 print perl2json_bytes_for_record $Data;
