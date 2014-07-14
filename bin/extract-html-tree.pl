@@ -67,7 +67,7 @@ sub parse_step ($) {
   }
 
   if ($tc =~ s/^((?!Otherwise:)[A-Za-z]+):\s*//) {
-    push @action, {type => 'label', label => lc $1};
+    push @action, {type => 'LABEL', label => lc $1};
   }
 
   1 while $tc =~ s/\s*\[\w+\]\s*$//;
@@ -511,7 +511,7 @@ sub resolve_action_structure ($) {
   }
 
   for my $act (@$new_acts) {
-    for (qw(actions false_actions)) {
+    for (qw(actions false_actions between_actions)) {
       $act->{$_} = resolve_action_structure $act->{$_} if defined $act->{$_};
     }
   }
@@ -858,11 +858,10 @@ sub process_actions ($) {
         }
       }
 
-      if ($act->{actions}) {
-        $act->{actions} = process_actions $act->{actions};
-      }
-      if ($act->{false_actions}) {
-        $act->{false_actions} = process_actions $act->{false_actions};
+      for (qw(actions false_actions between_actions)) {
+        if ($act->{$_}) {
+          $act->{$_} = process_actions $act->{$_};
+        }
       }
       push @$new_acts, $act;
     }
@@ -1367,6 +1366,33 @@ sub process_actions ($) {
       }
     }
   }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  {
+    my $container = $new_acts;
+    my $label;
+    while (@$acts) {
+      my $act = shift @$acts;
+      $act = {%$act};
+      if (defined $label and
+          $act->{type} eq 'LABEL' and
+          $act->{label} eq $label) {
+        $container = $new_acts;
+        undef $label;
+      }
+      push @$container, $act;
+      if ($act->{type} eq 'if' and
+          not defined $act->{false_actions} and
+          @{$act->{actions}} and
+          $act->{actions}->[-1]->{type} eq 'SKIP-TO') {
+        $label = $act->{actions}->[-1]->{label};
+        $container = $act->{false_actions} = [];
+      }
+    }
+    die "Label not found: |$label|" if defined $label;
+  }
+  $acts = $new_acts;
 
   return $new_acts;
 } # process_actions
@@ -1380,9 +1406,155 @@ for my $im (keys %{$Data->{ims}}) {
 
 for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
-    for (qw(actions false_actions)) {
+    for (qw(actions false_actions between_actions)) {
       my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{$_};
       $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = process_actions $acts if defined $acts;
+    }
+  }
+}
+
+sub replace_break_action ($$);
+sub replace_break_action ($$) {
+  my ($acts, $label) = @_;
+  for my $act (@$acts) {
+    if ($act->{type} eq 'SKIP-TO' and
+        $act->{label} eq $label) {
+      $act->{type} = 'break-for-each';
+      delete $act->{label};
+    }
+    for (qw(actions false_actions between_actions)) {
+      replace_break_action $act->{$_}, $label if defined $act->{$_};
+    }
+  }
+} # replace_break_action
+
+sub process_action_blocks ($);
+sub process_action_blocks ($) {
+  my $acts = shift;
+
+  for my $act (@$acts) {
+    for (qw(actions false_actions between_actions)) {
+      $act->{$_} = process_action_blocks $act->{$_} if defined $act->{$_};
+    }
+  }
+
+  my $new_acts = [];
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'if' and
+        @{$act->{actions} or []} and
+        @{$act->{false_actions} or []}) {
+      if ($act->{actions}->[-1]->{type} eq 'SKIP-TO' and
+          $act->{false_actions}->[-1]->{type} eq 'JUMP-BACK') {
+        push @$new_acts, $act;
+        push @$new_acts, splice @{$act->{false_actions}}, -2, 1, ()
+            if @{$act->{false_actions}} >= 2 and
+               $act->{false_actions}->[-2]->{type} eq 'set-node' and
+               $act->{false_actions}->[-2]->{value} eq 'oe[i-1]';
+        push @$new_acts, pop @{$act->{false_actions}};
+        next;
+      } elsif ($act->{actions}->[-1]->{type} eq 'JUMP-BACK') {
+        push @$new_acts, $act;
+        push @$new_acts, splice @{$act->{actions}}, -2, 1, ()
+            if @{$act->{actions}} >= 2 and
+               $act->{actions}->[-2]->{type} eq 'set-node' and
+               $act->{actions}->[-2]->{value} eq 'oe[i-1]';
+        push @$new_acts, pop @{$act->{actions}};
+        push @{$act->{false_actions}}, {type => 'break-for-each'};
+        next;
+      }
+    } elsif ($act->{type} eq 'LABEL' and
+             @$new_acts >= 2 and
+             $new_acts->[-1]->{type} eq 'if' and
+             $new_acts->[-1]->{cond}->[0] eq 'node' and
+             $new_acts->[-2]->{type} eq 'set-node' and
+             $new_acts->[-2]->{value} eq 'oe[-1]') {
+      $new_acts->[-1]->{cond}->[0] = 'oe[-1]';
+      @$new_acts[-1, -2] = @$new_acts[-2, -1];
+    } elsif ($act->{type} eq 'with-foster-parenting' and
+             @{$act->{actions}} == 1 and
+             $act->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR') {
+      $act->{type} = $act->{actions}->[0]->{type};
+      $act->{im} = $act->{actions}->[0]->{im};
+      $act->{foster_parenting} = 1;
+      delete $act->{actions};
+    } elsif ($act->{type} eq 'if' and
+             $act->{cond}->[0] eq 'navigate' and
+             @{$act->{actions}} == 1 and
+             $act->{actions}->[0]->{type} eq 'application cache selection algorithm') {
+      $act->{type} = 'appcache-processing';
+      delete $act->{cond};
+      delete $act->{actions};
+    }
+    push @$new_acts, $act;
+  }
+  $acts = $new_acts;
+
+  my @before_label;
+  my @in_label;
+  my @between;
+  my $label;
+  my $in_between;
+  while (@$acts) {
+    my $act = shift @$acts;
+    if (not defined $label and $act->{type} eq 'LABEL') {
+      $label = $act->{label};
+    } elsif (defined $label and
+             $act->{type} eq 'JUMP-BACK' and
+             $act->{label} eq $label) {
+      push @before_label, {type => 'LOOP', label => $label,
+                           actions => [@in_label]};
+      $before_label[-1]->{between_actions} = [@between] if $in_between;
+      @between = ();
+      @in_label = ();
+      undef $label;
+      undef $in_between;
+
+      if (@before_label >= 2 and
+          $before_label[-2]->{type} eq 'set-node' and
+          $before_label[-2]->{value} eq 'oe[-1]') {
+        $before_label[-1]->{type} = 'for-each-reverse-oe-as-node';
+        delete $before_label[-1]->{label};
+        splice @before_label, -2, 1, ();
+
+        if (@$acts and $acts->[0]->{type} eq 'LABEL') {
+          replace_break_action $before_label[-1]->{actions}, $acts->[0]->{label};
+          shift @$acts;
+        }
+      }
+    } elsif (defined $label and not $in_between and
+             $act->{type} eq 'set-node' and $act->{value} eq 'oe[i-1]') {
+      $in_between = 1;
+    } else {
+      if (defined $label) {
+        if ($in_between) {
+          push @between, $act;
+        } else {
+          push @in_label, $act;
+        }
+      } else {
+        push @before_label, $act;
+      }
+    }
+  }
+  if (defined $label) {
+    if ($in_between) {
+      $new_acts = [@before_label, {type => 'LABEL', label => $label}, @in_label, {type => 'set-node', value => 'oe[i-1]'}, @between];
+    } else {
+      $new_acts = [@before_label, {type => 'LABEL', label => $label}, @in_label];
+    }
+  } else {
+    $new_acts = [@before_label];
+  }
+
+  return $new_acts;
+} # process_action_blocks
+
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
+    for (qw(actions false_actions between_actions)) {
+      my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{$_};
+      $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = process_action_blocks $acts if defined $acts;
     }
   }
 }
@@ -1392,7 +1564,7 @@ for my $im (keys %{$Data->{ims}}) {
     my @def = $Data->{ims}->{$im}->{conds}->{$cond};
     while (@def) {
       my $def = shift @def;
-      for my $key (qw(actions false_actions)) {
+      for my $key (qw(actions false_actions between_actions)) {
         my $acts = $def->{$key} or next;
         my $new_acts = [];
         while (@$acts) {
@@ -1403,7 +1575,9 @@ for my $im (keys %{$Data->{ims}}) {
             $acts->[-1]->{remove_from_afe_and_oe} = 1;
             next;
           }
-          if (defined $act->{actions} or defined $act->{false_actions}) {
+          if (defined $act->{actions} or
+              defined $act->{false_actions} or
+              defined $act->{between_actions}) {
             push @def, $act;
           }
           unshift @$new_acts, $act;
@@ -1511,7 +1685,7 @@ for my $im (keys %{$Data->{ims}}) {
     my @def = $Data->{ims}->{$im}->{conds}->{$cond};
     while (@def) {
       my $def = shift @def;
-      for my $key (qw(actions false_actions)) {
+      for my $key (qw(actions false_actions between_actions)) {
         my $acts = $def->{$key} or next;
         my $new_acts = [];
         for my $act (@$acts) {
@@ -1540,7 +1714,9 @@ for my $im (keys %{$Data->{ims}}) {
               warn $act->{FIELD};
             }
           }
-          if (defined $act->{actions} or defined $act->{false_actions}) {
+          if (defined $act->{actions} or
+              defined $act->{false_actions} or
+              defined $act->{between_actions}) {
             push @def, $act;
           }
           push @$new_acts, $act;

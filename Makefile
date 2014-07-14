@@ -321,6 +321,7 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"TARGET"' $@ > /dev/null)
 	!(grep '"PROCESS"' $@ > /dev/null)
 	!(grep '"SAME-AS"' $@ > /dev/null)
+	!(grep '"LABEL"' $@ > /dev/null)
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@
