@@ -9,9 +9,15 @@ use Web::DOM::Document;
 use Web::HTML::Parser;
 
 my $doc = new Web::DOM::Document;
-my $parser = new Web::HTML::Parser;
-my $spec_path = path (__FILE__)->parent->parent->child (shift);
-$parser->parse_byte_string (undef, $spec_path->slurp => $doc);
+$doc->manakai_is_html (1);
+$doc->inner_html (q{<!DOCTYPE html>});
+for (@ARGV) {
+  my $d = new Web::DOM::Document;
+  my $parser = new Web::HTML::Parser;
+  my $spec_path = path (__FILE__)->parent->parent->child ($_);
+  $parser->parse_byte_string (undef, $spec_path->slurp => $d);
+  $doc->body->append_child ($_) for $d->body->child_nodes->to_list;
+}
 
 my $Data = {};
 
@@ -137,7 +143,7 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $3), (parse_step $f)];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^(otherwise, |)if ([A-Za-z0-9" -]+? that is not either (?:an?|the) \w+ element(?:, (?:or |)(?:an?|the) \w+ element)+), then ($SENTENCE)$/o) {
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ([A-Za-z0-9" -]+? that is not either (?:an?|the) [\w-]+ element(?:, (?:or |)(?:an?|the) [\w-]+ element)+), then ($SENTENCE)$/o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
       $_->{actions} = [parse_step $3];
@@ -251,9 +257,25 @@ sub parse_step ($) {
   }
 } # parse_step
 
+sub parse_pattern ($) {
+  my $pattern = shift;
+  if ($pattern =~ /^An? ([\w-]+) element in the (\w+) namespace$/) {
+    return {ns => $2, name => $1};
+  } elsif ($pattern =~ /^([\w-]+) in the (\w+) namespace$/) {
+    return {ns => $2, name => $1};
+  } elsif ($pattern =~ /^An? ([\w-]+) element in the (\w+) namespace whose start tag token had an attribute with the name "([^"]+)" whose value was an ASCII case-insensitive match for the string "([^"]+)"$/) {
+    return {ns => $2, name => $1, attrs => [{name => $3, lc_value => lc $4}]};
+  } elsif ($pattern =~ /^All the element types listed above for the (.+?) algorithm\.$/) {
+    return ['SAME-AS', $1];
+  } else {
+    die "Unknown pattern |$pattern|";
+  }
+} # parse_pattern
+
 my $im_name;
 my @node = @{$doc->body->child_nodes};
 my $steps_name;
+my $steps_type;
 while (@node) {
   my $node = shift @node;
   if ($node->node_type == $node->ELEMENT_NODE) {
@@ -270,6 +292,7 @@ while (@node) {
         undef $im_name;
       }
       undef $steps_name;
+      undef $steps_type;
     } elsif ($ln eq 'p') {
       my $tc = _n $node->text_content;
       if ($tc =~ /^(?:When|Where) the steps above say (?:the user agent is |)to (.+?), (?:it means|they mean) (?:that the user agent must|to) run the following (?:steps|algorithm):$/) {
@@ -280,7 +303,7 @@ while (@node) {
                 WHILE => 1,
                 COND => "$2 is not $3",
                 actions => [{type => 'UNPARSED', DESC => $4}]}];
-      } elsif ($tc =~ /^When the steps below require the UA to (.+?), then, while (the current node is an? \w+ element(?:, (?:or |)an? \w+ element)+), the UA must (.+?).$/) {
+      } elsif ($tc =~ /^When the steps below require the UA to (.+?), then, while (the current node is an? [\w-]+ element(?:, (?:or |)an? [\w-]+ element)+), the UA must (.+?).$/) {
         my $s = $1;
         $Data->{ims}->{_steps}->{conds}->{$1}->{actions}
             = [{type => 'UNTIL',
@@ -291,8 +314,25 @@ while (@node) {
         $steps_name = $1;
       } elsif ($tc =~ /^When the steps below require the user agent to (.+?) for a token, then,.*?the following table/) {
         $steps_name = $1;
-      } elsif ($tc =~ /^When the steps below require the user agent to (.+?) for a token, then, if the token has an attribute named (\w+), change its name to (\w+) \([^()]+\).$/) {
+      } elsif ($tc =~ /^When the steps below require the user agent to (.+?) for a token, then, if the token has an attribute named ([\w-]+), change its name to ([\w-]+) \([^()]+\).$/) {
         $Data->{tables}->{$1} = {$2 => $3};
+      } elsif ($tc =~ /^A node is an? (.+?) if it is one of the following elements:$/) {
+        $steps_name = $1;
+      } elsif ($tc =~ /^The stack of open elements is said to (.+?) when it has that element in the specific scope consisting of the following element types:$/) {
+        $steps_name = $1;
+        $steps_name =~ s/^have /has /;
+        $steps_name =~ s/a particular element/an element/;
+      } elsif ($tc =~ /^The stack of open elements is said to (.+?) when it has that element in the specific scope consisting of all element types except the following:$/) {
+        $steps_name = $1;
+        $steps_name =~ s/^have /has /;
+        $steps_name =~ s/a particular element/an element/;
+        $steps_type = 'patterns_not';
+      } elsif ($tc =~ /^Elements in the stack of open elements fall into the following categories:$/) {
+        $steps_name = 'category';
+        $steps_type = 'category';
+      } elsif ($tc =~ /known as the (tree construction dispatcher):$/) {
+        $steps_name = $1;
+        $steps_type = $1;
       } else {
         unshift @node, $node->child_nodes->to_list;
       }
@@ -433,6 +473,53 @@ while (@node) {
             $was_dd = 1;
           }
         }
+      } elsif (defined $steps_type and $steps_type eq 'category') {
+        my $category_name;
+        my $list;
+        for my $el ($node->children->to_list) {
+          my $ln = $el->local_name;
+          if ($ln eq 'dt') {
+            $category_name = lc $el->query_selector ('dfn')->text_content;
+            $list = {};
+          } elsif ($ln eq 'dd' and defined $category_name) {
+            my $tc = _n $el->text_content;
+            $tc =~ s/^[^:]+: //;
+            while ($tc =~ s/^(\w+)'s ([\w-]+(?:, (?:and |)[\w-]+)+)(?:; (?:and |)|\.)//) {
+              my $name = $1;
+              my $els = [split /, (?:and |)/, $2];
+              $list->{$name}->{$_} = 1 for @$els;
+            }
+            if ($tc =~ s/^([\w-]+(?:, (?:and |)[\w-]+)+)//) {
+              my $els = [split /, (?:and |)/, $1];
+              $list->{HTML}->{$_} = 1 for @$els;
+            }
+            $Data->{patterns}->{$category_name . ' category'} = [map { {ns => $_, name => [sort { $a cmp $b } keys %{$list->{$_}}]} } sort { $a cmp $b } keys %$list];
+            delete $Data->{patterns}->{$category_name . ' category'}
+                unless @{$Data->{patterns}->{$category_name . ' category'}};
+          }
+        }
+        undef $steps_name;
+        undef $steps_type;
+      } elsif (defined $steps_type and $steps_type eq 'tree construction dispatcher') {
+        my @cond;
+        for my $el ($node->children->to_list) {
+          my $ln = $el->local_name;
+          if ($ln eq 'dt') {
+            my $cond = _n $el->text_content;
+            if ($cond =~ /^If (.+? is .+?) and (.+? is .+)$/) {
+              push @cond, ['and', $1, $2];
+            } elsif ($cond =~ /^If (.+? is .+)$/) {
+              push @cond, $1;
+            } else {
+              die "Unknown cond |$cond|";
+            }
+          } elsif ($ln eq 'dd') {
+            last;
+          }
+        }
+        $Data->{dispatcher_html} = \@cond;
+        undef $steps_name;
+        undef $steps_type;
       } else { # not .switch
         unshift @node, $node->child_nodes->to_list;
       }
@@ -472,6 +559,7 @@ while (@node) {
         }
       }
       undef $steps_name;
+      undef $steps_type;
     } elsif (defined $steps_name and $ln eq 'table') {
       my @label;
       for (@{$node->query_selector_all ('thead > tr > *')}) {
@@ -487,6 +575,7 @@ while (@node) {
             $data->{$label[$_]} = $code->text_content;
           } elsif ($label[$_] eq 'Namespace') {
             my $tc = _n $cell[$_]->text_content;
+            $tc =~ s/ namespace$//;
             $data->{$label[$_]} = $tc;
           }
         }
@@ -505,6 +594,11 @@ while (@node) {
         die "Unknown table type |$steps_name|";
       }
       undef $steps_name;
+      undef $steps_type;
+    } elsif (defined $steps_name and $ln eq 'ul') {
+      $Data->{$steps_type // 'patterns'}->{$steps_name} = [map { parse_pattern _n $_->text_content } grep { $_->local_name eq 'li' } $node->children->to_list];
+      undef $steps_name;
+      undef $steps_type;
     } else {
       unshift @node, $node->child_nodes->to_list;
     } # $ln
@@ -730,7 +824,7 @@ my $DescPatterns = [
   [qr/insert a foreign element for the token, in (.+)/,
    'insert a foreign element', 'NS'],
   [qr/insert the newly created element at (.+)/, 'APPEND', 'LOCATION'],
-  [qr/create an? (\w+) element whose ownerDocument is the Document object/,
+  [qr/create an? ([\w-]+) element whose ownerDocument is the Document object/,
    'create an HTML element', 'local_name'],
   [qr/create an element for the token in the HTML namespace, with (.+) as the intended parent/,
    'create an HTML element', 'INTENDED_PARENT'],
@@ -738,7 +832,7 @@ my $DescPatterns = [
    'create an HTML element', 'INTENDED_PARENT'],
   [qr/generate implied end tags, except for (HTML elements with the same tag name as the token)/,
    'generate implied end tags', 'EXCEPT'],
-  [qr/generate implied end tags, except for (\w+ elements)/,
+  [qr/generate implied end tags, except for ([\w-]+ elements)/,
    'generate implied end tags', 'EXCEPT'],
   [qr/change the token's tag name to "([^"]+)"/,
    "change the token's tag name", 'tag_name'],
@@ -784,18 +878,18 @@ sub parse_cond ($) {
       (parse_cond ($r) // ['COND', $r]),
       (parse_cond ($m) // ['COND', $m]),
     ];
-  } elsif ($COND =~ /^the current node is an? (\w+) element$/) {
+  } elsif ($COND =~ /^the current node is an? ([\w-]+) element$/) {
     $cond = ['oe[-1]', 'is', {ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the current node is not now an? (\w+) element or an? (\w+) element$/) {
+  } elsif ($COND =~ /^the current node is not now an? ([\w-]+) element or an? ([\w-]+) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => [$1, $2]}];
-  } elsif ($COND =~ /^the current node is not (?:then |)an? (\w+) element$/) {
+  } elsif ($COND =~ /^the current node is not (?:then |)an? ([\w-]+) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is the root (html) element$/ or
            $COND =~ /^the stack of open elements has only one node on it$/) {
     $cond = ['oe[-1]', 'is', {ns => 'HTML', name => 'html'}];
   } elsif ($COND =~ /^the current node is not the root (html) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the current node is no longer an? (\w+) element$/) {
+  } elsif ($COND =~ /^the current node is no longer an? ([\w-]+) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the node immediately before it in the stack of open elements is an optgroup element$/) {
     $cond = ['oe[-2]', 'is', {ns => 'HTML', name => 'optgroup'}];
@@ -805,8 +899,12 @@ sub parse_cond ($) {
     $cond = ['oe[-1]', 'is', {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
   } elsif ($COND =~ /^the new current node is in the SVG namespace$/) {
     $cond = ['oe[-1]', 'is', {ns => 'SVG'}];
-  } elsif ($COND =~ /^the adjusted current node is an element in the (SVG|MathML) namespace$/) {
+  } elsif ($COND =~ /^the adjusted current node is an element in the (HTML|SVG|MathML) namespace$/) {
     $cond = ['adjusted current node', 'is', {ns => $1}];
+  } elsif ($COND =~ /^the adjusted current node is an? ([\w-]+) element in the (\w+) namespace$/) {
+    $cond = ['adjusted current node', 'is', {ns => $2, name => $1}];
+  } elsif ($COND =~ /^the adjusted current node is an? (.+? integration point)$/) {
+    $cond = ['adjusted current node', 'is', {$1 => 1}];
   } elsif ($COND =~ /^the current node is not node$/ or
            $COND =~ /^node is not the current node$/) {
     $cond = ['oe[-1]', 'is', 'node'];
@@ -820,29 +918,29 @@ sub parse_cond ($) {
     $cond = ['node', 'lc is', {same_tag_name_as_token => 1}];
   } elsif ($COND =~ /^node's tag name, converted to ASCII lowercase, is not the same as the tag name of the token$/) {
     $cond = ['node', 'lc is not', {same_tag_name_as_token => 1}];
-  } elsif ($COND =~ /^node is an? (\w+) element$/) {
+  } elsif ($COND =~ /^node is an? ([\w-]+) element$/) {
     $cond = ['node', 'is', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^node is in the special category$/) {
     $cond = ['node', 'is', {category => 'special'}];
   } elsif ($COND =~ /^node is in the special category, but is not an address, div, or p element$/) {
     $cond = ['node', 'is', {category => 'special', except => ['address', 'div', 'p']}];
-  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) element$/) {
+  } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element$/) {
     $cond = ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^there is an? (\w+) element on the stack of open elements$/) {
+  } elsif ($COND =~ /^there is an? ([\w-]+) element on the stack of open elements$/) {
     $cond = ['oe', 'in scope', {scope => 'all', ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^there is no (\w+) element on the stack of open elements$/) {
+  } elsif ($COND =~ /^there is no ([\w-]+) element on the stack of open elements$/) {
     $cond = ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the stack of open elements has an? (\w+) element in scope$/) {
+  } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in scope$/) {
     $cond = ['oe', 'in scope', {scope => 'scope', ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) element in scope$/) {
+  } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element in scope$/) {
     $cond = ['oe', 'not in scope', {scope => 'scope', ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the stack of open elements has an? (\w+) element in ([\w ]+) scope$/) {
+  } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in ([\w ]+) scope$/) {
     $cond = ['oe', 'in scope', {scope => $2, ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) element in ([\w ]+) scope$/) {
+  } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element in ([\w ]+) scope$/) {
     $cond = ['oe', 'not in scope', {scope => $2, ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+) or (\w+) element in ([\w ]+) scope$/) {
+  } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) or ([\w-]+) element in ([\w ]+) scope$/) {
     $cond = ['oe', 'not in scope', {scope => $3, ns => 'HTML', name => [$1, $2]}];
-  } elsif ($COND =~ /^the stack of open elements does not have an? (\w+), (\w+), or (\w+) element in ([\w ]+) scope$/) {
+  } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+), ([\w-]+), or ([\w-]+) element in ([\w ]+) scope$/) {
     $cond = ['oe', 'not in scope', {scope => $4, ns => 'HTML', name => [$1, $2, $3]}];
   } elsif ($COND =~ /^the stack of open elements does not have an element in scope that is an HTML element with the same tag name as that of the token$/) {
     $cond = ['oe', 'in scope', {scope => 'scope', ns => 'HTML', same_tag_name_as_token => 1}];
@@ -850,10 +948,10 @@ sub parse_cond ($) {
     $cond = ['oe', 'in scope', {scope => $1, ns => 'HTML', same_tag_name_as_token => 1}];
   } elsif ($COND =~ /^the stack of open elements does not have an element in scope that is an HTML element and whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"$/) {
     $cond = ['oe', 'not in scope', {scope => 'scope', ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
-  } elsif ($COND =~ /^there is a node in the stack of open elements that is not either ((?:an?|the) \w+ element(?:, (?:or |)(?:an?|the) \w+ element)+)$/) {
+  } elsif ($COND =~ /^there is a node in the stack of open elements that is not either ((?:an?|the) [\w-]+ element(?:, (?:or |)(?:an?|the) [\w-]+ element)+)$/) {
     my @s;
     my $s = $1;
-    push @s, $1 while $s =~ /(?:an?|the) (\w+) element/g;
+    push @s, $1 while $s =~ /(?:an?|the) ([\w-]+) element/g;
     $cond = ['oe', 'in scope not', {ns => 'HTML', name => \@s}];
   } elsif ($COND =~ /^node is null or if the stack of open elements does not have node in scope$/) {
     $cond = ['or',
@@ -873,7 +971,7 @@ sub parse_cond ($) {
     $cond = ['token', 'has', 'self-closing flag'];
   } elsif ($COND =~ /^If the token's tag name is "([^"]+)"$/) {
     $cond = ['token tag_name', 'is', $1];
-  } elsif ($COND =~ /^the list of active formatting elements contains an? (\w+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
+  } elsif ($COND =~ /^the list of active formatting elements contains an? ([\w-]+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
     $cond = ['afe', 'in scope', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
     $cond = ['pending table character tokens list', 'has non-space'];
@@ -899,6 +997,8 @@ sub parse_cond ($) {
     $cond = ['script nesting level', 'is', 0];
   } elsif ($COND =~ /^there is a pending parsing-blocking script$/) {
     $cond = ['pending parsing-blocking script'];
+  } elsif ($COND =~ /^the stack of open elements is empty$/) {
+    $cond = ['oe', 'is empty'];
   } elsif ($COND =~ /^the stack of script settings objects is empty$/) {
     $cond = ['stack of script settings objects', 'is empty'];
   } elsif ($COND =~ /^the token does not have an attribute with the name "type", or if it does, but that attribute's value is not an ASCII case-insensitive match for the string "hidden"$/) {
@@ -909,6 +1009,17 @@ sub parse_cond ($) {
     $cond = ['can change the encoding'];
   } elsif ($COND =~ /^the token's tag name is one of the ones in the first column of the following table$/) {
     $cond = ['TAG-NAME-IN-NEXT-TABLE'];
+  } elsif ($COND =~ /^the token is an? (.+) token$/) {
+    $cond = ['token', 'is a', {
+      'character' => 'CHAR',
+      'end-of-file' => 'EOF',
+    }->{$1} || uc $1];
+  } elsif ($COND =~ /^the token is an? (start|end) tag$/) {
+    $cond = ['token', 'is a', uc $1];
+  } elsif ($COND =~ /^the token is a start tag whose tag name is neither "([^"]+)" nor "([^"]+)"$/) {
+    $cond = ['and', ['token', 'is a', 'START'], ['token tag_name', 'is not', [$1, $2]]];
+  } elsif ($COND =~ /^the token is a start tag whose tag name is "([^"]+)"$/) {
+    $cond = ['and', ['token', 'is a', 'START'], ['token tag_name', 'is', [$1]]];
   }
 
   #warn $COND if not defined $cond;
@@ -1005,7 +1116,7 @@ sub process_actions ($) {
               delete $act->{LIST};
             }
           }
-        } elsif ($act->{ITEM} =~ /^(?:the current node(?: \([^()]+\)|)|elements|that \w+ element|that node|an element)$/) {
+        } elsif ($act->{ITEM} =~ /^(?:the current node(?: \([^()]+\)|)|elements|that [\w-]+ element|that node|an element)$/) {
           $act->{type} = 'pop-oe';
           delete $act->{LIST};
           delete $act->{ITEM};
@@ -1163,7 +1274,7 @@ sub process_actions ($) {
         } else {
           #warn $act->{VALUE};
         }
-      } elsif ($act->{TARGET} =~ /^the (\w+) attribute on the resulting form element$/ and
+      } elsif ($act->{TARGET} =~ /^the ([\w-]+) attribute on the resulting form element$/ and
                $act->{VALUE} =~ /^the value of the "(\Q$1\E)" attribute of the token$/) {
         $act->{type} = 'set-form-attr';
         $act->{target} = $1;
@@ -1349,7 +1460,7 @@ sub process_actions ($) {
         if ($act->{EXCEPT} eq 'HTML elements with the same tag name as the token') {
           $act->{except} = {ns => 'HTML', same_tag_name_as_token => 1};
           delete $act->{EXCEPT};
-        } elsif ($act->{EXCEPT} =~ /^(\w+) elements$/) {
+        } elsif ($act->{EXCEPT} =~ /^([\w-]+) elements$/) {
           $act->{except} = {ns => 'HTML', name => $1};
           delete $act->{EXCEPT};
         } else {
@@ -1364,12 +1475,12 @@ sub process_actions ($) {
           1 == keys %{$act->{actions}->[0]} and
           defined $act->{COND} and
           3 == keys %$act) {
-        if ($act->{COND} =~ /^an? (\w+) element has been popped from the stack$/) {
+        if ($act->{COND} =~ /^an? ([\w-]+) element has been popped from the stack$/) {
           $act->{type} = 'pop-oe';
           $act->{until} = {ns => 'HTML', name => $1};
           delete $act->{actions};
           delete $act->{COND};
-        } elsif ($act->{COND} =~ /^an? (\w+) element or an? (\w+) element has been popped from the stack$/) {
+        } elsif ($act->{COND} =~ /^an? ([\w-]+) element or an? ([\w-]+) element has been popped from the stack$/) {
           $act->{type} = 'pop-oe';
           $act->{until} = {ns => 'HTML', name => [$1, $2]};
           delete $act->{actions};
@@ -1386,7 +1497,10 @@ sub process_actions ($) {
           delete $act->{COND};
         } elsif ($act->{COND} =~ /^the current node is a MathML text integration point, an HTML integration point, or an element in the HTML namespace$/) {
           $act->{type} = 'pop-oe';
-          $act->{until} = {html_context => 1};
+          $act->{until} = ['or',
+                           {'MathML text integration point' => 1},
+                           {'HTML integration point' => 1},
+                           {ns => 'HTML'}];
           delete $act->{actions};
           delete $act->{COND};
         } elsif ($act->{COND} =~ /^node has been popped from the stack$/) {
@@ -1398,16 +1512,16 @@ sub process_actions ($) {
           die "Unknown UNTIL COND |$act->{COND}|";
         }
       } elsif (4 == keys %$act and $act->{WHILE}) {
-        if ($act->{COND} =~ /^the current node is not an? (\w+(?:, (?:or |)\w+)+) element$/) {
+        if ($act->{COND} =~ /^the current node is not an? ([\w-]+(?:, (?:or |)[\w-]+)+) element$/) {
           $act->{type} = 'pop-oe';
           $act->{while_not} = {ns => 'HTML', name => [split /, (?:or |)/, $1]};
           delete $act->{actions};
           delete $act->{COND};
           delete $act->{WHILE};
-        } elsif ($act->{COND} =~ /^the current node is (an? \w+ element(?:, (?:or |)an? \w+ element)+)$/) {
+        } elsif ($act->{COND} =~ /^the current node is (an? [\w-]+ element(?:, (?:or |)an? [\w-]+ element)+)$/) {
           my $s = $1;
           my @s;
-          push @s, $1 while $s =~ /(\w+) element/g;
+          push @s, $1 while $s =~ /([\w-]+) element/g;
           $act->{type} = 'pop-oe';
           $act->{while_not} = {ns => 'HTML', name => \@s};
           delete $act->{actions};
@@ -1849,6 +1963,38 @@ for my $im (keys %{$Data->{ims}}) {
     }
   }
 }
+
+for my $pattern (keys %{$Data->{patterns}}) {
+  my $new = [];
+  for (@{$Data->{patterns}->{$pattern}}) {
+    if (ref $_ eq 'ARRAY' and $_->[0] eq 'SAME-AS') {
+      push @$new, @{$Data->{patterns}->{$_->[1]}};
+    } else {
+      push @$new, $_;
+    }
+  }
+  $Data->{patterns}->{$pattern} = $new;
+}
+
+$Data->{dispatcher_html} = [map {
+  if (ref $_) {
+    [$_->[0], map {
+      my $cond = parse_cond $_;
+      if (defined $cond) {
+        $cond;
+      } else {
+        ['COND', $_];
+      }
+    } @$_[1..$#$_]];
+  } else {
+    my $cond = parse_cond $_;
+    if (defined $cond) {
+      $cond;
+    } else {
+      ['COND', $_];
+    }
+  }
+} @{$Data->{dispatcher_html}}];
 
 $Data->{steps} = $Data->{ims}->{_steps}->{conds};
 delete $Data->{ims}->{_steps};
