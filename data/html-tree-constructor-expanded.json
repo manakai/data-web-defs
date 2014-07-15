@@ -337,7 +337,7 @@
                   }
                ]
             },
-            "END:body br html" : {
+            "END:body,br,html" : {
                "actions" : [
                   {
                      "attrs" : "none",
@@ -364,7 +364,7 @@
                   }
                ]
             },
-            "START:base basefont bgsound link meta noframes script style template title" : {
+            "START:base,basefont bgsound link,meta,noframes,script,style,template,title" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -493,7 +493,7 @@
                   }
                ]
             },
-            "END:body br head html" : {
+            "END:body,br,head,html" : {
                "actions" : [
                   {
                      "attrs" : "none",
@@ -606,7 +606,7 @@
                   }
                ]
             },
-            "END:body br head html" : {
+            "END:body,br,head,html" : {
                "actions" : [
                   {
                      "local_name" : "html",
@@ -722,7 +722,20 @@
                                     "ns" : "HTML",
                                     "same_tag_name_as_token" : 1
                                  },
-                                 "type" : "generate implied end tags"
+                                 "type" : "pop-oe",
+                                 "while_not" : {
+                                    "name" : [
+                                       "dd",
+                                       "dt",
+                                       "li",
+                                       "option",
+                                       "optgroup",
+                                       "p",
+                                       "rp",
+                                       "rt"
+                                    ],
+                                    "ns" : "HTML"
+                                 }
                               },
                               {
                                  "actions" : [
@@ -785,14 +798,14 @@
                   }
                ]
             },
-            "END:a b big code em font i nobr s small strike strong tt u" : {
+            "END:a,b big code em i s small strike strong tt u,font,nobr" : {
                "actions" : [
                   {
                      "type" : "adoption agency algorithm"
                   }
                ]
             },
-            "END:address article aside blockquote button center details dialog dir div dl fieldset figcaption figure footer header hgroup listing main menu nav ol pre section summary ul" : {
+            "END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,listing pre" : {
                "actions" : [
                   {
                      "actions" : [
@@ -1027,7 +1040,20 @@
                               "ns" : "HTML",
                               "same_tag_name_as_token" : 1
                            },
-                           "type" : "generate implied end tags"
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "p",
+                                 "rp",
+                                 "rt"
+                              ],
+                              "ns" : "HTML"
+                           }
                         },
                         {
                            "actions" : [
@@ -1388,11 +1414,19 @@
                      ],
                      "false_actions" : [
                         {
-                           "except" : {
-                              "name" : "li",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "option",
+                                 "optgroup",
+                                 "p",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -1447,11 +1481,19 @@
                      "type" : "if"
                   },
                   {
-                     "except" : {
-                        "name" : "p",
+                     "type" : "pop-oe",
+                     "while_not" : {
+                        "name" : [
+                           "dd",
+                           "dt",
+                           "li",
+                           "option",
+                           "optgroup",
+                           "rp",
+                           "rt"
+                        ],
                         "ns" : "HTML"
-                     },
-                     "type" : "generate implied end tags"
+                     }
                   },
                   {
                      "actions" : [
@@ -1492,7 +1534,20 @@
                                     "ns" : "HTML",
                                     "same_tag_name_as_token" : 1
                                  },
-                                 "type" : "generate implied end tags"
+                                 "type" : "pop-oe",
+                                 "while_not" : {
+                                    "name" : [
+                                       "dd",
+                                       "dt",
+                                       "li",
+                                       "option",
+                                       "optgroup",
+                                       "p",
+                                       "rp",
+                                       "rt"
+                                    ],
+                                    "ns" : "HTML"
+                                 }
                               },
                               {
                                  "actions" : [
@@ -1684,16 +1739,24 @@
                   }
                ]
             },
-            "START:address article aside blockquote center details dialog dir div dl fieldset figcaption figure footer header hgroup main menu nav ol p section summary ul" : {
+            "START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p" : {
                "actions" : [
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -1752,7 +1815,7 @@
                   }
                ]
             },
-            "START:area br embed img keygen wbr" : {
+            "START:area wbr,br,embed img,keygen" : {
                "actions" : [
                   {
                      "type" : "reconstruct the active formatting elements"
@@ -1772,7 +1835,7 @@
                   }
                ]
             },
-            "START:b big code em font i s small strike strong tt u" : {
+            "START:b big code em i s small strike strong tt u,font" : {
                "actions" : [
                   {
                      "type" : "reconstruct the active formatting elements"
@@ -1785,7 +1848,7 @@
                   }
                ]
             },
-            "START:base basefont bgsound link meta noframes script style template title" : {
+            "START:base,basefont bgsound link,meta,noframes,script,style,template,title" : {
                "actions" : [
                   {
                      "im" : "in head",
@@ -1900,7 +1963,7 @@
                   }
                ]
             },
-            "START:caption col colgroup frame head tbody td tfoot th thead tr" : {
+            "START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -1921,11 +1984,19 @@
                         {
                            "actions" : [
                               {
-                                 "except" : {
-                                    "name" : "dd",
+                                 "type" : "pop-oe",
+                                 "while_not" : {
+                                    "name" : [
+                                       "dt",
+                                       "li",
+                                       "option",
+                                       "optgroup",
+                                       "p",
+                                       "rp",
+                                       "rt"
+                                    ],
                                     "ns" : "HTML"
-                                 },
-                                 "type" : "generate implied end tags"
+                                 }
                               },
                               {
                                  "actions" : [
@@ -1966,11 +2037,19 @@
                               {
                                  "actions" : [
                                     {
-                                       "except" : {
-                                          "name" : "dt",
+                                       "type" : "pop-oe",
+                                       "while_not" : {
+                                          "name" : [
+                                             "dd",
+                                             "li",
+                                             "option",
+                                             "optgroup",
+                                             "p",
+                                             "rp",
+                                             "rt"
+                                          ],
                                           "ns" : "HTML"
-                                       },
-                                       "type" : "generate implied end tags"
+                                       }
                                     },
                                     {
                                        "actions" : [
@@ -2044,11 +2123,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -2118,11 +2205,19 @@
                         {
                            "actions" : [
                               {
-                                 "except" : {
-                                    "name" : "p",
+                                 "type" : "pop-oe",
+                                 "while_not" : {
+                                    "name" : [
+                                       "dd",
+                                       "dt",
+                                       "li",
+                                       "option",
+                                       "optgroup",
+                                       "rp",
+                                       "rt"
+                                    ],
                                     "ns" : "HTML"
-                                 },
-                                 "type" : "generate implied end tags"
+                                 }
                               },
                               {
                                  "actions" : [
@@ -2256,11 +2351,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -2333,11 +2436,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -2525,11 +2636,19 @@
                         {
                            "actions" : [
                               {
-                                 "except" : {
-                                    "name" : "p",
+                                 "type" : "pop-oe",
+                                 "while_not" : {
+                                    "name" : [
+                                       "dd",
+                                       "dt",
+                                       "li",
+                                       "option",
+                                       "optgroup",
+                                       "rp",
+                                       "rt"
+                                    ],
                                     "ns" : "HTML"
-                                 },
-                                 "type" : "generate implied end tags"
+                                 }
                               },
                               {
                                  "actions" : [
@@ -2686,11 +2805,19 @@
                         {
                            "actions" : [
                               {
-                                 "except" : {
-                                    "name" : "li",
+                                 "type" : "pop-oe",
+                                 "while_not" : {
+                                    "name" : [
+                                       "dd",
+                                       "dt",
+                                       "option",
+                                       "optgroup",
+                                       "p",
+                                       "rp",
+                                       "rt"
+                                    ],
                                     "ns" : "HTML"
-                                 },
-                                 "type" : "generate implied end tags"
+                                 }
                               },
                               {
                                  "actions" : [
@@ -2761,11 +2888,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -2812,11 +2947,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -2981,7 +3124,7 @@
                   }
                ]
             },
-            "START:optgroup option" : {
+            "START:optgroup,option" : {
                "actions" : [
                   {
                      "actions" : [
@@ -3012,11 +3155,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -3199,11 +3350,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -3307,11 +3466,19 @@
                   {
                      "actions" : [
                         {
-                           "except" : {
-                              "name" : "p",
+                           "type" : "pop-oe",
+                           "while_not" : {
+                              "name" : [
+                                 "dd",
+                                 "dt",
+                                 "li",
+                                 "option",
+                                 "optgroup",
+                                 "rp",
+                                 "rt"
+                              ],
                               "ns" : "HTML"
-                           },
-                           "type" : "generate implied end tags"
+                           }
                         },
                         {
                            "actions" : [
@@ -3387,7 +3554,7 @@
                   }
                ]
             },
-            "END:body col colgroup html tbody td tfoot th thead tr" : {
+            "END:body,col,colgroup,html,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -3550,7 +3717,7 @@
                   }
                ]
             },
-            "START:caption col colgroup tbody td tfoot th thead tr" : {
+            "START:caption,col,colgroup,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "actions" : [
@@ -3640,7 +3807,7 @@
                   }
                ]
             },
-            "END:body caption col colgroup html" : {
+            "END:body,caption,col,colgroup,html" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -3650,7 +3817,7 @@
                   }
                ]
             },
-            "END:table tbody tfoot thead tr" : {
+            "END:table,tbody tfoot thead,tr" : {
                "actions" : [
                   {
                      "actions" : [
@@ -3809,7 +3976,7 @@
                   }
                ]
             },
-            "START:caption col colgroup tbody td tfoot th thead tr" : {
+            "START:caption,col,colgroup,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "actions" : [
@@ -4426,7 +4593,7 @@
                   }
                ]
             },
-            "START:b big blockquote body br center code dd div dl dt em embed h1 h2 h3 h4 h5 h6 head hr i img li listing menu meta nobr ol p pre ruby s small span strike strong sub sup table tt u ul var" : {
+            "START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -4779,7 +4946,7 @@
                   }
                ]
             },
-            "END:body br html" : {
+            "END:body,br,html" : {
                "actions" : [
                   {
                      "type" : "pop-oe"
@@ -4928,7 +5095,7 @@
                   }
                ]
             },
-            "START:base basefont bgsound link" : {
+            "START:base,basefont bgsound link" : {
                "actions" : [
                   {
                      "type" : "insert an HTML element"
@@ -4975,7 +5142,7 @@
                   }
                ]
             },
-            "START:noframes style" : {
+            "START:noframes,style" : {
                "actions" : [
                   {
                      "type" : "insert an HTML element"
@@ -5191,7 +5358,7 @@
                   }
                ]
             },
-            "START:basefont bgsound link meta noframes style" : {
+            "START:basefont bgsound link,meta,noframes,style" : {
                "actions" : [
                   {
                      "im" : "in head",
@@ -5199,7 +5366,7 @@
                   }
                ]
             },
-            "START:head noscript" : {
+            "START:head,noscript" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -5229,7 +5396,7 @@
                   }
                ]
             },
-            "END:body caption col colgroup html td th" : {
+            "END:body,caption,col,colgroup,html,td th" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -5403,7 +5570,7 @@
                   }
                ]
             },
-            "START:caption col colgroup tbody tfoot thead tr" : {
+            "START:caption,col,colgroup,tbody tfoot thead,tr" : {
                "actions" : [
                   {
                      "actions" : [
@@ -5672,7 +5839,7 @@
                   }
                ]
             },
-            "START:input keygen textarea" : {
+            "START:input,keygen,textarea" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -5773,7 +5940,7 @@
                   }
                ]
             },
-            "START:script template" : {
+            "START:script,template" : {
                "actions" : [
                   {
                      "im" : "in head",
@@ -5829,7 +5996,7 @@
                   }
                ]
             },
-            "END:caption table tbody td tfoot th thead tr" : {
+            "END:caption,table,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -5868,7 +6035,7 @@
                   }
                ]
             },
-            "START:caption table tbody td tfoot th thead tr" : {
+            "START:caption,table,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -5943,7 +6110,7 @@
                   }
                ]
             },
-            "END:body caption col colgroup html tbody td tfoot th thead tr" : {
+            "END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -6166,7 +6333,7 @@
                   }
                ]
             },
-            "START:script style template" : {
+            "START:script,style,template" : {
                "actions" : [
                   {
                      "im" : "in head",
@@ -6238,7 +6405,7 @@
                   }
                ]
             },
-            "START:td th tr" : {
+            "START:td th,tr" : {
                "actions" : [
                   {
                      "type" : "pop-oe",
@@ -6280,7 +6447,7 @@
                   }
                ]
             },
-            "END:body caption col colgroup html td th tr" : {
+            "END:body,caption,col,colgroup,html,td th,tr" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -6395,7 +6562,7 @@
                   }
                ]
             },
-            "START:caption col colgroup tbody tfoot thead" : {
+            "START:caption,col,colgroup,tbody tfoot thead" : {
                "actions" : [
                   {
                      "actions" : [
@@ -6684,7 +6851,7 @@
                   }
                ]
             },
-            "START:base basefont bgsound link meta noframes script style template title" : {
+            "START:base,basefont bgsound link,meta,noframes,script,style,template,title" : {
                "actions" : [
                   {
                      "im" : "in head",
@@ -6692,7 +6859,7 @@
                   }
                ]
             },
-            "START:caption colgroup tbody tfoot thead" : {
+            "START:caption,colgroup,tbody tfoot thead" : {
                "actions" : [
                   {
                      "type" : "pop-template-ims"
@@ -6935,6 +7102,65 @@
          }
       }
    },
+   "tag_name_groups" : [
+      "a",
+      "address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary",
+      "applet marquee object",
+      "area wbr",
+      "b big code em i s small strike strong tt u",
+      "base",
+      "basefont bgsound link",
+      "blockquote center div dl menu ol ul",
+      "body",
+      "br",
+      "button",
+      "caption",
+      "col",
+      "colgroup",
+      "dd dt",
+      "embed img",
+      "font",
+      "form",
+      "frame",
+      "frameset",
+      "h1 h2 h3 h4 h5 h6",
+      "head",
+      "hr",
+      "html",
+      "iframe",
+      "image",
+      "input",
+      "isindex",
+      "keygen",
+      "li",
+      "listing pre",
+      "math",
+      "menuitem param source track",
+      "meta",
+      "nobr",
+      "noembed",
+      "noframes",
+      "noscript",
+      "optgroup",
+      "option",
+      "p",
+      "plaintext",
+      "rp rt",
+      "ruby span sub sup var",
+      "sarcasm",
+      "script",
+      "select",
+      "style",
+      "svg",
+      "table",
+      "tbody tfoot thead",
+      "td th",
+      "template",
+      "textarea",
+      "title",
+      "tr",
+      "xmp"
+   ],
    "tree_patterns" : {
       "HTML integration point" : [
          {
@@ -7382,239 +7608,5 @@
             "ns" : "HTML"
          }
       ]
-   },
-   "tree_steps" : {
-      "clear the stack back to a table body context" : {
-         "actions" : [
-            {
-               "type" : "pop-oe",
-               "while_not" : {
-                  "name" : [
-                     "tbody",
-                     "tfoot",
-                     "thead",
-                     "template",
-                     "html"
-                  ],
-                  "ns" : "HTML"
-               }
-            }
-         ]
-      },
-      "clear the stack back to a table context" : {
-         "actions" : [
-            {
-               "type" : "pop-oe",
-               "while_not" : {
-                  "name" : [
-                     "table",
-                     "template",
-                     "html"
-                  ],
-                  "ns" : "HTML"
-               }
-            }
-         ]
-      },
-      "clear the stack back to a table row context" : {
-         "actions" : [
-            {
-               "type" : "pop-oe",
-               "while_not" : {
-                  "name" : [
-                     "tr",
-                     "template",
-                     "html"
-                  ],
-                  "ns" : "HTML"
-               }
-            }
-         ]
-      },
-      "close a p element" : {
-         "actions" : [
-            {
-               "except" : {
-                  "name" : "p",
-                  "ns" : "HTML"
-               },
-               "type" : "generate implied end tags"
-            },
-            {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  }
-               ],
-               "cond" : [
-                  "oe[-1]",
-                  "is not",
-                  {
-                     "name" : "p",
-                     "ns" : "HTML"
-                  }
-               ],
-               "type" : "if"
-            },
-            {
-               "type" : "pop-oe",
-               "until" : {
-                  "name" : "p",
-                  "ns" : "HTML"
-               }
-            }
-         ]
-      },
-      "close the cell" : {
-         "actions" : [
-            {
-               "type" : "pop-oe",
-               "while_not" : {
-                  "name" : [
-                     "dd",
-                     "dt",
-                     "li",
-                     "option",
-                     "optgroup",
-                     "p",
-                     "rp",
-                     "rt"
-                  ],
-                  "ns" : "HTML"
-               }
-            },
-            {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  }
-               ],
-               "cond" : [
-                  "oe[-1]",
-                  "is not",
-                  {
-                     "name" : [
-                        "td",
-                        "th"
-                     ],
-                     "ns" : "HTML"
-                  }
-               ],
-               "type" : "if"
-            },
-            {
-               "type" : "pop-oe",
-               "until" : {
-                  "name" : [
-                     "td",
-                     "th"
-                  ],
-                  "ns" : "HTML"
-               }
-            },
-            {
-               "type" : "clear the list of active formatting elements up to the last marker"
-            },
-            {
-               "im" : [
-                  "im",
-                  "in row"
-               ],
-               "type" : "switch the insertion mode"
-            }
-         ]
-      },
-      "generate all implied end tags thoroughly" : {
-         "actions" : [
-            {
-               "type" : "pop-oe",
-               "while_not" : {
-                  "name" : [
-                     "caption",
-                     "colgroup",
-                     "dd",
-                     "dt",
-                     "li",
-                     "option",
-                     "optgroup",
-                     "p",
-                     "rp",
-                     "rt",
-                     "tbody",
-                     "td",
-                     "tfoot",
-                     "th",
-                     "thead",
-                     "tr"
-                  ],
-                  "ns" : "HTML"
-               }
-            }
-         ]
-      },
-      "generate implied end tags" : {
-         "actions" : [
-            {
-               "type" : "pop-oe",
-               "while_not" : {
-                  "name" : [
-                     "dd",
-                     "dt",
-                     "li",
-                     "option",
-                     "optgroup",
-                     "p",
-                     "rp",
-                     "rt"
-                  ],
-                  "ns" : "HTML"
-               }
-            }
-         ]
-      },
-      "generic RCDATA element parsing algorithm" : {
-         "actions" : [
-            {
-               "type" : "insert an HTML element"
-            },
-            {
-               "state" : "RCDATA state",
-               "type" : "switch the tokenizer"
-            },
-            {
-               "target" : "original insertion mode",
-               "type" : "set-current-im"
-            },
-            {
-               "im" : [
-                  "im",
-                  "text"
-               ],
-               "type" : "switch the insertion mode"
-            }
-         ]
-      },
-      "generic raw text element parsing algorithm" : {
-         "actions" : [
-            {
-               "type" : "insert an HTML element"
-            },
-            {
-               "state" : "RAWTEXT state",
-               "type" : "switch the tokenizer"
-            },
-            {
-               "target" : "original insertion mode",
-               "type" : "set-current-im"
-            },
-            {
-               "im" : [
-                  "im",
-                  "text"
-               ],
-               "type" : "switch the insertion mode"
-            }
-         ]
-      }
    }
 }

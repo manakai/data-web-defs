@@ -302,6 +302,7 @@ data/html-tokenizer-expanded.json: data/html-syntax.json \
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
+	!(grep '"tree_steps"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html > $@
