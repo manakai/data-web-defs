@@ -1714,13 +1714,6 @@
                   }
                ]
             },
-            "SCRIPT-START:noscript" : {
-               "actions" : [
-                  {
-                     "type" : "generic raw text element parsing algorithm"
-                  }
-               ]
-            },
             "START-ELSE" : {
                "actions" : [
                   {
@@ -2803,6 +2796,29 @@
                   }
                ]
             },
+            "START:noscript" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "generic raw text element parsing algorithm"
+                        }
+                     ],
+                     "cond" : [
+                        "scripting"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert an HTML element"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
             "START:optgroup option" : {
                "actions" : [
                   {
@@ -3743,137 +3759,105 @@
                   }
                ]
             },
-            "START-ATTR:font:color face size" : {
+            "END:script" : {
                "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
                   {
                      "actions" : [
                         {
-                           "actions" : [
-                              {
-                                 "type" : "adjust MathML attributes"
-                              }
-                           ],
-                           "cond" : [
-                              "adjusted current node",
-                              "is",
-                              {
-                                 "ns" : "MathML"
-                              }
-                           ],
-                           "type" : "if"
+                           "type" : "pop-oe"
                         },
+                        {
+                           "type" : "script-processing"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        {
+                           "name" : "script",
+                           "ns" : "SVG"
+                        }
+                     ],
+                     "false_actions" : [
                         {
                            "actions" : [
                               {
-                                 "type" : "fixup-svg-tag-name"
+                                 "type" : "parse error"
                               }
                            ],
                            "cond" : [
-                              "adjusted current node",
-                              "is",
+                              "oe[-1]",
+                              "lc is not",
                               {
-                                 "ns" : "SVG"
+                                 "same_tag_name_as_token" : 1
                               }
                            ],
                            "type" : "if"
-                        },
-                        {
-                           "actions" : [
-                              {
-                                 "type" : "adjust SVG attributes"
-                              }
-                           ],
-                           "cond" : [
-                              "adjusted current node",
-                              "is",
-                              {
-                                 "ns" : "SVG"
-                              }
-                           ],
-                           "type" : "if"
-                        },
-                        {
-                           "type" : "adjust foreign attributes"
-                        },
-                        {
-                           "ns" : "inherit",
-                           "type" : "insert a foreign element"
                         },
                         {
                            "actions" : [
                               {
                                  "actions" : [
                                     {
-                                       "type" : "acknowledge the token's self-closing flag"
-                                    },
-                                    {
-                                       "type" : "pop-oe"
-                                    },
-                                    {
-                                       "type" : "script-processing"
+                                       "type" : "abort these steps"
                                     }
                                  ],
                                  "cond" : [
-                                    "and",
-                                    [
-                                       "token tag_name",
-                                       "is",
-                                       "script"
-                                    ],
-                                    [
-                                       "oe[-1]",
-                                       "is",
-                                       {
-                                          "ns" : "SVG"
-                                       }
-                                    ]
-                                 ],
-                                 "false_actions" : [
+                                    "node",
+                                    "is",
                                     {
-                                       "type" : "pop-oe"
+                                       "name" : "html",
+                                       "ns" : "HTML"
+                                    }
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "pop-oe",
+                                       "until" : "node"
                                     },
                                     {
-                                       "type" : "acknowledge the token's self-closing flag"
+                                       "type" : "abort these steps"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "node",
+                                    "lc is",
+                                    {
+                                       "same_tag_name_as_token" : 1
                                     }
                                  ],
                                  "type" : "if"
                               }
                            ],
-                           "cond" : [
-                              "token",
-                              "has",
-                              "self-closing flag"
-                           ],
-                           "type" : "if"
-                        }
-                     ],
-                     "cond" : [
-                        "fragment"
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe"
-                        },
-                        {
-                           "type" : "pop-oe",
-                           "until" : [
-                              "or",
+                           "between_actions" : [
                               {
-                                 "MathML text integration point" : 1
-                              },
-                              {
-                                 "HTML integration point" : 1
-                              },
-                              {
-                                 "ns" : "HTML"
+                                 "actions" : [
+                                 ],
+                                 "cond" : [
+                                    "node",
+                                    "is not",
+                                    {
+                                       "ns" : "HTML"
+                                    }
+                                 ],
+                                 "false_actions" : [
+                                    {
+                                       "im" : [
+                                          "current"
+                                       ],
+                                       "type" : "USING-THE-RULES-FOR"
+                                    },
+                                    {
+                                       "type" : "break-for-each"
+                                    }
+                                 ],
+                                 "type" : "if"
                               }
-                           ]
-                        },
-                        {
-                           "type" : "reprocess the token"
+                           ],
+                           "type" : "for-each-reverse-oe-as-node"
                         }
                      ],
                      "type" : "if"
@@ -4120,13 +4104,240 @@
                   }
                ]
             },
-            "SVGSCRIPT-END:script" : {
+            "START:font" : {
                "actions" : [
                   {
-                     "type" : "pop-oe"
-                  },
-                  {
-                     "type" : "script-processing"
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "adjust MathML attributes"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "adjusted current node",
+                                    "is",
+                                    {
+                                       "ns" : "MathML"
+                                    }
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "fixup-svg-tag-name"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "adjusted current node",
+                                    "is",
+                                    {
+                                       "ns" : "SVG"
+                                    }
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "adjust SVG attributes"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "adjusted current node",
+                                    "is",
+                                    {
+                                       "ns" : "SVG"
+                                    }
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "type" : "adjust foreign attributes"
+                              },
+                              {
+                                 "ns" : "inherit",
+                                 "type" : "insert a foreign element"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "actions" : [
+                                          {
+                                             "type" : "acknowledge the token's self-closing flag"
+                                          },
+                                          {
+                                             "type" : "pop-oe"
+                                          },
+                                          {
+                                             "type" : "script-processing"
+                                          }
+                                       ],
+                                       "cond" : [
+                                          "and",
+                                          [
+                                             "token tag_name",
+                                             "is",
+                                             "script"
+                                          ],
+                                          [
+                                             "oe[-1]",
+                                             "is",
+                                             {
+                                                "ns" : "SVG"
+                                             }
+                                          ]
+                                       ],
+                                       "false_actions" : [
+                                          {
+                                             "type" : "pop-oe"
+                                          },
+                                          {
+                                             "type" : "acknowledge the token's self-closing flag"
+                                          }
+                                       ],
+                                       "type" : "if"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "token",
+                                    "has",
+                                    "self-closing flag"
+                                 ],
+                                 "type" : "if"
+                              }
+                           ],
+                           "cond" : [
+                              "fragment"
+                           ],
+                           "false_actions" : [
+                              {
+                                 "type" : "pop-oe"
+                              },
+                              {
+                                 "type" : "pop-oe",
+                                 "until" : [
+                                    "or",
+                                    {
+                                       "MathML text integration point" : 1
+                                    },
+                                    {
+                                       "HTML integration point" : 1
+                                    },
+                                    {
+                                       "ns" : "HTML"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "type" : "reprocess the token"
+                              }
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "cond" : [
+                        "token",
+                        "has attr",
+                        [
+                           "color",
+                           "face",
+                           "size"
+                        ]
+                     ],
+                     "false_actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "adjust MathML attributes"
+                              }
+                           ],
+                           "cond" : [
+                              "adjusted current node",
+                              "is",
+                              {
+                                 "ns" : "MathML"
+                              }
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "fixup-svg-tag-name"
+                              }
+                           ],
+                           "cond" : [
+                              "adjusted current node",
+                              "is",
+                              {
+                                 "ns" : "SVG"
+                              }
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "adjust SVG attributes"
+                              }
+                           ],
+                           "cond" : [
+                              "adjusted current node",
+                              "is",
+                              {
+                                 "ns" : "SVG"
+                              }
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "adjust foreign attributes"
+                        },
+                        {
+                           "ns" : "inherit",
+                           "type" : "insert a foreign element"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "actions" : [
+                                 ],
+                                 "cond" : [
+                                    "and",
+                                    [
+                                       "token tag_name",
+                                       "is",
+                                       "script"
+                                    ],
+                                    [
+                                       "oe[-1]",
+                                       "is",
+                                       {
+                                          "ns" : "SVG"
+                                       }
+                                    ]
+                                 ],
+                                 "false_actions" : [
+                                 ],
+                                 "type" : "if"
+                              }
+                           ],
+                           "cond" : [
+                              "token",
+                              "has",
+                              "self-closing flag"
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "type" : "if"
                   }
                ]
             }
@@ -4428,27 +4639,6 @@
                   }
                ]
             },
-            "NOSCRIPT-START:noscript" : {
-               "actions" : [
-                  {
-                     "type" : "insert an HTML element"
-                  },
-                  {
-                     "im" : [
-                        "im",
-                        "in head noscript"
-                     ],
-                     "type" : "switch the insertion mode"
-                  }
-               ]
-            },
-            "SCRIPT-START:noscript" : {
-               "actions" : [
-                  {
-                     "type" : "generic raw text element parsing algorithm"
-                  }
-               ]
-            },
             "START:base basefont bgsound link" : {
                "actions" : [
                   {
@@ -4500,6 +4690,33 @@
                "actions" : [
                   {
                      "type" : "generic raw text element parsing algorithm"
+                  }
+               ]
+            },
+            "START:noscript" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "generic raw text element parsing algorithm"
+                        }
+                     ],
+                     "cond" : [
+                        "scripting"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : [
+                              "im",
+                              "in head noscript"
+                           ],
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "type" : "if"
                   }
                ]
             },
@@ -5343,32 +5560,61 @@
       },
       "in table" : {
          "conds" : {
+            "CHAR-ELSE" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "target" : "pending table character tokens",
+                           "type" : "set-empty"
+                        },
+                        {
+                           "target" : "original insertion mode",
+                           "type" : "set-current-im"
+                        },
+                        {
+                           "im" : [
+                              "im",
+                              "in table text"
+                           ],
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        {
+                           "name" : [
+                              "table",
+                              "tbody",
+                              "tfoot",
+                              "thead",
+                              "tr"
+                           ],
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "im" : "in body",
+                           "type" : "USING-THE-RULES-FOR"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
             "COMMENT" : {
                "actions" : [
                   {
                      "type" : "insert a comment"
-                  }
-               ]
-            },
-            "CURRENT-CHAR:table tbody tfoot thead tr" : {
-               "actions" : [
-                  {
-                     "target" : "pending table character tokens",
-                     "type" : "set-empty"
-                  },
-                  {
-                     "target" : "original insertion mode",
-                     "type" : "set-current-im"
-                  },
-                  {
-                     "im" : [
-                        "im",
-                        "in table text"
-                     ],
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
                   }
                ]
             },

@@ -73,6 +73,10 @@ for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
     if ($cond =~ /^(START|END):(.+)$/) {
       $Data->{tag_name_groups}->{$2} = 1;
+    } elsif ($cond =~ /^(?:COMMENT|EOF|DOCTYPE|CHAR:0000|CHAR:WS|CHAR-ELSE|START-ELSE|END-ELSE|ELSE)$/) {
+      #
+    } else {
+      die "Unknown cond |$cond|";
     }
 
     my $def = $Data->{ims}->{$im}->{conds}->{$cond};

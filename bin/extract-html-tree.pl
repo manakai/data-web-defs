@@ -1642,6 +1642,98 @@ for my $im (keys %{$Data->{ims}}) {
 }
 
 for my $im (keys %{$Data->{ims}}) {
+  my @cond = keys %{$Data->{ims}->{$im}->{conds} or {}};
+  my $search_cond = sub {
+    my ($type, $tag_name) = @_;
+    my $cond;
+    my $has_else;
+    for (@cond) {
+      if (/^\Q$type\E:(.+)$/) {
+        if ({map { $_ => 1 } split / /, $1}->{$tag_name}) {
+          $cond = $_;
+          last;
+        }
+      } elsif ($_ eq $type.'-ELSE') {
+        $has_else = 1;
+      }
+    }
+    $cond //= $type.'-ELSE' if $has_else;
+    $cond //= 'ELSE';
+    return $cond;
+  }; # $search_cond
+
+  my @deleted_cond;
+  my $script_conds = {};
+  my $noscript_conds = {};
+  for my $cond (@cond) {
+    if ($cond =~ /^CURRENT-CHAR:(.+)$/) {
+      my $els = [split / /, $1];
+      my $found;
+      for (@cond) {
+        if (/^(?:CHAR:|CHAR-ELSE$)/) {
+          $Data->{ims}->{$im}->{conds}->{$_}->{actions}
+              = [{type => 'if',
+                  cond => ['oe[-1]', 'is', {ns => 'HTML', name => $els}],
+                  actions => $Data->{ims}->{$im}->{conds}->{$cond}->{actions},
+                  false_actions => $Data->{ims}->{$im}->{conds}->{$_}->{actions}}];
+          $found = 1 if $_ eq 'CHAR-ELSE';
+        }
+      }
+      unless ($found) {
+        $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}
+            = [{type => 'if',
+                cond => ['oe[-1]', 'is', {ns => 'HTML', name => $els}],
+                actions => $Data->{ims}->{$im}->{conds}->{$cond}->{actions},
+                false_actions => $Data->{ims}->{$im}->{conds}->{ELSE}->{actions}}];
+      }
+      push @deleted_cond, $cond;
+    } elsif ($cond =~ /^SCRIPT-START:(.+)$/) {
+      $script_conds->{$1} = $cond;
+    } elsif ($cond =~ /^NOSCRIPT-START:(.+)$/) {
+      $noscript_conds->{$1} = $cond;
+    } elsif ($cond =~ /^SVGSCRIPT-END:(.+)$/) {
+      my $tag_names = [split / /, $1];
+      for my $tag_name (@$tag_names) {
+        my $else_cond = $search_cond->('END', $tag_name);
+        $Data->{ims}->{$im}->{conds}->{'END:'.$tag_name}->{actions}
+            = [{type => 'if',
+                cond => ['oe[-1]', 'is', {ns => 'SVG', name => 'script'}],
+                actions => $Data->{ims}->{$im}->{conds}->{$cond}->{actions},
+                false_actions => $Data->{ims}->{$im}->{conds}->{$else_cond}->{actions}}];
+      }
+      push @deleted_cond, $cond;
+    } elsif ($cond =~ /^START-ATTR:(.+?):(.+)$/) {
+      my $attrs = $2;
+      my $tag_names = [split / /, $1];
+      for my $tag_name (@$tag_names) {
+        my $else_cond = $search_cond->('START', $tag_name);
+        $Data->{ims}->{$im}->{conds}->{'START:'.$tag_name}->{actions}
+            = [{type => 'if',
+                cond => ['token', 'has attr', [split / /, $attrs]],
+                actions => $Data->{ims}->{$im}->{conds}->{$cond}->{actions},
+                false_actions => $Data->{ims}->{$im}->{conds}->{$else_cond}->{actions}}];
+      }
+      push @deleted_cond, $cond;
+    }
+  } # $cond
+
+  my $any_script_conds = {%$script_conds, %$noscript_conds};
+  for my $tag_name (keys %$any_script_conds) {
+    my $script_cond = $script_conds->{$tag_name}
+        // $search_cond->('START', $tag_name);
+    my $noscript_cond = $noscript_conds->{$tag_name}
+        // $search_cond->('START', $tag_name);
+    $Data->{ims}->{$im}->{conds}->{'START:'.$tag_name}->{actions}
+        = [{type => 'if',
+            cond => ['scripting'],
+            actions => $Data->{ims}->{$im}->{conds}->{$script_cond}->{actions},
+            false_actions => $Data->{ims}->{$im}->{conds}->{$noscript_cond}->{actions}}];
+  }
+  delete $Data->{ims}->{$im}->{conds}->{$_}
+      for @deleted_cond, values %$script_conds, values %$noscript_conds;
+}
+
+for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
     for (qw(actions false_actions between_actions)) {
       my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{$_};
@@ -1706,6 +1798,7 @@ sub process_action_blocks ($) {
              $new_acts->[-1]->{cond}->[0] eq 'node' and
              $new_acts->[-2]->{type} eq 'set-node' and
              $new_acts->[-2]->{value} eq 'oe[-1]') {
+      $new_acts->[-1]->{cond} = [@{$new_acts->[-1]->{cond}}];
       $new_acts->[-1]->{cond}->[0] = 'oe[-1]';
       @$new_acts[-1, -2] = @$new_acts[-2, -1];
     } elsif ($act->{type} eq 'with-foster-parenting' and
@@ -1827,7 +1920,7 @@ for my $im (keys %{$Data->{ims}}) {
 
 for my $def (
   $Data->{ims}->{text}->{conds}->{'END:script'},
-  $Data->{ims}->{'in foreign content'}->{conds}->{'SVGSCRIPT-END:script'},
+  $Data->{ims}->{'in foreign content'}->{conds}->{'END:script'}->{actions}->[0],
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -1943,8 +2036,8 @@ for my $im (keys %{$Data->{ims}}) {
               push @$new_acts, @{$else->{actions}};
               next;
             } elsif ($act->{FIELD} eq '"script" end tag') {
-              my $else = $Data->{ims}->{$im}->{conds}->{'SVGSCRIPT-END:script'}
-                  or die "Insertion mode |$im| has no |SVGSCRIPT-END:script|";
+              my $else = $Data->{ims}->{$im}->{conds}->{'END:script'}->{actions}->[0]
+                  or die "Insertion mode |$im| has no |END:script|";
               push @$new_acts, @{$else->{actions}};
               next;
             } else {
