@@ -236,7 +236,8 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
     data/html-tokenizer-expanded.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
-    data/xml-datatypes.json data/xpath.json data/webidl.json
+    data/xml-datatypes.json data/xpath.json data/webidl.json \
+    data/html-tree-constructor-expanded.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -288,7 +289,9 @@ data/html-charrefs.json:
 data/xhtml-charrefs.dtd: local/html-extracted.json
 
 data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
-    local/html-tokenizer-charrefs.json local/html-tokenizer-charrefs-jump.json
+    local/html-tokenizer-charrefs.json \
+    local/html-tokenizer-charrefs-jump.json \
+    local/html-tree.json
 	$(PERL) bin/html-syntax.pl > $@
 data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json
 	$(PERL) bin/xml-syntax.pl > $@
@@ -296,6 +299,10 @@ data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
+data/html-tree-constructor-expanded.json: data/html-syntax.json \
+    bin/expand-tree-constructor.pl
+	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
+	!(grep '"tree_steps"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html > $@
@@ -322,6 +329,7 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"PROCESS"' $@ > /dev/null)
 	!(grep '"SAME-AS"' $@ > /dev/null)
 	!(grep '"LABEL"' $@ > /dev/null)
+	!(grep '"LOOP"' $@ > /dev/null)
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@
