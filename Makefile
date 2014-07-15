@@ -236,7 +236,8 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
     data/html-tokenizer-expanded.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
-    data/xml-datatypes.json data/xpath.json data/webidl.json
+    data/xml-datatypes.json data/xpath.json data/webidl.json \
+    data/html-tree-constructor-expanded.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -298,6 +299,9 @@ data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
+data/html-tree-constructor-expanded.json: data/html-syntax.json \
+    bin/expand-tree-constructor.pl
+	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html > $@
