@@ -313,7 +313,7 @@ local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 	$(PERL) bin/extract-html-tokenizer.pl local/xml5-spec.html > $@
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
-	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html > $@
+	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/parsing.html local/www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html > $@
 	!(grep '"DESC"' $@ > /dev/null)
 	!(grep '"COND"' $@ > /dev/null)
 	!(grep '"misc"' $@ > /dev/null)
