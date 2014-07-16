@@ -143,8 +143,131 @@ for my $im (keys %{$Data->{ims}}) {
         }
       }
     }
+
+    $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}
+        ||= {%{$Data->{ims}->{$im}->{conds}->{ELSE}}};
   }
   #warn "$changed changed, $unchanged unchanged";
+}
+
+{
+  for my $im (keys %{$Data->{ims}}) {
+    my @cond = keys %{$Data->{ims}->{$im}->{conds}};
+    for my $cond (@cond) {
+      next unless $cond =~ /^CHAR/;
+      my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      if ($acts->[-1]->{type} eq 'USING-THE-RULES-FOR' and
+          not ref $acts->[-1]->{im} and
+          not $acts->[-1]->{foster_parenting}) {
+        $Data->{ims}->{$im}->{conds}->{$cond}->{actions}
+            = [@$acts[0..($#$acts-1)],
+               @{($Data->{ims}->{$acts->[-1]->{im}}->{conds}->{$cond} ||
+                  $Data->{ims}->{$acts->[-1]->{im}}->{conds}->{'CHAR-ELSE'})->{actions}}];
+        if ($cond eq 'CHAR-ELSE') {
+          for my $c (keys %{$Data->{ims}->{$acts->[-1]->{im}}->{conds}}) {
+            next unless $c =~ /^CHAR:/;
+            $Data->{ims}->{$im}->{conds}->{$c}->{actions}
+                ||= [@$acts[0..($#$acts-1)],
+                     @{$Data->{ims}->{$acts->[-1]->{im}}->{conds}->{$c}->{actions}}];
+          }
+        }
+      }
+    }
+
+    CONDS: {
+      my $changed = 0;
+      my $check_acts = sub {
+        my $acts = shift;
+        my $next_im;
+        for (@$acts[0..($#$acts-1)]) {
+          if ($_->{type} eq 'switch the insertion mode' and not ref $_->{im}) {
+            $next_im = $_->{im};
+          } elsif ($_->{type} eq 'if') {
+            for (@{$_->{actions} or []}, @{$_->{false_actions} or []}) {
+              if (not {
+                'create an HTML element' => 1,
+                'append-to-document' => 1,
+                'push-oe' => 1,
+                'pop-oe' => 1,
+                'appcache-processing' => 1,
+                'insert an HTML element' => 1,
+                'set-head-element-pointer' => 1,
+                'parse error' => 1,
+                'set-compat-mode' => 1,
+                'set-empty' => 1,
+                'set-current-im' => 1,
+              }->{$_->{type}}) {
+                warn "Unsupported type |$_->{type}|";
+                return undef;
+              }
+            }
+          } elsif (not {
+            'create an HTML element' => 1,
+            'append-to-document' => 1,
+            'push-oe' => 1,
+            'pop-oe' => 1,
+            'appcache-processing' => 1,
+            'insert an HTML element' => 1,
+            'set-head-element-pointer' => 1,
+            'parse error' => 1,
+            'set-empty' => 1,
+            'set-current-im' => 1,
+          }->{$_->{type}}) {
+            warn "Unsupported type |$_->{type}|";
+            return undef;
+          }
+        }
+        return $next_im;
+      }; # $check_acts
+      @cond = keys %{$Data->{ims}->{$im}->{conds}};
+      COND: for my $cond (@cond) {
+        next COND unless $cond =~ /^CHAR/;
+        my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        if ($acts->[-1]->{type} eq 'reprocess the token' and
+            1 == keys %{$acts->[-1]}) {
+          my $next_im = $check_acts->($acts);
+          next COND unless defined $next_im;
+          $Data->{ims}->{$im}->{conds}->{$cond}->{actions}
+              = [@$acts[0..($#$acts-1)],
+                 @{($Data->{ims}->{$next_im}->{conds}->{$cond} ||
+                    $Data->{ims}->{$next_im}->{conds}->{'CHAR-ELSE'})->{actions}}];
+          if ($cond eq 'CHAR-ELSE') {
+            for my $c (keys %{$Data->{ims}->{$next_im}->{conds}}) {
+              next unless $c =~ /^CHAR:/;
+              $Data->{ims}->{$im}->{conds}->{$c}->{actions}
+                  ||= [@$acts[0..($#$acts-1)],
+                       @{$Data->{ims}->{$next_im}->{conds}->{$c}->{actions}}];
+            }
+          }
+          $changed = 1;
+        } elsif ($acts->[-1]->{type} eq 'if' and
+                 @{$acts->[-1]->{actions}} and
+                 $acts->[-1]->{actions}->[-1]->{type} eq 'reprocess the token' and
+                 1 == keys %{$acts->[-1]->{actions}->[-1]}) {
+          my $next_im = $check_acts->($acts->[-1]->{actions});
+          next COND unless defined $next_im;
+          $acts->[-1]->{actions}
+              = [@{$acts->[-1]->{actions}}[0..($#{$acts->[-1]->{actions}}-1)],
+                 @{($Data->{ims}->{$next_im}->{conds}->{$cond} ||
+                    $Data->{ims}->{$next_im}->{conds}->{'CHAR-ELSE'})->{actions}}];
+          if ($cond eq 'CHAR-ELSE') {
+            for my $c (keys %{$Data->{ims}->{$next_im}->{conds}}) {
+              next unless $c =~ /^CHAR:/;
+              next if $Data->{ims}->{$im}->{conds}->{$c}->{actions};
+              $Data->{ims}->{$im}->{conds}->{$c}->{actions}
+                  = [@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}}];
+              $Data->{ims}->{$im}->{conds}->{$c}->{actions}->[-1]
+                  = {%{$Data->{ims}->{$im}->{conds}->{$c}->{actions}->[-1]},
+                     actions => [@{$acts->[-1]->{actions}}[0..($#{$acts->[-1]->{actions}}-1)],
+                                 @{$Data->{ims}->{$next_im}->{conds}->{$c}->{actions}}]};
+            }
+          }
+          $changed = 1;
+        }
+      } # COND
+      redo CONDS if $changed;
+    } # CONDS
+  }
 }
 
 {
