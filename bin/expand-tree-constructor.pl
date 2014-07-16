@@ -223,7 +223,7 @@ for my $im (keys %{$Data->{ims}}) {
       COND: for my $cond (@cond) {
         next COND unless $cond =~ /^CHAR/;
         my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
-        if ($acts->[-1]->{type} eq 'reprocess the token' and
+        if ($acts->[-1]->{type} eq 'XXXreprocess the token' and
             1 == keys %{$acts->[-1]}) {
           my $next_im = $check_acts->($acts);
           next COND unless defined $next_im;
@@ -242,7 +242,7 @@ for my $im (keys %{$Data->{ims}}) {
           $changed = 1;
         } elsif ($acts->[-1]->{type} eq 'if' and
                  @{$acts->[-1]->{actions}} and
-                 $acts->[-1]->{actions}->[-1]->{type} eq 'reprocess the token' and
+                 $acts->[-1]->{actions}->[-1]->{type} eq 'XXXreprocess the token' and
                  1 == keys %{$acts->[-1]->{actions}->[-1]}) {
           my $next_im = $check_acts->($acts->[-1]->{actions});
           next COND unless defined $next_im;
