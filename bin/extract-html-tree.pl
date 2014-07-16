@@ -980,7 +980,7 @@ sub parse_cond ($) {
   } elsif ($COND =~ /^the next token is a U\+000A LINE FEED \(LF\) character token$/) {
     $cond = ['NEXT_IS_LF_TOKEN'];
   } elsif ($COND =~ /^the document is not an iframe srcdoc document$/) {
-    $cond = ['iframe srcdoc document'];
+    $cond = ['not iframe srcdoc document'];
   } elsif ($COND =~ /^the parser was originally created (?:for|as part of) the HTML fragment parsing algorithm$/) {
     $cond = ['fragment'];
   } elsif ($COND =~ /^the Document is being loaded as part of navigation of a browsing context$/) {
@@ -1080,7 +1080,7 @@ sub process_actions ($) {
   for my $act (@$new_acts) {
     if (defined $act->{IM}) {
       if ($act->{IM} =~ /^"([^"]+)"$/) {
-        $act->{im} = ['im', $1];
+        $act->{im} = $1;
         delete $act->{IM};
       } elsif ($act->{IM} eq 'the original insertion mode') {
         $act->{im} = ['original'];
@@ -1402,9 +1402,11 @@ sub process_actions ($) {
     if ($act->{type} eq 'insert a character' and
         defined $act->{CHAR}) {
       if ($act->{CHAR} eq 'see below for what they should say') {
+        $act->{type} = 'insert-chars';
         $act->{value} = ['prompt-string'];
         delete $act->{CHAR};
       } elsif ($act->{CHAR} eq 'the pending table character tokens list') {
+        $act->{type} = 'insert-chars';
         $act->{value} = ['pending table character tokens list'];
         delete $act->{CHAR};
       } elsif ($act->{CHAR} =~ /^U\+([0-9A-F]+) [A-Z ]+$/) {
@@ -1815,8 +1817,32 @@ sub process_action_blocks ($) {
       $act->{type} = 'appcache-processing';
       delete $act->{cond};
       delete $act->{actions};
+    } elsif ($act->{type} eq 'if' and
+             $act->{cond}->[0] eq 'NEXT_IS_LF_TOKEN' and
+             @{$act->{actions}} == 2 and
+             $act->{actions}->[0]->{type} eq 'IGNORE-THAT-TOKEN' and
+             $act->{actions}->[1]->{type} eq 'NEXT-TOKEN') {
+      $act->{type} = 'ignore-next-lf';
+      delete $act->{cond};
+      delete $act->{actions};
     }
     push @$new_acts, $act;
+  }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'if' and
+        @{$act->{actions} or []} >= 1 and
+        defined $act->{false_actions} and
+        $act->{actions}->[-1]->{type} eq 'ignore the token') {
+      $act->{false_actions} = [@{$act->{false_actions}}, @$acts];
+      $acts = [];
+      push @$new_acts, $act;
+    } else {
+      push @$new_acts, $act;
+    }
   }
   $acts = $new_acts;
 
@@ -1905,6 +1931,7 @@ for my $im (keys %{$Data->{ims}}) {
             $acts->[-1]->{remove_from_afe_and_oe} = 1;
             next;
           }
+
           if (defined $act->{actions} or
               defined $act->{false_actions} or
               defined $act->{between_actions}) {
