@@ -2,30 +2,6 @@
    "ims" : {
       "after after body" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "im" : "in body",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -70,31 +46,38 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "after after frameset" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -143,35 +126,33 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                     ],
+                     "char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "after body" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "im" : "in body",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -242,28 +223,38 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "after frameset" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -321,34 +312,30 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                     ],
+                     "char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "after head" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "attrs" : "none",
-                     "tag_name" : "body",
-                     "type" : "insert an HTML element"
-                  },
-                  {
-                     "im" : "in body",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -478,37 +465,37 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "body",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "before head" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "attrs" : "none",
-                     "tag_name" : "head",
-                     "type" : "insert an HTML element"
-                  },
-                  {
-                     "type" : "set-head-element-pointer"
-                  },
-                  {
-                     "im" : "in head",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -595,42 +582,56 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "head",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "set-head-element-pointer"
+                        },
+                        {
+                           "im" : "in head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "im" : "after head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "body",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "before html" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "local_name" : "html",
-                     "type" : "create an HTML element"
-                  },
-                  {
-                     "type" : "append-to-document"
-                  },
-                  {
-                     "type" : "push-oe"
-                  },
-                  {
-                     "type" : "appcache-processing"
-                  },
-                  {
-                     "im" : "before head",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -726,45 +727,73 @@
                      "type" : "switch the insertion mode"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "local_name" : "html",
+                           "type" : "create an HTML element"
+                        },
+                        {
+                           "type" : "append-to-document"
+                        },
+                        {
+                           "type" : "push-oe"
+                        },
+                        {
+                           "type" : "appcache-processing"
+                        },
+                        {
+                           "im" : "before head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "head",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "set-head-element-pointer"
+                        },
+                        {
+                           "im" : "in head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "im" : "after head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "body",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in body" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  },
-                  {
-                     "target" : "frameset-ok",
-                     "type" : "set-false"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -2775,7 +2804,7 @@
                            "type" : "insert an HTML element"
                         },
                         {
-                           "type" : "insert a character",
+                           "type" : "insert-chars",
                            "value" : [
                               "prompt-string"
                            ]
@@ -2789,7 +2818,7 @@
                            "type" : "pop-oe"
                         },
                         {
-                           "type" : "insert a character",
+                           "type" : "insert-chars",
                            "value" : [
                               "prompt-string"
                            ]
@@ -3573,45 +3602,43 @@
                      "type" : "switch the insertion mode"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        },
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in caption" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  },
-                  {
-                     "target" : "frameset-ok",
-                     "type" : "set-false"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "ELSE" : {
                "actions" : [
                   {
@@ -3851,45 +3878,43 @@
                      "type" : "if"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        },
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in cell" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  },
-                  {
-                     "target" : "frameset-ok",
-                     "type" : "set-false"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "ELSE" : {
                "actions" : [
                   {
@@ -4144,53 +4169,43 @@
                      "type" : "if"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        },
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in column group" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "parse error"
-                        },
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is not",
-                        {
-                           "name" : "colgroup",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe"
-                        },
-                        {
-                           "im" : "in table",
-                           "type" : "switch the insertion mode"
-                        },
-                        {
-                           "type" : "reprocess the token"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -4329,40 +4344,65 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "actions" : [
+                           ],
+                           "char_actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "type" : "process-chars",
+                           "ws_seq_actions" : [
+                              {
+                                 "type" : "insert-chars"
+                              }
+                           ]
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is not",
+                        {
+                           "name" : "colgroup",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "false_actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "pop-oe"
+                              },
+                              {
+                                 "im" : "in table",
+                                 "type" : "switch the insertion mode"
+                              },
+                              {
+                                 "type" : "reprocess the token"
+                              }
+                           ],
+                           "type" : "text-with-optional-ws-prefix",
+                           "ws_actions" : [
+                              {
+                                 "type" : "insert-chars"
+                              }
+                           ]
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
             }
          }
       },
       "in foreign content" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  },
-                  {
-                     "target" : "frameset-ok",
-                     "type" : "set-false"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "insert a character",
-                     "value" : "�"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -5045,28 +5085,42 @@
                      "type" : "if"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "insert-chars"
+                        },
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "null_seq_actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in frameset" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -5203,32 +5257,30 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                     ],
+                     "char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in head" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "pop-oe"
-                  },
-                  {
-                     "im" : "after head",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -5569,35 +5621,44 @@
                      "type" : "switch the insertion mode"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "im" : "after head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "body",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "in head noscript" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "pop-oe"
-                  },
-                  {
-                     "im" : "in head",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -5696,59 +5757,54 @@
                      "type" : "USING-THE-RULES-FOR"
                   }
                ]
-            }
-         }
-      },
-      "in row" : {
-         "conds" : {
-            "CHAR-ELSE" : {
+            },
+            "TEXT" : {
                "actions" : [
                   {
                      "actions" : [
                         {
-                           "target" : "pending table character tokens",
-                           "type" : "set-empty"
+                           "type" : "parse error"
                         },
                         {
-                           "target" : "original insertion mode",
-                           "type" : "set-current-im"
+                           "type" : "pop-oe"
                         },
                         {
-                           "im" : "in table text",
+                           "im" : "in head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "im" : "after head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "body",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in body",
                            "type" : "switch the insertion mode"
                         },
                         {
                            "type" : "reprocess the token"
                         }
                      ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
                         {
-                           "name" : [
-                              "table",
-                              "tbody",
-                              "tfoot",
-                              "thead",
-                              "tr"
-                           ],
-                           "ns" : "HTML"
+                           "type" : "insert-chars"
                         }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "parse error"
-                        },
-                        {
-                           "foster_parenting" : 1,
-                           "im" : "in body",
-                           "type" : "USING-THE-RULES-FOR"
-                        }
-                     ],
-                     "type" : "if"
+                     ]
                   }
                ]
-            },
+            }
+         }
+      },
+      "in row" : {
+         "conds" : {
             "ELSE" : {
                "actions" : [
                   {
@@ -5993,28 +6049,59 @@
                      "type" : "append-marker-to-afe"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "target" : "pending table character tokens",
+                           "type" : "set-empty"
+                        },
+                        {
+                           "target" : "original insertion mode",
+                           "type" : "set-current-im"
+                        },
+                        {
+                           "im" : "in table text",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        {
+                           "name" : [
+                              "table",
+                              "tbody",
+                              "tfoot",
+                              "thead",
+                              "tr"
+                           ],
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "im" : "in body",
+                           "type" : "USING-THE-RULES-FOR"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
             }
          }
       },
       "in select" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -6329,28 +6416,28 @@
                      "type" : "if"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars"
+                  }
+               ]
             }
          }
       },
       "in select in table" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
             "ELSE" : {
                "actions" : [
                   {
@@ -6417,59 +6504,28 @@
                      "type" : "reprocess the token"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars"
+                  }
+               ]
             }
          }
       },
       "in table" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "target" : "pending table character tokens",
-                           "type" : "set-empty"
-                        },
-                        {
-                           "target" : "original insertion mode",
-                           "type" : "set-current-im"
-                        },
-                        {
-                           "im" : "in table text",
-                           "type" : "switch the insertion mode"
-                        },
-                        {
-                           "type" : "reprocess the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : [
-                              "table",
-                              "tbody",
-                              "tfoot",
-                              "thead",
-                              "tr"
-                           ],
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "parse error"
-                        },
-                        {
-                           "foster_parenting" : 1,
-                           "im" : "in body",
-                           "type" : "USING-THE-RULES-FOR"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -6808,12 +6864,8 @@
                      "type" : "reprocess the token"
                   }
                ]
-            }
-         }
-      },
-      "in table body" : {
-         "conds" : {
-            "CHAR-ELSE" : {
+            },
+            "TEXT" : {
                "actions" : [
                   {
                      "actions" : [
@@ -6860,7 +6912,11 @@
                      "type" : "if"
                   }
                ]
-            },
+            }
+         }
+      },
+      "in table body" : {
+         "conds" : {
             "ELSE" : {
                "actions" : [
                   {
@@ -7086,28 +7142,59 @@
                      "type" : "switch the insertion mode"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "target" : "pending table character tokens",
+                           "type" : "set-empty"
+                        },
+                        {
+                           "target" : "original insertion mode",
+                           "type" : "set-current-im"
+                        },
+                        {
+                           "im" : "in table text",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        {
+                           "name" : [
+                              "table",
+                              "tbody",
+                              "tfoot",
+                              "thead",
+                              "tr"
+                           ],
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "im" : "in body",
+                           "type" : "USING-THE-RULES-FOR"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
             }
          }
       },
       "in table text" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "append-to-pending-table-character-tokens-list"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
             "ELSE" : {
                "actions" : [
                   {
@@ -7127,7 +7214,7 @@
                      ],
                      "false_actions" : [
                         {
-                           "type" : "insert a character",
+                           "type" : "insert-chars",
                            "value" : [
                               "pending table character tokens list"
                            ]
@@ -7145,45 +7232,28 @@
                      "type" : "reprocess the token"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "append-to-pending-table-character-tokens-list"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars"
+                  }
+               ]
             }
          }
       },
       "in template" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  },
-                  {
-                     "target" : "frameset-ok",
-                     "type" : "set-false"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -7360,44 +7430,43 @@
                      "type" : "reprocess the token"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        },
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        }
+                     ],
+                     "null_char_actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "type" : "process-chars",
+                     "ws_seq_actions" : [
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "initial" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "parse error"
-                        },
-                        {
-                           "type" : "set-compat-mode",
-                           "value" : "quirks"
-                        }
-                     ],
-                     "cond" : [
-                        "not iframe srcdoc document"
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "im" : "before html",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
-            "CHAR:WS" : {
-               "actions" : [
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
             "COMMENT" : {
                "actions" : [
                   {
@@ -7457,18 +7526,92 @@
                      "type" : "reprocess the token"
                   }
                ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              },
+                              {
+                                 "type" : "set-compat-mode",
+                                 "value" : "quirks"
+                              }
+                           ],
+                           "cond" : [
+                              "not iframe srcdoc document"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "im" : "before html",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "local_name" : "html",
+                           "type" : "create an HTML element"
+                        },
+                        {
+                           "type" : "append-to-document"
+                        },
+                        {
+                           "type" : "push-oe"
+                        },
+                        {
+                           "type" : "appcache-processing"
+                        },
+                        {
+                           "im" : "before head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "head",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "set-head-element-pointer"
+                        },
+                        {
+                           "im" : "in head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "im" : "after head",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "attrs" : "none",
+                           "tag_name" : "body",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in body",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "text-with-optional-ws-prefix",
+                     "ws_actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ]
+                  }
+               ]
             }
          }
       },
       "text" : {
          "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
             "END-ELSE" : {
                "actions" : [
                   {
@@ -7534,6 +7677,18 @@
                   },
                   {
                      "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "TEXT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "insert-chars"
+                        }
+                     ],
+                     "type" : "process-chars"
                   }
                ]
             }

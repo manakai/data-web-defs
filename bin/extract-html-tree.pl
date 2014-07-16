@@ -1402,9 +1402,11 @@ sub process_actions ($) {
     if ($act->{type} eq 'insert a character' and
         defined $act->{CHAR}) {
       if ($act->{CHAR} eq 'see below for what they should say') {
+        $act->{type} = 'insert-chars';
         $act->{value} = ['prompt-string'];
         delete $act->{CHAR};
       } elsif ($act->{CHAR} eq 'the pending table character tokens list') {
+        $act->{type} = 'insert-chars';
         $act->{value} = ['pending table character tokens list'];
         delete $act->{CHAR};
       } elsif ($act->{CHAR} =~ /^U\+([0-9A-F]+) [A-Z ]+$/) {

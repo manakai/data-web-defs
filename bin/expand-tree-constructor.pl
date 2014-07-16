@@ -14,7 +14,9 @@ sub for_actions (&$);
 sub for_actions (&$) {
   my ($code, $acts) = @_;
   for my $act (@$acts) {
-    for (qw(actions false_actions between_actions)) {
+    for (qw(actions false_actions between_actions ws_actions null_actions
+            char_actions ws_char_actions ws_seq_actions
+            null_char_actions null_seq_actions)) {
       $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
     }
   }
@@ -151,7 +153,8 @@ for my $im (keys %{$Data->{ims}}) {
 }
 
 {
-  for my $im (keys %{$Data->{ims}}) {
+  my $ims = {};
+  IM: for my $im (keys %{$Data->{ims}}) {
     my @cond = keys %{$Data->{ims}->{$im}->{conds}};
     for my $cond (@cond) {
       next unless $cond =~ /^CHAR/;
@@ -173,101 +176,276 @@ for my $im (keys %{$Data->{ims}}) {
         }
       }
     }
+    $ims->{$im} = {conds => {%{$Data->{ims}->{$im}->{conds}}}};
 
-    CONDS: {
-      my $changed = 0;
-      my $check_acts = sub {
-        my $acts = shift;
+    MERGE: {
+      WS_PREFIX_ELSE_SWITCH: {
+        if (defined $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'} and
+            defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'} and
+            not defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'}) {
+          for (@{$Data->{ims}->{$im}->{conds}->{'CHAR:WS'}->{actions}}) {
+            unless ({
+              'reconstruct the active formatting elements' => 1,
+              'insert a character' => 1,
+              'ignore the token' => 1,
+            }->{$_->{type}}) {
+              last WS_PREFIX_ELSE_SWITCH;
+            }
+          }
+          my $next_im;
+          for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}) {
+            if ({
+              'parse error' => 1,
+              'create an HTML element' => 1,
+              'insert an HTML element' => 1,
+              'set-head-element-pointer' => 1,
+              'append-to-document' => 1,
+              'push-oe' => 1,
+              'pop-oe' => 1,
+              'appcache-processing' => 1,
+            }->{$_->{type}}) {
+              #
+            } elsif ($_->{type} eq 'switch the insertion mode' and
+                     not ref $_->{im}) {
+              $next_im = $_->{im};
+            } elsif ($_->{type} eq 'if') {
+              for (@{$_->{actions}}, @{$_->{false_actions} or []}) {
+                if ({
+                  'parse error' => 1,
+                  'set-compat-mode' => 1,
+                }->{$_->{type}}) {
+                  #
+                } else {
+                  last WS_PREFIX_ELSE_SWITCH;
+                }
+              }
+            } elsif ($_->{type} eq 'reprocess the token' and 1 == keys %$_) {
+              #
+            } else {
+              last WS_PREFIX_ELSE_SWITCH;
+            }
+          }
+          last WS_PREFIX_ELSE_SWITCH
+              if not defined $next_im or
+                 not $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[-1]->{type} eq 'reprocess the token';
+
+          $ims->{$im}->{conds}->{TEXT}->{actions}
+              = [{type => 'text-with-optional-ws-prefix',
+                  ws_actions => [map { (1 == keys %$_ and $_->{type} eq 'insert a character') ? {type => 'insert-chars'} : $_ } @{$Data->{ims}->{$im}->{conds}->{'CHAR:WS'}->{actions}}],
+                  actions => [@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}]}];
+          $ims->{$im}->{conds}->{TEXT}->{actions}->[-1]->{actions}->[-1]
+              = {type => 'USING-THE-RULES-FOR', im => $next_im};
+          delete $ims->{$im}->{conds}->{'CHAR:WS'};
+          delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+          last MERGE;
+        }
+      } # WS_PREFIX_ELSE_SWITCH
+
+      NO_SWITCH: {
+        my $for_each_char = {};
+        my $entire = {};
+        for my $key ('CHAR:WS', 'CHAR:0000', 'CHAR-ELSE') {
+          for (@{($Data->{ims}->{$im}->{conds}->{$key} or {})->{actions} or []}) {
+            if ({
+              'parse error' => 1,
+            }->{$_->{type}}) {
+              push @{$for_each_char->{$key} ||= []}, $_;
+            } elsif ({
+              'reconstruct the active formatting elements' => 1,
+              'set-false' => 1,
+              'append-to-pending-table-character-tokens-list' => 1,
+            }->{$_->{type}}) {
+              push @{$entire->{$key} ||= []}, $_;
+            } elsif ($_->{type} eq 'insert a character') {
+              push @{$entire->{$key} ||= []}, {type => 'insert-chars'};
+            } elsif ($_->{type} eq 'ignore the token') {
+              #
+            } else {
+              last NO_SWITCH;
+            }
+          }
+        }
+
+        my $act = {type => 'process-chars'};
+        $ims->{$im}->{conds}->{TEXT}->{actions} = [$act];
+
+        $act->{ws_char_actions} = $for_each_char->{'CHAR:WS'}
+            if @{$for_each_char->{'CHAR:WS'} or []};
+        $act->{ws_seq_actions} = $entire->{'CHAR:WS'}
+            if @{$entire->{'CHAR:WS'} or []};
+
+        $act->{null_char_actions} = $for_each_char->{'CHAR:0000'}
+            if @{$for_each_char->{'CHAR:0000'} or []};
+        $act->{null_seq_actions} = $entire->{'CHAR:0000'}
+            if @{$entire->{'CHAR:0000'} or []};
+
+        $act->{char_actions} = $for_each_char->{'CHAR-ELSE'}
+            if @{$for_each_char->{'CHAR-ELSE'} or []};
+        $act->{actions} = $entire->{'CHAR-ELSE'} || [];
+        
+        delete $ims->{$im}->{conds}->{'CHAR:WS'};
+        delete $ims->{$im}->{conds}->{'CHAR:0000'};
+        delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+        last MERGE;
+      } # NO_SWITCH
+
+      COLGROUP: {
+        last COLGROUP if defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'};
+        last COLGROUP if not defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'};
+        last COLGROUP unless
+            @{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}} == 1 and
+            $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{type} eq 'if' and
+            $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{cond}->[0] =~ /^oe/;
+        my $for_each_ws = [];
+        my $entire_ws = [];
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR:WS'}->{actions} or []}) {
+          if ({
+            'insert a character' => 1,
+          }->{$_->{type}}) {
+            push @$entire_ws, {type => 'insert-chars'};
+          } else {
+            last COLGROUP;
+          }
+        }
+        my $for_each_else = [];
+        my $entire_else = [];
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{actions} or []}) {
+          if ({
+            'parse error' => 1,
+          }->{$_->{type}}) {
+            push @$for_each_else, $_;
+          } elsif ($_->{type} eq 'ignore the token') {
+            #
+          } else {
+            last COLGROUP;
+          }
+        }
         my $next_im;
-        for (@$acts[0..($#$acts-1)]) {
-          if ($_->{type} eq 'switch the insertion mode' and not ref $_->{im}) {
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{false_actions} or []}) {
+          if ({
+            'parse error' => 1,
+            'pop-oe' => 1,
+          }->{$_->{type}}) {
+            #
+          } elsif ($_->{type} eq 'switch the insertion mode' and
+                   not ref $_->{im}) {
             $next_im = $_->{im};
-          } elsif ($_->{type} eq 'if') {
-            for (@{$_->{actions} or []}, @{$_->{false_actions} or []}) {
-              if (not {
-                'create an HTML element' => 1,
-                'append-to-document' => 1,
-                'push-oe' => 1,
-                'pop-oe' => 1,
-                'appcache-processing' => 1,
-                'insert an HTML element' => 1,
-                'set-head-element-pointer' => 1,
-                'parse error' => 1,
-                'set-compat-mode' => 1,
-                'set-empty' => 1,
-                'set-current-im' => 1,
-              }->{$_->{type}}) {
-                warn "Unsupported type |$_->{type}|";
-                return undef;
+          } elsif ($_->{type} eq 'reprocess the token' and 1 == keys %$_) {
+            #
+          } else {
+            last COLGROUP;
+          }
+        }
+        last COLGROUP unless defined $next_im;
+
+        my $false_act = {type => 'text-with-optional-ws-prefix',
+                         ws_actions => [map { (1 == keys %$_ and $_->{type} eq 'insert a character') ? {type => 'insert-chars'} : $_ } @{$Data->{ims}->{$im}->{conds}->{'CHAR:WS'}->{actions}}],
+                         actions => [@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{false_actions}}]};
+        $false_act->{actions}->[-1]
+            = {type => 'USING-THE-RULES-FOR', im => $next_im};
+        my $true_act = {type => 'process-chars'};
+        $true_act->{actions} = $entire_else || [];
+        $true_act->{char_actions} = $for_each_else if @$for_each_else;
+        $true_act->{ws_seq_actions} = $entire_ws if @$entire_ws;
+        $true_act->{ws_char_actions} = $for_each_ws if @$for_each_ws;
+        $ims->{$im}->{conds}->{TEXT}->{actions}
+            = [{%{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]},
+                actions => [$true_act], false_actions => [$false_act]}];
+        delete $ims->{$im}->{conds}->{'CHAR:WS'};
+        delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+        last MERGE;
+      } # COLGROUP
+
+      TABLE: {
+        last TABLE if defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'};
+        last TABLE if defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'};
+        last TABLE unless
+            @{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}} == 1 and
+            $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{type} eq 'if' and
+            $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{cond}->[0] =~ /^oe/;
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{actions}}) {
+          unless ({
+            'set-current-im' => 1,
+            'set-empty' => 1,
+            'switch the insertion mode' => 1,
+            'reprocess the token' => 1,
+          }->{$_->{type}}) {
+            last TABLE;
+          }
+        }
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[0]->{false_actions} or []}) {
+          unless ({
+            'parse error' => 1,
+            'USING-THE-RULES-FOR' => 1,
+          }->{$_->{type}}) {
+            last TABLE;
+          }
+        }
+
+        $ims->{$im}->{conds}->{TEXT} = delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+        last MERGE;
+      } # TABLE
+    } # MERGE
+  }
+
+  {
+    my $changed = 0;
+    for my $im (keys %$ims) {
+      next unless defined $ims->{$im}->{conds}->{TEXT};
+      $ims->{$im}->{conds}->{TEXT}->{actions}->[0]->{actions} = for_actions {
+        my $acts = shift;
+        my $new_acts = [];
+        for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              not $act->{foster_parenting} and
+              not ref $act->{im}) {
+            if ({
+              'in body' => 1, 'in table' => 1,
+              'text' => 1, 'in table text' => 1,
+            }->{$act->{im}}) {
+              push @$new_acts, {type => 'reprocess the token'};
+            } else {
+              my @act = @{$ims->{$act->{im}}->{conds}->{TEXT}->{actions}};
+              if (@act == 1 and $act[0]->{type} eq 'text-with-optional-ws-prefix') {
+                push @$new_acts, @{$act[0]->{actions}};
+              } else {
+                push @$new_acts, @act;
               }
             }
-          } elsif (not {
-            'create an HTML element' => 1,
-            'append-to-document' => 1,
-            'push-oe' => 1,
-            'pop-oe' => 1,
-            'appcache-processing' => 1,
-            'insert an HTML element' => 1,
-            'set-head-element-pointer' => 1,
-            'parse error' => 1,
-            'set-empty' => 1,
-            'set-current-im' => 1,
-          }->{$_->{type}}) {
-            warn "Unsupported type |$_->{type}|";
-            return undef;
+            $changed = 1;
+          } else {
+            push @$new_acts, $act;
           }
         }
-        return $next_im;
-      }; # $check_acts
-      @cond = keys %{$Data->{ims}->{$im}->{conds}};
-      COND: for my $cond (@cond) {
-        next COND unless $cond =~ /^CHAR/;
-        my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
-        if ($acts->[-1]->{type} eq 'XXXreprocess the token' and
-            1 == keys %{$acts->[-1]}) {
-          my $next_im = $check_acts->($acts);
-          next COND unless defined $next_im;
-          $Data->{ims}->{$im}->{conds}->{$cond}->{actions}
-              = [@$acts[0..($#$acts-1)],
-                 @{($Data->{ims}->{$next_im}->{conds}->{$cond} ||
-                    $Data->{ims}->{$next_im}->{conds}->{'CHAR-ELSE'})->{actions}}];
-          if ($cond eq 'CHAR-ELSE') {
-            for my $c (keys %{$Data->{ims}->{$next_im}->{conds}}) {
-              next unless $c =~ /^CHAR:/;
-              $Data->{ims}->{$im}->{conds}->{$c}->{actions}
-                  ||= [@$acts[0..($#$acts-1)],
-                       @{$Data->{ims}->{$next_im}->{conds}->{$c}->{actions}}];
-            }
-          }
-          $changed = 1;
-        } elsif ($acts->[-1]->{type} eq 'if' and
-                 @{$acts->[-1]->{actions}} and
-                 $acts->[-1]->{actions}->[-1]->{type} eq 'XXXreprocess the token' and
-                 1 == keys %{$acts->[-1]->{actions}->[-1]}) {
-          my $next_im = $check_acts->($acts->[-1]->{actions});
-          next COND unless defined $next_im;
-          $acts->[-1]->{actions}
-              = [@{$acts->[-1]->{actions}}[0..($#{$acts->[-1]->{actions}}-1)],
-                 @{($Data->{ims}->{$next_im}->{conds}->{$cond} ||
-                    $Data->{ims}->{$next_im}->{conds}->{'CHAR-ELSE'})->{actions}}];
-          if ($cond eq 'CHAR-ELSE') {
-            for my $c (keys %{$Data->{ims}->{$next_im}->{conds}}) {
-              next unless $c =~ /^CHAR:/;
-              next if $Data->{ims}->{$im}->{conds}->{$c}->{actions};
-              $Data->{ims}->{$im}->{conds}->{$c}->{actions}
-                  = [@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}}];
-              $Data->{ims}->{$im}->{conds}->{$c}->{actions}->[-1]
-                  = {%{$Data->{ims}->{$im}->{conds}->{$c}->{actions}->[-1]},
-                     actions => [@{$acts->[-1]->{actions}}[0..($#{$acts->[-1]->{actions}}-1)],
-                                 @{$Data->{ims}->{$next_im}->{conds}->{$c}->{actions}}]};
-            }
-          }
-          $changed = 1;
-        }
-      } # COND
-      redo CONDS if $changed;
-    } # CONDS
+        return $new_acts;
+      } $ims->{$im}->{conds}->{TEXT}->{actions}->[0]->{actions}
+          if @{$ims->{$im}->{conds}->{TEXT}->{actions}} and
+             $ims->{$im}->{conds}->{TEXT}->{actions}->[0]->{type} eq 'text-with-optional-ws-prefix';
+    }
+    redo if $changed;
   }
+
+  for my $im (keys %$ims) {
+    next unless defined $ims->{$im}->{conds}->{TEXT};
+    $ims->{$im}->{conds}->{TEXT}->{actions} = for_actions {
+      my $acts = shift;
+      my $next_im;
+      for my $act (@$acts) {
+        if ($act->{type} eq 'USING-THE-RULES-FOR' and
+            not $act->{foster_parenting} and
+            not ref $act->{im} and
+            $act->{im} eq $next_im) {
+          $act->{type} = 'reprocess the token';
+          delete $act->{im};
+        } elsif ($act->{type} eq 'switch the insertion mode') {
+          $next_im = $act->{im};
+        }
+      }
+      return $acts;
+    } $ims->{$im}->{conds}->{TEXT}->{actions};
+  }
+
+  $Data->{ims} = $ims;
 }
 
 {
