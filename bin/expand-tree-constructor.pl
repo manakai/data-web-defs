@@ -149,8 +149,16 @@ for my $im (keys %{$Data->{ims}}) {
       }
     }
 
-    $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}
-        ||= {%{$Data->{ims}->{$im}->{conds}->{ELSE}}};
+    #for my $key ('START', 'END') {
+    #  my $else_groups = [grep { not $found->{$key}->{$_} } @{$Data->{tag_name_groups}}];
+    #}
+
+    for ('CHAR-ELSE', 'START-ELSE', 'END-ELSE',
+         'DOCTYPE', 'COMMENT', 'EOF') { # XXXxml
+      $Data->{ims}->{$im}->{conds}->{$_}
+          ||= {%{$Data->{ims}->{$im}->{conds}->{ELSE} or {}}};
+    }
+    delete $Data->{ims}->{$im}->{conds}->{ELSE};
   }
   #warn "$changed changed, $unchanged unchanged";
 }
@@ -406,6 +414,7 @@ for my $im (keys %{$Data->{ims}}) {
               'in body' => 1, 'in table' => 1,
               'text' => 1, 'in table text' => 1,
             }->{$act->{im}}) {
+              ## $new_acts[-1]->{type} is 'switch the insertion mode'.
               push @$new_acts, {type => 'reprocess the token'};
             } else {
               my @act = @{$ims->{$act->{im}}->{conds}->{TEXT}->{actions}};
@@ -437,6 +446,7 @@ for my $im (keys %{$Data->{ims}}) {
         if ($act->{type} eq 'USING-THE-RULES-FOR' and
             not $act->{foster_parenting} and
             not ref $act->{im} and
+            defined $next_im and
             $act->{im} eq $next_im) {
           $act->{type} = 'reprocess the token';
           delete $act->{im};
@@ -450,6 +460,61 @@ for my $im (keys %{$Data->{ims}}) {
 
   $Data->{ims} = $ims;
 }
+
+for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
+  {
+    my $changed = 0;
+    for my $im (keys %{$Data->{ims}}) {
+      next unless defined $Data->{ims}->{$im}->{conds}->{$token_type};
+
+      if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{actions} and
+          @{$Data->{ims}->{$im}->{conds}->{$token_type}->{actions}} == 1 and
+          $Data->{ims}->{$im}->{conds}->{$token_type}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR' and
+          2 == keys %{$Data->{ims}->{$im}->{conds}->{$token_type}->{actions}->[0]} and
+          defined $Data->{ims}->{$im}->{conds}->{$token_type}->{actions}->[0]->{im} and
+          not ref $Data->{ims}->{$im}->{conds}->{$token_type}->{actions}->[0]->{im}) {
+        $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}
+            = $Data->{ims}->{$im}->{conds}->{$token_type}->{actions}->[0]->{im};
+        delete $Data->{ims}->{$im}->{conds}->{$token_type}->{actions};
+        $changed = 1;
+        next;
+      }
+
+      if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}) {
+        if (defined $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{using_the_rules_for}) {
+          $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}
+              = $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{using_the_rules_for};
+          $changed = 1;
+        }
+        next;
+      }
+
+      $Data->{ims}->{$im}->{conds}->{$token_type}->{actions} = for_actions {
+        my $acts = shift;
+        my $new_acts = [];
+        for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              not $act->{foster_parenting} and
+              not ref $act->{im}) {
+            push @$new_acts,
+                @{$Data->{ims}->{$act->{im}}->{conds}->{$token_type}->{actions}};
+            $changed = 1;
+          } else {
+            push @$new_acts, $act;
+          }
+        }
+        return $new_acts;
+      } $Data->{ims}->{$im}->{conds}->{$token_type}->{actions};
+    }
+    redo if $changed;
+  } # $changed
+
+  for my $im (keys %{$Data->{ims}}) {
+    if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}) {
+      $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{also_used_by}->{$im} = 1;
+    }
+  }
+} # $token_type
 
 {
   my $ims = perl2json_chars $Data->{ims};
