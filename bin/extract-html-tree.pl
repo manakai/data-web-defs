@@ -925,42 +925,42 @@ sub parse_cond ($) {
   } elsif ($COND =~ /^node is in the special category, but is not an address, div, or p element$/) {
     $cond = ['node', 'is', {category => 'special', except => ['address', 'div', 'p']}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element$/) {
-    $cond = ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => $1}];
+    $cond = ['oe', 'not in scope', 'all', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^there is an? ([\w-]+) element on the stack of open elements$/) {
-    $cond = ['oe', 'in scope', {scope => 'all', ns => 'HTML', name => $1}];
+    $cond = ['oe', 'in scope', 'all', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^there is no ([\w-]+) element on the stack of open elements$/) {
-    $cond = ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => $1}];
+    $cond = ['oe', 'not in scope', 'all', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in scope$/) {
-    $cond = ['oe', 'in scope', {scope => 'scope', ns => 'HTML', name => $1}];
+    $cond = ['oe', 'in scope', 'scope', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element in scope$/) {
-    $cond = ['oe', 'not in scope', {scope => 'scope', ns => 'HTML', name => $1}];
+    $cond = ['oe', 'not in scope', 'scope', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in ([\w ]+) scope$/) {
-    $cond = ['oe', 'in scope', {scope => $2, ns => 'HTML', name => $1}];
+    $cond = ['oe', 'in scope', $2, {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element in ([\w ]+) scope$/) {
-    $cond = ['oe', 'not in scope', {scope => $2, ns => 'HTML', name => $1}];
+    $cond = ['oe', 'not in scope', $2, {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) or ([\w-]+) element in ([\w ]+) scope$/) {
-    $cond = ['oe', 'not in scope', {scope => $3, ns => 'HTML', name => [$1, $2]}];
+    $cond = ['oe', 'not in scope', $3, {ns => 'HTML', name => [$1, $2]}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+), ([\w-]+), or ([\w-]+) element in ([\w ]+) scope$/) {
-    $cond = ['oe', 'not in scope', {scope => $4, ns => 'HTML', name => [$1, $2, $3]}];
+    $cond = ['oe', 'not in scope', $4, {ns => 'HTML', name => [$1, $2, $3]}];
   } elsif ($COND =~ /^the stack of open elements does not have an element in scope that is an HTML element with the same tag name as that of the token$/) {
-    $cond = ['oe', 'in scope', {scope => 'scope', ns => 'HTML', same_tag_name_as_token => 1}];
+    $cond = ['oe', 'not in scope', 'scope', {ns => 'HTML', same_tag_name_as_token => 1}];
   } elsif ($COND =~ /^the stack of open elements does not have an element in ([\w ]+) scope that is an HTML element with the same tag name as (?:that of |)the token$/) {
-    $cond = ['oe', 'in scope', {scope => $1, ns => 'HTML', same_tag_name_as_token => 1}];
+    $cond = ['oe', 'not in scope', $1, {ns => 'HTML', same_tag_name_as_token => 1}];
   } elsif ($COND =~ /^the stack of open elements does not have an element in scope that is an HTML element and whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6"$/) {
-    $cond = ['oe', 'not in scope', {scope => 'scope', ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
+    $cond = ['oe', 'not in scope', 'scope', {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]}];
   } elsif ($COND =~ /^there is a node in the stack of open elements that is not either ((?:an?|the) [\w-]+ element(?:, (?:or |)(?:an?|the) [\w-]+ element)+)$/) {
     my @s;
     my $s = $1;
     push @s, $1 while $s =~ /(?:an?|the) ([\w-]+) element/g;
-    $cond = ['oe', 'in scope not', {ns => 'HTML', name => \@s}];
+    $cond = ['oe', 'in scope not', 'all', {ns => 'HTML', name => \@s}];
   } elsif ($COND =~ /^node is null or if the stack of open elements does not have node in scope$/) {
     $cond = ['or',
       ['node', 'is null'],
-      ['oe', 'not in scope', 'node'],
+      ['oe', 'not in scope', 'all', 'node'],
     ];
   } elsif ($COND =~ /^there is no template element on the stack of open elements and the form element pointer is not null$/) {
     $cond = ['and',
-      ['oe', 'not in scope', {scope => 'all', ns => 'HTML', name => 'template'}],
+      ['oe', 'not in scope', 'all', {ns => 'HTML', name => 'template'}],
       ['form element pointer', 'is not null'],
     ];
   } elsif ($COND =~ /^node is the topmost element in the stack of open elements$/) {
@@ -972,7 +972,7 @@ sub parse_cond ($) {
   } elsif ($COND =~ /^If the token's tag name is "([^"]+)"$/) {
     $cond = ['token tag_name', 'is', $1];
   } elsif ($COND =~ /^the list of active formatting elements contains an? ([\w-]+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
-    $cond = ['afe', 'in scope', {ns => 'HTML', name => $1}];
+    $cond = ['afe', 'in scope', 'marker', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
     $cond = ['pending table character tokens list', 'has non-space'];
   } elsif ($COND =~ /^the stack of template insertion modes is not empty$/) {
@@ -1525,7 +1525,7 @@ sub process_actions ($) {
           my @s;
           push @s, $1 while $s =~ /([\w-]+) element/g;
           $act->{type} = 'pop-oe';
-          $act->{while_not} = {ns => 'HTML', name => \@s};
+          $act->{while} = {ns => 'HTML', name => \@s};
           delete $act->{actions};
           delete $act->{COND};
           delete $act->{WHILE};
@@ -2095,6 +2095,9 @@ for my $pattern (keys %{$Data->{patterns}}) {
   }
   $Data->{patterns}->{$pattern} = $new;
 }
+unshift @$_, 'or' for values %{$Data->{patterns}};
+
+unshift @$_, 'or' for values %{$Data->{patterns_not}};
 
 $Data->{dispatcher_html} = [map {
   if (ref $_) {

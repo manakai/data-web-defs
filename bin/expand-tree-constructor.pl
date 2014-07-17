@@ -25,20 +25,21 @@ sub for_actions (&$) {
 
 sub apply_except ($$) {
   my ($act, $except) = @_;
-  if ($act->{while_not} or $act->{until}) {
+  if ($act->{while} or $act->{while_not} or $act->{until}) {
     $act = {%$act};
-    if (2 == keys %$except and 2 == keys %{$act->{while_not}} and
+    my $while = $act->{while} ? 'while' : 'while_not';
+    if (2 == keys %$except and 2 == keys %{$act->{$while}} and
         defined $except->{ns} and
-        defined $act->{while_not}->{ns} and
+        defined $act->{$while}->{ns} and
         defined $except->{name} and
-        defined $act->{while_not}->{name} and
-        $except->{ns} eq $act->{while_not}->{ns}) {
-      my @name = ref $act->{while_not}->{name}
-          ? @{$act->{while_not}->{name}} : ($act->{while_not}->{name});
+        defined $act->{$while}->{name} and
+        $except->{ns} eq $act->{$while}->{ns}) {
+      my @name = ref $act->{$while}->{name}
+          ? @{$act->{$while}->{name}} : ($act->{$while}->{name});
       my %except = map { $_ => 1 } ref $except->{name}
           ? @{$except->{name}} : ($except->{name});
       @name = grep { not $except{$_} } @name;
-      $act->{while_not} = {%{$act->{while_not}}, name => \@name};
+      $act->{$while} = {%{$act->{$while}}, name => \@name};
     } else {
       $act->{except} = $except;
     }
@@ -130,12 +131,14 @@ for my $im (keys %{$Data->{ims}}) {
   my $unchanged = 0;
   for my $im (keys %{$Data->{ims}}) {
     my @cond = keys %{$Data->{ims}->{$im}->{conds}};
+    my $found = {START => {}, END => {}};
     for my $cond (@cond) {
       if ($cond =~ /^(START|END):(.+)$/) {
         my $type = $1;
         my %gname;
         $gname{$tag_name_to_group->{$_}} = 1 for split / /, $2;
         my $new_cond = $type . ':' . join ',', sort { $a cmp $b } keys %gname;
+        $found->{$type}->{$_} = 1 for keys %gname;
         if ($cond eq $new_cond) {
           $unchanged++;
         } else {
