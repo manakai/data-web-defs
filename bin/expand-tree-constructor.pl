@@ -1,5 +1,7 @@
 use strict;
 use warnings;
+no warnings 'utf8';
+use warnings FATAL => 'recursion';
 use JSON::PS;
 
 my $Data = do {
@@ -517,6 +519,183 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
 } # $token_type
 
 {
+  my $read_pattern; $read_pattern = sub {
+    my $pattern = shift;
+    if (ref $pattern eq 'ARRAY' and $pattern->[0] eq 'or') {
+      my @pp;
+      for my $p (@$pattern[1..$#$pattern]) {
+        my $pp = $read_pattern->($p);
+        return undef if not defined $pp;
+        push @pp, @$pp;
+      }
+      return [sort {
+        $a->[0] cmp $b->[0] ||
+        (defined $a->[1] ? 1 : -0.1) <=> (defined $b->[1] ? 1 : -0.2) ||
+        $a->[1] cmp $b->[1] ||
+        (defined $a->[2] ? 1 : -0.1) <=> (defined $b->[2] ? 1 : -0.2) ||
+        $a->[2] cmp $b->[2] ||
+        (defined $a->[3] ? 1 : -0.1) <=> (defined $b->[3] ? 1 : -0.2) ||
+        $a->[3] cmp $b->[3]
+      } @pp];
+    } else {
+      if (1 == keys %$pattern and defined $pattern->{ns}) {
+        return [[$pattern->{ns}, undef]];
+      } elsif (2 == keys %$pattern and defined $pattern->{ns} and
+               defined $pattern->{name}) {
+        if (ref $pattern->{name}) {
+          return [map { [$pattern->{ns}, $_] } sort { $a cmp $b } @{$pattern->{name}}];
+        } else {
+          return [[$pattern->{ns}, $pattern->{name}]];
+        }
+      } elsif (3 == keys %$pattern and
+               defined $pattern->{ns} and
+               defined $pattern->{name} and not ref $pattern->{name} and
+               defined $pattern->{attrs} and 1 == @{$pattern->{attrs}} and
+               2 == keys %{$pattern->{attrs}->[0]} and
+               defined $pattern->{attrs}->[0]->{name} and
+               defined $pattern->{attrs}->[0]->{lc_value}) {
+        return [[$pattern->{ns}, $pattern->{name},
+                 $pattern->{attrs}->[0]->{name},
+                 $pattern->{attrs}->[0]->{lc_value}]];
+      } else {
+        use Data::Dumper;
+        warn Dumper $pattern;
+        return undef;
+      }
+    }
+  }; # $read_pattern
+
+  my $serialize_pattern = sub {
+    my $pp = shift;
+    my @r;
+    for my $p (@$pp) {
+      if (@$p == 4) {
+        push @r, $p->[0] . ':' . ($p->[1] // '*') . '@' . $p->[2] . '=' . $p->[3];
+      } else {
+        push @r, $p->[0] . ':' . ($p->[1] // '*');
+      }
+    }
+    return join ' ', @r;
+  }; # $serialize_pattern
+
+  my @orig_pattern;
+  for (values %{$Data->{tree_patterns}}) {
+    my $pattern_structure = $read_pattern->($_);
+    if (defined $pattern_structure) {
+      my $serialized = $serialize_pattern->($pattern_structure);
+      $Data->{patterns}->{$serialized} = $pattern_structure;
+      push @orig_pattern, [$pattern_structure => \$_];
+    }
+  }
+  for (values %{$Data->{tree_patterns_not}}) {
+    my $pattern_structure = $read_pattern->($_);
+    if (defined $pattern_structure) {
+      my $serialized = $serialize_pattern->($pattern_structure);
+      $Data->{patterns}->{$serialized} = $pattern_structure;
+      push @orig_pattern, [$pattern_structure => \$_];
+    }
+  }
+
+  for my $im (keys %{$Data->{ims}}) {
+    for my $token_type (keys %{$Data->{ims}->{$im}->{conds}}) {
+      $Data->{ims}->{$im}->{conds}->{$token_type}->{actions} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          for my $key (qw(cond)) {
+            if (defined $act->{$key} and
+                @{$act->{$key}} >= 4 and
+                ($act->{$key}->[1] eq 'in scope' or
+                 $act->{$key}->[1] eq 'not in scope' or
+                 $act->{$key}->[1] eq 'in scope not')) {
+              if (ref $act->{$key}->[3]) {
+                my $pattern_structure = $read_pattern->($act->{$key}->[3]);
+                if (defined $pattern_structure) {
+                  my $serialized = $serialize_pattern->($pattern_structure);
+                  $Data->{patterns}->{$serialized} = $pattern_structure;
+                  push @orig_pattern, [$pattern_structure => \($act->{$key}->[3])];
+                }
+              }
+            }
+          }
+          for my $key (qw(cond)) {
+            if (defined $act->{$key} and
+                @{$act->{$key}} >= 3 and
+                ($act->{$key}->[1] eq 'is' or
+                 $act->{$key}->[1] eq 'is not') and
+                ref $act->{$key}->[2] eq 'HASH') {
+              my $pattern_structure = $read_pattern->($act->{$key}->[2]);
+              if (defined $pattern_structure) {
+                my $serialized = $serialize_pattern->($pattern_structure);
+                $Data->{patterns}->{$serialized} = $pattern_structure;
+                push @orig_pattern, [$pattern_structure => \($act->{$key}->[2])];
+              }
+            }
+          }
+          for my $key (qw(while while_not until)) {
+            if (defined $act->{$key} and ref $act->{$key}) {
+              my $pattern_structure = $read_pattern->($act->{$key});
+              if (defined $pattern_structure) {
+                my $serialized = $serialize_pattern->($pattern_structure);
+                $Data->{patterns}->{$serialized} = $pattern_structure;
+                push @orig_pattern, [$pattern_structure => \($act->{$key})];
+              }
+            }
+          }
+        }
+        return $acts;
+      } $Data->{ims}->{$im}->{conds}->{$token_type}->{actions}
+          if defined $Data->{ims}->{$im}->{conds}->{$token_type}->{actions};
+    }
+  }
+
+  my $key_to_group_name = {};
+  {
+    my @pattern = sort { scalar keys %{$a->[1]} <=> scalar keys %{$b->[1]} || $a->[0] cmp $b->[0] } map { [$_ => {map { $_ => 1 } split / /, $_}] } keys %{$Data->{patterns}};
+    my $i = 0;
+    my $el_to_pattern = {};
+    for my $pattern (@pattern) {
+      $i++;
+      if (1 == keys %{$pattern->[1]}) {
+        # XXX
+
+      } else {
+        push @{$el_to_pattern->{$_} ||= []}, $i for keys %{$pattern->[1]};
+      }
+    }
+    $el_to_pattern->{$_} = join ' ', @{$el_to_pattern->{$_}}
+        for keys %$el_to_pattern;
+    my $pattern_to_el = {};
+    push @{$pattern_to_el->{$el_to_pattern->{$_}} ||= []}, $_
+        for sort { $a cmp $b } keys %$el_to_pattern;
+    my $element_groups = {map {
+      (join ',', @$_) => $_;
+    } values %$pattern_to_el};
+    $Data->{element_groups} = [sort { $a cmp $b } keys %$element_groups];
+
+    for my $group_name (keys %$element_groups) {
+      for (@{$element_groups->{$group_name}}) {
+        $key_to_group_name->{$_} = $group_name;
+      }
+    }
+  }
+
+  for my $op (@orig_pattern) {
+    my $groups = {};
+    if (@{$op->[0]} == 1) {
+
+    } else {
+      for (split / /, $serialize_pattern->($op->[0])) {
+        my $group_name = $key_to_group_name->{$_}
+            or die "|$_| does not belong to any group";
+        $groups->{$group_name} = 1;
+      }
+      #${$op->[1]} = {definition => ${$op->[1]}, groups => $groups};
+      ${$op->[1]} = join ' ', sort { $a cmp $b } keys %$groups;
+    }
+  }
+}
+
+{
   my $ims = perl2json_chars $Data->{ims};
   my @step_name = keys %{$Data->{tree_steps}};
   for my $step_name (@step_name) {
@@ -525,6 +704,7 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     }
   }
   delete $Data->{tree_steps} if not keys %{$Data->{tree_steps}};
+  delete $Data->{patterns};
 }
 
 print perl2json_bytes_for_record $Data;
