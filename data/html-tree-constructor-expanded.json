@@ -1,4 +1,183 @@
 {
+   "dispatcher_html" : [
+      "or",
+      [
+         "oe",
+         "is empty"
+      ],
+      [
+         "adjusted current node",
+         "is",
+         "HTML:*"
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            "MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext"
+         ],
+         [
+            "token",
+            "is a",
+            "START-NOT:malignmark mglyph"
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            "MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext"
+         ],
+         [
+            "token",
+            "is a",
+            "CHAR"
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            "MathML:annotation-xml"
+         ],
+         [
+            "token",
+            "is a",
+            "START:svg"
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            "MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html SVG:desc,SVG:foreignObject,SVG:title"
+         ],
+         [
+            "token",
+            "is a",
+            "START"
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            "MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html SVG:desc,SVG:foreignObject,SVG:title"
+         ],
+         [
+            "token",
+            "is a",
+            "CHAR"
+         ]
+      ],
+      [
+         "token",
+         "is a",
+         "EOF"
+      ]
+   ],
+   "element_matching" : {
+      "element_groups" : [
+         "HTML:*",
+         "HTML:a,HTML:b,HTML:big,HTML:code,HTML:em,HTML:font,HTML:i,HTML:nobr,HTML:s,HTML:small,HTML:strike,HTML:strong,HTML:tt,HTML:u",
+         "HTML:address,HTML:div",
+         "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml",
+         "HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp",
+         "HTML:body",
+         "HTML:button",
+         "HTML:caption",
+         "HTML:colgroup",
+         "HTML:dd",
+         "HTML:dt",
+         "HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6",
+         "HTML:html",
+         "HTML:li",
+         "HTML:ol,HTML:ul",
+         "HTML:optgroup,HTML:option",
+         "HTML:p",
+         "HTML:rp,HTML:rt",
+         "HTML:table",
+         "HTML:tbody,HTML:tfoot,HTML:thead",
+         "HTML:td,HTML:th",
+         "HTML:template",
+         "HTML:tr",
+         "MathML:*",
+         "MathML:annotation-xml",
+         "MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html",
+         "MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext",
+         "SVG:*",
+         "SVG:desc,SVG:foreignObject,SVG:title"
+      ],
+      "element_types" : [
+         "HTML:a",
+         "HTML:address",
+         "HTML:applet",
+         "HTML:article",
+         "HTML:aside",
+         "HTML:blockquote",
+         "HTML:body",
+         "HTML:button",
+         "HTML:caption",
+         "HTML:center",
+         "HTML:colgroup",
+         "HTML:dd",
+         "HTML:details",
+         "HTML:dialog",
+         "HTML:dir",
+         "HTML:div",
+         "HTML:dl",
+         "HTML:dt",
+         "HTML:fieldset",
+         "HTML:figcaption",
+         "HTML:figure",
+         "HTML:footer",
+         "HTML:form",
+         "HTML:frameset",
+         "HTML:h1",
+         "HTML:h2",
+         "HTML:h3",
+         "HTML:h4",
+         "HTML:h5",
+         "HTML:h6",
+         "HTML:header",
+         "HTML:hgroup",
+         "HTML:html",
+         "HTML:li",
+         "HTML:listing",
+         "HTML:main",
+         "HTML:marquee",
+         "HTML:menu",
+         "HTML:nav",
+         "HTML:nobr",
+         "HTML:object",
+         "HTML:ol",
+         "HTML:optgroup",
+         "HTML:option",
+         "HTML:p",
+         "HTML:pre",
+         "HTML:ruby",
+         "HTML:sarcasm",
+         "HTML:script",
+         "HTML:section",
+         "HTML:select",
+         "HTML:summary",
+         "HTML:table",
+         "HTML:tbody",
+         "HTML:td",
+         "HTML:template",
+         "HTML:tfoot",
+         "HTML:th",
+         "HTML:thead",
+         "HTML:tr",
+         "HTML:ul",
+         "SVG:script"
+      ]
+   },
    "ims" : {
       "after after body" : {
          "conds" : {
@@ -11,14 +190,9 @@
                ]
             },
             "DOCTYPE" : {
-               "actions" : [
-                  {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
+               "using_the_rules_for" : "in body"
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -36,6 +210,20 @@
                "actions" : [
                   {
                      "type" : "stop parsing"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "im" : "in body",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -87,14 +275,9 @@
                ]
             },
             "DOCTYPE" : {
-               "actions" : [
-                  {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
+               "using_the_rules_for" : "in body"
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -108,6 +291,16 @@
                "actions" : [
                   {
                      "type" : "stop parsing"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
                   }
                ]
             },
@@ -171,7 +364,7 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -213,6 +406,20 @@
                "actions" : [
                   {
                      "type" : "stop parsing"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "im" : "in body",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -272,7 +479,7 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -294,6 +501,16 @@
                "actions" : [
                   {
                      "type" : "stop parsing"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
                   }
                ]
             },
@@ -353,22 +570,6 @@
                   }
                ]
             },
-            "ELSE" : {
-               "actions" : [
-                  {
-                     "attrs" : "none",
-                     "tag_name" : "body",
-                     "type" : "insert an HTML element"
-                  },
-                  {
-                     "im" : "in body",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
-                  }
-               ]
-            },
             "END-ELSE" : {
                "actions" : [
                   {
@@ -400,6 +601,38 @@
                   {
                      "im" : "in head",
                      "type" : "USING-THE-RULES-FOR"
+                  }
+               ]
+            },
+            "EOF" : {
+               "actions" : [
+                  {
+                     "attrs" : "none",
+                     "tag_name" : "body",
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "im" : "in body",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "attrs" : "none",
+                     "tag_name" : "body",
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "im" : "in body",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -513,7 +746,17 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
+                  }
+               ]
+            },
+            "END:body,br,head,html" : {
                "actions" : [
                   {
                      "attrs" : "none",
@@ -532,17 +775,26 @@
                   }
                ]
             },
-            "END-ELSE" : {
+            "EOF" : {
                "actions" : [
                   {
-                     "type" : "parse error"
+                     "attrs" : "none",
+                     "tag_name" : "head",
+                     "type" : "insert an HTML element"
                   },
                   {
-                     "type" : "ignore the token"
+                     "type" : "set-head-element-pointer"
+                  },
+                  {
+                     "im" : "in head",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
-            "END:body,br,head,html" : {
+            "START-ELSE" : {
                "actions" : [
                   {
                      "attrs" : "none",
@@ -650,7 +902,17 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
+                  }
+               ]
+            },
+            "END:body,br,head,html" : {
                "actions" : [
                   {
                      "local_name" : "html",
@@ -674,17 +936,31 @@
                   }
                ]
             },
-            "END-ELSE" : {
+            "EOF" : {
                "actions" : [
                   {
-                     "type" : "parse error"
+                     "local_name" : "html",
+                     "type" : "create an HTML element"
                   },
                   {
-                     "type" : "ignore the token"
+                     "type" : "append-to-document"
+                  },
+                  {
+                     "type" : "push-oe"
+                  },
+                  {
+                     "type" : "appcache-processing"
+                  },
+                  {
+                     "im" : "before head",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
-            "END:body,br,head,html" : {
+            "START-ELSE" : {
                "actions" : [
                   {
                      "local_name" : "html",
@@ -799,7 +1075,12 @@
                   {
                      "type" : "insert a comment"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in caption" : 1,
+                  "in cell" : 1,
+                  "in template" : 1
+               }
             },
             "DOCTYPE" : {
                "actions" : [
@@ -809,7 +1090,14 @@
                   {
                      "type" : "ignore the token"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "after after body" : 1,
+                  "after after frameset" : 1,
+                  "in caption" : 1,
+                  "in cell" : 1,
+                  "in template" : 1
+               }
             },
             "END-ELSE" : {
                "actions" : [
@@ -823,19 +1111,7 @@
                                     "same_tag_name_as_token" : 1
                                  },
                                  "type" : "pop-oe",
-                                 "while_not" : {
-                                    "name" : [
-                                       "dd",
-                                       "dt",
-                                       "li",
-                                       "option",
-                                       "optgroup",
-                                       "p",
-                                       "rp",
-                                       "rt"
-                                    ],
-                                    "ns" : "HTML"
-                                 }
+                                 "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                               },
                               {
                                  "actions" : [
@@ -882,9 +1158,7 @@
                                  "cond" : [
                                     "node",
                                     "is",
-                                    {
-                                       "category" : "special"
-                                    }
+                                    "HTML:address,HTML:div HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:p HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                                  ],
                                  "type" : "if"
                               }
@@ -918,29 +1192,14 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "scope"
-                        }
+                        "not in scope",
+                        "scope",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -951,19 +1210,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "ns" : "HTML",
-                                 "same_tag_name_as_token" : 1
-                              }
+                              "HTML-same-tag-name"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "ns" : "HTML",
-                              "same_tag_name_as_token" : 1
-                           }
+                           "until" : "HTML-same-tag-name"
                         }
                      ],
                      "type" : "if"
@@ -983,29 +1236,14 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "scope"
-                        }
+                        "not in scope",
+                        "scope",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1016,19 +1254,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "ns" : "HTML",
-                                 "same_tag_name_as_token" : 1
-                              }
+                              "HTML-same-tag-name"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "ns" : "HTML",
-                              "same_tag_name_as_token" : 1
-                           }
+                           "until" : "HTML-same-tag-name"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -1052,11 +1284,8 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "body",
-                           "ns" : "HTML",
-                           "scope" : "scope"
-                        }
+                        "scope",
+                        "HTML:body"
                      ],
                      "false_actions" : [
                         {
@@ -1068,27 +1297,8 @@
                            "cond" : [
                               "oe",
                               "in scope not",
-                              {
-                                 "name" : [
-                                    "dd",
-                                    "dt",
-                                    "li",
-                                    "optgroup",
-                                    "option",
-                                    "p",
-                                    "rp",
-                                    "rt",
-                                    "tbody",
-                                    "td",
-                                    "tfoot",
-                                    "th",
-                                    "thead",
-                                    "tr",
-                                    "body",
-                                    "html"
-                                 ],
-                                 "ns" : "HTML"
-                              }
+                              "all",
+                              "HTML:body HTML:dd HTML:dt HTML:html HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:tr"
                            ],
                            "type" : "if"
                         },
@@ -1124,12 +1334,9 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "scope"
-                        }
+                        "not in scope",
+                        "scope",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
@@ -1138,19 +1345,7 @@
                               "same_tag_name_as_token" : 1
                            },
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1161,19 +1356,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "ns" : "HTML",
-                                 "same_tag_name_as_token" : 1
-                              }
+                              "HTML-same-tag-name"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "ns" : "HTML",
-                              "same_tag_name_as_token" : 1
-                           }
+                           "until" : "HTML-same-tag-name"
                         }
                      ],
                      "type" : "if"
@@ -1213,6 +1402,7 @@
                               [
                                  "oe",
                                  "not in scope",
+                                 "all",
                                  "node"
                               ]
                            ],
@@ -1220,19 +1410,7 @@
                         },
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1255,11 +1433,8 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
-                        }
+                        "all",
+                        "HTML:template"
                      ],
                      "type" : "if"
                   },
@@ -1280,29 +1455,14 @@
                            "cond" : [
                               "oe",
                               "not in scope",
-                              {
-                                 "name" : "form",
-                                 "ns" : "HTML",
-                                 "scope" : "scope"
-                              }
+                              "scope",
+                              "HTML:form"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1313,29 +1473,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "form",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:form"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "form",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:form"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
-                        }
+                        "all",
+                        "HTML:template"
                      ],
                      "type" : "if"
                   }
@@ -1355,35 +1506,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : [
-                              "h1",
-                              "h2",
-                              "h3",
-                              "h4",
-                              "h5",
-                              "h6"
-                           ],
-                           "ns" : "HTML",
-                           "scope" : "scope"
-                        }
+                        "scope",
+                        "HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1394,26 +1523,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "ns" : "HTML",
-                                 "same_tag_name_as_token" : 1
-                              }
+                              "HTML-same-tag-name"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : [
-                                 "h1",
-                                 "h2",
-                                 "h3",
-                                 "h4",
-                                 "h5",
-                                 "h6"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6"
                         }
                      ],
                      "type" : "if"
@@ -1434,11 +1550,8 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "body",
-                           "ns" : "HTML",
-                           "scope" : "scope"
-                        }
+                        "scope",
+                        "HTML:body"
                      ],
                      "false_actions" : [
                         {
@@ -1450,27 +1563,8 @@
                            "cond" : [
                               "oe",
                               "in scope not",
-                              {
-                                 "name" : [
-                                    "dd",
-                                    "dt",
-                                    "li",
-                                    "optgroup",
-                                    "option",
-                                    "p",
-                                    "rp",
-                                    "rt",
-                                    "tbody",
-                                    "td",
-                                    "tfoot",
-                                    "th",
-                                    "thead",
-                                    "tr",
-                                    "body",
-                                    "html"
-                                 ],
-                                 "ns" : "HTML"
-                              }
+                              "all",
+                              "HTML:body HTML:dd HTML:dt HTML:html HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:tr"
                            ],
                            "type" : "if"
                         },
@@ -1500,27 +1594,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "li",
-                           "ns" : "HTML",
-                           "scope" : "list item"
-                        }
+                        "list item",
+                        "HTML:li"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1531,19 +1611,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "li",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:li"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "li",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:li"
                         }
                      ],
                      "type" : "if"
@@ -1566,28 +1640,14 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "dd",
-                           "dt",
-                           "li",
-                           "option",
-                           "optgroup",
-                           "rp",
-                           "rt"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                   },
                   {
                      "actions" : [
@@ -1598,19 +1658,13 @@
                      "cond" : [
                         "oe[-1]",
                         "is not",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML"
-                        }
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
                   {
                      "type" : "pop-oe",
-                     "until" : {
-                        "name" : "p",
-                        "ns" : "HTML"
-                     }
+                     "until" : "HTML:p"
                   }
                ]
             },
@@ -1629,19 +1683,7 @@
                                     "same_tag_name_as_token" : 1
                                  },
                                  "type" : "pop-oe",
-                                 "while_not" : {
-                                    "name" : [
-                                       "dd",
-                                       "dt",
-                                       "li",
-                                       "option",
-                                       "optgroup",
-                                       "p",
-                                       "rp",
-                                       "rt"
-                                    ],
-                                    "ns" : "HTML"
-                                 }
+                                 "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                               },
                               {
                                  "actions" : [
@@ -1667,10 +1709,7 @@
                            "cond" : [
                               "node",
                               "is",
-                              {
-                                 "ns" : "HTML",
-                                 "same_tag_name_as_token" : 1
-                              }
+                              "HTML-same-tag-name"
                            ],
                            "false_actions" : [
                               {
@@ -1688,9 +1727,7 @@
                                  "cond" : [
                                     "node",
                                     "is",
-                                    {
-                                       "category" : "special"
-                                    }
+                                    "HTML:address,HTML:div HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:p HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                                  ],
                                  "type" : "if"
                               }
@@ -1717,8 +1754,39 @@
                   {
                      "actions" : [
                         {
-                           "im" : "in template",
-                           "type" : "USING-THE-RULES-FOR"
+                           "actions" : [
+                              {
+                                 "type" : "stop parsing"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "not in scope",
+                              "all",
+                              "HTML:template"
+                           ],
+                           "false_actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:template"
+                        },
+                        {
+                           "type" : "clear the list of active formatting elements up to the last marker"
+                        },
+                        {
+                           "type" : "pop-template-ims"
+                        },
+                        {
+                           "type" : "reset the insertion mode appropriately"
+                        },
+                        {
+                           "type" : "reprocess the token"
                         }
                      ],
                      "cond" : [
@@ -1735,27 +1803,8 @@
                            "cond" : [
                               "oe",
                               "in scope not",
-                              {
-                                 "name" : [
-                                    "dd",
-                                    "dt",
-                                    "li",
-                                    "optgroup",
-                                    "option",
-                                    "p",
-                                    "rp",
-                                    "rt",
-                                    "tbody",
-                                    "td",
-                                    "tfoot",
-                                    "th",
-                                    "thead",
-                                    "tr",
-                                    "body",
-                                    "html"
-                                 ],
-                                 "ns" : "HTML"
-                              }
+                              "all",
+                              "HTML:body HTML:dd HTML:dt HTML:html HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:tr"
                            ],
                            "type" : "if"
                         },
@@ -1765,7 +1814,17 @@
                      ],
                      "type" : "if"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in caption" : 1,
+                  "in cell" : 1,
+                  "in column group" : 1,
+                  "in row" : 1,
+                  "in select" : 1,
+                  "in select in table" : 1,
+                  "in table" : 1,
+                  "in table body" : 1
+               }
             },
             "START-ELSE" : {
                "actions" : [
@@ -1793,10 +1852,8 @@
                      "cond" : [
                         "afe",
                         "in scope",
-                        {
-                           "name" : "a",
-                           "ns" : "HTML"
-                        }
+                        "marker",
+                        "HTML:a"
                      ],
                      "type" : "if"
                   },
@@ -1817,18 +1874,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -1839,29 +1885,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -1944,27 +1981,18 @@
                         [
                            "oe[1]",
                            "is not",
-                           {
-                              "name" : "body",
-                              "ns" : "HTML"
-                           }
+                           "HTML:body"
                         ],
                         [
                            "oe[-1]",
                            "is",
-                           {
-                              "name" : "html",
-                              "ns" : "HTML"
-                           }
+                           "HTML:html"
                         ],
                         [
                            "oe",
                            "in scope",
-                           {
-                              "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
-                           }
+                           "all",
+                           "HTML:template"
                         ]
                      ],
                      "false_actions" : [
@@ -1990,36 +2018,18 @@
                         },
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "button",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:button"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "button",
-                           "ns" : "HTML",
-                           "scope" : "scope"
-                        }
+                        "scope",
+                        "HTML:button"
                      ],
                      "type" : "if"
                   },
@@ -2057,18 +2067,7 @@
                            "actions" : [
                               {
                                  "type" : "pop-oe",
-                                 "while_not" : {
-                                    "name" : [
-                                       "dt",
-                                       "li",
-                                       "option",
-                                       "optgroup",
-                                       "p",
-                                       "rp",
-                                       "rt"
-                                    ],
-                                    "ns" : "HTML"
-                                 }
+                                 "while" : "HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                               },
                               {
                                  "actions" : [
@@ -2079,19 +2078,13 @@
                                  "cond" : [
                                     "oe[-1]",
                                     "is not",
-                                    {
-                                       "name" : "dd",
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:dd"
                                  ],
                                  "type" : "if"
                               },
                               {
                                  "type" : "pop-oe",
-                                 "until" : {
-                                    "name" : "dd",
-                                    "ns" : "HTML"
-                                 }
+                                 "until" : "HTML:dd"
                               },
                               {
                                  "type" : "break-for-each"
@@ -2100,28 +2093,14 @@
                            "cond" : [
                               "node",
                               "is",
-                              {
-                                 "name" : "dd",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:dd"
                            ],
                            "false_actions" : [
                               {
                                  "actions" : [
                                     {
                                        "type" : "pop-oe",
-                                       "while_not" : {
-                                          "name" : [
-                                             "dd",
-                                             "li",
-                                             "option",
-                                             "optgroup",
-                                             "p",
-                                             "rp",
-                                             "rt"
-                                          ],
-                                          "ns" : "HTML"
-                                       }
+                                       "while" : "HTML:dd HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                                     },
                                     {
                                        "actions" : [
@@ -2132,19 +2111,13 @@
                                        "cond" : [
                                           "oe[-1]",
                                           "is not",
-                                          {
-                                             "name" : "dt",
-                                             "ns" : "HTML"
-                                          }
+                                          "HTML:dt"
                                        ],
                                        "type" : "if"
                                     },
                                     {
                                        "type" : "pop-oe",
-                                       "until" : {
-                                          "name" : "dt",
-                                          "ns" : "HTML"
-                                       }
+                                       "until" : "HTML:dt"
                                     },
                                     {
                                        "type" : "break-for-each"
@@ -2153,10 +2126,7 @@
                                  "cond" : [
                                     "node",
                                     "is",
-                                    {
-                                       "name" : "dt",
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:dt"
                                  ],
                                  "false_actions" : [
                                     {
@@ -2168,14 +2138,7 @@
                                        "cond" : [
                                           "node",
                                           "is",
-                                          {
-                                             "category" : "special",
-                                             "except" : [
-                                                "address",
-                                                "div",
-                                                "p"
-                                             ]
-                                          }
+                                          "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                                        ],
                                        "false_actions" : [
                                        ],
@@ -2196,18 +2159,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -2218,29 +2170,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -2266,11 +2209,8 @@
                         [
                            "oe",
                            "not in scope",
-                           {
-                              "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
-                           }
+                           "all",
+                           "HTML:template"
                         ]
                      ],
                      "false_actions" : [
@@ -2278,18 +2218,7 @@
                            "actions" : [
                               {
                                  "type" : "pop-oe",
-                                 "while_not" : {
-                                    "name" : [
-                                       "dd",
-                                       "dt",
-                                       "li",
-                                       "option",
-                                       "optgroup",
-                                       "rp",
-                                       "rt"
-                                    ],
-                                    "ns" : "HTML"
-                                 }
+                                 "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                               },
                               {
                                  "actions" : [
@@ -2300,29 +2229,20 @@
                                  "cond" : [
                                     "oe[-1]",
                                     "is not",
-                                    {
-                                       "name" : "p",
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:p"
                                  ],
                                  "type" : "if"
                               },
                               {
                                  "type" : "pop-oe",
-                                 "until" : {
-                                    "name" : "p",
-                                    "ns" : "HTML"
-                                 }
+                                 "until" : "HTML:p"
                               }
                            ],
                            "cond" : [
                               "oe",
                               "in scope",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML",
-                                 "scope" : "button"
-                              }
+                              "button",
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
@@ -2338,11 +2258,8 @@
                            "cond" : [
                               "oe",
                               "not in scope",
-                              {
-                                 "name" : "template",
-                                 "ns" : "HTML",
-                                 "scope" : "all"
-                              }
+                              "all",
+                              "HTML:template"
                            ],
                            "type" : "if"
                         }
@@ -2367,18 +2284,12 @@
                         [
                            "oe[-1]",
                            "is",
-                           {
-                              "name" : "html",
-                              "ns" : "HTML"
-                           }
+                           "HTML:html"
                         ],
                         [
                            "oe[1]",
                            "is not",
-                           {
-                              "name" : "body",
-                              "ns" : "HTML"
-                           }
+                           "HTML:body"
                         ]
                      ],
                      "type" : "if"
@@ -2421,18 +2332,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -2443,29 +2343,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -2481,17 +2372,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : [
-                              "h1",
-                              "h2",
-                              "h3",
-                              "h4",
-                              "h5",
-                              "h6"
-                           ],
-                           "ns" : "HTML"
-                        }
+                        "HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6"
                      ],
                      "type" : "if"
                   },
@@ -2506,18 +2387,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -2528,29 +2398,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -2583,11 +2444,8 @@
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
-                        }
+                        "all",
+                        "HTML:template"
                      ],
                      "type" : "if"
                   },
@@ -2680,11 +2538,8 @@
                         [
                            "oe",
                            "not in scope",
-                           {
-                              "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
-                           }
+                           "all",
+                           "HTML:template"
                         ],
                         [
                            "form element pointer",
@@ -2703,18 +2558,7 @@
                            "actions" : [
                               {
                                  "type" : "pop-oe",
-                                 "while_not" : {
-                                    "name" : [
-                                       "dd",
-                                       "dt",
-                                       "li",
-                                       "option",
-                                       "optgroup",
-                                       "rp",
-                                       "rt"
-                                    ],
-                                    "ns" : "HTML"
-                                 }
+                                 "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                               },
                               {
                                  "actions" : [
@@ -2725,29 +2569,20 @@
                                  "cond" : [
                                     "oe[-1]",
                                     "is not",
-                                    {
-                                       "name" : "p",
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:p"
                                  ],
                                  "type" : "if"
                               },
                               {
                                  "type" : "pop-oe",
-                                 "until" : {
-                                    "name" : "p",
-                                    "ns" : "HTML"
-                                 }
+                                 "until" : "HTML:p"
                               }
                            ],
                            "cond" : [
                               "oe",
                               "in scope",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML",
-                                 "scope" : "button"
-                              }
+                              "button",
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
@@ -2765,11 +2600,8 @@
                            "cond" : [
                               "oe",
                               "not in scope",
-                              {
-                                 "name" : "template",
-                                 "ns" : "HTML",
-                                 "scope" : "all"
-                              }
+                              "all",
+                              "HTML:template"
                            ],
                            "type" : "if"
                         },
@@ -2847,11 +2679,8 @@
                            "cond" : [
                               "oe",
                               "not in scope",
-                              {
-                                 "name" : "template",
-                                 "ns" : "HTML",
-                                 "scope" : "all"
-                              }
+                              "all",
+                              "HTML:template"
                            ],
                            "type" : "if"
                         }
@@ -2872,18 +2701,7 @@
                            "actions" : [
                               {
                                  "type" : "pop-oe",
-                                 "while_not" : {
-                                    "name" : [
-                                       "dd",
-                                       "dt",
-                                       "option",
-                                       "optgroup",
-                                       "p",
-                                       "rp",
-                                       "rt"
-                                    ],
-                                    "ns" : "HTML"
-                                 }
+                                 "while" : "HTML:dd HTML:dt HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                               },
                               {
                                  "actions" : [
@@ -2894,19 +2712,13 @@
                                  "cond" : [
                                     "oe[-1]",
                                     "is not",
-                                    {
-                                       "name" : "li",
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:li"
                                  ],
                                  "type" : "if"
                               },
                               {
                                  "type" : "pop-oe",
-                                 "until" : {
-                                    "name" : "li",
-                                    "ns" : "HTML"
-                                 }
+                                 "until" : "HTML:li"
                               },
                               {
                                  "type" : "break-for-each"
@@ -2915,10 +2727,7 @@
                            "cond" : [
                               "node",
                               "is",
-                              {
-                                 "name" : "li",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:li"
                            ],
                            "false_actions" : [
                               {
@@ -2930,14 +2739,7 @@
                                  "cond" : [
                                     "node",
                                     "is",
-                                    {
-                                       "category" : "special",
-                                       "except" : [
-                                          "address",
-                                          "div",
-                                          "p"
-                                       ]
-                                    }
+                                    "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                                  ],
                                  "false_actions" : [
                                  ],
@@ -2955,18 +2757,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -2977,29 +2768,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -3014,18 +2796,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3036,29 +2807,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -3141,11 +2903,8 @@
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "nobr",
-                           "ns" : "HTML",
-                           "scope" : "scope"
-                        }
+                        "scope",
+                        "HTML:nobr"
                      ],
                      "type" : "if"
                   },
@@ -3222,10 +2981,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
+                        "HTML:option"
                      ],
                      "type" : "if"
                   },
@@ -3243,18 +2999,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3265,29 +3010,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -3306,29 +3042,14 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "ruby",
-                           "ns" : "HTML",
-                           "scope" : "scope"
-                        }
+                        "scope",
+                        "HTML:ruby"
                      ],
                      "type" : "if"
                   },
@@ -3341,10 +3062,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is not",
-                        {
-                           "name" : "ruby",
-                           "ns" : "HTML"
-                        }
+                        "HTML:ruby"
                      ],
                      "type" : "if"
                   },
@@ -3432,18 +3150,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3454,19 +3161,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
@@ -3477,11 +3178,8 @@
                         [
                            "oe",
                            "in scope",
-                           {
-                              "name" : "p",
-                              "ns" : "HTML",
-                              "scope" : "button"
-                           }
+                           "button",
+                           "HTML:p"
                         ]
                      ],
                      "type" : "if"
@@ -3531,18 +3229,7 @@
                      "actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3553,29 +3240,20 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "p",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:p"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "p",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:p"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
-                        }
+                        "button",
+                        "HTML:p"
                      ],
                      "type" : "if"
                   },
@@ -3639,7 +3317,13 @@
       },
       "in caption" : {
          "conds" : {
-            "ELSE" : {
+            "COMMENT" : {
+               "using_the_rules_for" : "in body"
+            },
+            "DOCTYPE" : {
+               "using_the_rules_for" : "in body"
+            },
+            "END-ELSE" : {
                "actions" : [
                   {
                      "im" : "in body",
@@ -3671,28 +3355,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "caption",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:caption"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3703,19 +3372,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "caption",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:caption"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "caption",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:caption"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -3743,28 +3406,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "caption",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:caption"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3775,19 +3423,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "caption",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:caption"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "caption",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:caption"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -3801,6 +3443,17 @@
                         }
                      ],
                      "type" : "if"
+                  }
+               ]
+            },
+            "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "im" : "in body",
+                     "type" : "USING-THE-RULES-FOR"
                   }
                ]
             },
@@ -3818,28 +3471,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "caption",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:caption"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3850,19 +3488,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "caption",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:caption"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "caption",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:caption"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -3915,7 +3547,13 @@
       },
       "in cell" : {
          "conds" : {
-            "ELSE" : {
+            "COMMENT" : {
+               "using_the_rules_for" : "in body"
+            },
+            "DOCTYPE" : {
+               "using_the_rules_for" : "in body"
+            },
+            "END-ELSE" : {
                "actions" : [
                   {
                      "im" : "in body",
@@ -3946,29 +3584,14 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
-                        }
+                        "not in scope",
+                        "table",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -3979,25 +3602,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : [
-                                    "td",
-                                    "th"
-                                 ],
-                                 "ns" : "HTML"
-                              }
+                              "HTML:td,HTML:th"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : [
-                                 "td",
-                                 "th"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:td,HTML:th"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -4027,29 +3638,14 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
-                        }
+                        "not in scope",
+                        "table",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -4060,19 +3656,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "ns" : "HTML",
-                                 "same_tag_name_as_token" : 1
-                              }
+                              "HTML-same-tag-name"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "ns" : "HTML",
-                              "same_tag_name_as_token" : 1
-                           }
+                           "until" : "HTML-same-tag-name"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -4083,6 +3673,17 @@
                         }
                      ],
                      "type" : "if"
+                  }
+               ]
+            },
+            "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "im" : "in body",
+                     "type" : "USING-THE-RULES-FOR"
                   }
                ]
             },
@@ -4100,31 +3701,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : [
-                              "td",
-                              "th"
-                           ],
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:td,HTML:th"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
                         },
                         {
                            "actions" : [
@@ -4135,25 +3718,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : [
-                                    "td",
-                                    "th"
-                                 ],
-                                 "ns" : "HTML"
-                              }
+                              "HTML:td,HTML:th"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : [
-                                 "td",
-                                 "th"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:td,HTML:th"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -4223,7 +3794,7 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "actions" : [
@@ -4237,10 +3808,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is not",
-                        {
-                           "name" : "colgroup",
-                           "ns" : "HTML"
-                        }
+                        "HTML:colgroup"
                      ],
                      "false_actions" : [
                         {
@@ -4282,10 +3850,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is not",
-                        {
-                           "name" : "colgroup",
-                           "ns" : "HTML"
-                        }
+                        "HTML:colgroup"
                      ],
                      "false_actions" : [
                         {
@@ -4309,10 +3874,37 @@
                ]
             },
             "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
                "actions" : [
                   {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is not",
+                        "HTML:colgroup"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "im" : "in table",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "if"
                   }
                ]
             },
@@ -4368,10 +3960,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is not",
-                        {
-                           "name" : "colgroup",
-                           "ns" : "HTML"
-                        }
+                        "HTML:colgroup"
                      ],
                      "false_actions" : [
                         {
@@ -4448,10 +4037,7 @@
                            "cond" : [
                               "node",
                               "is",
-                              {
-                                 "name" : "html",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:html"
                            ],
                            "type" : "if"
                         },
@@ -4482,9 +4068,7 @@
                            "cond" : [
                               "node",
                               "is not",
-                              {
-                                 "ns" : "HTML"
-                              }
+                              "HTML:*"
                            ],
                            "false_actions" : [
                               {
@@ -4518,10 +4102,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "script",
-                           "ns" : "SVG"
-                        }
+                        "SVG:script"
                      ],
                      "false_actions" : [
                         {
@@ -4550,10 +4131,7 @@
                                  "cond" : [
                                     "node",
                                     "is",
-                                    {
-                                       "name" : "html",
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:html"
                                  ],
                                  "type" : "if"
                               },
@@ -4584,9 +4162,7 @@
                                  "cond" : [
                                     "node",
                                     "is not",
-                                    {
-                                       "ns" : "HTML"
-                                    }
+                                    "HTML:*"
                                  ],
                                  "false_actions" : [
                                     {
@@ -4609,6 +4185,10 @@
                   }
                ]
             },
+            "EOF" : {
+               "actions" : [
+               ]
+            },
             "START-ELSE" : {
                "actions" : [
                   {
@@ -4620,9 +4200,7 @@
                      "cond" : [
                         "adjusted current node",
                         "is",
-                        {
-                           "ns" : "MathML"
-                        }
+                        "MathML:*"
                      ],
                      "type" : "if"
                   },
@@ -4635,9 +4213,7 @@
                      "cond" : [
                         "adjusted current node",
                         "is",
-                        {
-                           "ns" : "SVG"
-                        }
+                        "SVG:*"
                      ],
                      "type" : "if"
                   },
@@ -4650,9 +4226,7 @@
                      "cond" : [
                         "adjusted current node",
                         "is",
-                        {
-                           "ns" : "SVG"
-                        }
+                        "SVG:*"
                      ],
                      "type" : "if"
                   },
@@ -4687,9 +4261,7 @@
                               [
                                  "oe[-1]",
                                  "is",
-                                 {
-                                    "ns" : "SVG"
-                                 }
+                                 "SVG:*"
                               ]
                            ],
                            "false_actions" : [
@@ -4728,9 +4300,7 @@
                            "cond" : [
                               "adjusted current node",
                               "is",
-                              {
-                                 "ns" : "MathML"
-                              }
+                              "MathML:*"
                            ],
                            "type" : "if"
                         },
@@ -4743,9 +4313,7 @@
                            "cond" : [
                               "adjusted current node",
                               "is",
-                              {
-                                 "ns" : "SVG"
-                              }
+                              "SVG:*"
                            ],
                            "type" : "if"
                         },
@@ -4758,9 +4326,7 @@
                            "cond" : [
                               "adjusted current node",
                               "is",
-                              {
-                                 "ns" : "SVG"
-                              }
+                              "SVG:*"
                            ],
                            "type" : "if"
                         },
@@ -4795,9 +4361,7 @@
                                     [
                                        "oe[-1]",
                                        "is",
-                                       {
-                                          "ns" : "SVG"
-                                       }
+                                       "SVG:*"
                                     ]
                                  ],
                                  "false_actions" : [
@@ -4828,18 +4392,7 @@
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : [
-                              "or",
-                              {
-                                 "MathML text integration point" : 1
-                              },
-                              {
-                                 "HTML integration point" : 1
-                              },
-                              {
-                                 "ns" : "HTML"
-                              }
-                           ]
+                           "until" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                         },
                         {
                            "type" : "reprocess the token"
@@ -4867,9 +4420,7 @@
                                  "cond" : [
                                     "adjusted current node",
                                     "is",
-                                    {
-                                       "ns" : "MathML"
-                                    }
+                                    "MathML:*"
                                  ],
                                  "type" : "if"
                               },
@@ -4882,9 +4433,7 @@
                                  "cond" : [
                                     "adjusted current node",
                                     "is",
-                                    {
-                                       "ns" : "SVG"
-                                    }
+                                    "SVG:*"
                                  ],
                                  "type" : "if"
                               },
@@ -4897,9 +4446,7 @@
                                  "cond" : [
                                     "adjusted current node",
                                     "is",
-                                    {
-                                       "ns" : "SVG"
-                                    }
+                                    "SVG:*"
                                  ],
                                  "type" : "if"
                               },
@@ -4934,9 +4481,7 @@
                                           [
                                              "oe[-1]",
                                              "is",
-                                             {
-                                                "ns" : "SVG"
-                                             }
+                                             "SVG:*"
                                           ]
                                        ],
                                        "false_actions" : [
@@ -4967,18 +4512,7 @@
                               },
                               {
                                  "type" : "pop-oe",
-                                 "until" : [
-                                    "or",
-                                    {
-                                       "MathML text integration point" : 1
-                                    },
-                                    {
-                                       "HTML integration point" : 1
-                                    },
-                                    {
-                                       "ns" : "HTML"
-                                    }
-                                 ]
+                                 "until" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                               },
                               {
                                  "type" : "reprocess the token"
@@ -5006,9 +4540,7 @@
                            "cond" : [
                               "adjusted current node",
                               "is",
-                              {
-                                 "ns" : "MathML"
-                              }
+                              "MathML:*"
                            ],
                            "type" : "if"
                         },
@@ -5021,9 +4553,7 @@
                            "cond" : [
                               "adjusted current node",
                               "is",
-                              {
-                                 "ns" : "SVG"
-                              }
+                              "SVG:*"
                            ],
                            "type" : "if"
                         },
@@ -5036,9 +4566,7 @@
                            "cond" : [
                               "adjusted current node",
                               "is",
-                              {
-                                 "ns" : "SVG"
-                              }
+                              "SVG:*"
                            ],
                            "type" : "if"
                         },
@@ -5064,9 +4592,7 @@
                                     [
                                        "oe[-1]",
                                        "is",
-                                       {
-                                          "ns" : "SVG"
-                                       }
+                                       "SVG:*"
                                     ]
                                  ],
                                  "false_actions" : [
@@ -5138,7 +4664,7 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -5162,10 +4688,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "html",
-                           "ns" : "HTML"
-                        }
+                        "HTML:html"
                      ],
                      "false_actions" : [
                         {
@@ -5186,10 +4709,7 @@
                               [
                                  "oe[-1]",
                                  "is not",
-                                 {
-                                    "name" : "frameset",
-                                    "ns" : "HTML"
-                                 }
+                                 "HTML:frameset"
                               ]
                            ],
                            "type" : "if"
@@ -5210,15 +4730,22 @@
                      "cond" : [
                         "oe[-1]",
                         "is not",
-                        {
-                           "name" : "html",
-                           "ns" : "HTML"
-                        }
+                        "HTML:html"
                      ],
                      "type" : "if"
                   },
                   {
                      "type" : "stop parsing"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
                   }
                ]
             },
@@ -5286,7 +4813,10 @@
                   {
                      "type" : "insert a comment"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in head noscript" : 1
+               }
             },
             "DOCTYPE" : {
                "actions" : [
@@ -5295,20 +4825,6 @@
                   },
                   {
                      "type" : "ignore the token"
-                  }
-               ]
-            },
-            "ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "pop-oe"
-                  },
-                  {
-                     "im" : "after head",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -5361,36 +4877,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
-                        }
+                        "all",
+                        "HTML:template"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "caption",
-                                 "colgroup",
-                                 "dd",
-                                 "dt",
-                                 "li",
-                                 "option",
-                                 "optgroup",
-                                 "p",
-                                 "rp",
-                                 "rt",
-                                 "tbody",
-                                 "td",
-                                 "tfoot",
-                                 "th",
-                                 "thead",
-                                 "tr"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while" : "HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:tr"
                         },
                         {
                            "actions" : [
@@ -5401,19 +4894,13 @@
                            "cond" : [
                               "oe[-1]",
                               "is not",
-                              {
-                                 "name" : "template",
-                                 "ns" : "HTML"
-                              }
+                              "HTML:template"
                            ],
                            "type" : "if"
                         },
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "template",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:template"
                         },
                         {
                            "type" : "clear the list of active formatting elements up to the last marker"
@@ -5426,6 +4913,34 @@
                         }
                      ],
                      "type" : "if"
+                  }
+               ]
+            },
+            "EOF" : {
+               "actions" : [
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "im" : "after head",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "im" : "after head",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -5660,12 +5175,7 @@
       "in head noscript" : {
          "conds" : {
             "COMMENT" : {
-               "actions" : [
-                  {
-                     "im" : "in head",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
+               "using_the_rules_for" : "in head"
             },
             "DOCTYPE" : {
                "actions" : [
@@ -5674,23 +5184,6 @@
                   },
                   {
                      "type" : "ignore the token"
-                  }
-               ]
-            },
-            "ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "pop-oe"
-                  },
-                  {
-                     "im" : "in head",
-                     "type" : "switch the insertion mode"
-                  },
-                  {
-                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -5729,6 +5222,40 @@
                   {
                      "im" : "in head",
                      "type" : "switch the insertion mode"
+                  }
+               ]
+            },
+            "EOF" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "im" : "in head",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "im" : "in head",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             },
@@ -5805,7 +5332,13 @@
       },
       "in row" : {
          "conds" : {
-            "ELSE" : {
+            "COMMENT" : {
+               "using_the_rules_for" : "in table"
+            },
+            "DOCTYPE" : {
+               "using_the_rules_for" : "in table"
+            },
+            "END-ELSE" : {
                "actions" : [
                   {
                      "im" : "in table",
@@ -5837,23 +5370,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:tr"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tr",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:template HTML:tr"
                         },
                         {
                            "type" : "pop-oe"
@@ -5883,12 +5406,9 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
-                        }
+                        "not in scope",
+                        "table",
+                        "HTML-same-tag-name"
                      ],
                      "type" : "if"
                   },
@@ -5901,23 +5421,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:tr"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tr",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:template HTML:tr"
                         },
                         {
                            "type" : "pop-oe"
@@ -5948,23 +5458,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:tr"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tr",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:template HTML:tr"
                         },
                         {
                            "type" : "pop-oe"
@@ -5975,6 +5475,17 @@
                         }
                      ],
                      "type" : "if"
+                  }
+               ]
+            },
+            "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "im" : "in table",
+                     "type" : "USING-THE-RULES-FOR"
                   }
                ]
             },
@@ -5992,23 +5503,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:tr"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tr",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:template HTML:tr"
                         },
                         {
                            "type" : "pop-oe"
@@ -6029,14 +5530,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "tr",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:template HTML:tr"
                   },
                   {
                      "type" : "insert an HTML element"
@@ -6073,16 +5567,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : [
-                              "table",
-                              "tbody",
-                              "tfoot",
-                              "thead",
-                              "tr"
-                           ],
-                           "ns" : "HTML"
-                        }
+                        "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:tr"
                      ],
                      "false_actions" : [
                         {
@@ -6107,7 +5592,10 @@
                   {
                      "type" : "insert a comment"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in select in table" : 1
+               }
             },
             "DOCTYPE" : {
                "actions" : [
@@ -6117,9 +5605,12 @@
                   {
                      "type" : "ignore the token"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in select in table" : 1
+               }
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -6142,18 +5633,12 @@
                         [
                            "oe[-1]",
                            "is",
-                           {
-                              "name" : "option",
-                              "ns" : "HTML"
-                           }
+                           "HTML:option"
                         ],
                         [
                            "oe[-2]",
                            "is",
-                           {
-                              "name" : "optgroup",
-                              "ns" : "HTML"
-                           }
+                           "HTML:optgroup"
                         ]
                      ],
                      "type" : "if"
@@ -6167,10 +5652,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "optgroup",
-                           "ns" : "HTML"
-                        }
+                        "HTML:optgroup"
                      ],
                      "false_actions" : [
                         {
@@ -6195,10 +5677,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
+                        "HTML:option"
                      ],
                      "false_actions" : [
                         {
@@ -6226,19 +5705,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "select",
-                           "ns" : "HTML",
-                           "scope" : "select"
-                        }
+                        "select",
+                        "HTML:select"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:select"
                         },
                         {
                            "type" : "reset the insertion mode appropriately"
@@ -6257,10 +5730,15 @@
                ]
             },
             "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
                "actions" : [
                   {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
                   }
                ]
             },
@@ -6286,19 +5764,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "select",
-                           "ns" : "HTML",
-                           "scope" : "select"
-                        }
+                        "select",
+                        "HTML:select"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:select"
                         },
                         {
                            "type" : "reset the insertion mode appropriately"
@@ -6322,10 +5794,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
+                        "HTML:option"
                      ],
                      "type" : "if"
                   },
@@ -6338,10 +5807,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "optgroup",
-                           "ns" : "HTML"
-                        }
+                        "HTML:optgroup"
                      ],
                      "type" : "if"
                   },
@@ -6361,10 +5827,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
+                        "HTML:option"
                      ],
                      "type" : "if"
                   },
@@ -6395,19 +5858,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "select",
-                           "ns" : "HTML",
-                           "scope" : "select"
-                        }
+                        "select",
+                        "HTML:select"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:select"
                         },
                         {
                            "type" : "reset the insertion mode appropriately"
@@ -6438,7 +5895,13 @@
       },
       "in select in table" : {
          "conds" : {
-            "ELSE" : {
+            "COMMENT" : {
+               "using_the_rules_for" : "in select"
+            },
+            "DOCTYPE" : {
+               "using_the_rules_for" : "in select"
+            },
+            "END-ELSE" : {
                "actions" : [
                   {
                      "im" : "in select",
@@ -6459,20 +5922,14 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
-                        }
+                        "not in scope",
+                        "table",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:select"
                         },
                         {
                            "type" : "reset the insertion mode appropriately"
@@ -6485,6 +5942,17 @@
                   }
                ]
             },
+            "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "im" : "in select",
+                     "type" : "USING-THE-RULES-FOR"
+                  }
+               ]
+            },
             "START:caption,table,tbody tfoot thead,td th,tr" : {
                "actions" : [
                   {
@@ -6492,10 +5960,7 @@
                   },
                   {
                      "type" : "pop-oe",
-                     "until" : {
-                        "name" : "select",
-                        "ns" : "HTML"
-                     }
+                     "until" : "HTML:select"
                   },
                   {
                      "type" : "reset the insertion mode appropriately"
@@ -6531,7 +5996,11 @@
                   {
                      "type" : "insert a comment"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in row" : 1,
+                  "in table body" : 1
+               }
             },
             "DOCTYPE" : {
                "actions" : [
@@ -6541,9 +6010,13 @@
                   {
                      "type" : "ignore the token"
                   }
-               ]
+               ],
+               "also_used_by" : {
+                  "in row" : 1,
+                  "in table body" : 1
+               }
             },
-            "ELSE" : {
+            "END-ELSE" : {
                "actions" : [
                   {
                      "type" : "parse error"
@@ -6579,19 +6052,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "table",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:table"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "table",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:table"
                         },
                         {
                            "type" : "reset the insertion mode appropriately"
@@ -6610,8 +6077,15 @@
                ]
             },
             "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
                "actions" : [
                   {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
                      "im" : "in body",
                      "type" : "USING-THE-RULES-FOR"
                   }
@@ -6621,14 +6095,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "table",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:table HTML:template"
                   },
                   {
                      "type" : "append-marker-to-afe"
@@ -6646,14 +6113,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "table",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:table HTML:template"
                   },
                   {
                      "attrs" : "none",
@@ -6673,14 +6133,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "table",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:table HTML:template"
                   },
                   {
                      "type" : "insert an HTML element"
@@ -6707,11 +6160,8 @@
                         [
                            "oe",
                            "in scope",
-                           {
-                              "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
-                           }
+                           "all",
+                           "HTML:template"
                         ],
                         [
                            "form element pointer",
@@ -6791,19 +6241,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "table",
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:table"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "until" : {
-                              "name" : "table",
-                              "ns" : "HTML"
-                           }
+                           "until" : "HTML:table"
                         },
                         {
                            "type" : "reset the insertion mode appropriately"
@@ -6820,14 +6264,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "table",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:table HTML:template"
                   },
                   {
                      "type" : "insert an HTML element"
@@ -6842,14 +6279,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "table",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:table HTML:template"
                   },
                   {
                      "attrs" : "none",
@@ -6888,16 +6318,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : [
-                              "table",
-                              "tbody",
-                              "tfoot",
-                              "thead",
-                              "tr"
-                           ],
-                           "ns" : "HTML"
-                        }
+                        "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:tr"
                      ],
                      "false_actions" : [
                         {
@@ -6917,7 +6338,13 @@
       },
       "in table body" : {
          "conds" : {
-            "ELSE" : {
+            "COMMENT" : {
+               "using_the_rules_for" : "in table"
+            },
+            "DOCTYPE" : {
+               "using_the_rules_for" : "in table"
+            },
+            "END-ELSE" : {
                "actions" : [
                   {
                      "im" : "in table",
@@ -6949,29 +6376,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : [
-                              "tbody",
-                              "thead",
-                              "tfoot"
-                           ],
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:tbody,HTML:tfoot,HTML:thead"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tbody",
-                                 "tfoot",
-                                 "thead",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:tbody,HTML:tfoot,HTML:thead HTML:template"
                         },
                         {
                            "type" : "pop-oe"
@@ -7001,26 +6412,14 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
-                        }
+                        "not in scope",
+                        "table",
+                        "HTML-same-tag-name"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tbody",
-                                 "tfoot",
-                                 "thead",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:tbody,HTML:tfoot,HTML:thead HTML:template"
                         },
                         {
                            "type" : "pop-oe"
@@ -7031,6 +6430,17 @@
                         }
                      ],
                      "type" : "if"
+                  }
+               ]
+            },
+            "EOF" : {
+               "using_the_rules_for" : "in body"
+            },
+            "START-ELSE" : {
+               "actions" : [
+                  {
+                     "im" : "in table",
+                     "type" : "USING-THE-RULES-FOR"
                   }
                ]
             },
@@ -7048,29 +6458,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : [
-                              "tbody",
-                              "thead",
-                              "tfoot"
-                           ],
-                           "ns" : "HTML",
-                           "scope" : "table"
-                        }
+                        "table",
+                        "HTML:tbody,HTML:tfoot,HTML:thead"
                      ],
                      "false_actions" : [
                         {
                            "type" : "pop-oe",
-                           "while_not" : {
-                              "name" : [
-                                 "tbody",
-                                 "tfoot",
-                                 "thead",
-                                 "template",
-                                 "html"
-                              ],
-                              "ns" : "HTML"
-                           }
+                           "while_not" : "HTML:html HTML:tbody,HTML:tfoot,HTML:thead HTML:template"
                         },
                         {
                            "type" : "pop-oe"
@@ -7094,16 +6488,7 @@
                   },
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "tbody",
-                           "tfoot",
-                           "thead",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:tbody,HTML:tfoot,HTML:thead HTML:template"
                   },
                   {
                      "attrs" : "none",
@@ -7123,16 +6508,7 @@
                "actions" : [
                   {
                      "type" : "pop-oe",
-                     "while_not" : {
-                        "name" : [
-                           "tbody",
-                           "tfoot",
-                           "thead",
-                           "template",
-                           "html"
-                        ],
-                        "ns" : "HTML"
-                     }
+                     "while_not" : "HTML:html HTML:tbody,HTML:tfoot,HTML:thead HTML:template"
                   },
                   {
                      "type" : "insert an HTML element"
@@ -7166,16 +6542,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : [
-                              "table",
-                              "tbody",
-                              "tfoot",
-                              "thead",
-                              "tr"
-                           ],
-                           "ns" : "HTML"
-                        }
+                        "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:tr"
                      ],
                      "false_actions" : [
                         {
@@ -7195,7 +6562,159 @@
       },
       "in table text" : {
          "conds" : {
-            "ELSE" : {
+            "COMMENT" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "FIELD" : "anything else",
+                           "im" : "in table",
+                           "type" : "reprocess pending table character tokens list"
+                        }
+                     ],
+                     "cond" : [
+                        "pending table character tokens list",
+                        "has non-space"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "insert-chars",
+                           "value" : [
+                              "pending table character tokens list"
+                           ]
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "im" : [
+                        "original"
+                     ],
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "DOCTYPE" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "FIELD" : "anything else",
+                           "im" : "in table",
+                           "type" : "reprocess pending table character tokens list"
+                        }
+                     ],
+                     "cond" : [
+                        "pending table character tokens list",
+                        "has non-space"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "insert-chars",
+                           "value" : [
+                              "pending table character tokens list"
+                           ]
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "im" : [
+                        "original"
+                     ],
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "END-ELSE" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "FIELD" : "anything else",
+                           "im" : "in table",
+                           "type" : "reprocess pending table character tokens list"
+                        }
+                     ],
+                     "cond" : [
+                        "pending table character tokens list",
+                        "has non-space"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "insert-chars",
+                           "value" : [
+                              "pending table character tokens list"
+                           ]
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "im" : [
+                        "original"
+                     ],
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "EOF" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "FIELD" : "anything else",
+                           "im" : "in table",
+                           "type" : "reprocess pending table character tokens list"
+                        }
+                     ],
+                     "cond" : [
+                        "pending table character tokens list",
+                        "has non-space"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "insert-chars",
+                           "value" : [
+                              "pending table character tokens list"
+                           ]
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "im" : [
+                        "original"
+                     ],
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "START-ELSE" : {
                "actions" : [
                   {
                      "actions" : [
@@ -7255,20 +6774,10 @@
       "in template" : {
          "conds" : {
             "COMMENT" : {
-               "actions" : [
-                  {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
+               "using_the_rules_for" : "in body"
             },
             "DOCTYPE" : {
-               "actions" : [
-                  {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
+               "using_the_rules_for" : "in body"
             },
             "END-ELSE" : {
                "actions" : [
@@ -7299,11 +6808,8 @@
                      "cond" : [
                         "oe",
                         "not in scope",
-                        {
-                           "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
-                        }
+                        "all",
+                        "HTML:template"
                      ],
                      "false_actions" : [
                         {
@@ -7314,10 +6820,7 @@
                   },
                   {
                      "type" : "pop-oe",
-                     "until" : {
-                        "name" : "template",
-                        "ns" : "HTML"
-                     }
+                     "until" : "HTML:template"
                   },
                   {
                      "type" : "clear the list of active formatting elements up to the last marker"
@@ -7501,7 +7004,59 @@
                   }
                ]
             },
-            "ELSE" : {
+            "END-ELSE" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "type" : "set-compat-mode",
+                           "value" : "quirks"
+                        }
+                     ],
+                     "cond" : [
+                        "not iframe srcdoc document"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "im" : "before html",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "EOF" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "type" : "set-compat-mode",
+                           "value" : "quirks"
+                        }
+                     ],
+                     "cond" : [
+                        "not iframe srcdoc document"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "im" : "before html",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "START-ELSE" : {
                "actions" : [
                   {
                      "actions" : [
@@ -7612,6 +7167,14 @@
       },
       "text" : {
          "conds" : {
+            "COMMENT" : {
+               "actions" : [
+               ]
+            },
+            "DOCTYPE" : {
+               "actions" : [
+               ]
+            },
             "END-ELSE" : {
                "actions" : [
                   {
@@ -7659,10 +7222,7 @@
                      "cond" : [
                         "oe[-1]",
                         "is",
-                        {
-                           "name" : "script",
-                           "ns" : "HTML"
-                        }
+                        "HTML:script"
                      ],
                      "type" : "if"
                   },
@@ -7679,6 +7239,8 @@
                      "type" : "reprocess the token"
                   }
                ]
+            },
+            "START-ELSE" : {
             },
             "TEXT" : {
                "actions" : [
@@ -7727,6 +7289,7 @@
       "keygen",
       "li",
       "listing pre",
+      "malignmark mglyph",
       "math",
       "menuitem param source track",
       "meta",
@@ -7755,451 +7318,16 @@
       "xmp"
    ],
    "tree_patterns" : {
-      "HTML integration point" : [
-         {
-            "attrs" : [
-               {
-                  "lc_value" : "text/html",
-                  "name" : "encoding"
-               }
-            ],
-            "name" : "annotation-xml",
-            "ns" : "MathML"
-         },
-         {
-            "attrs" : [
-               {
-                  "lc_value" : "application/xhtml\u002Bxml",
-                  "name" : "encoding"
-               }
-            ],
-            "name" : "annotation-xml",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "foreignObject",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "desc",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "title",
-            "ns" : "SVG"
-         }
-      ],
-      "MathML text integration point" : [
-         {
-            "name" : "mi",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mo",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mn",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "ms",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mtext",
-            "ns" : "MathML"
-         }
-      ],
-      "formatting category" : [
-         {
-            "name" : [
-               "a",
-               "b",
-               "big",
-               "code",
-               "em",
-               "font",
-               "i",
-               "nobr",
-               "s",
-               "small",
-               "strike",
-               "strong",
-               "tt",
-               "u"
-            ],
-            "ns" : "HTML"
-         }
-      ],
-      "has an element in button scope" : [
-         {
-            "name" : "applet",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "caption",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "html",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "table",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "td",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "th",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "marquee",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "object",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "template",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "mi",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mo",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mn",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "ms",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mtext",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "annotation-xml",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "foreignObject",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "desc",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "title",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "button",
-            "ns" : "HTML"
-         }
-      ],
-      "has an element in list item scope" : [
-         {
-            "name" : "applet",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "caption",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "html",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "table",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "td",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "th",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "marquee",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "object",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "template",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "mi",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mo",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mn",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "ms",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mtext",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "annotation-xml",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "foreignObject",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "desc",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "title",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "ol",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "ul",
-            "ns" : "HTML"
-         }
-      ],
-      "has an element in scope" : [
-         {
-            "name" : "applet",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "caption",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "html",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "table",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "td",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "th",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "marquee",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "object",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "template",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "mi",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mo",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mn",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "ms",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "mtext",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "annotation-xml",
-            "ns" : "MathML"
-         },
-         {
-            "name" : "foreignObject",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "desc",
-            "ns" : "SVG"
-         },
-         {
-            "name" : "title",
-            "ns" : "SVG"
-         }
-      ],
-      "has an element in table scope" : [
-         {
-            "name" : "html",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "table",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "template",
-            "ns" : "HTML"
-         }
-      ],
-      "special category" : [
-         {
-            "name" : [
-               "address",
-               "applet",
-               "area",
-               "article",
-               "aside",
-               "base",
-               "basefont",
-               "bgsound",
-               "blockquote",
-               "body",
-               "br",
-               "button",
-               "caption",
-               "center",
-               "col",
-               "colgroup",
-               "dd",
-               "details",
-               "dir",
-               "div",
-               "dl",
-               "dt",
-               "embed",
-               "fieldset",
-               "figcaption",
-               "figure",
-               "footer",
-               "form",
-               "frame",
-               "frameset",
-               "h1",
-               "h2",
-               "h3",
-               "h4",
-               "h5",
-               "h6",
-               "head",
-               "header",
-               "hgroup",
-               "hr",
-               "html",
-               "iframe",
-               "img",
-               "input",
-               "isindex",
-               "li",
-               "link",
-               "listing",
-               "main",
-               "marquee",
-               "menu",
-               "menuitem",
-               "meta",
-               "nav",
-               "noembed",
-               "noframes",
-               "noscript",
-               "object",
-               "ol",
-               "p",
-               "param",
-               "plaintext",
-               "pre",
-               "script",
-               "section",
-               "select",
-               "source",
-               "style",
-               "summary",
-               "table",
-               "tbody",
-               "td",
-               "template",
-               "textarea",
-               "tfoot",
-               "th",
-               "thead",
-               "title",
-               "tr",
-               "track",
-               "ul",
-               "wbr",
-               "xmp"
-            ],
-            "ns" : "HTML"
-         },
-         {
-            "name" : [
-               "annotation-xml",
-               "mi",
-               "mn",
-               "mo",
-               "ms",
-               "mtext"
-            ],
-            "ns" : "MathML"
-         },
-         {
-            "name" : [
-               "desc",
-               "foreignObject",
-               "title"
-            ],
-            "ns" : "SVG"
-         }
-      ]
+      "HTML integration point" : "MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html SVG:desc,SVG:foreignObject,SVG:title",
+      "MathML text integration point" : "MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext",
+      "formatting category" : "HTML:a,HTML:b,HTML:big,HTML:code,HTML:em,HTML:font,HTML:i,HTML:nobr,HTML:s,HTML:small,HTML:strike,HTML:strong,HTML:tt,HTML:u",
+      "has an element in button scope" : "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:button HTML:caption HTML:html HTML:table HTML:td,HTML:th HTML:template MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title",
+      "has an element in list item scope" : "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:caption HTML:html HTML:ol,HTML:ul HTML:table HTML:td,HTML:th HTML:template MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title",
+      "has an element in scope" : "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:caption HTML:html HTML:table HTML:td,HTML:th HTML:template MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title",
+      "has an element in table scope" : "HTML:html HTML:table HTML:template",
+      "special category" : "HTML:address,HTML:div HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:p HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
    },
    "tree_patterns_not" : {
-      "has an element in select scope" : [
-         {
-            "name" : "optgroup",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "option",
-            "ns" : "HTML"
-         }
-      ]
+      "has an element in select scope" : "HTML:optgroup,HTML:option"
    }
 }

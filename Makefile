@@ -303,7 +303,7 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep '"tree_steps"' $@ > /dev/null)
-	!(grep '"CHAR"' $@ > /dev/null)
+	!(grep '"CHAR" :' $@ > /dev/null)
 	!(grep '"insert a character"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html

@@ -187,6 +187,122 @@
       "radialgradient" : "radialGradient",
       "textpath" : "textPath"
    },
+   "dispatcher_html" : [
+      "or",
+      [
+         "oe",
+         "is empty"
+      ],
+      [
+         "adjusted current node",
+         "is",
+         {
+            "ns" : "HTML"
+         }
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            {
+               "MathML text integration point" : 1
+            }
+         ],
+         [
+            "and",
+            [
+               "token",
+               "is a",
+               "START"
+            ],
+            [
+               "token tag_name",
+               "is not",
+               [
+                  "mglyph",
+                  "malignmark"
+               ]
+            ]
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            {
+               "MathML text integration point" : 1
+            }
+         ],
+         [
+            "token",
+            "is a",
+            "CHAR"
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            {
+               "name" : "annotation-xml",
+               "ns" : "MathML"
+            }
+         ],
+         [
+            "and",
+            [
+               "token",
+               "is a",
+               "START"
+            ],
+            [
+               "token tag_name",
+               "is",
+               [
+                  "svg"
+               ]
+            ]
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            {
+               "HTML integration point" : 1
+            }
+         ],
+         [
+            "token",
+            "is a",
+            "START"
+         ]
+      ],
+      [
+         "and",
+         [
+            "adjusted current node",
+            "is",
+            {
+               "HTML integration point" : 1
+            }
+         ],
+         [
+            "token",
+            "is a",
+            "CHAR"
+         ]
+      ],
+      [
+         "token",
+         "is a",
+         "EOF"
+      ]
+   ],
    "ims" : {
       "after after body" : {
          "conds" : {
@@ -951,11 +1067,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "scope",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "scope"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -1003,11 +1119,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "scope",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "scope"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -1059,10 +1175,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "scope",
                         {
                            "name" : "body",
-                           "ns" : "HTML",
-                           "scope" : "scope"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -1075,6 +1191,7 @@
                            "cond" : [
                               "oe",
                               "in scope not",
+                              "all",
                               {
                                  "name" : [
                                     "dd",
@@ -1131,11 +1248,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "scope",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "scope"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -1207,6 +1324,7 @@
                               [
                                  "oe",
                                  "not in scope",
+                                 "all",
                                  "node"
                               ]
                            ],
@@ -1236,10 +1354,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "all",
                         {
                            "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -1261,10 +1379,10 @@
                            "cond" : [
                               "oe",
                               "not in scope",
+                              "scope",
                               {
                                  "name" : "form",
-                                 "ns" : "HTML",
-                                 "scope" : "scope"
+                                 "ns" : "HTML"
                               }
                            ],
                            "type" : "if"
@@ -1299,10 +1417,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "all",
                         {
                            "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -1323,6 +1441,7 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "scope",
                         {
                            "name" : [
                               "h1",
@@ -1332,8 +1451,7 @@
                               "h5",
                               "h6"
                            ],
-                           "ns" : "HTML",
-                           "scope" : "scope"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -1389,10 +1507,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "scope",
                         {
                            "name" : "body",
-                           "ns" : "HTML",
-                           "scope" : "scope"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -1405,6 +1523,7 @@
                            "cond" : [
                               "oe",
                               "in scope not",
+                              "all",
                               {
                                  "name" : [
                                     "dd",
@@ -1455,10 +1574,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "list item",
                         {
                            "name" : "li",
-                           "ns" : "HTML",
-                           "scope" : "list item"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -1513,10 +1632,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -1634,6 +1753,7 @@
                            "cond" : [
                               "oe",
                               "in scope not",
+                              "all",
                               {
                                  "name" : [
                                     "dd",
@@ -1692,6 +1812,7 @@
                      "cond" : [
                         "afe",
                         "in scope",
+                        "marker",
                         {
                            "name" : "a",
                            "ns" : "HTML"
@@ -1721,10 +1842,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -1824,10 +1945,10 @@
                         [
                            "oe",
                            "in scope",
+                           "all",
                            {
                               "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
+                              "ns" : "HTML"
                            }
                         ]
                      ],
@@ -1866,10 +1987,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "scope",
                         {
                            "name" : "button",
-                           "ns" : "HTML",
-                           "scope" : "scope"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2036,10 +2157,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2066,10 +2187,10 @@
                         [
                            "oe",
                            "not in scope",
+                           "all",
                            {
                               "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
+                              "ns" : "HTML"
                            }
                         ]
                      ],
@@ -2083,10 +2204,10 @@
                            "cond" : [
                               "oe",
                               "in scope",
+                              "button",
                               {
                                  "name" : "p",
-                                 "ns" : "HTML",
-                                 "scope" : "button"
+                                 "ns" : "HTML"
                               }
                            ],
                            "type" : "if"
@@ -2103,10 +2224,10 @@
                            "cond" : [
                               "oe",
                               "not in scope",
+                              "all",
                               {
                                  "name" : "template",
-                                 "ns" : "HTML",
-                                 "scope" : "all"
+                                 "ns" : "HTML"
                               }
                            ],
                            "type" : "if"
@@ -2191,10 +2312,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2241,10 +2362,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2278,10 +2399,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "all",
                         {
                            "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2363,10 +2484,10 @@
                         [
                            "oe",
                            "not in scope",
+                           "all",
                            {
                               "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
+                              "ns" : "HTML"
                            }
                         ],
                         [
@@ -2391,10 +2512,10 @@
                            "cond" : [
                               "oe",
                               "in scope",
+                              "button",
                               {
                                  "name" : "p",
-                                 "ns" : "HTML",
-                                 "scope" : "button"
+                                 "ns" : "HTML"
                               }
                            ],
                            "type" : "if"
@@ -2413,10 +2534,10 @@
                            "cond" : [
                               "oe",
                               "not in scope",
+                              "all",
                               {
                                  "name" : "template",
-                                 "ns" : "HTML",
-                                 "scope" : "all"
+                                 "ns" : "HTML"
                               }
                            ],
                            "type" : "if"
@@ -2495,10 +2616,10 @@
                            "cond" : [
                               "oe",
                               "not in scope",
+                              "all",
                               {
                                  "name" : "template",
-                                 "ns" : "HTML",
-                                 "scope" : "all"
+                                 "ns" : "HTML"
                               }
                            ],
                            "type" : "if"
@@ -2600,10 +2721,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2624,10 +2745,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2711,10 +2832,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "scope",
                         {
                            "name" : "nobr",
-                           "ns" : "HTML",
-                           "scope" : "scope"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2794,10 +2915,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2822,10 +2943,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "scope",
                         {
                            "name" : "ruby",
-                           "ns" : "HTML",
-                           "scope" : "scope"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -2940,10 +3061,10 @@
                         [
                            "oe",
                            "in scope",
+                           "button",
                            {
                               "name" : "p",
-                              "ns" : "HTML",
-                              "scope" : "button"
+                              "ns" : "HTML"
                            }
                         ]
                      ],
@@ -2999,10 +3120,10 @@
                      "cond" : [
                         "oe",
                         "in scope",
+                        "button",
                         {
                            "name" : "p",
-                           "ns" : "HTML",
-                           "scope" : "button"
+                           "ns" : "HTML"
                         }
                      ],
                      "type" : "if"
@@ -3055,10 +3176,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "caption",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -3114,10 +3235,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "caption",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -3176,10 +3297,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "caption",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -3259,11 +3380,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "table",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -3291,11 +3412,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "table",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -3351,13 +3472,13 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : [
                               "td",
                               "th"
                            ],
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -4477,10 +4598,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "all",
                         {
                            "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -4828,10 +4949,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -4866,11 +4987,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "table",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "type" : "if"
@@ -4884,10 +5005,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -4923,10 +5044,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -4959,10 +5080,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "tr",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5146,10 +5267,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "select",
                         {
                            "name" : "select",
-                           "ns" : "HTML",
-                           "scope" : "select"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5206,10 +5327,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "select",
                         {
                            "name" : "select",
-                           "ns" : "HTML",
-                           "scope" : "select"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5315,10 +5436,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "select",
                         {
                            "name" : "select",
-                           "ns" : "HTML",
-                           "scope" : "select"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5362,11 +5483,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "table",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -5513,10 +5634,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "table",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5617,10 +5738,10 @@
                         [
                            "oe",
                            "in scope",
+                           "all",
                            {
                               "name" : "template",
-                              "ns" : "HTML",
-                              "scope" : "all"
+                              "ns" : "HTML"
                            }
                         ],
                         [
@@ -5701,10 +5822,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : "table",
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5795,14 +5916,14 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : [
                               "tbody",
                               "thead",
                               "tfoot"
                            ],
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -5837,11 +5958,11 @@
                      ],
                      "cond" : [
                         "oe",
-                        "in scope",
+                        "not in scope",
+                        "table",
                         {
                            "ns" : "HTML",
-                           "same_tag_name_as_token" : 1,
-                           "scope" : "table"
+                           "same_tag_name_as_token" : 1
                         }
                      ],
                      "false_actions" : [
@@ -5874,14 +5995,14 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "table",
                         {
                            "name" : [
                               "tbody",
                               "thead",
                               "tfoot"
                            ],
-                           "ns" : "HTML",
-                           "scope" : "table"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -6055,10 +6176,10 @@
                      "cond" : [
                         "oe",
                         "not in scope",
+                        "all",
                         {
                            "name" : "template",
-                           "ns" : "HTML",
-                           "scope" : "all"
+                           "ns" : "HTML"
                         }
                      ],
                      "false_actions" : [
@@ -15379,6 +15500,7 @@
    },
    "tree_patterns" : {
       "HTML integration point" : [
+         "or",
          {
             "attrs" : [
                {
@@ -15413,6 +15535,7 @@
          }
       ],
       "MathML text integration point" : [
+         "or",
          {
             "name" : "mi",
             "ns" : "MathML"
@@ -15435,6 +15558,7 @@
          }
       ],
       "formatting category" : [
+         "or",
          {
             "name" : [
                "a",
@@ -15456,6 +15580,7 @@
          }
       ],
       "has an element in button scope" : [
+         "or",
          {
             "name" : "applet",
             "ns" : "HTML"
@@ -15534,6 +15659,7 @@
          }
       ],
       "has an element in list item scope" : [
+         "or",
          {
             "name" : "applet",
             "ns" : "HTML"
@@ -15616,6 +15742,7 @@
          }
       ],
       "has an element in scope" : [
+         "or",
          {
             "name" : "applet",
             "ns" : "HTML"
@@ -15690,6 +15817,7 @@
          }
       ],
       "has an element in table scope" : [
+         "or",
          {
             "name" : "html",
             "ns" : "HTML"
@@ -15704,6 +15832,7 @@
          }
       ],
       "special category" : [
+         "or",
          {
             "name" : [
                "address",
@@ -15815,6 +15944,7 @@
    },
    "tree_patterns_not" : {
       "has an element in select scope" : [
+         "or",
          {
             "name" : "optgroup",
             "ns" : "HTML"
@@ -15954,7 +16084,7 @@
          "actions" : [
             {
                "type" : "pop-oe",
-               "while_not" : {
+               "while" : {
                   "name" : [
                      "caption",
                      "colgroup",
@@ -15982,7 +16112,7 @@
          "actions" : [
             {
                "type" : "pop-oe",
-               "while_not" : {
+               "while" : {
                   "name" : [
                      "dd",
                      "dt",

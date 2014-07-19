@@ -124,6 +124,8 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
   $Data->{adjusted_mathml_attr_names} = $tree->{tables}->{'adjust MathML attributes'};
   $Data->{adjusted_svg_attr_names} = $tree->{tables}->{'adjust SVG attributes'};
   $Data->{adjusted_svg_element_names} = $tree->{tables}->{svg_tag_name_mapping};
+  $Data->{dispatcher_html} = $tree->{dispatcher_html};
+  unshift @{$Data->{dispatcher_html}}, 'or';
 
   for (keys %{$tree->{tables}->{'adjust foreign attributes'}}) {
     my $def = $tree->{tables}->{'adjust foreign attributes'}->{$_};
