@@ -519,12 +519,13 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
 } # $token_type
 
 {
+  my @same_tag_name;
   my $read_pattern; $read_pattern = sub {
-    my $pattern = shift;
+    my ($cond, $pattern) = @_;
     if (ref $pattern eq 'ARRAY' and $pattern->[0] eq 'or') {
       my @pp;
       for my $p (@$pattern[1..$#$pattern]) {
-        my $pp = $read_pattern->($p);
+        my $pp = $read_pattern->($cond, $p);
         return undef if not defined $pp;
         push @pp, @$pp;
       }
@@ -557,6 +558,13 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
         return [[$pattern->{ns}, $pattern->{name},
                  $pattern->{attrs}->[0]->{name},
                  $pattern->{attrs}->[0]->{lc_value}]];
+      } elsif (2 == keys %$pattern and
+               defined $pattern->{ns} and $pattern->{ns} eq 'HTML' and
+               $pattern->{same_tag_name_as_token} and
+               defined $cond and $cond =~ /^END:(.+)$/) {
+        push @same_tag_name, map { "HTML:$_" } split /[ ,]/, $1;
+        $pattern->{_same_tag_name} = 1;
+        return undef;
       } else {
         use Data::Dumper;
         warn Dumper $pattern;
@@ -580,7 +588,7 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
 
   my @orig_pattern;
   for (values %{$Data->{tree_patterns}}) {
-    my $pattern_structure = $read_pattern->($_);
+    my $pattern_structure = $read_pattern->(undef, $_);
     if (defined $pattern_structure) {
       my $serialized = $serialize_pattern->($pattern_structure);
       $Data->{patterns}->{$serialized} = $pattern_structure;
@@ -588,7 +596,7 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     }
   }
   for (values %{$Data->{tree_patterns_not}}) {
-    my $pattern_structure = $read_pattern->($_);
+    my $pattern_structure = $read_pattern->(undef, $_);
     if (defined $pattern_structure) {
       my $serialized = $serialize_pattern->($pattern_structure);
       $Data->{patterns}->{$serialized} = $pattern_structure;
@@ -608,11 +616,14 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
                  $act->{$key}->[1] eq 'not in scope' or
                  $act->{$key}->[1] eq 'in scope not')) {
               if (ref $act->{$key}->[3]) {
-                my $pattern_structure = $read_pattern->($act->{$key}->[3]);
+                my $pattern_structure = $read_pattern->($token_type, $act->{$key}->[3]);
                 if (defined $pattern_structure) {
                   my $serialized = $serialize_pattern->($pattern_structure);
                   $Data->{patterns}->{$serialized} = $pattern_structure;
                   push @orig_pattern, [$pattern_structure => \($act->{$key}->[3])];
+                } elsif (ref $act->{$key}->[3] eq 'HASH' and
+                         $act->{$key}->[3]->{_same_tag_name}) {
+                  $act->{$key}->[3] = 'HTML-same-tag-name';
                 }
               }
             }
@@ -623,21 +634,27 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
                 ($act->{$key}->[1] eq 'is' or
                  $act->{$key}->[1] eq 'is not') and
                 ref $act->{$key}->[2] eq 'HASH') {
-              my $pattern_structure = $read_pattern->($act->{$key}->[2]);
+              my $pattern_structure = $read_pattern->($token_type, $act->{$key}->[2]);
               if (defined $pattern_structure) {
                 my $serialized = $serialize_pattern->($pattern_structure);
                 $Data->{patterns}->{$serialized} = $pattern_structure;
                 push @orig_pattern, [$pattern_structure => \($act->{$key}->[2])];
+              } elsif (ref $act->{$key}->[2] eq 'HASH' and
+                       $act->{$key}->[2]->{_same_tag_name}) {
+                $act->{$key}->[2] = 'HTML-same-tag-name';
               }
             }
           }
           for my $key (qw(while while_not until)) {
             if (defined $act->{$key} and ref $act->{$key}) {
-              my $pattern_structure = $read_pattern->($act->{$key});
+              my $pattern_structure = $read_pattern->($token_type, $act->{$key});
               if (defined $pattern_structure) {
                 my $serialized = $serialize_pattern->($pattern_structure);
                 $Data->{patterns}->{$serialized} = $pattern_structure;
                 push @orig_pattern, [$pattern_structure => \($act->{$key})];
+              } elsif (ref $act->{$key} eq 'HASH' and
+                       $act->{$key}->{_same_tag_name}) {
+                $act->{$key} = 'HTML-same-tag-name';
               }
             }
           }
@@ -656,8 +673,7 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     for my $pattern (@pattern) {
       $i++;
       if (1 == keys %{$pattern->[1]}) {
-        # XXX
-
+        #
       } else {
         push @{$el_to_pattern->{$_} ||= []}, $i for keys %{$pattern->[1]};
       }
@@ -670,7 +686,7 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     my $element_groups = {map {
       (join ',', @$_) => $_;
     } values %$pattern_to_el};
-    $Data->{element_groups} = [sort { $a cmp $b } keys %$element_groups];
+    $Data->{element_matching}->{element_groups} = [sort { $a cmp $b } keys %$element_groups];
 
     for my $group_name (keys %$element_groups) {
       for (@{$element_groups->{$group_name}}) {
@@ -682,7 +698,9 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
   for my $op (@orig_pattern) {
     my $groups = {};
     if (@{$op->[0]} == 1) {
-
+      my $serialized = $serialize_pattern->($op->[0]);
+      push @same_tag_name, $serialized;
+      ${$op->[1]} = $serialized;
     } else {
       for (split / /, $serialize_pattern->($op->[0])) {
         my $group_name = $key_to_group_name->{$_}
@@ -692,6 +710,13 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
       #${$op->[1]} = {definition => ${$op->[1]}, groups => $groups};
       ${$op->[1]} = join ' ', sort { $a cmp $b } keys %$groups;
     }
+  }
+
+  {
+    my %found;
+    my @tn = grep { not $found{$_}++ } @same_tag_name;
+    $Data->{element_matching}->{element_types} = [sort { $a cmp $b } grep { not /:\*$/ } @tn];
+    $Data->{element_matching}->{namespaces} = [sort { $a cmp $b } grep { /:\*$/ } @tn];
   }
 }
 
