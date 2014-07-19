@@ -108,7 +108,22 @@ for my $im (keys %{$Data->{ims}}) {
   }
 }
 
+my $tag_name_to_group = {};
 {
+  my @cond = ($Data->{dispatcher_html});
+  while (@cond) {
+    my $cond = shift @cond;
+    if ($cond->[0] eq 'token tag_name') {
+      if (ref $cond->[2]) {
+        $Data->{tag_name_groups}->{join ' ', sort { $a cmp $b } @{$cond->[2]}} = 1;
+      } else {
+        $Data->{tag_name_groups}->{$cond->[2]} = 1;
+      }
+    } elsif ($cond->[0] eq 'or' or $cond->[0] eq 'and') {
+      unshift @cond, @$cond[1..$#$cond];
+    }
+  }
+
   my $i = 0;
   my $tags = {};
   for (keys %{$Data->{tag_name_groups}}) {
@@ -122,7 +137,6 @@ for my $im (keys %{$Data->{ims}}) {
     $groups->{join ' ', @{$tags->{$_}}}->{$_} = 1;
   }
   $Data->{tag_name_groups} = [sort { $a cmp $b } map { join ' ', sort { $a cmp $b } keys %$_ } values %$groups];
-  my $tag_name_to_group = {};
   for my $gname (@{$Data->{tag_name_groups}}) {
     for (split / /, $gname) {
       $tag_name_to_group->{$_} = $gname;
@@ -620,46 +634,14 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     }
   }
 
+  my @cond;
+  push @cond, [$Data->{dispatcher_html}, undef];
   for my $im (keys %{$Data->{ims}}) {
     for my $token_type (keys %{$Data->{ims}->{$im}->{conds}}) {
       $Data->{ims}->{$im}->{conds}->{$token_type}->{actions} = for_actions {
         my $acts = shift;
         for my $act (@$acts) {
-          my @cond;
-          push @cond, $act->{cond} if defined $act->{cond};
-          while (@cond) {
-            my $cond = shift @cond;
-            if (@$cond >= 4 and
-                ($cond->[1] eq 'in scope' or
-                 $cond->[1] eq 'not in scope' or
-                 $cond->[1] eq 'in scope not')) {
-              if (ref $cond->[3]) {
-                my $pattern_structure = $read_pattern->($token_type, $cond->[3]);
-                if (defined $pattern_structure) {
-                  my $serialized = $serialize_pattern->($pattern_structure);
-                  $Data->{patterns}->{$serialized} = $pattern_structure;
-                  push @orig_pattern, [$pattern_structure => \($cond->[3])];
-                } elsif (ref $cond->[3] eq 'HASH' and
-                         $cond->[3]->{_same_tag_name}) {
-                  $cond->[3] = 'HTML-same-tag-name';
-                }
-              }
-            } elsif (@$cond >= 3 and
-                     ($cond->[1] eq 'is' or $cond->[1] eq 'is not') and
-                     ref $cond->[2] eq 'HASH') {
-              my $pattern_structure = $read_pattern->($token_type, $cond->[2]);
-              if (defined $pattern_structure) {
-                my $serialized = $serialize_pattern->($pattern_structure);
-                $Data->{patterns}->{$serialized} = $pattern_structure;
-                push @orig_pattern, [$pattern_structure => \($cond->[2])];
-              } elsif (ref $cond->[2] eq 'HASH' and
-                       $cond->[2]->{_same_tag_name}) {
-                $cond->[2] = 'HTML-same-tag-name';
-              }
-            } elsif ($cond->[0] eq 'or' or $cond->[0] eq 'and') {
-              unshift @cond, @$cond[1..$#$cond];
-            }
-          } # @cond
+          push @cond, [$act->{cond}, $token_type] if defined $act->{cond};
           for my $key (qw(while while_not until)) {
             if (defined $act->{$key} and ref $act->{$key}) {
               my $pattern_structure = $read_pattern->($token_type, $act->{$key});
@@ -679,6 +661,61 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
           if defined $Data->{ims}->{$im}->{conds}->{$token_type}->{actions};
     }
   }
+  while (@cond) {
+    my ($cond, $token_type) = @{shift @cond};
+    if (@$cond >= 4 and
+        ($cond->[1] eq 'in scope' or
+         $cond->[1] eq 'not in scope' or
+         $cond->[1] eq 'in scope not')) {
+      if (ref $cond->[3]) {
+        my $pattern_structure = $read_pattern->($token_type, $cond->[3]);
+        if (defined $pattern_structure) {
+          my $serialized = $serialize_pattern->($pattern_structure);
+          $Data->{patterns}->{$serialized} = $pattern_structure;
+          push @orig_pattern, [$pattern_structure => \($cond->[3])];
+        } elsif (ref $cond->[3] eq 'HASH' and
+                 $cond->[3]->{_same_tag_name}) {
+          $cond->[3] = 'HTML-same-tag-name';
+        }
+      }
+    } elsif (@$cond >= 3 and
+             ($cond->[1] eq 'is' or $cond->[1] eq 'is not') and
+             ref $cond->[2] eq 'HASH') {
+      my $pattern_structure = $read_pattern->($token_type, $cond->[2]);
+      if (defined $pattern_structure) {
+        my $serialized = $serialize_pattern->($pattern_structure);
+        $Data->{patterns}->{$serialized} = $pattern_structure;
+        push @orig_pattern, [$pattern_structure => \($cond->[2])];
+      } elsif (ref $cond->[2] eq 'HASH' and
+               $cond->[2]->{_same_tag_name}) {
+        $cond->[2] = 'HTML-same-tag-name';
+      }
+    } elsif ($cond->[0] eq 'and' and
+             @$cond == 3 and
+             $cond->[1]->[0] eq 'token' and
+             $cond->[1]->[1] eq 'is a' and
+             $cond->[1]->[2] eq 'START' and
+             $cond->[2]->[0] eq 'token tag_name' and
+             ($cond->[2]->[1] eq 'is' or $cond->[2]->[1] eq 'is not')) {
+      my %group;
+      if (ref $cond->[2]->[2]) {
+        for (@{$cond->[2]->[2]}) {
+          my $group = $tag_name_to_group->{$_}
+              or die "|$_| is not in any tag name group";
+          $group{$group} = 1;
+        }
+      } else {
+        my $group = $tag_name_to_group->{$cond->[2]->[2]}
+            or die "|$cond->[2]| is not in any tag name group";
+        $group{$group} = 1;
+      }
+      $cond->[0] = 'token';
+      $cond->[1] = 'is a';
+      $cond->[2] = ($cond->[2]->[1] =~ /not/ ? 'START-NOT:' : 'START:') . join ' ', sort { $a cmp $b } keys %group;
+    } elsif ($cond->[0] eq 'or' or $cond->[0] eq 'and') {
+      unshift @cond, map { [$_, $token_type] } @$cond[1..$#$cond];
+    }
+  } # @cond
 
   my $key_to_group_name = {};
   {
@@ -732,11 +769,37 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     my @tn = grep { not $found{$_}++ } @same_tag_name;
     $Data->{element_matching}->{element_types} = [sort { $a cmp $b } grep { not /:\*$/ } @tn];
     push @{$Data->{element_matching}->{element_groups}}, grep { /:\*$/ } @tn;
-    my %fnd;
-    @{$Data->{element_matching}->{element_groups}} = sort {
-      $a cmp $b;
-    } grep { not $fnd{$_}++ } @{$Data->{element_matching}->{element_groups}};
   }
+
+  my $has_attr_specific = {};
+  for (@{$Data->{element_matching}->{element_groups}},
+       @{$Data->{element_matching}->{element_types}}) {
+    for (split /[ ,]/, $_) {
+      if (/^([^:\@]+:[^:\@]+)\@/) {
+        $has_attr_specific->{$1} = 1;
+      }
+    }
+  }
+  for (@{$Data->{element_matching}->{element_types}}) {
+    if ($has_attr_specific->{$_}) {
+      $has_attr_specific->{$_} = 2;
+    }
+  }
+  $Data->{element_matching}->{element_types} = [grep {
+    not 2 == ($has_attr_specific->{$_} || 0);
+  } @{$Data->{element_matching}->{element_types}}];
+  push @{$Data->{element_matching}->{element_groups}}, grep {
+    2 == ($has_attr_specific->{$_} || 0);
+  } keys %$has_attr_specific;
+
+  my %fnd;
+  @{$Data->{element_matching}->{element_types}} = sort {
+    $a cmp $b;
+  } grep { not $fnd{$_}++ } @{$Data->{element_matching}->{element_types}};
+  %fnd = ();
+  @{$Data->{element_matching}->{element_groups}} = sort {
+    $a cmp $b;
+  } grep { not $fnd{$_}++ } @{$Data->{element_matching}->{element_groups}};
 }
 
 {
