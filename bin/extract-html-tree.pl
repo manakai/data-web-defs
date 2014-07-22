@@ -1499,10 +1499,10 @@ sub process_actions ($) {
           delete $act->{COND};
         } elsif ($act->{COND} =~ /^the current node is a MathML text integration point, an HTML integration point, or an element in the HTML namespace$/) {
           $act->{type} = 'pop-oe';
-          $act->{until} = ['or',
-                           {'MathML text integration point' => 1},
-                           {'HTML integration point' => 1},
-                           {ns => 'HTML'}];
+          $act->{while_not} = ['or',
+                               {'MathML text integration point' => 1},
+                               {'HTML integration point' => 1},
+                               {ns => 'HTML'}];
           delete $act->{actions};
           delete $act->{COND};
         } elsif ($act->{COND} =~ /^node has been popped from the stack$/) {
