@@ -244,6 +244,7 @@ clean-dom:
 	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
 	rm -fr local/xml5-spec.html local/schemaorg*
 	rm -fr local/dom.html local/domparsing.html
+	rm -fr local/www.whatwg.org
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \
@@ -261,7 +262,7 @@ data/isindex-prompt.json: bin/isindex-prompt.pl
 	$(PERL) bin/isindex-prompt.pl > $@
 
 local/html:
-	cd local && $(WGET) -m -np http://www.whatwg.org/specs/web-apps/current-work/multipage/
+	cd local && ($(WGET) -m -np http://www.whatwg.org/specs/web-apps/current-work/multipage/ || true)
 	touch $@
 local/html-extracted.json: local/html bin/extract-html-standard.pl
 	$(PERL) bin/extract-html-standard.pl > $@
@@ -307,7 +308,7 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
 	!(grep '"insert a character"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
-	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/tokenization.html > $@
+	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html > $@
 local/html-tokenizer-charrefs.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs.html > $@
@@ -322,7 +323,7 @@ local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 	$(PERL) bin/extract-html-tokenizer.pl local/xml5-spec.html > $@
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
-	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/parsing.html local/www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html > $@
+	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html > $@
 	!(grep '"DESC"' $@ > /dev/null)
 	!(grep '"COND"' $@ > /dev/null)
 	!(grep '"misc"' $@ > /dev/null)

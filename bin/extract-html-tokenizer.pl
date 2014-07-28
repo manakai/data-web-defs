@@ -477,7 +477,9 @@ while (@node) {
     my $ln = $node->local_name;
     if ($ln =~ /^h[1-6]$/ or $ln eq 'dt') {
       my $tc = _n $node->text_content;
-      if ($tc =~ /^[0-9.]+\s+(.+state)\s*$/) {
+      if ($tc =~ /^[0-9.]+ Parse state$/) {
+        #
+      } elsif ($tc =~ /^[0-9.]+\s+(.+state)\s*$/) {
         $state_name = _n $1;
         $state_name =~ s/^([A-Z])(?=[a-z0-9_.\s-])/lc $1/e;
         $Data->{states}->{$state_name} ||= {};

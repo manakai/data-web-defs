@@ -65,6 +65,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   my $di_to_content = {};
   my $spec;
   my @error;
+  my $current_idl;
   my $onerror = sub {
     push @error, {@_};
     $error[-1]->{di} = $di if defined $di and not defined $error[-1]->{di};
@@ -74,6 +75,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
       $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 100;
     }
     $error[-1]->{spec} = $spec if length $spec;
+warn "$error[-1]->{type} - >>@{[substr $current_idl, $error[-1]->{index}-10,10]}\@\@\@\@@{[substr $current_idl, $error[-1]->{index}, 10]}<< {{{$current_idl}}}" if $error[-1]->{type} =~ /parse/;
   };
   $processor->onerror ($onerror);
   for (sort { $a cmp $b } keys %$json) {
@@ -81,12 +83,14 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     for (@{$json->{$spec}}) {
       $di = $next_di++;
       $el->inner_html ($_);
-      for (@{$el->query_selector_all ('a[title], dfn[id]')}) {
-        my $title = $_->title || $_->id;
-        next unless $title;
-        if ($_->local_name eq 'dfn' and $title eq lc $_->text_content) {
-          $title = $_->text_content;
+      for (@{$el->query_selector_all ('a[href], dfn[id]')}) {
+        my $title = $_->get_attribute ('href') || $_->id;
+        if ($title =~ /#(.+)$/) {
+          $title = $1;
         }
+        next unless $title;
+        next if not $_->local_name eq 'dfn' and $title eq lc $_->text_content;
+        next if $title =~ /^idl-/;
         my $prev = $_->previous_sibling;
         if (defined $prev and $prev->node_type == $prev->TEXT_NODE) {
           my $v = $prev->text_content;
@@ -113,6 +117,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
       $di_to_content->{$di} = $idl;
       my $parser = Web::IDL::Parser->new;
       $parser->onerror ($onerror);
+      $current_idl = $idl;
       $parser->parse_char_string ($idl);
       $processor->process_parsed_struct ($di, $parser->parsed_struct);
     }
