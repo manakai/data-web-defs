@@ -36,7 +36,7 @@ my $Data = {};
       next if $_ eq '_complex';
       $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{categories}->{$_} = 1;
       $Data->{categories}->{$_}->{spec} ||= 'HTML';
-      $Data->{categories}->{$_}->{id} ||= $_;
+      $Data->{categories}->{$_}->{id} ||= $json->{category_label_to_id}->{$_} || $_;
     }
     for my $attr_name (keys %{$in->{attrs} or {}}) {
       my $i = $in->{attrs}->{$attr_name};

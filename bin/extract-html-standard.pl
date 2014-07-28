@@ -17,6 +17,46 @@ sub sp ($) {
   return $s;
 } # sp
 
+my $XRefNormalizeMap = {};
+for my $s (
+  'metadata content',
+  'flow content',
+  'phrasing content',
+  'embedded content',
+  'palpable content',
+  'heading content',
+  'sectioning content',
+  'sectioning root',
+  'interactive content',
+  'form-associated element',
+  'script-supporting elements',
+  'text content',
+) {
+  my $t = $s;
+  $t =~ s/ /-/g;
+  $XRefNormalizeMap->{$t} = $s;
+  $XRefNormalizeMap->{$t . '-2'} = $s;
+  $XRefNormalizeMap->{$t . '-category'} = $s;
+}
+
+my $XRefLabelToActualIDMap = {};
+sub normalize_xref ($) {
+  my $mapped = $XRefNormalizeMap->{$_[0]} // $_[0];
+  unless ($_[0] eq $mapped) {
+    $XRefLabelToActualIDMap->{$mapped} = $_[0];
+  }
+  return $mapped;
+} # normalize_xref
+
+sub xref ($) {
+  my $a = shift or return undef;
+  if ($a->get_attribute ('href') =~ /#(.+)$/) {
+    return normalize_xref $1;
+  } else {
+    return sp $a->text_content;
+  }
+} # xref
+
 my $d = file (__FILE__)->dir->parent->subdir ('local/www.whatwg.org/specs/web-apps/current-work/multipage/');
 my $index_doc;
 my $input_table;
@@ -27,8 +67,8 @@ for my $f (($d->children)) {
   my $doc = Web::DOM::Document->new;
   $doc->manakai_is_html (1);
   $doc->inner_html (decode 'utf-8', scalar $f->slurp);
-  $index_doc = $doc if $f =~ /section-index/;
-  $xml_doc = $doc if $f =~ /the-xhtml-syntax/;
+  $index_doc = $doc if $f =~ /indices/;
+  $xml_doc = $doc if $f =~ /xhtml/;
   $input_table ||= $doc->get_element_by_id ('input-type-attr-summary');
 
   for my $dl (@{$doc->query_selector_all ('dl.element')}) {
@@ -48,7 +88,7 @@ for my $f (($d->children)) {
     for (@{$dl->children}) {
       if ($_->local_name eq 'dt') {
         my $a = $_->first_element_child;
-        if ($a and ($a->title =~ /^concept-element-(.+)$/)) {
+        if ($a and ($a->get_attribute ('href') =~ /#concept-element-(.+)$/)) {
           $field = $1;
         } else {
           undef $field;
@@ -69,10 +109,11 @@ for my $f (($d->children)) {
             my $code = $_->first_element_child;
             if ($code and
                 $code->local_name eq 'code' and
-                $code->title =~ /^(?:attr|handler)-/) {
+                $code->first_child and
+                $code->first_child->local_name eq 'a') {
               my $attr = $code->text_content;
               if (not $props->{attrs}->{$attr}) {
-                $props->{attrs}->{$attr}->{id} = $code->title;
+                $props->{attrs}->{$attr}->{id} = xref $code->first_child;
                 $props->{attrs}->{$attr}->{desc} = [split /\x{2014}\s*|has special semantics on this element:\s*/, $text, 2]->[1];
               } else {
                 push @{$Data->{_errors} ||= []},
@@ -87,13 +128,13 @@ for my $f (($d->children)) {
           my $text = $_->text_content;
           my $a = $_->first_element_child;
           if ($text =~ /^(\S+ \S+)\.$/ and $a and $a->local_name eq 'a') {
-            my $title = $a->title || lc sp $a->text_content;
+            my $title = xref $a || lc sp $a->text_content;
             $props->{categories}->{$title} = 1;
           } elsif ($text =~ /^\S+ form-associated element\.$/ or
                    $text =~ /^\S+ and reassociateable form-associated element\.$/ or
                    $text =~ /^(?:\S+, )+and reassociateable form-associated element\.$/) {
             for my $a (@{$_->query_selector_all ('a')}) {
-              my $title = $a->title || lc sp $a->text_content;
+              my $title = xref $a || lc sp $a->text_content;
               $props->{categories}->{$title} = 1;
             }
           } elsif ($text =~ /^If the element/ or
@@ -113,7 +154,7 @@ for my $f (($d->children)) {
           my $a = $_->first_element_child;
           if ($text =~ /^(\S+ \S+|Text|Transparent)\.$/ and
               $a and $a->local_name eq 'a') {
-            my $title = $a->title || lc sp $a->text_content;
+            my $title = xref $a || lc sp $a->text_content;
             $props->{content_model}->{$title} = 1;
           } elsif ($text eq 'Empty.') {
             $props->{content_model}->{empty} = 1;
@@ -165,77 +206,75 @@ for my $f (($d->children)) {
 $Data->{idl_fragments} = \@idl;
 
 if ($index_doc) {
-  my $els = $index_doc->query_selector ('caption:-manakai-contains("List of elements")');
-  if ($els) {
+  for my $els (
+    $index_doc->query_selector ('caption:-manakai-contains("List of elements")'),
+  ) {
     $els = $els->parent_node;
-    for my $tr (@{$els->rows}) {
-      my $th = $tr->first_element_child;
+    for my $tr (@{$els->query_selector_all ('tbody > tr')}) {
+      my @cell = @{$tr->cells};
+      next unless @cell >= 2;
+      my $th = $cell[0];
       next unless $th->local_name eq 'th';
-      my $a = $th->first_element_child or next;
-      my $td = $th->next_element_sibling or next;
+      my $td = $cell[1];
+      my $a = $th->query_selector ('code > a') or next;
       $Data->{elements}->{$a->text_content}->{desc} = $td->text_content;
     }
-  }
+  } # $els
 
-  my $attrs = $index_doc->query_selector ('caption:-manakai-contains("List of attributes")');
-  if ($attrs) {
+  for my $attrs (
+    $index_doc->query_selector ('caption:-manakai-contains("List of attributes")'),
+    $index_doc->query_selector ('caption:-manakai-contains("List of event handler content attributes")'),
+  ) {
+    next unless defined $attrs;
     $attrs = $attrs->parent_node;
-    for my $tr (@{$attrs->rows}) {
-      my $th = $tr->first_element_child;
+    for my $tr (@{$attrs->query_selector_all ('tbody > tr')}) {
+      my @cell = @{$tr->cells};
+      next unless @cell >= 3;
+      my $th = $cell[0];
       next unless $th->local_name eq 'th';
-      my $a = $th->first_element_child or next;
-      my $td = $th->next_element_sibling or next;
+      my $td = $cell[1];
+      my $attr_name = sp $th->text_content;
       if ($td->text_content =~ /HTML\s+elements/) {
-        my $td2 = $td->next_element_sibling;
-        my $desc = sp $td2->text_content;
-        $Data->{global_attrs}->{$a->text_content}
-            = {id => $td->first_element_child->title, desc => $desc};
-      }
-    }
-  }
-
-  $attrs = $index_doc->query_selector ('caption:-manakai-contains("List of event handler content attributes")');
-  if ($attrs) {
-    $attrs = $attrs->parent_node;
-    for my $tr (@{$attrs->rows}) {
-      my $th = $tr->first_element_child;
-      next unless $th->local_name eq 'th';
-      my $a = $th->first_element_child or next;
-      my $td = $th->next_element_sibling or next;
-      my $td2 = $td->next_element_sibling;
-      my $desc = sp $td2->text_content;
-      if ($td->text_content =~ /HTML\s+elements/) {
-        $Data->{global_attrs}->{$a->text_content}
-            = {id => $td->first_element_child->title, desc => $desc};
-      } else {
-        my $a2 = $td->first_element_child or next;
-        $Data->{elements}->{$a2->text_content}->{attrs}->{$a->text_content}
+        my $a = $td->query_selector ('a') or next;
+        my $desc = sp $cell[2]->text_content;
+        $Data->{global_attrs}->{$attr_name}
+            = {id => xref $a, desc => $desc};
+      } elsif ($attr_name =~ /^on/) {
+        my $a = $td->query_selector ('a') or next;
+        my $desc = sp $cell[2]->text_content;
+        $Data->{elements}->{$a->text_content}->{attrs}->{$attr_name}
             ->{desc} ||= $desc;
+
       }
     }
-  }
+  } # $attrs
 }
 
 {
   my @header;
-  my @rows = @{$input_table->rows};
+  my @rows = @{$input_table->query_selector_all ('tr')};
   for my $th (@{(shift @rows)->cells}) {
-    push @header, [map { s/^attr-input-type-//; $_ } grep { /^attr-input-type-/ } map { $_->title } @{$th->get_elements_by_tag_name ('a')}];
+    push @header, [map {
+      my $href = $_->get_attribute ('href');
+      my @type;
+      while ($href =~ /\(type=(.+?)\)/g) {
+        push @type, $1;
+      }
+      @type;
+    } @{$th->get_elements_by_tag_name ('a')}];
   }
   for my $tr (@rows) {
     my @cell = @{$tr->cells};
-    my @link = @{(shift @cell)->get_elements_by_tag_name ('code')};
+    my @link = @{(shift @cell)->query_selector_all ('code > a')};
     next unless @link;
-    my @content = map { $_->text_content } grep { $_->title =~ /^attr-/ } @link;
-    my @idl = map { $_->text_content } grep { $_->title =~ /^dom-/ } @link;
+    my @content = map { $_->text_content } grep { xref ($_) =~ /^attr-/ } @link;
+    my @idl = map { $_->text_content } grep { xref ($_) =~ /^dom-/ } @link;
     my @idl_attr = grep { not /\(/ } @idl;
     my @method = map { s/\(\)$//; $_ } grep { /\(/ } @idl;
-    my @event = map { $_->text_content } grep { $_->title =~ /^event-/ } @link;
+    my @event = map { $_->text_content } grep { xref ($_) =~ /^event-/ } @link;
     my $i = 1;
     for my $td (@cell) {
-      my $value = $td->text_content;
-      $value =~ s/^\s+//;
-      $value =~ s/\s+$//;
+      my $value = sp $td->text_content;
       if ($value eq 'Yes') {
         $value = 1;
       } elsif ($value eq 'Yes*') {
@@ -259,6 +298,8 @@ if ($index_doc) {
     }
   }
 }
+
+$Data->{category_label_to_id} = $XRefLabelToActualIDMap;
 
 print perl2json_bytes_for_record $Data;
 
