@@ -4278,7 +4278,7 @@
             "value" : "text"
          },
          "associatedMedia" : {
-            "desc" : "The media objects that encode this creative work. This property is a synonym for encodings.",
+            "desc" : "A media object that encodes this CreativeWork. This property is a synonym for encoding.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4433,7 +4433,7 @@
             "value" : "text"
          },
          "encoding" : {
-            "desc" : "A media object that encode this CreativeWork.",
+            "desc" : "A media object that encodes this CreativeWork. This property is a synonym for associatedMedia.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4442,7 +4442,7 @@
             }
          },
          "encodings" : {
-            "desc" : "The media objects that encode this creative work (legacy spelling; see singular form, encoding).",
+            "desc" : "A media object that encodes this CreativeWork (legacy spelling; see singular form, encoding).",
             "discouraged" : 1,
             "is_url" : 1,
             "item" : {
@@ -4489,6 +4489,15 @@
          "isFamilyFriendly" : {
             "desc" : "Indicates whether this content is family friendly.",
             "is_url" : 1
+         },
+         "isPartOf" : {
+            "desc" : "Indicates a CreativeWork that this CreativeWork is (in some sense) part of.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
          },
          "keywords" : {
             "desc" : "Keywords or tags used to describe this content. Multiple entries in a keywords list are typically delimited by commas.",
@@ -4679,7 +4688,8 @@
          "http://schema.org/WPSideBar" : 2,
          "http://schema.org/WebApplication" : 2,
          "http://schema.org/WebPage" : 1,
-         "http://schema.org/WebPageElement" : 1
+         "http://schema.org/WebPageElement" : 1,
+         "http://schema.org/WebSite" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -6194,6 +6204,7 @@
          "http://schema.org/InfectiousAgentClass" : 1,
          "http://schema.org/ItemAvailability" : 1,
          "http://schema.org/LockerDelivery" : 2,
+         "http://schema.org/MapCategoryType" : 1,
          "http://schema.org/MedicalAudience" : 1,
          "http://schema.org/MedicalDevicePurpose" : 1,
          "http://schema.org/MedicalEnumeration" : 1,
@@ -6406,6 +6417,16 @@
             "item" : {
                "types" : {
                   "http://schema.org/Offer" : 1
+               }
+            }
+         },
+         "organizer" : {
+            "desc" : "An organizer of an Event.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
                }
             }
          },
@@ -7790,6 +7811,7 @@
          "http://schema.org/Language" : 1,
          "http://schema.org/LockerDelivery" : 3,
          "http://schema.org/LodgingReservation" : 2,
+         "http://schema.org/MapCategoryType" : 2,
          "http://schema.org/Mass" : 2,
          "http://schema.org/MedicalAudience" : 2,
          "http://schema.org/MedicalDevicePurpose" : 2,
@@ -8649,10 +8671,32 @@
    },
    "http://schema.org/Map" : {
       "desc" : "A map.",
+      "props" : {
+         "mapType" : {
+            "desc" : "Indicates the kind of Map, from the MapCategoryType Enumeration.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MapCategoryType" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
          "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MapCategoryType" : {
+      "desc" : "An enumeration of several kinds of Map.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -8724,7 +8768,7 @@
             "is_url" : 1
          },
          "encodesCreativeWork" : {
-            "desc" : "The creative work encoded by this media object",
+            "desc" : "The CreativeWork encoded by this media object.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -12989,6 +13033,15 @@
          "globalLocationNumber" : {
             "desc" : "The Global Location Number (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.",
             "value" : "GLN"
+         },
+         "hasMap" : {
+            "desc" : "A URL to a map of the place.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Map" : 1
+               }
+            }
          },
          "interactionCount" : {
             "desc" : "A count of a specific user interactions with this item—for example, 20 UserLikes, 5 UserComments, or 300 UserDownloads. The user interaction type should be one of the sub types of UserInteraction.",
@@ -20993,7 +21046,12 @@
          },
          "image" : {
             "desc" : "URL of an image of the item.",
-            "is_url" : 1
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ImageObject" : 1
+               }
+            }
          },
          "name" : {
             "desc" : "The name of the item.",
@@ -21296,6 +21354,7 @@
          "http://schema.org/LoseAction" : 3,
          "http://schema.org/LymphaticVessel" : 4,
          "http://schema.org/Map" : 2,
+         "http://schema.org/MapCategoryType" : 3,
          "http://schema.org/MarryAction" : 3,
          "http://schema.org/Mass" : 3,
          "http://schema.org/MaximumDoseSchedule" : 4,
@@ -21591,6 +21650,7 @@
          "http://schema.org/WebApplication" : 3,
          "http://schema.org/WebPage" : 2,
          "http://schema.org/WebPageElement" : 2,
+         "http://schema.org/WebSite" : 2,
          "http://schema.org/WholesaleStore" : 4,
          "http://schema.org/WinAction" : 3,
          "http://schema.org/Winery" : 4,
@@ -30793,15 +30853,6 @@
             "desc" : "A set of links that can help a user understand and navigate a website hierarchy.",
             "value" : "text"
          },
-         "isPartOf" : {
-            "desc" : "Indicates the collection or gallery to which the item belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/CollectionPage" : 1
-               }
-            }
-         },
          "lastReviewed" : {
             "desc" : "Date on which the content on this web page was last reviewed for accuracy and/or completeness.",
             "value" : "schema.org date"
@@ -30892,6 +30943,16 @@
          "http://schema.org/WPFooter" : 1,
          "http://schema.org/WPHeader" : 1,
          "http://schema.org/WPSideBar" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/WebSite" : {
+      "desc" : "A WebSite is a set of related web pages and other items typically served from a single web domain and accessible via URLs.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
