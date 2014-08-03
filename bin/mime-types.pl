@@ -97,15 +97,17 @@ for (file (__FILE__)->dir->parent->subdir ('local')->file ('apache-mime-types')-
 }
 
 my $type;
+my $attr;
 for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slurp) {
   if (m{^([0-9A-Za-z_+./*\#-]+)$}) {
     $type = $1;
     $type =~ tr/A-Z/a-z/;
     $Data->{$type}->{type} ||= $type =~ m{/\*$} ? 'type' : $type =~ m{^\*/\*\+} ? 'suffix' : $type =~ /\*/ ? 'pattern' : 'subtype';
+    undef $attr;
   } elsif (m{^  ([0-9A-Za-z_-]+)$}) {
     $Data->{$type}->{$1} ||= 1;
   } elsif (m{^  ([0-9A-Za-z_.-]+)=""$}) {
-    my $attr = $1;
+    $attr = $1;
     $attr =~ tr/A-Z/a-z/;
     $Data->{$type}->{params}->{$attr} ||= {};
   } elsif (m{^  ([0-9A-Za-z_-]+):(\S+)$}) {
@@ -122,6 +124,18 @@ for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slur
       $prop = 'extensions';
     }
     $Data->{$type}->{$prop}->{$_} = 1 for @$values;
+  } elsif (m{^  ->\s*(\S+)\s*\((SHOULD)\)$}) {
+    $Data->{$type}->{deprecated} = $2;
+    $Data->{$type}->{preferred_type} = $1;
+  } elsif (m{^  #(\S+)$}) {
+    $Data->{$type}->{fragment} = $1;
+    if ($1 eq 'xpointer:rfc7303') {
+      $Data->{$type}->{xpointer_schemes}->{''}->{element} = 'MUST';
+      $Data->{$type}->{xpointer_schemes}->{'#'}->{shorthand} = 'MUST';
+      $Data->{$type}->{xpointer_schemes}->{'#'}->{other} = 'MAY';
+    }
+  } elsif (defined $attr and m{^    (\S+)$}) {
+    $Data->{$type}->{params}->{$attr}->{$1} = 1;
   } elsif (/\S/) {
     die "Broken line: $_";
   }

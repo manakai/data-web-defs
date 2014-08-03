@@ -54,6 +54,10 @@ composite [boolean]
 
   Whether it is a composite type or not.
 
+deprecated [string?]
+
+  If the MIME type SHOULD NOT be used, the value |SHOULD| is set.
+
 der [boolean]
 
   Whether it is a DER (Distinguished Encoding Rules) type or not.
@@ -74,6 +78,13 @@ font [boolean]
 
   Whether it is a font type or not
   <http://mimesniff.spec.whatwg.org/#font-type>.
+
+fragment [string?]
+
+  Semantics and syntax of fragment identifiers for this MIME type, if
+  known, using one of following value:
+
+    |xpointer:rfc7303|   XPointer, as specified in RFC 7303.
 
 httpd_handler [boolean]
 
@@ -119,8 +130,14 @@ mac_types [object?]
 
 params [object?]
 
-  Containing pairs of known parameter names (attributes) and JSON
-  objects.
+  Known parameters.  Names are parameter names (attributes) in
+  lowercase and values are JSON objects describing them, using
+  following name/value pair:
+
+    charset_rfc7303 [boolean]
+
+      Whether the parameter is a |charset| parameter as specified in
+      RFC 7303 (i.e. the |charset| parameter for XML media types).
 
 plugin [boolean]
 
@@ -130,6 +147,11 @@ preferred_cte [string?]
 
   Preferred content transfer encoding for 7-bit transport.  Either
   |quoted-printable| or |base64|, if specified.
+
+preferred_type [string?]
+
+  Preferred MIME type (type/subtype pair, in lowercase).  See also
+  |deprecated| for the level of "prefer".
 
 scriptable [boolean]
 
@@ -186,6 +208,26 @@ xml [boolean]
   Whether it is an XML type or not
   <http://mimesniff.spec.whatwg.org/#xml-type>.  This flag is not set
   for MIME types with the |+xml| structured syntax suffix.
+
+xpointer_schemes [object?]
+
+  If fragment identifiers are interpreted as XPointer for this MIME
+  type, requirements for XPointer schemes.  It is represented as a
+  JSON object whose names are namespace URLs of XPointer schemes and
+  values are JSON objects for the namespaces, whose names are local
+  names of XPointer schemes and values are strings representing
+  requirements for the XPointer schemes, which are one of following
+  values:
+
+    |MUST|   The XPointer scheme must be supported.
+    |MAY|    The XPointer scheme may be supported.
+
+  There are two special namespace values.  The empty string represents
+  the null namespace.  If the namespace is |#| and the local name is
+  |other|, the value is applied to any XPointer scheme not explicitly
+  mentioned by other values.  If the namespace is |#| and the local
+  name is |shorthand|, the value is applied to shorthand pointers
+  rather than XPointer scheme.
 
 zip [boolean]
 
