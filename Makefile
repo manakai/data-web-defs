@@ -353,7 +353,10 @@ local/dom.html:
 	$(WGET) -O $@ http://dom.spec.whatwg.org/
 local/domparsing.html:
 	$(WGET) -O $@ http://domparsing.spec.whatwg.org/
+local/xhr.html:
+	$(WGET) -O $@ http://xhr.spec.whatwg.org/
 local/idl-extracted.json: local/dom.html local/domparsing.html \
+    local/xhr.html \
     bin/extract-idls.pl
 	$(PERL) bin/extract-idls.pl > $@
 
@@ -433,3 +436,4 @@ test-deps: deps local/bin/jq
 
 test-main:
 	$(PROVE) t/*.t
+	!(grep '"_errors"' data/elements.json > /dev/null)

@@ -7,6 +7,82 @@ This file contains data on Web IDL.
 
 The file contains following name/value pairs:
 
+  constructs [object]
+
+    Constructs appear in Web IDL fragments.  Names are short strings
+    identifying constructs, and values are their descriptions,
+    represented as JSON objects with following name/value pairs:
+
+      allowed_extended_attributes [object?]
+
+        Extended attributes allowed for this construct, if any.  Names
+        are extended attribute names and values are boolean true
+        values.
+
+      definition [boolean]
+
+        Whether the construct is a definition (i.e. a top-level
+        construct) in Web IDL or not.
+
+      dictionary_member [boolean]
+
+        Whether the construct can be a dictionary member or not.
+
+      exception_member [boolean]
+
+        Whether the construct can be an exception member or not.
+
+      interface_member [boolean]
+
+        Whether the construct can be an interface member or not.
+
+      keyword [string?]
+
+        The primary keyword identifying the construct in Web IDL
+        fragments, if any.  For example, |interface| for interfaces
+        and partial interface definitions.
+
+      name [string]
+
+        The English name of the construct, as used in the Web IDL
+        specification.
+
+      reserved [object?]
+
+        Reserved identifiers which cannot be used as an identifier of
+        the construct, if any, represented as a JSON object whose
+        names are identifiers and values are boolean true values.
+
+  extended_attributes [object]
+
+    Names are extended attribute names and values are their
+    descriptions, represented as JSON objects with following
+    name/value pairs:
+
+      args [object]
+
+        Allowed syntaxes of extended attribute arguments.  Names are
+        one of following values and values are boolean true values, if
+        that syntax is allowed:
+
+          |no|          takes no arguments
+          |args|        takes an argument list
+          |named_args|  takes a named argument list
+          |id|          takes an identifier
+          |id_list|     takes an identifier list
+          |pair|        takes a type pair
+
+      disallowed_extended_attributes [object?]
+
+        Extended attributes that cannot be used if this extended
+        attribute is specified.  Names are extended attribute names
+        and values are boolean true values.
+
+      multiple [boolean]
+
+        Whether the extended attribute can be specified multiple times
+        for a construct or not.
+
   keyword_tokens [object]
 
     Tokens that are otherwise recognized as an |identifier| token.
@@ -60,6 +136,13 @@ Web IDL "Promise<T>"
 Web IDL "class"
 <https://www.w3.org/Bugs/Public/show_bug.cgi?id=23225>,
 <http://dom.spec.whatwg.org/#elements>.
+
+Web IDL [TreatNonCallableAsNull] extended attribute
+<https://github.com/heycam/webidl/commit/4043b051d492d4a2f21064f0edf91e642c5a6249>.
+
+Web IDL old syntax for extended attributes which take an identifier
+list
+<https://github.com/heycam/webidl/commit/0527ec461492849d310257c50a7d2c54b4632b91>.
 
 * License
 

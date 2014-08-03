@@ -75,7 +75,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
       $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 100;
     }
     $error[-1]->{spec} = $spec if length $spec;
-warn "$error[-1]->{type} - >>@{[substr $current_idl, $error[-1]->{index}-10,10]}\@\@\@\@@{[substr $current_idl, $error[-1]->{index}, 10]}<< {{{$current_idl}}}" if $error[-1]->{type} =~ /parse/;
+    warn "$error[-1]->{type} - >>@{[substr $current_idl, $error[-1]->{index}-10,10]}\@\@\@\@@{[substr $current_idl, $error[-1]->{index}, 10]}<< {{{$current_idl}}}" if $error[-1]->{type} =~ /parse/;
   };
   $processor->onerror ($onerror);
   for (sort { $a cmp $b } keys %$json) {
