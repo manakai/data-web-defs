@@ -19,6 +19,7 @@ my $local_path = path (__FILE__)->parent->parent->child ('local');
 
 $Data->{DOM} = parse $local_path->child ('dom.html');
 $Data->{DOMPARSING} = parse $local_path->child ('domparsing.html');
+$Data->{XHR} = parse $local_path->child ('xhr.html');
 
 print perl2json_bytes_for_record $Data;
 
