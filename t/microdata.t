@@ -4,7 +4,7 @@ basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
 test() {
-  (cat $basedir/data/microdata.json | $jq "$2" | sh && echo "ok $1") || echo "not ok $1"
+  (cat $basedir/data/microdata.json | $jq -e "$2" > /dev/null && echo "ok $1") || echo "not ok $1"
 }
 
 test 1 '.["http://schema.org/CreativeWork"].props.accessibilityAPI.enum.ARIA.spec | not | not'
