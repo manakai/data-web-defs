@@ -5,6 +5,61 @@ use JSON::PS;
 my $Data = {};
 
 for (
+  [interface => 'interface', 'interface'],
+  [partial_interface => 'interface', 'partial interface definition'],
+  [callback_interface => 'interface', 'callback interface'],
+  [dictionary => 'dictionary', 'dictionary'],
+  [partial_dictionary => 'dictionary', 'partial dictionary definition'],
+  [exception => 'exception', 'exception'],
+  [enum => 'enum', 'enumeration'],
+  [callback => 'callback', 'callback function'],
+  [typedef => 'typedef', 'typedef'],
+  [implements => 'implements', 'implements statement'],
+  [class => 'class', 'class'],
+) {
+  $Data->{constructs}->{$_->[0]}->{definition} = 1;
+  $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1];
+  $Data->{constructs}->{$_->[0]}->{name} = $_->[2];
+}
+
+for (
+  [const => 'const', 'constant'],
+  [attribute => 'attribute', 'regular attribute'],
+  [static_attribute => 'attribute', 'static attribute'],
+  [operation => undef, 'operation'],
+  [static_operation => undef, 'static operation'],
+  [serializer => 'serializer', 'serializer'],
+  [iterator => 'iterator', 'iterator'],
+  [iterator_object => 'iterator', 'iterator object'],
+) {
+  $Data->{constructs}->{$_->[0]}->{interface_member} = 1;
+  $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1] if defined $_->[1];
+}
+
+for (
+  [const => 'const', 'constant'],
+  [field => undef, 'exception field'],
+) {
+  $Data->{constructs}->{$_->[0]}->{exception_member} = 1;
+  $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1] if defined $_->[1];
+  $Data->{constructs}->{$_->[0]}->{name} = $_->[2];
+}
+
+for (
+  [dictionary_member => undef, 'dictionary member'],
+) {
+  $Data->{constructs}->{$_->[0]}->{dictionary_member} = 1;
+  $Data->{constructs}->{$_->[0]}->{name} = $_->[2];
+}
+
+for (
+  [argument => undef, 'argument'],
+  [extended_attribute => undef, 'extended attribute'],
+) {
+  $Data->{constructs}->{$_->[0]}->{name} = $_->[2];
+}
+
+for (
   [integer => '-?([1-9][0-9]*|0[Xx][0-9A-Fa-f]+|0[0-7]*)', 3],
   [float => '-?(([0-9]+\.[0-9]*|[0-9]*\.[0-9]+)([Ee][+-]?[0-9]+)?|[0-9]+[Ee][+-]?[0-9]+)', 4],
   [identifier => '_?[A-Za-z][0-9A-Z_a-z]*', 2],
