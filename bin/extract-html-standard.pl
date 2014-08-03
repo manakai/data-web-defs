@@ -112,7 +112,8 @@ for my $f (($d->children)) {
                 $code->first_child and
                 $code->first_child->local_name eq 'a') {
               my $attr = $code->text_content;
-              if (not $props->{attrs}->{$attr}) {
+              if (not $props->{attrs}->{$attr} or
+                  $props->{attrs}->{$attr}->{id} eq 'attr-picture-source-type') {
                 $props->{attrs}->{$attr}->{id} = xref $code->first_child;
                 $props->{attrs}->{$attr}->{desc} = [split /\x{2014}\s*|has special semantics on this element:\s*/, $text, 2]->[1];
               } else {

@@ -436,3 +436,4 @@ test-deps: deps local/bin/jq
 
 test-main:
 	$(PROVE) t/*.t
+	!(grep '"_errors"' data/elements.json > /dev/null)
