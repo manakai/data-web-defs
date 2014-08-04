@@ -105,13 +105,32 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
       for my $act (@{$state_def->{conds}->{$cond}->{actions}}) {
         if ($act->{type} eq 'create') {
           $types = {$act->{token} => 1};
+          $Data->{tokenizer}->{tokens}->{$act->{token}} ||= {};
         } elsif ($act->{type} eq 'emit' or
                  $act->{type} eq 'switch-and-emit') {
           $act->{possible_token_types} = $types;
           $act->{check_end_tag_token} = 1 if $types->{'end tag token'};
         }
+        if (defined $act->{field}) {
+          $Data->{tokenizer}->{tokens}->{$_}->{fields}->{$act->{field}} = 1 for keys %$types;
+        }
       }
     }
+  }
+  $Data->{tokenizer}->{tokens}->{'character token'}->{fields} ||= {};
+  $Data->{tokenizer}->{tokens}->{'end-of-file token'}->{fields} ||= {};
+  $Data->{tokenizer}->{tokens}->{'start tag token'}->{fields}->{attributes} = 1;
+  $Data->{tokenizer}->{tokens}->{'end tag token'}->{fields}->{attributes} = 1;
+  $Data->{tokenizer}->{tokens}->{'character token'}->{fields}->{value} = 1;
+  for (
+    [CHAR => 'character token'],
+    [START => 'start tag token'],
+    [END => 'end tag token'],
+    [COMMENT => 'comment token'],
+    [DOCTYPE => 'DOCTYPE token'],
+    [EOF => 'end-of-file token'],
+  ) {
+    $Data->{tokenizer}->{tokens}->{$_->[1]}->{short_name} = $_->[0];
   }
 }
 

@@ -405,6 +405,9 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   }
 }
 
+$Data->{tokenizer}->{tokens}->{'text token'} = delete $Data->{tokenizer}->{tokens}->{'character token'};
+$Data->{tokenizer}->{tokens}->{'text token'}->{short_name} = 'TEXT';
+
 ## Cleanup
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
   for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
