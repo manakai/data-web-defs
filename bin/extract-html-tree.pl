@@ -605,6 +605,22 @@ while (@node) {
   } # $node->node_type
 }
 
+sub for_actions (&$);
+sub for_actions (&$) {
+  my ($code, $acts) = @_;
+  my $new_acts = [];
+  for (@$acts) {
+    my $act = {%$_};
+    for (qw(actions false_actions between_actions ws_actions null_actions
+            char_actions ws_char_actions ws_seq_actions
+            null_char_actions null_seq_actions)) {
+      $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
+    }
+    push @$new_acts, $act;
+  }
+  return $code->($new_acts);
+} # for_actions
+
 sub resolve_action_structure ($);
 sub resolve_action_structure ($) {
   my $acts = [@{$_[0]}];
@@ -1026,9 +1042,28 @@ sub parse_cond ($) {
   return $cond;
 } # parse_cond
 
-sub process_actions ($);
-sub process_actions ($) {
-  my $acts = shift;
+my $used_error_names = {};
+sub error_name ($) {
+  my $name = lc shift;
+  $name =~ s[:(\w+(?: \w+){3,})]{
+    my $s = ':' . join '', map { substr $_, 0, 1 } split m{ }, $1;
+    $s =~ s/((\w)\2\2+)/$2 . length $1/ge;
+    $s;
+  }ge;
+  $name =~ s/[^a-z0-9]/-/g;
+  $name =~ s/-char-0000$/-null/;
+  $name =~ s/-char-ws$/-ws/;
+  $name =~ s/-char-else$/-char/;
+  if ($used_error_names->{$name}++) {
+    return $name . '-' . $used_error_names->{$name};
+  } else {
+    return $name;
+  }
+} # error_name
+
+sub process_actions ($$);
+sub process_actions ($$) {
+  my ($acts, $error_context) = @_;
   my $new_acts = [];
 
   ACT: for my $act (@$acts) {
@@ -1070,7 +1105,7 @@ sub process_actions ($) {
 
       for (qw(actions false_actions between_actions)) {
         if ($act->{$_}) {
-          $act->{$_} = process_actions $act->{$_};
+          $act->{$_} = process_actions $act->{$_}, $error_context;
         }
       }
       push @$new_acts, $act;
@@ -1740,7 +1775,18 @@ for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
     for (qw(actions false_actions between_actions)) {
       my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{$_};
-      $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = process_actions $acts if defined $acts;
+      if (defined $acts) {
+        $acts = for_actions {
+          my $acts = shift;
+          for my $act (@$acts) {
+            if ($act->{type} eq 'parse error') {
+              $act->{name} = error_name join '-', $im, $cond;
+            }
+          }
+          return $acts;
+        } process_actions $acts, join '-', $im, $cond;
+        $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = $acts;
+      }
     }
   }
 }
@@ -2015,7 +2061,8 @@ for my $def (
     my $act = shift @$acts;
     if ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /parse error/) {
       push @$new_acts, {type => 'if', cond => ['legacy doctype'],
-                        actions => [{type => 'parse error'}]};
+                        actions => [{type => 'parse error',
+                                     name => error_name 'initial-DOCTYPE'}]};
       $prev_was_doctype = 0;
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /DOCTYPE token matches/) {
       push @$new_acts, {type => 'doctype-switch'} unless $prev_was_doctype;

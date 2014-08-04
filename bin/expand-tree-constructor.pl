@@ -768,6 +768,22 @@ for my $im (keys %{$Data->{ims}}) {
   } # $cond
 }
 
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+    for_actions {
+      my $acts = shift;
+      for my $act (@$acts) {
+        if ($act->{type} eq 'parse error') {
+          unless (defined $act->{name}) {
+            die "No parse error name in |$im| |$cond|";
+          }
+        }
+      }
+      return $acts;
+    } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+  }
+}
+
 {
   my @same_tag_name;
   my $read_pattern; $read_pattern = sub {
