@@ -949,7 +949,7 @@ for my $im (keys %{$Data->{ims}}) {
 for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
     if ($Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) {
-      $Data->{ims}->{$im}->{conds}->{$cond}->{steps} = (delete $Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) . ';' . $cond;
+      $Data->{ims}->{$im}->{conds}->{$cond} = (delete $Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) . ';' . $cond;
     } else {
       my $key = $im . ';' . $cond;
       $Data->{actions}->{$key} = delete $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
@@ -957,17 +957,17 @@ for my $im (keys %{$Data->{ims}}) {
         my $type = $1;
         delete $Data->{ims}->{$im}->{conds}->{$cond};
         for (split /,/, $2) {
-          $Data->{ims}->{$im}->{conds}->{"$type:$_"}->{steps} = $key;
+          $Data->{ims}->{$im}->{conds}->{"$type:$_"} = $key;
         }
       } else {
-        $Data->{ims}->{$im}->{conds}->{$cond}->{steps} = $key;
+        $Data->{ims}->{$im}->{conds}->{$cond} = $key;
       }
     }
   }
   for (@{$Data->{tag_name_groups}}) {
-    $Data->{ims}->{$im}->{conds}->{"START:$_"}->{steps} ||= $Data->{ims}->{$im}->{conds}->{'START-ELSE'}->{steps}
+    $Data->{ims}->{$im}->{conds}->{"START:$_"} ||= $Data->{ims}->{$im}->{conds}->{'START-ELSE'}
         if defined $Data->{ims}->{$im}->{conds}->{'START-ELSE'};
-    $Data->{ims}->{$im}->{conds}->{"END:$_"}->{steps} ||= $Data->{ims}->{$im}->{conds}->{'END-ELSE'}->{steps}
+    $Data->{ims}->{$im}->{conds}->{"END:$_"} ||= $Data->{ims}->{$im}->{conds}->{'END-ELSE'}
         if defined $Data->{ims}->{$im}->{conds}->{'END-ELSE'};
   }
 }
