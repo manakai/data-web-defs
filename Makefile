@@ -306,6 +306,7 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
 	!(grep '"tree_steps"' $@ > /dev/null)
 	!(grep '"CHAR" :' $@ > /dev/null)
 	!(grep '"insert a character"' $@ > /dev/null)
+	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html > $@
@@ -333,7 +334,6 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"SAME-AS"' $@ > /dev/null)
 	!(grep '"LABEL"' $@ > /dev/null)
 	!(grep '"LOOP"' $@ > /dev/null)
-	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@

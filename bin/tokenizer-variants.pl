@@ -287,7 +287,7 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
         'append-to-temp' => 1,
       }->{$_->{type}}) {
         $repeatable = 0 if defined $_->{offset};
-      } elsif ($_->{type} eq 'error') {
+      } elsif ($_->{type} eq 'parse error') {
         $repeatable = 0;
         $error = 1;
       } elsif ($_->{type} eq 'switch') {
