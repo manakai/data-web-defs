@@ -5574,9 +5574,36 @@
                            "type" : "parse error"
                         },
                         {
-                           "foster_parenting" : 1,
-                           "im" : "in body",
-                           "type" : "USING-THE-RULES-FOR"
+                           "actions" : [
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "insert-chars"
+                              },
+                              {
+                                 "target" : "frameset-ok",
+                                 "type" : "set-false"
+                              }
+                           ],
+                           "null_char_actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "type" : "process-chars",
+                           "ws_seq_actions" : [
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "insert-chars"
+                              }
+                           ]
                         }
                      ],
                      "type" : "if"
@@ -6022,7 +6049,6 @@
                      "type" : "parse error"
                   },
                   {
-                     "foster_parenting" : 1,
                      "im" : "in body",
                      "type" : "USING-THE-RULES-FOR"
                   }
@@ -6086,8 +6112,227 @@
                   },
                   {
                      "foster_parenting" : 1,
-                     "im" : "in body",
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:a" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "remove_from_afe_and_oe" : 1,
+                           "tag_name" : "a",
+                           "type" : "adoption agency algorithm"
+                        }
+                     ],
+                     "cond" : [
+                        "afe",
+                        "in scope",
+                        "marker",
+                        "HTML:a"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "push onto the list of active formatting elements"
+                  }
+               ]
+            },
+            "START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:p"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "button",
+                        "HTML:p"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:applet marquee object" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "append-marker-to-afe"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  }
+               ]
+            },
+            "START:area wbr,br,embed img,keygen" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "type" : "acknowledge the token's self-closing flag"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  }
+               ]
+            },
+            "START:b big code em i s small strike strong tt u,font" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:base,basefont bgsound link,meta,noframes,title" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "im" : "in head",
                      "type" : "USING-THE-RULES-FOR"
+                  }
+               ]
+            },
+            "START:body" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ],
+                     "cond" : [
+                        "or",
+                        [
+                           "oe[1]",
+                           "is not",
+                           "HTML:body"
+                        ],
+                        [
+                           "oe[-1]",
+                           "is",
+                           "HTML:html"
+                        ],
+                        [
+                           "oe",
+                           "in scope",
+                           "all",
+                           "HTML:template"
+                        ]
+                     ],
+                     "false_actions" : [
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        },
+                        {
+                           "node" : "oe[1]",
+                           "type" : "set-attrs-if-missing"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
+            "START:button" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
                   }
                ]
             },
@@ -6144,6 +6389,147 @@
                   }
                ]
             },
+            "START:dd dt" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "pop-oe",
+                                 "while" : "HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "parse error"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "oe[-1]",
+                                    "is not",
+                                    "HTML:dd"
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "type" : "pop-oe",
+                                 "until" : "HTML:dd"
+                              },
+                              {
+                                 "type" : "break-for-each"
+                              }
+                           ],
+                           "cond" : [
+                              "node",
+                              "is",
+                              "HTML:dd"
+                           ],
+                           "false_actions" : [
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "pop-oe",
+                                       "while" : "HTML:dd HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+                                    },
+                                    {
+                                       "actions" : [
+                                          {
+                                             "type" : "parse error"
+                                          }
+                                       ],
+                                       "cond" : [
+                                          "oe[-1]",
+                                          "is not",
+                                          "HTML:dt"
+                                       ],
+                                       "type" : "if"
+                                    },
+                                    {
+                                       "type" : "pop-oe",
+                                       "until" : "HTML:dt"
+                                    },
+                                    {
+                                       "type" : "break-for-each"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "node",
+                                    "is",
+                                    "HTML:dt"
+                                 ],
+                                 "false_actions" : [
+                                    {
+                                       "actions" : [
+                                          {
+                                             "type" : "break-for-each"
+                                          }
+                                       ],
+                                       "cond" : [
+                                          "node",
+                                          "is",
+                                          "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                                       ],
+                                       "false_actions" : [
+                                       ],
+                                       "type" : "if"
+                                    }
+                                 ],
+                                 "type" : "if"
+                              }
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "between_actions" : [
+                     ],
+                     "type" : "for-each-reverse-oe-as-node"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:p"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "button",
+                        "HTML:p"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
             "START:form" : {
                "actions" : [
                   {
@@ -6183,6 +6569,209 @@
                   }
                ]
             },
+            "START:frame,head" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "ignore the token"
+                  }
+               ]
+            },
+            "START:frameset" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ],
+                     "cond" : [
+                        "or",
+                        [
+                           "oe[-1]",
+                           "is",
+                           "HTML:html"
+                        ],
+                        [
+                           "oe[1]",
+                           "is not",
+                           "HTML:body"
+                        ]
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ],
+                     "cond" : [
+                        "frameset-ok flag",
+                        "is",
+                        "not ok"
+                     ],
+                     "false_actions" : [
+                        {
+                           "item" : "oe[1]",
+                           "type" : "remove-tree"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "oe[1]"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "im" : "in frameset",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
+            "START:h1 h2 h3 h4 h5 h6" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:hr" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:p"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "button",
+                        "HTML:p"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "type" : "acknowledge the token's self-closing flag"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  }
+               ]
+            },
+            "START:html" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "all",
+                        "HTML:template"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "node" : "oe[0]",
+                     "type" : "set-attrs-if-missing"
+                  }
+               ]
+            },
+            "START:iframe" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:image" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "tag_name" : "img",
+                     "type" : "change the token's tag name"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
             "START:input" : {
                "actions" : [
                   {
@@ -6192,8 +6781,31 @@
                         },
                         {
                            "foster_parenting" : 1,
-                           "im" : "in body",
-                           "type" : "USING-THE-RULES-FOR"
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "type" : "acknowledge the token's self-closing flag"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "target" : "frameset-ok",
+                                 "type" : "set-false"
+                              }
+                           ],
+                           "cond" : [
+                              "token[type]",
+                              "lc is not",
+                              "hidden"
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "cond" : [
@@ -6219,11 +6831,666 @@
                   }
                ]
             },
+            "START:isindex" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "ignore the token"
+                        }
+                     ],
+                     "cond" : [
+                        "and",
+                        [
+                           "oe",
+                           "not in scope",
+                           "all",
+                           "HTML:template"
+                        ],
+                        [
+                           "form element pointer",
+                           "is not null"
+                        ]
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "acknowledge the token's self-closing flag"
+                        },
+                        {
+                           "target" : "frameset-ok",
+                           "type" : "set-false"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "pop-oe",
+                                 "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "parse error"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "oe[-1]",
+                                    "is not",
+                                    "HTML:p"
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "type" : "pop-oe",
+                                 "until" : "HTML:p"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "in scope",
+                              "button",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "attrs" : "none",
+                           "foster_parenting" : 1,
+                           "tag_name" : "form",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "set-form-element-pointer"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "not in scope",
+                              "all",
+                              "HTML:template"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "target" : "action",
+                                 "type" : "set-form-attr"
+                              }
+                           ],
+                           "cond" : [
+                              "token",
+                              "has attr",
+                              "action"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "attrs" : "none",
+                           "foster_parenting" : 1,
+                           "tag_name" : "hr",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "attrs" : "none",
+                           "foster_parenting" : 1,
+                           "tag_name" : "label",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "insert-chars",
+                           "value" : [
+                              "prompt-string"
+                           ]
+                        },
+                        {
+                           "attrs" : "isindex",
+                           "foster_parenting" : 1,
+                           "tag_name" : "input",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "insert-chars",
+                           "value" : [
+                              "prompt-string"
+                           ]
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "attrs" : "none",
+                           "foster_parenting" : 1,
+                           "tag_name" : "hr",
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "target" : "form element pointer",
+                                 "type" : "set-null"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "not in scope",
+                              "all",
+                              "HTML:template"
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
+            "START:li" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "pop-oe",
+                                 "while" : "HTML:dd HTML:dt HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+                              },
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "parse error"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "oe[-1]",
+                                    "is not",
+                                    "HTML:li"
+                                 ],
+                                 "type" : "if"
+                              },
+                              {
+                                 "type" : "pop-oe",
+                                 "until" : "HTML:li"
+                              },
+                              {
+                                 "type" : "break-for-each"
+                              }
+                           ],
+                           "cond" : [
+                              "node",
+                              "is",
+                              "HTML:li"
+                           ],
+                           "false_actions" : [
+                              {
+                                 "actions" : [
+                                    {
+                                       "type" : "break-for-each"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "node",
+                                    "is",
+                                    "HTML:applet,HTML:marquee,HTML:object,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:fieldset,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:img,HTML:input,HTML:isindex,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:menuitem,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:select,HTML:source,HTML:style,HTML:summary,HTML:textarea,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:li HTML:ol,HTML:ul HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                                 ],
+                                 "false_actions" : [
+                                 ],
+                                 "type" : "if"
+                              }
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "between_actions" : [
+                     ],
+                     "type" : "for-each-reverse-oe-as-node"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:p"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "button",
+                        "HTML:p"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:listing pre" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:math" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "type" : "adjust MathML attributes"
+                  },
+                  {
+                     "type" : "adjust foreign attributes"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "ns" : "MathML",
+                     "type" : "insert a foreign element"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "type" : "acknowledge the token's self-closing flag"
+                        }
+                     ],
+                     "cond" : [
+                        "token",
+                        "has",
+                        "self-closing flag"
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
+            "START:menuitem param source track" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "type" : "acknowledge the token's self-closing flag"
+                  }
+               ]
+            },
+            "START:nobr" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "tag_name" : "nobr",
+                           "type" : "adoption agency algorithm"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "reconstruct the active formatting elements"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "scope",
+                        "HTML:nobr"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "push onto the list of active formatting elements"
+                  }
+               ]
+            },
+            "START:noembed" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "state" : "RAWTEXT state",
+                     "type" : "switch the tokenizer"
+                  },
+                  {
+                     "target" : "original insertion mode",
+                     "type" : "set-current-im"
+                  },
+                  {
+                     "im" : "text",
+                     "type" : "switch the insertion mode"
+                  }
+               ]
+            },
+            "START:noscript" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "insert an HTML element"
+                        },
+                        {
+                           "state" : "RAWTEXT state",
+                           "type" : "switch the tokenizer"
+                        },
+                        {
+                           "target" : "original insertion mode",
+                           "type" : "set-current-im"
+                        },
+                        {
+                           "im" : "text",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "cond" : [
+                        "scripting"
+                     ],
+                     "false_actions" : [
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "foster_parenting" : 1,
+                           "type" : "insert an HTML element"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
+            "START:optgroup,option" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        "HTML:option"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:plaintext" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:p"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "button",
+                        "HTML:p"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "state" : "PLAINTEXT state",
+                     "type" : "switch the tokenizer"
+                  }
+               ]
+            },
+            "START:rp rt" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "scope",
+                        "HTML:ruby"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "parse error"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is not",
+                        "HTML:ruby"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
             "START:script,style,template" : {
                "actions" : [
                   {
                      "im" : "in head",
                      "type" : "USING-THE-RULES-FOR"
+                  }
+               ]
+            },
+            "START:select" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "im" : "in select in table",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "cond" : [
+                        "im",
+                        "is",
+                        [
+                           "in table",
+                           "in caption",
+                           "in table body",
+                           "in row",
+                           "in cell"
+                        ]
+                     ],
+                     "false_actions" : [
+                        {
+                           "im" : "in select",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            },
+            "START:svg" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "type" : "adjust SVG attributes"
+                  },
+                  {
+                     "type" : "adjust foreign attributes"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "ns" : "SVG",
+                     "type" : "insert a foreign element"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe"
+                        },
+                        {
+                           "type" : "acknowledge the token's self-closing flag"
+                        }
+                     ],
+                     "cond" : [
+                        "token",
+                        "has",
+                        "self-closing flag"
+                     ],
+                     "type" : "if"
                   }
                ]
             },
@@ -6295,6 +7562,99 @@
                   }
                ]
             },
+            "START:textarea" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "ignore-next-lf"
+                  },
+                  {
+                     "state" : "RCDATA state",
+                     "type" : "switch the tokenizer"
+                  },
+                  {
+                     "target" : "original insertion mode",
+                     "type" : "set-current-im"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  },
+                  {
+                     "im" : "text",
+                     "type" : "switch the insertion mode"
+                  }
+               ]
+            },
+            "START:xmp" : {
+               "actions" : [
+                  {
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe",
+                           "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              "HTML:p"
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : "HTML:p"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "button",
+                        "HTML:p"
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "reconstruct the active formatting elements"
+                  },
+                  {
+                     "target" : "frameset-ok",
+                     "type" : "set-false"
+                  },
+                  {
+                     "foster_parenting" : 1,
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "state" : "RAWTEXT state",
+                     "type" : "switch the tokenizer"
+                  },
+                  {
+                     "target" : "original insertion mode",
+                     "type" : "set-current-im"
+                  },
+                  {
+                     "im" : "text",
+                     "type" : "switch the insertion mode"
+                  }
+               ]
+            },
             "TEXT" : {
                "actions" : [
                   {
@@ -6325,9 +7685,36 @@
                            "type" : "parse error"
                         },
                         {
-                           "foster_parenting" : 1,
-                           "im" : "in body",
-                           "type" : "USING-THE-RULES-FOR"
+                           "actions" : [
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "insert-chars"
+                              },
+                              {
+                                 "target" : "frameset-ok",
+                                 "type" : "set-false"
+                              }
+                           ],
+                           "null_char_actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "type" : "process-chars",
+                           "ws_seq_actions" : [
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "insert-chars"
+                              }
+                           ]
                         }
                      ],
                      "type" : "if"
@@ -6549,9 +7936,36 @@
                            "type" : "parse error"
                         },
                         {
-                           "foster_parenting" : 1,
-                           "im" : "in body",
-                           "type" : "USING-THE-RULES-FOR"
+                           "actions" : [
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "insert-chars"
+                              },
+                              {
+                                 "target" : "frameset-ok",
+                                 "type" : "set-false"
+                              }
+                           ],
+                           "null_char_actions" : [
+                              {
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "type" : "process-chars",
+                           "ws_seq_actions" : [
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "foster_parenting" : 1,
+                                 "type" : "insert-chars"
+                              }
+                           ]
                         }
                      ],
                      "type" : "if"
@@ -7241,6 +8655,8 @@
                ]
             },
             "START-ELSE" : {
+               "actions" : [
+               ]
             },
             "TEXT" : {
                "actions" : [
