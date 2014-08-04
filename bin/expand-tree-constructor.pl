@@ -692,8 +692,80 @@ for my $im (keys %{$Data->{ims}}) {
         }
         return $new_acts;
       } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
-    } # $cond
-  }
+    }
+  } # $cond
+
+  @cond = keys %{$Data->{ims}->{$im}->{conds}};
+  for my $cond (@cond) {
+    if ($cond =~ /^(START|END)/) {
+      my $cond_token_type = $1;
+      unless (@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}} == 1 and
+              $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR') {
+        my %cond;
+        $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+          my $acts = shift;
+          my $new_acts = [];
+          for my $act (@$acts) {
+            if ($act->{type} eq 'USING-THE-RULES-FOR' and
+                not $act->{foster_parenting}) {
+              if (ref $act->{im}) {
+                if ($act->{im}->[0] eq 'current') {
+                  push @$new_acts, {type => 'process-using-current-im'};
+                } else {
+                  die "Unknown IM |$act->{im}->[0]|";
+                }
+              } else {
+                if ($act->{im} eq 'in body') {
+                  push @$new_acts, {type => 'process-using-in-body-im'};
+                } else {
+                  die unless $cond =~ /^\Q$cond_token_type\E:(.+)$/;
+                  my @group = split /,/, $1;
+                  my $group_to_cond = {};
+                  for my $c (keys %{$Data->{ims}->{$act->{im}}->{conds}}) {
+                    if ($c =~ /^\Q$cond_token_type\E:(.+)$/) {
+                      $group_to_cond->{$_} = $c for split /,/, $1;
+                    }
+                  }
+                  my $cond_rev = {};
+                  push @{$cond_rev->{$group_to_cond->{$_}} ||= []}, $_
+                      for @group;
+                  for (keys %$cond_rev) {
+                    $cond_rev->{$_} = $cond_token_type . ':' . join ',', @{$cond_rev->{$_}};
+                  }
+                  %cond = reverse %$cond_rev;
+                  push @$new_acts, $act;
+                }
+              }
+            } else {
+              push @$new_acts, $act;
+            }
+          }
+          return $new_acts;
+        } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        for my $c (keys %cond) {
+          my $changed = 0;
+          $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
+            my $acts = shift;
+            my $new_acts = [];
+            for my $act (@$acts) {
+              if ($act->{type} eq 'USING-THE-RULES-FOR' and
+                  not $act->{foster_parenting}) {
+                my $copied = $Data->{ims}->{$act->{im}}->{conds}->{$cond{$c}}->{actions}
+                    or die "No actions for |$act->{im}| |$cond{$c}| (-> |$c|)";
+                $changed = 1;
+                push @$new_acts, @$copied;
+              } else {
+                push @$new_acts, $act;
+              }
+            }
+            return $new_acts;
+          } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+          delete $Data->{ims}->{$im}->{conds}->{$c} unless $changed;
+        } # $c
+        delete $Data->{ims}->{$im}->{conds}->{$cond} if keys %cond;
+      }
+    }
+  } # $cond
 }
 
 {
@@ -967,7 +1039,8 @@ for my $im (keys %{$Data->{ims}}) {
 }
 
 for my $im (keys %{$Data->{ims}}) {
-  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+  my @cond = keys %{$Data->{ims}->{$im}->{conds}};
+  for my $cond (@cond) {
     if ($Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) {
       $Data->{ims}->{$im}->{conds}->{$cond} = (delete $Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) . ';' . $cond;
     } else {

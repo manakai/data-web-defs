@@ -317,7 +317,7 @@
             "type" : "reprocess the token"
          }
       ],
-      "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title" : [
+      "after head;START:base,basefont bgsound link" : [
          {
             "type" : "parse error"
          },
@@ -326,8 +326,13 @@
             "type" : "push-oe"
          },
          {
-            "im" : "in head",
-            "type" : "USING-THE-RULES-FOR"
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
          },
          {
             "item" : "head element pointer",
@@ -362,6 +367,177 @@
          },
          {
             "type" : "ignore the token"
+         }
+      ],
+      "after head;START:meta" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "push-oe"
+         },
+         {
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
+         },
+         {
+            "type" : "change-the-encoding-if-appropriate"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "remove-oe"
+         }
+      ],
+      "after head;START:noframes,style" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "push-oe"
+         },
+         {
+            "type" : "insert an HTML element"
+         },
+         {
+            "state" : "RAWTEXT state",
+            "type" : "switch the tokenizer"
+         },
+         {
+            "target" : "original insertion mode",
+            "type" : "set-current-im"
+         },
+         {
+            "im" : "text",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "remove-oe"
+         }
+      ],
+      "after head;START:script" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "push-oe"
+         },
+         {
+            "target" : "adjusted insertion location",
+            "type" : "set-appropriate-place"
+         },
+         {
+            "intended_parent" : "adjusted insertion location parent",
+            "type" : "create an HTML element"
+         },
+         {
+            "target" : "parser-inserted",
+            "type" : "set-node-flag"
+         },
+         {
+            "target" : "force-async",
+            "type" : "unset-node-flag"
+         },
+         {
+            "actions" : [
+               {
+                  "target" : "already started",
+                  "type" : "set-node-flag"
+               }
+            ],
+            "cond" : [
+               "fragment"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "append-to-adjusted-insertion-location"
+         },
+         {
+            "type" : "push-oe"
+         },
+         {
+            "state" : "script data state",
+            "type" : "switch the tokenizer"
+         },
+         {
+            "target" : "original insertion mode",
+            "type" : "set-current-im"
+         },
+         {
+            "im" : "text",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "remove-oe"
+         }
+      ],
+      "after head;START:template" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "push-oe"
+         },
+         {
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "append-marker-to-afe"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
+         },
+         {
+            "im" : "in template",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "im" : "in template",
+            "type" : "push-template-ims"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "remove-oe"
+         }
+      ],
+      "after head;START:title" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "push-oe"
+         },
+         {
+            "type" : "insert an HTML element"
+         },
+         {
+            "state" : "RCDATA state",
+            "type" : "switch the tokenizer"
+         },
+         {
+            "target" : "original insertion mode",
+            "type" : "set-current-im"
+         },
+         {
+            "im" : "text",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "item" : "head element pointer",
+            "type" : "remove-oe"
          }
       ],
       "after head;TEXT" : [
@@ -3434,10 +3610,7 @@
                   ],
                   "false_actions" : [
                      {
-                        "im" : [
-                           "current"
-                        ],
-                        "type" : "USING-THE-RULES-FOR"
+                        "type" : "process-using-current-im"
                      },
                      {
                         "type" : "break-for-each"
@@ -3526,10 +3699,7 @@
                         ],
                         "false_actions" : [
                            {
-                              "im" : [
-                                 "current"
-                              ],
-                              "type" : "USING-THE-RULES-FOR"
+                              "type" : "process-using-current-im"
                            },
                            {
                               "type" : "break-for-each"
@@ -5519,8 +5689,7 @@
             "type" : "parse error"
          },
          {
-            "im" : "in body",
-            "type" : "USING-THE-RULES-FOR"
+            "type" : "process-using-in-body-im"
          }
       ],
       "in table;END:a,b big code em i s small strike strong tt u,font,nobr" : [
@@ -5788,13 +5957,18 @@
             "type" : "insert an HTML element"
          }
       ],
-      "in table;START:base,basefont bgsound link,meta,noframes,title" : [
+      "in table;START:base,basefont bgsound link" : [
          {
             "type" : "parse error"
          },
          {
-            "im" : "in head",
-            "type" : "USING-THE-RULES-FOR"
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
          }
       ],
       "in table;START:body" : [
@@ -6679,6 +6853,23 @@
             "type" : "acknowledge the token's self-closing flag"
          }
       ],
+      "in table;START:meta" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
+         },
+         {
+            "type" : "change-the-encoding-if-appropriate"
+         }
+      ],
       "in table;START:nobr" : [
          {
             "type" : "parse error"
@@ -6724,6 +6915,26 @@
          },
          {
             "foster_parenting" : 1,
+            "type" : "insert an HTML element"
+         },
+         {
+            "state" : "RAWTEXT state",
+            "type" : "switch the tokenizer"
+         },
+         {
+            "target" : "original insertion mode",
+            "type" : "set-current-im"
+         },
+         {
+            "im" : "text",
+            "type" : "switch the insertion mode"
+         }
+      ],
+      "in table;START:noframes" : [
+         {
+            "type" : "parse error"
+         },
+         {
             "type" : "insert an HTML element"
          },
          {
@@ -7049,6 +7260,26 @@
          {
             "target" : "frameset-ok",
             "type" : "set-false"
+         },
+         {
+            "im" : "text",
+            "type" : "switch the insertion mode"
+         }
+      ],
+      "in table;START:title" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "type" : "insert an HTML element"
+         },
+         {
+            "state" : "RCDATA state",
+            "type" : "switch the tokenizer"
+         },
+         {
+            "target" : "original insertion mode",
+            "type" : "set-current-im"
          },
          {
             "im" : "text",
@@ -8346,8 +8577,8 @@
             "START:applet marquee object" : "after head;START-ELSE",
             "START:area wbr" : "after head;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "after head;START-ELSE",
-            "START:base" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
-            "START:basefont bgsound link" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:base" : "after head;START:base,basefont bgsound link",
+            "START:basefont bgsound link" : "after head;START:base,basefont bgsound link",
             "START:blockquote center div dl menu ol ul" : "after head;START-ELSE",
             "START:body" : "after head;START:body",
             "START:br" : "after head;START-ELSE",
@@ -8375,10 +8606,10 @@
             "START:malignmark mglyph" : "after head;START-ELSE",
             "START:math" : "after head;START-ELSE",
             "START:menuitem param source track" : "after head;START-ELSE",
-            "START:meta" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:meta" : "after head;START:meta",
             "START:nobr" : "after head;START-ELSE",
             "START:noembed" : "after head;START-ELSE",
-            "START:noframes" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:noframes" : "after head;START:noframes,style",
             "START:noscript" : "after head;START-ELSE",
             "START:optgroup" : "after head;START-ELSE",
             "START:option" : "after head;START-ELSE",
@@ -8387,16 +8618,16 @@
             "START:rp rt" : "after head;START-ELSE",
             "START:ruby span sub sup var" : "after head;START-ELSE",
             "START:sarcasm" : "after head;START-ELSE",
-            "START:script" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:script" : "after head;START:script",
             "START:select" : "after head;START-ELSE",
-            "START:style" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:style" : "after head;START:noframes,style",
             "START:svg" : "after head;START-ELSE",
             "START:table" : "after head;START-ELSE",
             "START:tbody tfoot thead" : "after head;START-ELSE",
             "START:td th" : "after head;START-ELSE",
-            "START:template" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:template" : "after head;START:template",
             "START:textarea" : "after head;START-ELSE",
-            "START:title" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title",
+            "START:title" : "after head;START:title",
             "START:tr" : "after head;START-ELSE",
             "START:xmp" : "after head;START-ELSE",
             "TEXT" : "after head;TEXT"
@@ -9732,8 +9963,8 @@
             "START:applet marquee object" : "in table;START:applet marquee object",
             "START:area wbr" : "in table;START:area wbr,br,embed img,keygen",
             "START:b big code em i s small strike strong tt u" : "in table;START:b big code em i s small strike strong tt u,font",
-            "START:base" : "in table;START:base,basefont bgsound link,meta,noframes,title",
-            "START:basefont bgsound link" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:base" : "in table;START:base,basefont bgsound link",
+            "START:basefont bgsound link" : "in table;START:base,basefont bgsound link",
             "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p",
             "START:body" : "in table;START:body",
             "START:br" : "in table;START:area wbr,br,embed img,keygen",
@@ -9761,10 +9992,10 @@
             "START:malignmark mglyph" : "in table;START-ELSE",
             "START:math" : "in table;START:math",
             "START:menuitem param source track" : "in table;START:menuitem param source track",
-            "START:meta" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:meta" : "in table;START:meta",
             "START:nobr" : "in table;START:nobr",
             "START:noembed" : "in table;START:noembed",
-            "START:noframes" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:noframes" : "in table;START:noframes",
             "START:noscript" : "in table;START:noscript",
             "START:optgroup" : "in table;START:optgroup,option",
             "START:option" : "in table;START:optgroup,option",
@@ -9782,7 +10013,7 @@
             "START:td th" : "in row;START:td th",
             "START:template" : "in head;START:template",
             "START:textarea" : "in table;START:textarea",
-            "START:title" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:title" : "in table;START:title",
             "START:tr" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr",
             "START:xmp" : "in table;START:xmp",
             "TEXT" : "in row;TEXT"
@@ -10110,8 +10341,8 @@
             "START:applet marquee object" : "in table;START:applet marquee object",
             "START:area wbr" : "in table;START:area wbr,br,embed img,keygen",
             "START:b big code em i s small strike strong tt u" : "in table;START:b big code em i s small strike strong tt u,font",
-            "START:base" : "in table;START:base,basefont bgsound link,meta,noframes,title",
-            "START:basefont bgsound link" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:base" : "in table;START:base,basefont bgsound link",
+            "START:basefont bgsound link" : "in table;START:base,basefont bgsound link",
             "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p",
             "START:body" : "in table;START:body",
             "START:br" : "in table;START:area wbr,br,embed img,keygen",
@@ -10139,10 +10370,10 @@
             "START:malignmark mglyph" : "in table;START-ELSE",
             "START:math" : "in table;START:math",
             "START:menuitem param source track" : "in table;START:menuitem param source track",
-            "START:meta" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:meta" : "in table;START:meta",
             "START:nobr" : "in table;START:nobr",
             "START:noembed" : "in table;START:noembed",
-            "START:noframes" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:noframes" : "in table;START:noframes",
             "START:noscript" : "in table;START:noscript",
             "START:optgroup" : "in table;START:optgroup,option",
             "START:option" : "in table;START:optgroup,option",
@@ -10160,7 +10391,7 @@
             "START:td th" : "in table;START:td th,tr",
             "START:template" : "in head;START:template",
             "START:textarea" : "in table;START:textarea",
-            "START:title" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:title" : "in table;START:title",
             "START:tr" : "in table;START:td th,tr",
             "START:xmp" : "in table;START:xmp",
             "TEXT" : "in table;TEXT"
@@ -10236,8 +10467,8 @@
             "START:applet marquee object" : "in table;START:applet marquee object",
             "START:area wbr" : "in table;START:area wbr,br,embed img,keygen",
             "START:b big code em i s small strike strong tt u" : "in table;START:b big code em i s small strike strong tt u,font",
-            "START:base" : "in table;START:base,basefont bgsound link,meta,noframes,title",
-            "START:basefont bgsound link" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:base" : "in table;START:base,basefont bgsound link",
+            "START:basefont bgsound link" : "in table;START:base,basefont bgsound link",
             "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p",
             "START:body" : "in table;START:body",
             "START:br" : "in table;START:area wbr,br,embed img,keygen",
@@ -10265,10 +10496,10 @@
             "START:malignmark mglyph" : "in table;START-ELSE",
             "START:math" : "in table;START:math",
             "START:menuitem param source track" : "in table;START:menuitem param source track",
-            "START:meta" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:meta" : "in table;START:meta",
             "START:nobr" : "in table;START:nobr",
             "START:noembed" : "in table;START:noembed",
-            "START:noframes" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:noframes" : "in table;START:noframes",
             "START:noscript" : "in table;START:noscript",
             "START:optgroup" : "in table;START:optgroup,option",
             "START:option" : "in table;START:optgroup,option",
@@ -10286,7 +10517,7 @@
             "START:td th" : "in table body;START:td th",
             "START:template" : "in head;START:template",
             "START:textarea" : "in table;START:textarea",
-            "START:title" : "in table;START:base,basefont bgsound link,meta,noframes,title",
+            "START:title" : "in table;START:title",
             "START:tr" : "in table body;START:tr",
             "START:xmp" : "in table;START:xmp",
             "TEXT" : "in table body;TEXT"
