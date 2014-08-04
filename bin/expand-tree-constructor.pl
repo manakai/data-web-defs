@@ -15,14 +15,17 @@ delete $Data->{$_} for grep { /^adjusted_/ } keys %$Data;
 sub for_actions (&$);
 sub for_actions (&$) {
   my ($code, $acts) = @_;
-  for my $act (@$acts) {
+  my $new_acts = [];
+  for (@$acts) {
+    my $act = {%$_};
     for (qw(actions false_actions between_actions ws_actions null_actions
             char_actions ws_char_actions ws_seq_actions
             null_char_actions null_seq_actions)) {
       $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
     }
+    push @$new_acts, $act;
   }
-  return $code->($acts);
+  return $code->($new_acts);
 } # for_actions
 
 sub apply_except ($$) {
@@ -50,6 +53,27 @@ sub apply_except ($$) {
     return $act;
   }
 } # apply_except
+
+sub foster_parenting_actions ($) {
+  return for_actions {
+    my $acts = shift;
+    my $new_acts = [];
+    for my $act (@$acts) {
+      if ({
+        'insert-chars' => 1,
+        'insert an HTML element' => 1,
+        'insert a foreign element' => 1,
+        'reconstruct the active formatting elements' => 1,
+        'adoption agency algorithm' => 1,
+      }->{$act->{type}}) {
+        push @$new_acts, {%$act, foster_parenting => 1};
+      } else {
+        push @$new_acts, $act;
+      }
+    }
+    return $new_acts;
+  } shift;
+} # foster_parenting_actions
 
 for my $step_name (keys %{$Data->{tree_steps}}) {
   $Data->{tree_steps}->{$step_name}->{actions} = for_actions {
@@ -98,6 +122,18 @@ for my $im (keys %{$Data->{ims}}) {
           push @$new_acts, map {
             apply_except $_, $act->{except}
           } @{$Data->{tree_steps}->{$act->{type}}->{actions}};
+        } elsif ($act->{type} eq 'reprocess the token' and
+                 @$new_acts and
+                 $new_acts->[-1]->{type} eq "change the token's tag name") {
+          my $tag_name = $new_acts->[-1]->{tag_name};
+          pop @$new_acts;
+          push @$new_acts, map {
+            if ($_->{type} eq 'insert an HTML element') {
+              +{%$_, tag_name => $tag_name};
+            } else {
+              $_;
+            }
+          } @{$Data->{ims}->{$im}->{conds}->{[grep { /^START:.*\b\Q$tag_name\E\b/ } keys %{$Data->{ims}->{$im}->{conds}}]->[0]}->{actions}};
         } else {
           push @$new_acts, $act;
         }
@@ -457,6 +493,7 @@ my $tag_name_to_group = {};
     next unless defined $ims->{$im}->{conds}->{TEXT};
     $ims->{$im}->{conds}->{TEXT}->{actions} = for_actions {
       my $acts = shift;
+      my $new_acts = [];
       my $next_im;
       for my $act (@$acts) {
         if ($act->{type} eq 'USING-THE-RULES-FOR' and
@@ -464,13 +501,18 @@ my $tag_name_to_group = {};
             not ref $act->{im} and
             defined $next_im and
             $act->{im} eq $next_im) {
-          $act->{type} = 'reprocess the token';
-          delete $act->{im};
+          push @$new_acts, {type => 'reprocess the token'};
+        } elsif ($act->{type} eq 'USING-THE-RULES-FOR' and
+                 $act->{foster_parenting}) {
+          push @$new_acts, @{foster_parenting_actions $ims->{$act->{im}}->{conds}->{TEXT}->{actions}};
         } elsif ($act->{type} eq 'switch the insertion mode') {
           $next_im = $act->{im};
+          push @$new_acts, $act;
+        } else {
+          push @$new_acts, $act;
         }
       }
-      return $acts;
+      return $new_acts;
     } $ims->{$im}->{conds}->{TEXT}->{actions};
   }
 
@@ -525,12 +567,206 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     redo if $changed;
   } # $changed
 
-  for my $im (keys %{$Data->{ims}}) {
-    if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}) {
-      $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{also_used_by}->{$im} = 1;
+  #for my $im (keys %{$Data->{ims}}) {
+  #  if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}) {
+  #    $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{also_used_by}->{$im} = 1;
+  #  }
+  #}
+} # $token_type
+
+for my $im (keys %{$Data->{ims}}) {
+  my @cond = keys %{$Data->{ims}->{$im}->{conds}};
+  my %start_found;
+  my %end_found;
+  for (@cond) {
+    if (/^START:(.+)$/) {
+      $start_found{$_} = 1 for split /,/, $1;
+    } elsif (/^END:(.+)$/) {
+      $end_found{$_} = 1 for split /,/, $1;
     }
   }
-} # $token_type
+
+  for my $cond (@cond) {
+    if ($cond =~ /^START:\S+$/) {
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        my $new_acts = [];
+        ACT: for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              $act->{foster_parenting}) {
+            for (keys %{$Data->{ims}->{$act->{im}}->{conds}}) {
+              next unless /^START:(.+)$/;
+              next unless {map { ("START:$_" => 1) } split /,/, $1}->{$cond};
+              push @$new_acts, @{foster_parenting_actions $Data->{ims}->{$act->{im}}->{conds}->{$_}->{actions}};
+              next ACT;
+            }
+            push @$new_acts, @{foster_parenting_actions $Data->{ims}->{$act->{im}}->{conds}->{'START-ELSE'}->{actions}};
+          } else {
+            push @$new_acts, $act;
+          }
+        }
+        return $new_acts;
+      } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+    } elsif ($cond eq 'START-ELSE') {
+      my %cond;
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              $act->{foster_parenting}) {
+            for (keys %{$Data->{ims}->{$act->{im}}->{conds}}) {
+              if (/^START:(.+)$/) {
+                $cond{'START:' . join ',', grep { not $start_found{$_} } split /,/, $1} = $_;
+              }
+            }
+            delete $cond{'START:'};
+            $cond{'START-ELSE'} = 'START-ELSE';
+          }
+        }
+        return $acts;
+      } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      for my $c (keys %cond) {
+        $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
+          my $acts = shift;
+          my $new_acts = [];
+          for my $act (@$acts) {
+            if ($act->{type} eq 'USING-THE-RULES-FOR' and
+                $act->{foster_parenting}) {
+              push @$new_acts, @{foster_parenting_actions $Data->{ims}->{$act->{im}}->{conds}->{$cond{$c}}->{actions}};
+            } else {
+              push @$new_acts, $act;
+            }
+          }
+          return $new_acts;
+        } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      }
+    } elsif ($cond eq 'END-ELSE') {
+      my %cond;
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              $act->{foster_parenting}) {
+            for (keys %{$Data->{ims}->{$act->{im}}->{conds}}) {
+              if (/^END:(.+)$/) {
+                $cond{'END:' . join ',', grep { not $end_found{$_} } split /,/, $1} = $_;
+              }
+            }
+            delete $cond{'END:'};
+            #$cond{'END-ELSE'} = 'END-ELSE';
+          }
+        }
+        return $acts;
+      } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      for my $c (keys %cond) {
+        my $changed = 0;
+        $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
+          my $acts = shift;
+          my $new_acts = [];
+          for my $act (@$acts) {
+            if ($act->{type} eq 'USING-THE-RULES-FOR' and
+                $act->{foster_parenting}) {
+              my $copied = foster_parenting_actions $Data->{ims}->{$act->{im}}->{conds}->{$cond{$c}}->{actions};
+              if ((perl2json_chars $copied) =~ /foster_parenting/) {
+                $changed = 1;
+              }
+              push @$new_acts, @$copied;
+            } else {
+              push @$new_acts, $act;
+            }
+          }
+          return $new_acts;
+        } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        delete $Data->{ims}->{$im}->{conds}->{$c} unless $changed;
+      }
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        my $new_acts = [];
+        for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              $act->{foster_parenting}) {
+            push @$new_acts, {type => 'USING-THE-RULES-FOR', im => $act->{im}};
+          } else {
+            push @$new_acts, $act;
+          }
+        }
+        return $new_acts;
+      } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+    }
+  } # $cond
+
+  @cond = keys %{$Data->{ims}->{$im}->{conds}};
+  for my $cond (@cond) {
+    if ($cond =~ /^(START|END)/) {
+      my $cond_token_type = $1;
+      unless (@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}} == 1 and
+              $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR') {
+        my %cond;
+        $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+          my $acts = shift;
+          my $new_acts = [];
+          for my $act (@$acts) {
+            if ($act->{type} eq 'USING-THE-RULES-FOR' and
+                not $act->{foster_parenting}) {
+              if (ref $act->{im}) {
+                if ($act->{im}->[0] eq 'current') {
+                  push @$new_acts, {type => 'process-using-current-im'};
+                } else {
+                  die "Unknown IM |$act->{im}->[0]|";
+                }
+              } else {
+                if ($act->{im} eq 'in body') {
+                  push @$new_acts, {type => 'process-using-in-body-im'};
+                } else {
+                  die unless $cond =~ /^\Q$cond_token_type\E:(.+)$/;
+                  my @group = split /,/, $1;
+                  my $group_to_cond = {};
+                  for my $c (keys %{$Data->{ims}->{$act->{im}}->{conds}}) {
+                    if ($c =~ /^\Q$cond_token_type\E:(.+)$/) {
+                      $group_to_cond->{$_} = $c for split /,/, $1;
+                    }
+                  }
+                  my $cond_rev = {};
+                  push @{$cond_rev->{$group_to_cond->{$_}} ||= []}, $_
+                      for @group;
+                  for (keys %$cond_rev) {
+                    $cond_rev->{$_} = $cond_token_type . ':' . join ',', @{$cond_rev->{$_}};
+                  }
+                  %cond = reverse %$cond_rev;
+                  push @$new_acts, $act;
+                }
+              }
+            } else {
+              push @$new_acts, $act;
+            }
+          }
+          return $new_acts;
+        } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        for my $c (keys %cond) {
+          my $changed = 0;
+          $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
+            my $acts = shift;
+            my $new_acts = [];
+            for my $act (@$acts) {
+              if ($act->{type} eq 'USING-THE-RULES-FOR' and
+                  not $act->{foster_parenting}) {
+                my $copied = $Data->{ims}->{$act->{im}}->{conds}->{$cond{$c}}->{actions}
+                    or die "No actions for |$act->{im}| |$cond{$c}| (-> |$c|)";
+                $changed = 1;
+                push @$new_acts, @$copied;
+              } else {
+                push @$new_acts, $act;
+              }
+            }
+            return $new_acts;
+          } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+          delete $Data->{ims}->{$im}->{conds}->{$c} unless $changed;
+        } # $c
+        delete $Data->{ims}->{$im}->{conds}->{$cond} if keys %cond;
+      }
+    }
+  } # $cond
+}
 
 {
   my @same_tag_name;
@@ -802,8 +1038,56 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
   } grep { not $fnd{$_}++ } @{$Data->{element_matching}->{element_groups}};
 }
 
+for my $im (keys %{$Data->{ims}}) {
+  my @cond = keys %{$Data->{ims}->{$im}->{conds}};
+  for my $cond (@cond) {
+    if ($Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) {
+      $Data->{ims}->{$im}->{conds}->{$cond} = (delete $Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) . ';' . $cond;
+    } else {
+      my $key = $im . ';' . $cond;
+      if (@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}} == 1 and
+          $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR' and
+          not $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{foster_parenting} and
+          not ref $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{im}) {
+        $key = '@@' . $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{im};
+      } else {
+        $Data->{actions}->{$key} = delete $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      }
+      if ($cond =~ /^(START|END):(.+)$/) {
+        my $type = $1;
+        delete $Data->{ims}->{$im}->{conds}->{$cond};
+        for (split /,/, $2) {
+          $Data->{ims}->{$im}->{conds}->{"$type:$_"} = $key;
+        }
+      } else {
+        $Data->{ims}->{$im}->{conds}->{$cond} = $key;
+      }
+    }
+  }
+  for (@{$Data->{tag_name_groups}}) {
+    $Data->{ims}->{$im}->{conds}->{"START:$_"} ||= $Data->{ims}->{$im}->{conds}->{'START-ELSE'}
+        if defined $Data->{ims}->{$im}->{conds}->{'START-ELSE'};
+    $Data->{ims}->{$im}->{conds}->{"END:$_"} ||= $Data->{ims}->{$im}->{conds}->{'END-ELSE'}
+        if defined $Data->{ims}->{$im}->{conds}->{'END-ELSE'};
+  }
+} # $im
 {
-  my $ims = perl2json_chars $Data->{ims};
+  my $changed = 0;
+  for my $im (keys %{$Data->{ims}}) {
+    for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+      if ($Data->{ims}->{$im}->{conds}->{$cond} =~ /^\@\@(.+)$/) {
+        unless ($Data->{ims}->{$im}->{conds}->{$cond} eq $Data->{ims}->{$1}->{conds}->{$cond}) {
+          $Data->{ims}->{$im}->{conds}->{$cond} = $Data->{ims}->{$1}->{conds}->{$cond};
+          $changed = 1;
+        }
+      }
+    }
+  } # $im
+  redo if $changed;
+}
+
+{
+  my $ims = perl2json_chars $Data->{actions};
   my @step_name = keys %{$Data->{tree_steps}};
   for my $step_name (@step_name) {
     unless ($ims =~ /\Q$step_name\E/) {

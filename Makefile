@@ -333,6 +333,7 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"SAME-AS"' $@ > /dev/null)
 	!(grep '"LABEL"' $@ > /dev/null)
 	!(grep '"LOOP"' $@ > /dev/null)
+	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@

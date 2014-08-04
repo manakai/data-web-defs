@@ -1576,7 +1576,8 @@ sub process_actions ($) {
 
     if ($act->{type} eq 'REPROCESS') {
       if ($act->{RULE} eq '"br" start tag token') {
-        $act->{type} = 'reprocess <br>';
+        $act->{type} = 'SAME-AS';
+        $act->{FIELD} = '"br" start tag';
         delete $act->{RULE};
       } elsif ($act->{RULE} eq 'the "anything else" entry in the "in table" insertion mode' and
                $act->{TARGET} eq 'the character tokens in the pending table character tokens list') {
@@ -2066,6 +2067,17 @@ for my $im (keys %{$Data->{ims}}) {
               my $else = $Data->{ims}->{$im}->{conds}->{'END:script'}->{actions}->[0]
                   or die "Insertion mode |$im| has no |END:script|";
               push @$new_acts, @{$else->{actions}};
+              next;
+            } elsif ($act->{FIELD} eq '"br" start tag') {
+              my $else = $Data->{ims}->{$im}->{conds}->{[grep { /^START:.*\bbr\b/ } keys %{$Data->{ims}->{$im}->{conds}}]->[0]}
+                  or die "Insertion mode |$im| has no |START:br|";
+              push @$new_acts, map {
+                if ($_->{type} eq 'insert an HTML element') {
+                  +{%$_, tag_name => 'br', attrs => 'none'};
+                } else {
+                  $_;
+                }
+              } @{$else->{actions}};
               next;
             } else {
               warn $act->{FIELD};
