@@ -964,6 +964,12 @@ for my $im (keys %{$Data->{ims}}) {
       }
     }
   }
+  for (@{$Data->{tag_name_groups}}) {
+    $Data->{ims}->{$im}->{conds}->{"START:$_"}->{steps} ||= $Data->{ims}->{$im}->{conds}->{'START-ELSE'}->{steps}
+        if defined $Data->{ims}->{$im}->{conds}->{'START-ELSE'};
+    $Data->{ims}->{$im}->{conds}->{"END:$_"}->{steps} ||= $Data->{ims}->{$im}->{conds}->{'END-ELSE'}->{steps}
+        if defined $Data->{ims}->{$im}->{conds}->{'END-ELSE'};
+  }
 }
 
 {
