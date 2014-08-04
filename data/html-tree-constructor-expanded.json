@@ -7991,7 +7991,13 @@
             "END-ELSE" : {
                "steps" : "after head;END-ELSE"
             },
-            "END:body,br,html" : {
+            "END:body" : {
+               "steps" : "after head;END:body,br,html"
+            },
+            "END:br" : {
+               "steps" : "after head;END:body,br,html"
+            },
+            "END:html" : {
                "steps" : "after head;END:body,br,html"
             },
             "END:template" : {
@@ -8003,7 +8009,10 @@
             "START-ELSE" : {
                "steps" : "after head;START-ELSE"
             },
-            "START:base,basefont bgsound link,meta,noframes,script,style,template,title" : {
+            "START:base" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:basefont bgsound link" : {
                "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
             },
             "START:body" : {
@@ -8017,6 +8026,24 @@
             },
             "START:html" : {
                "steps" : "after head;START:html"
+            },
+            "START:meta" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:noframes" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:script" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:style" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:template" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:title" : {
+               "steps" : "after head;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
             },
             "TEXT" : {
                "steps" : "after head;TEXT"
@@ -8034,7 +8061,16 @@
             "END-ELSE" : {
                "steps" : "before head;END-ELSE"
             },
-            "END:body,br,head,html" : {
+            "END:body" : {
+               "steps" : "before head;END:body,br,head,html"
+            },
+            "END:br" : {
+               "steps" : "before head;END:body,br,head,html"
+            },
+            "END:head" : {
+               "steps" : "before head;END:body,br,head,html"
+            },
+            "END:html" : {
                "steps" : "before head;END:body,br,head,html"
             },
             "EOF" : {
@@ -8065,7 +8101,16 @@
             "END-ELSE" : {
                "steps" : "before html;END-ELSE"
             },
-            "END:body,br,head,html" : {
+            "END:body" : {
+               "steps" : "before html;END:body,br,head,html"
+            },
+            "END:br" : {
+               "steps" : "before html;END:body,br,head,html"
+            },
+            "END:head" : {
+               "steps" : "before html;END:body,br,head,html"
+            },
+            "END:html" : {
                "steps" : "before html;END:body,br,head,html"
             },
             "EOF" : {
@@ -8093,14 +8138,20 @@
             "END-ELSE" : {
                "steps" : "in body;END-ELSE"
             },
-            "END:a,b big code em i s small strike strong tt u,font,nobr" : {
+            "END:a" : {
                "steps" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr"
             },
-            "END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,listing pre" : {
+            "END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary" : {
                "steps" : "in body;END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,listing pre"
             },
             "END:applet marquee object" : {
                "steps" : "in body;END:applet marquee object"
+            },
+            "END:b big code em i s small strike strong tt u" : {
+               "steps" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr"
+            },
+            "END:blockquote center div dl menu ol ul" : {
+               "steps" : "in body;END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,listing pre"
             },
             "END:body" : {
                "steps" : "in body;END:body"
@@ -8108,8 +8159,14 @@
             "END:br" : {
                "steps" : "in body;END:br"
             },
+            "END:button" : {
+               "steps" : "in body;END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,listing pre"
+            },
             "END:dd dt" : {
                "steps" : "in body;END:dd dt"
+            },
+            "END:font" : {
+               "steps" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr"
             },
             "END:form" : {
                "steps" : "in body;END:form"
@@ -8122,6 +8179,12 @@
             },
             "END:li" : {
                "steps" : "in body;END:li"
+            },
+            "END:listing pre" : {
+               "steps" : "in body;END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,listing pre"
+            },
+            "END:nobr" : {
+               "steps" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr"
             },
             "END:p" : {
                "steps" : "in body;END:p"
@@ -8141,41 +8204,68 @@
             "START:a" : {
                "steps" : "in body;START:a"
             },
-            "START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p" : {
+            "START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary" : {
                "steps" : "in body;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p"
             },
             "START:applet marquee object" : {
                "steps" : "in body;START:applet marquee object"
             },
-            "START:area wbr,br,embed img,keygen" : {
+            "START:area wbr" : {
                "steps" : "in body;START:area wbr,br,embed img,keygen"
             },
-            "START:b big code em i s small strike strong tt u,font" : {
+            "START:b big code em i s small strike strong tt u" : {
                "steps" : "in body;START:b big code em i s small strike strong tt u,font"
             },
-            "START:base,basefont bgsound link,meta,noframes,script,style,template,title" : {
+            "START:base" : {
                "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:basefont bgsound link" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:blockquote center div dl menu ol ul" : {
+               "steps" : "in body;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p"
             },
             "START:body" : {
                "steps" : "in body;START:body"
             },
+            "START:br" : {
+               "steps" : "in body;START:area wbr,br,embed img,keygen"
+            },
             "START:button" : {
                "steps" : "in body;START:button"
             },
-            "START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr" : {
+            "START:caption" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
+            },
+            "START:col" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
+            },
+            "START:colgroup" : {
                "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
             },
             "START:dd dt" : {
                "steps" : "in body;START:dd dt"
             },
+            "START:embed img" : {
+               "steps" : "in body;START:area wbr,br,embed img,keygen"
+            },
+            "START:font" : {
+               "steps" : "in body;START:b big code em i s small strike strong tt u,font"
+            },
             "START:form" : {
                "steps" : "in body;START:form"
+            },
+            "START:frame" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
             },
             "START:frameset" : {
                "steps" : "in body;START:frameset"
             },
             "START:h1 h2 h3 h4 h5 h6" : {
                "steps" : "in body;START:h1 h2 h3 h4 h5 h6"
+            },
+            "START:head" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
             },
             "START:hr" : {
                "steps" : "in body;START:hr"
@@ -8195,6 +8285,9 @@
             "START:isindex" : {
                "steps" : "in body;START:isindex"
             },
+            "START:keygen" : {
+               "steps" : "in body;START:area wbr,br,embed img,keygen"
+            },
             "START:li" : {
                "steps" : "in body;START:li"
             },
@@ -8207,17 +8300,29 @@
             "START:menuitem param source track" : {
                "steps" : "in body;START:menuitem param source track"
             },
+            "START:meta" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
             "START:nobr" : {
                "steps" : "in body;START:nobr"
             },
             "START:noembed" : {
                "steps" : "in body;START:noembed"
             },
+            "START:noframes" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
             "START:noscript" : {
                "steps" : "in body;START:noscript"
             },
-            "START:optgroup,option" : {
+            "START:optgroup" : {
                "steps" : "in body;START:optgroup,option"
+            },
+            "START:option" : {
+               "steps" : "in body;START:optgroup,option"
+            },
+            "START:p" : {
+               "steps" : "in body;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p"
             },
             "START:plaintext" : {
                "steps" : "in body;START:plaintext"
@@ -8225,8 +8330,14 @@
             "START:rp rt" : {
                "steps" : "in body;START:rp rt"
             },
+            "START:script" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
             "START:select" : {
                "steps" : "in body;START:select"
+            },
+            "START:style" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
             },
             "START:svg" : {
                "steps" : "in body;START:svg"
@@ -8234,8 +8345,23 @@
             "START:table" : {
                "steps" : "in body;START:table"
             },
+            "START:tbody tfoot thead" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
+            },
+            "START:td th" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
+            },
+            "START:template" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
             "START:textarea" : {
                "steps" : "in body;START:textarea"
+            },
+            "START:title" : {
+               "steps" : "in body;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:tr" : {
+               "steps" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr"
             },
             "START:xmp" : {
                "steps" : "in body;START:xmp"
@@ -8256,14 +8382,32 @@
             "END-ELSE" : {
                "steps" : "in caption;END-ELSE"
             },
-            "END:body,col,colgroup,html,tbody tfoot thead,td th,tr" : {
+            "END:body" : {
                "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
             },
             "END:caption" : {
                "steps" : "in caption;END:caption"
             },
+            "END:col" : {
+               "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:colgroup" : {
+               "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:html" : {
+               "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
             "END:table" : {
                "steps" : "in caption;END:table"
+            },
+            "END:tbody tfoot thead" : {
+               "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:td th" : {
+               "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:tr" : {
+               "steps" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr"
             },
             "EOF" : {
                "steps" : "in body;EOF"
@@ -8271,7 +8415,22 @@
             "START-ELSE" : {
                "steps" : "in caption;START-ELSE"
             },
-            "START:caption,col,colgroup,tbody tfoot thead,td th,tr" : {
+            "START:caption" : {
+               "steps" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:col" : {
+               "steps" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:colgroup" : {
+               "steps" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:tbody tfoot thead" : {
+               "steps" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:td th" : {
+               "steps" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:tr" : {
                "steps" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
             },
             "TEXT" : {
@@ -8290,14 +8449,32 @@
             "END-ELSE" : {
                "steps" : "in cell;END-ELSE"
             },
-            "END:body,caption,col,colgroup,html" : {
+            "END:body" : {
                "steps" : "in cell;END:body,caption,col,colgroup,html"
             },
-            "END:table,tbody tfoot thead,tr" : {
+            "END:caption" : {
+               "steps" : "in cell;END:body,caption,col,colgroup,html"
+            },
+            "END:col" : {
+               "steps" : "in cell;END:body,caption,col,colgroup,html"
+            },
+            "END:colgroup" : {
+               "steps" : "in cell;END:body,caption,col,colgroup,html"
+            },
+            "END:html" : {
+               "steps" : "in cell;END:body,caption,col,colgroup,html"
+            },
+            "END:table" : {
+               "steps" : "in cell;END:table,tbody tfoot thead,tr"
+            },
+            "END:tbody tfoot thead" : {
                "steps" : "in cell;END:table,tbody tfoot thead,tr"
             },
             "END:td th" : {
                "steps" : "in cell;END:td th"
+            },
+            "END:tr" : {
+               "steps" : "in cell;END:table,tbody tfoot thead,tr"
             },
             "EOF" : {
                "steps" : "in body;EOF"
@@ -8305,7 +8482,22 @@
             "START-ELSE" : {
                "steps" : "in cell;START-ELSE"
             },
-            "START:caption,col,colgroup,tbody tfoot thead,td th,tr" : {
+            "START:caption" : {
+               "steps" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:col" : {
+               "steps" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:colgroup" : {
+               "steps" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:tbody tfoot thead" : {
+               "steps" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:td th" : {
+               "steps" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
+            },
+            "START:tr" : {
                "steps" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr"
             },
             "TEXT" : {
@@ -8373,11 +8565,56 @@
             "START-ELSE" : {
                "steps" : "in foreign content;START-ELSE"
             },
-            "START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table" : {
+            "START:b big code em i s small strike strong tt u" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:blockquote center div dl menu ol ul" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:body" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:br" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:dd dt" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:embed img" : {
                "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
             },
             "START:font" : {
                "steps" : "in foreign content;START:font"
+            },
+            "START:h1 h2 h3 h4 h5 h6" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:head" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:hr" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:li" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:listing pre" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:meta" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:nobr" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:p" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:ruby span sub sup var" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
+            },
+            "START:table" : {
+               "steps" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table"
             },
             "TEXT" : {
                "steps" : "in foreign content;TEXT"
@@ -8432,11 +8669,17 @@
             "END-ELSE" : {
                "steps" : "in head;END-ELSE"
             },
-            "END:body,br,html" : {
+            "END:body" : {
+               "steps" : "in head;END:body,br,html"
+            },
+            "END:br" : {
                "steps" : "in head;END:body,br,html"
             },
             "END:head" : {
                "steps" : "in head;END:head"
+            },
+            "END:html" : {
+               "steps" : "in head;END:body,br,html"
             },
             "END:template" : {
                "steps" : "in head;END:template"
@@ -8447,7 +8690,10 @@
             "START-ELSE" : {
                "steps" : "in head;START-ELSE"
             },
-            "START:base,basefont bgsound link" : {
+            "START:base" : {
+               "steps" : "in head;START:base,basefont bgsound link"
+            },
+            "START:basefont bgsound link" : {
                "steps" : "in head;START:base,basefont bgsound link"
             },
             "START:head" : {
@@ -8459,7 +8705,7 @@
             "START:meta" : {
                "steps" : "in head;START:meta"
             },
-            "START:noframes,style" : {
+            "START:noframes" : {
                "steps" : "in head;START:noframes,style"
             },
             "START:noscript" : {
@@ -8467,6 +8713,9 @@
             },
             "START:script" : {
                "steps" : "in head;START:script"
+            },
+            "START:style" : {
+               "steps" : "in head;START:noframes,style"
             },
             "START:template" : {
                "steps" : "in head;START:template"
@@ -8502,14 +8751,26 @@
             "START-ELSE" : {
                "steps" : "in head noscript;START-ELSE"
             },
-            "START:basefont bgsound link,meta,noframes,style" : {
+            "START:basefont bgsound link" : {
                "steps" : "in head noscript;START:basefont bgsound link,meta,noframes,style"
             },
-            "START:head,noscript" : {
+            "START:head" : {
                "steps" : "in head noscript;START:head,noscript"
             },
             "START:html" : {
                "steps" : "in head noscript;START:html"
+            },
+            "START:meta" : {
+               "steps" : "in head noscript;START:basefont bgsound link,meta,noframes,style"
+            },
+            "START:noframes" : {
+               "steps" : "in head noscript;START:basefont bgsound link,meta,noframes,style"
+            },
+            "START:noscript" : {
+               "steps" : "in head noscript;START:head,noscript"
+            },
+            "START:style" : {
+               "steps" : "in head noscript;START:basefont bgsound link,meta,noframes,style"
             },
             "TEXT" : {
                "steps" : "in head noscript;TEXT"
@@ -8527,7 +8788,19 @@
             "END-ELSE" : {
                "steps" : "in row;END-ELSE"
             },
-            "END:body,caption,col,colgroup,html,td th" : {
+            "END:body" : {
+               "steps" : "in row;END:body,caption,col,colgroup,html,td th"
+            },
+            "END:caption" : {
+               "steps" : "in row;END:body,caption,col,colgroup,html,td th"
+            },
+            "END:col" : {
+               "steps" : "in row;END:body,caption,col,colgroup,html,td th"
+            },
+            "END:colgroup" : {
+               "steps" : "in row;END:body,caption,col,colgroup,html,td th"
+            },
+            "END:html" : {
                "steps" : "in row;END:body,caption,col,colgroup,html,td th"
             },
             "END:table" : {
@@ -8535,6 +8808,9 @@
             },
             "END:tbody tfoot thead" : {
                "steps" : "in row;END:tbody tfoot thead"
+            },
+            "END:td th" : {
+               "steps" : "in row;END:body,caption,col,colgroup,html,td th"
             },
             "END:tr" : {
                "steps" : "in row;END:tr"
@@ -8545,11 +8821,23 @@
             "START-ELSE" : {
                "steps" : "in row;START-ELSE"
             },
-            "START:caption,col,colgroup,tbody tfoot thead,tr" : {
+            "START:caption" : {
+               "steps" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr"
+            },
+            "START:col" : {
+               "steps" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr"
+            },
+            "START:colgroup" : {
+               "steps" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr"
+            },
+            "START:tbody tfoot thead" : {
                "steps" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr"
             },
             "START:td th" : {
                "steps" : "in row;START:td th"
+            },
+            "START:tr" : {
+               "steps" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr"
             },
             "TEXT" : {
                "steps" : "in row;TEXT"
@@ -8588,7 +8876,10 @@
             "START:html" : {
                "steps" : "in select;START:html"
             },
-            "START:input,keygen,textarea" : {
+            "START:input" : {
+               "steps" : "in select;START:input,keygen,textarea"
+            },
+            "START:keygen" : {
                "steps" : "in select;START:input,keygen,textarea"
             },
             "START:optgroup" : {
@@ -8597,11 +8888,17 @@
             "START:option" : {
                "steps" : "in select;START:option"
             },
-            "START:script,template" : {
+            "START:script" : {
                "steps" : "in select;START:script,template"
             },
             "START:select" : {
                "steps" : "in select;START:select"
+            },
+            "START:template" : {
+               "steps" : "in select;START:script,template"
+            },
+            "START:textarea" : {
+               "steps" : "in select;START:input,keygen,textarea"
             },
             "TEXT" : {
                "steps" : "in select;TEXT"
@@ -8619,7 +8916,19 @@
             "END-ELSE" : {
                "steps" : "in select in table;END-ELSE"
             },
-            "END:caption,table,tbody tfoot thead,td th,tr" : {
+            "END:caption" : {
+               "steps" : "in select in table;END:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "END:table" : {
+               "steps" : "in select in table;END:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "END:tbody tfoot thead" : {
+               "steps" : "in select in table;END:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "END:td th" : {
+               "steps" : "in select in table;END:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "END:tr" : {
                "steps" : "in select in table;END:caption,table,tbody tfoot thead,td th,tr"
             },
             "EOF" : {
@@ -8628,7 +8937,19 @@
             "START-ELSE" : {
                "steps" : "in select in table;START-ELSE"
             },
-            "START:caption,table,tbody tfoot thead,td th,tr" : {
+            "START:caption" : {
+               "steps" : "in select in table;START:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "START:table" : {
+               "steps" : "in select in table;START:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "START:tbody tfoot thead" : {
+               "steps" : "in select in table;START:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "START:td th" : {
+               "steps" : "in select in table;START:caption,table,tbody tfoot thead,td th,tr"
+            },
+            "START:tr" : {
                "steps" : "in select in table;START:caption,table,tbody tfoot thead,td th,tr"
             },
             "TEXT" : {
@@ -8647,14 +8968,35 @@
             "END-ELSE" : {
                "steps" : "in table;END-ELSE"
             },
-            "END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr" : {
+            "END:body" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:caption" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:col" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:colgroup" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:html" : {
                "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
             },
             "END:table" : {
                "steps" : "in table;END:table"
             },
+            "END:tbody tfoot thead" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
+            "END:td th" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
+            },
             "END:template" : {
                "steps" : "in table;END:template"
+            },
+            "END:tr" : {
+               "steps" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr"
             },
             "EOF" : {
                "steps" : "in body;EOF"
@@ -8665,23 +9007,32 @@
             "START:a" : {
                "steps" : "in table;START:a"
             },
-            "START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p" : {
+            "START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary" : {
                "steps" : "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p"
             },
             "START:applet marquee object" : {
                "steps" : "in table;START:applet marquee object"
             },
-            "START:area wbr,br,embed img,keygen" : {
+            "START:area wbr" : {
                "steps" : "in table;START:area wbr,br,embed img,keygen"
             },
-            "START:b big code em i s small strike strong tt u,font" : {
+            "START:b big code em i s small strike strong tt u" : {
                "steps" : "in table;START:b big code em i s small strike strong tt u,font"
             },
-            "START:base,basefont bgsound link,meta,noframes,title" : {
+            "START:base" : {
                "steps" : "in table;START:base,basefont bgsound link,meta,noframes,title"
+            },
+            "START:basefont bgsound link" : {
+               "steps" : "in table;START:base,basefont bgsound link,meta,noframes,title"
+            },
+            "START:blockquote center div dl menu ol ul" : {
+               "steps" : "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p"
             },
             "START:body" : {
                "steps" : "in table;START:body"
+            },
+            "START:br" : {
+               "steps" : "in table;START:area wbr,br,embed img,keygen"
             },
             "START:button" : {
                "steps" : "in table;START:button"
@@ -8698,10 +9049,16 @@
             "START:dd dt" : {
                "steps" : "in table;START:dd dt"
             },
+            "START:embed img" : {
+               "steps" : "in table;START:area wbr,br,embed img,keygen"
+            },
+            "START:font" : {
+               "steps" : "in table;START:b big code em i s small strike strong tt u,font"
+            },
             "START:form" : {
                "steps" : "in table;START:form"
             },
-            "START:frame,head" : {
+            "START:frame" : {
                "steps" : "in table;START:frame,head"
             },
             "START:frameset" : {
@@ -8709,6 +9066,9 @@
             },
             "START:h1 h2 h3 h4 h5 h6" : {
                "steps" : "in table;START:h1 h2 h3 h4 h5 h6"
+            },
+            "START:head" : {
+               "steps" : "in table;START:frame,head"
             },
             "START:hr" : {
                "steps" : "in table;START:hr"
@@ -8728,6 +9088,9 @@
             "START:isindex" : {
                "steps" : "in table;START:isindex"
             },
+            "START:keygen" : {
+               "steps" : "in table;START:area wbr,br,embed img,keygen"
+            },
             "START:li" : {
                "steps" : "in table;START:li"
             },
@@ -8740,17 +9103,29 @@
             "START:menuitem param source track" : {
                "steps" : "in table;START:menuitem param source track"
             },
+            "START:meta" : {
+               "steps" : "in table;START:base,basefont bgsound link,meta,noframes,title"
+            },
             "START:nobr" : {
                "steps" : "in table;START:nobr"
             },
             "START:noembed" : {
                "steps" : "in table;START:noembed"
             },
+            "START:noframes" : {
+               "steps" : "in table;START:base,basefont bgsound link,meta,noframes,title"
+            },
             "START:noscript" : {
                "steps" : "in table;START:noscript"
             },
-            "START:optgroup,option" : {
+            "START:optgroup" : {
                "steps" : "in table;START:optgroup,option"
+            },
+            "START:option" : {
+               "steps" : "in table;START:optgroup,option"
+            },
+            "START:p" : {
+               "steps" : "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p"
             },
             "START:plaintext" : {
                "steps" : "in table;START:plaintext"
@@ -8758,11 +9133,14 @@
             "START:rp rt" : {
                "steps" : "in table;START:rp rt"
             },
-            "START:script,style,template" : {
+            "START:script" : {
                "steps" : "in table;START:script,style,template"
             },
             "START:select" : {
                "steps" : "in table;START:select"
+            },
+            "START:style" : {
+               "steps" : "in table;START:script,style,template"
             },
             "START:svg" : {
                "steps" : "in table;START:svg"
@@ -8773,11 +9151,20 @@
             "START:tbody tfoot thead" : {
                "steps" : "in table;START:tbody tfoot thead"
             },
-            "START:td th,tr" : {
+            "START:td th" : {
                "steps" : "in table;START:td th,tr"
+            },
+            "START:template" : {
+               "steps" : "in table;START:script,style,template"
             },
             "START:textarea" : {
                "steps" : "in table;START:textarea"
+            },
+            "START:title" : {
+               "steps" : "in table;START:base,basefont bgsound link,meta,noframes,title"
+            },
+            "START:tr" : {
+               "steps" : "in table;START:td th,tr"
             },
             "START:xmp" : {
                "steps" : "in table;START:xmp"
@@ -8798,7 +9185,19 @@
             "END-ELSE" : {
                "steps" : "in table body;END-ELSE"
             },
-            "END:body,caption,col,colgroup,html,td th,tr" : {
+            "END:body" : {
+               "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
+            },
+            "END:caption" : {
+               "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
+            },
+            "END:col" : {
+               "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
+            },
+            "END:colgroup" : {
+               "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
+            },
+            "END:html" : {
                "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
             },
             "END:table" : {
@@ -8807,13 +9206,28 @@
             "END:tbody tfoot thead" : {
                "steps" : "in table body;END:tbody tfoot thead"
             },
+            "END:td th" : {
+               "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
+            },
+            "END:tr" : {
+               "steps" : "in table body;END:body,caption,col,colgroup,html,td th,tr"
+            },
             "EOF" : {
                "steps" : "in body;EOF"
             },
             "START-ELSE" : {
                "steps" : "in table body;START-ELSE"
             },
-            "START:caption,col,colgroup,tbody tfoot thead" : {
+            "START:caption" : {
+               "steps" : "in table body;START:caption,col,colgroup,tbody tfoot thead"
+            },
+            "START:col" : {
+               "steps" : "in table body;START:caption,col,colgroup,tbody tfoot thead"
+            },
+            "START:colgroup" : {
+               "steps" : "in table body;START:caption,col,colgroup,tbody tfoot thead"
+            },
+            "START:tbody tfoot thead" : {
                "steps" : "in table body;START:caption,col,colgroup,tbody tfoot thead"
             },
             "START:td th" : {
@@ -8869,17 +9283,44 @@
             "START-ELSE" : {
                "steps" : "in template;START-ELSE"
             },
-            "START:base,basefont bgsound link,meta,noframes,script,style,template,title" : {
+            "START:base" : {
                "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
             },
-            "START:caption,colgroup,tbody tfoot thead" : {
+            "START:basefont bgsound link" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:caption" : {
                "steps" : "in template;START:caption,colgroup,tbody tfoot thead"
             },
             "START:col" : {
                "steps" : "in template;START:col"
             },
+            "START:colgroup" : {
+               "steps" : "in template;START:caption,colgroup,tbody tfoot thead"
+            },
+            "START:meta" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:noframes" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:script" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:style" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:tbody tfoot thead" : {
+               "steps" : "in template;START:caption,colgroup,tbody tfoot thead"
+            },
             "START:td th" : {
                "steps" : "in template;START:td th"
+            },
+            "START:template" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
+            },
+            "START:title" : {
+               "steps" : "in template;START:base,basefont bgsound link,meta,noframes,script,style,template,title"
             },
             "START:tr" : {
                "steps" : "in template;START:tr"

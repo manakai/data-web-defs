@@ -953,7 +953,15 @@ for my $im (keys %{$Data->{ims}}) {
     } else {
       my $key = $im . ';' . $cond;
       $Data->{actions}->{$key} = delete $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
-      $Data->{ims}->{$im}->{conds}->{$cond}->{steps} = $key;
+      if ($cond =~ /^(START|END):(.+)$/) {
+        my $type = $1;
+        delete $Data->{ims}->{$im}->{conds}->{$cond};
+        for (split /,/, $2) {
+          $Data->{ims}->{$im}->{conds}->{"$type:$_"}->{steps} = $key;
+        }
+      } else {
+        $Data->{ims}->{$im}->{conds}->{$cond}->{steps} = $key;
+      }
     }
   }
 }
