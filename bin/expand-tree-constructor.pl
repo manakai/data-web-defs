@@ -972,7 +972,14 @@ for my $im (keys %{$Data->{ims}}) {
       $Data->{ims}->{$im}->{conds}->{$cond} = (delete $Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) . ';' . $cond;
     } else {
       my $key = $im . ';' . $cond;
-      $Data->{actions}->{$key} = delete $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      if (@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}} == 1 and
+          $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR' and
+          not $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{foster_parenting} and
+          not ref $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{im}) {
+        $key = '@@' . $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{im};
+      } else {
+        $Data->{actions}->{$key} = delete $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      }
       if ($cond =~ /^(START|END):(.+)$/) {
         my $type = $1;
         delete $Data->{ims}->{$im}->{conds}->{$cond};
@@ -990,6 +997,20 @@ for my $im (keys %{$Data->{ims}}) {
     $Data->{ims}->{$im}->{conds}->{"END:$_"} ||= $Data->{ims}->{$im}->{conds}->{'END-ELSE'}
         if defined $Data->{ims}->{$im}->{conds}->{'END-ELSE'};
   }
+} # $im
+{
+  my $changed = 0;
+  for my $im (keys %{$Data->{ims}}) {
+    for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+      if ($Data->{ims}->{$im}->{conds}->{$cond} =~ /^\@\@(.+)$/) {
+        unless ($Data->{ims}->{$im}->{conds}->{$cond} eq $Data->{ims}->{$1}->{conds}->{$cond}) {
+          $Data->{ims}->{$im}->{conds}->{$cond} = $Data->{ims}->{$1}->{conds}->{$cond};
+          $changed = 1;
+        }
+      }
+    }
+  } # $im
+  redo if $changed;
 }
 
 {
