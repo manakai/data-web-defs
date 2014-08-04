@@ -556,11 +556,11 @@ for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
     redo if $changed;
   } # $changed
 
-  for my $im (keys %{$Data->{ims}}) {
-    if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}) {
-      $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{also_used_by}->{$im} = 1;
-    }
-  }
+  #for my $im (keys %{$Data->{ims}}) {
+  #  if (defined $Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}) {
+  #    $Data->{ims}->{$Data->{ims}->{$im}->{conds}->{$token_type}->{using_the_rules_for}}->{conds}->{$token_type}->{also_used_by}->{$im} = 1;
+  #  }
+  #}
 } # $token_type
 
 for my $im (keys %{$Data->{ims}}) {
@@ -946,8 +946,20 @@ for my $im (keys %{$Data->{ims}}) {
   } grep { not $fnd{$_}++ } @{$Data->{element_matching}->{element_groups}};
 }
 
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+    if ($Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) {
+      $Data->{ims}->{$im}->{conds}->{$cond}->{steps} = (delete $Data->{ims}->{$im}->{conds}->{$cond}->{using_the_rules_for}) . ';' . $cond;
+    } else {
+      my $key = $im . ';' . $cond;
+      $Data->{actions}->{$key} = delete $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      $Data->{ims}->{$im}->{conds}->{$cond}->{steps} = $key;
+    }
+  }
+}
+
 {
-  my $ims = perl2json_chars $Data->{ims};
+  my $ims = perl2json_chars $Data->{actions};
   my @step_name = keys %{$Data->{tree_steps}};
   for my $step_name (@step_name) {
     unless ($ims =~ /\Q$step_name\E/) {
