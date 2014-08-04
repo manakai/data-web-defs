@@ -65,7 +65,6 @@ sub foster_parenting_actions ($) {
         'insert a foreign element' => 1,
         'reconstruct the active formatting elements' => 1,
         'adoption agency algorithm' => 1,
-        'reprocess <br>' => 1,
       }->{$act->{type}}) {
         push @$new_acts, {%$act, foster_parenting => 1};
       } else {
@@ -123,6 +122,18 @@ for my $im (keys %{$Data->{ims}}) {
           push @$new_acts, map {
             apply_except $_, $act->{except}
           } @{$Data->{tree_steps}->{$act->{type}}->{actions}};
+        } elsif ($act->{type} eq 'reprocess the token' and
+                 @$new_acts and
+                 $new_acts->[-1]->{type} eq "change the token's tag name") {
+          my $tag_name = $new_acts->[-1]->{tag_name};
+          pop @$new_acts;
+          push @$new_acts, map {
+            if ($_->{type} eq 'insert an HTML element') {
+              +{%$_, tag_name => $tag_name};
+            } else {
+              $_;
+            }
+          } @{$Data->{ims}->{$im}->{conds}->{[grep { /^START:.*\b\Q$tag_name\E\b/ } keys %{$Data->{ims}->{$im}->{conds}}]->[0]}->{actions}};
         } else {
           push @$new_acts, $act;
         }
@@ -633,7 +644,6 @@ for my $im (keys %{$Data->{ims}}) {
       my %cond;
       $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
         my $acts = shift;
-        my $new_acts = [];
         for my $act (@$acts) {
           if ($act->{type} eq 'USING-THE-RULES-FOR' and
               $act->{foster_parenting}) {
@@ -644,12 +654,9 @@ for my $im (keys %{$Data->{ims}}) {
             }
             delete $cond{'END:'};
             #$cond{'END-ELSE'} = 'END-ELSE';
-            push @$new_acts, {type => 'USING-THE-RULES-FOR', im => $act->{im}};
-          } else {
-            push @$new_acts, $act;
           }
         }
-        return $new_acts;
+        return $acts;
       } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
       for my $c (keys %cond) {
         my $changed = 0;
@@ -672,6 +679,19 @@ for my $im (keys %{$Data->{ims}}) {
         } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
         delete $Data->{ims}->{$im}->{conds}->{$c} unless $changed;
       }
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        my $new_acts = [];
+        for my $act (@$acts) {
+          if ($act->{type} eq 'USING-THE-RULES-FOR' and
+              $act->{foster_parenting}) {
+            push @$new_acts, {type => 'USING-THE-RULES-FOR', im => $act->{im}};
+          } else {
+            push @$new_acts, $act;
+          }
+        }
+        return $new_acts;
+      } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
     } # $cond
   }
 }

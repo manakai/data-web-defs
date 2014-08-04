@@ -955,7 +955,22 @@
             "type" : "parse error"
          },
          {
-            "type" : "reprocess \u003Cbr>"
+            "type" : "reconstruct the active formatting elements"
+         },
+         {
+            "attrs" : "none",
+            "tag_name" : "br",
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
          }
       ],
       "in body;END:dd dt" : [
@@ -2058,11 +2073,21 @@
             "type" : "parse error"
          },
          {
-            "tag_name" : "img",
-            "type" : "change the token's tag name"
+            "type" : "reconstruct the active formatting elements"
          },
          {
-            "type" : "reprocess the token"
+            "tag_name" : "img",
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
          }
       ],
       "in body;START:input" : [
@@ -5690,12 +5715,95 @@
             "type" : "USING-THE-RULES-FOR"
          }
       ],
+      "in table;END:a,b big code em i s small strike strong tt u,font,nobr" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "foster_parenting" : 1,
+            "type" : "adoption agency algorithm"
+         }
+      ],
       "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr" : [
          {
             "type" : "parse error"
          },
          {
             "type" : "ignore the token"
+         }
+      ],
+      "in table;END:br" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "type" : "parse error"
+         },
+         {
+            "foster_parenting" : 1,
+            "type" : "reconstruct the active formatting elements"
+         },
+         {
+            "attrs" : "none",
+            "foster_parenting" : 1,
+            "tag_name" : "br",
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
+         }
+      ],
+      "in table;END:p" : [
+         {
+            "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "parse error"
+               },
+               {
+                  "attrs" : "none",
+                  "foster_parenting" : 1,
+                  "tag_name" : "p",
+                  "type" : "insert an HTML element"
+               }
+            ],
+            "cond" : [
+               "oe",
+               "not in scope",
+               "button",
+               "HTML:p"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "pop-oe",
+            "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "parse error"
+               }
+            ],
+            "cond" : [
+               "oe[-1]",
+               "is not",
+               "HTML:p"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "pop-oe",
+            "until" : "HTML:p"
          }
       ],
       "in table;END:table" : [
@@ -6350,11 +6458,23 @@
             "type" : "parse error"
          },
          {
-            "tag_name" : "img",
-            "type" : "change the token's tag name"
+            "foster_parenting" : 1,
+            "type" : "reconstruct the active formatting elements"
          },
          {
-            "type" : "reprocess the token"
+            "foster_parenting" : 1,
+            "tag_name" : "img",
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
          }
       ],
       "in table;START:input" : [
@@ -10141,23 +10261,23 @@
             "COMMENT" : "in table;COMMENT",
             "DOCTYPE" : "in table;DOCTYPE",
             "END-ELSE" : "in table;END-ELSE",
-            "END:a" : "in table;END-ELSE",
+            "END:a" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary" : "in table;END-ELSE",
             "END:applet marquee object" : "in table;END-ELSE",
             "END:area wbr" : "in table;END-ELSE",
-            "END:b big code em i s small strike strong tt u" : "in table;END-ELSE",
+            "END:b big code em i s small strike strong tt u" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:base" : "in table;END-ELSE",
             "END:basefont bgsound link" : "in table;END-ELSE",
             "END:blockquote center div dl menu ol ul" : "in table;END-ELSE",
             "END:body" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr",
-            "END:br" : "in table;END-ELSE",
+            "END:br" : "in table;END:br",
             "END:button" : "in table;END-ELSE",
             "END:caption" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr",
             "END:col" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr",
             "END:colgroup" : "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr",
             "END:dd dt" : "in table;END-ELSE",
             "END:embed img" : "in table;END-ELSE",
-            "END:font" : "in table;END-ELSE",
+            "END:font" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:form" : "in table;END-ELSE",
             "END:frame" : "in table;END-ELSE",
             "END:frameset" : "in table;END-ELSE",
@@ -10176,13 +10296,13 @@
             "END:math" : "in table;END-ELSE",
             "END:menuitem param source track" : "in table;END-ELSE",
             "END:meta" : "in table;END-ELSE",
-            "END:nobr" : "in table;END-ELSE",
+            "END:nobr" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:noembed" : "in table;END-ELSE",
             "END:noframes" : "in table;END-ELSE",
             "END:noscript" : "in table;END-ELSE",
             "END:optgroup" : "in table;END-ELSE",
             "END:option" : "in table;END-ELSE",
-            "END:p" : "in table;END-ELSE",
+            "END:p" : "in table;END:p",
             "END:plaintext" : "in table;END-ELSE",
             "END:rp rt" : "in table;END-ELSE",
             "END:ruby span sub sup var" : "in table;END-ELSE",
