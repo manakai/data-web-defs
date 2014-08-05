@@ -295,7 +295,7 @@ while (@node) {
       undef $steps_type;
     } elsif ($ln eq 'p') {
       my $tc = _n $node->text_content;
-      if ($tc =~ /^(?:When|Where) the steps above say (?:the user agent is |)to (.+?), (?:it means|they mean) (?:that the user agent must|to) run the following (?:steps|algorithm):$/) {
+      if ($tc =~ /^(?:When|Where) the steps (?:above|below) (?:say|require) (?:the (?:user agent is|UA) |)to (.+?), (?:it means|they mean) (?:that |)(?:the (?:user agent|UA) must|to) (?:run|follow) (?:the following|these) (?:steps|algorithm):$/) {
         $steps_name = $1;
       } elsif ($tc =~ /^When the steps above require the UA to (.+?), it means that the UA must, while (.+?) is not (.+?), ([^,]+?)\.$/) {
         $Data->{ims}->{_steps}->{conds}->{$1}->{actions}
@@ -523,6 +523,21 @@ while (@node) {
       } else { # not .switch
         unshift @node, $node->child_nodes->to_list;
       }
+    } elsif (defined $steps_name and
+             $steps_name eq 'reset the insertion mode appropriately' and
+             $ln eq 'ol') {
+      my $map = {};
+      for ($node->children->to_list) {
+        my $t = _n $_->text_content;
+        if ($t =~ /^If node is an? (\w+(?:(?:, or | or |, )\w+)*) element, then switch the insertion mode to "([^"]+)" and abort these steps.(?: \([^()]+\)|)$/) {
+          my $mode = $2;
+          $map->{always}->{$_} = $mode for split /, or | or |, /, $1;
+        } elsif ($t =~ /^If node is an? (\w+(?:(?:, or | or |, )\w+)*) element and last is false, then switch the insertion mode to "([^"]+)" and abort these steps.(?: \([^()]+\)|)$/) {
+          my $mode = $2;
+          $map->{last_is_false}->{$_} = $mode for split /, or | or |, /, $1;
+        }
+      }
+      $Data->{reset_im_by_html_element} = $map;
     } elsif (defined $steps_name and $ln eq 'ol') {
       my $acts = [];
       my @n = map { [$_, $acts] } $node->children->to_list;

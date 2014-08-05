@@ -1041,6 +1041,24 @@ for my $im (keys %{$Data->{ims}}) {
     }
   }
 
+  ## For "reset the insertion mode appropriately"
+  for (qw(select template table html head)) {
+    my $v = {ns => 'HTML', name => $_};
+    my $pattern_structure = $read_pattern->(undef, $v);
+    push @orig_pattern, [$pattern_structure => \$v];
+  }
+  for my $key (keys %{$Data->{reset_im_by_html_element}}) {
+    my $im_to_els = {};
+    for my $el (keys %{$Data->{reset_im_by_html_element}->{$key}}) {
+      push @{$im_to_els->{$Data->{reset_im_by_html_element}->{$key}->{$el}} ||= []}, $el;
+    }
+    for (values %$im_to_els) {
+      my $v = {ns => 'HTML', name => $_};
+      my $pattern_structure = $read_pattern->(undef, $v);
+      push @orig_pattern, [$pattern_structure => \$v];
+    }
+  }
+
   my @cond;
   push @cond, [$Data->{dispatcher_html}, undef];
   for my $im (keys %{$Data->{ims}}) {

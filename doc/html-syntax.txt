@@ -108,6 +108,20 @@ pairs:
 
     XXX
 
+  reset_im_by_html_element [object]
+
+    Mapping from HTML elements to insertion modes, used in the steps
+    to reset the insertion mode appropriately
+    <http://www.whatwg.org/specs/web-apps/current-work/#reset-the-insertion-mode-appropriately>.
+    Names of the JSON object are |always| and |last_is_false|, whose
+    values are applied always or only when /last/ is false,
+    respectively.  Values of the JSON object are JSON objects whose
+    names are HTML element names and values are insertion modes
+    (within quotation marks, such as |in body| for the "in body"
+    insertion mode).  Please note that these values do not cover all
+    possible cases mentioned in the steps; see HTML Standard for
+    details.
+
   tokenizer [object]
 
     A machine-readable description of the HTML tokenizer, extracted
@@ -120,6 +134,19 @@ pairs:
         are set names used in |states| and values are JSON objects,
         whose names are the shortest decimal representations of the
         code points in the set and values are boolean true values.
+
+      initial_state_by_html_element [object]
+
+        Initial tokenizer state set by the HTML fragment parsing
+        algorithm
+        <http://www.whatwg.org/specs/web-apps/current-work/#html-fragment-parsing-algorithm>
+        based on the context element, represented as a JSON object.
+        Names of the JSON object are |always| or
+        |scripting_flag_is_disabled|, whose values are applied always
+        or only when the scripting flag of the parser is disabled,
+        respectively.  Values of the JSON object are JSON objects
+        whose names are HTML element names and values are
+        corresponding tokenizer state names.
 
       states [object]
 

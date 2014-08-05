@@ -158,6 +158,23 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
 
   $Data->{doctype_switch} = $tree->{doctype_switch};
   $Data->{doctype_switch}->{legacy} = [[undef, 'about:legacy-compat']];
+  $Data->{reset_im_by_html_element} = $tree->{reset_im_by_html_element};
+
+  ## <http://www.whatwg.org/specs/web-apps/current-work/#html-fragment-parsing-algorithm>
+  for (
+    [title => 'RCDATA state'],
+    [textarea => 'RCDATA state'],
+    [style => 'RAWTEXT state'],
+    [xmp => 'RAWTEXT state'],
+    [iframe => 'RAWTEXT state'],
+    [noembed => 'RAWTEXT state'],
+    [noframes => 'RAWTEXT state'],
+    [script => 'script data state'],
+    [plaintext => 'PLAINTEXT state'],
+  ) {
+    $Data->{tokenizer}->{initial_state_by_html_element}->{always}->{$_->[0]} = $_->[1];
+  }
+  $Data->{tokenizer}->{initial_state_by_html_element}->{scripting_flag_is_enabled}->{noscript} = 'RAWTEXT state';
 
   sub qm ($) {
     my $s = shift;
