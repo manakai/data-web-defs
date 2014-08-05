@@ -157,6 +157,7 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
   }
 
   $Data->{doctype_switch} = $tree->{doctype_switch};
+  $Data->{doctype_switch}->{legacy} = [[undef, 'about:legacy-compat']];
 
   sub qm ($) {
     my $s = shift;
