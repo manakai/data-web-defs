@@ -9,7 +9,7 @@ use Web::HTML::Parser;
 my $doc = new Web::DOM::Document;
 my $parser = new Web::HTML::Parser;
 my $spec_path = path (__FILE__)->parent->parent->child (shift);
-$parser->parse_byte_string (undef, $spec_path->slurp => $doc);
+$parser->parse_byte_string ('utf-8', $spec_path->slurp => $doc);
 
 my $Data = {};
 

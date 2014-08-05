@@ -15,7 +15,7 @@ for (@ARGV) {
   my $d = new Web::DOM::Document;
   my $parser = new Web::HTML::Parser;
   my $spec_path = path (__FILE__)->parent->parent->child ($_);
-  $parser->parse_byte_string (undef, $spec_path->slurp => $d);
+  $parser->parse_byte_string ('utf-8', $spec_path->slurp => $d);
   $doc->body->append_child ($_) for $d->body->child_nodes->to_list;
 }
 
@@ -2051,6 +2051,7 @@ for my $def (
   $def->{actions} = $new_acts;
 }
 
+my @doctype_switch_def;
 for my $def (
   $Data->{ims}->{'initial'}->{conds}->{'DOCTYPE'},
 ) {
@@ -2068,7 +2069,7 @@ for my $def (
       push @$new_acts, {type => 'doctype-switch'} unless $prev_was_doctype;
       $prev_was_doctype = 1;
     } elsif ($act->{type} eq 'misc' and $act->{desc} =~ /<li>/) {
-      #
+      push @doctype_switch_def, $act->{desc};
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^conformance checkers may,/) {
       #
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^associate the DocumentType node with the Document object/) {
@@ -2083,6 +2084,57 @@ for my $def (
     }
   }
   $def->{actions} = $new_acts;
+}
+if (@doctype_switch_def == 3) {
+  my $el = $doc->create_element ('div');
+  $el->inner_html ($doctype_switch_def[0]);
+  for (@{$el->query_selector_all ('li')}) {
+    my $text = _n $_->text_content;
+    $text =~ s/\xA0/ /g;
+    if ($text =~ /^The DOCTYPE token's name is a case-sensitive match for the string "(html)", the token's public identifier is the case-sensitive string "([^"]+)", and the token's system identifier is either missing or the case-sensitive string "([^"]+)".$/) {
+      push @{$Data->{doctype_switch}->{obsolete_permitted} ||= []},
+          [$2, $3], [$2, undef];
+    } elsif ($text =~ /^The DOCTYPE token's name is a case-sensitive match for the string "(html)", the token's public identifier is the case-sensitive string "([^"]+)", and the token's system identifier is the case-sensitive string "([^"]+)".$/) {
+      push @{$Data->{doctype_switch}->{obsolete_permitted} ||= []},
+          [$2, $3];
+    } else {
+      die "Unparsable doctype switch def: |$text|";
+    }
+  }
+  {
+    no warnings 'uninitialized';
+    @{$Data->{doctype_switch}->{obsolete_permitted}} = sort {
+      $a->[0] cmp $b->[0] || $a->[1] cmp $b->[1];
+    } @{$Data->{doctype_switch}->{obsolete_permitted}};
+  }
+
+  for ([1 => 'quirks'], [2 => 'limited_quirks']) {
+    $el->inner_html ($doctype_switch_def[$_->[0]]);
+    my $p = $_->[1];
+    for (@{$el->query_selector_all ('li')}) {
+      my $text = _n $_->text_content;
+      $text =~ s/\xA0/ /g;
+      if ($text =~ /^The public identifier is set to: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The system identifier is set to: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{system_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The public identifier starts with: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix}->{uc $1} = 1;
+      } elsif ($text =~ /^The system identifier is missing and the public identifier starts with: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix_if_no_system_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The system identifier is not missing and the public identifier starts with: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix_if_system_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The force-quirks flag is set to on.$/) {
+        #
+      } elsif ($text =~ /^The name is set to anything other than "html" \(compared case-sensitively\).$/) {
+        #
+      } else {
+        die "Unparsable doctype switch def: |$text|";
+      }
+    }
+  }
+} else {
+  die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
 }
 
 for my $im (keys %{$Data->{ims}}) {

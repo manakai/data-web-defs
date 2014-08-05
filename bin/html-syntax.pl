@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Path::Tiny;
 use JSON::PS;
+use Regexp::Assemble;
 
 my $Data = {};
 
@@ -153,6 +154,26 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
     $ns = q<http://www.w3.org/XML/1998/namespace> if $def->[2] eq 'XML';
     $ns = q<http://www.w3.org/2000/xmlns/> if $def->[2] eq 'XMLNS';
     $Data->{adjusted_ns_attr_names}->{$_} = [$ns, [$def->[0], $def->[1]]];
+  }
+
+  $Data->{doctype_switch} = $tree->{doctype_switch};
+
+  sub qm ($) {
+    my $s = shift;
+    $s =~ s/([\\\[\]\{\}\(\)\+\*\?\^\$\@.|])/\\$1/g;
+    return $s;
+  } # qm
+  for (
+    $Data->{doctype_switch}->{quirks},
+    $Data->{doctype_switch}->{limited_quirks},
+  ) {
+    for my $key (keys %{$_->{values}}) {
+      my $ra = Regexp::Assemble->new;
+      $ra->add (qm $_) for keys %{$_->{values}->{$key}};
+      $_->{regexp}->{$key} = $ra->re;
+      $_->{regexp}->{$key} =~ s/^\(\?\^u:/(?:/g;
+      $_->{regexp}->{$key} =~ s{\\/}{/}g;
+    }
   }
 }
 

@@ -48,6 +48,60 @@ pairs:
 
     XXX
 
+  doctype_switch [object]
+
+    Definitions related to DOCTYPE switching and conformance.  There
+    are following name/value pairs:
+
+      limited_quirks [object]
+      quirks [object]
+
+        Public and system identifiers invoking the quirks mode or the
+        limited quirks mode.  Note that these are not the complete
+        conditions for these modes; see HTML Standard for details.
+        There are following name/value pairs:
+
+          regexp [object]
+
+            Names are keys and values are Perl regular expressions
+            matching to possible values (only).
+
+          values [object]
+
+            Names are keys and values are JSON objects whose names are
+            possible values and values are boolean true values.
+
+        ... where keys and corresponding possible values are one of
+        following pairs:
+
+          public_id [object?]
+
+            ASCII uppercased public identifiers for the mode.
+
+          public_id_prefix [object?]
+
+            ASCII uppercased public identifier prefixes for the mode.
+
+          public_id_prefix_if_no_system_id [object?]
+
+            ASCII uppercased public identifier prefixes for the mode,
+            applied only when there is no system identifier.
+
+          public_id_prefix_if_system_id [object?]
+
+            ASCII uppercased public identifier prefixes for the mode,
+            applied only when there is a system identifier.
+
+          system_id [object?]
+
+            ASCII uppercased system identifiers for the mode.
+
+      obsolete_permitted
+
+        JSON arrays of JSON arrays of public and system identifiers
+        that can be used in an obsolete permitted DOCTYPE string.
+        Missing of a system identifier is represented by a null value.
+
   ims [object]
 
     XXX
