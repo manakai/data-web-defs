@@ -9,7 +9,7 @@ use Web::HTML::Parser;
 my $doc = new Web::DOM::Document;
 my $parser = new Web::HTML::Parser;
 my $spec_path = path (__FILE__)->parent->parent->child (shift);
-$parser->parse_byte_string (undef, $spec_path->slurp => $doc);
+$parser->parse_byte_string ('utf-8', $spec_path->slurp => $doc);
 
 my $Data = {};
 
@@ -44,12 +44,12 @@ sub parse_action ($) {
     $action =~ s/^\s+//;
     if ($action =~ s/^Otherwise, this is a parse error. Switch to the bogus comment state. The next character that is consumed, if any, is the first character that will be in the comment\.//) {
       push @action,
-          {type => 'error'},
+          {type => 'parse error'},
           {type => 'append-temp', field => 'data'},
           {type => 'switch', state => 'bogus comment state'};
     } elsif ($action =~ s/^Parse error\.\s*// or
              $action =~ s/^Otherwise, this is a parse error\.\s*//) {
-      push @action, {type => 'error'};
+      push @action, {type => 'parse error'};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0022 QUOTATION MARK (").\E//) {
@@ -279,7 +279,7 @@ sub parse_action ($) {
           {type => 'IF-KEYWORD',
            keyword => 'DOCTYPE',
            value => [
-             {type => 'error'},
+             {type => 'parse error'},
              {type => 'switch', state => 'DOCTYPE state'},
            ]};
     } elsif ($action =~ s/^Otherwise, if the next (?:six|seven|eight) characters are an exact match for "(ENTITY|ATTLIST|NOTATION)", then consume those characters and switch to the (DOCTYPE (?:ENTITY|ATTLIST|NOTATION) state)\.//) { # xml5
@@ -534,7 +534,7 @@ sub modify_actions (&) {
   modify_actions {
     my ($acts => $new_acts, $state, $cond) = @_;
     for (@$acts) {
-      if ($_->{type} eq 'error') {
+      if ($_->{type} eq 'parse error') {
         my $name = $state;
         $name =~ s/ state$//;
         $name .= '-' . $cond;

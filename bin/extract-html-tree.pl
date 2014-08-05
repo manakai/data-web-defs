@@ -15,7 +15,7 @@ for (@ARGV) {
   my $d = new Web::DOM::Document;
   my $parser = new Web::HTML::Parser;
   my $spec_path = path (__FILE__)->parent->parent->child ($_);
-  $parser->parse_byte_string (undef, $spec_path->slurp => $d);
+  $parser->parse_byte_string ('utf-8', $spec_path->slurp => $d);
   $doc->body->append_child ($_) for $d->body->child_nodes->to_list;
 }
 
@@ -605,6 +605,22 @@ while (@node) {
   } # $node->node_type
 }
 
+sub for_actions (&$);
+sub for_actions (&$) {
+  my ($code, $acts) = @_;
+  my $new_acts = [];
+  for (@$acts) {
+    my $act = {%$_};
+    for (qw(actions false_actions between_actions ws_actions null_actions
+            char_actions ws_char_actions ws_seq_actions
+            null_char_actions null_seq_actions)) {
+      $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
+    }
+    push @$new_acts, $act;
+  }
+  return $code->($new_acts);
+} # for_actions
+
 sub resolve_action_structure ($);
 sub resolve_action_structure ($) {
   my $acts = [@{$_[0]}];
@@ -1026,9 +1042,28 @@ sub parse_cond ($) {
   return $cond;
 } # parse_cond
 
-sub process_actions ($);
-sub process_actions ($) {
-  my $acts = shift;
+my $used_error_names = {};
+sub error_name ($) {
+  my $name = lc shift;
+  $name =~ s[:(\w+(?: \w+){3,})]{
+    my $s = ':' . join '', map { substr $_, 0, 1 } split m{ }, $1;
+    $s =~ s/((\w)\2\2+)/$2 . length $1/ge;
+    $s;
+  }ge;
+  $name =~ s/[^a-z0-9]/-/g;
+  $name =~ s/-char-0000$/-null/;
+  $name =~ s/-char-ws$/-ws/;
+  $name =~ s/-char-else$/-char/;
+  if ($used_error_names->{$name}++) {
+    return $name . '-' . $used_error_names->{$name};
+  } else {
+    return $name;
+  }
+} # error_name
+
+sub process_actions ($$);
+sub process_actions ($$) {
+  my ($acts, $error_context) = @_;
   my $new_acts = [];
 
   ACT: for my $act (@$acts) {
@@ -1070,7 +1105,7 @@ sub process_actions ($) {
 
       for (qw(actions false_actions between_actions)) {
         if ($act->{$_}) {
-          $act->{$_} = process_actions $act->{$_};
+          $act->{$_} = process_actions $act->{$_}, $error_context;
         }
       }
       push @$new_acts, $act;
@@ -1740,7 +1775,18 @@ for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds} or {}}) {
     for (qw(actions false_actions between_actions)) {
       my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{$_};
-      $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = process_actions $acts if defined $acts;
+      if (defined $acts) {
+        $acts = for_actions {
+          my $acts = shift;
+          for my $act (@$acts) {
+            if ($act->{type} eq 'parse error') {
+              $act->{name} = error_name join '-', $im, $cond;
+            }
+          }
+          return $acts;
+        } process_actions $acts, join '-', $im, $cond;
+        $Data->{ims}->{$im}->{conds}->{$cond}->{$_} = $acts;
+      }
     }
   }
 }
@@ -2005,6 +2051,7 @@ for my $def (
   $def->{actions} = $new_acts;
 }
 
+my @doctype_switch_def;
 for my $def (
   $Data->{ims}->{'initial'}->{conds}->{'DOCTYPE'},
 ) {
@@ -2015,13 +2062,14 @@ for my $def (
     my $act = shift @$acts;
     if ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /parse error/) {
       push @$new_acts, {type => 'if', cond => ['legacy doctype'],
-                        actions => [{type => 'parse error'}]};
+                        actions => [{type => 'parse error',
+                                     name => error_name 'initial-DOCTYPE'}]};
       $prev_was_doctype = 0;
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /DOCTYPE token matches/) {
       push @$new_acts, {type => 'doctype-switch'} unless $prev_was_doctype;
       $prev_was_doctype = 1;
     } elsif ($act->{type} eq 'misc' and $act->{desc} =~ /<li>/) {
-      #
+      push @doctype_switch_def, $act->{desc};
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^conformance checkers may,/) {
       #
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^associate the DocumentType node with the Document object/) {
@@ -2036,6 +2084,57 @@ for my $def (
     }
   }
   $def->{actions} = $new_acts;
+}
+if (@doctype_switch_def == 3) {
+  my $el = $doc->create_element ('div');
+  $el->inner_html ($doctype_switch_def[0]);
+  for (@{$el->query_selector_all ('li')}) {
+    my $text = _n $_->text_content;
+    $text =~ s/\xA0/ /g;
+    if ($text =~ /^The DOCTYPE token's name is a case-sensitive match for the string "(html)", the token's public identifier is the case-sensitive string "([^"]+)", and the token's system identifier is either missing or the case-sensitive string "([^"]+)".$/) {
+      push @{$Data->{doctype_switch}->{obsolete_permitted} ||= []},
+          [$2, $3], [$2, undef];
+    } elsif ($text =~ /^The DOCTYPE token's name is a case-sensitive match for the string "(html)", the token's public identifier is the case-sensitive string "([^"]+)", and the token's system identifier is the case-sensitive string "([^"]+)".$/) {
+      push @{$Data->{doctype_switch}->{obsolete_permitted} ||= []},
+          [$2, $3];
+    } else {
+      die "Unparsable doctype switch def: |$text|";
+    }
+  }
+  {
+    no warnings 'uninitialized';
+    @{$Data->{doctype_switch}->{obsolete_permitted}} = sort {
+      $a->[0] cmp $b->[0] || $a->[1] cmp $b->[1];
+    } @{$Data->{doctype_switch}->{obsolete_permitted}};
+  }
+
+  for ([1 => 'quirks'], [2 => 'limited_quirks']) {
+    $el->inner_html ($doctype_switch_def[$_->[0]]);
+    my $p = $_->[1];
+    for (@{$el->query_selector_all ('li')}) {
+      my $text = _n $_->text_content;
+      $text =~ s/\xA0/ /g;
+      if ($text =~ /^The public identifier is set to: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The system identifier is set to: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{system_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The public identifier starts with: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix}->{uc $1} = 1;
+      } elsif ($text =~ /^The system identifier is missing and the public identifier starts with: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix_if_no_system_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The system identifier is not missing and the public identifier starts with: "([^"]+)"$/) {
+        $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix_if_system_id}->{uc $1} = 1;
+      } elsif ($text =~ /^The force-quirks flag is set to on.$/) {
+        #
+      } elsif ($text =~ /^The name is set to anything other than "html" \(compared case-sensitively\).$/) {
+        #
+      } else {
+        die "Unparsable doctype switch def: |$text|";
+      }
+    }
+  }
+} else {
+  die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
 }
 
 for my $im (keys %{$Data->{ims}}) {

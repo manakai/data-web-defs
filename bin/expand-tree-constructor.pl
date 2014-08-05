@@ -12,15 +12,16 @@ my $Data = do {
 delete $Data->{tokenizer};
 delete $Data->{$_} for grep { /^adjusted_/ } keys %$Data;
 
+my @ActionKey = qw(actions false_actions between_actions ws_actions
+                   null_actions char_actions ws_char_actions ws_seq_actions
+                   null_char_actions null_seq_actions);
 sub for_actions (&$);
 sub for_actions (&$) {
   my ($code, $acts) = @_;
   my $new_acts = [];
   for (@$acts) {
     my $act = {%$_};
-    for (qw(actions false_actions between_actions ws_actions null_actions
-            char_actions ws_char_actions ws_seq_actions
-            null_char_actions null_seq_actions)) {
+    for (@ActionKey) {
       $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
     }
     push @$new_acts, $act;
@@ -766,6 +767,176 @@ for my $im (keys %{$Data->{ims}}) {
       }
     }
   } # $cond
+} # $im
+for my $im (keys %{$Data->{ims}}) {
+  my @cond = keys %{$Data->{ims}->{$im}->{conds}};
+  my $get_whether_acked; $get_whether_acked = sub {
+    my $acts = shift;
+    my $acked = 0;
+    for my $act (@$acts) {
+      if ($act->{type} eq "acknowledge the token's self-closing flag") {
+        $acked ||= 1;
+      } elsif ($act->{type} eq 'reprocess the token') {
+        $acked ||= 1;
+      } elsif ($act->{type} eq 'abort these steps') {
+        $acked = -2;
+        last;
+      } elsif ($act->{type} eq 'break-for-each') {
+        $acked = -2;
+        last;
+      }
+      my %result;
+      $result{$acked}++;
+      for (@ActionKey) {
+        if (defined $act->{$_}) {
+          $result{$get_whether_acked->($act->{$_}) || $acked}++;
+        }
+      }
+      if (1 < keys %result) {
+        $acked = -1;
+        #last;
+      }
+    }
+    return $acked;
+  }; # $get_whether_acked
+  my $insert_acked = sub {
+    my $acts = [@{+shift}];
+    my $acts2 = [];
+    while (@$acts and {
+      'reprocess the token' => 1,
+      'switch the insertion mode' => 1,
+      'switch the tokenizer' => 1,
+      'set-current-im' => 1,
+      'push-template-ims' => 1,
+      'ignore the token' => 1,
+      'set-false' => 1, # frameset-ok
+    }->{$acts->[-1]->{type}}) {
+      unshift @$acts2, pop @$acts;
+    }
+    return [
+      @$acts,
+      {type => 'if', cond => ['token', 'has', 'self-closing flag'],
+       actions => [{type => 'parse-error',
+                    name => '-start-tag-self-closing-flag'}]},
+      @$acts2,
+    ];
+  }; # $insert_acked
+  for my $cond (@cond) {
+    next if @{$Data->{ims}->{$im}->{conds}->{$cond}->{actions} or []} == 1 and
+            $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR';
+    next unless $cond =~ /^(START)/;
+
+    my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+    my $acked = $get_whether_acked->($acts);
+    if ($acked == 1) {
+      #
+    } elsif ($acked == 0) {
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = $insert_acked->($acts);
+    } elsif ($acked == -1) {
+      my $changed = 0;
+      my $nested; $nested = sub {
+        my $acts = shift;
+        my $acked = 0;
+        for my $act (@$acts) {
+          if ($act->{type} eq "acknowledge the token's self-closing flag" or
+              $act->{type} eq 'reprocess the token') {
+            $acked = 1;
+          } elsif ($act->{type} eq 'abort these steps') {
+            die "|$cond| |$im| has |abort these steps|";
+          } elsif ($act->{type} eq 'if') {
+            my $true_acked = $get_whether_acked->($act->{actions} || []);
+            my $false_acked = $get_whether_acked->($act->{false_actions} || []);
+            if ($true_acked == 0 and $false_acked == 0) {
+              #
+            } elsif ($true_acked == 1 and $false_acked == 1) {
+              $acked = 1;
+            } elsif ($true_acked == 1 and $false_acked == 0) {
+              $act->{false_actions} = $insert_acked->($act->{false_actions} || [])
+                  unless $act->{cond}->[0] eq 'token' and
+                         $act->{cond}->[1] eq 'has' and
+                         $act->{cond}->[2] eq 'self-closing flag';
+              $changed++;
+              $acked = 1;
+            } elsif ($true_acked == 0 and $false_acked == 1) {
+              $act->{actions} = $insert_acked->($act->{actions} || []);
+              $changed++;
+              $acked = 1;
+            } elsif ($true_acked == -1 and $false_acked == 0) {
+              my $ak;
+              ($act->{actions}, $ak) = $nested->($act->{actions} || []);
+              $act->{false_actions} = $insert_acked->($act->{false_actions} || [])
+                  unless $act->{cond}->[0] eq 'token' and
+                         $act->{cond}->[1] eq 'has' and
+                         $act->{cond}->[2] eq 'self-closing flag';
+              $acked = 1 if $ak;
+            } elsif ($true_acked == -1 and $false_acked == 1) {
+              my $ak;
+              ($act->{actions}, $ak) = $nested->($act->{actions} || []);
+              $acked = 1 if $ak;
+            } elsif ($true_acked == 0 and $false_acked == -1) {
+              my $ak;
+              $act->{actions} = $insert_acked->($act->{actions} || []);
+              ($act->{false_actions}, $ak) = $nested->($act->{false_actions} || []);
+              $acked = 1 if $ak;
+            } elsif ($true_acked == -1 and $false_acked == -1) {
+              my $ak;
+              my $ak2;
+              ($act->{actions}, $ak) = $nested->($act->{actions} || []);
+              ($act->{false_actions}, $ak2) = $nested->($act->{false_actions} || []);
+              $acked = 1 if $ak and $ak2;
+            } else {
+              die "true = $true_acked, false = $false_acked";
+            }
+          } elsif ($act->{type} =~ /for-each/) {
+            my $serialized = perl2json_chars $act;
+            if ($serialized =~ /"acknowledge the token's self-closing flag"/ or
+                $serialized =~ /"reprocess the token"/ or
+                $serialized =~ /"abort these steps"/) {
+              die "|$im| |$cond| has complex for-each";
+            }
+          } else {
+            my %result;
+            for (@ActionKey) {
+              if (defined $act->{$_}) {
+                $result{$get_whether_acked->($act->{$_})}++;
+              }
+            }
+            if (1 < keys %result) {
+              die "Unsupported ackedness for |$im| |$cond| |$act->{type}|";
+            }
+          }
+        } # $act
+        return ($acts, $acked);
+      }; # $nested
+      my $acked;
+      ($acts, $acked) = $nested->($acts);
+      unless ($acked) {
+        $acts = $insert_acked->($acts);
+      }
+      if (not $changed == 1 and not $changed == 0) {
+        die "Unsupported ackedness for |$im| |$cond| ($changed)";
+      }
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = $acts;
+    } else {
+      die "$im/$cond - action's ack value is $acked";
+    }
+  }
+} # $im
+
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+    for_actions {
+      my $acts = shift;
+      for my $act (@$acts) {
+        if ($act->{type} eq 'parse error') {
+          unless (defined $act->{name}) {
+            die "No parse error name in |$im| |$cond|";
+          }
+        }
+      }
+      return $acts;
+    } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+  }
 }
 
 {

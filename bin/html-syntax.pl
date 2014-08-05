@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Path::Tiny;
 use JSON::PS;
+use Regexp::Assemble;
 
 my $Data = {};
 
@@ -105,13 +106,32 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
       for my $act (@{$state_def->{conds}->{$cond}->{actions}}) {
         if ($act->{type} eq 'create') {
           $types = {$act->{token} => 1};
+          $Data->{tokenizer}->{tokens}->{$act->{token}} ||= {};
         } elsif ($act->{type} eq 'emit' or
                  $act->{type} eq 'switch-and-emit') {
           $act->{possible_token_types} = $types;
           $act->{check_end_tag_token} = 1 if $types->{'end tag token'};
         }
+        if (defined $act->{field}) {
+          $Data->{tokenizer}->{tokens}->{$_}->{fields}->{$act->{field}} = 1 for keys %$types;
+        }
       }
     }
+  }
+  $Data->{tokenizer}->{tokens}->{'character token'}->{fields} ||= {};
+  $Data->{tokenizer}->{tokens}->{'end-of-file token'}->{fields} ||= {};
+  $Data->{tokenizer}->{tokens}->{'start tag token'}->{fields}->{attributes} = 1;
+  $Data->{tokenizer}->{tokens}->{'end tag token'}->{fields}->{attributes} = 1;
+  $Data->{tokenizer}->{tokens}->{'character token'}->{fields}->{value} = 1;
+  for (
+    [CHAR => 'character token'],
+    [START => 'start tag token'],
+    [END => 'end tag token'],
+    [COMMENT => 'comment token'],
+    [DOCTYPE => 'DOCTYPE token'],
+    [EOF => 'end-of-file token'],
+  ) {
+    $Data->{tokenizer}->{tokens}->{$_->[1]}->{short_name} = $_->[0];
   }
 }
 
@@ -134,6 +154,26 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
     $ns = q<http://www.w3.org/XML/1998/namespace> if $def->[2] eq 'XML';
     $ns = q<http://www.w3.org/2000/xmlns/> if $def->[2] eq 'XMLNS';
     $Data->{adjusted_ns_attr_names}->{$_} = [$ns, [$def->[0], $def->[1]]];
+  }
+
+  $Data->{doctype_switch} = $tree->{doctype_switch};
+
+  sub qm ($) {
+    my $s = shift;
+    $s =~ s/([\\\[\]\{\}\(\)\+\*\?\^\$\@.|])/\\$1/g;
+    return $s;
+  } # qm
+  for (
+    $Data->{doctype_switch}->{quirks},
+    $Data->{doctype_switch}->{limited_quirks},
+  ) {
+    for my $key (keys %{$_->{values}}) {
+      my $ra = Regexp::Assemble->new;
+      $ra->add (qm $_) for keys %{$_->{values}->{$key}};
+      $_->{regexp}->{$key} = $ra->re;
+      $_->{regexp}->{$key} =~ s/^\(\?\^u:/(?:/g;
+      $_->{regexp}->{$key} =~ s{\\/}{/}g;
+    }
   }
 }
 

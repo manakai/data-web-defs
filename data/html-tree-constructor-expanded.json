@@ -8,6 +8,7 @@
       ],
       "after after body;END-ELSE" : [
          {
+            "name" : "after-after-body-else",
             "type" : "parse error"
          },
          {
@@ -25,6 +26,7 @@
       ],
       "after after body;START-ELSE" : [
          {
+            "name" : "after-after-body-else",
             "type" : "parse error"
          },
          {
@@ -39,6 +41,7 @@
          {
             "actions" : [
                {
+                  "name" : "after-after-body-else",
                   "type" : "parse error"
                },
                {
@@ -68,6 +71,7 @@
       ],
       "after after frameset;END-ELSE" : [
          {
+            "name" : "after-after-frameset-else",
             "type" : "parse error"
          },
          {
@@ -81,7 +85,22 @@
       ],
       "after after frameset;START-ELSE" : [
          {
+            "name" : "after-after-frameset-else",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -93,6 +112,7 @@
             ],
             "char_actions" : [
                {
+                  "name" : "after-after-frameset-else",
                   "type" : "parse error"
                }
             ],
@@ -115,6 +135,7 @@
       ],
       "after body;DOCTYPE" : [
          {
+            "name" : "after-body-doctype",
             "type" : "parse error"
          },
          {
@@ -123,6 +144,7 @@
       ],
       "after body;END-ELSE" : [
          {
+            "name" : "after-body-else",
             "type" : "parse error"
          },
          {
@@ -137,6 +159,7 @@
          {
             "actions" : [
                {
+                  "name" : "after-body-end-html",
                   "type" : "parse error"
                },
                {
@@ -162,6 +185,7 @@
       ],
       "after body;START-ELSE" : [
          {
+            "name" : "after-body-else",
             "type" : "parse error"
          },
          {
@@ -176,6 +200,7 @@
          {
             "actions" : [
                {
+                  "name" : "after-body-else",
                   "type" : "parse error"
                },
                {
@@ -204,6 +229,7 @@
       ],
       "after frameset;DOCTYPE" : [
          {
+            "name" : "after-frameset-doctype",
             "type" : "parse error"
          },
          {
@@ -212,6 +238,7 @@
       ],
       "after frameset;END-ELSE" : [
          {
+            "name" : "after-frameset-else",
             "type" : "parse error"
          },
          {
@@ -231,7 +258,22 @@
       ],
       "after frameset;START-ELSE" : [
          {
+            "name" : "after-frameset-else",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -243,6 +285,7 @@
             ],
             "char_actions" : [
                {
+                  "name" : "after-frameset-else",
                   "type" : "parse error"
                }
             ],
@@ -261,6 +304,7 @@
       ],
       "after head;DOCTYPE" : [
          {
+            "name" : "after-head-doctype",
             "type" : "parse error"
          },
          {
@@ -269,6 +313,7 @@
       ],
       "after head;END-ELSE" : [
          {
+            "name" : "after-head-end-else",
             "type" : "parse error"
          },
          {
@@ -319,6 +364,7 @@
       ],
       "after head;START:base,basefont bgsound link" : [
          {
+            "name" : "after-head-start-b3lmnsstt",
             "type" : "parse error"
          },
          {
@@ -344,6 +390,20 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "target" : "frameset-ok",
             "type" : "set-false"
          },
@@ -357,13 +417,42 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "im" : "in frameset",
             "type" : "switch the insertion mode"
          }
       ],
       "after head;START:head" : [
          {
+            "name" : "after-head-start-head",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -371,6 +460,7 @@
       ],
       "after head;START:meta" : [
          {
+            "name" : "after-head-start-b3lmnsstt",
             "type" : "parse error"
          },
          {
@@ -396,6 +486,7 @@
       ],
       "after head;START:noframes,style" : [
          {
+            "name" : "after-head-start-b3lmnsstt",
             "type" : "parse error"
          },
          {
@@ -420,10 +511,25 @@
          {
             "item" : "head element pointer",
             "type" : "remove-oe"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "after head;START:script" : [
          {
+            "name" : "after-head-start-b3lmnsstt",
             "type" : "parse error"
          },
          {
@@ -479,10 +585,25 @@
          {
             "item" : "head element pointer",
             "type" : "remove-oe"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "after head;START:template" : [
          {
+            "name" : "after-head-start-b3lmnsstt",
             "type" : "parse error"
          },
          {
@@ -510,10 +631,25 @@
          {
             "item" : "head element pointer",
             "type" : "remove-oe"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "after head;START:title" : [
          {
+            "name" : "after-head-start-b3lmnsstt",
             "type" : "parse error"
          },
          {
@@ -538,6 +674,20 @@
          {
             "item" : "head element pointer",
             "type" : "remove-oe"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "after head;TEXT" : [
@@ -571,6 +721,7 @@
       ],
       "before head;DOCTYPE" : [
          {
+            "name" : "before-head-doctype",
             "type" : "parse error"
          },
          {
@@ -579,6 +730,7 @@
       ],
       "before head;END-ELSE" : [
          {
+            "name" : "before-head-end-else",
             "type" : "parse error"
          },
          {
@@ -644,6 +796,20 @@
             "type" : "set-head-element-pointer"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "im" : "in head",
             "type" : "switch the insertion mode"
          }
@@ -699,6 +865,7 @@
       ],
       "before html;DOCTYPE" : [
          {
+            "name" : "before-html-doctype",
             "type" : "parse error"
          },
          {
@@ -707,6 +874,7 @@
       ],
       "before html;END-ELSE" : [
          {
+            "name" : "before-html-end-else",
             "type" : "parse error"
          },
          {
@@ -793,6 +961,20 @@
             "type" : "appcache-processing"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "im" : "before head",
             "type" : "switch the insertion mode"
          }
@@ -864,6 +1046,7 @@
       ],
       "in body;DOCTYPE" : [
          {
+            "name" : "in-body-doctype",
             "type" : "parse error"
          },
          {
@@ -886,6 +1069,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-end-else",
                               "type" : "parse error"
                            }
                         ],
@@ -916,6 +1100,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-end-else-2",
                               "type" : "parse error"
                            },
                            {
@@ -950,6 +1135,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-a3bbcd5f4hhlmmnopssu",
                   "type" : "parse error"
                },
                {
@@ -970,6 +1156,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-a3bbcd5f4hhlmmnopssu-2",
                         "type" : "parse error"
                      }
                   ],
@@ -992,6 +1179,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-applet-marquee-object",
                   "type" : "parse error"
                },
                {
@@ -1012,6 +1200,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-applet-marquee-object-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1037,6 +1226,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-body",
                   "type" : "parse error"
                },
                {
@@ -1053,6 +1243,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-body-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1074,6 +1265,7 @@
       ],
       "in body;END:br" : [
          {
+            "name" : "in-body-end-br",
             "type" : "parse error"
          },
          {
@@ -1099,6 +1291,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-dd-dt",
                   "type" : "parse error"
                },
                {
@@ -1123,6 +1316,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-dd-dt-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1155,6 +1349,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-form",
                         "type" : "parse error"
                      },
                      {
@@ -1186,6 +1381,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-form-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1214,6 +1410,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-form-3",
                         "type" : "parse error"
                      },
                      {
@@ -1238,6 +1435,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-form-4",
                         "type" : "parse error"
                      }
                   ],
@@ -1266,6 +1464,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-h6",
                   "type" : "parse error"
                },
                {
@@ -1286,6 +1485,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-h6-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1308,6 +1508,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-html",
                   "type" : "parse error"
                },
                {
@@ -1324,6 +1525,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-html-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1350,6 +1552,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-li",
                   "type" : "parse error"
                },
                {
@@ -1370,6 +1573,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-end-li-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1392,6 +1596,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-end-p",
                   "type" : "parse error"
                },
                {
@@ -1415,6 +1620,7 @@
          {
             "actions" : [
                {
+                  "name" : "-steps-close-a-p-element",
                   "type" : "parse error"
                }
             ],
@@ -1449,6 +1655,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-end-else",
                               "type" : "parse error"
                            }
                         ],
@@ -1476,6 +1683,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-end-else-2",
                               "type" : "parse error"
                            },
                            {
@@ -1518,6 +1726,7 @@
                   ],
                   "false_actions" : [
                      {
+                        "name" : "in-template-eof",
                         "type" : "parse error"
                      }
                   ],
@@ -1548,6 +1757,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-body-eof",
                         "type" : "parse error"
                      }
                   ],
@@ -1572,12 +1782,27 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:a" : [
          {
             "actions" : [
                {
+                  "name" : "in-body-start-a",
                   "type" : "parse error"
                },
                {
@@ -1602,6 +1827,20 @@
          },
          {
             "type" : "push onto the list of active formatting elements"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p" : [
@@ -1614,6 +1853,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -1639,6 +1879,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:applet marquee object" : [
@@ -1650,6 +1904,20 @@
          },
          {
             "type" : "append-marker-to-afe"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "target" : "frameset-ok",
@@ -1683,10 +1951,25 @@
          },
          {
             "type" : "push onto the list of active formatting elements"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:body" : [
          {
+            "name" : "in-body-start-body",
             "type" : "parse error"
          },
          {
@@ -1725,12 +2008,27 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:button" : [
          {
             "actions" : [
                {
+                  "name" : "in-body-start-button",
                   "type" : "parse error"
                },
                {
@@ -1757,13 +2055,42 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "target" : "frameset-ok",
             "type" : "set-false"
          }
       ],
       "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr" : [
          {
+            "name" : "in-body-start-c3fht6",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -1785,6 +2112,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-start-dd-dt",
                               "type" : "parse error"
                            }
                         ],
@@ -1818,6 +2146,7 @@
                            {
                               "actions" : [
                                  {
+                                    "name" : "in-body-start-dd-dt-2",
                                     "type" : "parse error"
                                  }
                               ],
@@ -1877,6 +2206,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -1902,12 +2232,27 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:form" : [
          {
             "actions" : [
                {
+                  "name" : "in-body-start-form",
                   "type" : "parse error"
                }
             ],
@@ -1934,6 +2279,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "-steps-close-a-p-element",
                               "type" : "parse error"
                            }
                         ],
@@ -1976,10 +2322,25 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:frameset" : [
          {
+            "name" : "in-body-start-frameset",
             "type" : "parse error"
          },
          {
@@ -2032,6 +2393,20 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:h1 h2 h3 h4 h5 h6" : [
@@ -2044,6 +2419,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2070,6 +2446,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-start-h6",
                   "type" : "parse error"
                },
                {
@@ -2085,6 +2462,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:hr" : [
@@ -2097,6 +2488,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2136,6 +2528,7 @@
       ],
       "in body;START:html" : [
          {
+            "name" : "in-body-start-html",
             "type" : "parse error"
          },
          {
@@ -2155,6 +2548,20 @@
          {
             "node" : "oe[0]",
             "type" : "set-attrs-if-missing"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:iframe" : [
@@ -2164,6 +2571,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RAWTEXT state",
@@ -2180,6 +2601,7 @@
       ],
       "in body;START:image" : [
          {
+            "name" : "in-body-start-image",
             "type" : "parse error"
          },
          {
@@ -2230,10 +2652,25 @@
       ],
       "in body;START:isindex" : [
          {
+            "name" : "in-body-start-isindex",
             "type" : "parse error"
          },
          {
             "actions" : [
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
+               },
                {
                   "type" : "ignore the token"
                }
@@ -2268,6 +2705,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "-steps-close-a-p-element",
                               "type" : "parse error"
                            }
                         ],
@@ -2409,6 +2847,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-start-li",
                               "type" : "parse error"
                            }
                         ],
@@ -2465,6 +2904,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2490,6 +2930,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:listing pre" : [
@@ -2502,6 +2956,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2530,6 +2985,20 @@
          },
          {
             "type" : "ignore-next-lf"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "target" : "frameset-ok",
@@ -2585,6 +3054,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-start-nobr",
                   "type" : "parse error"
                },
                {
@@ -2608,11 +3078,39 @@
          },
          {
             "type" : "push onto the list of active formatting elements"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:noembed" : [
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RAWTEXT state",
@@ -2658,6 +3156,20 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:optgroup,option" : [
@@ -2679,6 +3191,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:plaintext" : [
@@ -2691,6 +3217,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2718,6 +3245,20 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "state" : "PLAINTEXT state",
             "type" : "switch the tokenizer"
          }
@@ -2741,6 +3282,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-start-rp-rt",
                   "type" : "parse error"
                }
             ],
@@ -2753,6 +3295,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in body;START:select" : [
@@ -2789,6 +3345,20 @@
                   "im" : "in select",
                   "type" : "switch the insertion mode"
                }
+            ],
+            "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
             ],
             "type" : "if"
          }
@@ -2834,6 +3404,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2867,6 +3438,20 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "target" : "frameset-ok",
             "type" : "set-false"
          },
@@ -2881,6 +3466,20 @@
          },
          {
             "type" : "ignore-next-lf"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RCDATA state",
@@ -2909,6 +3508,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -2943,6 +3543,20 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "state" : "RAWTEXT state",
             "type" : "switch the tokenizer"
          },
@@ -2971,6 +3585,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-body-null",
                   "type" : "parse error"
                }
             ],
@@ -2987,6 +3602,7 @@
       ],
       "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr" : [
          {
+            "name" : "in-caption-end-bccht6",
             "type" : "parse error"
          },
          {
@@ -2997,6 +3613,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-caption-end-caption",
                   "type" : "parse error"
                },
                {
@@ -3017,6 +3634,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-caption-end-caption-2",
                         "type" : "parse error"
                      }
                   ],
@@ -3046,6 +3664,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-caption-end-table",
                   "type" : "parse error"
                },
                {
@@ -3066,6 +3685,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-caption-end-table-2",
                         "type" : "parse error"
                      }
                   ],
@@ -3098,7 +3718,22 @@
          {
             "actions" : [
                {
+                  "name" : "in-caption-start-c3t6",
                   "type" : "parse error"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
                },
                {
                   "type" : "ignore the token"
@@ -3118,6 +3753,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-caption-start-c3t6-2",
                         "type" : "parse error"
                      }
                   ],
@@ -3162,6 +3798,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-body-null",
                   "type" : "parse error"
                }
             ],
@@ -3178,6 +3815,7 @@
       ],
       "in cell;END:body,caption,col,colgroup,html" : [
          {
+            "name" : "in-cell-end-bc3h",
             "type" : "parse error"
          },
          {
@@ -3188,6 +3826,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-cell-end-t5",
                   "type" : "parse error"
                },
                {
@@ -3208,6 +3847,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-the-cell",
                         "type" : "parse error"
                      }
                   ],
@@ -3240,6 +3880,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-cell-end-td-th",
                   "type" : "parse error"
                },
                {
@@ -3260,6 +3901,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-cell-end-td-th-2",
                         "type" : "parse error"
                      }
                   ],
@@ -3289,7 +3931,22 @@
          {
             "actions" : [
                {
+                  "name" : "in-cell-start-c3t6",
                   "type" : "parse error"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
                },
                {
                   "type" : "ignore the token"
@@ -3309,6 +3966,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-the-cell",
                         "type" : "parse error"
                      }
                   ],
@@ -3353,6 +4011,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-body-null",
                   "type" : "parse error"
                }
             ],
@@ -3374,6 +4033,7 @@
       ],
       "in column group;DOCTYPE" : [
          {
+            "name" : "in-column-group-doctype",
             "type" : "parse error"
          },
          {
@@ -3384,6 +4044,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-column-group-else",
                   "type" : "parse error"
                },
                {
@@ -3412,6 +4073,7 @@
       ],
       "in column group;END:col" : [
          {
+            "name" : "in-column-group-end-col",
             "type" : "parse error"
          },
          {
@@ -3422,6 +4084,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-column-group-end-colgroup",
                   "type" : "parse error"
                },
                {
@@ -3449,7 +4112,22 @@
          {
             "actions" : [
                {
+                  "name" : "in-column-group-else",
                   "type" : "parse error"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
                },
                {
                   "type" : "ignore the token"
@@ -3494,6 +4172,7 @@
                   ],
                   "char_actions" : [
                      {
+                        "name" : "in-column-group-else",
                         "type" : "parse error"
                      }
                   ],
@@ -3542,6 +4221,7 @@
       ],
       "in foreign content;DOCTYPE" : [
          {
+            "name" : "in-foreign-content-doctype",
             "type" : "parse error"
          },
          {
@@ -3552,6 +4232,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-foreign-content-end-else",
                   "type" : "parse error"
                }
             ],
@@ -3641,6 +4322,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-foreign-content-end-script",
                         "type" : "parse error"
                      }
                   ],
@@ -3811,6 +4493,7 @@
       ],
       "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed img,h1 h2 h3 h4 h5 h6,head,hr,li,listing pre,meta,nobr,p,ruby span sub sup var,table" : [
          {
+            "name" : "in-foreign-content-start-b5ccd4eeh8iillmmnopprs7ttuuv",
             "type" : "parse error"
          },
          {
@@ -3929,6 +4612,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-foreign-content-start-font",
                   "type" : "parse error"
                },
                {
@@ -4103,6 +4787,15 @@
                   "actions" : [
                      {
                         "actions" : [
+                           {
+                              "type" : "acknowledge the token's self-closing flag"
+                           },
+                           {
+                              "type" : "pop-oe"
+                           },
+                           {
+                              "type" : "script-processing"
+                           }
                         ],
                         "cond" : [
                            "and",
@@ -4118,6 +4811,12 @@
                            ]
                         ],
                         "false_actions" : [
+                           {
+                              "type" : "pop-oe"
+                           },
+                           {
+                              "type" : "acknowledge the token's self-closing flag"
+                           }
                         ],
                         "type" : "if"
                      }
@@ -4146,6 +4845,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-foreign-content-null",
                   "type" : "parse error"
                }
             ],
@@ -4169,6 +4869,7 @@
       ],
       "in frameset;DOCTYPE" : [
          {
+            "name" : "in-frameset-doctype",
             "type" : "parse error"
          },
          {
@@ -4177,6 +4878,7 @@
       ],
       "in frameset;END-ELSE" : [
          {
+            "name" : "in-frameset-else",
             "type" : "parse error"
          },
          {
@@ -4187,6 +4889,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-frameset-end-frameset",
                   "type" : "parse error"
                },
                {
@@ -4230,6 +4933,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-frameset-eof",
                   "type" : "parse error"
                }
             ],
@@ -4246,7 +4950,22 @@
       ],
       "in frameset;START-ELSE" : [
          {
+            "name" : "in-frameset-else",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -4266,6 +4985,20 @@
       "in frameset;START:frameset" : [
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in frameset;TEXT" : [
@@ -4274,6 +5007,7 @@
             ],
             "char_actions" : [
                {
+                  "name" : "in-frameset-else",
                   "type" : "parse error"
                }
             ],
@@ -4287,6 +5021,7 @@
       ],
       "in head noscript;DOCTYPE" : [
          {
+            "name" : "in-head-noscript-doctype",
             "type" : "parse error"
          },
          {
@@ -4295,6 +5030,7 @@
       ],
       "in head noscript;END-ELSE" : [
          {
+            "name" : "in-head-noscript-end-else",
             "type" : "parse error"
          },
          {
@@ -4303,6 +5039,7 @@
       ],
       "in head noscript;END:br" : [
          {
+            "name" : "in-head-noscript-else",
             "type" : "parse error"
          },
          {
@@ -4327,6 +5064,7 @@
       ],
       "in head noscript;EOF" : [
          {
+            "name" : "in-head-noscript-else",
             "type" : "parse error"
          },
          {
@@ -4342,6 +5080,7 @@
       ],
       "in head noscript;START-ELSE" : [
          {
+            "name" : "in-head-noscript-else",
             "type" : "parse error"
          },
          {
@@ -4357,7 +5096,22 @@
       ],
       "in head noscript;START:head,noscript" : [
          {
+            "name" : "in-head-noscript-start-head-noscript",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -4367,6 +5121,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-head-noscript-else",
                   "type" : "parse error"
                },
                {
@@ -4411,6 +5166,7 @@
       ],
       "in head;DOCTYPE" : [
          {
+            "name" : "in-head-doctype",
             "type" : "parse error"
          },
          {
@@ -4419,6 +5175,7 @@
       ],
       "in head;END-ELSE" : [
          {
+            "name" : "in-head-end-else",
             "type" : "parse error"
          },
          {
@@ -4450,6 +5207,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-head-end-template",
                   "type" : "parse error"
                },
                {
@@ -4470,6 +5228,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "in-head-end-template-2",
                         "type" : "parse error"
                      }
                   ],
@@ -4534,7 +5293,22 @@
       ],
       "in head;START:head" : [
          {
+            "name" : "in-head-start-head",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -4557,6 +5331,20 @@
       "in head;START:noframes,style" : [
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RAWTEXT state",
@@ -4603,6 +5391,20 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in head;START:script" : [
@@ -4641,6 +5443,20 @@
             "type" : "push-oe"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "state" : "script data state",
             "type" : "switch the tokenizer"
          },
@@ -4661,6 +5477,20 @@
             "type" : "append-marker-to-afe"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "target" : "frameset-ok",
             "type" : "set-false"
          },
@@ -4676,6 +5506,20 @@
       "in head;START:title" : [
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RCDATA state",
@@ -4723,6 +5567,7 @@
       ],
       "in row;END:body,caption,col,colgroup,html,td th" : [
          {
+            "name" : "in-row-end-bc3htt",
             "type" : "parse error"
          },
          {
@@ -4733,6 +5578,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-row-end-table",
                   "type" : "parse error"
                },
                {
@@ -4768,6 +5614,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-row-end-tbody-tfoot-thead",
                   "type" : "parse error"
                },
                {
@@ -4817,6 +5664,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-row-end-tr",
                   "type" : "parse error"
                },
                {
@@ -4849,7 +5697,22 @@
          {
             "actions" : [
                {
+                  "name" : "in-row-start-c3t4",
                   "type" : "parse error"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
                },
                {
                   "type" : "ignore the token"
@@ -4894,6 +5757,20 @@
          },
          {
             "type" : "append-marker-to-afe"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in row;TEXT" : [
@@ -4922,6 +5799,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-table-char",
                   "type" : "parse error"
                },
                {
@@ -4941,6 +5819,7 @@
                   ],
                   "null_char_actions" : [
                      {
+                        "name" : "in-body-null",
                         "type" : "parse error"
                      }
                   ],
@@ -4962,6 +5841,7 @@
       ],
       "in select in table;END:caption,table,tbody tfoot thead,td th,tr" : [
          {
+            "name" : "in-select-in-table-end-ct7",
             "type" : "parse error"
          },
          {
@@ -4993,6 +5873,7 @@
       ],
       "in select in table;START:caption,table,tbody tfoot thead,td th,tr" : [
          {
+            "name" : "in-select-in-table-start-ct7",
             "type" : "parse error"
          },
          {
@@ -5015,6 +5896,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-select-null",
                   "type" : "parse error"
                }
             ],
@@ -5028,6 +5910,7 @@
       ],
       "in select;DOCTYPE" : [
          {
+            "name" : "in-select-doctype",
             "type" : "parse error"
          },
          {
@@ -5036,6 +5919,7 @@
       ],
       "in select;END-ELSE" : [
          {
+            "name" : "in-select-else",
             "type" : "parse error"
          },
          {
@@ -5077,6 +5961,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-select-end-optgroup",
                   "type" : "parse error"
                },
                {
@@ -5100,6 +5985,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-select-end-option",
                   "type" : "parse error"
                },
                {
@@ -5113,6 +5999,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-select-end-select",
                   "type" : "parse error"
                },
                {
@@ -5139,7 +6026,22 @@
       ],
       "in select;START-ELSE" : [
          {
+            "name" : "in-select-else",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -5147,10 +6049,25 @@
       ],
       "in select;START:input,keygen,textarea" : [
          {
+            "name" : "in-select-start-input-keygen-textarea",
             "type" : "parse error"
          },
          {
             "actions" : [
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
+               },
                {
                   "type" : "ignore the token"
                }
@@ -5205,6 +6122,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in select;START:option" : [
@@ -5223,10 +6154,25 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in select;START:select" : [
          {
+            "name" : "in-select-start-select",
             "type" : "parse error"
          },
          {
@@ -5251,6 +6197,20 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in select;TEXT" : [
@@ -5262,6 +6222,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-select-null",
                   "type" : "parse error"
                }
             ],
@@ -5270,6 +6231,7 @@
       ],
       "in table body;END:body,caption,col,colgroup,html,td th,tr" : [
          {
+            "name" : "in-table-body-end-bc3ht3",
             "type" : "parse error"
          },
          {
@@ -5280,6 +6242,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-body-end-table",
                   "type" : "parse error"
                },
                {
@@ -5315,6 +6278,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-body-end-tbody-tfoot-thead",
                   "type" : "parse error"
                },
                {
@@ -5347,7 +6311,22 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-body-start-c3t3",
                   "type" : "parse error"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
                },
                {
                   "type" : "ignore the token"
@@ -5380,6 +6359,7 @@
       ],
       "in table body;START:td th" : [
          {
+            "name" : "in-table-body-start-td-th",
             "type" : "parse error"
          },
          {
@@ -5406,6 +6386,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "im" : "in row",
@@ -5438,6 +6432,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-table-char",
                   "type" : "parse error"
                },
                {
@@ -5457,6 +6452,7 @@
                   ],
                   "null_char_actions" : [
                      {
+                        "name" : "in-body-null",
                         "type" : "parse error"
                      }
                   ],
@@ -5480,6 +6476,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-text-else",
                   "type" : "parse error"
                },
                {
@@ -5516,6 +6513,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-text-else",
                   "type" : "parse error"
                },
                {
@@ -5552,6 +6550,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-text-else",
                   "type" : "parse error"
                },
                {
@@ -5588,6 +6587,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-text-else",
                   "type" : "parse error"
                },
                {
@@ -5624,6 +6624,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-text-else",
                   "type" : "parse error"
                },
                {
@@ -5665,6 +6666,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-table-text-null",
                   "type" : "parse error"
                }
             ],
@@ -5678,6 +6680,7 @@
       ],
       "in table;DOCTYPE" : [
          {
+            "name" : "in-table-doctype",
             "type" : "parse error"
          },
          {
@@ -5686,6 +6689,7 @@
       ],
       "in table;END-ELSE" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5694,6 +6698,7 @@
       ],
       "in table;END:a,b big code em i s small strike strong tt u,font,nobr" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5703,6 +6708,7 @@
       ],
       "in table;END:body,caption,col,colgroup,html,tbody tfoot thead,td th,tr" : [
          {
+            "name" : "in-table-end-bc3ht6",
             "type" : "parse error"
          },
          {
@@ -5711,9 +6717,11 @@
       ],
       "in table;END:br" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-end-br",
             "type" : "parse error"
          },
          {
@@ -5739,11 +6747,13 @@
       ],
       "in table;END:p" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
             "actions" : [
                {
+                  "name" : "in-body-end-p",
                   "type" : "parse error"
                },
                {
@@ -5768,6 +6778,7 @@
          {
             "actions" : [
                {
+                  "name" : "-steps-close-a-p-element",
                   "type" : "parse error"
                }
             ],
@@ -5787,6 +6798,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-end-table",
                   "type" : "parse error"
                },
                {
@@ -5813,6 +6825,7 @@
       ],
       "in table;START-ELSE" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5822,15 +6835,31 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:a" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
             "actions" : [
                {
+                  "name" : "in-body-start-a",
                   "type" : "parse error"
                },
                {
@@ -5858,10 +6887,25 @@
          },
          {
             "type" : "push onto the list of active formatting elements"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:address article aside details dialog dir fieldset figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,p" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5873,6 +6917,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -5899,10 +6944,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:applet marquee object" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5917,12 +6977,27 @@
             "type" : "append-marker-to-afe"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "target" : "frameset-ok",
             "type" : "set-false"
          }
       ],
       "in table;START:area wbr,br,embed img,keygen" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5946,6 +7021,7 @@
       ],
       "in table;START:b big code em i s small strike strong tt u,font" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5955,10 +7031,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:base,basefont bgsound link" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -5973,9 +7064,11 @@
       ],
       "in table;START:body" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-start-body",
             "type" : "parse error"
          },
          {
@@ -6014,10 +7107,25 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:button" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6027,6 +7135,20 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:caption" : [
@@ -6039,6 +7161,20 @@
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "im" : "in caption",
@@ -6072,12 +7208,27 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "im" : "in column group",
             "type" : "switch the insertion mode"
          }
       ],
       "in table;START:dd dt" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6095,6 +7246,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-start-dd-dt",
                               "type" : "parse error"
                            }
                         ],
@@ -6128,6 +7280,7 @@
                            {
                               "actions" : [
                                  {
+                                    "name" : "in-body-start-dd-dt-2",
                                     "type" : "parse error"
                                  }
                               ],
@@ -6187,6 +7340,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -6213,10 +7367,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:form" : [
          {
+            "name" : "in-table-start-form",
             "type" : "parse error"
          },
          {
@@ -6250,14 +7419,44 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:frame,head" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-start-c3fht6",
             "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "type" : "ignore the token"
@@ -6265,9 +7464,11 @@
       ],
       "in table;START:frameset" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-start-frameset",
             "type" : "parse error"
          },
          {
@@ -6321,10 +7522,25 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:h1 h2 h3 h4 h5 h6" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6334,10 +7550,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:hr" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6349,6 +7580,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -6389,9 +7621,11 @@
       ],
       "in table;START:html" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-start-html",
             "type" : "parse error"
          },
          {
@@ -6411,10 +7645,25 @@
          {
             "node" : "oe[0]",
             "type" : "set-attrs-if-missing"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:iframe" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6424,13 +7673,29 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:image" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-start-image",
             "type" : "parse error"
          },
          {
@@ -6457,6 +7722,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-table-else",
                   "type" : "parse error"
                },
                {
@@ -6495,6 +7761,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-table-start-input",
                   "type" : "parse error"
                },
                {
@@ -6512,13 +7779,29 @@
       ],
       "in table;START:isindex" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
+            "name" : "in-body-start-isindex",
             "type" : "parse error"
          },
          {
             "actions" : [
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
+               },
                {
                   "type" : "ignore the token"
                }
@@ -6553,6 +7836,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "-steps-close-a-p-element",
                               "type" : "parse error"
                            }
                         ],
@@ -6688,6 +7972,7 @@
       ],
       "in table;START:li" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6705,6 +7990,7 @@
                      {
                         "actions" : [
                            {
+                              "name" : "in-body-start-li",
                               "type" : "parse error"
                            }
                         ],
@@ -6761,6 +8047,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -6787,10 +8074,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:listing pre" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6800,10 +8102,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:math" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6840,6 +8157,7 @@
       ],
       "in table;START:menuitem param source track" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6855,6 +8173,7 @@
       ],
       "in table;START:meta" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6872,6 +8191,7 @@
       ],
       "in table;START:nobr" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6881,6 +8201,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-start-nobr",
                   "type" : "parse error"
                },
                {
@@ -6907,15 +8228,44 @@
          },
          {
             "type" : "push onto the list of active formatting elements"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:noembed" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RAWTEXT state",
@@ -6932,10 +8282,25 @@
       ],
       "in table;START:noframes" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RAWTEXT state",
@@ -6952,6 +8317,7 @@
       ],
       "in table;START:noscript" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -6987,10 +8353,25 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:optgroup,option" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7013,10 +8394,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:plaintext" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7028,6 +8424,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -7056,12 +8453,27 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "state" : "PLAINTEXT state",
             "type" : "switch the tokenizer"
          }
       ],
       "in table;START:rp rt" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7082,6 +8494,7 @@
          {
             "actions" : [
                {
+                  "name" : "in-body-start-rp-rt",
                   "type" : "parse error"
                }
             ],
@@ -7095,10 +8508,25 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:select" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7138,10 +8566,25 @@
                }
             ],
             "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          }
       ],
       "in table;START:svg" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7178,10 +8621,25 @@
       ],
       "in table;START:table" : [
          {
+            "name" : "in-table-start-table",
             "type" : "parse error"
          },
          {
             "actions" : [
+               {
+                  "actions" : [
+                     {
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse-error"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "has",
+                     "self-closing flag"
+                  ],
+                  "type" : "if"
+               },
                {
                   "type" : "ignore the token"
                }
@@ -7216,6 +8674,20 @@
             "type" : "insert an HTML element"
          },
          {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
             "im" : "in table body",
             "type" : "switch the insertion mode"
          }
@@ -7240,6 +8712,7 @@
       ],
       "in table;START:textarea" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7248,6 +8721,20 @@
          },
          {
             "type" : "ignore-next-lf"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RCDATA state",
@@ -7268,10 +8755,25 @@
       ],
       "in table;START:title" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RCDATA state",
@@ -7288,6 +8790,7 @@
       ],
       "in table;START:xmp" : [
          {
+            "name" : "in-table-else",
             "type" : "parse error"
          },
          {
@@ -7299,6 +8802,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "-steps-close-a-p-element",
                         "type" : "parse error"
                      }
                   ],
@@ -7333,6 +8837,20 @@
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
          },
          {
             "state" : "RAWTEXT state",
@@ -7373,6 +8891,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-table-char",
                   "type" : "parse error"
                },
                {
@@ -7392,6 +8911,7 @@
                   ],
                   "null_char_actions" : [
                      {
+                        "name" : "in-body-null",
                         "type" : "parse error"
                      }
                   ],
@@ -7413,6 +8933,7 @@
       ],
       "in template;END-ELSE" : [
          {
+            "name" : "in-template-end-else",
             "type" : "parse error"
          },
          {
@@ -7434,6 +8955,7 @@
             ],
             "false_actions" : [
                {
+                  "name" : "in-template-eof",
                   "type" : "parse error"
                }
             ],
@@ -7552,6 +9074,7 @@
             ],
             "null_char_actions" : [
                {
+                  "name" : "in-body-null",
                   "type" : "parse error"
                }
             ],
@@ -7576,6 +9099,7 @@
          {
             "actions" : [
                {
+                  "name" : "initial-doctype",
                   "type" : "parse error"
                }
             ],
@@ -7600,6 +9124,7 @@
          {
             "actions" : [
                {
+                  "name" : "initial-else",
                   "type" : "parse error"
                },
                {
@@ -7624,6 +9149,7 @@
          {
             "actions" : [
                {
+                  "name" : "initial-else",
                   "type" : "parse error"
                },
                {
@@ -7648,6 +9174,7 @@
          {
             "actions" : [
                {
+                  "name" : "initial-else",
                   "type" : "parse error"
                },
                {
@@ -7674,6 +9201,7 @@
                {
                   "actions" : [
                      {
+                        "name" : "initial-else",
                         "type" : "parse error"
                      },
                      {
@@ -7781,6 +9309,7 @@
       ],
       "text;EOF" : [
          {
+            "name" : "text-eof",
             "type" : "parse error"
          },
          {
@@ -7811,6 +9340,20 @@
          }
       ],
       "text;START-ELSE" : [
+         {
+            "actions" : [
+               {
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse-error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         }
       ],
       "text;TEXT" : [
          {
@@ -7905,6 +9448,129 @@
          "EOF"
       ]
    ],
+   "doctype_switch" : {
+      "limited_quirks" : {
+         "regexp" : {
+            "public_id_prefix" : "(?:-//W3C//DTD XHTML 1\u005C.0 (?:TRANSITIONAL|FRAMESET)//)",
+            "public_id_prefix_if_system_id" : "(?:-//W3C//DTD HTML 4\u005C.01 (?:TRANSITIONAL|FRAMESET)//)"
+         },
+         "values" : {
+            "public_id_prefix" : {
+               "-//W3C//DTD XHTML 1.0 FRAMESET//" : 1,
+               "-//W3C//DTD XHTML 1.0 TRANSITIONAL//" : 1
+            },
+            "public_id_prefix_if_system_id" : {
+               "-//W3C//DTD HTML 4.01 FRAMESET//" : 1,
+               "-//W3C//DTD HTML 4.01 TRANSITIONAL//" : 1
+            }
+         }
+      },
+      "obsolete_permitted" : [
+         [
+            "-//W3C//DTD HTML 4.0//EN",
+            null
+         ],
+         [
+            "-//W3C//DTD HTML 4.0//EN",
+            "http://www.w3.org/TR/REC-html40/strict.dtd"
+         ],
+         [
+            "-//W3C//DTD HTML 4.01//EN",
+            null
+         ],
+         [
+            "-//W3C//DTD HTML 4.01//EN",
+            "http://www.w3.org/TR/html4/strict.dtd"
+         ],
+         [
+            "-//W3C//DTD XHTML 1.0 Strict//EN",
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+         ],
+         [
+            "-//W3C//DTD XHTML 1.1//EN",
+            "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+         ]
+      ],
+      "quirks" : {
+         "regexp" : {
+            "public_id" : "(?:(?:-/(?:/W3O//DTD W3 HTML STRICT 3\u005C.0//EN//|W3C/DTD HTML 4\u005C.0 TRANSITIONAL/EN)|HTML))",
+            "public_id_prefix" : "(?:(?:-(?://(?:S(?:OFTQUAD(?: SOFTWARE//DTD HOTMETAL PRO 6\u005C.0::19990601|//DTD HOTMETAL PRO 4\u005C.0::19971010)::EXTENSIONS TO HTML 4\u005C.0|UN MICROSYSTEMS CORP\u005C.//DTD HOTJAVA(?: STRICT)? HTML|Q//DTD HTML 2\u005C.0 HOTMETAL \u005C\u002B EXTENSIONS|PYGLASS//DTD HTML 2\u005C.0 EXTENDED)|W(?:3(?:C//DTD HTML (?:3\u005C.2(?: (?:DRAFT|FINAL)|S DRAFT)?|4\u005C.0 (?:TRANSITIONAL|FRAMESET))|O//DTD W3 HTML 3\u005C.0)|EBTECHS//DTD MOZILLA HTML 2\u005C.0)|IETF//DTD HTML (?:2\u005C.(?:0(?: (?:STRICT(?: LEVEL [12])?|LEVEL [12]))?|1E)|3\u005C.(?:2(?: FINAL)?|0))|MICROSOFT//DTD INTERNET EXPLORER [23]\u005C.0 (?:HTML(?: STRICT)?|TABLES)|O'REILLY AND ASSOCIATES//DTD HTML (?:EXTEND(?:ED RELAX)?ED 1|2)\u005C.0|A(?:DVASOFT LTD|S)//DTD HTML 3\u005C.0 ASWEDIT \u005C\u002B EXTENSIONS|NETSCAPE COMM\u005C. CORP\u005C.//DTD(?: STRICT)? HTML)//|//(?:W(?:3C//DTD (?:HTML (?:EXPERIMENTAL (?:19960712|970421)|3 1995-03-24)|W3 HTML)|EBTECHS//DTD MOZILLA HTML)|IETF//DTD HTML(?: (?:STRICT(?: LEVEL [0123])?|LEVEL [0123]|3))?|METRIUS//DTD METRIUS PRESENTATIONAL)//)|\u005C\u002B//SILMARIL//DTD HTML PRO V0R11 19970101//))",
+            "public_id_prefix_if_no_system_id" : "(?:-//W3C//DTD HTML 4\u005C.01 (?:TRANSITIONAL|FRAMESET)//)",
+            "system_id" : "(?:HTTP://WWW\u005C.IBM\u005C.COM/DATA/DTD/V11/IBMXHTML1-TRANSITIONAL\u005C.DTD)"
+         },
+         "values" : {
+            "public_id" : {
+               "-//W3O//DTD W3 HTML STRICT 3.0//EN//" : 1,
+               "-/W3C/DTD HTML 4.0 TRANSITIONAL/EN" : 1,
+               "HTML" : 1
+            },
+            "public_id_prefix" : {
+               "\u002B//SILMARIL//DTD HTML PRO V0R11 19970101//" : 1,
+               "-//ADVASOFT LTD//DTD HTML 3.0 ASWEDIT \u002B EXTENSIONS//" : 1,
+               "-//AS//DTD HTML 3.0 ASWEDIT \u002B EXTENSIONS//" : 1,
+               "-//IETF//DTD HTML 2.0 LEVEL 1//" : 1,
+               "-//IETF//DTD HTML 2.0 LEVEL 2//" : 1,
+               "-//IETF//DTD HTML 2.0 STRICT LEVEL 1//" : 1,
+               "-//IETF//DTD HTML 2.0 STRICT LEVEL 2//" : 1,
+               "-//IETF//DTD HTML 2.0 STRICT//" : 1,
+               "-//IETF//DTD HTML 2.0//" : 1,
+               "-//IETF//DTD HTML 2.1E//" : 1,
+               "-//IETF//DTD HTML 3.0//" : 1,
+               "-//IETF//DTD HTML 3.2 FINAL//" : 1,
+               "-//IETF//DTD HTML 3.2//" : 1,
+               "-//IETF//DTD HTML 3//" : 1,
+               "-//IETF//DTD HTML LEVEL 0//" : 1,
+               "-//IETF//DTD HTML LEVEL 1//" : 1,
+               "-//IETF//DTD HTML LEVEL 2//" : 1,
+               "-//IETF//DTD HTML LEVEL 3//" : 1,
+               "-//IETF//DTD HTML STRICT LEVEL 0//" : 1,
+               "-//IETF//DTD HTML STRICT LEVEL 1//" : 1,
+               "-//IETF//DTD HTML STRICT LEVEL 2//" : 1,
+               "-//IETF//DTD HTML STRICT LEVEL 3//" : 1,
+               "-//IETF//DTD HTML STRICT//" : 1,
+               "-//IETF//DTD HTML//" : 1,
+               "-//METRIUS//DTD METRIUS PRESENTATIONAL//" : 1,
+               "-//MICROSOFT//DTD INTERNET EXPLORER 2.0 HTML STRICT//" : 1,
+               "-//MICROSOFT//DTD INTERNET EXPLORER 2.0 HTML//" : 1,
+               "-//MICROSOFT//DTD INTERNET EXPLORER 2.0 TABLES//" : 1,
+               "-//MICROSOFT//DTD INTERNET EXPLORER 3.0 HTML STRICT//" : 1,
+               "-//MICROSOFT//DTD INTERNET EXPLORER 3.0 HTML//" : 1,
+               "-//MICROSOFT//DTD INTERNET EXPLORER 3.0 TABLES//" : 1,
+               "-//NETSCAPE COMM. CORP.//DTD HTML//" : 1,
+               "-//NETSCAPE COMM. CORP.//DTD STRICT HTML//" : 1,
+               "-//O'REILLY AND ASSOCIATES//DTD HTML 2.0//" : 1,
+               "-//O'REILLY AND ASSOCIATES//DTD HTML EXTENDED 1.0//" : 1,
+               "-//O'REILLY AND ASSOCIATES//DTD HTML EXTENDED RELAXED 1.0//" : 1,
+               "-//SOFTQUAD SOFTWARE//DTD HOTMETAL PRO 6.0::19990601::EXTENSIONS TO HTML 4.0//" : 1,
+               "-//SOFTQUAD//DTD HOTMETAL PRO 4.0::19971010::EXTENSIONS TO HTML 4.0//" : 1,
+               "-//SPYGLASS//DTD HTML 2.0 EXTENDED//" : 1,
+               "-//SQ//DTD HTML 2.0 HOTMETAL \u002B EXTENSIONS//" : 1,
+               "-//SUN MICROSYSTEMS CORP.//DTD HOTJAVA HTML//" : 1,
+               "-//SUN MICROSYSTEMS CORP.//DTD HOTJAVA STRICT HTML//" : 1,
+               "-//W3C//DTD HTML 3 1995-03-24//" : 1,
+               "-//W3C//DTD HTML 3.2 DRAFT//" : 1,
+               "-//W3C//DTD HTML 3.2 FINAL//" : 1,
+               "-//W3C//DTD HTML 3.2//" : 1,
+               "-//W3C//DTD HTML 3.2S DRAFT//" : 1,
+               "-//W3C//DTD HTML 4.0 FRAMESET//" : 1,
+               "-//W3C//DTD HTML 4.0 TRANSITIONAL//" : 1,
+               "-//W3C//DTD HTML EXPERIMENTAL 19960712//" : 1,
+               "-//W3C//DTD HTML EXPERIMENTAL 970421//" : 1,
+               "-//W3C//DTD W3 HTML//" : 1,
+               "-//W3O//DTD W3 HTML 3.0//" : 1,
+               "-//WEBTECHS//DTD MOZILLA HTML 2.0//" : 1,
+               "-//WEBTECHS//DTD MOZILLA HTML//" : 1
+            },
+            "public_id_prefix_if_no_system_id" : {
+               "-//W3C//DTD HTML 4.01 FRAMESET//" : 1,
+               "-//W3C//DTD HTML 4.01 TRANSITIONAL//" : 1
+            },
+            "system_id" : {
+               "HTTP://WWW.IBM.COM/DATA/DTD/V11/IBMXHTML1-TRANSITIONAL.DTD" : 1
+            }
+         }
+      }
+   },
    "element_matching" : {
       "element_groups" : [
          "HTML:*",
