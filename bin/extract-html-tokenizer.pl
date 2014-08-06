@@ -216,7 +216,7 @@ sub parse_action ($) {
            not_anchored => 1,
            else_value => [{type => 'emit-temp'}]},
           {type => 'emit-char'};
-    } elsif ($action =~ s/^Consume every character up to and including the first U\+003E GREATER-THAN SIGN character \(>\) or the end of the file \(EOF\), whichever comes first\. Emit a comment token whose data is the concatenation of all the characters starting from and including the character that caused the state machine to switch into the bogus comment state, up to and including the character immediately before the last consumed character \(i\.e\. up to the character just before the U\+003E or EOF character\), but with any U\+0000 NULL characters replaced by U\+FFFD REPLACEMENT CHARACTER characters\. \(.+\)//) {
+    } elsif ($action =~ s/^Consume every character up to and including the first U\+003E GREATER-THAN SIGN character \(>\) or the end of the file \(EOF\), whichever comes first\. If more than one character was consumed, then emit a comment token whose data is the concatenation of all the characters starting from and including the character that caused the state machine to switch into the bogus comment state, up to and including the character immediately before the last consumed character \(i\.e\. up to the character just before the U\+003E or EOF character\), but with any U\+0000 NULL characters replaced by U\+FFFD REPLACEMENT CHARACTER characters\. \(.+\)//) {
       push @action,
           {type => 'APPEND-UNTIL', field => 'data', value => '>',
            replace_null => 1},
