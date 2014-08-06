@@ -63,12 +63,15 @@ for my $doc (parse 'iana-mime-types.xml') {
       
       $Data->{"$type/$subtype"}->{type} = 'subtype';
       $Data->{"$type/$subtype"}->{iana} = 'permanent';
-      $Data->{"$type/$subtype"}->{iana_deprecated} = $dep_el->text_content || 1
-          if $dep_el;
-      $Data->{"$type/$subtype"}->{iana_deprecated} = 1 if $info =~ /^DEPRECATED/;
-      $Data->{"$type/$subtype"}->{iana_obsolete} = $obs_el->text_content || 1
-          if $obs_el;
-      $Data->{"$type/$subtype"}->{iana_obsolete} = 1 if $info =~ /^OBSOLETE/;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated' if $dep_el;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated'
+          if $info =~ /^DEPRECATED/;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete' if $obs_el;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete'
+          if $info =~ /^OBSOLETE/;
+      if ($info =~ m{in favor of (\S+/\S+)}) {
+        $Data->{"$type/$subtype"}->{preferred_type} = lc $1;
+      }
       warn "$type/$subtype $info"
           if length $info and not $info =~ /^(?:DEPRECATED|OBSOLETE)/;
     }
