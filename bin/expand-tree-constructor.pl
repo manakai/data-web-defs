@@ -816,7 +816,7 @@ for my $im (keys %{$Data->{ims}}) {
     return [
       @$acts,
       {type => 'if', cond => ['token', 'has', 'self-closing flag'],
-       actions => [{type => 'parse-error',
+       actions => [{type => 'parse error',
                     name => '-start-tag-self-closing-flag'}]},
       @$acts2,
     ];
