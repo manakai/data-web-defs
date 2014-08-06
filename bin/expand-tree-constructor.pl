@@ -488,7 +488,7 @@ my $tag_name_to_group = {};
              $ims->{$im}->{conds}->{TEXT}->{actions}->[0]->{type} eq 'text-with-optional-ws-prefix';
     }
     redo if $changed;
-  }
+  } # $changed
 
   for my $im (keys %$ims) {
     next unless defined $ims->{$im}->{conds}->{TEXT};
@@ -768,6 +768,29 @@ for my $im (keys %{$Data->{ims}}) {
     }
   } # $cond
 } # $im
+
+
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+    $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+      my $acts = shift;
+      my $new_acts = [];
+      for my $act (@$acts) {
+        if ($act->{type} eq 'reprocess pending table character tokens list' and
+            $act->{FIELD} eq 'anything else') {
+          ## HARDCODED EXPANSION!!
+          ## "in table text", anything else -> "in table", anything else ->
+          push @$new_acts, @{foster_parenting_actions $Data->{ims}->{'in body'}->{conds}->{TEXT}->{actions}};
+          $new_acts->[-1]->{pending_table_character_tokens} = 1;
+        } else {
+          push @$new_acts, $act;
+        }
+      }
+      return $new_acts;
+    } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+  }
+}
+
 for my $im (keys %{$Data->{ims}}) {
   my @cond = keys %{$Data->{ims}->{$im}->{conds}};
   my $get_whether_acked; $get_whether_acked = sub {
