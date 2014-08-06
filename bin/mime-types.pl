@@ -53,16 +53,27 @@ for my $doc (parse 'iana-mime-types.xml') {
     for my $el (@{$el->children}) {
       next unless $el->local_name eq 'record';
       my $subtype = ($el->query_selector ('name') or next)->text_content;
+      my $info = '';
+      if ($subtype =~ s/ - (.+)$//) {
+        $info = $1;
+      }
       $subtype =~ tr/A-Z/a-z/;
       my $dep_el = $el->query_selector ('deprecated');
       my $obs_el = $el->query_selector ('obsolete');
       
       $Data->{"$type/$subtype"}->{type} = 'subtype';
       $Data->{"$type/$subtype"}->{iana} = 'permanent';
-      $Data->{"$type/$subtype"}->{iana_deprecated} = $dep_el->text_content || 1
-          if $dep_el;
-      $Data->{"$type/$subtype"}->{iana_obsolete} = $obs_el->text_content || 1
-          if $obs_el;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated' if $dep_el;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated'
+          if $info =~ /^DEPRECATED/;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete' if $obs_el;
+      $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete'
+          if $info =~ /^OBSOLETE/;
+      if ($info =~ m{in favor of (\S+/\S+)}) {
+        $Data->{"$type/$subtype"}->{preferred_type} = lc $1;
+      }
+      warn "$type/$subtype $info"
+          if length $info and not $info =~ /^(?:DEPRECATED|OBSOLETE)/;
     }
   }
 }

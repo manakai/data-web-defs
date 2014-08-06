@@ -190,6 +190,7 @@ delete $Data->{tokenizer}->{states}->{'character reference in attribute value st
       $ra->add (qm $_) for keys %{$_->{values}->{$key}};
       $_->{regexp}->{$key} = $ra->re;
       $_->{regexp}->{$key} =~ s/^\(\?\^u:/(?:/g;
+      $_->{regexp}->{$key} =~ s/^\(\?-ism:/(?:/g;
       $_->{regexp}->{$key} =~ s{\\/}{/}g;
     }
   }
