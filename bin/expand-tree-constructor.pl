@@ -1139,6 +1139,10 @@ for my $im (keys %{$Data->{ims}}) {
       $cond->[2] = ($cond->[2]->[1] =~ /not/ ? 'START-NOT:' : 'START:') . join ' ', sort { $a cmp $b } keys %group;
     } elsif ($cond->[0] eq 'or' or $cond->[0] eq 'and') {
       unshift @cond, map { [$_, $token_type] } @$cond[1..$#$cond];
+    } elsif ($cond->[0] eq 'token' and
+             $cond->[1] eq 'is a' and
+             $cond->[2] eq 'CHAR') {
+      $cond->[2] = 'TEXT';
     }
   } # @cond
 
