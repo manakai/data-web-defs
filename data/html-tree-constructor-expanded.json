@@ -7178,6 +7178,9 @@
             "type" : "insert an HTML element"
          },
          {
+            "type" : "push onto the list of active formatting elements"
+         },
+         {
             "actions" : [
                {
                   "name" : "-start-tag-self-closing-flag",
@@ -7274,6 +7277,29 @@
             "type" : "parse error"
          },
          {
+            "actions" : [
+               {
+                  "name" : "in-body-start-button",
+                  "type" : "parse error"
+               },
+               {
+                  "type" : "pop-oe",
+                  "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+               },
+               {
+                  "type" : "pop-oe",
+                  "until" : "HTML:button"
+               }
+            ],
+            "cond" : [
+               "oe",
+               "in scope",
+               "scope",
+               "HTML:button"
+            ],
+            "type" : "if"
+         },
+         {
             "foster_parenting" : 1,
             "type" : "reconstruct the active formatting elements"
          },
@@ -7294,6 +7320,10 @@
                "self-closing flag"
             ],
             "type" : "if"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
          }
       ],
       "in table;START:caption" : [
@@ -7689,8 +7719,54 @@
             "type" : "parse error"
          },
          {
-            "foster_parenting" : 1,
-            "type" : "reconstruct the active formatting elements"
+            "actions" : [
+               {
+                  "type" : "pop-oe",
+                  "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-steps-close-a-p-element",
+                        "type" : "parse error"
+                     }
+                  ],
+                  "cond" : [
+                     "oe[-1]",
+                     "is not",
+                     "HTML:p"
+                  ],
+                  "type" : "if"
+               },
+               {
+                  "type" : "pop-oe",
+                  "until" : "HTML:p"
+               }
+            ],
+            "cond" : [
+               "oe",
+               "in scope",
+               "button",
+               "HTML:p"
+            ],
+            "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "name" : "in-body-start-h6",
+                  "type" : "parse error"
+               },
+               {
+                  "type" : "pop-oe"
+               }
+            ],
+            "cond" : [
+               "oe[-1]",
+               "is",
+               "HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6"
+            ],
+            "type" : "if"
          },
          {
             "foster_parenting" : 1,
@@ -7812,8 +7888,8 @@
             "type" : "parse error"
          },
          {
-            "foster_parenting" : 1,
-            "type" : "reconstruct the active formatting elements"
+            "target" : "frameset-ok",
+            "type" : "set-false"
          },
          {
             "foster_parenting" : 1,
@@ -7832,6 +7908,18 @@
                "self-closing flag"
             ],
             "type" : "if"
+         },
+         {
+            "state" : "RAWTEXT state",
+            "type" : "switch the tokenizer"
+         },
+         {
+            "target" : "original insertion mode",
+            "type" : "set-current-im"
+         },
+         {
+            "im" : "text",
+            "type" : "switch the insertion mode"
          }
       ],
       "in table;START:image" : [
@@ -8241,12 +8329,44 @@
             "type" : "parse error"
          },
          {
-            "foster_parenting" : 1,
-            "type" : "reconstruct the active formatting elements"
+            "actions" : [
+               {
+                  "type" : "pop-oe",
+                  "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:rp,HTML:rt"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "-steps-close-a-p-element",
+                        "type" : "parse error"
+                     }
+                  ],
+                  "cond" : [
+                     "oe[-1]",
+                     "is not",
+                     "HTML:p"
+                  ],
+                  "type" : "if"
+               },
+               {
+                  "type" : "pop-oe",
+                  "until" : "HTML:p"
+               }
+            ],
+            "cond" : [
+               "oe",
+               "in scope",
+               "button",
+               "HTML:p"
+            ],
+            "type" : "if"
          },
          {
             "foster_parenting" : 1,
             "type" : "insert an HTML element"
+         },
+         {
+            "type" : "ignore-next-lf"
          },
          {
             "actions" : [
@@ -8261,6 +8381,10 @@
                "self-closing flag"
             ],
             "type" : "if"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
          }
       ],
       "in table;START:math" : [
