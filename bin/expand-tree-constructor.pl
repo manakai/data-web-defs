@@ -626,6 +626,7 @@ for my $im (keys %{$Data->{ims}}) {
         }
         return $acts;
       } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      my $actions = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
       for my $c (keys %cond) {
         $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
           my $acts = shift;
@@ -639,7 +640,7 @@ for my $im (keys %{$Data->{ims}}) {
             }
           }
           return $new_acts;
-        } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        } $actions;
       }
     } elsif ($cond eq 'END-ELSE') {
       my %cond;
@@ -659,6 +660,7 @@ for my $im (keys %{$Data->{ims}}) {
         }
         return $acts;
       } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+      my $actions = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
       for my $c (keys %cond) {
         my $changed = 0;
         $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
@@ -677,7 +679,7 @@ for my $im (keys %{$Data->{ims}}) {
             }
           }
           return $new_acts;
-        } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        } $actions;
         delete $Data->{ims}->{$im}->{conds}->{$c} unless $changed;
       }
       $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
@@ -743,6 +745,7 @@ for my $im (keys %{$Data->{ims}}) {
           }
           return $new_acts;
         } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        my $actions = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
         for my $c (keys %cond) {
           my $changed = 0;
           $Data->{ims}->{$im}->{conds}->{$c}->{actions} = for_actions {
@@ -760,7 +763,7 @@ for my $im (keys %{$Data->{ims}}) {
               }
             }
             return $new_acts;
-          } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+          } $actions;
           delete $Data->{ims}->{$im}->{conds}->{$c} unless $changed;
         } # $c
         delete $Data->{ims}->{$im}->{conds}->{$cond} if keys %cond;
