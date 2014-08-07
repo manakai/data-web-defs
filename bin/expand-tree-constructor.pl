@@ -776,19 +776,47 @@ for my $im (keys %{$Data->{ims}}) {
 for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
     $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
-      my $acts = shift;
+      my $acts = [@{+shift}];
       my $new_acts = [];
-      for my $act (@$acts) {
+      while (@$acts) {
+        my $act = shift @$acts;
         if ($act->{type} eq 'reprocess pending table character tokens list' and
             $act->{FIELD} eq 'anything else') {
           ## HARDCODED EXPANSION!!
           ## "in table text", anything else -> "in table", anything else ->
           push @$new_acts, @{foster_parenting_actions $Data->{ims}->{'in body'}->{conds}->{TEXT}->{actions}};
           $new_acts->[-1]->{pending_table_character_tokens} = 1;
+        } elsif ($act->{type} eq 'set-appropriate-place' and
+                 $act->{target} eq 'adjusted insertion location' and
+                 @$acts and
+                 $acts->[0]->{type} eq 'create an HTML element' and
+                 $acts->[0]->{intended_parent} eq 'adjusted insertion location parent') {
+          shift @$acts;
+          while (@$acts) {
+            if ($acts->[0]->{type} eq 'set-node-flag' or
+                $acts->[0]->{type} eq 'unset-node-flag' or
+                ($acts->[0]->{type} eq 'if' and
+                 @{$acts->[0]->{actions}} == 1 and
+                 $acts->[0]->{actions}->[0]->{type} eq 'set-node-flag')) {
+              shift @$acts;
+            } else {
+              last;
+            }
+          }
+          unless (@$acts and $acts->[0]->{type} eq 'append-to-adjusted-insertion-location') {
+            die "Unsupported create sequence: |$acts->[0]->{type}|";
+          }
+          shift @$acts;
+          unless (@$acts and $acts->[0]->{type} eq 'push-oe') {
+            die "Unsupported create sequence: |$acts->[0]->{type}|";
+          }
+          shift @$acts;
+          push @$new_acts, {type => 'insert an HTML element',
+                            with_script_flags => 1};
         } else {
           push @$new_acts, $act;
         }
-      }
+      } # $acts
       return $new_acts;
     } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
   }
