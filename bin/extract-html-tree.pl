@@ -1017,7 +1017,7 @@ sub parse_cond ($) {
   } elsif ($COND =~ /^the Document is being loaded as part of navigation of a browsing context$/) {
     $cond = ['navigate'];
   } elsif ($COND =~ /^the Document is not set to quirks mode$/) {
-    $cond = ['quirks'];
+    $cond = ['not quirks'];
   } elsif ($COND =~ /^the frameset-ok flag is set to "not ok"$/) {
     $cond = ['frameset-ok flag', 'is', 'not ok'];
   } elsif ($COND =~ /^the parser was not originally created as part of the HTML fragment parsing algorithm \(fragment case\)$/) {

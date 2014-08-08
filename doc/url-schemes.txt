@@ -39,6 +39,7 @@ authority [string]
   Semantics of the |authority| component, if known, other than
   |x-callback-url|.  One of following values:
 
+    any             Any value can be used.
     fake            Something other than |host|, |user|, or ID.
     host            Host, optionally with user.
     host+           Same as |host| but other options are also available.
@@ -103,6 +104,14 @@ origin [string?]
 protocol [boolean]
 
   Resource retrevable by the protocol of the scheme.
+
+query [string?]
+
+  Interpretation of query component, if known, using one of following
+  values:
+
+    |any|    Any value.  Interpreted by the author (e.g. server).
+    |nv|     Zero or more name, |=|, and value sequence separated by |&|.
 
 registerable [boolean]
 
