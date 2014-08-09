@@ -855,8 +855,8 @@ my $DescPatterns = [
   [qr/insert a foreign element for the token, in (.+)/,
    'insert a foreign element', 'NS'],
   [qr/insert the newly created element at (.+)/, 'APPEND', 'LOCATION'],
-  [qr/create an? ([\w-]+) element whose ownerDocument is the Document object/,
-   'create an HTML element', 'local_name'],
+  [qr/create an? ([\w-]+) element whose ownerDocument is the Document object()/,
+   'create an HTML element', 'local_name', 'ATTRS'],
   [qr/create an element for the token in the HTML namespace, with (.+) as the intended parent/,
    'create an HTML element', 'INTENDED_PARENT'],
   [qr/create an element for the token in the HTML namespace, with the intended parent being (.+)/,
@@ -1504,6 +1504,9 @@ sub process_actions ($$) {
         } else {
           warn $act->{INTENDED_PARENT};
         }
+      }
+      if (defined $act->{ATTRS} and (delete $act->{ATTRS}) eq '') {
+        $act->{attrs} = 'none';
       }
     } # create an HTML element
 
