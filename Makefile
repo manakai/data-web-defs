@@ -304,7 +304,7 @@ data/html-tokenizer-expanded.json: data/html-syntax.json \
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
-    bin/expand-tree-constructor.pl
+    bin/expand-tree-constructor.pl data/elements.json
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep '"tree_steps"' $@ > /dev/null)
 	!(grep '"CHAR"' $@ > /dev/null)

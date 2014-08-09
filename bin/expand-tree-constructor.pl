@@ -3,6 +3,7 @@ use warnings;
 no warnings 'utf8';
 use warnings FATAL => 'recursion';
 use JSON::PS;
+use Path::Tiny;
 
 my $Data = do {
   local $/ = undef;
@@ -11,6 +12,8 @@ my $Data = do {
 };
 delete $Data->{tokenizer};
 delete $Data->{$_} for grep { /^adjusted_/ } keys %$Data;
+
+my $ELDefs = json_bytes2perl path (__FILE__)->parent->parent->child ('data/elements.json')->slurp;
 
 my @ActionKey = qw(actions false_actions between_actions ws_actions
                    null_actions char_actions ws_char_actions ws_seq_actions
@@ -97,6 +100,17 @@ for my $step_name (keys %{$Data->{tree_steps}}) {
 
     return $new_acts;
   } $Data->{tree_steps}->{$step_name}->{actions};
+}
+
+## For invoking the steps to reset the form owner
+for my $cat ('form-associated element', 'category-form-attr') {
+  my @el;
+  for my $namespace (keys %{$ELDefs->{categories}->{$cat}->{elements}}) {
+    die unless $namespace eq 'http://www.w3.org/1999/xhtml';
+    my $names = [keys %{$ELDefs->{categories}->{$cat}->{elements}->{$namespace}}];
+    $Data->{tree_patterns}->{$cat} = {ns => 'HTML', name => $names};
+    $Data->{tag_name_groups}->{join ' ', @$names} = 1;
+  }
 }
 
 for my $im (keys %{$Data->{ims}}) {
@@ -1099,6 +1113,8 @@ for my $im (keys %{$Data->{ims}}) {
   for (qw(select template table html head)) {
     my $v = {ns => 'HTML', name => $_};
     my $pattern_structure = $read_pattern->(undef, $v);
+    my $serialized = $serialize_pattern->($pattern_structure);
+    $Data->{patterns}->{$serialized} = $pattern_structure;
     push @orig_pattern, [$pattern_structure => \$v];
   }
   for my $key (keys %{$Data->{reset_im_by_html_element}}) {
@@ -1109,6 +1125,8 @@ for my $im (keys %{$Data->{ims}}) {
     for (values %$im_to_els) {
       my $v = {ns => 'HTML', name => $_};
       my $pattern_structure = $read_pattern->(undef, $v);
+      my $serialized = $serialize_pattern->($pattern_structure);
+      $Data->{patterns}->{$serialized} = $pattern_structure;
       push @orig_pattern, [$pattern_structure => \$v];
     }
   }
@@ -1331,6 +1349,51 @@ for my $im (keys %{$Data->{ims}}) {
     }
   } # $im
   redo if $changed;
+}
+
+for my $im (keys %{$Data->{ims}}) {
+  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+    if ($cond =~ /^START:(.+)$/) {
+      my $tag_names = [split /[ ,]/, $1];
+      my $action_name = $Data->{ims}->{$im}->{conds}->{$cond};
+      $Data->{actions}->{$action_name} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          if ($act->{type} eq 'insert an HTML element' and
+              not defined $act->{tag_name}) {
+            for (@$tag_names) {
+              $act->{possible_tag_names}->{$_} = {};
+              $act->{possible_tag_names}->{$_}->{associate_form_owner} = 1
+                  if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_};
+            }
+          } elsif ($act->{type} eq 'create an HTML element' and
+                  not defined $act->{local_name}) {
+            for (@$tag_names) {
+              $act->{possible_tag_names}->{$_} = {};
+              $act->{possible_tag_names}->{$_}->{associate_form_owner} = 1
+                  if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_};
+            }
+          }
+        }
+        return $acts;
+      } $Data->{actions}->{$action_name};
+    } elsif ($cond =~ /^START-ELSE$/) {
+      my $action_name = $Data->{ims}->{$im}->{conds}->{$cond};
+      $Data->{actions}->{$action_name} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          if ($act->{type} eq 'insert an HTML element' and
+              not defined $act->{tag_name}) {
+            $act->{possible_tag_names}->{ELSE} = {};
+          } elsif ($act->{type} eq 'create an HTML element' and
+                  not defined $act->{local_name}) {
+            $act->{possible_local_names}->{ELSE} = {};
+          }
+        }
+        return $acts;
+      } $Data->{actions}->{$action_name};
+    }
+  }
 }
 
 {
