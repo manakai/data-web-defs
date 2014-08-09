@@ -109,8 +109,24 @@ for my $cat ('form-associated element', 'category-form-attr') {
     die unless $namespace eq 'http://www.w3.org/1999/xhtml';
     my $names = [keys %{$ELDefs->{categories}->{$cat}->{elements}->{$namespace}}];
     $Data->{tree_patterns}->{$cat} = {ns => 'HTML', name => $names};
-    $Data->{tag_name_groups}->{join ' ', @$names} = 1;
+    $Data->{tag_name_groups}->{join ' ', @$names} = 1
+        if $cat eq 'form-associated element';
   }
+}
+
+## For popping elements off the stack of open elements
+{
+  my $names = [];
+  for my $ns (keys %{$ELDefs->{elements}}) {
+    for my $ln (keys %{$ELDefs->{elements}->{$ns}}) {
+      if ($ELDefs->{elements}->{$ns}->{$ln}->{has_popped_action}) {
+        die unless $ns eq 'http://www.w3.org/1999/xhtml';
+        push @$names, $ln;
+      }
+    }
+  }
+  $Data->{tree_patterns}->{has_popped_action} = {ns => 'HTML', name => $names};
+  #$Data->{tag_name_groups}->{join ' ', @$names} = 1;
 }
 
 for my $im (keys %{$Data->{ims}}) {
