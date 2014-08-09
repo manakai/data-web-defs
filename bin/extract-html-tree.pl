@@ -2018,6 +2018,7 @@ for my $def (
   my $acts = $def->{actions} or next;
   my $new_acts = [];
   my $prev_was_script;
+  my $n = 1;
   for my $act (@$acts) {
     if ({
           'set-script' => 1,
@@ -2038,12 +2039,25 @@ for my $def (
            'parser pause flag' => 1,
          }->{$act->{target}})) {
       unless ($prev_was_script) {
-        push @$new_acts, {type => 'script-processing'};
+        push @$new_acts, {type => 'script-processing-' . $n++};
       }
       $prev_was_script = 1;
     } else {
       push @$new_acts, $act;
       $prev_was_script = 0;
+    }
+  }
+  if ($n == 2) { # only script-processing-1
+    $acts = $new_acts;
+    $new_acts = [];
+    for my $act (@$acts) {
+      if ($act->{type} eq 'pop-oe') {
+        push @$new_acts, {type => 'script-processing-1'}, $act;
+      } elsif ($act->{type} eq 'script-processing-1') {
+        push @$new_acts, {type => 'script-processing-2'};
+      } else {
+        push @$new_acts, $act;
+      }
     }
   }
   $def->{actions} = $new_acts;
