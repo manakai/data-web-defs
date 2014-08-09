@@ -68,7 +68,7 @@ sub parse_step ($) {
 
   if ($tc =~ s/^If the Document is being loaded as part of navigation of a browsing context, then: if the newly created element has a manifest attribute .*?\. The algorithm must be passed the Document object\.\s*//) {
     push @action, {type => 'if', cond => ['navigate'], actions => [
-      {type => 'application cache selection algorithm'},
+      {type => 'application cache selection algorithm', INPUT => 'manifest'},
     ]};
   }
 
@@ -1880,6 +1880,7 @@ sub process_action_blocks ($) {
              @{$act->{actions}} == 1 and
              $act->{actions}->[0]->{type} eq 'application cache selection algorithm') {
       $act->{type} = 'appcache-processing';
+      $act->{can_have_manifest} = 1 if $act->{actions}->[0]->{INPUT};
       delete $act->{cond};
       delete $act->{actions};
     } elsif ($act->{type} eq 'if' and
