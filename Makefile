@@ -238,7 +238,8 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-tokenizer-expanded.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
     data/xml-datatypes.json data/xpath.json data/webidl.json \
-    data/html-tree-constructor-expanded.json
+    data/html-tree-constructor-expanded.json \
+    data/html-tree-constructor-expanded-no-isindex.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -311,6 +312,11 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
 	!(grep '"FIELD"' $@ > /dev/null)
 	!(grep '"insert a character"' $@ > /dev/null)
 	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
+data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
+    bin/expand-tree-constructor.pl data/elements.json
+	NO_ISINDEX=1 \
+	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
+	!(grep 'isindex' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html > $@

@@ -12,6 +12,7 @@ my $Data = do {
 };
 delete $Data->{tokenizer};
 delete $Data->{$_} for grep { /^adjusted_/ } keys %$Data;
+my $NoIsindex = $ENV{NO_ISINDEX};
 
 my $ELDefs = json_bytes2perl path (__FILE__)->parent->parent->child ('data/elements.json')->slurp;
 
@@ -127,6 +128,18 @@ for my $cat ('form-associated element', 'category-form-attr') {
   }
   $Data->{tree_patterns}->{has_popped_action} = {ns => 'HTML', name => $names};
   #$Data->{tag_name_groups}->{join ' ', @$names} = 1;
+}
+
+if ($NoIsindex) {
+  for my $im (keys %{$Data->{ims}}) {
+    delete $Data->{ims}->{$im}->{conds}->{'START:isindex'};
+    for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+      if ($cond =~ /isindex/) {
+        die $cond;
+      }
+    }
+  }
+  @{$Data->{tree_patterns}->{'special category'}->[1]->{name}} = grep { $_ ne 'isindex' } @{$Data->{tree_patterns}->{'special category'}->[1]->{name}};
 }
 
 for my $im (keys %{$Data->{ims}}) {
