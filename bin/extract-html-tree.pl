@@ -239,7 +239,7 @@ sub parse_step ($) {
     } elsif ($_->{DESC} =~ /^otherwise, for each ($SENTENCE), (.+)$/) {
       my $i = $1;
       my $f = $2;
-      {type => 'FOR-EACH', ITEMS => $i, actions => [parse_step $f]};
+      {type => 'ELSE', actions => [{type => 'FOR-EACH', ITEMS => $i, actions => [parse_step $f]}]};
     } elsif ($_->{DESC} =~ /^enable foster parenting, ($SENTENCE), and then disable foster parenting$/o) {
       {type => 'with-foster-parenting', actions => [parse_step $1]};
     } elsif ($_->{DESC} =~ /^($SENTENCE, including node), then ($SENTENCE)$/o) {
@@ -938,7 +938,7 @@ sub parse_cond ($) {
     $cond = ['adjusted current node', 'is', {$1 => 1}];
   } elsif ($COND =~ /^the current node is not node$/ or
            $COND =~ /^node is not the current node$/) {
-    $cond = ['oe[-1]', 'is', 'node'];
+    $cond = ['oe[-1]', 'is not', 'node'];
   } elsif ($COND =~ /^the second element on the stack of open elements is not a body element$/) {
     $cond = ['oe[1]', 'is not', {ns => 'HTML', name => 'body'}];
   } elsif ($COND =~ /^node is not an element in the HTML namespace$/) {
