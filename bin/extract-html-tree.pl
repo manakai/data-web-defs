@@ -1014,14 +1014,14 @@ sub parse_cond ($) {
     $cond = ['not iframe srcdoc document'];
   } elsif ($COND =~ /^the parser was originally created (?:for|as part of) the HTML fragment parsing algorithm$/) {
     $cond = ['fragment'];
+  } elsif ($COND =~ /^the parser was not originally created as part of the HTML fragment parsing algorithm \(fragment case\)$/) {
+    $cond = ['not fragment'];
   } elsif ($COND =~ /^the Document is being loaded as part of navigation of a browsing context$/) {
     $cond = ['navigate'];
   } elsif ($COND =~ /^the Document is not set to quirks mode$/) {
     $cond = ['not quirks'];
   } elsif ($COND =~ /^the frameset-ok flag is set to "not ok"$/) {
     $cond = ['frameset-ok flag', 'is', 'not ok'];
-  } elsif ($COND =~ /^the parser was not originally created as part of the HTML fragment parsing algorithm \(fragment case\)$/) {
-    $cond = ['fragment'];
   } elsif ($COND =~ /^the insertion mode is one of "in table", "in caption", "in table body", "in row", or "in cell"$/) {
     $cond = ['im', 'is', ['in table', 'in caption', 'in table body', 'in row', 'in cell']];
   } elsif ($COND =~ /^the parser's script nesting level is zero$/) {
