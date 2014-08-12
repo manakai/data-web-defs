@@ -1382,6 +1382,8 @@ for my $im (keys %{$Data->{ims}}) {
 
 for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+    my $foreign = 0;
+    my @ack;
     if ($cond =~ /^START:(.+)$/) {
       my $tag_names = [split /[ ,]/, $1];
       my $action_name = $Data->{ims}->{$im}->{conds}->{$cond};
@@ -1402,6 +1404,10 @@ for my $im (keys %{$Data->{ims}}) {
               $act->{possible_tag_names}->{$_}->{associate_form_owner} = 1
                   if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_};
             }
+          } elsif ($act->{type} eq 'insert a foreign element') {
+            $foreign = 1;
+          } elsif ($act->{type} eq "acknowledge the token's self-closing flag") {
+            push @ack, $act;
           }
         }
         return $acts;
@@ -1417,12 +1423,19 @@ for my $im (keys %{$Data->{ims}}) {
           } elsif ($act->{type} eq 'create an HTML element' and
                   not defined $act->{local_name}) {
             $act->{possible_local_names}->{ELSE} = {};
+          } elsif ($act->{type} eq 'insert a foreign element') {
+            $foreign = 1;
+          } elsif ($act->{type} eq "acknowledge the token's self-closing flag") {
+            push @ack, $act;
           }
         }
         return $acts;
       } $Data->{actions}->{$action_name};
     }
-  }
+    if ($foreign) {
+      $_->{foreign} = 1 for @ack;
+    }
+  } # $cond
 }
 
 {
