@@ -3143,29 +3143,29 @@
                      "actions" : [
                         {
                            "type" : "generate implied end tags"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-rp-rt",
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              {
+                                 "name" : "ruby",
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
                         "scope",
-                        {
-                           "name" : "ruby",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "name" : "in-body-start-rp-rt",
-                           "type" : "parse error"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is not",
                         {
                            "name" : "ruby",
                            "ns" : "HTML"

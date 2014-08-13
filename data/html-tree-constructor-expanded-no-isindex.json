@@ -3338,26 +3338,26 @@
                {
                   "type" : "pop-oe",
                   "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "in-body-start-rp-rt",
+                        "type" : "parse error"
+                     }
+                  ],
+                  "cond" : [
+                     "oe[-1]",
+                     "is not",
+                     "HTML:ruby"
+                  ],
+                  "type" : "if"
                }
             ],
             "cond" : [
                "oe",
                "in scope",
                "scope",
-               "HTML:ruby"
-            ],
-            "type" : "if"
-         },
-         {
-            "actions" : [
-               {
-                  "name" : "in-body-start-rp-rt",
-                  "type" : "parse error"
-               }
-            ],
-            "cond" : [
-               "oe[-1]",
-               "is not",
                "HTML:ruby"
             ],
             "type" : "if"
@@ -4968,11 +4968,10 @@
                {
                   "name" : "in-foreign-content-null",
                   "type" : "parse error"
-               }
-            ],
-            "null_seq_actions" : [
+               },
                {
-                  "type" : "insert-chars"
+                  "type" : "insert a character",
+                  "value" : "�"
                }
             ],
             "type" : "process-chars",
@@ -7490,6 +7489,7 @@
             "type" : "parse error"
          },
          {
+            "foster_parenting" : 1,
             "possible_tag_names" : {
                "base" : {
                },
@@ -8634,6 +8634,7 @@
             "type" : "parse error"
          },
          {
+            "foster_parenting" : 1,
             "possible_tag_names" : {
                "meta" : {
                }
@@ -8755,6 +8756,7 @@
             "type" : "parse error"
          },
          {
+            "foster_parenting" : 1,
             "possible_tag_names" : {
                "noframes" : {
                }
@@ -8972,26 +8974,26 @@
                {
                   "type" : "pop-oe",
                   "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rp,HTML:rt"
+               },
+               {
+                  "actions" : [
+                     {
+                        "name" : "in-body-start-rp-rt",
+                        "type" : "parse error"
+                     }
+                  ],
+                  "cond" : [
+                     "oe[-1]",
+                     "is not",
+                     "HTML:ruby"
+                  ],
+                  "type" : "if"
                }
             ],
             "cond" : [
                "oe",
                "in scope",
                "scope",
-               "HTML:ruby"
-            ],
-            "type" : "if"
-         },
-         {
-            "actions" : [
-               {
-                  "name" : "in-body-start-rp-rt",
-                  "type" : "parse error"
-               }
-            ],
-            "cond" : [
-               "oe[-1]",
-               "is not",
                "HTML:ruby"
             ],
             "type" : "if"
@@ -9275,6 +9277,7 @@
             "type" : "parse error"
          },
          {
+            "foster_parenting" : 1,
             "possible_tag_names" : {
                "title" : {
                }

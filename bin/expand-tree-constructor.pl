@@ -70,6 +70,7 @@ sub foster_parenting_actions ($) {
         'insert a foreign element' => 1,
         'reconstruct the active formatting elements' => 1,
         'adoption agency algorithm' => 1,
+        'USING-THE-RULES-FOR' => 1,
       }->{$act->{type}}) {
         push @$new_acts, {%$act, foster_parenting => 1};
       } else {
@@ -363,8 +364,13 @@ my $tag_name_to_group = {};
               'append-to-pending-table-character-tokens-list' => 1,
             }->{$_->{type}}) {
               push @{$entire->{$key} ||= []}, $_;
-            } elsif ($_->{type} eq 'insert a character') {
+            } elsif ($_->{type} eq 'insert a character' and
+                     1 == keys %$_) {
               push @{$entire->{$key} ||= []}, {type => 'insert-chars'};
+            } elsif ($_->{type} eq 'insert a character' and
+                     defined $_->{value} and
+                     2 == keys %$_) {
+              push @{$for_each_char->{$key} ||= []}, $_;
             } elsif ($_->{type} eq 'ignore the token') {
               #
             } else {
@@ -746,14 +752,14 @@ for my $im (keys %{$Data->{ims}}) {
     if ($cond =~ /^(START|END)/) {
       my $cond_token_type = $1;
       unless (@{$Data->{ims}->{$im}->{conds}->{$cond}->{actions}} == 1 and
-              $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR') {
+              $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{type} eq 'USING-THE-RULES-FOR' and
+              not $Data->{ims}->{$im}->{conds}->{$cond}->{actions}->[0]->{foster_parenting}) {
         my %cond;
         $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
           my $acts = shift;
           my $new_acts = [];
           for my $act (@$acts) {
-            if ($act->{type} eq 'USING-THE-RULES-FOR' and
-                not $act->{foster_parenting}) {
+            if ($act->{type} eq 'USING-THE-RULES-FOR') {
               if (ref $act->{im}) {
                 if ($act->{im}->[0] eq 'current') {
                   push @$new_acts, {type => 'process-using-current-im'};
@@ -795,10 +801,12 @@ for my $im (keys %{$Data->{ims}}) {
             my $acts = shift;
             my $new_acts = [];
             for my $act (@$acts) {
-              if ($act->{type} eq 'USING-THE-RULES-FOR' and
-                  not $act->{foster_parenting}) {
+              if ($act->{type} eq 'USING-THE-RULES-FOR') {
                 my $copied = $Data->{ims}->{$act->{im}}->{conds}->{$cond{$c}}->{actions}
                     or die "No actions for |$act->{im}| |$cond{$c}| (-> |$c|)";
+                if ($act->{foster_parenting}) {
+                  $copied = foster_parenting_actions $copied;
+                }
                 $changed = 1;
                 push @$new_acts, @$copied;
               } else {

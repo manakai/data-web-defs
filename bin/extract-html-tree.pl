@@ -249,6 +249,12 @@ sub parse_step ($) {
       $_;
     }
   } @action;
+
+  for (@action) {
+    if (defined $_->{COND} and $_->{COND} =~ /is not then /) {
+      $_->{WITHIN_PREV_SCOPE} = 1;
+    }
+  }
   
   if (@action == 1) {
     return @action;
@@ -675,6 +681,10 @@ sub resolve_action_structure ($) {
       $act->{actions}->[-1]->{actions} = $acts->[0]->{actions};
       delete $act->{actions}->[-1]->{RUN_NEXT};
       shift @$acts;
+    }
+    if (defined $act->{actions} and
+        @$acts and delete $acts->[0]->{WITHIN_PREV_SCOPE}) {
+      push @{$act->{actions}}, shift @$acts;
     }
     push @$new_acts, $act;
   }
