@@ -310,7 +310,6 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
 	!(grep '"tree_steps"' $@ > /dev/null)
 	!(grep '"CHAR"' $@ > /dev/null)
 	!(grep '"FIELD"' $@ > /dev/null)
-	!(grep '"insert a character"' $@ > /dev/null)
 	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json
