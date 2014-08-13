@@ -558,6 +558,8 @@ my $tag_name_to_group = {};
         } elsif ($act->{type} eq 'switch the insertion mode') {
           $next_im = $act->{im};
           push @$new_acts, $act;
+        } elsif ($act->{type} eq 'ignore the token') {
+          #
         } else {
           push @$new_acts, $act;
         }
