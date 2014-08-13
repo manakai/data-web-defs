@@ -44,9 +44,9 @@ for ((map { [$_, 'RTSP'] } @{(parse 'iana-rtsp.xml')->query_selector_all ('regis
 ## <http://fetch.spec.whatwg.org/#simple-method>
 $Methods->{$_}->{simple} = 1 for qw(GET HEAD POST);
 
-## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-open>
+## <http://fetch.spec.whatwg.org/#concept-method-normalize>
 $Methods->{$_}->{case_insensitive} = 1
-    for qw(CONNECT DELETE GET HEAD OPTIONS POST PUT TRACE TRACK);
+    for qw(DELETE GET HEAD OPTIONS POST PUT);
 
 ## <http://fetch.spec.whatwg.org/#concept-forbidden-methods>
 $Methods->{$_}->{xhr_insecure} = 1 for qw(CONNECT TRACE TRACK);
