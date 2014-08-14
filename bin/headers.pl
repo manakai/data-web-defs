@@ -57,7 +57,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
     $Data->{headers}->{$header_name}->{http}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $Data->{headers}->{$header_name}->{http}->{$key} = 1;
@@ -87,6 +87,13 @@ for (keys %{$Data->{headers}}) {
          $header->{http}->{authentication} or
          $header->{http}->{response_control_data} or
          $header->{http}->{payload_processing};
+
+  ## Perl RFC 7231 4.3.8., "sensitive data that might be disclosed by
+  ## the response.  For example, ... stored user credentials [RFC7235]
+  ## or cookies [RFC6265]"
+  $header->{http}->{trace_unsafe} = 1
+      if $header->{http}->{authentication_credentials} or
+         $header->{http}->{cookie};
 }
 
 my $protocol_name;
