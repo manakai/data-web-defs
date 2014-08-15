@@ -654,7 +654,7 @@ sub modify_actions (&) {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
             } @{$act->{else_value} || []}, {type => 'switch', state => $state}, {type => 'reconsume'}];
             if ($act->{not_anchored} and $cs eq $c . $c) { # ]]>
-              my $slide = {type => 'emit-char'}; # XXX index offset => -1
+              my $slide = {type => 'emit-char', index_offset => 2};
               $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = [$slide];
               if ($act->{case_insensitive}) {
                 $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$slide];
