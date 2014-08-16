@@ -723,6 +723,32 @@ sub modify_actions (&) {
       }
     }
   };
+
+  modify_actions {
+    my ($acts => $new_acts, $state, $cond) = @_;
+    for (@$acts) {
+      if (($_->{type} eq 'emit-char' or
+           $_->{type} eq 'append' or
+           $_->{type} eq 'append-char' or
+           $_->{type} eq 'set-to-temp' or
+           $_->{type} eq 'emit-char-if-nothing' or
+           $_->{type} eq 'append-to-attr-if-nothing') and
+          defined $_->{value}) {
+        if ($cond =~ /^CHAR:([0-9A-F]+)$/ and
+            (substr $_->{value}, -1) eq chr hex $1) {
+          $_->{index_offset} ||= (length $_->{value}) - 1;
+        } elsif ($cond eq 'CHAR:0000' and
+                 (substr $_->{value}, -1) eq "\x{FFFD}") {
+          $_->{index_offset} ||= (length $_->{value}) - 1;
+        } else {
+          $_->{index_offset} ||= length $_->{value};
+        }
+        push @$new_acts, {%$_};
+      } else {
+        push @$new_acts, {%$_};
+      }
+    }
+  };
 }
 
 print perl2json_bytes_for_record $Data;

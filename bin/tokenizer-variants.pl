@@ -165,7 +165,7 @@ sub cond_to_charclass ($) {
           } elsif ($_->{type} eq 'switch') {
             ();
           } elsif ($Capturing->{$_->{type}}) {
-            +{value => "\x0A", %$_};
+            +{value => "\x0A", index_offset => 0, %$_}; # e.g. type=emit-char
           } else {
             +{%$_};
           }
