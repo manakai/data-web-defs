@@ -239,7 +239,8 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
     data/xml-datatypes.json data/xpath.json data/webidl.json \
     data/html-tree-constructor-expanded.json \
-    data/html-tree-constructor-expanded-no-isindex.json
+    data/html-tree-constructor-expanded-no-isindex.json \
+    intermediate/errors/parser-errors.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -343,6 +344,10 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"SAME-AS"' $@ > /dev/null)
 	!(grep '"LABEL"' $@ > /dev/null)
 	!(grep '"LOOP"' $@ > /dev/null)
+
+intermediate/errors/parser-errors.json: bin/parser-errors.pl \
+    src/parser-errors.txt data/html-syntax.json
+	$(PERL) bin/parser-errors.pl src/parser-errors.txt > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@

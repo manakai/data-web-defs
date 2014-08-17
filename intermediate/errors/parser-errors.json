@@ -1,0 +1,281 @@
+{
+   "errors" : {
+      "NULL" : {
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>U\u002B0000\u003C/code> \u003Ccode class=\u0022charname\u0022>NULL\u003C/code>\u000Acharacter must not be used in a document.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>U\u002B0000\u003C/code> \u003Ccode class=\u0022charname\u0022>NULL\u003C/code> \u000A文字を使ってはいけません。\u003C/p>"
+         },
+         "layer" : "character-set",
+         "message" : {
+            "en" : "There is a \u003Ccode class=\u0022charname\u0022>NULL\u003C/code> character",
+            "ja" : "\u003Ccode class=\u0022charname\u0022>NULL\u003C/code> 文字があります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "NULL" : 1
+         }
+      },
+      "after-after-body-else" : {
+         "desc" : {
+            "en" : "\u003Cp>Nothing other than white space characters and comments are allowed\u000Aafter the end tag of the \u003Ccode>html\u003C/code> element.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>html\u003C/code> 要素の終了タグの後には、空白と注釈以外は何も書けません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a text or tag after the \u003Ccode>&lt;/html&gt;\u003C/code> end tag",
+            "ja" : "\u003Ccode>&lt;/html&gt;\u003C/code> 終了タグの後にテキストやタグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-after-body-else" : 1,
+            "after-after-frameset-else" : 1
+         }
+      },
+      "after-body-else" : {
+         "desc" : {
+            "en" : "\u003Cp>Nothing other than the end tag of the \u003Ccode>html\u003C/code> element,\u000Awhite space characters, and comments are allowed after the end tag of\u000Athe \u003Ccode>body\u003C/code> element or the outermost \u003Ccode>frameset\u003C/code>\u000Aelement.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>body\u003C/code> 要素や最外 \u003Ccode>frameset\u003C/code> 要素の終了タグの後には、\u000A\u003Ccode>html\u003C/code> 要素の終了タグと空白、注釈以外は何も書けません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a text or tag after the end tag of the body element",
+            "ja" : "文書 \u003Ccode>body\u003C/code> 要素の終了タグの後にテキストやタグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-body-else" : 1,
+            "after-frameset-else" : 1
+         }
+      },
+      "doctype:bad context" : {
+         "desc" : {
+            "en" : "\u003Cp>There must not be anything other than white space characters and\u000Acomments before the \u003Ccode>DOCTYPE\u003C/code>.  It cannot appear after\u000Aanother \u003Ccode>DOCTYPE\u003C/code> or within an element.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>DOCTYPE\u003C/code> の前に置けるのは空白と注釈だけです。\u000A\u003Ccode>DOCTYPE\u003C/code> が2つあったり、要素の中にあったりしてはいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>DOCTYPE\u003C/code> is not at the beginning of the document",
+            "ja" : "\u003Ccode>DOCTYPE\u003C/code> が文書の先頭ではありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-body-doctype" : 1,
+            "after-frameset-doctype" : 1
+         }
+      },
+      "stray end tag" : {
+         "desc" : {
+            "en" : "\u003Cp>The end tag has no corresponding start tag.  There must be a start\u000Atag with the same tag name before the end tag.  The end tag is\u000Aignored.\u003C/p>\u000A\u000A\u003Cp>Note that void elements have no end tag, that is, following\u000Aelements cannot have end tags: \u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>,\u000A\u003Ccode>br\u003C/code>, \u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>,\u000A\u003Ccode>hr\u003C/code>, \u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>,\u000A\u003Ccode>keygen\u003C/code>, \u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>,\u000A\u003Ccode>meta\u003C/code>, \u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>,\u000A\u003Ccode>track\u003C/code>, and \u003Ccode>wbr\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>この終了タグには対応する開始タグがありません。\u000A終了タグより前に同じタグ名の開始タグが必要です。終了タグは無視されます。\u003C/p>\u000A\u000A\u003Cp>なお void 要素は終了タグを持ちませんから、次の要素では終了タグを使えません:\u000A\u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>, \u003Ccode>br\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>, \u003Ccode>hr\u003C/code>,\u000A\u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>, \u003Ccode>keygen\u003C/code>,\u000A\u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>, \u003Ccode>meta\u003C/code>,\u000A\u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>, \u003Ccode>track\u003C/code>,\u000A\u003Ccode>wbr\u003C/code>。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The tag \u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code> has no corresponding\u000Astart tag",
+            "ja" : "終了タグ \u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code>\u000Aに対応する開始タグがありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-body-end-html" : 1
+         },
+         "value" : "tag_name"
+      }
+   },
+   "parser_error_name_to_error_type" : {
+      "EOF" : null,
+      "NULL" : "NULL",
+      "after-after-body-else" : "after-after-body-else",
+      "after-after-frameset-else" : "after-after-body-else",
+      "after-attribute-name-0022" : null,
+      "after-attribute-name-0027" : null,
+      "after-attribute-name-003c" : null,
+      "after-attribute-value-quoted-else" : null,
+      "after-body-doctype" : "doctype:bad context",
+      "after-body-else" : "after-body-else",
+      "after-body-end-html" : "stray end tag",
+      "after-doctype-name-else" : null,
+      "after-doctype-public-identifier-0022" : null,
+      "after-doctype-public-identifier-0027" : null,
+      "after-doctype-public-identifier-else" : null,
+      "after-doctype-public-keyword-0022" : null,
+      "after-doctype-public-keyword-0027" : null,
+      "after-doctype-public-keyword-003e" : null,
+      "after-doctype-public-keyword-else" : null,
+      "after-doctype-system-identifier-else" : null,
+      "after-doctype-system-keyword-0022" : null,
+      "after-doctype-system-keyword-0027" : null,
+      "after-doctype-system-keyword-003e" : null,
+      "after-doctype-system-keyword-else" : null,
+      "after-frameset-doctype" : "doctype:bad context",
+      "after-frameset-else" : "after-body-else",
+      "after-head-doctype" : null,
+      "after-head-end-else" : null,
+      "after-head-start-b3lmnsstt" : null,
+      "after-head-start-head" : null,
+      "attribute-name-0022" : null,
+      "attribute-name-0027" : null,
+      "attribute-name-003c" : null,
+      "attribute-value-unquoted-0022" : null,
+      "attribute-value-unquoted-0027" : null,
+      "attribute-value-unquoted-003c" : null,
+      "attribute-value-unquoted-003d" : null,
+      "attribute-value-unquoted-0060" : null,
+      "before-attribute-name-0022" : null,
+      "before-attribute-name-0027" : null,
+      "before-attribute-name-003c" : null,
+      "before-attribute-name-003d" : null,
+      "before-attribute-value-003c" : null,
+      "before-attribute-value-003d" : null,
+      "before-attribute-value-003e" : null,
+      "before-attribute-value-0060" : null,
+      "before-doctype-name-003e" : null,
+      "before-doctype-public-identifier-003e" : null,
+      "before-doctype-public-identifier-else" : null,
+      "before-doctype-system-identifier-003e" : null,
+      "before-doctype-system-identifier-else" : null,
+      "before-head-doctype" : null,
+      "before-head-end-else" : null,
+      "before-html-doctype" : null,
+      "before-html-end-else" : null,
+      "between-doctype-public-and-system-identifiers-else" : null,
+      "character-reference-before-hexadecimal-number-else" : null,
+      "character-reference-decimal-number-else" : null,
+      "character-reference-hexadecimal-number-else" : null,
+      "character-reference-number-else" : null,
+      "comment-end-0021" : null,
+      "comment-end-002d" : null,
+      "comment-end-else" : null,
+      "comment-start-003e" : null,
+      "comment-start-dash-003e" : null,
+      "doctype-else" : null,
+      "doctype-public-identifier-double-quoted-003e" : null,
+      "doctype-public-identifier-single-quoted-003e" : null,
+      "doctype-system-identifier-double-quoted-003e" : null,
+      "doctype-system-identifier-single-quoted-003e" : null,
+      "end-tag-open-003e" : null,
+      "end-tag-open-else" : null,
+      "in-body-doctype" : null,
+      "in-body-end-a3bbcd5f4hhlmmnopssu" : null,
+      "in-body-end-a3bbcd5f4hhlmmnopssu-2" : null,
+      "in-body-end-applet-marquee-object" : null,
+      "in-body-end-applet-marquee-object-2" : null,
+      "in-body-end-body" : null,
+      "in-body-end-body-2" : null,
+      "in-body-end-br" : null,
+      "in-body-end-dd-dt" : null,
+      "in-body-end-dd-dt-2" : null,
+      "in-body-end-else" : null,
+      "in-body-end-else-2" : null,
+      "in-body-end-form" : null,
+      "in-body-end-form-2" : null,
+      "in-body-end-form-3" : null,
+      "in-body-end-form-4" : null,
+      "in-body-end-h6" : null,
+      "in-body-end-h6-2" : null,
+      "in-body-end-html" : null,
+      "in-body-end-html-2" : null,
+      "in-body-end-li" : null,
+      "in-body-end-li-2" : null,
+      "in-body-end-p" : null,
+      "in-body-eof" : null,
+      "in-body-null" : null,
+      "in-body-start-a" : null,
+      "in-body-start-body" : null,
+      "in-body-start-button" : null,
+      "in-body-start-c3fht6" : null,
+      "in-body-start-dd-dt" : null,
+      "in-body-start-dd-dt-2" : null,
+      "in-body-start-form" : null,
+      "in-body-start-frameset" : null,
+      "in-body-start-h6" : null,
+      "in-body-start-html" : null,
+      "in-body-start-image" : null,
+      "in-body-start-isindex" : null,
+      "in-body-start-li" : null,
+      "in-body-start-nobr" : null,
+      "in-body-start-rp-rt" : null,
+      "in-caption-end-bccht6" : null,
+      "in-caption-end-caption" : null,
+      "in-caption-end-caption-2" : null,
+      "in-caption-end-table" : null,
+      "in-caption-end-table-2" : null,
+      "in-caption-start-c3t6" : null,
+      "in-caption-start-c3t6-2" : null,
+      "in-cell-end-bc3h" : null,
+      "in-cell-end-t5" : null,
+      "in-cell-end-td-th" : null,
+      "in-cell-end-td-th-2" : null,
+      "in-cell-start-c3t6" : null,
+      "in-column-group-doctype" : null,
+      "in-column-group-else" : null,
+      "in-column-group-end-col" : null,
+      "in-column-group-end-colgroup" : null,
+      "in-foreign-content-doctype" : null,
+      "in-foreign-content-end-else" : null,
+      "in-foreign-content-end-script" : null,
+      "in-foreign-content-null" : null,
+      "in-foreign-content-start-b5ccd4eeh8iillmmnopprs7ttuuv" : null,
+      "in-foreign-content-start-font" : null,
+      "in-frameset-doctype" : null,
+      "in-frameset-else" : null,
+      "in-frameset-end-frameset" : null,
+      "in-frameset-eof" : null,
+      "in-head-doctype" : null,
+      "in-head-end-else" : null,
+      "in-head-end-template" : null,
+      "in-head-end-template-2" : null,
+      "in-head-noscript-doctype" : null,
+      "in-head-noscript-else" : null,
+      "in-head-noscript-end-else" : null,
+      "in-head-noscript-start-head-noscript" : null,
+      "in-head-start-head" : null,
+      "in-row-end-bc3htt" : null,
+      "in-row-end-table" : null,
+      "in-row-end-tbody-tfoot-thead" : null,
+      "in-row-end-tr" : null,
+      "in-row-start-c3t4" : null,
+      "in-select-doctype" : null,
+      "in-select-else" : null,
+      "in-select-end-optgroup" : null,
+      "in-select-end-option" : null,
+      "in-select-end-select" : null,
+      "in-select-in-table-end-ct7" : null,
+      "in-select-in-table-start-ct7" : null,
+      "in-select-null" : null,
+      "in-select-start-input-keygen-textarea" : null,
+      "in-select-start-select" : null,
+      "in-table-body-end-bc3ht3" : null,
+      "in-table-body-end-table" : null,
+      "in-table-body-end-tbody-tfoot-thead" : null,
+      "in-table-body-start-c3t3" : null,
+      "in-table-body-start-td-th" : null,
+      "in-table-char" : null,
+      "in-table-doctype" : null,
+      "in-table-else" : null,
+      "in-table-end-bc3ht6" : null,
+      "in-table-end-table" : null,
+      "in-table-start-form" : null,
+      "in-table-start-input" : null,
+      "in-table-start-table" : null,
+      "in-table-text-else" : null,
+      "in-table-text-null" : null,
+      "in-template-end-else" : null,
+      "in-template-eof" : null,
+      "initial-doctype" : null,
+      "initial-else" : null,
+      "markup-declaration-open-else" : null,
+      "self-closing-start-tag-else" : null,
+      "tag-open-003f" : null,
+      "tag-open-else" : null,
+      "text-eof" : null
+   }
+}
