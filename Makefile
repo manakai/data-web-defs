@@ -302,11 +302,12 @@ data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json
 	$(PERL) bin/xml-syntax.pl > $@
 	#!(grep '"misc"' $@ > /dev/null)
 data/html-tokenizer-expanded.json: data/html-syntax.json \
-    bin/tokenizer-variants.pl
+    bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
-    bin/expand-tree-constructor.pl data/elements.json
+    bin/expand-tree-constructor.pl data/elements.json \
+    intermediate/errors/parser-errors.json
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep '"tree_steps"' $@ > /dev/null)
 	!(grep '"CHAR"' $@ > /dev/null)

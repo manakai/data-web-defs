@@ -18,6 +18,23 @@ character must not be used in a document.
 <p><code>U+0000</code> <code class="charname">NULL</code> 
 文字を使ってはいけません。</p>
 
+* parser:EOF
+
+name=EOF
+
+@en
+Unexpected end of file in a tag or declaration
+@ja
+タグや宣言の途中でファイルが途切れています
+
+@en
+
+<p>There is an end-of-file within a tag, declaration, or section.
+
+@ja
+
+<p>タグや宣言、区間の途中でファイルが終わっています。
+
 * stray end tag
 
 name=after-body-end-html
@@ -57,26 +74,84 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 <code>param</code>, <code>source</code>, <code>track</code>,
 <code>wbr</code>。</p>
 
+* obs DOCTYPE
+
+name=initial-doctype
+
+@en
+The DOCTYPE has public and/or system identifiers
+@ja
+DOCTYPE に公開識別子やシステム識別子があります
+
+@en
+
+<p>The simplest DOCTYPE syntax <code>&lt;!DOCTYPE html></code> should
+always be used.  Use of <code>PUBLIC</code> or <code>SYSTEM</code>
+identifiers, which was encouraged in 00s, is discouraged.</p>
+
+@ja
+
+<p>DOCTYPE は <code>&lt;!DOCTYPE html></code> とだけあれば十分です。00
+年代には <code>PUBLIC</code> や <code>SYSTEM</code>
+を書くのが流行りましたが、今は不要です。</p>
+
+!!!
+$$<!DOCTYPE html4>
+
+!!!
+$$<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+!!!
+$$<!DOCTYPE HTML system "hoge fuga">
+
+* no DOCTYPE
+
+name=initial-else
+
+@en
+There is no DOCTYPE
+@ja
+DOCTYPE がありません
+
+@en
+
+<p>The document does not have the DOCTYPE.  An HTML document must
+begin with the DOCTYPE (<code>&lt;!DOCTYPE&#x20;HTML></code>).
+
+<p>Before the DOCTYPE, only white space characters and comments are
+allowed.
+
+@ja
+
+<p>この文書は DOCTYPE から始まっていません。HTML 文書は DOCTYPE
+(<code>&lt;!DOCTYPE&#x20;HTML></code>) から始まらなければいけません。
+
+!!!
+$$hoge
+
+!!!
+<!---->$$hoge
+
 * doctype:bad context
 
 name=after-body-doctype
 name=after-frameset-doctype
 
 @en
-The <code>DOCTYPE</code> is not at the beginning of the document
+The DOCTYPE is not at the beginning of the document
 @ja
-<code>DOCTYPE</code> が文書の先頭ではありません
+DOCTYPE が文書の先頭ではありません
 
 @en
 
 <p>There must not be anything other than white space characters and
-comments before the <code>DOCTYPE</code>.  It cannot appear after
-another <code>DOCTYPE</code> or within an element.
+comments before the DOCTYPE.  It cannot appear after another DOCTYPE
+or within an element.
 
 @ja
 
-<p><code>DOCTYPE</code> の前に置けるのは空白と注釈だけです。
-<code>DOCTYPE</code> が2つあったり、要素の中にあったりしてはいけません。
+<p>DOCTYPE の前に置けるのは空白と注釈だけです。DOCTYPE が2つあったり、
+要素の中にあったりしてはいけません。
 
 * after-after-body-else
 
@@ -96,6 +171,9 @@ after the end tag of the <code>html</code> element.
 @ja
 
 <p><code>html</code> 要素の終了タグの後には、空白と注釈以外は何も書けません。
+
+!!!
+<!DOCTYPE html></html>$$<p>
 
 * after-body-else
 
@@ -118,3 +196,33 @@ element.
 
 <p><code>body</code> 要素や最外 <code>frameset</code> 要素の終了タグの後には、
 <code>html</code> 要素の終了タグと空白、注釈以外は何も書けません。
+
+* attr:no =
+
+name=after-attribute-name-0022
+name=after-attribute-name-0027
+
+@en
+No <code>=</code> between attribute name and value
+
+@ja
+属性名と属性値の間に <code>=</code> がありません
+
+@en
+
+<p>There must be a <code>=</code> character between an attribute name
+and an attribute value.  Characters <code>"</code> and <code>'</code>
+cannot be used as part of an attribute name or an unquoted attribute
+value.
+
+@ja
+
+<p>属性名と属性値の間には文字 <code>=</code> 
+が必要です。また、文字 <code>"</code> や文字 <code>'</code>
+を属性名や括られていない属性値に使うことはできません。
+
+!!!
+<!DOCTYPE html><foo bar $$">
+
+!!!
+<!DOCTYPE html><foo bar $$''>

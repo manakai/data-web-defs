@@ -1,6 +1,7 @@
 {
    "errors" : {
       "NULL" : {
+         "default_level" : "m",
          "desc" : {
             "en" : "\u003Cp>The \u003Ccode>U\u002B0000\u003C/code> \u003Ccode class=\u0022charname\u0022>NULL\u003C/code>\u000Acharacter must not be used in a document.\u003C/p>",
             "ja" : "\u003Cp>\u003Ccode>U\u002B0000\u003C/code> \u003Ccode class=\u0022charname\u0022>NULL\u003C/code> \u000A文字を使ってはいけません。\u003C/p>"
@@ -18,6 +19,7 @@
          }
       },
       "after-after-body-else" : {
+         "default_level" : "m",
          "desc" : {
             "en" : "\u003Cp>Nothing other than white space characters and comments are allowed\u000Aafter the end tag of the \u003Ccode>html\u003C/code> element.\u003C/p>",
             "ja" : "\u003Cp>\u003Ccode>html\u003C/code> 要素の終了タグの後には、空白と注釈以外は何も書けません。\u003C/p>"
@@ -33,9 +35,16 @@
          "parser_error_names" : {
             "after-after-body-else" : 1,
             "after-after-frameset-else" : 1
-         }
+         },
+         "tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE html>\u003C/html>\u003Cp>"
+            }
+         ]
       },
       "after-body-else" : {
+         "default_level" : "m",
          "desc" : {
             "en" : "\u003Cp>Nothing other than the end tag of the \u003Ccode>html\u003C/code> element,\u000Awhite space characters, and comments are allowed after the end tag of\u000Athe \u003Ccode>body\u003C/code> element or the outermost \u003Ccode>frameset\u003C/code>\u000Aelement.\u003C/p>",
             "ja" : "\u003Cp>\u003Ccode>body\u003C/code> 要素や最外 \u003Ccode>frameset\u003C/code> 要素の終了タグの後には、\u000A\u003Ccode>html\u003C/code> 要素の終了タグと空白、注釈以外は何も書けません。\u003C/p>"
@@ -53,15 +62,45 @@
             "after-frameset-else" : 1
          }
       },
-      "doctype:bad context" : {
+      "attr:no =" : {
+         "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>There must not be anything other than white space characters and\u000Acomments before the \u003Ccode>DOCTYPE\u003C/code>.  It cannot appear after\u000Aanother \u003Ccode>DOCTYPE\u003C/code> or within an element.\u003C/p>",
-            "ja" : "\u003Cp>\u003Ccode>DOCTYPE\u003C/code> の前に置けるのは空白と注釈だけです。\u000A\u003Ccode>DOCTYPE\u003C/code> が2つあったり、要素の中にあったりしてはいけません。\u003C/p>"
+            "en" : "\u003Cp>There must be a \u003Ccode>=\u003C/code> character between an attribute name\u000Aand an attribute value.  Characters \u003Ccode>\u0022\u003C/code> and \u003Ccode>'\u003C/code>\u000Acannot be used as part of an attribute name or an unquoted attribute\u000Avalue.\u003C/p>",
+            "ja" : "\u003Cp>属性名と属性値の間には文字 \u003Ccode>=\u003C/code> \u000Aが必要です。また、文字 \u003Ccode>\u0022\u003C/code> や文字 \u003Ccode>'\u003C/code>\u000Aを属性名や括られていない属性値に使うことはできません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "No \u003Ccode>=\u003C/code> between attribute name and value",
+            "ja" : "属性名と属性値の間に \u003Ccode>=\u003C/code> がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-attribute-name-0022" : 1,
+            "after-attribute-name-0027" : 1
+         },
+         "tests" : [
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>"
+            },
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar ''>"
+            }
+         ]
+      },
+      "doctype:bad context" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must not be anything other than white space characters and\u000Acomments before the DOCTYPE.  It cannot appear after another DOCTYPE\u000Aor within an element.\u003C/p>",
+            "ja" : "\u003Cp>DOCTYPE の前に置けるのは空白と注釈だけです。DOCTYPE が2つあったり、\u000A要素の中にあったりしてはいけません。\u003C/p>"
          },
          "layer" : "tree-construction",
          "message" : {
-            "en" : "The \u003Ccode>DOCTYPE\u003C/code> is not at the beginning of the document",
-            "ja" : "\u003Ccode>DOCTYPE\u003C/code> が文書の先頭ではありません"
+            "en" : "The DOCTYPE is not at the beginning of the document",
+            "ja" : "DOCTYPE が文書の先頭ではありません"
          },
          "modules" : {
             "Web::HTML::Parser::tree_constructor" : 1
@@ -71,7 +110,86 @@
             "after-frameset-doctype" : 1
          }
       },
+      "no DOCTYPE" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The document does not have the DOCTYPE.  An HTML document must\u000Abegin with the DOCTYPE (\u003Ccode>&lt;!DOCTYPE HTML&gt;\u003C/code>).\u000A\u000A\u003C/p>\u003Cp>Before the DOCTYPE, only white space characters and comments are\u000Aallowed.\u003C/p>",
+            "ja" : "\u003Cp>この文書は DOCTYPE から始まっていません。HTML 文書は DOCTYPE\u000A(\u003Ccode>&lt;!DOCTYPE HTML&gt;\u003C/code>) から始まらなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is no DOCTYPE",
+            "ja" : "DOCTYPE がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "initial-else" : 1
+         },
+         "tests" : [
+            {
+               "index" : 0,
+               "input" : "hoge"
+            },
+            {
+               "index" : 7,
+               "input" : "\u003C!---->hoge"
+            }
+         ]
+      },
+      "obs DOCTYPE" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The simplest DOCTYPE syntax \u003Ccode>&lt;!DOCTYPE html&gt;\u003C/code> should\u000Aalways be used.  Use of \u003Ccode>PUBLIC\u003C/code> or \u003Ccode>SYSTEM\u003C/code>\u000Aidentifiers, which was encouraged in 00s, is discouraged.\u003C/p>",
+            "ja" : "\u003Cp>DOCTYPE は \u003Ccode>&lt;!DOCTYPE html&gt;\u003C/code> とだけあれば十分です。00\u000A年代には \u003Ccode>PUBLIC\u003C/code> や \u003Ccode>SYSTEM\u003C/code>\u000Aを書くのが流行りましたが、今は不要です。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The DOCTYPE has public and/or system identifiers",
+            "ja" : "DOCTYPE に公開識別子やシステム識別子があります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "initial-doctype" : 1
+         },
+         "tests" : [
+            {
+               "index" : 0,
+               "input" : "\u003C!DOCTYPE html4>"
+            },
+            {
+               "index" : 0,
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022-//W3C//DTD HTML 4.01 Transitional//EN\u0022>"
+            },
+            {
+               "index" : 0,
+               "input" : "\u003C!DOCTYPE HTML system \u0022hoge fuga\u0022>"
+            }
+         ]
+      },
+      "parser:EOF" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is an end-of-file within a tag, declaration, or section.\u003C/p>",
+            "ja" : "\u003Cp>タグや宣言、区間の途中でファイルが終わっています。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "Unexpected end of file in a tag or declaration",
+            "ja" : "タグや宣言の途中でファイルが途切れています"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "EOF" : 1
+         }
+      },
       "stray end tag" : {
+         "default_level" : "m",
          "desc" : {
             "en" : "\u003Cp>The end tag has no corresponding start tag.  There must be a start\u000Atag with the same tag name before the end tag.  The end tag is\u000Aignored.\u003C/p>\u000A\u000A\u003Cp>Note that void elements have no end tag, that is, following\u000Aelements cannot have end tags: \u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>,\u000A\u003Ccode>br\u003C/code>, \u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>,\u000A\u003Ccode>hr\u003C/code>, \u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>,\u000A\u003Ccode>keygen\u003C/code>, \u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>,\u000A\u003Ccode>meta\u003C/code>, \u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>,\u000A\u003Ccode>track\u003C/code>, and \u003Ccode>wbr\u003C/code>.\u003C/p>",
             "ja" : "\u003Cp>この終了タグには対応する開始タグがありません。\u000A終了タグより前に同じタグ名の開始タグが必要です。終了タグは無視されます。\u003C/p>\u000A\u000A\u003Cp>なお void 要素は終了タグを持ちませんから、次の要素では終了タグを使えません:\u000A\u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>, \u003Ccode>br\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>, \u003Ccode>hr\u003C/code>,\u000A\u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>, \u003Ccode>keygen\u003C/code>,\u000A\u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>, \u003Ccode>meta\u003C/code>,\u000A\u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>, \u003Ccode>track\u003C/code>,\u000A\u003Ccode>wbr\u003C/code>。\u003C/p>"
@@ -91,12 +209,12 @@
       }
    },
    "parser_error_name_to_error_type" : {
-      "EOF" : null,
+      "EOF" : "parser:EOF",
       "NULL" : "NULL",
       "after-after-body-else" : "after-after-body-else",
       "after-after-frameset-else" : "after-after-body-else",
-      "after-attribute-name-0022" : null,
-      "after-attribute-name-0027" : null,
+      "after-attribute-name-0022" : "attr:no =",
+      "after-attribute-name-0027" : "attr:no =",
       "after-attribute-name-003c" : null,
       "after-attribute-value-quoted-else" : null,
       "after-body-doctype" : "doctype:bad context",
@@ -270,8 +388,8 @@
       "in-table-text-null" : null,
       "in-template-end-else" : null,
       "in-template-eof" : null,
-      "initial-doctype" : null,
-      "initial-else" : null,
+      "initial-doctype" : "obs DOCTYPE",
+      "initial-else" : "no DOCTYPE",
       "markup-declaration-open-else" : null,
       "self-closing-start-tag-else" : null,
       "tag-open-003f" : null,
