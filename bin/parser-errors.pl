@@ -63,10 +63,14 @@ sub parse_file ($) {
       }
       $Data->{errors}->{$error_type}->{parser_error_names}->{$error_name} = 1;
       $Data->{parser_error_name_to_error_type}->{$error_name} = $error_type;
+    } elsif (defined $error_type and /^(value|text)=current node\.(\S+)$/) {
+      my ($n, $v) = ($1, $2);
+      $v =~ tr/-_/  /;
+      $Data->{errors}->{$error_type}->{$n} = ['oe[-1]', $v];
     } elsif (defined $error_type and /^(value|text)=(\S+)$/) {
       my ($n, $v) = ($1, $2);
       $v =~ tr/-_/  /;
-      $Data->{errors}->{$error_type}->{$n} = ['field', $v];
+      $Data->{errors}->{$error_type}->{$n} = ['token', $v];
     } elsif (defined $error_type and /^(layer|default_level)=(\S+)$/) {
       $Data->{errors}->{$error_type}->{$1} = $2;
     } elsif (defined $error_type and /^(module)=(\S+)$/) {

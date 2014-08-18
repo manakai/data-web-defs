@@ -18,6 +18,27 @@ character must not be used in a document.
 <p><code>U+0000</code> <code class="charname">NULL</code> 
 文字を使ってはいけません。</p>
 
+* parser:NULL
+
+name=in-body-null
+
+@en
+The <code>NULL</code> character is ignored
+@ja
+<code>NULL</code> 文字は無視されます
+
+@en
+
+<p>The <code>U+0000</code> <code class="charname">NULL</code>
+character must not be used in a document.  The <code
+class=charname>NULL</code> character in an element is ignored.
+
+@ja
+
+<p><code>U+0000</code> <code class="charname">NULL</code> 
+文字を使ってはいけません。要素内の <code class=charname>NULL</code>
+文字は無視されます。
+
 * parser:EOF
 
 name=EOF
@@ -41,6 +62,16 @@ name=after-body-end-html
 name=after-head-end-else
 name=before-head-end-else
 name=before-html-end-else
+name=in-body-end-a3bbcd5f4hhlmmnopssu
+name=in-body-end-applet-marquee-object
+name=in-body-end-body
+name=in-body-end-dd-dt
+name=in-body-end-form
+name=in-body-end-form-3
+name=in-body-end-h6
+name=in-body-end-html
+name=in-body-end-else-2
+name=in-body-end-li
 value=tag_name
 
 @en
@@ -90,6 +121,123 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 !context=html
 <!DOCTYPE html></body>$$</html>
 !value=html
+!!!
+<!DOCTYPE HTML><body>$$</div>
+!value=div
+!!!
+<!DOCTYPE HTML><body>$$</object>
+!value=object
+!!!
+!context=body
+$$</body>
+!value=body
+!!!
+<!DOCTYPE HTML><body>$$</dt>
+!value=dt
+!!!
+<!DOCTYPE HTML><body>$$</form>
+!value=form
+!!!
+<!DOCTYPE HTML><body><template><br>$$</form>
+!value=form
+!!!
+<!DOCTYPE HTML><body>$$</h4>
+!value=h4
+!!!
+!context=body
+$$</html>
+!value=html
+!!!
+<!DOCTYPE HTML><body>$$</hoge>
+!value=hoge
+!!!
+<!DOCTYPE HTML><body>$$</li>
+!value=li
+
+* not closed before ancestor end tag
+
+name=in-body-end-a3bbcd5f4hhlmmnopssu-2
+name=in-body-end-applet-marquee-object-2
+name=in-body-end-body-2
+name=in-body-end-dd-dt-2
+name=in-body-end-form-2
+name=in-body-end-form-4
+name=in-body-end-h6-2
+name=in-body-end-html-2
+name=in-body-end-else
+name=in-body-end-li-2
+text=current node.local_name
+value=tag_name
+
+@en
+The <code><var>{text}</var></code> element is not closed before the
+<code>&lt;/<var>{value}</var>></code> tag
+@ja
+この終了タグより前で <code><var>{text}</var></code> 要素が閉じられていません
+
+@en
+    <p>Most of elements must be explicitly closed by its end tag, but
+    there is no such a tag.  There <i>is</i> an end tag for ancestor
+    element, or one of <code>h<var>n</var></code> elements which is
+    different from the currently opened element.  The end tag closes
+    all descendant or mismatched <code>h<var>n</var></code>
+    element.</p>
+
+    <p>Ensure all elements whose end tag can't be omitted have end
+    tags, their start and end tag names are matching, and they are not
+    misnested.</p>
+
+@ja
+    <p>ほとんどの要素は終了タグで明示的に閉じなければいけませんが、
+    終了タグがありませんでした。しかし祖先の要素の終了タグか、
+    現在開いている要素とは違う <code>h<var>n</var></code> 要素の終了タグはありました。
+    それによって子孫や間違った <code>h<var>n</var></code> 
+    要素が閉じられます。</p>
+
+    <p>終了タグを省略できない要素がすべて終了タグを持つこと、
+    開始タグと終了タグのタグ名が一致していること、
+    タグの入れ子関係が正しいことを確認してください。</p>
+
+!!!
+<!DOCTYPE HTML><div><span>$$</div>
+!text=span
+!value=div
+!!!
+<!DOCTYPE HTML><marquee><span>$$</marquee>
+!text=span
+!value=marquee
+!!!
+<!DOCTYPE HTML><body><div>$$</body>
+!text=div
+!value=body
+!!!
+<!DOCTYPE HTML><body><dt><span>$$</dt>
+!text=span
+!value=dt
+!!!
+<!DOCTYPE HTML><body><h3><span>$$</h3>
+!text=span
+!value=h3
+!!!
+<!DOCTYPE HTML><body><form><span>$$</form>
+!text=span
+!value=form
+!!!
+<!DOCTYPE HTML><body><template><form><span>$$</form></template>
+!text=span
+!value=form
+!!!
+<!DOCTYPE HTML><div>$$</html>
+!text=div
+!value=html
+!!!
+<!DOCTYPE HTML><body><hoge><span>$$</hoge>
+!text=span
+!value=hoge
+!!!
+<!DOCTYPE HTML><li><span>$$</li>
+!text=span
+!value=li
 
 * obs DOCTYPE
 
@@ -353,6 +501,7 @@ name=after-frameset-doctype
 name=after-head-doctype
 name=before-head-doctype
 name=before-html-doctype
+name=in-body-doctype
 
 @en
 The DOCTYPE is not at the beginning of the document
@@ -380,6 +529,8 @@ or within an element.
 <!DOCTYPE HTML><frameset></frameset>$$<!DOCTYPE HTML>
 !!!
 <!DOCTYPE HTML></head>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><body>$$<!DOCTYPE HTML>
 
 * after-after-body-else
 
@@ -1094,3 +1245,78 @@ The comment is closed by <code>></code>
 <!DOCTYPE HTML><!--$$>
 !!!
 <!DOCTYPE HTML><!---$$>
+
+* </br>
+
+name=in-body-end-br
+
+@en
+There is a <code>&lt;/br></code> end tag
+@ja
+<code>&lt;/br></code> 終了タグがあります
+
+@en
+
+<p>A <code>&lt;/br></code> end tag is not allowed.  It is interpreted
+as a start tag.
+
+@ja
+
+<p><code>&lt;/br></code> 終了タグは認められていません。
+<code>&lt;/br></code> 終了タグは開始タグとみなされます。
+
+!!!
+<!DOCTYPE HTML>$$</br>
+
+* </p>
+
+name=in-body-end-p
+
+@en
+There is a <code>&lt;/p></code> end tag while there is no
+opening <code>p</code> element
+@ja
+開いている <code>p</code> 要素はありませんが、 <code>&lt;/p></code> 
+終了タグがあります
+
+@en
+
+<p>A <code>&lt;/p></code> end tag is not allowed unless there is an
+opening <code>p</code> element.  It is interpreted as a start tag.
+
+@ja
+
+<p><code>&lt;/p></code> 終了タグは、開いている 
+<code>p</code> 要素を閉じる時以外認められていません。
+<code>&lt;/p></code> 終了タグは開始タグとみなされます。
+
+!!!
+<!DOCTYPE HTML><body>$$</p>
+
+* in body:#eof
+
+name=in-body-eof
+text=current node.local_name
+
+@en
+The <code><var>{text}</var></code> element is not closed
+at the end of file
+@ja
+ファイルの末尾で <code><var>{text}</var></code>
+要素が閉じられていません
+
+@en
+
+<p>Except for some exceptions (e.g. <code>body</code>,
+<code>html</code>, <code>p</code>, and so on), all elements must be
+explicitly closed by their end tags before the end of file.
+
+@ja
+
+<p>いくつかの例外 (<code>body</code>,
+<code>html</code>, <code>p</code> など) を除き、
+要素はすべてファイルの末尾までに終了タグで閉じなければいけません。
+
+!!!
+<!DOCTYPE HTML><hoge>$$
+!text=hoge

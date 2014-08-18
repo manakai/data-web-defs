@@ -1,5 +1,53 @@
 {
    "errors" : {
+      "\u003C/br>" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A \u003Ccode>&lt;/br&gt;\u003C/code> end tag is not allowed.  It is interpreted\u000Aas a start tag.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>&lt;/br&gt;\u003C/code> 終了タグは認められていません。\u000A\u003Ccode>&lt;/br&gt;\u003C/code> 終了タグは開始タグとみなされます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a \u003Ccode>&lt;/br&gt;\u003C/code> end tag",
+            "ja" : "\u003Ccode>&lt;/br&gt;\u003C/code> 終了タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-end-br" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE HTML>\u003C/br>"
+            }
+         ]
+      },
+      "\u003C/p>" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A \u003Ccode>&lt;/p&gt;\u003C/code> end tag is not allowed unless there is an\u000Aopening \u003Ccode>p\u003C/code> element.  It is interpreted as a start tag.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>&lt;/p&gt;\u003C/code> 終了タグは、開いている \u000A\u003Ccode>p\u003C/code> 要素を閉じる時以外認められていません。\u000A\u003Ccode>&lt;/p&gt;\u003C/code> 終了タグは開始タグとみなされます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a \u003Ccode>&lt;/p&gt;\u003C/code> end tag while there is no\u000Aopening \u003Ccode>p\u003C/code> element",
+            "ja" : "開いている \u003Ccode>p\u003C/code> 要素はありませんが、 \u003Ccode>&lt;/p&gt;\u003C/code> \u000A終了タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-end-p" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/p>"
+            }
+         ]
+      },
       "NULL" : {
          "default_level" : "m",
          "desc" : {
@@ -425,7 +473,8 @@
             "after-frameset-doctype" : 1,
             "after-head-doctype" : 1,
             "before-head-doctype" : 1,
-            "before-html-doctype" : 1
+            "before-html-doctype" : 1,
+            "in-body-doctype" : 1
          },
          "parser_tests" : [
             {
@@ -447,6 +496,10 @@
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE HTML>\u003C/head>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C!DOCTYPE HTML>"
             }
          ]
       },
@@ -473,6 +526,35 @@
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003C/>"
             }
+         ]
+      },
+      "in body:#eof" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Except for some exceptions (e.g. \u003Ccode>body\u003C/code>,\u000A\u003Ccode>html\u003C/code>, \u003Ccode>p\u003C/code>, and so on), all elements must be\u000Aexplicitly closed by their end tags before the end of file.\u003C/p>",
+            "ja" : "\u003Cp>いくつかの例外 (\u003Ccode>body\u003C/code>,\u000A\u003Ccode>html\u003C/code>, \u003Ccode>p\u003C/code> など) を除き、\u000A要素はすべてファイルの末尾までに終了タグで閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> element is not closed\u000Aat the end of file",
+            "ja" : "ファイルの末尾で \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>\u000A要素が閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-eof" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Choge>",
+               "text" : "hoge"
+            }
+         ],
+         "text" : [
+            "oe[-1]",
+            "local name"
          ]
       },
       "nestc has no net" : {
@@ -693,6 +775,103 @@
             }
          ]
       },
+      "not closed before ancestor end tag" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Most of elements must be explicitly closed by its end tag, but\u000A    there is no such a tag.  There \u003Ci>is\u003C/i> an end tag for ancestor\u000A    element, or one of \u003Ccode>h\u003Cvar>n\u003C/var>\u003C/code> elements which is\u000A    different from the currently opened element.  The end tag closes\u000A    all descendant or mismatched \u003Ccode>h\u003Cvar>n\u003C/var>\u003C/code>\u000A    element.\u003C/p>\u000A\u000A    \u003Cp>Ensure all elements whose end tag can't be omitted have end\u000A    tags, their start and end tag names are matching, and they are not\u000A    misnested.\u003C/p>",
+            "ja" : "\u003Cp>ほとんどの要素は終了タグで明示的に閉じなければいけませんが、\u000A    終了タグがありませんでした。しかし祖先の要素の終了タグか、\u000A    現在開いている要素とは違う \u003Ccode>h\u003Cvar>n\u003C/var>\u003C/code> 要素の終了タグはありました。\u000A    それによって子孫や間違った \u003Ccode>h\u003Cvar>n\u003C/var>\u003C/code> \u000A    要素が閉じられます。\u003C/p>\u000A\u000A    \u003Cp>終了タグを省略できない要素がすべて終了タグを持つこと、\u000A    開始タグと終了タグのタグ名が一致していること、\u000A    タグの入れ子関係が正しいことを確認してください。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> element is not closed before the\u000A\u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code> tag",
+            "ja" : "この終了タグより前で \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> 要素が閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-end-a3bbcd5f4hhlmmnopssu-2" : 1,
+            "in-body-end-applet-marquee-object-2" : 1,
+            "in-body-end-body-2" : 1,
+            "in-body-end-dd-dt-2" : 1,
+            "in-body-end-else" : 1,
+            "in-body-end-form-2" : 1,
+            "in-body-end-form-4" : 1,
+            "in-body-end-h6-2" : 1,
+            "in-body-end-html-2" : 1,
+            "in-body-end-li-2" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cdiv>\u003Cspan>\u003C/div>",
+               "text" : "span",
+               "value" : "div"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmarquee>\u003Cspan>\u003C/marquee>",
+               "text" : "span",
+               "value" : "marquee"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cdiv>\u003C/body>",
+               "text" : "div",
+               "value" : "body"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cdt>\u003Cspan>\u003C/dt>",
+               "text" : "span",
+               "value" : "dt"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ch3>\u003Cspan>\u003C/h3>",
+               "text" : "span",
+               "value" : "h3"
+            },
+            {
+               "index" : 33,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cform>\u003Cspan>\u003C/form>",
+               "text" : "span",
+               "value" : "form"
+            },
+            {
+               "index" : 43,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctemplate>\u003Cform>\u003Cspan>\u003C/form>\u003C/template>",
+               "text" : "span",
+               "value" : "form"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cdiv>\u003C/html>",
+               "text" : "div",
+               "value" : "html"
+            },
+            {
+               "index" : 33,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Choge>\u003Cspan>\u003C/hoge>",
+               "text" : "span",
+               "value" : "hoge"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cli>\u003Cspan>\u003C/li>",
+               "text" : "span",
+               "value" : "li"
+            }
+         ],
+         "text" : [
+            "oe[-1]",
+            "local name"
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
       "obs DOCTYPE" : {
          "default_level" : "m",
          "desc" : {
@@ -741,6 +920,24 @@
          },
          "parser_error_names" : {
             "EOF" : 1
+         }
+      },
+      "parser:NULL" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>U\u002B0000\u003C/code> \u003Ccode class=\u0022charname\u0022>NULL\u003C/code>\u000Acharacter must not be used in a document.  The \u003Ccode class=\u0022charname\u0022>NULL\u003C/code> character in an element is ignored.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>U\u002B0000\u003C/code> \u003Ccode class=\u0022charname\u0022>NULL\u003C/code> \u000A文字を使ってはいけません。要素内の \u003Ccode class=\u0022charname\u0022>NULL\u003C/code>\u000A文字は無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>NULL\u003C/code> character is ignored",
+            "ja" : "\u003Ccode>NULL\u003C/code> 文字は無視されます"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-null" : 1
          }
       },
       "parser:comment closed" : {
@@ -923,7 +1120,17 @@
             "after-body-end-html" : 1,
             "after-head-end-else" : 1,
             "before-head-end-else" : 1,
-            "before-html-end-else" : 1
+            "before-html-end-else" : 1,
+            "in-body-end-a3bbcd5f4hhlmmnopssu" : 1,
+            "in-body-end-applet-marquee-object" : 1,
+            "in-body-end-body" : 1,
+            "in-body-end-dd-dt" : 1,
+            "in-body-end-else-2" : 1,
+            "in-body-end-form" : 1,
+            "in-body-end-form-3" : 1,
+            "in-body-end-h6" : 1,
+            "in-body-end-html" : 1,
+            "in-body-end-li" : 1
          },
          "parser_tests" : [
             {
@@ -946,10 +1153,62 @@
                "index" : 22,
                "input" : "\u003C!DOCTYPE html>\u003C/body>\u003C/html>",
                "value" : "html"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/div>",
+               "value" : "div"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/object>",
+               "value" : "object"
+            },
+            {
+               "context" : "body",
+               "index" : 0,
+               "input" : "\u003C/body>",
+               "value" : "body"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/dt>",
+               "value" : "dt"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/form>",
+               "value" : "form"
+            },
+            {
+               "index" : 35,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctemplate>\u003Cbr>\u003C/form>",
+               "value" : "form"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/h4>",
+               "value" : "h4"
+            },
+            {
+               "context" : "body",
+               "index" : 0,
+               "input" : "\u003C/html>",
+               "value" : "html"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/hoge>",
+               "value" : "hoge"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/li>",
+               "value" : "li"
             }
          ],
          "value" : [
-            "field",
+            "token",
             "tag name"
          ]
       },
@@ -1071,31 +1330,31 @@
       "doctype-system-identifier-single-quoted-003e" : "parser:literal not closed",
       "end-tag-open-003e" : "empty end tag",
       "end-tag-open-else" : "bare etago",
-      "in-body-doctype" : null,
-      "in-body-end-a3bbcd5f4hhlmmnopssu" : null,
-      "in-body-end-a3bbcd5f4hhlmmnopssu-2" : null,
-      "in-body-end-applet-marquee-object" : null,
-      "in-body-end-applet-marquee-object-2" : null,
-      "in-body-end-body" : null,
-      "in-body-end-body-2" : null,
-      "in-body-end-br" : null,
-      "in-body-end-dd-dt" : null,
-      "in-body-end-dd-dt-2" : null,
-      "in-body-end-else" : null,
-      "in-body-end-else-2" : null,
-      "in-body-end-form" : null,
-      "in-body-end-form-2" : null,
-      "in-body-end-form-3" : null,
-      "in-body-end-form-4" : null,
-      "in-body-end-h6" : null,
-      "in-body-end-h6-2" : null,
-      "in-body-end-html" : null,
-      "in-body-end-html-2" : null,
-      "in-body-end-li" : null,
-      "in-body-end-li-2" : null,
-      "in-body-end-p" : null,
-      "in-body-eof" : null,
-      "in-body-null" : null,
+      "in-body-doctype" : "doctype:bad context",
+      "in-body-end-a3bbcd5f4hhlmmnopssu" : "stray end tag",
+      "in-body-end-a3bbcd5f4hhlmmnopssu-2" : "not closed before ancestor end tag",
+      "in-body-end-applet-marquee-object" : "stray end tag",
+      "in-body-end-applet-marquee-object-2" : "not closed before ancestor end tag",
+      "in-body-end-body" : "stray end tag",
+      "in-body-end-body-2" : "not closed before ancestor end tag",
+      "in-body-end-br" : "\u003C/br>",
+      "in-body-end-dd-dt" : "stray end tag",
+      "in-body-end-dd-dt-2" : "not closed before ancestor end tag",
+      "in-body-end-else" : "not closed before ancestor end tag",
+      "in-body-end-else-2" : "stray end tag",
+      "in-body-end-form" : "stray end tag",
+      "in-body-end-form-2" : "not closed before ancestor end tag",
+      "in-body-end-form-3" : "stray end tag",
+      "in-body-end-form-4" : "not closed before ancestor end tag",
+      "in-body-end-h6" : "stray end tag",
+      "in-body-end-h6-2" : "not closed before ancestor end tag",
+      "in-body-end-html" : "stray end tag",
+      "in-body-end-html-2" : "not closed before ancestor end tag",
+      "in-body-end-li" : "stray end tag",
+      "in-body-end-li-2" : "not closed before ancestor end tag",
+      "in-body-end-p" : "\u003C/p>",
+      "in-body-eof" : "in body:#eof",
+      "in-body-null" : "parser:NULL",
       "in-body-start-a" : null,
       "in-body-start-body" : null,
       "in-body-start-button" : null,
