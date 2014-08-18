@@ -108,7 +108,7 @@ for my $error_type (keys %{$Data->{errors}}) {
     }
   }
 
-  for my $test (@{$Data->{errors}->{$error_type}->{tests} or []}) {
+  for my $test (@{$Data->{errors}->{$error_type}->{parser_tests} or []}) {
     $test->{input} =~ s/^\s+//;
     $test->{input} =~ s/\s+$//;
     my $input = [map { s/\u([0-9A-F]{4})/chr hex $1/ge; $_ } split /\$\$/, $test->{input}, 2];
