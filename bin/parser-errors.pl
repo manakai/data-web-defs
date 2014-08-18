@@ -133,7 +133,10 @@ for my $error_type (keys %{$Data->{errors}}) {
   my $json = json_bytes2perl path (__FILE__)->parent->parent->child
       ('data/html-syntax.json')->slurp;
   my $tokenize_errors = extract_parse_error_names $json->{tokenizer}->{states};
-  my $tree_errors = extract_parse_error_names $json->{ims};
+  my $tree_errors = [
+    @{extract_parse_error_names $json->{ims}},
+    @{extract_parse_error_names $json->{tree_steps}},
+  ];
   for (@$tokenize_errors, @$tree_errors) {
     $Data->{parser_error_name_to_error_type}->{$_} //= undef;
   }
