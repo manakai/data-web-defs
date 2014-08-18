@@ -62,7 +62,7 @@ sub parse_file ($) {
     } elsif (defined $error_type and /^(value|text)=(\S+)$/) {
       my ($n, $v) = ($1, $2);
       $v =~ tr/-_/  /;
-      $Data->{errors}->{$error_type}->{$n} = $v;
+      $Data->{errors}->{$error_type}->{$n} = ['field', $v];
     } elsif (defined $error_type and /^(layer|default_level)=(\S+)$/) {
       $Data->{errors}->{$error_type}->{$1} = $2;
     } elsif (/\S/) {
