@@ -39,6 +39,8 @@ Unexpected end of file in a tag or declaration
 
 name=after-body-end-html
 name=after-head-end-else
+name=before-head-end-else
+name=before-html-end-else
 value=tag_name
 
 @en
@@ -76,9 +78,14 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 <code>wbr</code>。</p>
 
 !!!
+<!DOCTYPE html>$$</hoge>
+!value=hoge
+!!!
+<!DOCTYPE html><html>$$</hoge>
+!value=hoge
+!!!
 <!DOCTYPE html></head>$$</hoge>
 !value=hoge
-
 !!!
 !context=html
 <!DOCTYPE html></body>$$</html>
@@ -114,6 +121,25 @@ $$<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 !!!
 $$<!DOCTYPE HTML system "">
 
+* no DOCTYPE name
+
+name=before-doctype-name-003e
+
+@en
+There is no document type name
+@ja
+文書型名がありません
+
+@en
+
+<p>The DOCTYPE must be <code>&lt;!DOCTYPE html></code> (in HTML) or
+must contain the root element name (in XML).
+
+@ja
+
+<p>DOCTYPE は <code>&lt;!DOCTYPE html></code> とする (HTML)
+か、根要素の名前を含める (XML) かしなければいけません。
+
 * bogus DOCTYPE
 
 name=after-doctype-name-else
@@ -121,6 +147,10 @@ name=after-doctype-public-identifier-else
 name=after-doctype-public-keyword-else
 name=after-doctype-system-identifier-else
 name=after-doctype-system-keyword-else
+name=before-doctype-public-identifier-else
+name=before-doctype-system-identifier-else
+name=between-doctype-public-and-system-identifiers-else
+name=doctype-else
 
 @en
 There is a bogus string in the DOCTYPE
@@ -154,6 +184,16 @@ DOCTYPE 内におかしな文字列があります。 DOCTYPE は
 
 !!!
 <!DOCTYPE html PUBLIC "abc" "http://www.w3.org/TR/html4/strict.dtd"$$?>
+!!!
+<!DOCTYPE html PUBLIC $$hoge>
+!!!
+<!DOCTYPE html SYSTEM $$hoge>
+!!!
+<!DOCTYPE html PUBLIC "hoge"$$hoge>
+!!!
+<!DOCTYPE html PUBLIC "hoge" $$hoge>
+!!!
+<!DOCTYPE$$!>
 
 * no space before literal
 
@@ -235,6 +275,49 @@ identifier.
 !!!
 <!DOCTYPE html system  $$>
 
+* parser:literal not closed
+
+name=doctype-public-identifier-double-quoted-003e
+name=doctype-public-identifier-single-quoted-003e
+name=doctype-system-identifier-double-quoted-003e
+name=doctype-system-identifier-single-quoted-003e
+
+@en
+The quoted string is not terminated before the declaration
+is closed
+@ja
+宣言が閉じられる前に閉じ引用符がありません
+
+@en
+
+<p>The public or system identifier must be terminated by an
+appropriate quotation mark before the declaration in which the
+identifier appears is closed by <code>></code>.
+
+<p>The public or system identifier cannot contain a <code>></code>
+character.
+
+@ja
+
+<p>公開識別子やシステム識別子は、宣言が <code>></code>
+で閉じられる前に適切な引用符で閉じなければいけません。
+
+<p>公開識別子やシステム識別子に <code>></code>
+を含めることはできません。
+
+!!!
+<!DOCTYPE HTML PUBLIC "$$>">
+!!!
+<!DOCTYPE HTML SYSTEM "$$>">
+!!!
+<!DOCTYPE HTML PUBLIC "" "$$>">
+!!!
+<!DOCTYPE HTML PUBLIC '$$>'>
+!!!
+<!DOCTYPE HTML SYSTEM '$$>'>
+!!!
+<!DOCTYPE HTML PUBLIC "" '$$>'>
+
 * no DOCTYPE
 
 name=initial-else
@@ -268,6 +351,8 @@ $$hoge
 name=after-body-doctype
 name=after-frameset-doctype
 name=after-head-doctype
+name=before-head-doctype
+name=before-html-doctype
 
 @en
 The DOCTYPE is not at the beginning of the document
@@ -285,6 +370,10 @@ or within an element.
 <p>DOCTYPE の前に置けるのは空白と注釈だけです。DOCTYPE が2つあったり、
 要素の中にあったりしてはいけません。
 
+!!!
+<!DOCTYPE html>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE html><html>$$<!DOCTYPE HTML>
 !!!
 <!DOCTYPE HTML></body>$$<!DOCTYPE HTML>
 !!!
@@ -336,6 +425,129 @@ element.
 <p><code>body</code> 要素や最外 <code>frameset</code> 要素の終了タグの後には、
 <code>html</code> 要素の終了タグと空白、注釈以外は何も書けません。
 
+* bad attribute name
+
+name=attribute-name-0022
+name=attribute-name-0027
+name=before-attribute-name-0022
+name=before-attribute-name-0027
+
+@en
+The attribute name contains a <code>"</code> or <code>'</code>
+@ja
+属性名に <code>"</code> や <code>'</code> が含まれています
+
+@en
+
+<p>An attribute name cannot contain a <code>"</code> or <code>'</code>
+character, as it is used as a quotation mark of an attribute value.
+
+@ja
+
+<p><code>"</code> や <code>'</code> は属性値の引用符として使われるので、
+属性名に含めることはできません。
+
+!!!
+<!DOCTYPE html><p foo$$"aa>
+!!!
+<!DOCTYPE html><p foo$$'aa>
+
+* parser:no attr name
+
+name=before-attribute-name-003d
+
+@en
+The attribute name is missing before <code>=</code>
+@ja
+<code>=</code> の前に属性名がありません
+
+@en
+
+<p>An attribute in a start tag must have a name.  The attribute name
+cannot contain a <code>=</code> character, as it is used to separate
+attribute name and value.
+
+@ja
+
+<p>開始タグの属性には名前が必要です。属性名には <code>=</code>
+を含められません。 <code>=</code> は属性名と属性値の区切りとして使われます。
+
+!!!
+<!DOCTYPE html><p $$=foo>
+
+* bad attribute value
+
+name=attribute-value-unquoted-0022
+name=attribute-value-unquoted-0027
+name=attribute-value-unquoted-003d
+name=attribute-value-unquoted-0060
+name=before-attribute-value-003d
+name=before-attribute-value-003e
+name=before-attribute-value-0060
+
+@en
+An unquoted attribute value contains <code>"</code>, <code>'</code>,
+<code>`</code>, or <code>=</code>
+
+@ja
+引用符で括られていない属性値に <code>"</code>, <code>'</code>,
+<code>`</code>, <code>=</code> が含まれています
+
+@en
+
+<p>In an unquoted attribute value, characters <code>"</code>
+(<code>U+0022</code> <code class="charname">QUOTATION MARK</code>),
+<code>'</code> (<code>U+0026</code> <code
+class="charname">APOSTROPHE</code>), and <code>=</code>
+(<code>U+003D</code> <code class="charname">EQUAL SIGN</code>) are not
+allowed.  To contain these characters in an attribute value, the
+entire attribute value must be quoted by <code>"</code> or
+<code>'</code>.
+
+<p>Note that an unquoted attribute value cannot be the empty string.
+For example, <code class="html bad
+example">&lt;foo&#x20;<mark>bar=&#x20;baz=</mark>></code> is
+interpreted to have a <code>bar</code> attribute whose value is
+<code>bar=</code> (with a parse error as the <code>=</code> character
+cannot be used in an unquoted attribute value).  To represent empty
+attribute value, omit the <code>=</code> character, or explicitly
+specify an empty quoted string: <code class="html bad
+example">&lt;foo&#x20;bar&#x20;baz=<mark>""</mark>></code>.
+
+@ja
+
+<p>引用符で括られていない属性値では <code>"</code>
+(<code>U+0022</code> <code class="charname">QUOTATION MARK</code>),
+<code>'</code> (<code>U+0026</code> <code
+class="charname">APOSTROPHE</code>), <code>=</code>
+(<code>U+003D</code> <code class="charname">EQUAL SIGN</code>)
+は使えません。属性値にこれらを含めたいときは、
+全体を <code>"</code> や <code>'</code> で括らなければいけません。
+
+<p>なお、引用符で括られていない属性値は空文字列にできません。例えば、
+<code class="html bad
+example">&lt;foo&#x20;<mark>bar=&#x20;baz=</mark>></code>
+は <code>bar</code> 属性の値が <code>bar=</code> (で、 <code>=</code>
+を引用符で括られていない属性値では使えないため構文解析エラー)
+と解釈されます。属性値が空であることを表すには、 <code class="html bad
+example">&lt;foo&#x20;bar&#x20;baz=<mark>""</mark>></code>
+のように <code>=</code> を省略するか、引用符を明示するかしないといけません。
+
+!!!
+<!DOCTYPE HTML><p foo=bar$$">
+!!!
+<!DOCTYPE HTML><p foo=bar$$'>
+!!!
+<!DOCTYPE HTML><p foo=bar$$`>
+!!!
+<!DOCTYPE HTML><p foo=bar$$=>
+!!!
+<!DOCTYPE HTML><p foo=$$`>
+!!!
+<!DOCTYPE HTML><p foo=$$=>
+!!!
+<!DOCTYPE HTML><p foo= bar$$=>
+
 * attr:no =
 
 name=after-attribute-name-0022
@@ -370,6 +582,9 @@ value.
 
 name=after-attribute-name-003c
 name=attribute-name-003c
+name=before-attribute-name-003c
+name=attribute-value-unquoted-003c
+name=before-attribute-value-003c
 
 @en
 Tag is not closed
@@ -396,6 +611,38 @@ tags (except within quoted attribute values).
 <!DOCTYPE html><p foo $$<bar>
 !!!
 <!DOCTYPE html><p foo$$<bar>
+!!!
+<!DOCTYPE html><p $$<bar>
+!!!
+<!DOCTYPE HTML><p foo=$$<bar>
+!!!
+<!DOCTYPE HTML><p foo=a$$<bar>
+
+* nestc has no net
+
+name=self-closing-start-tag-else
+
+@en
+The tag is not closed by <code>></code> after <code>/</code>
+@ja
+タグが <code>/</code> の後 <code>></code> で閉じられていません
+
+@en
+
+<p>When an element is self-closing, the start tag must be closed by
+<code>/></code>.  The <code>/</code> character must be immediately
+followed by a <code>></code> character.
+
+@ja
+
+<p>要素をその場で閉じて内容を空とするときは、
+開始タグは <code>/></code> で終えなければいけません。
+<code>/</code> の直後に <code>></code> が必要です。
+
+!!!
+<!DOCTYPE HTML><p /$$ >
+!!!
+<!DOCTYPE HTML><p/$$hoge>
 
 * no space before attr name
 
@@ -429,6 +676,234 @@ There is no space before an attribute
 !!!
 <!DOCTYPE html><p foo=""$$bar="">
 
+* empty end tag
+
+name=end-tag-open-003e
+module=Whatpm::WebVTT::Parser
+
+@en
+There is an empty end tag
+@ja
+空の終了タグがあります
+
+@en
+    <p>In HTML, XML, and WebVTT, empty end tag, i.e. end
+    tag with no tag name, is not allowed.</p>
+    <p>To represent an end tag, specify the
+    tag name explicitly.</p>
+    <p>To represent a string with the <code>&lt;</code> character,
+    use a character reference: <code>&amp;lt;</code>.</p>
+
+@ja
+    <p>HTML、XML、WebVTT では、タグ名の無い空の終了タグは認められていません。</p>
+    <p>終了タグを記述する時はタグ名も明示しなければなりません。</p>
+    <p>「<code>&lt;</code>」という文字を使いたい時は文字参照
+    「<code>&amp;lt;</code>」を使わなければなりません。</p>
+
+!!!
+<!DOCTYPE HTML><p></$$>
+
+* bare stago
+
+name=tag-open-else
+module=Whatpm::WebVTT::Parser
+
+@en
+The <code>&lt;</code> character is not followed by a tag name or a
+<code>!</code>, <code>/</code>, or <code>?</code>
+@ja
+文字 <code>&lt;</code> の次がタグ名でも
+<code>!</code>, <code>/</code>, <code>?</code> のいずれでもありません
+
+@en
+    <p>A <code>&lt;</code> (<code class="char">U+003C</code> <code
+    class="charname">LESS-THAN SIGN</code>) character which is not
+    part of any markup appears in the input.
+
+    <p>The <code>&lt;</code> character as a data character must
+    be escaped as:
+    </p>
+    <pre class="html example"><code>&amp;lt;</code></pre>
+
+@ja
+    <p>文字 <code>&lt;</code> (<code class="char">U+003C</code> <code
+    class="charname">LESS-THAN SIGN</code>) が出現しましたが、
+    正しいマーク付けの一部ではありません。</p>
+
+    <p>文字 <code>&lt;</code> をデータ文字として表したい時は、
+    エスケープしなければなりません。</p>
+    <pre class="html example"><code>&amp;lt;</code></pre>
+
+!!!
+<!DOCTYPE HTML><$$"
+
+* bare etago
+
+name=end-tag-open-else
+
+@en
+The <code>&lt;/</code> is not followed by a tag name
+@ja
+<code>&lt;/</code> の後にタグ名がありません
+
+@en
+
+<p>There is a <code>&lt;</code> (<code>U+003C</code> <code
+class="charname">LESS-THAN SIGN</code>) character immediately followed
+by a <code>/</code> (<code>U+005F</code> <code>SOLIDUS</code>)
+character, which is not followed by a tag name.
+
+<p>To represent a string <code>&lt;/</code>, the <code>&lt;</code>
+character must be escaped as <code>&amp;lt;</code>.
+
+@ja
+
+<p><code>&lt;</code> (<code>U+003C</code> <code
+class="charname">LESS-THAN SIGN</code>) の後に
+<code>/</code> (<code>U+005F</code> <code>SOLIDUS</code>)
+がありますが、その後にタグ名がありません。
+
+<p><code>&lt;/</code> という文字列を表したい時は、 <code>&lt;</code>
+を <code>&amp;lt;</code> とエスケープしなければいけません。
+
+!!!
+<!DOCTYPE HTML></$$!?>
+
+* bogus comment
+
+name=markup-declaration-open-else
+
+@en
+The <code>&lt;!</code> is not followed by <code>--</code>
+@ja
+<code>&lt;!</code> の後に <code>--</code> がありません
+
+@en
+    <p>There is a <code>&lt;</code> (<code>U+003C</code> 
+    <code class="charname">LESS-THAN SIGN</code>) character
+    followed by a <code>!</code> (<code>U+0021</code>
+    <code class="charname">EXCLAMATION MARK</code>) character,
+    which is not followed by a <code>--</code> or
+    <code>DOCTYPE</code>.
+
+    <dl class="switch">
+    <dt>Comments</dt>
+      <dd>In HTML document, comments must be introduced by
+      <code class="example">&lt;!--</code> (<code>&lt;!</code>
+      <em>immediately</em> followed
+      by <em>two</em> <code>-</code>s) and must be terminated by
+      <code class="example">--></code>.
+      Strings <code>&lt;!</code> not followed
+      by <code>--</code> and <code>&lt;!-</code> not followed by
+      <code>-</code> are not valid open delimiters for comments.</dd>
+    <dt>Marked sections, including <code>CDATA</code> sections</dt>
+      <dd>Marked sections are not allowed in HTML elements.</dd>
+    <dt>Markup declarations</dt>
+      <dd>Markup declarations, except for <code>DOCTYPE</code>
+      and comment declarations, are not allowed in HTML document.</dd>
+    <dt>String <code>&lt;!</code></dt>
+      <dd>String <code>&lt;!</code> must be escaped as
+      <code class="example">&amp;lt;!</code>.</dd>
+    </dl>
+
+@ja
+
+    <p><code>&lt;</code> (<code>U+003C</code> 
+    <code class="charname">LESS-THAN SIGN</code>) の後に
+    <code>!</code> (<code>U+0021</code>
+    <code class="charname">EXCLAMATION MARK</code>) がありますが、
+    その後が <code>--</code> でも <code>DOCTYPE</code> でもありません。
+
+    <dl class="switch">
+    <dt>注釈
+      <dd>HTML では注釈は
+      <code class="example">&lt;!--</code> (<code>&lt;!</code>
+      の<em>直後</em>に <code>-</code> <em>2つ</em>)
+      からはじまり、
+      <code class="example">--></code> で終わらなければいけません。
+      <code>&lt;!</code> だけや <code>&lt;!-</code> だけでは、
+      ただしい注釈ではありません。
+    <dt><code>CDATA</code> 区間など、マーク付け区間
+      <dd>HTML 要素内ではマーク付け区間は使えません。
+    <dt>マーク付け宣言
+      <dd>HTML 文書では <code>DOCTYPE</code> 宣言と注釈宣言を除き、
+      マーク付け宣言は使えません。
+    <dt>文字列 <code>&lt;!</code></dt>
+      <dd>文字列 <code>&lt;!</code> を表したいときは、
+      <code class="example">&amp;lt;!</code> とエスケープしないといけません。
+    </dl>
+
+!!!
+<!DOCTYPE HTML><!$$HOGE>
+!!!
+<!DOCTYPE HTML><!DOCTYP$$O>
+
+* pio
+
+name=tag-open-003f
+
+@en
+There is a processing instruction
+@ja
+処理指令があります
+
+@en
+
+<p>Processing instructions (<code>&lt;?<var>...</var>?></code>) and
+the XML declaration (<code>&lt;?xml <var>...</var>?></code>) are not
+allowed in HTML document.
+
+    <dl class="switch">
+    <dt><code>&lt;?xml?&gt;</code> (XML declaration)</dt>
+        <dd>The XML declaration is not necessary in an HTML document.</dd>
+    <dt><code>&lt;?xml-stylesheet?></code> (XML style sheet declaration)
+        <dd>Use HTML <code>link</code> element with <code>rel</code>
+        attribute set to <code>stylesheet</code> (or,
+        <code>alternate stylesheet</code> for an alternative style 
+        sheet).
+          <pre class="example html"><code>&lt;link rel=stylesheet href="path/to/stylesheet.css"></code></pre>
+        </dd>
+    <dt><code>&lt;?php?&gt;</code> (<abbr>PHP</abbr> code)</dt>
+        <dd>PHP is not supported.  It must be interpreted within
+        server such that public documents must not contain any
+        PHP code.
+    <dt>Other processing instructions</dt>
+        <dd>Processing instructions cannot be inserted in an HTML
+        document.  If a processing instruction is required, use XML
+        with an appropriate MIME type
+        (e.g. <code>application/xhtml+xml</code>).
+    </dl>
+
+@ja
+
+<p>処理指令 (<code>&lt;?<var>...</var>?></code>) や
+XML 宣言 (<code>&lt;?xml <var>...</var>?></code>)
+は HTML文書中では使えません。
+
+    <dl class="switch">
+    <dt><code>&lt;?xml?&gt;</code> (XML 宣言)</dt>
+        <dd>XML 宣言は HTML 文書には不要です。
+    <dt><code>&lt;?xml-stylesheet?></code> (XML スタイルシート宣言)
+        <dd>HTML <code>link</code> 要素の <code>rel</code>
+        属性を <code>stylesheet</code> (代替スタイルシートの場合は
+        <code>alternate stylesheet</code>) にして使ってください。
+          <pre class="example html"><code>&lt;link rel=stylesheet href="path/to/stylesheet.css"></code></pre>
+        </dd>
+    <dt><code>&lt;?php?&gt;</code> (<abbr>PHP</abbr> コード)</dt>
+        <dd>PHP には対応していません。 PHP はサーバー内で処理するものですから、
+        公開文書に PHP のコードが含まれていてはいけません。
+    <dt>その他の処理指令
+        <dd>処理指令は HTML 文書では使えません。
+        処理指令が必要なときは、適切な MIME 型
+        (<code>application/xhtml+xml</code> など) で XML
+        を使ってください。
+    </dl>
+
+!!!
+<$$?xml version="1.0"?><!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><$$?php print ("Hello!")?>
+
 * after head
 
 name=after-head-start-b3lmnsstt
@@ -461,3 +936,161 @@ tag.
 
 !!!
 <!DOCTYPE html></head>$$<link>
+
+* bare nero
+
+name=character-reference-number-else
+
+@en
+There is an <code>&amp;#</code> not followed by a code point number
+@ja
+<code>&amp;#</code> の後に符号位置の数値がありません
+
+@en
+
+<p>The string <code>&amp;#</code> is used to introduce a character
+reference.  It must be followed by a decimal number or a
+<code>x</code> character followed by a hexadecimal number,
+representing the code point of a character, followed by a
+<code>;</code> character.
+
+<p>To represent a string <code>&amp;#</code>, the <code>&amp;</code>
+character must be escaped as <code>&amp;amp;</code>.
+
+@ja
+
+<p>文字列 <code>&amp;#</code> は文字参照を表しています。
+その後には文字の符号位置を表す十進数か、 <code>x</code>
+と十六進数があって、その後に <code>;</code> が続かなければいけません。
+
+<p><code>&amp;#</code> という文字列自体を表したいときは、 <code>&amp;</code>
+は <code>&amp;amp;</code> と書かなければいけません。
+
+!!!
+<!DOCTYPE HTML>a&#$$
+!!!
+<!DOCTYPE HTML>a&#$$abx
+
+* bare hcro
+
+name=character-reference-before-hexadecimal-number-else
+
+@en
+There is an <code>&amp;#x</code> not followed by a code point number
+@ja
+<code>&amp;#x</code> の後に符号位置の数値がありません
+
+@en
+
+<p>The string <code>&amp;#x</code> is used to introduce a hexadecimal
+character reference.  It must be followed by a hexadecimal number,
+representing the code point of a character, followed by a
+<code>;</code> character.
+
+<p>To represent a string <code>&amp;#x</code>, the <code>&amp;</code>
+character must be escaped as <code>&amp;amp;</code>.
+
+@ja
+
+<p>文字列 <code>&amp;#x</code> は十六進数文字参照を表しています。
+その後には文字の符号位置を表す十六進数と <code>;</code> 
+が続かなければいけません。
+
+<p><code>&amp;#x</code> という文字列自体を表したいときは、 <code>&amp;</code>
+は <code>&amp;amp;</code> と書かなければいけません。
+
+!!!
+<!DOCTYPE HTML>&#x$$
+!!!
+<!DOCTYPE HTML>&#X$$zza
+
+* no refc
+
+name=character-reference-decimal-number-else
+name=character-reference-hexadecimal-number-else
+
+@en
+There is no <code>;</code> at the end of a reference
+@ja
+参照の末尾に <code>;</code> がありません
+
+@en
+
+<p>A character or entity reference must be terminated by a
+<code>;</code> character.
+
+@ja
+
+<p>文字参照や実体参照の末尾には <code>;</code> が必要です。
+
+!!!
+<!DOCTYPE HTML>&#125$$abc;
+!!!
+<!DOCTYPE HTML>&#x125a$$zabc;
+!!!
+<!DOCTYPE HTML>&amp$$**
+
+* parser:comment not closed
+
+name=comment-end-0021
+name=comment-end-002d
+name=comment-end-else
+
+@en
+The comment contains <code>--</code>
+@ja
+注釈が <code>--</code> を含んでいます
+
+@en
+
+<p>A comment must be closed by <code>--></code>.  The comment's data
+cannot contain <code>--</code>, even when it is not immediately
+followed by a <code>></code> character.  The comment's data cannot end
+with a <code>-</code> character.
+
+@ja
+
+<p>注釈は <code>--></code> で閉じなければいけません。
+注釈のデータには、 <code>></code> が直後にないとしても、 <code>--</code>
+を含めてはいけません。注釈のデータが <code>-</code>
+で終わってはいけません。
+
+!!!
+<!DOCTYPE HTML><!--a--$$!>
+!!!
+<!DOCTYPE HTML><!--a--$$->
+!!!
+<!DOCTYPE HTML><!--a--$$b-->
+
+* parser:comment closed
+
+name=comment-start-003e
+name=comment-start-dash-003e
+
+@en
+The comment is closed by <code>></code>
+@ja
+注釈が <code>></code> によって閉じられています
+
+@en
+
+<p>A comment must be closed by a <code>--></code>, whose
+<code>--</code> must not be the <code>-</code>s in
+<code>&lt;!--</code>.
+
+<p>A comment's data cannot start with <code>></code> or
+<code>-></code>.
+
+@ja
+
+<p>注釈は <code>--></code> で閉じなければいけませんが、その中の
+<code>--</code> は <code>&lt;!--</code> の <code>-</code>
+と重複していてはいけません。
+
+<p>注釈のデータを <code>></code> や <code>-></code>
+で始めることはできません。
+
+!!!
+<!DOCTYPE HTML><!--$$>
+!!!
+<!DOCTYPE HTML><!---$$>

@@ -116,6 +116,196 @@
             }
          ]
       },
+      "bad attribute name" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An attribute name cannot contain a \u003Ccode>\u0022\u003C/code> or \u003Ccode>'\u003C/code>\u000Acharacter, as it is used as a quotation mark of an attribute value.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>\u0022\u003C/code> や \u003Ccode>'\u003C/code> は属性値の引用符として使われるので、\u000A属性名に含めることはできません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The attribute name contains a \u003Ccode>\u0022\u003C/code> or \u003Ccode>'\u003C/code>",
+            "ja" : "属性名に \u003Ccode>\u0022\u003C/code> や \u003Ccode>'\u003C/code> が含まれています"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "attribute-name-0022" : 1,
+            "attribute-name-0027" : 1,
+            "before-attribute-name-0022" : 1,
+            "before-attribute-name-0027" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo\u0022aa>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo'aa>"
+            }
+         ]
+      },
+      "bad attribute value" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In an unquoted attribute value, characters \u003Ccode>\u0022\u003C/code>\u000A(\u003Ccode>U\u002B0022\u003C/code> \u003Ccode class=\u0022charname\u0022>QUOTATION MARK\u003C/code>),\u000A\u003Ccode>'\u003C/code> (\u003Ccode>U\u002B0026\u003C/code> \u003Ccode class=\u0022charname\u0022>APOSTROPHE\u003C/code>), and \u003Ccode>=\u003C/code>\u000A(\u003Ccode>U\u002B003D\u003C/code> \u003Ccode class=\u0022charname\u0022>EQUAL SIGN\u003C/code>) are not\u000Aallowed.  To contain these characters in an attribute value, the\u000Aentire attribute value must be quoted by \u003Ccode>\u0022\u003C/code> or\u000A\u003Ccode>'\u003C/code>.\u000A\u000A\u003C/p>\u003Cp>Note that an unquoted attribute value cannot be the empty string.\u000AFor example, \u003Ccode class=\u0022html bad\u000Aexample\u0022>&lt;foo \u003Cmark>bar= baz=\u003C/mark>&gt;\u003C/code> is\u000Ainterpreted to have a \u003Ccode>bar\u003C/code> attribute whose value is\u000A\u003Ccode>bar=\u003C/code> (with a parse error as the \u003Ccode>=\u003C/code> character\u000Acannot be used in an unquoted attribute value).  To represent empty\u000Aattribute value, omit the \u003Ccode>=\u003C/code> character, or explicitly\u000Aspecify an empty quoted string: \u003Ccode class=\u0022html bad\u000Aexample\u0022>&lt;foo bar baz=\u003Cmark>\u0022\u0022\u003C/mark>&gt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>引用符で括られていない属性値では \u003Ccode>\u0022\u003C/code>\u000A(\u003Ccode>U\u002B0022\u003C/code> \u003Ccode class=\u0022charname\u0022>QUOTATION MARK\u003C/code>),\u000A\u003Ccode>'\u003C/code> (\u003Ccode>U\u002B0026\u003C/code> \u003Ccode class=\u0022charname\u0022>APOSTROPHE\u003C/code>), \u003Ccode>=\u003C/code>\u000A(\u003Ccode>U\u002B003D\u003C/code> \u003Ccode class=\u0022charname\u0022>EQUAL SIGN\u003C/code>)\u000Aは使えません。属性値にこれらを含めたいときは、\u000A全体を \u003Ccode>\u0022\u003C/code> や \u003Ccode>'\u003C/code> で括らなければいけません。\u000A\u000A\u003C/p>\u003Cp>なお、引用符で括られていない属性値は空文字列にできません。例えば、\u000A\u003Ccode class=\u0022html bad\u000Aexample\u0022>&lt;foo \u003Cmark>bar= baz=\u003C/mark>&gt;\u003C/code>\u000Aは \u003Ccode>bar\u003C/code> 属性の値が \u003Ccode>bar=\u003C/code> (で、 \u003Ccode>=\u003C/code>\u000Aを引用符で括られていない属性値では使えないため構文解析エラー)\u000Aと解釈されます。属性値が空であることを表すには、 \u003Ccode class=\u0022html bad\u000Aexample\u0022>&lt;foo bar baz=\u003Cmark>\u0022\u0022\u003C/mark>&gt;\u003C/code>\u000Aのように \u003Ccode>=\u003C/code> を省略するか、引用符を明示するかしないといけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "An unquoted attribute value contains \u003Ccode>\u0022\u003C/code>, \u003Ccode>'\u003C/code>,\u000A\u003Ccode>`\u003C/code>, or \u003Ccode>=\u003C/code>",
+            "ja" : "引用符で括られていない属性値に \u003Ccode>\u0022\u003C/code>, \u003Ccode>'\u003C/code>,\u000A\u003Ccode>`\u003C/code>, \u003Ccode>=\u003C/code> が含まれています"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "attribute-value-unquoted-0022" : 1,
+            "attribute-value-unquoted-0027" : 1,
+            "attribute-value-unquoted-003d" : 1,
+            "attribute-value-unquoted-0060" : 1,
+            "before-attribute-value-003d" : 1,
+            "before-attribute-value-003e" : 1,
+            "before-attribute-value-0060" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar\u0022>"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar'>"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar`>"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar=>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=`>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo==>"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo= bar=>"
+            }
+         ]
+      },
+      "bare etago" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is a \u003Ccode>&lt;\u003C/code> (\u003Ccode>U\u002B003C\u003C/code> \u003Ccode class=\u0022charname\u0022>LESS-THAN SIGN\u003C/code>) character immediately followed\u000Aby a \u003Ccode>/\u003C/code> (\u003Ccode>U\u002B005F\u003C/code> \u003Ccode>SOLIDUS\u003C/code>)\u000Acharacter, which is not followed by a tag name.\u000A\u000A\u003C/p>\u003Cp>To represent a string \u003Ccode>&lt;/\u003C/code>, the \u003Ccode>&lt;\u003C/code>\u000Acharacter must be escaped as \u003Ccode>&amp;lt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>&lt;\u003C/code> (\u003Ccode>U\u002B003C\u003C/code> \u003Ccode class=\u0022charname\u0022>LESS-THAN SIGN\u003C/code>) の後に\u000A\u003Ccode>/\u003C/code> (\u003Ccode>U\u002B005F\u003C/code> \u003Ccode>SOLIDUS\u003C/code>)\u000Aがありますが、その後にタグ名がありません。\u000A\u000A\u003C/p>\u003Cp>\u003Ccode>&lt;/\u003C/code> という文字列を表したい時は、 \u003Ccode>&lt;\u003C/code>\u000Aを \u003Ccode>&amp;lt;\u003C/code> とエスケープしなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The \u003Ccode>&lt;/\u003C/code> is not followed by a tag name",
+            "ja" : "\u003Ccode>&lt;/\u003C/code> の後にタグ名がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "end-tag-open-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 17,
+               "input" : "\u003C!DOCTYPE HTML>\u003C/!?>"
+            }
+         ]
+      },
+      "bare hcro" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The string \u003Ccode>&amp;#x\u003C/code> is used to introduce a hexadecimal\u000Acharacter reference.  It must be followed by a hexadecimal number,\u000Arepresenting the code point of a character, followed by a\u000A\u003Ccode>;\u003C/code> character.\u000A\u000A\u003C/p>\u003Cp>To represent a string \u003Ccode>&amp;#x\u003C/code>, the \u003Ccode>&amp;\u003C/code>\u000Acharacter must be escaped as \u003Ccode>&amp;amp;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>文字列 \u003Ccode>&amp;#x\u003C/code> は十六進数文字参照を表しています。\u000Aその後には文字の符号位置を表す十六進数と \u003Ccode>;\u003C/code> \u000Aが続かなければいけません。\u000A\u000A\u003C/p>\u003Cp>\u003Ccode>&amp;#x\u003C/code> という文字列自体を表したいときは、 \u003Ccode>&amp;\u003C/code>\u000Aは \u003Ccode>&amp;amp;\u003C/code> と書かなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is an \u003Ccode>&amp;#x\u003C/code> not followed by a code point number",
+            "ja" : "\u003Ccode>&amp;#x\u003C/code> の後に符号位置の数値がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "character-reference-before-hexadecimal-number-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE HTML>&#x"
+            },
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE HTML>&#Xzza"
+            }
+         ]
+      },
+      "bare nero" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The string \u003Ccode>&amp;#\u003C/code> is used to introduce a character\u000Areference.  It must be followed by a decimal number or a\u000A\u003Ccode>x\u003C/code> character followed by a hexadecimal number,\u000Arepresenting the code point of a character, followed by a\u000A\u003Ccode>;\u003C/code> character.\u000A\u000A\u003C/p>\u003Cp>To represent a string \u003Ccode>&amp;#\u003C/code>, the \u003Ccode>&amp;\u003C/code>\u000Acharacter must be escaped as \u003Ccode>&amp;amp;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>文字列 \u003Ccode>&amp;#\u003C/code> は文字参照を表しています。\u000Aその後には文字の符号位置を表す十進数か、 \u003Ccode>x\u003C/code>\u000Aと十六進数があって、その後に \u003Ccode>;\u003C/code> が続かなければいけません。\u000A\u000A\u003C/p>\u003Cp>\u003Ccode>&amp;#\u003C/code> という文字列自体を表したいときは、 \u003Ccode>&amp;\u003C/code>\u000Aは \u003Ccode>&amp;amp;\u003C/code> と書かなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is an \u003Ccode>&amp;#\u003C/code> not followed by a code point number",
+            "ja" : "\u003Ccode>&amp;#\u003C/code> の後に符号位置の数値がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "character-reference-number-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE HTML>a&#"
+            },
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE HTML>a&#abx"
+            }
+         ]
+      },
+      "bare stago" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A \u003Ccode>&lt;\u003C/code> (\u003Ccode class=\u0022char\u0022>U\u002B003C\u003C/code> \u003Ccode class=\u0022charname\u0022>LESS-THAN SIGN\u003C/code>) character which is not\u000A    part of any markup appears in the input.\u000A\u000A    \u003C/p>\u003Cp>The \u003Ccode>&lt;\u003C/code> character as a data character must\u000A    be escaped as:\u000A    \u003C/p>\u000A    \u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;lt;\u003C/code>\u003C/pre>",
+            "ja" : "\u003Cp>文字 \u003Ccode>&lt;\u003C/code> (\u003Ccode class=\u0022char\u0022>U\u002B003C\u003C/code> \u003Ccode class=\u0022charname\u0022>LESS-THAN SIGN\u003C/code>) が出現しましたが、\u000A    正しいマーク付けの一部ではありません。\u003C/p>\u000A\u000A    \u003Cp>文字 \u003Ccode>&lt;\u003C/code> をデータ文字として表したい時は、\u000A    エスケープしなければなりません。\u003C/p>\u000A    \u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;lt;\u003C/code>\u003C/pre>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The \u003Ccode>&lt;\u003C/code> character is not followed by a tag name or a\u000A\u003Ccode>!\u003C/code>, \u003Ccode>/\u003C/code>, or \u003Ccode>?\u003C/code>",
+            "ja" : "文字 \u003Ccode>&lt;\u003C/code> の次がタグ名でも\u000A\u003Ccode>!\u003C/code>, \u003Ccode>/\u003C/code>, \u003Ccode>?\u003C/code> のいずれでもありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Whatpm::WebVTT::Parser" : 1
+         },
+         "parser_error_names" : {
+            "tag-open-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 16,
+               "input" : "\u003C!DOCTYPE HTML>\u003C\u0022"
+            }
+         ]
+      },
       "bogus DOCTYPE" : {
          "default_level" : "m",
          "desc" : {
@@ -135,7 +325,11 @@
             "after-doctype-public-identifier-else" : 1,
             "after-doctype-public-keyword-else" : 1,
             "after-doctype-system-identifier-else" : 1,
-            "after-doctype-system-keyword-else" : 1
+            "after-doctype-system-keyword-else" : 1,
+            "before-doctype-public-identifier-else" : 1,
+            "before-doctype-system-identifier-else" : 1,
+            "between-doctype-public-and-system-identifiers-else" : 1,
+            "doctype-else" : 1
          },
          "parser_tests" : [
             {
@@ -161,6 +355,54 @@
             {
                "index" : 67,
                "input" : "\u003C!DOCTYPE html PUBLIC \u0022abc\u0022 \u0022http://www.w3.org/TR/html4/strict.dtd\u0022?>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE html PUBLIC hoge>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE html SYSTEM hoge>"
+            },
+            {
+               "index" : 28,
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022hoge\u0022hoge>"
+            },
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022hoge\u0022 hoge>"
+            },
+            {
+               "index" : 9,
+               "input" : "\u003C!DOCTYPE!>"
+            }
+         ]
+      },
+      "bogus comment" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is a \u003Ccode>&lt;\u003C/code> (\u003Ccode>U\u002B003C\u003C/code> \u000A    \u003Ccode class=\u0022charname\u0022>LESS-THAN SIGN\u003C/code>) character\u000A    followed by a \u003Ccode>!\u003C/code> (\u003Ccode>U\u002B0021\u003C/code>\u000A    \u003Ccode class=\u0022charname\u0022>EXCLAMATION MARK\u003C/code>) character,\u000A    which is not followed by a \u003Ccode>--\u003C/code> or\u000A    \u003Ccode>DOCTYPE\u003C/code>.\u000A\u000A    \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A    \u003Cdt>Comments\u003C/dt>\u000A      \u003Cdd>In HTML document, comments must be introduced by\u000A      \u003Ccode class=\u0022example\u0022>&lt;!--\u003C/code> (\u003Ccode>&lt;!\u003C/code>\u000A      \u003Cem>immediately\u003C/em> followed\u000A      by \u003Cem>two\u003C/em> \u003Ccode>-\u003C/code>s) and must be terminated by\u000A      \u003Ccode class=\u0022example\u0022>--&gt;\u003C/code>.\u000A      Strings \u003Ccode>&lt;!\u003C/code> not followed\u000A      by \u003Ccode>--\u003C/code> and \u003Ccode>&lt;!-\u003C/code> not followed by\u000A      \u003Ccode>-\u003C/code> are not valid open delimiters for comments.\u003C/dd>\u000A    \u003Cdt>Marked sections, including \u003Ccode>CDATA\u003C/code> sections\u003C/dt>\u000A      \u003Cdd>Marked sections are not allowed in HTML elements.\u003C/dd>\u000A    \u003Cdt>Markup declarations\u003C/dt>\u000A      \u003Cdd>Markup declarations, except for \u003Ccode>DOCTYPE\u003C/code>\u000A      and comment declarations, are not allowed in HTML document.\u003C/dd>\u000A    \u003Cdt>String \u003Ccode>&lt;!\u003C/code>\u003C/dt>\u000A      \u003Cdd>String \u003Ccode>&lt;!\u003C/code> must be escaped as\u000A      \u003Ccode class=\u0022example\u0022>&amp;lt;!\u003C/code>.\u003C/dd>\u000A    \u003C/dl>",
+            "ja" : "\u003Cp>\u003Ccode>&lt;\u003C/code> (\u003Ccode>U\u002B003C\u003C/code> \u000A    \u003Ccode class=\u0022charname\u0022>LESS-THAN SIGN\u003C/code>) の後に\u000A    \u003Ccode>!\u003C/code> (\u003Ccode>U\u002B0021\u003C/code>\u000A    \u003Ccode class=\u0022charname\u0022>EXCLAMATION MARK\u003C/code>) がありますが、\u000A    その後が \u003Ccode>--\u003C/code> でも \u003Ccode>DOCTYPE\u003C/code> でもありません。\u000A\u000A    \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A    \u003Cdt>注釈\u000A      \u003C/dt>\u003Cdd>HTML では注釈は\u000A      \u003Ccode class=\u0022example\u0022>&lt;!--\u003C/code> (\u003Ccode>&lt;!\u003C/code>\u000A      の\u003Cem>直後\u003C/em>に \u003Ccode>-\u003C/code> \u003Cem>2つ\u003C/em>)\u000A      からはじまり、\u000A      \u003Ccode class=\u0022example\u0022>--&gt;\u003C/code> で終わらなければいけません。\u000A      \u003Ccode>&lt;!\u003C/code> だけや \u003Ccode>&lt;!-\u003C/code> だけでは、\u000A      ただしい注釈ではありません。\u000A    \u003C/dd>\u003Cdt>\u003Ccode>CDATA\u003C/code> 区間など、マーク付け区間\u000A      \u003C/dt>\u003Cdd>HTML 要素内ではマーク付け区間は使えません。\u000A    \u003C/dd>\u003Cdt>マーク付け宣言\u000A      \u003C/dt>\u003Cdd>HTML 文書では \u003Ccode>DOCTYPE\u003C/code> 宣言と注釈宣言を除き、\u000A      マーク付け宣言は使えません。\u000A    \u003C/dd>\u003Cdt>文字列 \u003Ccode>&lt;!\u003C/code>\u003C/dt>\u000A      \u003Cdd>文字列 \u003Ccode>&lt;!\u003C/code> を表したいときは、\u000A      \u003Ccode class=\u0022example\u0022>&amp;lt;!\u003C/code> とエスケープしないといけません。\u000A    \u003C/dd>\u003C/dl>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The \u003Ccode>&lt;!\u003C/code> is not followed by \u003Ccode>--\u003C/code>",
+            "ja" : "\u003Ccode>&lt;!\u003C/code> の後に \u003Ccode>--\u003C/code> がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "markup-declaration-open-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 17,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!HOGE>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!DOCTYPO>"
             }
          ]
       },
@@ -181,9 +423,19 @@
          "parser_error_names" : {
             "after-body-doctype" : 1,
             "after-frameset-doctype" : 1,
-            "after-head-doctype" : 1
+            "after-head-doctype" : 1,
+            "before-head-doctype" : 1,
+            "before-html-doctype" : 1
          },
          "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE html>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html>\u003Chtml>\u003C!DOCTYPE HTML>"
+            },
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE HTML>\u003C/body>\u003C!DOCTYPE HTML>"
@@ -195,6 +447,59 @@
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE HTML>\u003C/head>\u003C!DOCTYPE HTML>"
+            }
+         ]
+      },
+      "empty end tag" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In HTML, XML, and WebVTT, empty end tag, i.e. end\u000A    tag with no tag name, is not allowed.\u003C/p>\u000A    \u003Cp>To represent an end tag, specify the\u000A    tag name explicitly.\u003C/p>\u000A    \u003Cp>To represent a string with the \u003Ccode>&lt;\u003C/code> character,\u000A    use a character reference: \u003Ccode>&amp;lt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>HTML、XML、WebVTT では、タグ名の無い空の終了タグは認められていません。\u003C/p>\u000A    \u003Cp>終了タグを記述する時はタグ名も明示しなければなりません。\u003C/p>\u000A    \u003Cp>「\u003Ccode>&lt;\u003C/code>」という文字を使いたい時は文字参照\u000A    「\u003Ccode>&amp;lt;\u003C/code>」を使わなければなりません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is an empty end tag",
+            "ja" : "空の終了タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Whatpm::WebVTT::Parser" : 1
+         },
+         "parser_error_names" : {
+            "end-tag-open-003e" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003C/>"
+            }
+         ]
+      },
+      "nestc has no net" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>When an element is self-closing, the start tag must be closed by\u000A\u003Ccode>/&gt;\u003C/code>.  The \u003Ccode>/\u003C/code> character must be immediately\u000Afollowed by a \u003Ccode>&gt;\u003C/code> character.\u003C/p>",
+            "ja" : "\u003Cp>要素をその場で閉じて内容を空とするときは、\u000A開始タグは \u003Ccode>/&gt;\u003C/code> で終えなければいけません。\u000A\u003Ccode>/\u003C/code> の直後に \u003Ccode>&gt;\u003C/code> が必要です。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The tag is not closed by \u003Ccode>&gt;\u003C/code> after \u003Ccode>/\u003C/code>",
+            "ja" : "タグが \u003Ccode>/\u003C/code> の後 \u003Ccode>&gt;\u003C/code> で閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "self-closing-start-tag-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 19,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp / >"
+            },
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp/hoge>"
             }
          ]
       },
@@ -262,6 +567,57 @@
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE html system  >"
+            }
+         ]
+      },
+      "no DOCTYPE name" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The DOCTYPE must be \u003Ccode>&lt;!DOCTYPE html&gt;\u003C/code> (in HTML) or\u000Amust contain the root element name (in XML).\u003C/p>",
+            "ja" : "\u003Cp>DOCTYPE は \u003Ccode>&lt;!DOCTYPE html&gt;\u003C/code> とする (HTML)\u000Aか、根要素の名前を含める (XML) かしなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no document type name",
+            "ja" : "文書型名がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "before-doctype-name-003e" : 1
+         }
+      },
+      "no refc" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A character or entity reference must be terminated by a\u000A\u003Ccode>;\u003C/code> character.\u003C/p>",
+            "ja" : "\u003Cp>文字参照や実体参照の末尾には \u003Ccode>;\u003C/code> が必要です。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no \u003Ccode>;\u003C/code> at the end of a reference",
+            "ja" : "参照の末尾に \u003Ccode>;\u003C/code> がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "character-reference-decimal-number-else" : 1,
+            "character-reference-hexadecimal-number-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>&#125abc;"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>&#x125azabc;"
+            },
+            {
+               "index" : 19,
+               "input" : "\u003C!DOCTYPE HTML>&amp**"
             }
          ]
       },
@@ -387,6 +743,168 @@
             "EOF" : 1
          }
       },
+      "parser:comment closed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A comment must be closed by a \u003Ccode>--&gt;\u003C/code>, whose\u000A\u003Ccode>--\u003C/code> must not be the \u003Ccode>-\u003C/code>s in\u000A\u003Ccode>&lt;!--\u003C/code>.\u000A\u000A\u003C/p>\u003Cp>A comment's data cannot start with \u003Ccode>&gt;\u003C/code> or\u000A\u003Ccode>-&gt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>注釈は \u003Ccode>--&gt;\u003C/code> で閉じなければいけませんが、その中の\u000A\u003Ccode>--\u003C/code> は \u003Ccode>&lt;!--\u003C/code> の \u003Ccode>-\u003C/code>\u000Aと重複していてはいけません。\u000A\u000A\u003C/p>\u003Cp>注釈のデータを \u003Ccode>&gt;\u003C/code> や \u003Ccode>-&gt;\u003C/code>\u000Aで始めることはできません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The comment is closed by \u003Ccode>&gt;\u003C/code>",
+            "ja" : "注釈が \u003Ccode>&gt;\u003C/code> によって閉じられています"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "comment-start-003e" : 1,
+            "comment-start-dash-003e" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 19,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!-->"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--->"
+            }
+         ]
+      },
+      "parser:comment not closed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A comment must be closed by \u003Ccode>--&gt;\u003C/code>.  The comment's data\u000Acannot contain \u003Ccode>--\u003C/code>, even when it is not immediately\u000Afollowed by a \u003Ccode>&gt;\u003C/code> character.  The comment's data cannot end\u000Awith a \u003Ccode>-\u003C/code> character.\u003C/p>",
+            "ja" : "\u003Cp>注釈は \u003Ccode>--&gt;\u003C/code> で閉じなければいけません。\u000A注釈のデータには、 \u003Ccode>&gt;\u003C/code> が直後にないとしても、 \u003Ccode>--\u003C/code>\u000Aを含めてはいけません。注釈のデータが \u003Ccode>-\u003C/code>\u000Aで終わってはいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The comment contains \u003Ccode>--\u003C/code>",
+            "ja" : "注釈が \u003Ccode>--\u003C/code> を含んでいます"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "comment-end-0021" : 1,
+            "comment-end-002d" : 1,
+            "comment-end-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--!>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--->"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--b-->"
+            }
+         ]
+      },
+      "parser:literal not closed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The public or system identifier must be terminated by an\u000Aappropriate quotation mark before the declaration in which the\u000Aidentifier appears is closed by \u003Ccode>&gt;\u003C/code>.\u000A\u000A\u003C/p>\u003Cp>The public or system identifier cannot contain a \u003Ccode>&gt;\u003C/code>\u000Acharacter.\u003C/p>",
+            "ja" : "\u003Cp>公開識別子やシステム識別子は、宣言が \u003Ccode>&gt;\u003C/code>\u000Aで閉じられる前に適切な引用符で閉じなければいけません。\u000A\u000A\u003C/p>\u003Cp>公開識別子やシステム識別子に \u003Ccode>&gt;\u003C/code>\u000Aを含めることはできません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The quoted string is not terminated before the declaration\u000Ais closed",
+            "ja" : "宣言が閉じられる前に閉じ引用符がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "doctype-public-identifier-double-quoted-003e" : 1,
+            "doctype-public-identifier-single-quoted-003e" : 1,
+            "doctype-system-identifier-double-quoted-003e" : 1,
+            "doctype-system-identifier-single-quoted-003e" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022>\u0022>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022>\u0022>"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022\u0022 \u0022>\u0022>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML PUBLIC '>'>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML SYSTEM '>'>"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022\u0022 '>'>"
+            }
+         ]
+      },
+      "parser:no attr name" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An attribute in a start tag must have a name.  The attribute name\u000Acannot contain a \u003Ccode>=\u003C/code> character, as it is used to separate\u000Aattribute name and value.\u003C/p>",
+            "ja" : "\u003Cp>開始タグの属性には名前が必要です。属性名には \u003Ccode>=\u003C/code>\u000Aを含められません。 \u003Ccode>=\u003C/code> は属性名と属性値の区切りとして使われます。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The attribute name is missing before \u003Ccode>=\u003C/code>",
+            "ja" : "\u003Ccode>=\u003C/code> の前に属性名がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "before-attribute-name-003d" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE html>\u003Cp =foo>"
+            }
+         ]
+      },
+      "pio" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Processing instructions (\u003Ccode>&lt;?\u003Cvar>...\u003C/var>?&gt;\u003C/code>) and\u000Athe XML declaration (\u003Ccode>&lt;?xml \u003Cvar>...\u003C/var>?&gt;\u003C/code>) are not\u000Aallowed in HTML document.\u000A\u000A    \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A    \u003Cdt>\u003Ccode>&lt;?xml?&gt;\u003C/code> (XML declaration)\u003C/dt>\u000A        \u003Cdd>The XML declaration is not necessary in an HTML document.\u003C/dd>\u000A    \u003Cdt>\u003Ccode>&lt;?xml-stylesheet?&gt;\u003C/code> (XML style sheet declaration)\u000A        \u003C/dt>\u003Cdd>Use HTML \u003Ccode>link\u003C/code> element with \u003Ccode>rel\u003C/code>\u000A        attribute set to \u003Ccode>stylesheet\u003C/code> (or,\u000A        \u003Ccode>alternate stylesheet\u003C/code> for an alternative style \u000A        sheet).\u000A          \u003Cpre class=\u0022example html\u0022>\u000A\u003Ccode>&lt;link rel=stylesheet href=\u0022path/to/stylesheet.css\u0022&gt;\u003C/code>\u003C/pre>\u000A        \u003C/dd>\u000A    \u003Cdt>\u003Ccode>&lt;?php?&gt;\u003C/code> (\u003Cabbr>PHP\u003C/abbr> code)\u003C/dt>\u000A        \u003Cdd>PHP is not supported.  It must be interpreted within\u000A        server such that public documents must not contain any\u000A        PHP code.\u000A    \u003C/dd>\u003Cdt>Other processing instructions\u003C/dt>\u000A        \u003Cdd>Processing instructions cannot be inserted in an HTML\u000A        document.  If a processing instruction is required, use XML\u000A        with an appropriate MIME type\u000A        (e.g. \u003Ccode>application/xhtml\u002Bxml\u003C/code>).\u000A    \u003C/dd>\u003C/dl>",
+            "ja" : "\u003Cp>処理指令 (\u003Ccode>&lt;?\u003Cvar>...\u003C/var>?&gt;\u003C/code>) や\u000AXML 宣言 (\u003Ccode>&lt;?xml \u003Cvar>...\u003C/var>?&gt;\u003C/code>)\u000Aは HTML文書中では使えません。\u000A\u000A    \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A    \u003Cdt>\u003Ccode>&lt;?xml?&gt;\u003C/code> (XML 宣言)\u003C/dt>\u000A        \u003Cdd>XML 宣言は HTML 文書には不要です。\u000A    \u003C/dd>\u003Cdt>\u003Ccode>&lt;?xml-stylesheet?&gt;\u003C/code> (XML スタイルシート宣言)\u000A        \u003C/dt>\u003Cdd>HTML \u003Ccode>link\u003C/code> 要素の \u003Ccode>rel\u003C/code>\u000A        属性を \u003Ccode>stylesheet\u003C/code> (代替スタイルシートの場合は\u000A        \u003Ccode>alternate stylesheet\u003C/code>) にして使ってください。\u000A          \u003Cpre class=\u0022example html\u0022>\u000A\u003Ccode>&lt;link rel=stylesheet href=\u0022path/to/stylesheet.css\u0022&gt;\u003C/code>\u003C/pre>\u000A        \u003C/dd>\u000A    \u003Cdt>\u003Ccode>&lt;?php?&gt;\u003C/code> (\u003Cabbr>PHP\u003C/abbr> コード)\u003C/dt>\u000A        \u003Cdd>PHP には対応していません。 PHP はサーバー内で処理するものですから、\u000A        公開文書に PHP のコードが含まれていてはいけません。\u000A    \u003C/dd>\u003Cdt>その他の処理指令\u000A        \u003C/dt>\u003Cdd>処理指令は HTML 文書では使えません。\u000A        処理指令が必要なときは、適切な MIME 型\u000A        (\u003Ccode>application/xhtml\u002Bxml\u003C/code> など) で XML\u000A        を使ってください。\u000A    \u003C/dd>\u003C/dl>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is a processing instruction",
+            "ja" : "処理指令があります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "tag-open-003f" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 1,
+               "input" : "\u003C?xml version=\u00221.0\u0022?>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 16,
+               "input" : "\u003C!DOCTYPE HTML>\u003C?php print (\u0022Hello!\u0022)?>"
+            }
+         ]
+      },
       "stray end tag" : {
          "default_level" : "m",
          "desc" : {
@@ -403,9 +921,21 @@
          },
          "parser_error_names" : {
             "after-body-end-html" : 1,
-            "after-head-end-else" : 1
+            "after-head-end-else" : 1,
+            "before-head-end-else" : 1,
+            "before-html-end-else" : 1
          },
          "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE html>\u003C/hoge>",
+               "value" : "hoge"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html>\u003Chtml>\u003C/hoge>",
+               "value" : "hoge"
+            },
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE html>\u003C/head>\u003C/hoge>",
@@ -439,7 +969,10 @@
          },
          "parser_error_names" : {
             "after-attribute-name-003c" : 1,
-            "attribute-name-003c" : 1
+            "attribute-name-003c" : 1,
+            "attribute-value-unquoted-003c" : 1,
+            "before-attribute-name-003c" : 1,
+            "before-attribute-value-003c" : 1
          },
          "parser_tests" : [
             {
@@ -449,6 +982,18 @@
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE html>\u003Cp foo\u003Cbar>"
+            },
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE html>\u003Cp \u003Cbar>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=\u003Cbar>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=a\u003Cbar>"
             }
          ]
       }
@@ -484,48 +1029,48 @@
       "after-head-end-else" : "stray end tag",
       "after-head-start-b3lmnsstt" : "after head",
       "after-head-start-head" : "after head",
-      "attribute-name-0022" : null,
-      "attribute-name-0027" : null,
+      "attribute-name-0022" : "bad attribute name",
+      "attribute-name-0027" : "bad attribute name",
       "attribute-name-003c" : "tag not closed",
-      "attribute-value-unquoted-0022" : null,
-      "attribute-value-unquoted-0027" : null,
-      "attribute-value-unquoted-003c" : null,
-      "attribute-value-unquoted-003d" : null,
-      "attribute-value-unquoted-0060" : null,
-      "before-attribute-name-0022" : null,
-      "before-attribute-name-0027" : null,
-      "before-attribute-name-003c" : null,
-      "before-attribute-name-003d" : null,
-      "before-attribute-value-003c" : null,
-      "before-attribute-value-003d" : null,
-      "before-attribute-value-003e" : null,
-      "before-attribute-value-0060" : null,
-      "before-doctype-name-003e" : null,
+      "attribute-value-unquoted-0022" : "bad attribute value",
+      "attribute-value-unquoted-0027" : "bad attribute value",
+      "attribute-value-unquoted-003c" : "tag not closed",
+      "attribute-value-unquoted-003d" : "bad attribute value",
+      "attribute-value-unquoted-0060" : "bad attribute value",
+      "before-attribute-name-0022" : "bad attribute name",
+      "before-attribute-name-0027" : "bad attribute name",
+      "before-attribute-name-003c" : "tag not closed",
+      "before-attribute-name-003d" : "parser:no attr name",
+      "before-attribute-value-003c" : "tag not closed",
+      "before-attribute-value-003d" : "bad attribute value",
+      "before-attribute-value-003e" : "bad attribute value",
+      "before-attribute-value-0060" : "bad attribute value",
+      "before-doctype-name-003e" : "no DOCTYPE name",
       "before-doctype-public-identifier-003e" : "no DOCTYPE literal",
-      "before-doctype-public-identifier-else" : null,
+      "before-doctype-public-identifier-else" : "bogus DOCTYPE",
       "before-doctype-system-identifier-003e" : "no DOCTYPE literal",
-      "before-doctype-system-identifier-else" : null,
-      "before-head-doctype" : null,
-      "before-head-end-else" : null,
-      "before-html-doctype" : null,
-      "before-html-end-else" : null,
-      "between-doctype-public-and-system-identifiers-else" : null,
-      "character-reference-before-hexadecimal-number-else" : null,
-      "character-reference-decimal-number-else" : null,
-      "character-reference-hexadecimal-number-else" : null,
-      "character-reference-number-else" : null,
-      "comment-end-0021" : null,
-      "comment-end-002d" : null,
-      "comment-end-else" : null,
-      "comment-start-003e" : null,
-      "comment-start-dash-003e" : null,
-      "doctype-else" : null,
-      "doctype-public-identifier-double-quoted-003e" : null,
-      "doctype-public-identifier-single-quoted-003e" : null,
-      "doctype-system-identifier-double-quoted-003e" : null,
-      "doctype-system-identifier-single-quoted-003e" : null,
-      "end-tag-open-003e" : null,
-      "end-tag-open-else" : null,
+      "before-doctype-system-identifier-else" : "bogus DOCTYPE",
+      "before-head-doctype" : "doctype:bad context",
+      "before-head-end-else" : "stray end tag",
+      "before-html-doctype" : "doctype:bad context",
+      "before-html-end-else" : "stray end tag",
+      "between-doctype-public-and-system-identifiers-else" : "bogus DOCTYPE",
+      "character-reference-before-hexadecimal-number-else" : "bare hcro",
+      "character-reference-decimal-number-else" : "no refc",
+      "character-reference-hexadecimal-number-else" : "no refc",
+      "character-reference-number-else" : "bare nero",
+      "comment-end-0021" : "parser:comment not closed",
+      "comment-end-002d" : "parser:comment not closed",
+      "comment-end-else" : "parser:comment not closed",
+      "comment-start-003e" : "parser:comment closed",
+      "comment-start-dash-003e" : "parser:comment closed",
+      "doctype-else" : "bogus DOCTYPE",
+      "doctype-public-identifier-double-quoted-003e" : "parser:literal not closed",
+      "doctype-public-identifier-single-quoted-003e" : "parser:literal not closed",
+      "doctype-system-identifier-double-quoted-003e" : "parser:literal not closed",
+      "doctype-system-identifier-single-quoted-003e" : "parser:literal not closed",
+      "end-tag-open-003e" : "empty end tag",
+      "end-tag-open-else" : "bare etago",
       "in-body-doctype" : null,
       "in-body-end-a3bbcd5f4hhlmmnopssu" : null,
       "in-body-end-a3bbcd5f4hhlmmnopssu-2" : null,
@@ -635,10 +1180,10 @@
       "in-template-eof" : null,
       "initial-doctype" : "obs DOCTYPE",
       "initial-else" : "no DOCTYPE",
-      "markup-declaration-open-else" : null,
-      "self-closing-start-tag-else" : null,
-      "tag-open-003f" : null,
-      "tag-open-else" : null,
+      "markup-declaration-open-else" : "bogus comment",
+      "self-closing-start-tag-else" : "nestc has no net",
+      "tag-open-003f" : "pio",
+      "tag-open-else" : "bare stago",
       "text-eof" : null
    }
 }
