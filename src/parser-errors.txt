@@ -77,6 +77,12 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 
 !!!
 <!DOCTYPE html></head>$$</hoge>
+!value=hoge
+
+!!!
+!context=html
+</body>$$</html>
+!value=html
 
 * obs DOCTYPE
 
@@ -106,7 +112,7 @@ $$<!DOCTYPE html4>
 $$<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 !!!
-$$<!DOCTYPE HTML system "hoge fuga">
+$$<!DOCTYPE HTML system "about:legacy-compat">
 
 * bogus DOCTYPE
 
@@ -144,10 +150,10 @@ DOCTYPE 内におかしな文字列があります。 DOCTYPE は
 <!DOCTYPE html SYSTEM?>
 
 !!!
-<!DOCTYPE html system ""@p>
+<!DOCTYPE html system "about:legacy-compat"@p>
 
 !!!
-<!DOCTYPE html PUBLIC "" ""?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"?>
 
 * no space before literal
 
@@ -175,22 +181,22 @@ string, and between two quoted strings.
 1つ以上空白文字が必要です。
 
 !!!
-<!DOCTYPE html PUBLIC$$"">
+<!DOCTYPE html PUBLIC$$"-//W3C//DTD HTML 4.01//EN">
 
 !!!
-<!DOCTYPE html SYSTEM$$"">
+<!DOCTYPE html SYSTEM$$"about:legacy-compat">
 
 !!!
-<!DOCTYPE html PUBLIC "ab"$$"xy">
+<!DOCTYPE html PUBLIC ""$$"about:legacy-compat">
 
 !!!
-<!DOCTYPE html PUBLIC$$''>
+<!DOCTYPE html PUBLIC$$'-//W3C//DTD HTML 4.01//EN'>
 
 !!!
-<!DOCTYPE html SYSTEM$$''>
+<!DOCTYPE html SYSTEM$$'about:legacy-compat'>
 
 !!!
-<!DOCTYPE html PUBLIC "ab"$$'xy'>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"$$'http://www.w3.org/TR/html4/strict.dtd'>
 
 * no DOCTYPE literal
 

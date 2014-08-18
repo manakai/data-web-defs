@@ -51,7 +51,11 @@ sub parse_file ($) {
     } elsif (defined $last_lang) {
       ($Data->{errors}->{$error_type}->{$key_by_lang->{$last_lang}}->{$last_lang} //= '') .= "\x0A" . $_;
     } elsif ($in_test) {
-      $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{input} .= "\x0A" . $_;
+      if (/^!(\w+)=(.*)$/) {
+        $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{$1} = $2;
+      } else {
+        $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{input} .= "\x0A" . $_;
+      }
     } elsif (defined $error_type and /^(name)=(\S+)$/) {
       my $error_name = $2;
       if (defined $Data->{parser_error_name_to_error_type}->{$error_name}) {

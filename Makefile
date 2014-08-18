@@ -314,7 +314,8 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
 	!(grep '"FIELD"' $@ > /dev/null)
 	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
-    bin/expand-tree-constructor.pl data/elements.json
+    bin/expand-tree-constructor.pl data/elements.json \
+    intermediate/errors/parser-errors.json
 	NO_ISINDEX=1 \
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep 'isindex' $@ > /dev/null)
