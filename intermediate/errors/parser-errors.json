@@ -18,6 +18,31 @@
             "NULL" : 1
          }
       },
+      "after head" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is a start tag of an element that should be a child of the\u000A\u003Ccode>head\u003C/code> element, or another \u003Ccode>&lt;head&gt;\u003C/code> start\u000Atag, after the \u003Ccode>&lt;/head&gt;\u003C/code> end tag.\u000A\u000A\u003C/p>\u003Cp>Only white space characters and comments are allowed between the\u000A\u003Ccode>&lt;/head&gt;\u003C/code> end tag and the \u003Ccode>&lt;body&gt;\u003C/code> start\u000Atag.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>head\u003C/code> 要素の子供となるべき要素の開始タグが、\u000A\u003Ccode>&lt;/head&gt;\u003C/code> 終了タグよりも後にあります。\u000A\u000A\u003C/p>\u003Cp>\u003Ccode>&lt;/head&gt;\u003C/code> 終了タグと \u003Ccode>&lt;body&gt;\u003C/code>\u000A開始タグの間には空白文字と注釈しか書けません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start-tag \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> after the\u000A\u003Ccode>&lt;/head&gt;\u003C/code> end tag",
+            "ja" : "開始タグ \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> が終了タグ\u000A\u003Ccode>&lt;/head&gt;\u003C/code> より後にあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-head-start-b3lmnsstt" : 1,
+            "after-head-start-head" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE html>\u003C/head>\u003Clink>"
+            }
+         ]
+      },
       "after-after-body-else" : {
          "default_level" : "m",
          "desc" : {
@@ -83,11 +108,59 @@
          "parser_tests" : [
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>"
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>\u003C/foo>"
             },
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar ''>"
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar '>\u003C/foo>"
+            }
+         ]
+      },
+      "bogus DOCTYPE" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is a bogus string within the DOCTYPE.  The DOCTYPE must be\u000A\u003Ccode>&lt;!DOCTYPE HTML&gt;\u003C/code>.  No other string is required.\u003C/p>",
+            "ja" : "DOCTYPE 内におかしな文字列があります。 DOCTYPE は\u000A\u003Ccode>&lt;!DOCTYPE HTML&gt;\u003C/code> だけでよく、\u000Aそれ以外の文字列を書いてはいけません。"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is a bogus string in the DOCTYPE",
+            "ja" : "DOCTYPE 内におかしな文字列があります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-doctype-name-else" : 1,
+            "after-doctype-public-identifier-else" : 1,
+            "after-doctype-public-keyword-else" : 1,
+            "after-doctype-system-identifier-else" : 1,
+            "after-doctype-system-keyword-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE html !>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE html PUBLIC!>"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE html \u0022a\u0022!>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE html SYSTEM?>"
+            },
+            {
+               "index" : 27,
+               "input" : "\u003C!DOCTYPE html system \u0022\u0022@p>"
+            },
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022\u0022 \u0022\u0022?>"
             }
          ]
       },
@@ -107,8 +180,23 @@
          },
          "parser_error_names" : {
             "after-body-doctype" : 1,
-            "after-frameset-doctype" : 1
-         }
+            "after-frameset-doctype" : 1,
+            "after-head-doctype" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003C/body>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 36,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>\u003C/frameset>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003C/head>\u003C!DOCTYPE HTML>"
+            }
+         ]
       },
       "no DOCTYPE" : {
          "default_level" : "m",
@@ -135,6 +223,113 @@
             {
                "index" : 7,
                "input" : "\u003C!---->hoge"
+            }
+         ]
+      },
+      "no DOCTYPE literal" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be a quoted string after the \u003Ccode>PUBLIC\u003C/code> or\u000A\u003Ccode>SYSTEM\u003C/code> keyword, containing the public or system\u000Aidentifier.\u003C/p>",
+            "ja" : "\u003Cp>キーワード \u003Ccode>PUBLIC\u003C/code> や \u003Ccode>SYSTEM\u003C/code>\u000Aの後には、公開識別子かシステム識別子を引用符で括った文字列がなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no quoted string",
+            "ja" : "引用符で括られた文字列がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-doctype-public-keyword-003e" : 1,
+            "after-doctype-system-keyword-003e" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 16,
+               "input" : "\u003C!DOCTYPE PUBLIC>"
+            },
+            {
+               "index" : 17,
+               "input" : "\u003C!DOCTYPE PUBLIC >"
+            },
+            {
+               "index" : 16,
+               "input" : "\u003C!DOCTYPE system>"
+            },
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE system  >"
+            }
+         ]
+      },
+      "no space before attr name" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be one or more white space characters between\u000A    attributes and before the first attribute.\u003C/p>\u000A\u000A    \u003Cp>Character \u003Ccode>U\u002B000C\u003C/code> cannot be used as a space before\u000A    an attribute in an HTML document.\u003C/p>\u000A\u000A    \u003Cp>Characters \u003Ccode>U\u002B0085\u003C/code> and \u003Ccode>U\u002B202B\u003C/code> cannot\u000A    be used as a space before an attribute in an HTML or XML 1.0\u000A    document.\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no space before an attribute\u000A属性の前に空白がありません",
+            "ja" : "\u003Cp>属性の間や最初の属性の前には空白文字が1つ以上必要です。\u003C/p>\u000A\u000A    \u003Cp>文字 \u003Ccode>U\u002B000C\u003C/code> を XML 文書の属性の前の空白として使うことはできません。\u003C/p>\u000A\u000A    \u003Cp>文字 \u003Ccode>U\u002B0085\u003C/code> や文字 \u003Ccode>U\u002B202B\u003C/code>\u000A    を HTML や XML 1.0 の文書の属性の前の空白として使うことはできません。\u003C/p>"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-attribute-value-quoted-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo=\u0022\u0022bar=\u0022\u0022>"
+            }
+         ]
+      },
+      "no space before literal" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be one or more white space characters between the\u000Akeyword \u003Ccode>PUBLIC\u003C/code> or \u003Ccode>SYSTEM\u003C/code> and the quoted\u000Astring, and between two quoted strings.\u003C/p>",
+            "ja" : "\u003Cp>キーワード \u003Ccode>PUBLIC\u003C/code> や \u003Ccode>SYSTEM\u003C/code>\u000Aとその後の括られた文字列の間や、括られた文字列2つの間には、\u000A1つ以上空白文字が必要です。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no space before a quoted string",
+            "ja" : "括られた文字列の前に空白がありません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-doctype-public-identifier-0027" : 1,
+            "after-doctype-public-keyword-0022" : 1,
+            "after-doctype-system-keyword-0022" : 1,
+            "after-doctype-system-keyword-0027" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html PUBLIC\u0022\u0022>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html SYSTEM\u0022\u0022>"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022ab\u0022\u0022xy\u0022>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html PUBLIC''>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html SYSTEM''>"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022ab\u0022'xy'>"
             }
          ]
       },
@@ -203,11 +398,42 @@
             "Web::HTML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
-            "after-body-end-html" : 1
+            "after-body-end-html" : 1,
+            "after-head-end-else" : 1
          },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE html>\u003C/head>\u003C/hoge>"
+            }
+         ],
          "value" : [
             "field",
             "tag name"
+         ]
+      },
+      "tag not closed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A start or end tag must be closed by a \u003Ccode>&gt;\u003C/code> character\u000Abefore following text or another tag.\u000A\u000A\u003C/p>\u003Cp>A bare \u003Ccode>&lt;\u003C/code> character cannot be used in start or end\u000Atags (except within quoted attribute values).\u003C/p>",
+            "ja" : "\u003Cp>開始タグや終了タグは、次のテキストや他のタグの前に文字\u000A\u003Ccode>&gt;\u003C/code> で閉じなければいけません。\u000A\u000A\u003C/p>\u003Cp>文字 \u003Ccode>&lt;\u003C/code> をそのまま開始タグや終了タグの中\u000A(括られた属性値以外) で使ってはいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "Tag is not closed",
+            "ja" : "タグが閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-attribute-name-003c" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo\u003Cbar>"
+            }
          ]
       }
    },
@@ -218,30 +444,30 @@
       "after-after-frameset-else" : "after-after-body-else",
       "after-attribute-name-0022" : "attr:no =",
       "after-attribute-name-0027" : "attr:no =",
-      "after-attribute-name-003c" : null,
-      "after-attribute-value-quoted-else" : null,
+      "after-attribute-name-003c" : "tag not closed",
+      "after-attribute-value-quoted-else" : "no space before attr name",
       "after-body-doctype" : "doctype:bad context",
       "after-body-else" : "after-body-else",
       "after-body-end-html" : "stray end tag",
-      "after-doctype-name-else" : null,
+      "after-doctype-name-else" : "bogus DOCTYPE",
       "after-doctype-public-identifier-0022" : null,
-      "after-doctype-public-identifier-0027" : null,
-      "after-doctype-public-identifier-else" : null,
-      "after-doctype-public-keyword-0022" : null,
+      "after-doctype-public-identifier-0027" : "no space before literal",
+      "after-doctype-public-identifier-else" : "bogus DOCTYPE",
+      "after-doctype-public-keyword-0022" : "no space before literal",
       "after-doctype-public-keyword-0027" : null,
-      "after-doctype-public-keyword-003e" : null,
-      "after-doctype-public-keyword-else" : null,
-      "after-doctype-system-identifier-else" : null,
-      "after-doctype-system-keyword-0022" : null,
-      "after-doctype-system-keyword-0027" : null,
-      "after-doctype-system-keyword-003e" : null,
-      "after-doctype-system-keyword-else" : null,
+      "after-doctype-public-keyword-003e" : "no DOCTYPE literal",
+      "after-doctype-public-keyword-else" : "bogus DOCTYPE",
+      "after-doctype-system-identifier-else" : "bogus DOCTYPE",
+      "after-doctype-system-keyword-0022" : "no space before literal",
+      "after-doctype-system-keyword-0027" : "no space before literal",
+      "after-doctype-system-keyword-003e" : "no DOCTYPE literal",
+      "after-doctype-system-keyword-else" : "bogus DOCTYPE",
       "after-frameset-doctype" : "doctype:bad context",
       "after-frameset-else" : "after-body-else",
-      "after-head-doctype" : null,
-      "after-head-end-else" : null,
-      "after-head-start-b3lmnsstt" : null,
-      "after-head-start-head" : null,
+      "after-head-doctype" : "doctype:bad context",
+      "after-head-end-else" : "stray end tag",
+      "after-head-start-b3lmnsstt" : "after head",
+      "after-head-start-head" : "after head",
       "attribute-name-0022" : null,
       "attribute-name-0027" : null,
       "attribute-name-003c" : null,
