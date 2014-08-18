@@ -46,12 +46,12 @@ sub parse_file ($) {
     } elsif (defined $error_type and /^!!!$/) {
       $in_test = 1;
       $last_lang = undef;
-      push @{$Data->{errors}->{$error_type}->{tests} ||= []},
+      push @{$Data->{errors}->{$error_type}->{parser_tests} ||= []},
           {input => ''};
     } elsif (defined $last_lang) {
       ($Data->{errors}->{$error_type}->{$key_by_lang->{$last_lang}}->{$last_lang} //= '') .= "\x0A" . $_;
     } elsif ($in_test) {
-      $Data->{errors}->{$error_type}->{tests}->[-1]->{input} .= "\x0A" . $_;
+      $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{input} .= "\x0A" . $_;
     } elsif (defined $error_type and /^(name)=(\S+)$/) {
       my $error_name = $2;
       if (defined $Data->{parser_error_name_to_error_type}->{$error_name}) {
@@ -59,7 +59,11 @@ sub parse_file ($) {
       }
       $Data->{errors}->{$error_type}->{parser_error_names}->{$error_name} = 1;
       $Data->{parser_error_name_to_error_type}->{$error_name} = $error_type;
-    } elsif (defined $error_type and /^(value|text|layer|default_level)=(\S+)$/) {
+    } elsif (defined $error_type and /^(value|text)=(\S+)$/) {
+      my ($n, $v) = ($1, $2);
+      $v =~ tr/-_/  /;
+      $Data->{errors}->{$error_type}->{$n} = $v;
+    } elsif (defined $error_type and /^(layer|default_level)=(\S+)$/) {
       $Data->{errors}->{$error_type}->{$1} = $2;
     } elsif (/\S/) {
       die "Broken line |$_|";

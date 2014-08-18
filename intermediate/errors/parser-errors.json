@@ -36,10 +36,9 @@
             "after-after-body-else" : 1,
             "after-after-frameset-else" : 1
          },
-         "tests" : [
+         "parser_tests" : [
             {
-               "index" : 22,
-               "input" : "\u003C!DOCTYPE html>\u003C/html>\u003Cp>"
+               "input" : "\u000A\u003C!DOCTYPE html>\u003C/html>$$\u003Cp>\u000A"
             }
          ]
       },
@@ -80,14 +79,12 @@
             "after-attribute-name-0022" : 1,
             "after-attribute-name-0027" : 1
          },
-         "tests" : [
+         "parser_tests" : [
             {
-               "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>"
+               "input" : "\u000A\u003C!DOCTYPE html>\u003Cfoo bar $$\u0022>\u000A"
             },
             {
-               "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar ''>"
+               "input" : "\u000A\u003C!DOCTYPE html>\u003Cfoo bar $$''>"
             }
          ]
       },
@@ -127,14 +124,12 @@
          "parser_error_names" : {
             "initial-else" : 1
          },
-         "tests" : [
+         "parser_tests" : [
             {
-               "index" : 0,
-               "input" : "hoge"
+               "input" : "\u000A$$hoge\u000A"
             },
             {
-               "index" : 7,
-               "input" : "\u003C!---->hoge"
+               "input" : "\u000A\u003C!---->$$hoge\u000A"
             }
          ]
       },
@@ -155,18 +150,15 @@
          "parser_error_names" : {
             "initial-doctype" : 1
          },
-         "tests" : [
+         "parser_tests" : [
             {
-               "index" : 0,
-               "input" : "\u003C!DOCTYPE html4>"
+               "input" : "\u000A$$\u003C!DOCTYPE html4>\u000A"
             },
             {
-               "index" : 0,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022-//W3C//DTD HTML 4.01 Transitional//EN\u0022>"
+               "input" : "\u000A$$\u003C!DOCTYPE html PUBLIC \u0022-//W3C//DTD HTML 4.01 Transitional//EN\u0022>\u000A"
             },
             {
-               "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML system \u0022hoge fuga\u0022>"
+               "input" : "\u000A$$\u003C!DOCTYPE HTML system \u0022hoge fuga\u0022>\u000A"
             }
          ]
       },
@@ -205,7 +197,7 @@
          "parser_error_names" : {
             "after-body-end-html" : 1
          },
-         "value" : "tag_name"
+         "value" : "tag name"
       }
    },
    "parser_error_name_to_error_type" : {
