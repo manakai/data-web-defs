@@ -1030,19 +1030,36 @@ for my $im (keys %{$Data->{ims}}) {
   }
 } # $im
 
-for my $im (keys %{$Data->{ims}}) {
-  for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
-    for_actions {
-      my $acts = shift;
-      for my $act (@$acts) {
-        if ($act->{type} eq 'parse error') {
-          unless (defined $act->{name}) {
-            die "No parse error name in |$im| |$cond|";
+## Merge error type data
+{
+  my $json = json_bytes2perl path (__FILE__)->parent->parent->child
+      ('intermediate/errors/parser-errors.json')->slurp;
+  for my $im (keys %{$Data->{ims}}) {
+    for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
+      $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          if ($act->{type} eq 'parse error') {
+            unless (defined $act->{name}) {
+              die "No parse error name in |$im| |$cond|";
+            }
+
+            my $type = $json->{parser_error_name_to_error_type}->{$act->{name}};
+            if (defined $type) {
+              $act->{error_type} = $type;
+              my $def = $json->{errors}->{$type};
+              $act->{error_text} = $def->{text} if defined $def->{text};
+              $act->{error_value} = $def->{value} if defined $def->{value};
+            } else {
+              push @{$Data->{_errors} ||= []},
+                  sprintf 'Error type for parse error "%s" not defined',
+                      $act->{name};
+            }
           }
         }
-      }
-      return $acts;
-    } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+        return $acts;
+      } $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
+    }
   }
 }
 

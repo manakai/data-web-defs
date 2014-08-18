@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use JSON::PS;
+use Path::Tiny;
 
 local $/ = undef;
 my $Data = {tokenizer => (json_bytes2perl <>)->{tokenizer}};
@@ -407,6 +408,39 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
 
 $Data->{tokenizer}->{tokens}->{'text token'} = delete $Data->{tokenizer}->{tokens}->{'character token'};
 $Data->{tokenizer}->{tokens}->{'text token'}->{short_name} = 'TEXT';
+
+## Merge error type data
+{
+  my $json = json_bytes2perl path (__FILE__)->parent->parent->child
+      ('intermediate/errors/parser-errors.json')->slurp;
+  
+  my @value = ($Data);
+  while (@value) {
+    my $value = shift @value;
+    next unless defined $value;
+    if (ref $value eq 'HASH') {
+      if (defined $value->{type} and $value->{type} eq 'parse error') {
+        if (defined $value->{name}) {
+          my $type = $json->{parser_error_name_to_error_type}->{$value->{name}};
+          if (defined $type) {
+            $value->{error_type} = $type;
+            my $def = $json->{errors}->{$type};
+            $value->{error_text} = $def->{text} if defined $def->{text};
+            $value->{error_value} = $def->{value} if defined $def->{value};
+          } else {
+            push @{$Data->{_errors} ||= []},
+                sprintf 'Error type for parse error "%s" not defined',
+                    $value->{name};
+          }
+        }
+      } else {
+        unshift @value, values %$value;
+      }
+    } elsif (ref $value eq 'ARRAY') {
+      unshift @value, @$value;
+    }
+  }
+}
 
 ## Cleanup
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
