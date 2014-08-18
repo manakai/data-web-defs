@@ -69,6 +69,8 @@ sub parse_file ($) {
       $Data->{errors}->{$error_type}->{$n} = ['field', $v];
     } elsif (defined $error_type and /^(layer|default_level)=(\S+)$/) {
       $Data->{errors}->{$error_type}->{$1} = $2;
+    } elsif (defined $error_type and /^(module)=(\S+)$/) {
+      $Data->{errors}->{$error_type}->{$1.'s'}->{$2} = 1;
     } elsif (/\S/) {
       die "Broken line |$_|";
     }
