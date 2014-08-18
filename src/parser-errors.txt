@@ -38,6 +38,7 @@ Unexpected end of file in a tag or declaration
 * stray end tag
 
 name=after-body-end-html
+name=after-head-end-else
 value=tag_name
 
 @en
@@ -74,6 +75,9 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 <code>param</code>, <code>source</code>, <code>track</code>,
 <code>wbr</code>。</p>
 
+!!!
+<!DOCTYPE html></head>$$</hoge>
+
 * obs DOCTYPE
 
 name=initial-doctype
@@ -103,6 +107,123 @@ $$<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 
 !!!
 $$<!DOCTYPE HTML system "hoge fuga">
+
+* bogus DOCTYPE
+
+name=after-doctype-name-else
+name=after-doctype-public-identifier-else
+name=after-doctype-public-keyword-else
+name=after-doctype-system-identifier-else
+name=after-doctype-system-keyword-else
+
+@en
+There is a bogus string in the DOCTYPE
+@ja
+DOCTYPE 内におかしな文字列があります
+
+@en
+
+<p>There is a bogus string within the DOCTYPE.  The DOCTYPE must be
+<code>&lt;!DOCTYPE&#x20;HTML></code>.  No other string is required.
+
+@ja
+DOCTYPE 内におかしな文字列があります。 DOCTYPE は
+<code>&lt;!DOCTYPE&#x20;HTML></code> だけでよく、
+それ以外の文字列を書いてはいけません。
+
+!!!
+<!DOCTYPE html $$!>
+
+!!!
+<!DOCTYPE html PUBLIC!>
+
+!!!
+<!DOCTYPE html "a"!>
+
+!!!
+<!DOCTYPE html SYSTEM?>
+
+!!!
+<!DOCTYPE html system ""@p>
+
+!!!
+<!DOCTYPE html PUBLIC "" ""?>
+
+* no space before literal
+
+name=after-doctype-public-keyword-0022
+name=after-doctype-public-identifier-0027
+name=after-doctype-system-keyword-0022
+name=after-doctype-system-keyword-0027
+
+@en
+There is no space before a quoted string
+@ja
+括られた文字列の前に空白がありません
+
+@en
+
+<p>There must be one or more white space characters between the
+keyword <code>PUBLIC</code> or <code>SYSTEM</code> and the quoted
+string, and between two quoted strings.
+
+@ja
+
+
+<p>キーワード <code>PUBLIC</code> や <code>SYSTEM</code>
+とその後の括られた文字列の間や、括られた文字列2つの間には、
+1つ以上空白文字が必要です。
+
+!!!
+<!DOCTYPE html PUBLIC$$"">
+
+!!!
+<!DOCTYPE html SYSTEM$$"">
+
+!!!
+<!DOCTYPE html PUBLIC "ab"$$"xy">
+
+!!!
+<!DOCTYPE html PUBLIC$$''>
+
+!!!
+<!DOCTYPE html SYSTEM$$''>
+
+!!!
+<!DOCTYPE html PUBLIC "ab"$$'xy'>
+
+* no DOCTYPE literal
+
+name=after-doctype-public-keyword-003e
+name=after-doctype-system-keyword-003e
+
+@en
+There is no quoted string
+@ja
+引用符で括られた文字列がありません
+
+@en
+
+<p>There must be a quoted string after the <code>PUBLIC</code> or
+<code>SYSTEM</code> keyword, containing the public or system
+identifier.
+
+@ja
+
+<p>キーワード <code>PUBLIC</code> や <code>SYSTEM</code>
+の後には、公開識別子かシステム識別子を引用符で括った文字列がなければいけません。
+
+!!!
+<!DOCTYPE PUBLIC$$>
+
+!!!
+<!DOCTYPE PUBLIC $$>
+
+!!!
+<!DOCTYPE system$$>
+
+!!!
+<!DOCTYPE system  $$>
 
 * no DOCTYPE
 
@@ -136,6 +257,7 @@ $$hoge
 
 name=after-body-doctype
 name=after-frameset-doctype
+name=after-head-doctype
 
 @en
 The DOCTYPE is not at the beginning of the document
@@ -152,6 +274,13 @@ or within an element.
 
 <p>DOCTYPE の前に置けるのは空白と注釈だけです。DOCTYPE が2つあったり、
 要素の中にあったりしてはいけません。
+
+!!!
+<!DOCTYPE HTML></body>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><frameset></frameset>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML></head>$$<!DOCTYPE HTML>
 
 * after-after-body-else
 
@@ -222,7 +351,100 @@ value.
 を属性名や括られていない属性値に使うことはできません。
 
 !!!
-<!DOCTYPE html><foo bar $$">
+<!DOCTYPE html><foo bar $$"></foo>
 
 !!!
-<!DOCTYPE html><foo bar $$''>
+<!DOCTYPE html><foo bar $$'></foo>
+
+* tag not closed
+
+name=after-attribute-name-003c
+
+@en
+Tag is not closed
+@ja
+タグが閉じられていません
+
+@en
+
+<p>A start or end tag must be closed by a <code>></code> character
+before following text or another tag.
+
+<p>A bare <code>&lt;</code> character cannot be used in start or end
+tags (except within quoted attribute values).
+
+@ja
+
+<p>開始タグや終了タグは、次のテキストや他のタグの前に文字
+<code>></code> で閉じなければいけません。
+
+<p>文字 <code>&lt;</code> をそのまま開始タグや終了タグの中
+(括られた属性値以外) で使ってはいけません。
+
+!!!
+<!DOCTYPE html><p foo$$<bar>
+
+* no space before attr name
+
+name=after-attribute-value-quoted-else
+
+@en
+There is no space before an attribute
+属性の前に空白がありません
+
+@en
+
+    <p>There must be one or more white space characters between
+    attributes and before the first attribute.</p>
+
+    <p>Character <code>U+000C</code> cannot be used as a space before
+    an attribute in an HTML document.</p>
+
+    <p>Characters <code>U+0085</code> and <code>U+202B</code> cannot
+    be used as a space before an attribute in an HTML or XML 1.0
+    document.</p>
+
+@ja
+
+    <p>属性の間や最初の属性の前には空白文字が1つ以上必要です。</p>
+
+    <p>文字 <code>U+000C</code> を XML 文書の属性の前の空白として使うことはできません。</p>
+
+    <p>文字 <code>U+0085</code> や文字 <code>U+202B</code>
+    を HTML や XML 1.0 の文書の属性の前の空白として使うことはできません。</p>
+
+!!!
+<!DOCTYPE html><p foo=""$$bar="">
+
+* after head
+
+name=after-head-start-b3lmnsstt
+name=after-head-start-head
+
+@en
+There is a start-tag <code>&lt;<var>{text}</var>></code> after the
+<code>&lt;/head></code> end tag
+@ja
+開始タグ <code>&lt;<var>{text}</var>></code> が終了タグ
+<code>&lt;/head></code> より後にあります
+
+@en
+
+<p>There is a start tag of an element that should be a child of the
+<code>head</code> element, or another <code>&lt;head></code> start
+tag, after the <code>&lt;/head></code> end tag.
+
+<p>Only white space characters and comments are allowed between the
+<code>&lt;/head></code> end tag and the <code>&lt;body></code> start
+tag.
+
+@ja
+
+<p><code>head</code> 要素の子供となるべき要素の開始タグが、
+<code>&lt;/head></code> 終了タグよりも後にあります。
+
+<p><code>&lt;/head></code> 終了タグと <code>&lt;body></code>
+開始タグの間には空白文字と注釈しか書けません。
+
+!!!
+<!DOCTYPE html></head>$$<link>
