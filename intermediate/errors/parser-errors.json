@@ -474,7 +474,14 @@
             "after-head-doctype" : 1,
             "before-head-doctype" : 1,
             "before-html-doctype" : 1,
-            "in-body-doctype" : 1
+            "in-body-doctype" : 1,
+            "in-column-group-doctype" : 1,
+            "in-foreign-content-doctype" : 1,
+            "in-frameset-doctype" : 1,
+            "in-head-doctype" : 1,
+            "in-head-noscript-doctype" : 1,
+            "in-select-doctype" : 1,
+            "in-table-doctype" : 1
          },
          "parser_tests" : [
             {
@@ -500,7 +507,166 @@
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 32,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccolgroup>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003C!DOCTYPE HTML>",
+               "noscript" : 1
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C!DOCTYPE HTML>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C!DOCTYPE HTML>"
             }
+         ]
+      },
+      "duplicate body/html tag" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The HTML \u003Ccode>html\u003C/code> and \u003Ccode>body\u003C/code> elements cannot be\u000Anested by themselves (directly or indirectly).  There must not be more\u000Athan one pairs of \u003Ccode>&lt;html&gt;\u003C/code> and \u003Ccode>&lt;body&gt;\u003C/code>\u000Astart tags in a document.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>html\u003C/code> 要素と HTML \u003Ccode>body\u003C/code> 要素は \u000A(直接であれ間接であれ) それ自体を入れ子にできません。\u000A文書中に \u003Ccode>&lt;html&gt;\u003C/code> 開始タグや \u003Ccode>&lt;body&gt;\u003C/code> \u000A開始タグが2組以上あってはいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> start tag in the\u000A\u003Ccode>body\u003C/code> element",
+            "ja" : "\u003Ccode>body\u003C/code> 要素内に \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code>\u000A開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-body" : 1,
+            "in-body-start-html" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cbody>",
+               "value" : "body"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Chtml>",
+               "value" : "html"
+            }
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "element not closed before implied ancestor end tag" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Some start tag implies an end tag of another element, if necessary.\u000AFor example, a \u003Ccode>&lt;li&gt;\u003C/code> start tag closes any opening\u000A\u003Ccode>li\u003C/code> element.  Any descendant of that element must be\u000Aclosed before the start tag (except for a few elements whose end tag\u000Acan be omitted, e.g. \u003Ccode>p\u003C/code>).\u003C/p>",
+            "ja" : "\u003Cp>一部の開始タグは他の要素を閉じます。例えば\u000A\u003Ccode>&lt;li&gt;\u003C/code> 開始タグの時点で開いている\u000A\u003Ccode>li\u003C/code> 要素は閉じられます。\u000Aその子孫は (\u003Ccode>p\u003C/code> 要素など一部例外を除き)\u000A開始タグの前に閉じておかなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> element is not closed before\u000Aa start tag \u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code>",
+            "ja" : "\u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> 開始タグの前で\u000A\u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> 要素が閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-dd-dt" : 1,
+            "in-body-start-dd-dt-2" : 1,
+            "in-body-start-li" : 1,
+            "in-body-start-rp-rt" : 1,
+            "in-caption-start-c3t6-2" : 1,
+            "in-foreign-content-start-b5ccd4eeh8iillmmnopprs7ttuuv" : 1,
+            "in-foreign-content-start-font" : 1,
+            "in-select-start-input-keygen-textarea" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cdt>\u003Cspan>\u003Cdt>",
+               "text" : "span",
+               "value" : "dt"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cdt>\u003Cspan>\u003Cdd>",
+               "text" : "span",
+               "value" : "dd"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cli>\u003Cspan>\u003Cli>",
+               "text" : "span",
+               "value" : "li"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cruby>\u003Crp>\u003Cspan>\u003Crt>",
+               "text" : "span",
+               "value" : "rt"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cruby>\u003Crt>\u003Cspan>\u003Crp>",
+               "text" : "span",
+               "value" : "rp"
+            },
+            {
+               "index" : 37,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003Ccaption>",
+               "text" : "span",
+               "value" : "caption"
+            },
+            {
+               "index" : 37,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003Ctr>",
+               "text" : "span",
+               "value" : "tr"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cp>",
+               "text" : "svg",
+               "value" : "p"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cfont face>",
+               "text" : "svg",
+               "value" : "font"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Cinput>",
+               "text" : "select",
+               "value" : "input"
+            }
+         ],
+         "text" : [
+            "oe[-1]",
+            "local name"
+         ],
+         "value" : [
+            "token",
+            "tag name"
          ]
       },
       "empty end tag" : {
@@ -528,6 +694,79 @@
             }
          ]
       },
+      "image" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is no \u003Ccode>image\u003C/code> element, in fact.  Use the\u000A\u003Ccode>img\u003C/code> element instead.\u003C/p>",
+            "ja" : "\u003Cp>実のところ HTML に \u003Ccode>image\u003C/code> 要素はありません。\u000A\u003Ccode>img\u003C/code> 要素を使ってください。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;image&gt;\u003C/code>",
+            "ja" : "\u003Ccode>&lt;image&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-image" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cimage>"
+            }
+         ]
+      },
+      "in body" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In an HTML \u003Ccode>body\u003C/code> element, the start tag cannot be used.\u000AThe start tag is ignored.\u000A\u000A  \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A\u000A  \u003Cdt>\u003Ccode>&lt;thead&gt;\u003C/code>, \u003Ccode>&lt;tbody&gt;\u003C/code>,\u000A  \u003Ccode>&lt;tfoot&gt;\u003C/code>, \u003Ccode>&lt;tr&gt;\u003C/code>, \u003Ccode>&lt;th&gt;\u003C/code>,\u000A  \u003Ccode>&lt;td&gt;\u003C/code>, \u003Ccode>&lt;caption&gt;\u003C/code>,\u000A  \u003Ccode>&lt;colgroup&gt;\u003C/code>, \u003Ccode>&lt;col&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>These tags can only be used in a table.\u000A\u000A  \u003C/dd>\u003Cdt>\u003Ccode>&lt;head&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>The \u003Ccode>head\u003C/code> element can only be used before the\u000A  \u003Ccode>body\u003C/code> element.  There cannot be more than one\u000A  \u003Ccode>head\u003C/code> elements.\u000A\u000A  \u003C/dd>\u003Cdt>\u003Ccode>&lt;frameset&gt;\u003C/code>, \u003Ccode>&lt;frame&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>They are obsolete.  Use the \u003Ccode>iframe\u003C/code> element instead.\u000A\u000A  \u003C/dd>\u003C/dl>",
+            "ja" : "\u003Cp>HTML \u003Ccode>body\u003C/code> 要素内ではこの開始タグは使えません。\u000Aこの開始タグは無視されます。\u000A\u000A  \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A\u000A  \u003Cdt>\u003Ccode>&lt;thead&gt;\u003C/code>, \u003Ccode>&lt;tbody&gt;\u003C/code>,\u000A  \u003Ccode>&lt;tfoot&gt;\u003C/code>, \u003Ccode>&lt;tr&gt;\u003C/code>, \u003Ccode>&lt;th&gt;\u003C/code>,\u000A  \u003Ccode>&lt;td&gt;\u003C/code>, \u003Ccode>&lt;caption&gt;\u003C/code>,\u000A  \u003Ccode>&lt;colgroup&gt;\u003C/code>, \u003Ccode>&lt;col&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>これらのタグは表の中でしか使えません。\u000A\u000A  \u003C/dd>\u003Cdt>\u003Ccode>&lt;head&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>\u003Ccode>head\u003C/code> 要素は\u000A  \u003Ccode>body\u003C/code> 要素の前でしか使えません。文書中に\u000A  \u003Ccode>head\u003C/code> 要素を複数含めることはできません。\u000A\u000A  \u003C/dd>\u003Cdt>\u003Ccode>&lt;frameset&gt;\u003C/code>, \u003Ccode>&lt;frame&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>どちらも廃止されました。かわりに\u000A  \u003Ccode>iframe\u003C/code> 要素を使ってください。\u000A\u000A  \u003C/dd>\u003C/dl>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> in the\u000A\u003Ccode>body\u003C/code> element",
+            "ja" : "\u003Ccode>body\u003C/code> 要素内に \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>\u003C/code>\u000A開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-c3fht6" : 1,
+            "in-body-start-frameset" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctr>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ccol>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Chead>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cframe>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cframeset>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctbody>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctd>"
+            }
+         ]
+      },
       "in body:#eof" : {
          "default_level" : "m",
          "desc" : {
@@ -543,19 +782,520 @@
             "Web::HTML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
-            "in-body-eof" : 1
+            "in-body-eof" : 1,
+            "in-frameset-eof" : 1,
+            "in-template-eof" : 1,
+            "text-eof" : 1
          },
          "parser_tests" : [
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Choge>",
                "text" : "hoge"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>",
+               "text" : "frameset"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>",
+               "text" : "template"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>\u003Cfoo>",
+               "text" : "foo"
+            },
+            {
+               "index" : 20,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cxmp>",
+               "text" : "xmp"
+            },
+            {
+               "index" : 27,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cplaintext>a",
+               "text" : "plaintext"
             }
          ],
          "text" : [
             "oe[-1]",
             "local name"
          ]
+      },
+      "in caption" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In a \u003Ccode>caption\u003C/code> element's \u003Ccode>innerHTML\u003C/code>,\u000A    start tags \u003Ccode>&lt;caption&gt;\u003C/code>, \u003Ccode>&lt;col&gt;\u003C/code>,\u000A    \u003Ccode>&lt;colgroup&gt;\u003C/code>, \u003Ccode>&lt;tbody&gt;\u003C/code>,\u000A    \u003Ccode>&lt;td&gt;\u003C/code>, \u003Ccode>&lt;tfoot&gt;\u003C/code>,\u000A    \u003Ccode>&lt;th&gt;\u003C/code>, \u003Ccode>&lt;thead&gt;\u003C/code>, and\u000A    \u003Ccode>&lt;tr&gt;\u003C/code> are not allowed and are ignored.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>caption\u003C/code> 要素の \u003Ccode>innerHTML\u003C/code> では開始タグ\u000A    \u003Ccode>&lt;caption&gt;\u003C/code>, \u003Ccode>&lt;col&gt;\u003C/code>,\u000A    \u003Ccode>&lt;colgroup&gt;\u003C/code>, \u003Ccode>&lt;tbody&gt;\u003C/code>,\u000A    \u003Ccode>&lt;td&gt;\u003C/code>, \u003Ccode>&lt;tfoot&gt;\u003C/code>,\u000A    \u003Ccode>&lt;th&gt;\u003C/code>, \u003Ccode>&lt;thead&gt;\u003C/code>,\u000A    \u003Ccode>&lt;tr&gt;\u003C/code> は使うことができず、無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code>\u000Ain a table caption",
+            "ja" : "表題内に  \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-caption-start-c3t6" : 1
+         },
+         "parser_tests" : [
+            {
+               "context" : "caption",
+               "index" : 0,
+               "input" : "\u003Ctbody>",
+               "text" : "tbody"
+            },
+            {
+               "context" : "caption",
+               "index" : 0,
+               "input" : "\u003Ccol>",
+               "text" : "col"
+            }
+         ],
+         "text" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in cell" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A start tag that is not allowed in table cells (\u003Ccode>td\u003C/code>\u000A    or \u003Ccode>th\u003C/code> elements) is used.\u003C/p>\u000A\u000A    \u003Cp>In \u003Ccode>innerHTML\u003C/code> of a \u003Ccode>td\u003C/code> or\u000A    \u003Ccode>th\u003C/code> element, following start tags are not allowed:\u000A    \u003Ccode>&lt;caption&gt;\u003C/code>, \u003Ccode>&lt;col&gt;\u003C/code>,\u000A    \u003Ccode>&lt;colgroup&gt;\u003C/code>, \u003Ccode>&lt;tbody&gt;\u003C/code>,\u000A    \u003Ccode>&lt;td&gt;\u003C/code>, \u003Ccode>&lt;tfoot&gt;\u003C/code>,\u000A    \u003Ccode>&lt;th&gt;\u003C/code>, \u003Ccode>&lt;thead&gt;\u003C/code>, and\u000A    \u003Ccode>&lt;tr&gt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>表のこま (\u003Ccode>td\u003C/code> 要素や\u000A    \u003Ccode>th\u003C/code> 要素) 内では使えない開始タグがありました。\u003C/p>\u000A\u000A    \u003Cp>\u003Ccode>td\u003C/code> や\u000A    \u003Ccode>th\u003C/code> の \u003Ccode>innerHTML\u003C/code> では、次の開始タグは使えません:\u000A    \u003Ccode>&lt;caption&gt;\u003C/code>, \u003Ccode>&lt;col&gt;\u003C/code>,\u000A    \u003Ccode>&lt;colgroup&gt;\u003C/code>, \u003Ccode>&lt;tbody&gt;\u003C/code>,\u000A    \u003Ccode>&lt;td&gt;\u003C/code>, \u003Ccode>&lt;tfoot&gt;\u003C/code>,\u000A    \u003Ccode>&lt;th&gt;\u003C/code>, \u003Ccode>&lt;thead&gt;\u003C/code>,\u000A    \u003Ccode>&lt;tr&gt;\u003C/code>。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code>\u000Ain a table cell",
+            "ja" : "表のこま内に  \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-cell-start-c3t6" : 1
+         },
+         "text" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in colgroup" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>No element other than a \u003Ccode>col\u003C/code> or\u000A    \u003Ccode>template\u003C/code> element or non-space character is not\u000A    allowed in the \u003Ccode>colgroup\u003C/code> element or in the\u000A    \u003Ccode>template\u003C/code> element containing \u003Ccode>col\u003C/code>\u000A    elements.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>col\u003C/code> と \u003Ccode>template\u003C/code> 以外の要素や空白以外の文字は、\u000A    \u003Ccode>colgroup\u003C/code> 要素や、 \u003Ccode>col\u003C/code> 要素を含んでいる\u000A    \u003Ccode>template\u003C/code> 要素の中では使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a text or tag in a \u003Ccode>colgroup\u003C/code> element",
+            "ja" : "\u003Ccode>colgroup\u003C/code> 要素内にテキストかタグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-column-group-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "context" : "colgroup",
+               "index" : 0,
+               "input" : "\u003Cp>"
+            },
+            {
+               "context" : "colgroup",
+               "index" : 0,
+               "input" : "\u003C/p>"
+            },
+            {
+               "context" : "colgroup",
+               "index" : 0,
+               "input" : "h"
+            }
+         ]
+      },
+      "in frameset" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>No element other than a \u003Ccode>frameset\u003C/code> or\u000A    \u003Ccode>frame\u003C/code> element or non-space character is not\u000A    allowed in the \u003Ccode>frameset\u003C/code> element.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>frameset\u003C/code> と \u003Ccode>frame\u003C/code> 以外の要素や空白以外の文字は、\u000A    \u003Ccode>frameset\u003C/code> 要素の中では使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a text or tag in a \u003Ccode>frameset\u003C/code> element",
+            "ja" : "\u003Ccode>frameset\u003C/code> 要素内にテキストかタグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-frameset-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "context" : "frameset",
+               "index" : 0,
+               "input" : "\u003Cp>"
+            },
+            {
+               "context" : "frameset",
+               "index" : 0,
+               "input" : "\u003C/p>"
+            },
+            {
+               "context" : "frameset",
+               "index" : 0,
+               "input" : "h"
+            }
+         ]
+      },
+      "in head:head" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There is a start tag \u003Ccode>&lt;head&gt;\u003C/code> in the HTML\u000A\u003Ccode>&lt;head&gt;\u003C/code> element.  In an HTML document there must not be\u000Amore than one \u003Ccode>head\u003C/code> element.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>head\u003C/code> 要素内に \u003Ccode>&lt;head&gt;\u003C/code>\u000A開始タグがあります。 HTML 文書には \u003Ccode>head\u003C/code>\u000A要素が複数あってはなりません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;head&gt;\u003C/code> in the \u003Ccode>head\u003C/code>\u000Aelement",
+            "ja" : "\u003Ccode>head\u003C/code> 要素内に \u003Ccode>&lt;head&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-head-start-head" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Chead>"
+            }
+         ]
+      },
+      "in hn:hn" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>HTML elements \u003Ccode>h1\u003C/code>, \u003Ccode>h2\u003C/code>, \u003Ccode>h3\u003C/code>,\u000A\u003Ccode>h4\u003C/code>, \u003Ccode>h5\u003C/code>, and \u003Ccode>h6\u003C/code> cannot be\u000Anested.\u000A\u000A\u003C/p>\u003Cp>To represent a subtitle or tagline, use the \u003Ccode>hgroup\u003C/code>\u000Aelement.\u000A\u000A\u003C/p>\u003Cp>To change font size, use CSS.\u003C/p>",
+            "ja" : "\u003Cp>HTML 要素 \u003Ccode>h1\u003C/code>, \u003Ccode>h2\u003C/code>, \u003Ccode>h3\u003C/code>,\u000A\u003Ccode>h4\u003C/code>, \u003Ccode>h5\u003C/code>, \u003Ccode>h6\u003C/code>\u000Aを入れ子にすることはできません。\u000A\u000A\u003C/p>\u003Cp>副題やキャッチフレーズを記述したいときは、 \u003Ccode>hgroup\u003C/code>\u000A要素を使ってください。\u000A\u000A\u003C/p>\u003Cp>文字の大きさを変えたいときは CSS を使ってください。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> in\u000Aan element \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>",
+            "ja" : "\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> 要素内に \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code>\u000A開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-h6" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 19,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ch3>\u003Ch5>",
+               "text" : "h3",
+               "value" : "h5"
+            }
+         ],
+         "text" : [
+            "oe[-1]",
+            "local name"
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in noscript" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Within a \u003Ccode>noscript\u003C/code> element in a \u003Ccode>head\u003C/code>\u000Aelement, only limited set of HTML elements such as \u003Ccode>link\u003C/code>\u000Aand \u003Ccode>meta\u003C/code> can be used.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>head\u003C/code> 要素内の \u003Ccode>noscript\u003C/code> 要素内では、\u000A\u003Ccode>link\u003C/code> や \u003Ccode>meta\u003C/code> など一部の HTML\u000A要素しか使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>noscript\u003C/code> element is not closed before\u000Aa text, tag, or end of file",
+            "ja" : "テキストやタグ、ファイルの末尾の前で \u003Ccode>noscript\u003C/code>\u000A要素が閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-head-noscript-else" : 1,
+            "in-head-noscript-start-head-noscript" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Cp>",
+               "noscript" : 1
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Choge>",
+               "noscript" : 1
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>foo",
+               "noscript" : 1
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>",
+               "noscript" : 1
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Cnoscript>\u003C/noscript>",
+               "noscript" : 1
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Chead>\u003C/noscript>",
+               "noscript" : 1
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Cbody>",
+               "noscript" : 1
+            }
+         ]
+      },
+      "in select" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In an HTML \u003Ccode>select\u003C/code> element, only HTML\u000A\u003Ccode>option\u003C/code> and \u003Ccode>optgroup\u003C/code> elements can be used.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>select\u003C/code> 要素内では HTML\u000A\u003Ccode>optgroup\u003C/code> 要素と HTML \u003Ccode>option\u003C/code>\u000A要素しか使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a tag in a \u003Ccode>select\u003C/code> element",
+            "ja" : "\u003Ccode>colgroup\u003C/code> 要素内にタグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-select-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003Cfoo>"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003C/foo>"
+            }
+         ]
+      },
+      "in select in table:end tag" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An HTML \u003Ccode>select\u003C/code> element must be closed before a\u000Atable-related element is closed.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>select\u003C/code> 要素は、\u000A表関係の要素が閉じられる前に閉じられていなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>select\u003C/code> element is not closed before\u000Aan end tag \u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code>",
+            "ja" : "\u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code> 終了タグの前に\u000A\u003Ccode>select\u003C/code> 要素が閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-select-in-table-end-ct7" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cselect>\u003C/tbody>",
+               "value" : "tbody"
+            }
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in select in table:start tag" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An HTML \u003Ccode>select\u003C/code> element must be closed before a\u000Atable-related element is opened.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>select\u003C/code> 要素は、\u000A表関係の要素が開かれる前に閉じられていなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>select\u003C/code> element is not closed before\u000Aa start tag \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code>",
+            "ja" : "\u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> 開始タグの前に\u000A\u003Ccode>select\u003C/code> 要素が閉じられていません"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-select-in-table-start-ct7" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cselect>\u003Ctbody>",
+               "value" : "tbody"
+            }
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in table" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Tags not related to tables are not allowed in an HTML\u000A\u003Ccode>table\u003C/code> element.  It must be put in an HTML\u000A\u003Ccode>caption\u003C/code> element, or in an HTML \u003Ccode>td\u003C/code> or\u000A\u003Ccode>th\u003C/code> element, or must be moved outside of the table.\u003C/p>",
+            "ja" : "\u003Cp>表と関係のないタグを HTML の \u003Ccode>table\u003C/code>\u000A要素に含めることはできません。 HTML の\u000A\u003Ccode>caption\u003C/code>, \u003Ccode>td\u003C/code>, \u003Ccode>th\u003C/code>\u000Aのいずれかの要素に含めるか、表の外に出さなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a tag in a \u003Ccode>table\u003C/code> element",
+            "ja" : "\u003Ccode>table\u003C/code> 要素内にタグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-table-else" : 1,
+            "in-table-start-form" : 1,
+            "in-table-start-input" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cp>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C/gfoo>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cform>"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cinput>"
+            }
+         ]
+      },
+      "in table body" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In the \u003Ccode>innerHTML\u003C/code> of an HTML \u003Ccode>thead\u003C/code>,\u000A\u003Ccode>tbody\u003C/code>, or \u003Ccode>tfoot\u003C/code> element, HTML elements\u000A\u003Ccode>caption\u003C/code>, \u003Ccode>colgroup\u003C/code>, \u003Ccode>col\u003C/code>,\u000A\u003Ccode>thead\u003C/code>, \u003Ccode>tbody\u003C/code>, and \u003Ccode>tfoot\u003C/code> are not\u000Aallowed.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>thead\u003C/code> 要素、 HTML \u003Ccode>tbody\u003C/code> 要素、\u000AHTML \u003Ccode>tfoot\u003C/code> 要素の \u003Ccode>innerHTML\u003C/code> では、\u000AHTML 要素 \u003Ccode>caption\u003C/code>, \u003Ccode>colgroup\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>thead\u003C/code>, \u003Ccode>tbody\u003C/code>,\u000A\u003Ccode>tfoot\u003C/code> は使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> in a\u000Atable row group",
+            "ja" : "表の行群内に \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-table-body-start-c3t3" : 1
+         },
+         "parser_tests" : [
+            {
+               "context" : "tbody",
+               "index" : 0,
+               "input" : "\u003Ctbody>",
+               "value" : "tbody"
+            }
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in table row" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In the \u003Ccode>innerHTML\u003C/code> of an HTML \u003Ccode>tr\u003C/code> element,\u000AHTML elements \u003Ccode>caption\u003C/code>, \u003Ccode>colgroup\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>thead\u003C/code>, \u003Ccode>tbody\u003C/code>,\u000A\u003Ccode>tfoot\u003C/code>, and \u003Ccode>tr\u003C/code> are not allowed.\u003C/p>",
+            "ja" : "\u003Cp>HTML \u003Ccode>tr\u003C/code> 要素の \u003Ccode>innerHTML\u003C/code> では、\u000AHTML 要素 \u003Ccode>caption\u003C/code>, \u003Ccode>colgroup\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>thead\u003C/code>, \u003Ccode>tbody\u003C/code>,\u000A\u003Ccode>tfoot\u003C/code>, \u003Ccode>tr\u003C/code> は使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> in a\u000Atable row",
+            "ja" : "表の行内に \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-row-start-c3t4" : 1
+         },
+         "parser_tests" : [
+            {
+               "context" : "tr",
+               "index" : 0,
+               "input" : "\u003Ctbody>",
+               "value" : "tbody"
+            }
+         ],
+         "value" : [
+            "token",
+            "tag name"
+         ]
+      },
+      "in table:#text" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Text other than white space characters is not allowed in an HTML\u000A\u003Ccode>table\u003C/code> element.  It must be put in an HTML\u000A\u003Ccode>caption\u003C/code> element, or in an HTML \u003Ccode>td\u003C/code> or\u000A\u003Ccode>th\u003C/code> element, or must be moved outside of the table.\u003C/p>",
+            "ja" : "\u003Cp>空白文字以外のテキストを HTML の \u003Ccode>table\u003C/code>\u000A要素に含めることはできません。テキストは HTML の\u000A\u003Ccode>caption\u003C/code>, \u003Ccode>td\u003C/code>, \u003Ccode>th\u003C/code>\u000Aのいずれかの要素に含めるか、表の外に出さなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a text in a \u003Ccode>table\u003C/code> element",
+            "ja" : "\u003Ccode>table\u003C/code> 要素内にテキストがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-table-char" : 1,
+            "in-table-text-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>abc"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cp>abc"
+            }
+         ]
+      },
+      "isindex" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>isindex\u003C/code> element is obsolete.  Use the\u000A\u003Ccode>form\u003C/code> element instead.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>isindex\u003C/code> 要素は廃止されました。\u000A\u003Ccode>form\u003C/code> 要素を使ってください。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;isindex&gt;\u003C/code>",
+            "ja" : "\u003Ccode>&lt;isindex&gt;\u003C/code> 開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-isindex" : 1
+         }
       },
       "nestc has no net" : {
          "default_level" : "m",
@@ -582,6 +1322,30 @@
             {
                "index" : 18,
                "input" : "\u003C!DOCTYPE HTML>\u003Cp/hoge>"
+            }
+         ]
+      },
+      "no \u003Ctr>" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The start tag \u003Ccode>&lt;td&gt;\u003C/code> or \u003Ccode>&lt;th&gt;\u003C/code> must be\u000Ain an HTML \u003Ccode>tr\u003C/code> element.\u003C/p>",
+            "ja" : "\u003Cp>開始タグ \u003Ccode>&lt;td&gt;\u003C/code> や開始タグ \u003Ccode>&lt;th&gt;\u003C/code>\u000Aの前に HTML \u003Ccode>tr\u003C/code> 要素が開いていなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is the start tag of a table cell without a \u003Ccode>tr\u003C/code> element",
+            "ja" : "\u003Ccode>tr\u003C/code> 要素なしで表のこまの開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-table-body-start-td-th" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctd>"
             }
          ]
       },
@@ -790,6 +1554,8 @@
             "Web::HTML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
+            "-steps-close-a-p-element" : 1,
+            "-steps-close-the-cell" : 1,
             "in-body-end-a3bbcd5f4hhlmmnopssu-2" : 1,
             "in-body-end-applet-marquee-object-2" : 1,
             "in-body-end-body-2" : 1,
@@ -799,7 +1565,13 @@
             "in-body-end-form-4" : 1,
             "in-body-end-h6-2" : 1,
             "in-body-end-html-2" : 1,
-            "in-body-end-li-2" : 1
+            "in-body-end-li-2" : 1,
+            "in-caption-end-caption-2" : 1,
+            "in-caption-end-table-2" : 1,
+            "in-cell-end-td-th-2" : 1,
+            "in-foreign-content-end-else" : 1,
+            "in-foreign-content-end-script" : 1,
+            "in-head-end-template-2" : 1
          },
          "parser_tests" : [
             {
@@ -861,6 +1633,54 @@
                "input" : "\u003C!DOCTYPE HTML>\u003Cli>\u003Cspan>\u003C/li>",
                "text" : "span",
                "value" : "li"
+            },
+            {
+               "index" : 37,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003C/caption>",
+               "text" : "span",
+               "value" : "caption"
+            },
+            {
+               "index" : 37,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003C/table>",
+               "text" : "span",
+               "value" : "table"
+            },
+            {
+               "index" : 36,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003Cspan>\u003C/td>",
+               "text" : "span",
+               "value" : "td"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cg>\u003Ch>\u003C/g>",
+               "text" : "h",
+               "value" : "g"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cscript>\u003Ch>\u003C/script>",
+               "text" : "h",
+               "value" : "script"
+            },
+            {
+               "index" : 37,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>\u003Cmeta>\u003Choge>\u003C/template>",
+               "text" : "hoge",
+               "value" : "template"
+            },
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003Cspan>\u003Cp>",
+               "text" : "span",
+               "value" : "p"
+            },
+            {
+               "index" : 36,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003Cspan>\u003Ctd>",
+               "text" : "span",
+               "value" : "td"
             }
          ],
          "text" : [
@@ -937,8 +1757,29 @@
             "Web::HTML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
-            "in-body-null" : 1
-         }
+            "in-body-null" : 1,
+            "in-foreign-content-null" : 1,
+            "in-select-null" : 1,
+            "in-table-text-null" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u0000"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Csvg>\u0000"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u0000"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u0000"
+            }
+         ]
       },
       "parser:comment closed" : {
          "default_level" : "m",
@@ -1001,6 +1842,65 @@
                "index" : 22,
                "input" : "\u003C!DOCTYPE HTML>\u003C!--a--b-->"
             }
+         ]
+      },
+      "parser:element not nestable" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>HTML elements \u003Ccode>a\u003C/code>, \u003Ccode>button\u003C/code>,\u000A\u003Ccode>form\u003C/code>, and \u003Ccode>nobr\u003C/code> cannot be nested.\u000A\u000A  \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A\u000A  \u003Cdt>\u003Ccode>&lt;form&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>To associate some form controls in a \u003Ccode>form\u003C/code> element\u000A  with another form, use the \u003Ccode>form\u003C/code> attribute of form\u000A  controls.\u000A\u000A  \u003C/dd>\u003C/dl>",
+            "ja" : "\u003Cp>HTML 要素 \u003Ccode>a\u003C/code>, \u003Ccode>button\u003C/code>, \u003Ccode>form\u003C/code>,\u000A\u003Ccode>nobr\u003C/code> を入れ子にすることはできません。\u000A\u000A\u000A  \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A\u000A  \u003Cdt>\u003Ccode>&lt;form&gt;\u003C/code>\u000A\u000A  \u003C/dt>\u003Cdd>\u003Ccode>form\u003C/code> 要素内のフォーム制御子を他のフォームと関連付けたいときは、\u000A  フォーム制御子の \u003Ccode>form\u003C/code> 属性を使ってください。\u000A\u000A  \u003C/dd>\u003C/dl>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> in\u000Aan element \u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code>",
+            "ja" : "\u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> 要素内に \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code>\u000A開始タグがあります"
+         },
+         "modules" : {
+            "Web::HTML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "in-body-start-a" : 1,
+            "in-body-start-button" : 1,
+            "in-body-start-form" : 1,
+            "in-body-start-nobr" : 1,
+            "in-select-start-select" : 1,
+            "in-table-start-table" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ca>\u003Ca>",
+               "value" : "a"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cform>\u003Cform>",
+               "value" : "form"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbutton>\u003Cbutton>",
+               "value" : "button"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cnobr>\u003Cnobr>",
+               "value" : "nobr"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Cselect>",
+               "value" : "select"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctable>",
+               "value" : "table"
+            }
+         ],
+         "value" : [
+            "token",
+            "tag name"
          ]
       },
       "parser:literal not closed" : {
@@ -1105,8 +2005,8 @@
       "stray end tag" : {
          "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>The end tag has no corresponding start tag.  There must be a start\u000Atag with the same tag name before the end tag.  The end tag is\u000Aignored.\u003C/p>\u000A\u000A\u003Cp>Note that void elements have no end tag, that is, following\u000Aelements cannot have end tags: \u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>,\u000A\u003Ccode>br\u003C/code>, \u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>,\u000A\u003Ccode>hr\u003C/code>, \u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>,\u000A\u003Ccode>keygen\u003C/code>, \u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>,\u000A\u003Ccode>meta\u003C/code>, \u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>,\u000A\u003Ccode>track\u003C/code>, and \u003Ccode>wbr\u003C/code>.\u003C/p>",
-            "ja" : "\u003Cp>この終了タグには対応する開始タグがありません。\u000A終了タグより前に同じタグ名の開始タグが必要です。終了タグは無視されます。\u003C/p>\u000A\u000A\u003Cp>なお void 要素は終了タグを持ちませんから、次の要素では終了タグを使えません:\u000A\u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>, \u003Ccode>br\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>, \u003Ccode>hr\u003C/code>,\u000A\u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>, \u003Ccode>keygen\u003C/code>,\u000A\u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>, \u003Ccode>meta\u003C/code>,\u000A\u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>, \u003Ccode>track\u003C/code>,\u000A\u003Ccode>wbr\u003C/code>。\u003C/p>"
+            "en" : "\u003Cp>The end tag has no corresponding start tag.  There must be a start\u000Atag with the same tag name before the end tag.  The end tag is\u000Aignored.\u003C/p>\u000A\u000A\u003Cp>Note that void elements have no end tag, that is, following\u000Aelements cannot have end tags: \u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>,\u000A\u003Ccode>br\u003C/code>, \u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>,\u000A\u003Ccode>hr\u003C/code>, \u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>,\u000A\u003Ccode>keygen\u003C/code>, \u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>,\u000A\u003Ccode>meta\u003C/code>, \u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>,\u000A\u003Ccode>track\u003C/code>, and \u003Ccode>wbr\u003C/code>.\u003C/p>\u000A\u000A\u003Cp>The \u003Ccode>html\u003C/code> and \u003Ccode>html\u003C/code> elements cannot be\u000Aclosed in a table.  Such an end tag is ignored.\u003C/p>",
+            "ja" : "\u003Cp>この終了タグには対応する開始タグがありません。\u000A終了タグより前に同じタグ名の開始タグが必要です。終了タグは無視されます。\u003C/p>\u000A\u000A\u003Cp>なお void 要素は終了タグを持ちませんから、次の要素では終了タグを使えません:\u000A\u003Ccode>area\u003C/code>, \u003Ccode>base\u003C/code>, \u003Ccode>br\u003C/code>,\u000A\u003Ccode>col\u003C/code>, \u003Ccode>embed\u003C/code>, \u003Ccode>hr\u003C/code>,\u000A\u003Ccode>img\u003C/code>, \u003Ccode>input\u003C/code>, \u003Ccode>keygen\u003C/code>,\u000A\u003Ccode>link\u003C/code>, \u003Ccode>menuitem\u003C/code>, \u003Ccode>meta\u003C/code>,\u000A\u003Ccode>param\u003C/code>, \u003Ccode>source\u003C/code>, \u003Ccode>track\u003C/code>,\u000A\u003Ccode>wbr\u003C/code>。\u003C/p>\u000A\u000A\u003Cp>表の中では \u003Ccode>html\u003C/code> 要素や \u003Ccode>body\u003C/code>\u000A要素を閉じることはできません。そのような終了タグがあっても無視されます。\u003C/p>"
          },
          "layer" : "tree-construction",
          "message" : {
@@ -1130,7 +2030,32 @@
             "in-body-end-form-3" : 1,
             "in-body-end-h6" : 1,
             "in-body-end-html" : 1,
-            "in-body-end-li" : 1
+            "in-body-end-li" : 1,
+            "in-caption-end-bccht6" : 1,
+            "in-caption-end-caption" : 1,
+            "in-caption-end-table" : 1,
+            "in-cell-end-bc3h" : 1,
+            "in-cell-end-t5" : 1,
+            "in-cell-end-td-th" : 1,
+            "in-column-group-end-col" : 1,
+            "in-column-group-end-colgroup" : 1,
+            "in-frameset-end-frameset" : 1,
+            "in-head-end-else" : 1,
+            "in-head-end-template" : 1,
+            "in-head-noscript-end-else" : 1,
+            "in-row-end-bc3htt" : 1,
+            "in-row-end-table" : 1,
+            "in-row-end-tbody-tfoot-thead" : 1,
+            "in-row-end-tr" : 1,
+            "in-select-end-optgroup" : 1,
+            "in-select-end-option" : 1,
+            "in-select-end-select" : 1,
+            "in-table-body-end-bc3ht3" : 1,
+            "in-table-body-end-table" : 1,
+            "in-table-body-end-tbody-tfoot-thead" : 1,
+            "in-table-end-bc3ht6" : 1,
+            "in-table-end-table" : 1,
+            "in-template-end-else" : 1
          },
          "parser_tests" : [
             {
@@ -1205,6 +2130,205 @@
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/li>",
                "value" : "li"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/html>",
+               "value" : "html"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/body>",
+               "value" : "body"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/thead>",
+               "value" : "thead"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/tbody>",
+               "value" : "tbody"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/tfoot>",
+               "value" : "tfoot"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/col>",
+               "value" : "col"
+            },
+            {
+               "context" : "caption",
+               "index" : 0,
+               "input" : "\u003C/caption>",
+               "value" : "caption"
+            },
+            {
+               "context" : "caption",
+               "index" : 0,
+               "input" : "\u003C/table>",
+               "value" : "table"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/col>",
+               "value" : "col"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/body>",
+               "value" : "body"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/html>",
+               "value" : "html"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/colgroup>",
+               "value" : "colgroup"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/caption>",
+               "value" : "caption"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/thead>",
+               "value" : "thead"
+            },
+            {
+               "context" : "tr",
+               "index" : 4,
+               "input" : "\u003Ctd>\u003C/tbody>",
+               "value" : "tbody"
+            },
+            {
+               "context" : "td",
+               "index" : 0,
+               "input" : "\u003C/table>",
+               "value" : "table"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/th>",
+               "value" : "th"
+            },
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Cth>\u003C/td>",
+               "value" : "td"
+            },
+            {
+               "index" : 32,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccolgroup>\u003C/col>",
+               "value" : "col"
+            },
+            {
+               "context" : "colgroup",
+               "index" : 0,
+               "input" : "\u003C/colgroup>",
+               "value" : "colgroup"
+            },
+            {
+               "context" : "frameset",
+               "index" : 0,
+               "input" : "\u003C/frameset>",
+               "value" : "frameset"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C/hoge>",
+               "value" : "hoge"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C/template>",
+               "value" : "template"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003C/hoge>",
+               "noscript" : 1,
+               "value" : "hoge"
+            },
+            {
+               "index" : 26,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003C/body>",
+               "value" : "body"
+            },
+            {
+               "context" : "tr",
+               "index" : 0,
+               "input" : "\u003C/table>",
+               "value" : "table"
+            },
+            {
+               "context" : "tr",
+               "index" : 0,
+               "input" : "\u003C/tbody>",
+               "value" : "tbody"
+            },
+            {
+               "context" : "tbody",
+               "index" : 0,
+               "input" : "\u003C/table>",
+               "value" : "table"
+            },
+            {
+               "context" : "tr",
+               "index" : 0,
+               "input" : "\u003C/table>",
+               "value" : "table"
+            },
+            {
+               "context" : "select",
+               "index" : 0,
+               "input" : "\u003C/select>",
+               "value" : "select"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C/option>",
+               "value" : "option"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C/optgroup>",
+               "value" : "optgroup"
+            },
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctbody>\u003C/body>",
+               "value" : "body"
+            },
+            {
+               "context" : "tbody",
+               "index" : 0,
+               "input" : "\u003C/thead>",
+               "value" : "thead"
+            },
+            {
+               "index" : 22,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C/body>",
+               "value" : "body"
+            },
+            {
+               "context" : "table",
+               "index" : 0,
+               "input" : "\u003C/table>",
+               "value" : "table"
+            },
+            {
+               "index" : 25,
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>\u003C/fpopo>",
+               "value" : "fpopo"
             }
          ],
          "value" : [
@@ -1258,8 +2382,8 @@
       }
    },
    "parser_error_name_to_error_type" : {
-      "-steps-close-a-p-element" : null,
-      "-steps-close-the-cell" : null,
+      "-steps-close-a-p-element" : "not closed before ancestor end tag",
+      "-steps-close-the-cell" : "not closed before ancestor end tag",
       "EOF" : "parser:EOF",
       "NULL" : "NULL",
       "after-after-body-else" : "after-after-body-else",
@@ -1357,94 +2481,94 @@
       "in-body-end-p" : "\u003C/p>",
       "in-body-eof" : "in body:#eof",
       "in-body-null" : "parser:NULL",
-      "in-body-start-a" : null,
-      "in-body-start-body" : null,
-      "in-body-start-button" : null,
-      "in-body-start-c3fht6" : null,
-      "in-body-start-dd-dt" : null,
-      "in-body-start-dd-dt-2" : null,
-      "in-body-start-form" : null,
-      "in-body-start-frameset" : null,
-      "in-body-start-h6" : null,
-      "in-body-start-html" : null,
-      "in-body-start-image" : null,
-      "in-body-start-isindex" : null,
-      "in-body-start-li" : null,
-      "in-body-start-nobr" : null,
-      "in-body-start-rp-rt" : null,
-      "in-caption-end-bccht6" : null,
-      "in-caption-end-caption" : null,
-      "in-caption-end-caption-2" : null,
-      "in-caption-end-table" : null,
-      "in-caption-end-table-2" : null,
-      "in-caption-start-c3t6" : null,
-      "in-caption-start-c3t6-2" : null,
-      "in-cell-end-bc3h" : null,
-      "in-cell-end-t5" : null,
-      "in-cell-end-td-th" : null,
-      "in-cell-end-td-th-2" : null,
-      "in-cell-start-c3t6" : null,
-      "in-column-group-doctype" : null,
-      "in-column-group-else" : null,
-      "in-column-group-end-col" : null,
-      "in-column-group-end-colgroup" : null,
-      "in-foreign-content-doctype" : null,
-      "in-foreign-content-end-else" : null,
-      "in-foreign-content-end-script" : null,
-      "in-foreign-content-null" : null,
-      "in-foreign-content-start-b5ccd4eeh8iillmmnopprs7ttuuv" : null,
-      "in-foreign-content-start-font" : null,
-      "in-frameset-doctype" : null,
-      "in-frameset-else" : null,
-      "in-frameset-end-frameset" : null,
-      "in-frameset-eof" : null,
-      "in-head-doctype" : null,
-      "in-head-end-else" : null,
-      "in-head-end-template" : null,
-      "in-head-end-template-2" : null,
-      "in-head-noscript-doctype" : null,
-      "in-head-noscript-else" : null,
-      "in-head-noscript-end-else" : null,
-      "in-head-noscript-start-head-noscript" : null,
-      "in-head-start-head" : null,
-      "in-row-end-bc3htt" : null,
-      "in-row-end-table" : null,
-      "in-row-end-tbody-tfoot-thead" : null,
-      "in-row-end-tr" : null,
-      "in-row-start-c3t4" : null,
-      "in-select-doctype" : null,
-      "in-select-else" : null,
-      "in-select-end-optgroup" : null,
-      "in-select-end-option" : null,
-      "in-select-end-select" : null,
-      "in-select-in-table-end-ct7" : null,
-      "in-select-in-table-start-ct7" : null,
-      "in-select-null" : null,
-      "in-select-start-input-keygen-textarea" : null,
-      "in-select-start-select" : null,
-      "in-table-body-end-bc3ht3" : null,
-      "in-table-body-end-table" : null,
-      "in-table-body-end-tbody-tfoot-thead" : null,
-      "in-table-body-start-c3t3" : null,
-      "in-table-body-start-td-th" : null,
-      "in-table-char" : null,
-      "in-table-doctype" : null,
-      "in-table-else" : null,
-      "in-table-end-bc3ht6" : null,
-      "in-table-end-table" : null,
-      "in-table-start-form" : null,
-      "in-table-start-input" : null,
-      "in-table-start-table" : null,
-      "in-table-text-else" : null,
-      "in-table-text-null" : null,
-      "in-template-end-else" : null,
-      "in-template-eof" : null,
+      "in-body-start-a" : "parser:element not nestable",
+      "in-body-start-body" : "duplicate body/html tag",
+      "in-body-start-button" : "parser:element not nestable",
+      "in-body-start-c3fht6" : "in body",
+      "in-body-start-dd-dt" : "element not closed before implied ancestor end tag",
+      "in-body-start-dd-dt-2" : "element not closed before implied ancestor end tag",
+      "in-body-start-form" : "parser:element not nestable",
+      "in-body-start-frameset" : "in body",
+      "in-body-start-h6" : "in hn:hn",
+      "in-body-start-html" : "duplicate body/html tag",
+      "in-body-start-image" : "image",
+      "in-body-start-isindex" : "isindex",
+      "in-body-start-li" : "element not closed before implied ancestor end tag",
+      "in-body-start-nobr" : "parser:element not nestable",
+      "in-body-start-rp-rt" : "element not closed before implied ancestor end tag",
+      "in-caption-end-bccht6" : "stray end tag",
+      "in-caption-end-caption" : "stray end tag",
+      "in-caption-end-caption-2" : "not closed before ancestor end tag",
+      "in-caption-end-table" : "stray end tag",
+      "in-caption-end-table-2" : "not closed before ancestor end tag",
+      "in-caption-start-c3t6" : "in caption",
+      "in-caption-start-c3t6-2" : "element not closed before implied ancestor end tag",
+      "in-cell-end-bc3h" : "stray end tag",
+      "in-cell-end-t5" : "stray end tag",
+      "in-cell-end-td-th" : "stray end tag",
+      "in-cell-end-td-th-2" : "not closed before ancestor end tag",
+      "in-cell-start-c3t6" : "in cell",
+      "in-column-group-doctype" : "doctype:bad context",
+      "in-column-group-else" : "in colgroup",
+      "in-column-group-end-col" : "stray end tag",
+      "in-column-group-end-colgroup" : "stray end tag",
+      "in-foreign-content-doctype" : "doctype:bad context",
+      "in-foreign-content-end-else" : "not closed before ancestor end tag",
+      "in-foreign-content-end-script" : "not closed before ancestor end tag",
+      "in-foreign-content-null" : "parser:NULL",
+      "in-foreign-content-start-b5ccd4eeh8iillmmnopprs7ttuuv" : "element not closed before implied ancestor end tag",
+      "in-foreign-content-start-font" : "element not closed before implied ancestor end tag",
+      "in-frameset-doctype" : "doctype:bad context",
+      "in-frameset-else" : "in frameset",
+      "in-frameset-end-frameset" : "stray end tag",
+      "in-frameset-eof" : "in body:#eof",
+      "in-head-doctype" : "doctype:bad context",
+      "in-head-end-else" : "stray end tag",
+      "in-head-end-template" : "stray end tag",
+      "in-head-end-template-2" : "not closed before ancestor end tag",
+      "in-head-noscript-doctype" : "doctype:bad context",
+      "in-head-noscript-else" : "in noscript",
+      "in-head-noscript-end-else" : "stray end tag",
+      "in-head-noscript-start-head-noscript" : "in noscript",
+      "in-head-start-head" : "in head:head",
+      "in-row-end-bc3htt" : "stray end tag",
+      "in-row-end-table" : "stray end tag",
+      "in-row-end-tbody-tfoot-thead" : "stray end tag",
+      "in-row-end-tr" : "stray end tag",
+      "in-row-start-c3t4" : "in table row",
+      "in-select-doctype" : "doctype:bad context",
+      "in-select-else" : "in select",
+      "in-select-end-optgroup" : "stray end tag",
+      "in-select-end-option" : "stray end tag",
+      "in-select-end-select" : "stray end tag",
+      "in-select-in-table-end-ct7" : "in select in table:end tag",
+      "in-select-in-table-start-ct7" : "in select in table:start tag",
+      "in-select-null" : "parser:NULL",
+      "in-select-start-input-keygen-textarea" : "element not closed before implied ancestor end tag",
+      "in-select-start-select" : "parser:element not nestable",
+      "in-table-body-end-bc3ht3" : "stray end tag",
+      "in-table-body-end-table" : "stray end tag",
+      "in-table-body-end-tbody-tfoot-thead" : "stray end tag",
+      "in-table-body-start-c3t3" : "in table body",
+      "in-table-body-start-td-th" : "no \u003Ctr>",
+      "in-table-char" : "in table:#text",
+      "in-table-doctype" : "doctype:bad context",
+      "in-table-else" : "in table",
+      "in-table-end-bc3ht6" : "stray end tag",
+      "in-table-end-table" : "stray end tag",
+      "in-table-start-form" : "in table",
+      "in-table-start-input" : "in table",
+      "in-table-start-table" : "parser:element not nestable",
+      "in-table-text-else" : "in table:#text",
+      "in-table-text-null" : "parser:NULL",
+      "in-template-end-else" : "stray end tag",
+      "in-template-eof" : "in body:#eof",
       "initial-doctype" : "obs DOCTYPE",
       "initial-else" : "no DOCTYPE",
       "markup-declaration-open-else" : "bogus comment",
       "self-closing-start-tag-else" : "nestc has no net",
       "tag-open-003f" : "pio",
       "tag-open-else" : "bare stago",
-      "text-eof" : null
+      "text-eof" : "in body:#eof"
    }
 }

@@ -53,6 +53,8 @@ sub parse_file ($) {
     } elsif ($in_test) {
       if (/^!(\w+)=(.*)$/) {
         $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{$1} = $2;
+      } elsif (/^!(\w+)$/) {
+        $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{$1} = 1;
       } else {
         $Data->{errors}->{$error_type}->{parser_tests}->[-1]->{input} .= "\x0A" . $_;
       }
@@ -121,7 +123,7 @@ for my $error_type (keys %{$Data->{errors}}) {
   for my $test (@{$Data->{errors}->{$error_type}->{parser_tests} or []}) {
     $test->{input} =~ s/^\s+//;
     $test->{input} =~ s/\s+$//;
-    my $input = [map { s/\u([0-9A-F]{4})/chr hex $1/ge; $_ } split /\$\$/, $test->{input}, 2];
+    my $input = [map { s/\\u([0-9A-F]{4})/chr hex $1/ge; $_ } split /\$\$/, $test->{input}, 2];
     $test->{index} = length $input->[0];
     $test->{input} = $input->[0] . ($input->[1] // '');
   }

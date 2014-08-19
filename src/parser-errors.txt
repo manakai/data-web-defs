@@ -21,6 +21,9 @@ character must not be used in a document.
 * parser:NULL
 
 name=in-body-null
+name=in-foreign-content-null
+name=in-select-null
+name=in-table-text-null
 
 @en
 The <code>NULL</code> character is ignored
@@ -38,6 +41,15 @@ class=charname>NULL</code> character in an element is ignored.
 <p><code>U+0000</code> <code class="charname">NULL</code> 
 文字を使ってはいけません。要素内の <code class=charname>NULL</code>
 文字は無視されます。
+
+!!!
+<!DOCTYPE HTML><body>$$\u0000
+!!!
+<!DOCTYPE HTML><body><svg>$$\u0000
+!!!
+<!DOCTYPE HTML><select>$$\u0000
+!!!
+<!DOCTYPE HTML><table>$$\u0000
 
 * parser:EOF
 
@@ -72,6 +84,31 @@ name=in-body-end-h6
 name=in-body-end-html
 name=in-body-end-else-2
 name=in-body-end-li
+name=in-caption-end-bccht6
+name=in-caption-end-caption
+name=in-caption-end-table
+name=in-cell-end-bc3h
+name=in-cell-end-t5
+name=in-cell-end-td-th
+name=in-column-group-end-col
+name=in-column-group-end-colgroup
+name=in-frameset-end-frameset
+name=in-head-end-else
+name=in-head-end-template
+name=in-head-noscript-end-else
+name=in-row-end-bc3htt
+name=in-row-end-table
+name=in-row-end-tbody-tfoot-thead
+name=in-row-end-tr
+name=in-table-body-end-table
+name=in-select-end-select
+name=in-select-end-option
+name=in-select-end-optgroup
+name=in-table-body-end-bc3ht3
+name=in-table-body-end-tbody-tfoot-thead
+name=in-table-end-bc3ht6
+name=in-table-end-table
+name=in-template-end-else
 value=tag_name
 
 @en
@@ -95,6 +132,9 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 <code>meta</code>, <code>param</code>, <code>source</code>,
 <code>track</code>, and <code>wbr</code>.</p>
 
+<p>The <code>html</code> and <code>html</code> elements cannot be
+closed in a table.  Such an end tag is ignored.
+
 @ja
 
 <p>この終了タグには対応する開始タグがありません。
@@ -107,6 +147,9 @@ elements cannot have end tags: <code>area</code>, <code>base</code>,
 <code>link</code>, <code>menuitem</code>, <code>meta</code>,
 <code>param</code>, <code>source</code>, <code>track</code>,
 <code>wbr</code>。</p>
+
+<p>表の中では <code>html</code> 要素や <code>body</code>
+要素を閉じることはできません。そのような終了タグがあっても無視されます。
 
 !!!
 <!DOCTYPE html>$$</hoge>
@@ -153,6 +196,131 @@ $$</html>
 !!!
 <!DOCTYPE HTML><body>$$</li>
 !value=li
+!!!
+<!DOCTYPE HTML><table><caption>$$</html>
+!value=html
+!!!
+<!DOCTYPE HTML><table><caption>$$</body>
+!value=body
+!!!
+<!DOCTYPE HTML><table><caption>$$</thead>
+!value=thead
+!!!
+<!DOCTYPE HTML><table><caption>$$</tbody>
+!value=tbody
+!!!
+<!DOCTYPE HTML><table><caption>$$</tfoot>
+!value=tfoot
+!!!
+<!DOCTYPE HTML><table><caption>$$</col>
+!value=col
+!!!
+!context=caption
+$$</caption>
+!value=caption
+!!!
+!context=caption
+$$</table>
+!value=table
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</col>
+!value=col
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</body>
+!value=body
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</html>
+!value=html
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</colgroup>
+!value=colgroup
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</caption>
+!value=caption
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</thead>
+!value=thead
+!!!
+!context=tr
+<td>$$</tbody>
+!value=tbody
+!!!
+!context=td
+$$</table>
+!value=table
+!!!
+<!DOCTYPE HTML><table><tr><td>$$</th>
+!value=th
+!!!
+<!DOCTYPE HTML><table><tr><th>$$</td>
+!value=td
+!!!
+<!DOCTYPE HTML><table><colgroup>$$</col>
+!value=col
+!!!
+!context=colgroup
+$$</colgroup>
+!value=colgroup
+!!!
+!context=frameset
+$$</frameset>
+!value=frameset
+!!!
+<!DOCTYPE HTML><head>$$</hoge>
+!value=hoge
+!!!
+<!DOCTYPE HTML><head>$$</template>
+!value=template
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$</hoge>
+!value=hoge
+!!!
+<!DOCTYPE HTML><table><tr>$$</body>
+!value=body
+!!!
+!context=tr
+$$</table>
+!value=table
+!!!
+!context=tr
+$$</tbody>
+!value=tbody
+!!!
+!context=tbody
+$$</table>
+!value=table
+!!!
+!context=tr
+$$</table>
+!value=table
+!!!
+!context=select
+$$</select>
+!value=select
+!!!
+<!DOCTYPE HTML><select>$$</option>
+!value=option
+!!!
+<!DOCTYPE HTML><select>$$</optgroup>
+!value=optgroup
+!!!
+<!DOCTYPE HTML><table><tbody>$$</body>
+!value=body
+!!!
+!context=tbody
+$$</thead>
+!value=thead
+!!!
+<!DOCTYPE HTML><table>$$</body>
+!value=body
+!!!
+!context=table
+$$</table>
+!value=table
+!!!
+<!DOCTYPE HTML><template>$$</fpopo>
+!value=fpopo
 
 * not closed before ancestor end tag
 
@@ -166,6 +334,14 @@ name=in-body-end-h6-2
 name=in-body-end-html-2
 name=in-body-end-else
 name=in-body-end-li-2
+name=in-caption-end-caption-2
+name=in-caption-end-table-2
+name=in-cell-end-td-th-2
+name=in-foreign-content-end-else
+name=in-foreign-content-end-script
+name=in-head-end-template-2
+name=-steps-close-a-p-element
+name=-steps-close-the-cell
 text=current node.local_name
 value=tag_name
 
@@ -238,6 +414,115 @@ The <code><var>{text}</var></code> element is not closed before the
 <!DOCTYPE HTML><li><span>$$</li>
 !text=span
 !value=li
+!!!
+<!DOCTYPE HTML><table><caption><span>$$</caption>
+!text=span
+!value=caption
+!!!
+<!DOCTYPE HTML><table><caption><span>$$</table>
+!text=span
+!value=table
+!!!
+<!DOCTYPE HTML><table><tr><td><span>$$</td>
+!text=span
+!value=td
+!!!
+<!DOCTYPE HTML><svg><g><h>$$</g>
+!text=h
+!value=g
+!!!
+<!DOCTYPE HTML><svg><script><h>$$</script>
+!text=h
+!value=script
+!!!
+<!DOCTYPE HTML><template><meta><hoge>$$</template>
+!value=template
+!text=hoge
+!!!
+<!DOCTYPE HTML><p><span>$$<p>
+!value=p
+!text=span
+!!!
+<!DOCTYPE HTML><table><tr><td><span>$$<td>
+!value=td
+!text=span
+
+* element not closed before implied ancestor end tag
+
+name=in-body-start-dd-dt
+name=in-body-start-dd-dt-2
+name=in-body-start-li
+name=in-body-start-rp-rt
+name=in-caption-start-c3t6-2
+name=in-foreign-content-start-b5ccd4eeh8iillmmnopprs7ttuuv
+name=in-foreign-content-start-font
+name=in-select-start-input-keygen-textarea
+text=current node.local_name
+value=tag_name
+
+@en
+The <code>&lt;<var>{text}</var>></code> element is not closed before
+a start tag <code><var>{value}</var></code>
+@ja
+<code><var>{value}</var></code> 開始タグの前で
+<code>&lt;<var>{text}</var>></code> 要素が閉じられていません
+
+@en
+
+<p>Some start tag implies an end tag of another element, if necessary.
+For example, a <code>&lt;li></code> start tag closes any opening
+<code>li</code> element.  Any descendant of that element must be
+closed before the start tag (except for a few elements whose end tag
+can be omitted, e.g. <code>p</code>).
+
+@ja
+
+<p>一部の開始タグは他の要素を閉じます。例えば
+<code>&lt;li></code> 開始タグの時点で開いている
+<code>li</code> 要素は閉じられます。
+その子孫は (<code>p</code> 要素など一部例外を除き)
+開始タグの前に閉じておかなければいけません。
+
+!!!
+<!DOCTYPE HTML><dt><span>$$<dt>
+!text=span
+!value=dt
+!!!
+<!DOCTYPE HTML><dt><span>$$<dd>
+!text=span
+!value=dd
+!!!
+<!DOCTYPE HTML><li><span>$$<li>
+!text=span
+!value=li
+!!!
+<!DOCTYPE HTML><ruby><rp><span>$$<rt>
+!text=span
+!value=rt
+!!!
+<!DOCTYPE HTML><ruby><rt><span>$$<rp>
+!text=span
+!value=rp
+!!!
+<!DOCTYPE HTML><table><caption><span>$$<caption>
+!text=span
+!value=caption
+!!!
+<!DOCTYPE HTML><table><caption><span>$$<tr>
+!text=span
+!value=tr
+!!!
+<!DOCTYPE HTML><svg>$$<p>
+!text=svg
+!value=p
+!!!
+<!DOCTYPE HTML><svg>$$<font face>
+!text=svg
+!value=font
+!!!
+<!DOCTYPE HTML><select>$$<input>
+!text=select
+!value=input
 
 * obs DOCTYPE
 
@@ -502,6 +787,13 @@ name=after-head-doctype
 name=before-head-doctype
 name=before-html-doctype
 name=in-body-doctype
+name=in-column-group-doctype
+name=in-foreign-content-doctype
+name=in-frameset-doctype
+name=in-head-doctype
+name=in-head-noscript-doctype
+name=in-select-doctype
+name=in-table-doctype
 
 @en
 The DOCTYPE is not at the beginning of the document
@@ -531,6 +823,21 @@ or within an element.
 <!DOCTYPE HTML></head>$$<!DOCTYPE HTML>
 !!!
 <!DOCTYPE HTML><body>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><table><colgroup>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><svg>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><frameset>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><head>$$<!DOCTYPE HTML>
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><select>$$<!DOCTYPE HTML>
+!!!
+<!DOCTYPE HTML><table>$$<!DOCTYPE HTML>
 
 * after-after-body-else
 
@@ -1296,6 +1603,9 @@ opening <code>p</code> element.  It is interpreted as a start tag.
 * in body:#eof
 
 name=in-body-eof
+name=in-frameset-eof
+name=in-template-eof
+name=text-eof
 text=current node.local_name
 
 @en
@@ -1320,3 +1630,706 @@ explicitly closed by their end tags before the end of file.
 !!!
 <!DOCTYPE HTML><hoge>$$
 !text=hoge
+!!!
+<!DOCTYPE HTML><frameset>$$
+!text=frameset
+!!!
+<!DOCTYPE HTML><template>$$
+!text=template
+!!!
+<!DOCTYPE HTML><template><foo>$$
+!text=foo
+!!!
+<!DOCTYPE HTML><xmp>$$
+!text=xmp
+!!!
+<!DOCTYPE HTML><plaintext>a$$
+!text=plaintext
+
+* duplicate body/html tag
+
+name=in-body-start-body
+name=in-body-start-html
+value=tag_name
+
+@en
+There is a <code>&lt;<var>{value}</var>></code> start tag in the
+<code>body</code> element
+@ja
+<code>body</code> 要素内に <code>&lt;<var>{value}</var>></code>
+開始タグがあります
+
+@en
+
+<p>The HTML <code>html</code> and <code>body</code> elements cannot be
+nested by themselves (directly or indirectly).  There must not be more
+than one pairs of <code>&lt;html></code> and <code>&lt;body></code>
+start tags in a document.
+
+@ja
+
+<p>HTML <code>html</code> 要素と HTML <code>body</code> 要素は 
+(直接であれ間接であれ) それ自体を入れ子にできません。
+文書中に <code>&lt;html></code> 開始タグや <code>&lt;body></code> 
+開始タグが2組以上あってはいけません。
+
+!!!
+<!DOCTYPE HTML><body>$$<body>
+!value=body
+!!!
+<!DOCTYPE HTML><body>$$<html>
+!value=html
+
+* parser:element not nestable
+
+name=in-body-start-a
+name=in-body-start-form
+name=in-body-start-button
+name=in-body-start-nobr
+name=in-select-start-select
+name=in-table-start-table
+value=tag_name
+
+@en
+There is a start tag <code>&lt;<var>{value}</var>></code> in
+an element <code><var>{value}</var></code>
+@ja
+<code><var>{value}</var></code> 要素内に <code>&lt;<var>{value}</var>></code>
+開始タグがあります
+
+@en
+
+<p>HTML elements <code>a</code>, <code>button</code>,
+<code>form</code>, and <code>nobr</code> cannot be nested.
+
+  <dl class=switch>
+
+  <dt><code>&lt;form></code>
+
+  <dd>To associate some form controls in a <code>form</code> element
+  with another form, use the <code>form</code> attribute of form
+  controls.
+
+  </dl>
+
+@ja
+
+<p>HTML 要素 <code>a</code>, <code>button</code>, <code>form</code>,
+<code>nobr</code> を入れ子にすることはできません。
+
+
+  <dl class=switch>
+
+  <dt><code>&lt;form></code>
+
+  <dd><code>form</code> 要素内のフォーム制御子を他のフォームと関連付けたいときは、
+  フォーム制御子の <code>form</code> 属性を使ってください。
+
+  </dl>
+
+!!!
+<!DOCTYPE HTML><a>$$<a>
+!value=a
+!!!
+<!DOCTYPE HTML><form>$$<form>
+!value=form
+!!!
+<!DOCTYPE HTML><button>$$<button>
+!value=button
+!!!
+<!DOCTYPE HTML><nobr>$$<nobr>
+!value=nobr
+!!!
+<!DOCTYPE HTML><select>$$<select>
+!value=select
+!!!
+<!DOCTYPE HTML><table>$$<table>
+!value=table
+
+* in hn:hn
+
+name=in-body-start-h6
+value=tag_name
+text=current node.local_name
+
+@en
+There is a start tag <code>&lt;<var>{value}</var>></code> in
+an element <code><var>{text}</var></code>
+@ja
+<code><var>{text}</var></code> 要素内に <code>&lt;<var>{value}</var>></code>
+開始タグがあります
+
+@en
+
+<p>HTML elements <code>h1</code>, <code>h2</code>, <code>h3</code>,
+<code>h4</code>, <code>h5</code>, and <code>h6</code> cannot be
+nested.
+
+<p>To represent a subtitle or tagline, use the <code>hgroup</code>
+element.
+
+<p>To change font size, use CSS.
+
+@ja
+
+<p>HTML 要素 <code>h1</code>, <code>h2</code>, <code>h3</code>,
+<code>h4</code>, <code>h5</code>, <code>h6</code>
+を入れ子にすることはできません。
+
+<p>副題やキャッチフレーズを記述したいときは、 <code>hgroup</code>
+要素を使ってください。
+
+<p>文字の大きさを変えたいときは CSS を使ってください。
+
+!!!
+<!DOCTYPE HTML><h3>$$<h5>
+!value=h5
+!text=h3
+
+* in head:head
+
+name=in-head-start-head
+
+@en
+There is a start tag <code>&lt;head></code> in the <code>head</code>
+element
+@ja
+<code>head</code> 要素内に <code>&lt;head></code> 開始タグがあります
+
+@en
+
+<p>There is a start tag <code>&lt;head></code> in the HTML
+<code>&lt;head></code> element.  In an HTML document there must not be
+more than one <code>head</code> element.
+
+@ja
+
+<p>HTML <code>head</code> 要素内に <code>&lt;head></code>
+開始タグがあります。 HTML 文書には <code>head</code>
+要素が複数あってはなりません。
+
+!!!
+<!DOCTYPE HTML><head>$$<head>
+
+* in body
+
+name=in-body-start-c3fht6
+name=in-body-start-frameset
+
+@en
+There is a start tag <code>&lt;<var>{text}</var>></code> in the
+<code>body</code> element
+@ja
+<code>body</code> 要素内に <code>&lt;<var>{text}</var></code>
+開始タグがあります
+
+@en
+
+<p>In an HTML <code>body</code> element, the start tag cannot be used.
+The start tag is ignored.
+
+  <dl class=switch>
+
+  <dt><code>&lt;thead></code>, <code>&lt;tbody></code>,
+  <code>&lt;tfoot></code>, <code>&lt;tr></code>, <code>&lt;th></code>,
+  <code>&lt;td></code>, <code>&lt;caption></code>,
+  <code>&lt;colgroup></code>, <code>&lt;col></code>
+
+  <dd>These tags can only be used in a table.
+
+  <dt><code>&lt;head></code>
+
+  <dd>The <code>head</code> element can only be used before the
+  <code>body</code> element.  There cannot be more than one
+  <code>head</code> elements.
+
+  <dt><code>&lt;frameset></code>, <code>&lt;frame></code>
+
+  <dd>They are obsolete.  Use the <code>iframe</code> element instead.
+
+  </dl>
+
+@ja
+
+<p>HTML <code>body</code> 要素内ではこの開始タグは使えません。
+この開始タグは無視されます。
+
+  <dl class=switch>
+
+  <dt><code>&lt;thead></code>, <code>&lt;tbody></code>,
+  <code>&lt;tfoot></code>, <code>&lt;tr></code>, <code>&lt;th></code>,
+  <code>&lt;td></code>, <code>&lt;caption></code>,
+  <code>&lt;colgroup></code>, <code>&lt;col></code>
+
+  <dd>これらのタグは表の中でしか使えません。
+
+  <dt><code>&lt;head></code>
+
+  <dd><code>head</code> 要素は
+  <code>body</code> 要素の前でしか使えません。文書中に
+  <code>head</code> 要素を複数含めることはできません。
+
+  <dt><code>&lt;frameset></code>, <code>&lt;frame></code>
+
+  <dd>どちらも廃止されました。かわりに
+  <code>iframe</code> 要素を使ってください。
+
+  </dl>
+
+!!!
+<!DOCTYPE HTML><body>$$<tr>
+!!!
+<!DOCTYPE HTML><body>$$<col>
+!!!
+<!DOCTYPE HTML><body>$$<head>
+!!!
+<!DOCTYPE HTML><body>$$<frame>
+!!!
+<!DOCTYPE HTML><body>$$<frameset>
+!!!
+<!DOCTYPE HTML><body>$$<tbody>
+!!!
+<!DOCTYPE HTML><body>$$<td>
+
+* image
+
+name=in-body-start-image
+
+@en
+There is a start tag <code>&lt;image></code>
+@ja
+<code>&lt;image></code> 開始タグがあります
+
+@en
+
+<p>There is no <code>image</code> element, in fact.  Use the
+<code>img</code> element instead.
+
+@ja
+
+<p>実のところ HTML に <code>image</code> 要素はありません。
+<code>img</code> 要素を使ってください。
+
+!!!
+<!DOCTYPE HTML><body>$$<image>
+
+* isindex
+
+name=in-body-start-isindex
+
+@en
+There is a start tag <code>&lt;isindex></code>
+@ja
+<code>&lt;isindex></code> 開始タグがあります
+
+@en
+
+<p>The <code>isindex</code> element is obsolete.  Use the
+<code>form</code> element instead.
+
+@ja
+
+<p><code>isindex</code> 要素は廃止されました。
+<code>form</code> 要素を使ってください。
+
+* in caption
+
+name=in-caption-start-c3t6
+text=tag_name
+
+@en
+There is a start tag <code>&lt;<var>{text}</var>></code>
+in a table caption
+@ja
+表題内に  <code>&lt;<var>{text}</var>></code> 開始タグがあります
+
+@en
+
+    <p>In a <code>caption</code> element's <code>innerHTML</code>,
+    start tags <code>&lt;caption></code>, <code>&lt;col></code>,
+    <code>&lt;colgroup></code>, <code>&lt;tbody></code>,
+    <code>&lt;td></code>, <code>&lt;tfoot></code>,
+    <code>&lt;th></code>, <code>&lt;thead></code>, and
+    <code>&lt;tr></code> are not allowed and are ignored.</p>
+
+@ja
+
+    <p><code>caption</code> 要素の <code>innerHTML</code> では開始タグ
+    <code>&lt;caption></code>, <code>&lt;col></code>,
+    <code>&lt;colgroup></code>, <code>&lt;tbody></code>,
+    <code>&lt;td></code>, <code>&lt;tfoot></code>,
+    <code>&lt;th></code>, <code>&lt;thead></code>,
+    <code>&lt;tr></code> は使うことができず、無視されます。</p>
+
+!!!
+!context=caption
+$$<tbody>
+!text=tbody
+!!!
+!context=caption
+$$<col>
+!text=col
+
+* in cell
+
+name=in-cell-start-c3t6
+text=tag_name
+
+@en
+There is a start tag <code>&lt;<var>{text}</var>></code>
+in a table cell
+@ja
+表のこま内に  <code>&lt;<var>{text}</var>></code> 開始タグがあります
+
+@en
+    <p>A start tag that is not allowed in table cells (<code>td</code>
+    or <code>th</code> elements) is used.</p>
+
+    <p>In <code>innerHTML</code> of a <code>td</code> or
+    <code>th</code> element, following start tags are not allowed:
+    <code>&lt;caption></code>, <code>&lt;col></code>,
+    <code>&lt;colgroup></code>, <code>&lt;tbody></code>,
+    <code>&lt;td></code>, <code>&lt;tfoot></code>,
+    <code>&lt;th></code>, <code>&lt;thead></code>, and
+    <code>&lt;tr></code>.</p>
+
+@ja
+    <p>表のこま (<code>td</code> 要素や
+    <code>th</code> 要素) 内では使えない開始タグがありました。</p>
+
+    <p><code>td</code> や
+    <code>th</code> の <code>innerHTML</code> では、次の開始タグは使えません:
+    <code>&lt;caption></code>, <code>&lt;col></code>,
+    <code>&lt;colgroup></code>, <code>&lt;tbody></code>,
+    <code>&lt;td></code>, <code>&lt;tfoot></code>,
+    <code>&lt;th></code>, <code>&lt;thead></code>,
+    <code>&lt;tr></code>。</p>
+
+* in colgroup
+
+name=in-column-group-else
+
+@en
+There is a text or tag in a <code>colgroup</code> element
+@ja
+<code>colgroup</code> 要素内にテキストかタグがあります
+
+@en
+    <p>No element other than a <code>col</code> or
+    <code>template</code> element or non-space character is not
+    allowed in the <code>colgroup</code> element or in the
+    <code>template</code> element containing <code>col</code>
+    elements.</p>
+
+@ja
+    <p><code>col</code> と <code>template</code> 以外の要素や空白以外の文字は、
+    <code>colgroup</code> 要素や、 <code>col</code> 要素を含んでいる
+    <code>template</code> 要素の中では使えません。</p>
+
+!!!
+!context=colgroup
+$$<p>
+!!!
+!context=colgroup
+$$</p>
+!!!
+!context=colgroup
+$$h
+
+* in frameset
+
+name=in-frameset-else
+
+@en
+There is a text or tag in a <code>frameset</code> element
+@ja
+<code>frameset</code> 要素内にテキストかタグがあります
+
+@en
+    <p>No element other than a <code>frameset</code> or
+    <code>frame</code> element or non-space character is not
+    allowed in the <code>frameset</code> element.
+
+@ja
+    <p><code>frameset</code> と <code>frame</code> 以外の要素や空白以外の文字は、
+    <code>frameset</code> 要素の中では使えません。</p>
+
+!!!
+!context=frameset
+$$<p>
+!!!
+!context=frameset
+$$</p>
+!!!
+!context=frameset
+$$h
+
+* in noscript
+
+name=in-head-noscript-else
+name=in-head-noscript-start-head-noscript
+
+@en
+The <code>noscript</code> element is not closed before
+a text, tag, or end of file
+@ja
+テキストやタグ、ファイルの末尾の前で <code>noscript</code>
+要素が閉じられていません
+
+@en
+
+<p>Within a <code>noscript</code> element in a <code>head</code>
+element, only limited set of HTML elements such as <code>link</code>
+and <code>meta</code> can be used.
+
+@ja
+
+<p><code>head</code> 要素内の <code>noscript</code> 要素内では、
+<code>link</code> や <code>meta</code> など一部の HTML
+要素しか使えません。
+
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$<p>
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$<hoge>
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$foo
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$<noscript></noscript>
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$<head></noscript>
+!!!
+!noscript
+<!DOCTYPE HTML><head><noscript>$$<body>
+
+* in table row
+
+name=in-row-start-c3t4
+value=tag_name
+
+@en
+There is a start tag <code>&lt;<var>{value}</var>></code> in a
+table row
+@ja
+表の行内に <code>&lt;<var>{value}</var>></code> 開始タグがあります
+
+@en
+
+<p>In the <code>innerHTML</code> of an HTML <code>tr</code> element,
+HTML elements <code>caption</code>, <code>colgroup</code>,
+<code>col</code>, <code>thead</code>, <code>tbody</code>,
+<code>tfoot</code>, and <code>tr</code> are not allowed.
+
+@ja
+
+<p>HTML <code>tr</code> 要素の <code>innerHTML</code> では、
+HTML 要素 <code>caption</code>, <code>colgroup</code>,
+<code>col</code>, <code>thead</code>, <code>tbody</code>,
+<code>tfoot</code>, <code>tr</code> は使えません。
+
+!!!
+!context=tr
+$$<tbody>
+!value=tbody
+
+* in table body
+
+name=in-table-body-start-c3t3
+value=tag_name
+
+@en
+There is a start tag <code>&lt;<var>{value}</var>></code> in a
+table row group
+@ja
+表の行群内に <code>&lt;<var>{value}</var>></code> 開始タグがあります
+
+@en
+
+<p>In the <code>innerHTML</code> of an HTML <code>thead</code>,
+<code>tbody</code>, or <code>tfoot</code> element, HTML elements
+<code>caption</code>, <code>colgroup</code>, <code>col</code>,
+<code>thead</code>, <code>tbody</code>, and <code>tfoot</code> are not
+allowed.
+
+@ja
+
+<p>HTML <code>thead</code> 要素、 HTML <code>tbody</code> 要素、
+HTML <code>tfoot</code> 要素の <code>innerHTML</code> では、
+HTML 要素 <code>caption</code>, <code>colgroup</code>,
+<code>col</code>, <code>thead</code>, <code>tbody</code>,
+<code>tfoot</code> は使えません。
+
+!!!
+!context=tbody
+$$<tbody>
+!value=tbody
+
+* in select
+
+name=in-select-else
+
+@en
+There is a tag in a <code>select</code> element
+@ja
+<code>colgroup</code> 要素内にタグがあります
+
+@en
+
+<p>In an HTML <code>select</code> element, only HTML
+<code>option</code> and <code>optgroup</code> elements can be used.
+
+@ja
+
+<p>HTML <code>select</code> 要素内では HTML
+<code>optgroup</code> 要素と HTML <code>option</code>
+要素しか使えません。
+
+!!!
+<!DOCTYPE HTML><Select>$$<foo>
+!!!
+<!DOCTYPE HTML><Select>$$</foo>
+
+* in select in table:end tag
+
+name=in-select-in-table-end-ct7
+value=tag_name
+
+@en
+The <code>select</code> element is not closed before
+an end tag <code>&lt;/<var>{value}</var>></code>
+@ja
+<code>&lt;/<var>{value}</var>></code> 終了タグの前に
+<code>select</code> 要素が閉じられていません
+
+@en
+
+<p>An HTML <code>select</code> element must be closed before a
+table-related element is closed.
+
+@ja
+
+<p>HTML <code>select</code> 要素は、
+表関係の要素が閉じられる前に閉じられていなければいけません。
+
+!!!
+<!DOCTYPE HTML><table><select>$$</tbody>
+!value=tbody
+
+* in select in table:start tag
+
+name=in-select-in-table-start-ct7
+value=tag_name
+
+@en
+The <code>select</code> element is not closed before
+a start tag <code>&lt;<var>{value}</var>></code>
+@ja
+<code>&lt;<var>{value}</var>></code> 開始タグの前に
+<code>select</code> 要素が閉じられていません
+
+@en
+
+<p>An HTML <code>select</code> element must be closed before a
+table-related element is opened.
+
+@ja
+
+<p>HTML <code>select</code> 要素は、
+表関係の要素が開かれる前に閉じられていなければいけません。
+
+!!!
+<!DOCTYPE HTML><table><select>$$<tbody>
+!value=tbody
+
+* no <tr>
+
+name=in-table-body-start-td-th
+
+@en
+There is the start tag of a table cell without a <code>tr</code> element
+@ja
+<code>tr</code> 要素なしで表のこまの開始タグがあります
+
+@en
+
+<p>The start tag <code>&lt;td></code> or <code>&lt;th></code> must be
+in an HTML <code>tr</code> element.
+
+@ja
+
+<p>開始タグ <code>&lt;td></code> や開始タグ <code>&lt;th></code>
+の前に HTML <code>tr</code> 要素が開いていなければいけません。
+
+!!!
+<!DOCTYPE HTML><table>$$<td>
+
+* in table
+
+name=in-table-else
+name=in-table-start-form
+name=in-table-start-input
+
+@en
+There is a tag in a <code>table</code> element
+@ja
+<code>table</code> 要素内にタグがあります
+
+@en
+
+<p>Tags not related to tables are not allowed in an HTML
+<code>table</code> element.  It must be put in an HTML
+<code>caption</code> element, or in an HTML <code>td</code> or
+<code>th</code> element, or must be moved outside of the table.
+
+@ja
+
+<p>表と関係のないタグを HTML の <code>table</code>
+要素に含めることはできません。 HTML の
+<code>caption</code>, <code>td</code>, <code>th</code>
+のいずれかの要素に含めるか、表の外に出さなければいけません。
+
+!!!
+<!DOCTYPE HTML><table>$$<p>
+!!!
+<!DOCTYPE HTML><table>$$</gfoo>
+!!!
+<!DOCTYPE HTML><table>$$<form>
+!!!
+<!DOCTYPE HTML><table>$$<input>
+
+* in table:#text
+
+name=in-table-text-else
+name=in-table-char
+
+@en
+There is a text in a <code>table</code> element
+@ja
+<code>table</code> 要素内にテキストがあります
+
+@en
+
+<p>Text other than white space characters is not allowed in an HTML
+<code>table</code> element.  It must be put in an HTML
+<code>caption</code> element, or in an HTML <code>td</code> or
+<code>th</code> element, or must be moved outside of the table.
+
+@ja
+
+<p>空白文字以外のテキストを HTML の <code>table</code>
+要素に含めることはできません。テキストは HTML の
+<code>caption</code>, <code>td</code>, <code>th</code>
+のいずれかの要素に含めるか、表の外に出さなければいけません。
+
+!!!
+<!DOCTYPE HTML><table>$$abc
+!!!
+<!DOCTYPE HTML><table><p>$$abc
