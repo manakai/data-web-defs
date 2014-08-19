@@ -524,35 +524,90 @@ can be omitted, e.g. <code>p</code>).
 !text=select
 !value=input
 
-* obs DOCTYPE
+* AAA:in afe but not in open elements
 
-name=initial-doctype
-
-@en
-The DOCTYPE has public and/or system identifiers
-@ja
-DOCTYPE に公開識別子やシステム識別子があります
+value=tag_name
+layer=tree-construction
+module=Web::HTML::Parser::tree_constructor
 
 @en
+The end tag closes a misnested element
+@ja
+この終了タグは入れ子関係がおかしくなった要素を閉じています
 
-<p>The simplest DOCTYPE syntax <code>&lt;!DOCTYPE html></code> should
-always be used.  Use of <code>PUBLIC</code> or <code>SYSTEM</code>
-identifiers, which was encouraged in 00s, is discouraged.</p>
+@en
+
+<p>There are some misnested elements; an element opened before another
+element is closed before the other element.  The end tag closes the
+other element, but it should have been appeared before the first
+element's end tag.
 
 @ja
 
-<p>DOCTYPE は <code>&lt;!DOCTYPE html></code> とだけあれば十分です。00
-年代には <code>PUBLIC</code> や <code>SYSTEM</code>
-を書くのが流行りましたが、今は不要です。</p>
+<p>入れ子関係がおかしな要素があるようです。
+ある要素が別の要素より先に開かれましたが、
+その別の要素より先に最初の要素が閉じられています。
+この終了タグはその別の要素のものですが、最初の要素の終了タグより前に置かなければいけません。
 
 !!!
-$$<!DOCTYPE html4>
+<!DOCTYPE HTML><span><b></span>$$</b>
+!value=b
+
+* AAA:formatting element not current
+
+value=tag_name
+layer=tree-construction
+module=Web::HTML::Parser::tree_constructor
+
+@en
+The end tag closes a misnested element
+@ja
+この終了タグは入れ子関係がおかしくなった要素を閉じています
+
+@en
+
+<p>There are some misnested elements; an element opened before another
+element is closed before the other element.  The end tag closes the
+first element, but it should have been appeared after the other
+element's end tag.
+
+@ja
+
+<p>入れ子関係がおかしな要素があるようです。
+ある要素が別の要素より先に開かれましたが、
+その別の要素より先に最初の要素が閉じられています。
+この終了タグはその最初の要素のものですが、
+後の要素の終了タグより後に置かなければいけません。
 
 !!!
-$$<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML><b><div>$$</b>
+!value=b
+
+* AAA:formatting element not in scope
+
+value=tag_name
+layer=tree-construction
+module=Web::HTML::Parser::tree_constructor
+
+@en
+The end tag cannot close the element as its descendant is not closed
+@ja
+子孫が閉じられていないので、この終了タグは要素を閉じられません
+
+@en
+
+<p>There must be an explicit end tag for the elements, except for a
+few HTML elements.  The end tag is ignored as there is some element
+descendant that cannot be closed by the end tag.
+
+@ja
+
+<p>一部の HTML 要素を除き、要素の終了タグは明記しないといけません。
+この終了タグでは閉じられない子孫要素があるため、無視されます。
 
 !!!
-$$<!DOCTYPE HTML system "">
+<!DOCTYPE HTML><b><table>b$$</b>a
+!value=b
 
 * no DOCTYPE name
 
@@ -839,6 +894,123 @@ or within an element.
 !!!
 <!DOCTYPE HTML><table>$$<!DOCTYPE HTML>
 
+* bad DOCTYPE name
+
+layer=tree-construction
+module=Web::HTML::Parser::tokenizer
+
+@en
+The DOCTYPE name is not the root element name
+@ja
+DOCTYPE の名前が根要素の名前と違います
+
+@en
+
+<p>The name in the DOCTYPE must be equal to the qualified name of the
+root element.  In HTML document, it must be <code>html</code>.
+
+@ja
+
+<p>DOCTYPE の名前は根要素の修飾名と同じでなければいけません。
+HTML 文書では <code>html</code> でなければいけません。
+
+!!!
+$$<!DOCTYPE foo>
+!value=foo
+!!!
+$$<!DOCTYPE html4>
+!value=html4
+
+* obsolete DOCTYPE
+
+name=initial-doctype
+layer=tree-construction
+module=Web::HTML::Parser::tokenizer
+
+@en
+The DOCTYPE has public and/or system identifiers
+@ja
+DOCTYPE に公開識別子やシステム識別子があります
+
+@en
+
+<p>The DOCTYPE has public and/or system identifiers, which are
+historical constructs that are no longer useful.  You can simply write
+<code>&lt;!DOCTYPE&#x20;HTML></code>.
+
+@ja
+
+<p>DOCTYPE に公開識別子やシステム識別子がありますが、
+これらは歴史的なもので、もはや意味がありません。単純に
+<code>&lt;!DOCTYPE&#x20;HTML></code> と書くだけで十分です。
+
+!!!
+$$<!DOCTYPE HTML PUBLIC "hoge">
+!!!
+$$<!DOCTYPE HTML PUBLIC "hoge" "fuga">
+!!!
+$$<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "fa">
+!!!
+$$<!DOCTYPE HTML SYSTEM "hoge">
+!!!
+$$<!DOCTYPE HTML SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
+!!!
+$$<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+!!!
+$$<!DOCTYPE HTML system "">
+
+* obsolete permitted DOCTYPE
+
+default_level=s
+layer=tree-construction
+module=Web::HTML::Parser::tokenizer
+
+@en
+The DOCTYPE has public and/or system identifiers
+@ja
+DOCTYPE に公開識別子やシステム識別子があります
+
+@en
+
+<p>The DOCTYPE has one of public identifiers of HTML4/XHTML1 age,
+which is no longer necessary.  You can simply write
+<code>&lt;!DOCTYPE&#x20;HTML></code>.
+
+@ja
+
+<p>DOCTYPE に HTML4/XHTML1 時代の公開識別子やシステム識別子がありますが、
+これはもう必要ありません。単純に
+<code>&lt;!DOCTYPE&#x20;HTML></code> と書くだけで十分です。
+
+!!!
+$$<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+* legacy DOCTYPE
+
+default_level=s
+layer=tree-construction
+module=Web::HTML::Parser::tokenizer
+
+@en
+The DOCTYPE has a system identifier
+@ja
+DOCTYPE にシステム識別子があります
+
+@en
+
+<p>The DOCTYPE has a legacy DOCTYPE string system identifier
+(<code>about:legacy-compat</code>), which is hardly necessary.  You
+can simply write <code>&lt;!DOCTYPE&#x20;HTML></code>.
+
+@ja
+
+<p>DOCTYPE に遺物 DOCTYPE 文字列のシステム識別子がありますが、
+これは滅多に必要ありません。単純に
+<code>&lt;!DOCTYPE&#x20;HTML></code> と書くだけで十分です。
+
+!!!
+$$<!DOCTYPE HTML SYSTEM "about:legacy-compat">
+
 * after-after-body-else
 
 name=after-after-body-else
@@ -1102,6 +1274,49 @@ followed by a <code>></code> character.
 !!!
 <!DOCTYPE HTML><p/$$hoge>
 
+* nestc
+
+name=-start-tag-self-closing-flag
+text=tag_name
+layer=tree-construction
+module=Web::HTML::Parser::tokenizer
+
+@en
+The self-closing syntax (<code>/></code>) is used
+@ja
+その場で要素を閉じる構文 (<code>/></code>) が使われています
+
+@en
+
+<p>The self-closing start tag syntax (<code>/></code>) has effect only
+for SVG and MathML elements.  For HTML void elements such as
+<code>br</code> and <code>img</code>, it is allowed but has no effect.
+For the other HTML elements, <code>/</code> is simply ignored and is
+not allowed.
+
+<p>The self-closing tag syntax is not allowed in an end tag.
+
+@ja
+
+<p>その場で要素を閉じるタグの構文 (<code>/></code>) は SVG や
+MathML の要素でのみ意味があります。 HTML の void 要素
+(<code>br</code> や <code>img</code> など) でも認められていますが、
+意味はありません。それ以外の HTML 要素では
+<code>/</code> は無視されるだけなので、認められていません。
+
+<p>その場で閉じる構文は、終了タグでは使えません。
+
+!!!
+<!DOCTYPE HTML>$$<p/>
+!text=p
+!!!
+<!DOCTYPE HTML>$$<img/>
+!text=img
+!level=w
+!!!
+<!DOCTYPE HTML><p>$$</p/>
+!text=p
+
 * no space before attr name
 
 name=after-attribute-value-quoted-else
@@ -1133,6 +1348,64 @@ There is no space before an attribute
 
 !!!
 <!DOCTYPE html><p foo=""$$bar="">
+
+* end tag attribute
+
+layer=tokenizer
+module=Web::HTML::Parser::tokenizer
+
+@en
+An attribute is specified for an end tag
+@ja
+終了タグに属性が指定されています
+
+@en
+<p>An end tag cannot have attributes.
+@ja
+<p>終了タグに属性は指定できません。
+
+!!!
+<!DOCTYPE HTML><div class=foo>aa$$</div class=foo>
+
+* duplicate attribute
+
+layer=tokenizer
+module=Web::HTML::Parser::tokenizer
+module=Temma::Parser
+
+@en
+There are multiple <code><var>{text}</var></code> attributes
+@ja
+属性 <code><var>{text}</var></code> が複数あります
+
+@en
+    <p>There are more than one attributes with the same name in a tag.</p>
+
+    <dl class="switch">
+
+    <dt>HTML <code>img</code> element, the <code>motion</code>
+    attribute</dt>
+
+    <dd>This attribute is obsolete.  Use animation GIF instead.</dd>
+
+    </dl>
+
+@ja
+
+    <p>同じ名前の属性を複数個同じタグに指定することはできません。</p>
+
+    <dl class="switch">
+
+    <dt>HTML <code>img</code> 要素 <code>motion</code> 属性</dt>
+
+    <dd>この属性は廃止されました。代わりにアニメーション GIF
+    を使ってください。</dd>
+
+    </dl>
+
+!!!
+<!DOCTYPE HTML><div class=foo $$class=bar>
+!text=class
 
 * empty end tag
 
@@ -1466,6 +1739,8 @@ character must be escaped as <code>&amp;amp;</code>.
 
 name=character-reference-decimal-number-else
 name=character-reference-hexadecimal-number-else
+layer=tokenizer
+module=Web::HTML::Parser::tokenizer
 
 @en
 There is no <code>;</code> at the end of a reference
@@ -1487,6 +1762,121 @@ There is no <code>;</code> at the end of a reference
 <!DOCTYPE HTML>&#x125a$$zabc;
 !!!
 <!DOCTYPE HTML>&amp$$**
+!!!
+<!DOCTYPE HTML><a href="&amp$$=aa">
+
+* invalid character reference
+
+layer=tokenizer
+module=Web::HTML::Parser::tokenizer
+
+@en
+Special code point <code><var>{text}</var></code> is referenced
+@ja
+特殊な符号位置 <code><var>{text}</var></code> が参照されています
+
+@en
+
+<p>A character reference cannot be used to reference a control
+character, surrogate code point, noncharacter code point, or
+non-Unicode code point.
+
+@ja
+
+<p>文字参照は、制御文字、サロゲート符号位置、非文字符号位置、
+非 Unicode 符号位置を参照することはできません。
+
+!!!
+<!DOCTYPE HTML>$$&#0;
+!text=U+0000
+!!!
+<!DOCTYPE HTML>$$&#x7F;
+!text=U+007F
+!!!
+<!DOCTYPE HTML>$$&#x10FFFF;
+!text=U+10FFFF
+!!!
+<!DOCTYPE HTML>$$&#x000000000000000700ffff;
+!text=U-0700FFFF
+
+* entity not declared
+
+layer=tokenizer
+module=Web::HTML::Parser::tokenizer
+
+@en
+Entity <code><var>{value}</var></code> is not declared
+@ja
+実体 <code><var>{value}</var></code> は宣言されていません
+
+@en
+    <p>The referenced entity is not declared.</p>
+
+    <dl class="swtich">
+      <dt>In HTML document
+
+      <dd>In an HTML document, only limited set of character
+      references can be used.
+
+      <dt>In XML document</dt>
+
+      <dd>In an XML document, most of entities must be declared in the
+      document type definition of the document.  Lack of entity
+      declaration is validity error, or sometimes well-formedness
+      error, depending on the standaloness of the document.</dd>
+
+      <dd>In an XML document, although entities <code>amp</code>,
+      <code>lt</code>, <code>gt</code>, <code>quot</code>, and
+      <code>apos</code> are predefined, therefore they can be used
+      even when they are not explicitly declared, they have to be
+      declared for interoperability, according to the XML
+      specification.</dd>
+
+      <dt>In WebVTT document</dt>
+
+      <dd>In a WebVTT document, only the following character
+      references are allowed: <code>&amp;amp;</code>,
+      <code>&amp;lt;</code>, <code>&amp;gt;</code>,
+      <code>&amp;lrm;</code>, <code>&amp;rlm;</code>, and
+      <code>&amp;nbsp;</code>.</dd> </dl> </d:desc>
+
+<p>To represent an <code>&amp;</code> character, it must be escaped as
+<code>&amp;amp;</code>.
+
+@ja
+    <p>参照されている実体は宣言されていません。</p>
+
+    <dl class="swtich">
+      <dt>HTML 文書
+
+      <dd>HTML 文書では、限られた文字参照しか使えません。
+
+      <dt>XML 文書</dt>
+
+      <dd>XML 文書では、ほとんどの実体は文書の文書型定義で制限されていなければなりません。
+      実体宣言が無いのは妥当性制約違反ですし、
+      文書の単独性如何によっては整形式制約違反でもあります。</dd>
+
+      <dd>XML 文書では、実体 <code>amp</code>,
+      <code>lt</code>, <code>gt</code>, <code>quot</code>, 
+      <code>apos</code> は定義済みであり、明示的に宣言する必要はないのですが、
+      XML 仕様によれば相互運用性のために敢えて宣言する必要があります。</dd>
+
+      <dt>WebVTT 文書</dt>
+
+      <dd>WebVTT 文書では、文字参照として使えるのは
+      <code>&amp;amp;</code>,
+      <code>&amp;lt;</code>, <code>&amp;gt;</code>,
+      <code>&amp;lrm;</code>, <code>&amp;rlm;</code>,
+      <code>&amp;nbsp;</code> だけです。</dd>
+    </dl>
+
+<p><code>&amp;</code> という文字を表したいときは、
+<code>&amp;amp;</code> とエスケープしなければいけません。
+
+!!!
+<!DOCTYPE HTML>$$&hoge;
+!value=&hoge;
 
 * parser:comment not closed
 
@@ -2333,3 +2723,56 @@ There is a text in a <code>table</code> element
 <!DOCTYPE HTML><table>$$abc
 !!!
 <!DOCTYPE HTML><table><p>$$abc
+
+* foreign:bad xmlns value
+
+layer=namespaces
+module=Web::HTML::Parser::tree_constructor
+
+@en
+The <code>xmlns</code> attribute value is incorrect
+@ja
+<code>xmlns</code> 属性値が正しくありません
+
+@en
+
+<p>The value of the <code>xmlns</code> attribute in the XMLNS
+namespace must be equal to the namespace of the element.
+
+<p>For an SVG element, the attribute value must be
+<code>http://www.w3.org/2000/svg</code>.
+
+<p>For a MathML element, the attribute value must be
+<code>http://www.w3.org/1998/Math/MathML</code>.
+
+<p>The value of the <code>xlink</code> attribute in the XMLNS
+namespace (i.e. the <code>xmlns:xlink</code> attribute) must be
+<code>http://www.w3.org/1999/xlink</code>.
+
+@ja
+
+<p>XMLNS 名前空間の <code>xmlns</code> 属性の値は、
+要素の名前空間と同じでなければいけません。
+
+<p>SVG 要素の属性値は
+<code>http://www.w3.org/2000/svg</code> でなければいけません。
+
+<p>MathML 要素の属性値は
+<code>http://www.w3.org/1998/Math/MathML</code> でなければいけません。
+
+<p>XMLNS 名前空間の <code>xlink</code> 属性
+(<code>xmlns:xlink</code> 属性) の値は
+<code>http://www.w3.org/1999/xlink</code> でなければいけません。
+
+!!!
+<!DOCTYPE HTML><svg $$xmlns=hoge>
+!value=hoge
+!!!
+<!DOCTYPE HTML><math $$xmlns=hoge>
+!value=hoge
+!!!
+<!DOCTYPE HTML><math><foo $$xmlns=hoge>
+!value=hoge
+!!!
+<!DOCTYPE HTML><svg $$xmlns:xlink="foo">
+!value=foo
