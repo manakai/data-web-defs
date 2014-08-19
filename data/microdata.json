@@ -2358,6 +2358,18 @@
             "desc" : "Articles may belong to one or more 'sections' in a magazine or newspaper, such as Sports, Lifestyle, etc.",
             "value" : "text"
          },
+         "pageEnd" : {
+            "desc" : "The page on which the work ends; for example \u0022138\u0022 or \u0022xvi\u0022.",
+            "value" : "text"
+         },
+         "pageStart" : {
+            "desc" : "The page on which the work starts; for example \u0022135\u0022 or \u0022xiii\u0022.",
+            "value" : "text"
+         },
+         "pagination" : {
+            "desc" : "Any description of pages that is not separated into pageStart and pageEnd; for example, \u00221-6, 9, 55\u0022 or \u002210-12, 46-49\u0022.",
+            "value" : "text"
+         },
          "wordCount" : {
             "desc" : "The number of words in the text of the Article.",
             "value" : "integer"
@@ -2758,10 +2770,6 @@
          }
       },
       "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/CreativeWork" : 1,
-         "http://schema.org/Thing" : 2
-      },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
@@ -3123,7 +3131,7 @@
             "value" : "schema.org datetime"
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -3216,8 +3224,18 @@
    "http://schema.org/BuyAction" : {
       "desc" : "The act of giving money to a seller in exchange for goods or services rendered. An agent buys an object, product, or service from a seller for a price. Reciprocal of SellAction.",
       "props" : {
+         "seller" : {
+            "desc" : "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
          "vendor" : {
-            "desc" : "A sub property of participant. The seller. The participant/person/organization that sold the object.",
+            "desc" : "'vendor' is an earlier term for 'seller'.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -3540,7 +3558,7 @@
       "props" : {
          "clipNumber" : {
             "desc" : "Position of the clip within an ordered group of clips.",
-            "value" : "integer"
+            "value" : "text"
          },
          "partOfEpisode" : {
             "desc" : "The episode to which this clip belongs.",
@@ -3568,10 +3586,6 @@
                   "http://schema.org/Series" : 1
                }
             }
-         },
-         "position" : {
-            "desc" : "Free text to define other than pure numerical ranking of an episode or a season in an ordered list of items (further formatting restrictions may apply within particular user groups).",
-            "value" : "text"
          },
          "publication" : {
             "desc" : "A publication event associated with the episode, clip or media object.",
@@ -4451,9 +4465,27 @@
                }
             }
          },
+         "exampleOfWork" : {
+            "desc" : "A creative work that this work is an example/instance/realization/derivation of.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
          "genre" : {
             "desc" : "Genre of the creative work",
             "value" : "text"
+         },
+         "hasPart" : {
+            "desc" : "Indicates a CreativeWork that is (in some sense) a part of this CreativeWork.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
          },
          "headline" : {
             "desc" : "Headline of the article",
@@ -4534,8 +4566,12 @@
                }
             }
          },
+         "position" : {
+            "desc" : "The position of the creative work within a series or other ordered collection of works.",
+            "value" : "text"
+         },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4613,6 +4649,15 @@
                   "http://schema.org/VideoObject" : 1
                }
             }
+         },
+         "workExample" : {
+            "desc" : "Example/instance/realization/derivation of the concept of this creative work. eg. The paperback edition, first edition, or eBook.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -4625,7 +4670,6 @@
          "http://schema.org/Answer" : 1,
          "http://schema.org/Article" : 1,
          "http://schema.org/AudioObject" : 2,
-         "http://schema.org/Blog" : 1,
          "http://schema.org/BlogPosting" : 2,
          "http://schema.org/Book" : 1,
          "http://schema.org/CheckoutPage" : 2,
@@ -4657,8 +4701,11 @@
          "http://schema.org/MusicVideoObject" : 2,
          "http://schema.org/NewsArticle" : 2,
          "http://schema.org/Painting" : 1,
+         "http://schema.org/Periodical" : 1,
          "http://schema.org/Photograph" : 1,
          "http://schema.org/ProfilePage" : 2,
+         "http://schema.org/PublicationIssue" : 1,
+         "http://schema.org/PublicationVolume" : 1,
          "http://schema.org/QAPage" : 2,
          "http://schema.org/Question" : 1,
          "http://schema.org/RadioClip" : 2,
@@ -5191,7 +5238,7 @@
             }
          },
          "seller" : {
-            "desc" : "The organization or person making the offer.",
+            "desc" : "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6273,7 +6320,7 @@
          },
          "episodeNumber" : {
             "desc" : "Position of the episode within an ordered group of episodes.",
-            "value" : "integer"
+            "value" : "text"
          },
          "musicBy" : {
             "desc" : "The composer of the movie or TV/radio soundtrack.",
@@ -6302,10 +6349,6 @@
                   "http://schema.org/Series" : 1
                }
             }
-         },
-         "position" : {
-            "desc" : "Free text to define other than pure numerical ranking of an episode or a season in an ordered list of items (further formatting restrictions may apply within particular user groups).",
-            "value" : "text"
          },
          "producer" : {
             "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
@@ -6852,7 +6895,7 @@
             "value" : "schema.org datetime"
          },
          "carrier" : {
-            "desc" : "The party responsible for the parcel delivery.",
+            "desc" : "'carrier' is an out-dated term indicating the 'provider' for parcel delivery and flights.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6890,7 +6933,7 @@
             "value" : "schema.org distance"
          },
          "flightNumber" : {
-            "desc" : "The unique identifier for a flight, not including the airline IATA code. For example, if describing United flight 110, the flightNumber is '110'. The IATA code can be set on the Airline.",
+            "desc" : "The unique identifier for a flight including the airline IATA code. For example, if describing United flight 110, where the IATA code for United is 'UA', the flightNumber is 'UA110'.",
             "value" : "text"
          },
          "mealService" : {
@@ -6898,7 +6941,17 @@
             "value" : "text"
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "seller" : {
+            "desc" : "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -7309,7 +7362,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/HVACBusiness" : {
-      "desc" : "An HVAC service.",
+      "desc" : "A business that provide Heating, Ventilation and Air Conditioning services.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/HomeAndConstructionBusiness" : 1,
@@ -7405,7 +7458,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/HobbyShop" : {
-      "desc" : "A hobby store.",
+      "desc" : "A store that sells materials useful or necessary for various hobbies.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -7490,7 +7543,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Hostel" : {
-      "desc" : "A hostel.",
+      "desc" : "A hostel - cheap accommodation, often in shared dormitories.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -7748,7 +7801,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/InsuranceAgency" : {
-      "desc" : "Insurance agency.",
+      "desc" : "An Insurance agency.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/FinancialService" : 1,
@@ -8310,7 +8363,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/LiquorStore" : {
-      "desc" : "A liquor store.",
+      "desc" : "A shop that sells alcoholic drinks such as wine, beer, whisky and other spirits.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -10161,7 +10214,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/MiddleSchool" : {
-      "desc" : "A middle school.",
+      "desc" : "A middle school (typically for children aged around 11-14, although this varies somewhat).",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/EducationalOrganization" : 1,
@@ -10172,7 +10225,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/MobileApplication" : {
-      "desc" : "A mobile software application.",
+      "desc" : "A software application designed specifically to work well on a mobile device such as a telephone.",
       "props" : {
          "carrierRequirements" : {
             "desc" : "Specifies specific carrier(s) requirements for the application (e.g. an application may only work on a specific carrier network).",
@@ -10189,7 +10242,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/MobilePhoneStore" : {
-      "desc" : "A mobile-phone store.",
+      "desc" : "A store that sells mobile phones and related accessories.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -11177,7 +11230,7 @@
             }
          },
          "seller" : {
-            "desc" : "The organization or person making the offer.",
+            "desc" : "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11297,7 +11350,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Optician" : {
-      "desc" : "An optician's store.",
+      "desc" : "A store that sells reading glasses and similar devices for improving vision.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -11327,6 +11380,16 @@
             "item" : {
                "types" : {
                   "http://schema.org/PostalAddress" : 1
+               }
+            }
+         },
+         "broker" : {
+            "desc" : "An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
                }
             }
          },
@@ -11361,7 +11424,7 @@
             "is_url" : 1
          },
          "merchant" : {
-            "desc" : "The party taking the order (e.g. Amazon.com is a merchant for many sellers).",
+            "desc" : "'merchant' is an out-dated term for 'seller'.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11416,6 +11479,16 @@
          "paymentUrl" : {
             "desc" : "The URL for sending a payment.",
             "is_url" : 1
+         },
+         "seller" : {
+            "desc" : "An entity which offers (sells / leases / lends / loans) the services / goods.  A seller may also be a provider.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -12011,7 +12084,7 @@
       "desc" : "The delivery of a parcel either via the postal service or a commercial service.",
       "props" : {
          "carrier" : {
-            "desc" : "The party responsible for the parcel delivery.",
+            "desc" : "'carrier' is an out-dated term indicating the 'provider' for parcel delivery and flights.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -12078,6 +12151,16 @@
             "item" : {
                "types" : {
                   "http://schema.org/Order" : 1
+               }
+            }
+         },
+         "provider" : {
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
                }
             }
          },
@@ -12172,7 +12255,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PawnShop" : {
-      "desc" : "A pawn store.",
+      "desc" : "A shop that will buy, or lend money against the security of, personal possessions.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 2,
@@ -12375,6 +12458,22 @@
          "http://schema.org/DanceGroup" : 1,
          "http://schema.org/MusicGroup" : 1,
          "http://schema.org/TheaterGroup" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Periodical" : {
+      "desc" : "A publication in any medium issued in successive parts bearing numerical or chronological designations and intended, such as a magazine, scholarly journal, or newspaper to continue indefinitely.",
+      "props" : {
+         "issn" : {
+            "desc" : "The International Standard Serial Number (ISSN) that identifies this periodical. You can repeat this property to (for example) identify different formats of this periodical.",
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -14095,6 +14194,62 @@
       "superclass_of" : {
          "http://schema.org/BroadcastEvent" : 1,
          "http://schema.org/OnDemandEvent" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/PublicationIssue" : {
+      "desc" : "A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.",
+      "props" : {
+         "issueNumber" : {
+            "desc" : "Identifies the issue of publication; for example, \u0022iii\u0022 or \u00222\u0022.",
+            "value" : "text"
+         },
+         "pageEnd" : {
+            "desc" : "The page on which the work ends; for example \u0022138\u0022 or \u0022xvi\u0022.",
+            "value" : "text"
+         },
+         "pageStart" : {
+            "desc" : "The page on which the work starts; for example \u0022135\u0022 or \u0022xiii\u0022.",
+            "value" : "text"
+         },
+         "pagination" : {
+            "desc" : "Any description of pages that is not separated into pageStart and pageEnd; for example, \u00221-6, 9, 55\u0022 or \u002210-12, 46-49\u0022.",
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/PublicationVolume" : {
+      "desc" : "A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.",
+      "props" : {
+         "pageEnd" : {
+            "desc" : "The page on which the work ends; for example \u0022138\u0022 or \u0022xvi\u0022.",
+            "value" : "text"
+         },
+         "pageStart" : {
+            "desc" : "The page on which the work starts; for example \u0022135\u0022 or \u0022xiii\u0022.",
+            "value" : "text"
+         },
+         "pagination" : {
+            "desc" : "Any description of pages that is not separated into pageStart and pageEnd; for example, \u00221-6, 9, 55\u0022 or \u002210-12, 46-49\u0022.",
+            "value" : "text"
+         },
+         "volumeNumber" : {
+            "desc" : "Identifies the volume of publication or multi-part work; for example, \u0022iii\u0022 or \u00222\u0022.",
+            "value" : "text"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -18387,7 +18542,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/RVPark" : {
-      "desc" : "An RV park.",
+      "desc" : "A place offering space for \u0022Recreational Vehicles\u0022, Caravans, mobile homes and the like.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CivicStructure" : 1,
@@ -19077,7 +19232,7 @@
       "desc" : "Describes a reservation for travel, dining or an event. Some reservations require tickets.Note: This type is for information about actual reservations, e.g. in confirmation emails or HTML pages with individual confirmations of reservations. For offers of tickets, restaurant reservations, flights, or rental cars, use http://schema.org/Offer.",
       "props" : {
          "bookingAgent" : {
-            "desc" : "If the reservation was not booked directly through the provider, the third-party booking agent can be recorded through this property.",
+            "desc" : "'bookingAgent' is an out-dated term indicating a 'broker' that serves as a booking agent.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19089,6 +19244,16 @@
          "bookingTime" : {
             "desc" : "The date and time the reservation was booked.",
             "value" : "schema.org datetime"
+         },
+         "broker" : {
+            "desc" : "An entity that arranges for an exchange between a buyer and a seller.  In most cases a broker never acquires or releases ownership of a product or service involved in an exchange.  If it is not clear whether an entity is a broker, seller, or buyer, the latter two terms are preferred.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
          },
          "modifiedTime" : {
             "desc" : "The date and time the reservation was modified.",
@@ -19108,7 +19273,7 @@
             }
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19240,7 +19405,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Reservoir" : {
-      "desc" : "A reservoir, like the Lake Kariba reservoir.",
+      "desc" : "A reservoir of water, typically an artificially created lake, like the Lake Kariba reservoir.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/BodyOfWater" : 1,
@@ -19304,7 +19469,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Review" : {
-      "desc" : "A review of an item - for example, a restaurant, movie, or store.",
+      "desc" : "A review of an item - for example, of a restaurant, movie, or store.",
       "props" : {
          "itemReviewed" : {
             "desc" : "The item that is being reviewed/rated.",
@@ -19563,10 +19728,6 @@
                }
             }
          },
-         "position" : {
-            "desc" : "Free text to define other than pure numerical ranking of an episode or a season in an ordered list of items (further formatting restrictions may apply within particular user groups).",
-            "value" : "text"
-         },
          "producer" : {
             "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
             "is_url" : 1,
@@ -19587,7 +19748,7 @@
          },
          "seasonNumber" : {
             "desc" : "Position of the season within an ordered group of seasons.",
-            "value" : "integer"
+            "value" : "text"
          },
          "startDate" : {
             "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
@@ -19650,7 +19811,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/SelfStorage" : {
-      "desc" : "Self-storage facility.",
+      "desc" : "A self-storage facility.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/LocalBusiness" : 1,
@@ -19892,7 +20053,7 @@
             }
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20312,7 +20473,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/State" : {
-      "desc" : "A state or province.",
+      "desc" : "A state or province of a country.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/AdministrativeArea" : 1,
@@ -20679,7 +20840,7 @@
          },
          "seasonNumber" : {
             "desc" : "Position of the season within an ordered group of seasons.",
-            "value" : "integer"
+            "value" : "text"
          },
          "startDate" : {
             "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
@@ -20843,7 +21004,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Table" : {
-      "desc" : "A table on the page.",
+      "desc" : "A table on a Web page.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
@@ -21007,7 +21168,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/TheaterGroup" : {
-      "desc" : "A theater group or company—for example, the Royal Shakespeare Company or Druid Theatre.",
+      "desc" : "A theater group or company, for example, the Royal Shakespeare Company or Druid Theatre.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Organization" : 2,
@@ -21131,7 +21292,6 @@
          "http://schema.org/BedAndBreakfast" : 4,
          "http://schema.org/BefriendAction" : 3,
          "http://schema.org/BikeStore" : 4,
-         "http://schema.org/Blog" : 2,
          "http://schema.org/BlogPosting" : 3,
          "http://schema.org/BloodTest" : 3,
          "http://schema.org/BodyOfWater" : 3,
@@ -21464,6 +21624,7 @@
          "http://schema.org/PerformanceRole" : 3,
          "http://schema.org/PerformingArtsTheater" : 3,
          "http://schema.org/PerformingGroup" : 2,
+         "http://schema.org/Periodical" : 2,
          "http://schema.org/Permit" : 2,
          "http://schema.org/Person" : 1,
          "http://schema.org/PetStore" : 4,
@@ -21499,6 +21660,8 @@
          "http://schema.org/PsychologicalTreatment" : 3,
          "http://schema.org/PublicSwimmingPool" : 4,
          "http://schema.org/PublicationEvent" : 2,
+         "http://schema.org/PublicationIssue" : 2,
+         "http://schema.org/PublicationVolume" : 2,
          "http://schema.org/QAPage" : 3,
          "http://schema.org/QualitativeValue" : 3,
          "http://schema.org/QuantitativeValue" : 3,
@@ -21926,7 +22089,7 @@
             "value" : "schema.org datetime"
          },
          "provider" : {
-            "desc" : "The person or organization providing the service, reservation, or creative work. The provider may subcontract out the service.",
+            "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
             "is_url" : 1,
             "item" : {
                "types" : {
