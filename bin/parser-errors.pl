@@ -153,6 +153,13 @@ for my $error_type (keys %{$Data->{errors}}) {
   }
 }
 
+for my $error_type (keys %{$Data->{errors}}) {
+  warn "|$error_type| has no layer"
+      if not defined $Data->{errors}->{$error_type}->{layer};
+  warn "|$error_type| has no module"
+      unless keys %{$Data->{errors}->{$error_type}->{modules} or {}};
+} # $error_type
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
