@@ -707,6 +707,25 @@ sub resolve_action_structure ($) {
 
   $new_acts = [];
   while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'ELSE' and
+        @$new_acts and
+        $new_acts->[-1]->{type} eq 'IF' and
+        @{$new_acts->[-1]->{actions} or []} and
+        $new_acts->[-1]->{actions}->[-1]->{type} eq 'UNPARSED' and
+        $new_acts->[-1]->{actions}->[-1]->{DESC} eq 'stop parsing') {
+      my $if = {%$act};
+      $if->{actions} = [@{$if->{actions} or []}, @$acts];
+      push @$new_acts, $if;
+      @$acts = ();
+    } else {
+      push @$new_acts, $act;
+    }
+  }
+  $acts = $new_acts;
+
+  $new_acts = [];
+  while (@$acts) {
     my $act = pop @$acts;
     if ($act->{type} eq 'ELSE' and
         defined $act->{actions} and
