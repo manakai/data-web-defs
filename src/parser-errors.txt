@@ -2785,3 +2785,31 @@ namespace (i.e. the <code>xmlns:xlink</code> attribute) must be
 !!!
 <!DOCTYPE HTML><svg $$xmlns:xlink="foo">
 !value=foo
+
+* charref in charset
+
+layer=tokenizer
+module=Web::HTML::Parser
+
+@en
+The character encoding declaration contains a character reference
+@ja
+文字符号化宣言に文字参照が使われています
+
+@en
+    <p>The character encoding declaration cannot contain any HTML
+    character reference.</p>
+
+@ja
+    <p>文字符号化宣言は HTML の文字参照を含んではいけません。</p>
+
+!!!
+<!DOCTYPE HTML><meta $$charset=utf-&#x38;>
+!!!
+<!DOCTYPE HTML><meta $$charset=utf&#46;8>
+!!!
+<!DOCTYPE HTML><meta $$charset=utf&amp;8>
+!!!
+<!DOCTYPE HTML><meta $$charset=utf&amp>
+!!!
+<!DOCTYPE HTML><meta http-equiv=content-type $$content="text/html;&#x20;charset=utf-8">

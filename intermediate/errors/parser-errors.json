@@ -559,6 +559,43 @@
             }
          ]
       },
+      "charref in charset" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The character encoding declaration cannot contain any HTML\u000A    character reference.\u003C/p>",
+            "ja" : "\u003Cp>文字符号化宣言は HTML の文字参照を含んではいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "The character encoding declaration contains a character reference",
+            "ja" : "文字符号化宣言に文字参照が使われています"
+         },
+         "modules" : {
+            "Web::HTML::Parser" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf-&#x38;>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&#46;8>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&amp;8>"
+            },
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&amp>"
+            },
+            {
+               "index" : 45,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta http-equiv=content-type content=\u0022text/html;&#x20;charset=utf-8\u0022>"
+            }
+         ]
+      },
       "doctype:bad context" : {
          "default_level" : "m",
          "desc" : {
