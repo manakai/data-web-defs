@@ -34,7 +34,7 @@ my $Data = {};
             +{%$_, type => 'switch', state => $orig_state};
           } elsif ($_->{type} eq 'switch') {
             +{%$_, state => "$orig_state - $_->{state}"};
-          } elsif ($_->{type} =~ /^process-temp-as-named/) {
+          } elsif ($_->{type} =~ /^process-temp-as-/) {
             if ($orig_state =~ /attribute/) {
               +{%$_, in_attr => 1};
             } else {
