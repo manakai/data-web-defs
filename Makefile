@@ -240,7 +240,7 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/xml-datatypes.json data/xpath.json data/webidl.json \
     data/html-tree-constructor-expanded.json \
     data/html-tree-constructor-expanded-no-isindex.json \
-    intermediate/errors/parser-errors.json
+    intermediate/errors/parser-errors.json data/errors.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -253,6 +253,11 @@ data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \
   src/idl/*.idl
 	$(PERL) bin/dom.pl > $@
+
+data/errors.json: bin/errors.pl local/dom-extracted.json
+	$(PERL) bin/errors.pl > $@
+local/dom-extracted.json: local/dom.html bin/extract-dom-standard.pl
+	$(PERL) bin/extract-dom-standard.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt local/html-status.xml \
