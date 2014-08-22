@@ -67,6 +67,9 @@ for (keys %$StatusCodes) {
         $proto->{MRCP} || $StatusCodes->{$_}->{reason} || '';
 }
 
+$StatusCodes->{$_}->{http}->{cacheable} = 1
+    for qw(200 203);
+
 print perl2json_bytes_for_record $StatusCodes;
 
 ## License: Public Domain.
