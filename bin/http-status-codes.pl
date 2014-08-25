@@ -45,7 +45,8 @@ for ((map { [$_, 'HTTP'] } @{(parse 'iana-http-statuses.xml')->query_selector_al
   next if $reason eq 'Unassigned';
   next if $reason eq 'Reserved';
   $reason =~ s/ \(Experimental\)$//;
-  $reason =~ s/ \(Deprecated\)$//;
+  $StatusCodes->{$code}->{lc $proto}->{deprecated} = 1
+      if $reason =~ s/ \(Deprecated\)$//;
   $StatusCodes->{$code}->{conflict} = 1
       if ($StatusCodes->{$code}->{protocols}->{$proto} and
           $StatusCodes->{$code}->{protocols}->{$proto} ne $reason) or
@@ -68,7 +69,12 @@ for (keys %$StatusCodes) {
 }
 
 $StatusCodes->{$_}->{http}->{cacheable} = 1
-    for qw(200 203);
+    for qw(200 203 204 300 301);
+
+$StatusCodes->{$_}->{http}->{deprecated} = 1
+    for qw(305);
+$StatusCodes->{$_}->{http}->{obsolete} = 1
+    for qw(306);
 
 print perl2json_bytes_for_record $StatusCodes;
 
