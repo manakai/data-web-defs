@@ -181,6 +181,24 @@
          "value" : "Int8Array"
       },
       {
+         "di" : 135,
+         "fragment" : "typedef (MediaStream or MediaSource or Blob) [*id=\u0022mediaprovider\u0022*]MediaProvider;\u000Ainterface [*id=\u0022ht",
+         "index" : 219,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "MediaSource"
+      },
+      {
+         "di" : 135,
+         "fragment" : "typedef (MediaStream or MediaSource or Blob) [*id=\u0022mediaprovider\u0022*]MediaProvider;\u000Ainterface [*id=\u0022ht",
+         "index" : 219,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "MediaStream"
+      },
+      {
          "di" : 159,
          "fragment" : "optional (MouseEvent or Element) anchor);\u000A  void [*id=\u0022dom-dialog-showmodal\u0022*]showModal(optional (Mo",
          "index" : 253,
@@ -20199,6 +20217,22 @@
                      "type" : "DOMString"
                   }
                ],
+               "srcObject" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-media-srcobject",
+                     "setter" : 1,
+                     "spec" : "HTML",
+                     "type" : [
+                        "nullable",
+                        [
+                           "ref_typedef",
+                           "MediaProvider"
+                        ]
+                     ]
+                  }
+               ],
                "textTracks" : [
                   "attribute",
                   {
@@ -26599,6 +26633,46 @@
                ]
             },
             "spec" : "HTML"
+         }
+      ],
+      "MediaProvider" : [
+         "typedef",
+         {
+            "id" : "mediaprovider",
+            "spec" : "HTML",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref",
+                        "MediaStream"
+                     ],
+                     [
+                        "ref",
+                        "MediaSource"
+                     ],
+                     [
+                        "ref",
+                        "Blob"
+                     ]
+                  ],
+                  "flattened" : {
+                     "ref[Blob]" : [
+                        "ref",
+                        "Blob"
+                     ],
+                     "ref[MediaSource]" : [
+                        "ref",
+                        "MediaSource"
+                     ],
+                     "ref[MediaStream]" : [
+                        "ref",
+                        "MediaStream"
+                     ]
+                  }
+               }
+            ]
          }
       ],
       "MessageChannel" : [
