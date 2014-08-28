@@ -195,6 +195,7 @@ local/iana-sip.xml:
 data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
     local/iana-rtsp.xml local/iana-sip.xml \
+    src/http-status-codes.txt \
     bin/http-status-codes.pl
 	$(PERL) bin/http-status-codes.pl > $@
 data/http-methods.json: \
