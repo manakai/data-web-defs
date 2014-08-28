@@ -1,18 +1,20 @@
 use strict;
 use warnings;
 use Encode;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use Path::Tiny;
+use lib glob path (__FILE__)->parent->child ('modules', '*', 'lib');
 use JSON::PS;
 use Web::XML::Parser;
 use Web::DOM::Document;
 
+my $root_path = path (__FILE__)->parent->parent;
+
 sub parse ($) {
   my $doc = Web::DOM::Document->new;
-  my $f = file (__FILE__)->dir->parent->subdir ('local')->file ($_[0]);
+  my $path = $root_path->child ('local')->child ($_[0]);
   local $/ = undef;
   Web::XML::Parser->new->parse_char_string
-      ((decode 'utf-8', scalar $f->slurp) => $doc);
+      ((decode 'utf-8', scalar $path->slurp) => $doc);
   return $doc;
 } # parse
 
@@ -68,8 +70,39 @@ for (keys %$StatusCodes) {
         $proto->{MRCP} || $StatusCodes->{$_}->{reason} || '';
 }
 
+my $method_name;
+for (split /\x0D?\x0A/, $root_path->child ('src', 'http-status-codes.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*([0-9]+)\s*$/) {
+    my $name = $1;
+    $method_name = $name;
+    $StatusCodes->{$method_name} ||= {};
+    next;
+  } elsif (/^\*\s*([0-9]xx)\s*$/) {
+    my $name = $1;
+    $method_name = '';
+    next;
+  } elsif (/\S/) {
+    die "Status code not defined at first line" unless defined $method_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $StatusCodes->{$method_name}->{http}->{spec} = "RFC$1";
+      $StatusCodes->{$method_name}->{http}->{id} = $2;
+    } else {
+      $StatusCodes->{$method_name}->{http}->{url} = $url;
+    }
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
+delete $StatusCodes->{''};
+
 $StatusCodes->{$_}->{http}->{cacheable} = 1
-    for qw(200 203 204 300 301 404 405 410 414);
+    for qw(200 203 204 300 301 404 405 410 414 501);
 
 $StatusCodes->{$_}->{http}->{deprecated} = 1
     for qw(305);
