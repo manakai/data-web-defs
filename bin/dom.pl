@@ -64,6 +64,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   my $di;
   my $di_to_content = {};
   my $spec;
+  my $di_to_spec = [];
   my @error;
   my $current_idl;
   my $onerror = sub {
@@ -74,7 +75,8 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     } elsif (defined $error[-1]->{di}) {
       $error[-1]->{fragment} = substr $di_to_content->{$error[-1]->{di}}, 0, 100;
     }
-    $error[-1]->{spec} = $spec if length $spec;
+    $error[-1]->{spec} = $di_to_spec->[$di]
+        if length $di_to_spec->[$di];
     warn "$error[-1]->{type} - >>@{[substr $current_idl, $error[-1]->{index}-10,10]}\@\@\@\@@{[substr $current_idl, $error[-1]->{index}, 10]}<< {{{$current_idl}}}" if $error[-1]->{type} =~ /parse/;
   };
   $processor->onerror ($onerror);
@@ -82,6 +84,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
     $spec = $_;
     for (@{$json->{$spec}}) {
       $di = $next_di++;
+      $di_to_spec->[$di] = $spec;
       $el->inner_html ($_);
       for (@{$el->query_selector_all ('a[href], dfn[id]')}) {
         my $title = $_->get_attribute ('href') || $_->id;
