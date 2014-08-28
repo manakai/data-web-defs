@@ -69,12 +69,14 @@ for (keys %$StatusCodes) {
 }
 
 $StatusCodes->{$_}->{http}->{cacheable} = 1
-    for qw(200 203 204 300 301);
+    for qw(200 203 204 300 301 404 405 410 414);
 
 $StatusCodes->{$_}->{http}->{deprecated} = 1
     for qw(305);
 $StatusCodes->{$_}->{http}->{obsolete} = 1
     for qw(306);
+$StatusCodes->{$_}->{http}->{reserved} = 1
+    for qw(402);
 
 print perl2json_bytes_for_record $StatusCodes;
 
