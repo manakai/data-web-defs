@@ -47,19 +47,26 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
     } elsif (length $type) {
       die "Bad value type |$type|";
     }
-  } elsif (/^([0-9x]{3})\s+(MUST|MUST NOT|SHOULD|SHOULD NOT)$/) {
-    $Data->{headers}->{$header_name}->{http}->{response}->{$1} = $2;
-  } elsif (/^(\?\?\?)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT)$/) {
-    $Data->{headers}->{$header_name}->{http}->{response}->{'*'} = $2;
+  } elsif (/^([0-9x?]{3})\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY)$/) {
+    my $code = $1;
+    my $kwd = $2;
+    $code =~ s/\?/x/g;
+    $Data->{headers}->{$header_name}->{http}->{response}->{$code} = $kwd;
+  } elsif (/^(x)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY)$/) {
+    my $method = $1;
+    my $kwd = $2;
+    $method = '*' if $method eq 'x';
+    $Data->{headers}->{$header_name}->{http}->{request}->{$method} = $kwd;
   } elsif (m{^(HTTP/1.1)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{not_for_http10} = 1;
   } elsif (m{^(request)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|response-control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
+    $key = {'control_data' => 'response_control_data'}->{$key} || $key;
     $Data->{headers}->{$header_name}->{http}->{$key} = 1;
   } elsif (/\S/) {
     die "Bad line: |$_|\n";

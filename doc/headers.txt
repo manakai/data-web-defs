@@ -100,6 +100,8 @@ The file contains a JSON object with following name/value pairs:
 
             Whether the header is classfied as controls
             <https://tools.ietf.org/html/rfc7231#section-5.1> or not.
+            Note that this category is different from
+            |response_control_data|.
 
           cookie [boolean]
 
@@ -164,11 +166,11 @@ The file contains a JSON object with following name/value pairs:
 
             If the return value is one of RFC 2119 keywords |MUST|,
             |MUST NOT|, |SHOULD|, |SHOULD NOT|, or |MAY|, it is the
-            conformance of the header.  Otherwise, if the return value
-            is the empty string, the conformance cannot be represented
-            as a value or the conformance is not known.  Otherwise,
-            the header is not known to be applicable to request
-            messages.
+            conformance of the existence of the header in that
+            context.  Otherwise, if the return value is the empty
+            string, the conformance cannot be represented as a value
+            or the conformance is not known.  Otherwise, the header is
+            not known to be applicable to request messages.
 
           request_context [boolean]
 
@@ -202,18 +204,19 @@ The file contains a JSON object with following name/value pairs:
 
             If the return value is one of RFC 2119 keywords |MUST|,
             |MUST NOT|, |SHOULD|, |SHOULD NOT|, or |MAY|, it is the
-            conformance of the header.  Otherwise, if the return value
-            is the empty string, the conformance cannot be represented
-            as a value or the conformance is not known.  Otherwise,
-            the header is not known to be applicable to response
-            messages.
+            conformance of the existence of the header in that
+            context.  Otherwise, if the return value is the empty
+            string, the conformance cannot be represented as a value
+            or the conformance is not known.  Otherwise, the header is
+            not known to be applicable to response messages.
 
           response_control_data [boolean]
 
             Whether the header is classified as response control data
             according to
+            <https://tools.ietf.org/html/rfc7231#section-7.1> and
             <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
-            not.
+            not.  Note that this category is different from |control|.
 
           routing [boolean]
 
