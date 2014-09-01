@@ -253,6 +253,12 @@
          },
          "name" : "Accept-Language"
       },
+      "accept-ranges" : {
+         "http" : {
+            "response_context" : 1
+         },
+         "name" : "Accept-Ranges"
+      },
       "age" : {
          "http" : {
             "not_for_trailer" : 1,
@@ -267,12 +273,14 @@
          "http" : {
             "response" : {
                "405" : "MUST"
-            }
+            },
+            "response_context" : 1
          },
          "name" : "Allow"
       },
       "authorization" : {
          "http" : {
+            "authentication" : 1,
             "authentication_credentials" : 1,
             "trace_unsafe" : 1
          },
@@ -416,6 +424,7 @@
       },
       "cookie" : {
          "http" : {
+            "authentication" : 1,
             "cookie" : 1,
             "trace_unsafe" : 1
          },
@@ -423,6 +432,7 @@
       },
       "cookie2" : {
          "http" : {
+            "authentication" : 1,
             "cookie" : 1,
             "trace_unsafe" : 1
          },
@@ -441,7 +451,8 @@
                "xxx" : "SHOULD"
             },
             "response_control_data" : 1,
-            "spec" : "RFC7231"
+            "spec" : "RFC7231",
+            "value_type" : "HTTP-date"
          },
          "name" : "Date"
       },
@@ -566,11 +577,28 @@
       },
       "location" : {
          "http" : {
+            "id" : "section-7.1.2",
             "not_for_trailer" : 1,
             "response" : {
+               "1xx" : "MUST NOT",
+               "201" : "MAY",
+               "2xx" : "MUST NOT",
+               "300" : "MAY",
+               "301" : "SHOULD",
+               "302" : "SHOULD",
+               "303" : "MUST",
+               "304" : "MUST NOT",
+               "305" : "MUST NOT",
+               "306" : "MUST NOT",
+               "307" : "SHOULD",
+               "3xx" : "MAY",
+               "4xx" : "MUST NOT",
+               "5xx" : "MUST NOT",
                "xxx" : ""
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7231",
+            "value_type" : "ASCII URL"
          },
          "name" : "Location"
       },
@@ -596,8 +624,16 @@
          },
          "name" : "Pragma"
       },
+      "proxy-authenticate" : {
+         "http" : {
+            "authentication" : 1,
+            "authentication_challenge" : 1
+         },
+         "name" : "Proxy-Authenticate"
+      },
       "proxy-authorization" : {
          "http" : {
+            "authentication" : 1,
             "authentication_credentials" : 1,
             "trace_unsafe" : 1
          },
@@ -624,13 +660,26 @@
       },
       "retry-after" : {
          "http" : {
+            "id" : "section-7.1.3",
             "not_for_trailer" : 1,
             "response" : {
-               "xxx" : ""
+               "304" : "MUST NOT",
+               "305" : "MUST NOT",
+               "306" : "MUST NOT",
+               "3xx" : "MAY",
+               "503" : "MAY",
+               "xxx" : "MUST NOT"
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7231"
          },
          "name" : "Retry-After"
+      },
+      "server" : {
+         "http" : {
+            "response_context" : 1
+         },
+         "name" : "Server"
       },
       "te" : {
          "http" : {
@@ -727,11 +776,13 @@
       },
       "vary" : {
          "http" : {
+            "id" : "section-7.1.4",
             "not_for_trailer" : 1,
             "response" : {
                "xxx" : ""
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7231"
          },
          "name" : "Vary"
       },
@@ -762,8 +813,16 @@
          },
          "name" : "Warning"
       },
+      "www-authenticate" : {
+         "http" : {
+            "authentication" : 1,
+            "authentication_challenge" : 1
+         },
+         "name" : "WWW-Authenticate"
+      },
       "x-wsse" : {
          "http" : {
+            "authentication" : 1,
             "authentication_credentials" : 1,
             "trace_unsafe" : 1
          },

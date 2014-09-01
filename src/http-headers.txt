@@ -177,6 +177,7 @@ request-context
 * Date
 
 spec https://tools.ietf.org/html/rfc7231#section-7.1.1.2
+value HTTP-date
 control-data
 
 request
@@ -190,27 +191,64 @@ xxx SHOULD
 
 * Location
 
-response
+spec https://tools.ietf.org/html/rfc7231#section-7.1.2
+value ASCII URL
 control-data
+
+response
+201 MAY
+3xx MAY
+300 MAY
+301 SHOULD
+302 SHOULD
+307 SHOULD
+## Not in spec
+1xx MUST NOT
+2xx MUST NOT
+303 MUST
+304 MUST NOT
+305 MUST NOT
+306 MUST NOT
+4xx MUST NOT
+5xx MUST NOT
 
 * Retry-After
 
-response
+spec https://tools.ietf.org/html/rfc7231#section-7.1.3
 control-data
+
+response
+## Not in spec
+xxx MUST NOT
+3xx MAY
+304 MUST NOT
+305 MUST NOT
+306 MUST NOT
+503 MAY
 
 * Vary
 
-response
-control-data
-
-* Warning
-
+spec https://tools.ietf.org/html/rfc7231#section-7.1.4
 response
 control-data
 
 * Allow
 
+response-context
 405 MUST
+
+* Server
+
+response-context
+
+* Accept-Ranges
+
+response-context
+
+* Warning
+
+response
+control-data
 
 * Authorization
 
@@ -219,6 +257,14 @@ authentication-credentials
 * Proxy-Authorization
 
 authentication-credentials
+
+* WWW-Authenticate
+
+authentication-challenge
+
+* Proxy-Authenticate
+
+authentication-challenge
 
 * If-Match
 
