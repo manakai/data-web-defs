@@ -37,7 +37,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
       $Data->{headers}->{$header_name}->{http}->{value_is_list} = '+';
       $Data->{headers}->{$header_name}->{http}->{multiple} = 1;
     }
-    if ($type =~ /^([a-z0-9-]+)$/) {
+    if ($type =~ /^([A-Za-z0-9 -]+)$/) {
       $Data->{headers}->{$header_name}->{http}->{value_type} = {
         'media-type' => 'MIME type',
         'language-tag' => 'language tag',
@@ -63,7 +63,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-headers.txt')->slurp_utf8) {
     $Data->{headers}->{$header_name}->{http}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{http}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|authentication|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -86,12 +86,18 @@ for (keys %{$Data->{headers}}) {
       if $header->{http}->{control} or
          $header->{http}->{conditional};
 
-  ## Per RFC 7230 Trailer:'s definition
+  ## RFC 7230 "authentication" (it's not clear...)
+  $header->{http}->{authentication} = 1
+      if $header->{http}->{authentication_credentials} or
+         $header->{http}->{authentication_challenge} or
+         $header->{http}->{cookie};
+
+  ## Per RFC 7230 Trailer:'s definition (it's not clear...)
   $header->{http}->{not_for_trailer} = 1
       if $header->{http}->{message_framing} or
          $header->{http}->{routing} or
          $header->{http}->{request_modifier} or
-         $header->{http}->{authentication} or
+         $header->{http}->{request_authentication} or
          $header->{http}->{response_control_data} or
          $header->{http}->{payload_processing};
 

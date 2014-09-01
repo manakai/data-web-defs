@@ -95,6 +95,10 @@ for (split /\x0D?\x0A/, $root_path->child ('src', 'http-status-codes.txt')->slur
     } else {
       $StatusCodes->{$method_name}->{http}->{url} = $url;
     }
+  } elsif (/^redirect$/) {
+    $StatusCodes->{$method_name}->{http}->{redirect} = 'true';
+  } elsif (/^no redirect$/) {
+    $StatusCodes->{$method_name}->{http}->{redirect} = 'false';
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
