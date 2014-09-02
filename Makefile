@@ -195,16 +195,17 @@ local/iana-sip.xml:
 data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
     local/iana-rtsp.xml local/iana-sip.xml \
-    src/http-status-codes.txt \
+    src/http-status-codes.txt src/icap-status-codes.txt \
     bin/http-status-codes.pl
 	$(PERL) bin/http-status-codes.pl > $@
 data/http-methods.json: \
     local/sw-http-methods.xml \
     local/iana-rtsp.xml local/iana-sip.xml \
-    bin/http-methods.pl src/http-methods.txt
+    bin/http-methods.pl src/http-methods.txt src/icap-methods.txt
 	$(PERL) bin/http-methods.pl > $@
 data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
-    src/http-content-codings.txt src/http-transfer-codings.txt
+    src/http-content-codings.txt src/http-transfer-codings.txt \
+    src/icap-headers.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
