@@ -10,11 +10,6 @@ The file contains a JSON object, whose members are method names.
 Their corresponding values are JSON objects containing methods'
 properties, including:
 
-  cacheable [boolean]
-
-    Whether the method is cacheable or not
-    <https://tools.ietf.org/html/rfc7231#section-4.2.3>.
-
   case_insensitive [boolean]
 
     Whether the method name is byte case-insensitive or not
@@ -25,11 +20,6 @@ properties, including:
     List of the IANA registries in which the method is registered.
     Its members are pairs of protocol names and boolean value
     representing the appearence.
-
-  id [id-in-spec?]
-
-    The ID in the specification identified by |id| at which the method
-    is defined, if known.
 
   idempotent [boolean]
 
@@ -42,22 +32,6 @@ properties, including:
     names and boolean value representing the relevance of the
     protocol.
 
-  request_body [string?]
-
-    Whether the request body is allowed in a request message which has
-    this method, if known.  One of following values:
-
-      undefined   Semantics of the request body is undefined and
-                  whether the request body is allowed or not is unclear.
-      MAY         There can be a request body.
-      MUST        There must be a request body, possibly zero-length.
-      MUST NOT    There must not be a request body, even if zero-length.
-
-  required [boolean]
-
-    Whether support for the method is required for an HTTP server or
-    not <https://tools.ietf.org/html/rfc7231#page-22>.
-
   safe [boolean]
 
     Whether the method is safe or not
@@ -67,10 +41,6 @@ properties, including:
 
     Whether the method is a simple method
     <http://fetch.spec.whatwg.org/#simple-method> or not.
-
-  spec [spec?]
-
-    The specification in which the method is defined, if known.
 
   wildcard [boolean]
 
@@ -89,6 +59,43 @@ properties, including:
     Whether the request-body cannot be sent by XHR or not
     <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>.
 
+  http [object?]
+  icap [object?]
+
+    Properties of the request method in the protocol (|http| -> HTTP,
+    |icap| -> ICAP), as a JSON object with following name/value pairs:
+
+      cacheable [boolean]
+
+        Whether the method is cacheable or not
+        <https://tools.ietf.org/html/rfc7231#section-4.2.3>.
+
+      id [id-in-spec?]
+
+        The ID in the specification identified by |id| at which the
+        method is defined, if known.
+
+      request_body [string?]
+
+        Whether the request body is allowed in a request message which
+        has this method, if known.  One of following values:
+
+          undefined   Semantics of the request body is undefined and
+                      whether the request body is allowed or not is unclear.
+          MAY         There can be a request body.
+          MUST        There must be a request body, possibly zero-length.
+          MUST NOT    There must not be a request body, even if zero-length.
+
+      required [boolean]
+
+        Whether support for the method is required for an HTTP server
+        <https://tools.ietf.org/html/rfc7231#page-22> or an ICAP
+        server <http://tools.ietf.org/html/rfc3507#section-4.3.2>.
+
+      spec [spec?]
+
+        The specification in which the method is defined, if known.
+
 * Sources
 
 RFC 7231, Hypertext Transfer Protocol (HTTP/1.1): Semantics and
@@ -103,6 +110,9 @@ Real Time Streaming Protocol (RTSP)/1.0 Parameters
 
 Session Initiation Protocol (SIP) Parameters
 <http://www.iana.org/assignments/sip-parameters/sip-parameters.xml>.
+
+RFC 3507, Internet Content Adaptation Protocol (ICAP)
+<http://tools.ietf.org/html/rfc3507>.
 
 List of HTTP methods
 <http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20methods>.

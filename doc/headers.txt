@@ -64,9 +64,11 @@ The file contains a JSON object with following name/value pairs:
     following name/value pairs:
 
       http [object?]
+      icap [object?]
 
-        Descriptions for the header, when used in HTTP.  The value is
-        a JSON object with following name/value pairs:
+        Descriptions for the header, when used in the protocol (|http|
+        -> HTTP, |icap| -> ICAP).  The value is a JSON object with
+        following name/value pairs:
 
           authentication [boolean]
 
@@ -269,6 +271,13 @@ The file contains a JSON object with following name/value pairs:
         The name of the header in canonical form (i.e. the form shown
         in the relevant specification, if any, or titlecased form).
 
+      wildcard [boolean]
+
+        Whether the |*| charater in the header name represents one or
+        more characters or not.  If true, this entry represents
+        properties of one or more headers sharing same header name
+        pattern.
+
   protocol [object]
 
     Names are protocols (name and optional version) and values are
@@ -309,6 +318,9 @@ Routing <https://tools.ietf.org/html/rfc7230>.
 
 RFC 7231, Hypertext Transfer Protocol (HTTP/1.1): Semantics and
 Content <https://tools.ietf.org/html/rfc7231>.
+
+RFC 3507, Internet Content Adaptation Protocol (ICAP)
+<http://tools.ietf.org/html/rfc3507>.
 
 SuikaWiki:protocol <http://wiki.suikawiki.org/n/protocol$22089>.
 

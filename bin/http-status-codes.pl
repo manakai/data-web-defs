@@ -70,37 +70,43 @@ for (keys %$StatusCodes) {
         $proto->{MRCP} || $StatusCodes->{$_}->{reason} || '';
 }
 
-my $method_name;
-for (split /\x0D?\x0A/, $root_path->child ('src', 'http-status-codes.txt')->slurp_utf8) {
-  if (/^\s*#/) {
-    next;
-  } elsif (/^\*\s*([0-9]+)\s*$/) {
-    my $name = $1;
-    $method_name = $name;
-    $StatusCodes->{$method_name} ||= {};
-    next;
-  } elsif (/^\*\s*([0-9]xx)\s*$/) {
-    my $name = $1;
-    $method_name = '';
-    next;
-  } elsif (/\S/) {
-    die "Status code not defined at first line" unless defined $method_name;
-  }
-
-  if (/^spec\s+(\S+)\s*$/) {
-    my $url = $1;
-    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
-      $StatusCodes->{$method_name}->{http}->{spec} = "RFC$1";
-      $StatusCodes->{$method_name}->{http}->{id} = $2;
-    } else {
-      $StatusCodes->{$method_name}->{http}->{url} = $url;
+for (
+  ['http-status-codes.txt', 'http'],
+  ['icap-status-codes.txt', 'icap'],
+) {
+  my ($file_name, $proto) = @$_;
+  my $method_name;
+  for (split /\x0D?\x0A/, $root_path->child ('src', $file_name)->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^\*\s*([0-9]+)\s*$/) {
+      my $name = $1;
+      $method_name = $name;
+      $StatusCodes->{$method_name} ||= {};
+      next;
+    } elsif (/^\*\s*([0-9]xx)\s*$/) {
+      my $name = $1;
+      $method_name = '';
+      next;
+    } elsif (/\S/) {
+      die "Status code not defined at first line" unless defined $method_name;
     }
-  } elsif (/^redirect$/) {
-    $StatusCodes->{$method_name}->{http}->{redirect} = 'true';
-  } elsif (/^no redirect$/) {
-    $StatusCodes->{$method_name}->{http}->{redirect} = 'false';
-  } elsif (/\S/) {
-    die "Bad line: |$_|\n";
+
+    if (/^spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $StatusCodes->{$method_name}->{$proto}->{spec} = "RFC$1";
+        $StatusCodes->{$method_name}->{$proto}->{id} = $2;
+      } else {
+        $StatusCodes->{$method_name}->{$proto}->{url} = $url;
+      }
+    } elsif (/^redirect$/) {
+      $StatusCodes->{$method_name}->{$proto}->{redirect} = 'true';
+    } elsif (/^no redirect$/) {
+      $StatusCodes->{$method_name}->{$proto}->{redirect} = 'false';
+    } elsif (/\S/) {
+      die "Bad line: |$_|\n";
+    }
   }
 }
 delete $StatusCodes->{''};

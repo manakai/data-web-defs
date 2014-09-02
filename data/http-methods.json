@@ -89,12 +89,14 @@
       }
    },
    "CONNECT" : {
-      "id" : "section-4.3.6",
+      "http" : {
+         "id" : "section-4.3.6",
+         "request_body" : "undefined",
+         "spec" : "RFC7231"
+      },
       "protocols" : {
          "HTTP" : 1
       },
-      "request_body" : "undefined",
-      "spec" : "RFC7231",
       "xhr_insecure" : 1
    },
    "COPY" : {
@@ -104,13 +106,15 @@
    },
    "DELETE" : {
       "case_insensitive" : 1,
-      "id" : "section-4.3.5",
+      "http" : {
+         "id" : "section-4.3.5",
+         "request_body" : "undefined",
+         "spec" : "RFC7231"
+      },
       "idempotent" : 1,
       "protocols" : {
          "HTTP" : 1
-      },
-      "request_body" : "undefined",
-      "spec" : "RFC7231"
+      }
    },
    "DESCRIBE" : {
       "protocols" : {
@@ -118,19 +122,21 @@
       }
    },
    "GET" : {
-      "cacheable" : 1,
       "case_insensitive" : 1,
-      "id" : "section-4.3.1",
+      "http" : {
+         "cacheable" : 1,
+         "id" : "section-4.3.1",
+         "request_body" : "undefined",
+         "required" : 1,
+         "spec" : "RFC7231"
+      },
       "idempotent" : 1,
       "protocols" : {
          "HTCPCP" : 1,
          "HTTP" : 1
       },
-      "request_body" : "undefined",
-      "required" : 1,
       "safe" : 1,
       "simple" : 1,
-      "spec" : "RFC7231",
       "xhr_no_request_body" : 1
    },
    "GET-WITH-BODY" : {
@@ -144,18 +150,20 @@
       }
    },
    "HEAD" : {
-      "cacheable" : 1,
       "case_insensitive" : 1,
-      "id" : "section-4.3.2",
+      "http" : {
+         "cacheable" : 1,
+         "id" : "section-4.3.2",
+         "request_body" : "undefined",
+         "required" : 1,
+         "spec" : "RFC7231"
+      },
       "idempotent" : 1,
       "protocols" : {
          "HTTP" : 1
       },
-      "request_body" : "undefined",
-      "required" : 1,
       "safe" : 1,
       "simple" : 1,
-      "spec" : "RFC7231",
       "xhr_no_request_body" : 1
    },
    "INFO" : {
@@ -187,6 +195,14 @@
    "LOCK" : {
       "protocols" : {
          "HTTP" : 1
+      }
+   },
+   "LOG" : {
+      "icap" : {
+         "url" : "http://tools.ietf.org/html/draft-stecher-icap-subid-00#section-6"
+      },
+      "protocols" : {
+         "ICAP" : 1
       }
    },
    "M-*" : {
@@ -279,19 +295,27 @@
    },
    "OPTIONS" : {
       "case_insensitive" : 1,
+      "http" : {
+         "id" : "section-4.3.7",
+         "request_body" : "MAY",
+         "spec" : "RFC7231"
+      },
       "iana" : {
          "SIP" : 1
       },
-      "id" : "section-4.3.7",
+      "icap" : {
+         "id" : "section-4.3.2",
+         "required" : 1,
+         "spec" : "RFC3507"
+      },
       "idempotent" : 1,
       "protocols" : {
          "HTTP" : 1,
+         "ICAP" : 1,
          "RTSP" : 1,
          "SIP" : 1
       },
-      "request_body" : "MAY",
-      "safe" : 1,
-      "spec" : "RFC7231"
+      "safe" : 1
    },
    "ORDERPATCH" : {
       "protocols" : {
@@ -335,16 +359,18 @@
       }
    },
    "POST" : {
-      "cacheable" : 1,
       "case_insensitive" : 1,
-      "id" : "section-4.3.3",
+      "http" : {
+         "cacheable" : 1,
+         "id" : "section-4.3.3",
+         "request_body" : "MAY",
+         "spec" : "RFC7231"
+      },
       "protocols" : {
          "HTCPCP" : 1,
          "HTTP" : 1
       },
-      "request_body" : "MAY",
-      "simple" : 1,
-      "spec" : "RFC7231"
+      "simple" : 1
    },
    "PRACK" : {
       "iana" : {
@@ -375,13 +401,15 @@
    },
    "PUT" : {
       "case_insensitive" : 1,
-      "id" : "section-4.3.4",
+      "http" : {
+         "id" : "section-4.3.4",
+         "request_body" : "MAY",
+         "spec" : "RFC7231"
+      },
       "idempotent" : 1,
       "protocols" : {
          "HTTP" : 1
-      },
-      "request_body" : "MAY",
-      "spec" : "RFC7231"
+      }
    },
    "REBIND" : {
       "protocols" : {
@@ -417,6 +445,24 @@
    "REPORT" : {
       "protocols" : {
          "HTTP" : 1
+      }
+   },
+   "REQMOD" : {
+      "icap" : {
+         "id" : "section-4.3.2",
+         "spec" : "RFC3507"
+      },
+      "protocols" : {
+         "ICAP" : 1
+      }
+   },
+   "RESPMOD" : {
+      "icap" : {
+         "id" : "section-4.3.2",
+         "spec" : "RFC3507"
+      },
+      "protocols" : {
+         "ICAP" : 1
       }
    },
    "RPC_IN_DATA" : {
@@ -479,14 +525,16 @@
       }
    },
    "TRACE" : {
-      "id" : "section-4.3.8",
+      "http" : {
+         "id" : "section-4.3.8",
+         "request_body" : "MUST NOT",
+         "spec" : "RFC7231"
+      },
       "idempotent" : 1,
       "protocols" : {
          "HTTP" : 1
       },
-      "request_body" : "MUST NOT",
       "safe" : 1,
-      "spec" : "RFC7231",
       "xhr_insecure" : 1
    },
    "TRACK" : {
