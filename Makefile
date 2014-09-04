@@ -180,6 +180,7 @@ clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
 	rm -fr local/iana-http-statuses.xml
 	rm -fr local/iana-rtsp.xml local/iana-sip.xml
+	rm -fr local/iana/http*.xml
 
 local/sw-http-statuses.xml:
 	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20status%20codes?format=xml"
@@ -191,6 +192,11 @@ local/iana-rtsp.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
 local/iana-sip.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
+local/iana/http-methods.xml:
+	mkdir -p local/iana
+	$(WGET) -O $@ http://www.iana.org/assignments/http-methods/http-methods.xml
+local/iana/http-methods.json: local/iana/http-methods.xml bin/ianaxml2json.pl
+	$(PERL) bin/ianaxml2json.pl $< > $@
 
 data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
@@ -199,7 +205,7 @@ data/http-status-codes.json: \
     bin/http-status-codes.pl
 	$(PERL) bin/http-status-codes.pl > $@
 data/http-methods.json: \
-    local/sw-http-methods.xml \
+    local/sw-http-methods.xml local/iana/http-methods.json \
     local/iana-rtsp.xml local/iana-sip.xml \
     bin/http-methods.pl src/http-methods.txt src/icap-methods.txt
 	$(PERL) bin/http-methods.pl > $@

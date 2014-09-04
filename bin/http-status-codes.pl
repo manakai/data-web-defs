@@ -100,6 +100,8 @@ for (
       } else {
         $StatusCodes->{$method_name}->{$proto}->{url} = $url;
       }
+    } elsif (/^(cacheable|reserved|obsolete|deprecated)$/) {
+      $StatusCodes->{$method_name}->{$proto}->{$1} = 1;
     } elsif (/^redirect$/) {
       $StatusCodes->{$method_name}->{$proto}->{redirect} = 'true';
     } elsif (/^no redirect$/) {
@@ -110,16 +112,6 @@ for (
   }
 }
 delete $StatusCodes->{''};
-
-$StatusCodes->{$_}->{http}->{cacheable} = 1
-    for qw(200 203 204 300 301 404 405 410 414 501);
-
-$StatusCodes->{$_}->{http}->{deprecated} = 1
-    for qw(305);
-$StatusCodes->{$_}->{http}->{obsolete} = 1
-    for qw(306);
-$StatusCodes->{$_}->{http}->{reserved} = 1
-    for qw(402);
 
 print perl2json_bytes_for_record $StatusCodes;
 

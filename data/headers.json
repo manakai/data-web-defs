@@ -204,6 +204,7 @@
       "accept" : {
          "http" : {
             "content_negotiation" : 1,
+            "fingerprinting" : 1,
             "id" : "section-5.3.2",
             "multiple" : 1,
             "request" : {
@@ -217,6 +218,7 @@
       "accept-charset" : {
          "http" : {
             "content_negotiation" : 1,
+            "fingerprinting" : 1,
             "id" : "section-5.3.3",
             "multiple" : 1,
             "request" : {
@@ -230,6 +232,7 @@
       "accept-encoding" : {
          "http" : {
             "content_negotiation" : 1,
+            "fingerprinting" : 1,
             "id" : "section-5.3.4",
             "multiple" : 1,
             "request" : {
@@ -243,6 +246,7 @@
       "accept-language" : {
          "http" : {
             "content_negotiation" : 1,
+            "fingerprinting" : 1,
             "id" : "section-5.3.5",
             "multiple" : 1,
             "request" : {
@@ -271,10 +275,16 @@
       },
       "allow" : {
          "http" : {
+            "id" : "section-7.4.1",
+            "multiple" : 1,
             "response" : {
-               "405" : "MUST"
+               "405" : "MUST",
+               "xxx" : "MAY"
             },
-            "response_context" : 1
+            "response_context" : 1,
+            "spec" : "RFC7231",
+            "value_is_list" : "*",
+            "value_type" : "request-method"
          },
          "icap" : {
             "id" : "section-4.3.2",
@@ -434,6 +444,14 @@
          },
          "name" : "Content-Location"
       },
+      "content-md5" : {
+         "http" : {
+            "id" : "appendix-B",
+            "obsolete" : 1,
+            "spec" : "RFC7231"
+         },
+         "name" : "Content-MD5"
+      },
       "content-range" : {
          "http" : {
             "not_for_trailer" : 1,
@@ -463,6 +481,7 @@
          "http" : {
             "authentication" : 1,
             "cookie" : 1,
+            "fingerprinting" : 1,
             "trace_unsafe" : 1
          },
          "name" : "Cookie"
@@ -503,6 +522,12 @@
          },
          "name" : "Date"
       },
+      "dnt" : {
+         "http" : {
+            "fingerprinting" : 1
+         },
+         "name" : "DNT"
+      },
       "encapsulated" : {
          "icap" : {
             "id" : "section-4.4.1",
@@ -518,6 +543,7 @@
       },
       "etag" : {
          "http" : {
+            "fingerprinting" : 1,
             "validator" : 1
          },
          "name" : "ETag"
@@ -557,6 +583,7 @@
       },
       "from" : {
          "http" : {
+            "fingerprinting" : 1,
             "id" : "section-5.5.1",
             "request" : {
                "*" : ""
@@ -691,6 +718,7 @@
                "305" : "MUST NOT",
                "306" : "MUST NOT",
                "307" : "SHOULD",
+               "308" : "SHOULD",
                "3xx" : "MAY",
                "4xx" : "MUST NOT",
                "5xx" : "MUST NOT",
@@ -728,7 +756,9 @@
             "id" : "section-5.1.2",
             "not_for_trailer" : 1,
             "request" : {
-               "*" : ""
+               "*" : "MUST NOT",
+               "OPTIONS" : "MAY",
+               "TRACE" : "MAY"
             },
             "request_modifier" : 1,
             "spec" : "RFC7231",
@@ -751,6 +781,19 @@
             "spec" : "RFC3507"
          },
          "name" : "Methods"
+      },
+      "mime-version" : {
+         "http" : {
+            "id" : "appendix-A.1",
+            "request" : {
+               "*" : ""
+            },
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC7231"
+         },
+         "name" : "MIME-Version"
       },
       "object-length" : {
          "icap" : {
@@ -780,6 +823,12 @@
             "spec" : "RFC3507"
          },
          "name" : "Options-TTL"
+      },
+      "origin" : {
+         "http" : {
+            "fingerprinting" : 1
+         },
+         "name" : "Origin"
       },
       "pragma" : {
          "http" : {
@@ -851,6 +900,7 @@
       },
       "referer" : {
          "http" : {
+            "fingerprinting" : 1,
             "id" : "section-5.5.2",
             "request" : {
                "*" : ""
@@ -904,7 +954,12 @@
       },
       "server" : {
          "http" : {
-            "response_context" : 1
+            "id" : "section-7.4.2",
+            "response" : {
+               "xxx" : "MAY"
+            },
+            "response_context" : 1,
+            "spec" : "RFC7231"
          },
          "icap" : {
             "id" : "section-4.3.3",
@@ -1076,6 +1131,7 @@
       },
       "user-agent" : {
          "http" : {
+            "fingerprinting" : 1,
             "id" : "section-5.5.3",
             "request" : {
                "*" : ""

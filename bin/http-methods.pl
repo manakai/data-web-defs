@@ -32,6 +32,19 @@ for (@{(parse 'sw-http-methods.xml')->query_selector_all
   $Methods->{$method}->{wildcard} = 1 if $method =~ /\*/;
 }
 
+{
+  my $path = $root_path->child ('local/iana/http-methods.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $record (@{$json->{registries}->{methods}->{records}}) {
+    $Methods->{$record->{value}}->{protocols}->{HTTP} = 1;
+    $Methods->{$record->{value}}->{iana}->{HTTP} = 1;
+    $Methods->{$record->{value}}->{safe} = 1
+        if $record->{safe} eq 'yes';
+    $Methods->{$record->{value}}->{idempotent} = 1
+        if $record->{idempotent} eq 'yes';
+  }
+}
+
 for ((map { [$_, 'RTSP'] } @{(parse 'iana-rtsp.xml')->query_selector_all ('registry[id="rtsp-parameters-1"] record')}),
      (map { [$_, 'SIP'] } @{(parse 'iana-sip.xml')->query_selector_all ('registry[id="sip-parameters-6"] record')})) {
   my ($el, $proto) = @$_;
@@ -53,19 +66,6 @@ $Methods->{$_}->{xhr_insecure} = 1 for qw(CONNECT TRACE TRACK);
 
 ## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>
 $Methods->{$_}->{xhr_no_request_body} = 1 for qw(GET HEAD);
-
-## <http://tools.ietf.org/html/rfc2616#section-9.1.1>
-#$Methods->{$_}->{safe} = 1 for qw(GET HEAD);
-## <https://tools.ietf.org/html/rfc7231#section-4.2.1>
-## <https://tools.ietf.org/html/rfc7231#section-4.2.2>
-$Methods->{$_}->{safe} = 1,
-$Methods->{$_}->{idempotent} = 1
-    for qw(GET HEAD OPTIONS TRACE);
-
-## <http://tools.ietf.org/html/rfc2616#section-9.1.2>
-#$Methods->{$_}->{idempotent} = 1 for qw(GET HEAD PUT DELETE TRACE OPTIONS);
-## <https://tools.ietf.org/html/rfc7231#section-4.2.2>
-$Methods->{$_}->{idempotent} = 1 for qw(PUT DELETE);
 
 ## <https://tools.ietf.org/html/rfc7231#section-4.2.3>
 $Methods->{$_}->{http}->{cacheable} = 1 for qw(GET HEAD POST);
