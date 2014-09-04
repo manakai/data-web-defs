@@ -57,10 +57,11 @@ for (
     my $kwd = $2;
     $code =~ s/\?/x/g;
     $Data->{headers}->{$header_name}->{$proto}->{response}->{$code} = $kwd;
-  } elsif (/^(x)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY)$/) {
+  } elsif (/^(x|request \S+)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY)$/) {
     my $method = $1;
     my $kwd = $2;
     $method = '*' if $method eq 'x';
+    $method =~ s/^request //;
     $Data->{headers}->{$header_name}->{$proto}->{request}->{$method} = $kwd;
   } elsif (m{^(HTTP/1.1)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{not_for_http10} = 1;
@@ -68,7 +69,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|fingerprinting)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;

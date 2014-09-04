@@ -129,8 +129,13 @@ control
 
 spec https://tools.ietf.org/html/rfc7231#section-5.1.2
 value 1*DIGIT
-request
 control
+
+request
+request OPTIONS MAY
+request TRACE MAY
+## <https://tools.ietf.org/html/rfc7231#page-92>
+x MUST NOT
 
 * Accept
 
@@ -139,12 +144,18 @@ value #
 request
 content-negotiation
 
+## <https://tools.ietf.org/html/rfc7231#section-9.7>
+fingerprinting
+
 * Accept-Charset
 
 spec https://tools.ietf.org/html/rfc7231#section-5.3.3
 value 1#
 request
 content-negotiation
+
+## <https://tools.ietf.org/html/rfc7231#section-9.7>
+fingerprinting
 
 * Accept-Encoding
 
@@ -153,12 +164,18 @@ value #
 request
 content-negotiation
 
+## <https://tools.ietf.org/html/rfc7231#section-9.7>
+fingerprinting
+
 * Accept-Language
 
 spec https://tools.ietf.org/html/rfc7231#section-5.3.5
 value 1#
 request
 content-negotiation
+
+## <https://tools.ietf.org/html/rfc7231#section-9.7>
+fingerprinting
 
 * From
 
@@ -167,17 +184,26 @@ value mailbox
 request
 request-context
 
+## <https://tools.ietf.org/html/rfc7231#section-9.7>
+fingerprinting
+
 * Referer
 
 spec https://tools.ietf.org/html/rfc7231#section-5.5.2
 request
 request-context
 
+## <http://trac.webkit.org/wiki/Fingerprinting#RefererHeader>
+fingerprinting
+
 * User-Agent
 
 spec https://tools.ietf.org/html/rfc7231#section-5.5.3
 request
 request-context
+
+## <https://tools.ietf.org/html/rfc7231#section-9.7>
+fingerprinting
 
 * Date
 
@@ -207,6 +233,7 @@ response
 301 SHOULD
 302 SHOULD
 307 SHOULD
+308 SHOULD
 ## Not in spec
 1xx MUST NOT
 2xx MUST NOT
@@ -239,12 +266,32 @@ control-data
 
 * Allow
 
+spec https://tools.ietf.org/html/rfc7231#section-7.4.1
+value #request-method
 response-context
+
+response
+xxx MAY
 405 MUST
 
 * Server
 
+spec https://tools.ietf.org/html/rfc7231#section-7.4.2
 response-context
+
+response
+xxx MAY
+
+* MIME-Version
+
+spec https://tools.ietf.org/html/rfc7231#appendix-A.1
+request
+response
+
+* Content-MD5
+
+spec https://tools.ietf.org/html/rfc7231#appendix-B
+obsolete
 
 * Accept-Ranges
 
@@ -329,6 +376,9 @@ control
 
 validator
 
+## <http://trac.webkit.org/wiki/Fingerprinting#v.HTTPETags>
+fingerprinting
+
 * Last-Modified
 
 validator
@@ -348,12 +398,22 @@ connection-option
 * Cookie
 
 cookie
+fingerprinting
 
 * Cookie2
 
 cookie
 
 # XXX authentication (e.g., see [RFC7235] and [RFC6265])
+
+* Origin
+
+## <http://trac.webkit.org/wiki/Fingerprinting#RefererHeader>
+fingerprinting
+
+* DNT
+
+fingerprinting
 
 * X-ICAP*
 
