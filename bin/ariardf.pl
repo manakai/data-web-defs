@@ -106,9 +106,6 @@ for my $role (keys %{$Data->{roles}}) {
     for my $role2 (keys %{$Data->{roles}->{$super}->{must_contain} or {}}) {
       $Data->{roles}->{$role}->{must_contain}->{$role2} ||= $Data->{roles}->{$super}->{must_contain}->{$role2};
     }
-    for my $role2 (keys %{$Data->{roles}->{$super}->{scope} or {}}) {
-      $Data->{roles}->{$role}->{scope}->{$role2} ||= $Data->{roles}->{$super}->{scope}->{$role2};
-    }
   }
 }
 
@@ -156,6 +153,13 @@ $Data->{roles}->{tooltip}->{preferred} = {type => 'title'};
 for my $sub_role (keys %{$Data->{roles}}) {
   for my $super_role (keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
     $Data->{roles}->{$super_role}->{superclass_of}->{$sub_role} = $Data->{roles}->{$sub_role}->{subclass_of}->{$super_role};
+  }
+}
+for my $role (keys %{$Data->{roles}}) {
+  for my $role2 (keys %{$Data->{roles}->{$role}->{scope} or {}}) {
+    for my $sub (keys %{$Data->{roles}->{$role2}->{superclass_of} or {}}) {
+      $Data->{roles}->{$role}->{scope}->{$sub} ||= $Data->{roles}->{$role}->{scope}->{$role2} + $Data->{roles}->{$role2}->{superclass_of}->{$sub};
+    }
   }
 }
 
