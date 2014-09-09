@@ -23,7 +23,7 @@ for (qw(
   static attribute inherit readonly setter creator deleter legacycaller
   iterator object optional ByteString Date DOMString RegExp any boolean
   byte double float long octet or sequence short unsigned void
-  exception unrestricted
+  exception unrestricted required
   Promise
 
   class extends
