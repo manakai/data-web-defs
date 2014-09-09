@@ -44,8 +44,12 @@ $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const creator deleter dictionary enum exception
   getter implements inherit interface legacycaller partial serializer
   setter static stringifier typedef unrestricted
+  required
 
   class extends
+);
+$Data->{keyword_tokens}->{$_}->{attribute_name} = 1 for qw(
+  required
 );
 
 ## "class" and "extends" are not in spec but extended at:
