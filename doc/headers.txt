@@ -91,7 +91,9 @@ The file contains a JSON object with following name/value pairs:
           conditional [boolean]
 
             Whether the header is classified as conditionals
-            <https://tools.ietf.org/html/rfc7231#section-5.2> or not.
+            <https://tools.ietf.org/html/rfc7231#section-5.2> or
+            precondition headers
+            <https://tools.ietf.org/html/rfc7232#section-3>.
 
           connection_option [boolean]
 
@@ -178,13 +180,10 @@ The file contains a JSON object with following name/value pairs:
 
               3. Otherwise, return nothing.
 
-            If the return value is one of RFC 2119 keywords |MUST|,
-            |MUST NOT|, |SHOULD|, |SHOULD NOT|, or |MAY|, it is the
+            If the return value is a |conformance| value, it is the
             conformance of the existence of the header in that
-            context.  Otherwise, if the return value is the empty
-            string, the conformance cannot be represented as a value
-            or the conformance is not known.  Otherwise, the header is
-            not known to be applicable to request messages.
+            context.  Otherwise, the header is not known to be
+            applicable to request messages.
 
           request_context [boolean]
 
@@ -216,13 +215,10 @@ The file contains a JSON object with following name/value pairs:
 
               4. Otherwise, return nothing.
 
-            If the return value is one of RFC 2119 keywords |MUST|,
-            |MUST NOT|, |SHOULD|, |SHOULD NOT|, or |MAY|, it is the
+            If the return value is a |conformance| value, it is the
             conformance of the existence of the header in that
-            context.  Otherwise, if the return value is the empty
-            string, the conformance cannot be represented as a value
-            or the conformance is not known.  Otherwise, the header is
-            not known to be applicable to response messages.
+            context.  Otherwise, the header is not known to be
+            applicable to response messages.
 
           response_context [boolean]
 
@@ -329,6 +325,9 @@ Routing <https://tools.ietf.org/html/rfc7230>.
 
 RFC 7231, Hypertext Transfer Protocol (HTTP/1.1): Semantics and
 Content <https://tools.ietf.org/html/rfc7231>.
+
+RFC 7232, Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
+<https://tools.ietf.org/html/rfc7232>.
 
 RFC 3507, Internet Content Adaptation Protocol (ICAP)
 <http://tools.ietf.org/html/rfc3507>.

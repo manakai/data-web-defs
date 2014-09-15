@@ -52,12 +52,12 @@ for (
     } elsif (length $type) {
       die "Bad value type |$type|";
     }
-  } elsif (/^([0-9x?]{3})\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY)$/) {
+  } elsif (/^([0-9x?]{3})\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY|ignored)$/) {
     my $code = $1;
     my $kwd = $2;
     $code =~ s/\?/x/g;
     $Data->{headers}->{$header_name}->{$proto}->{response}->{$code} = $kwd;
-  } elsif (/^(x|request \S+)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY)$/) {
+  } elsif (/^(x|request \S+)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY|ignored)$/) {
     my $method = $1;
     my $kwd = $2;
     $method = '*' if $method eq 'x';
@@ -87,7 +87,8 @@ for (keys %{$Data->{headers}}) {
   my $header = $Data->{headers}->{$_};
   next unless $header->{$proto};
 
-  ## Not explicitly specified...
+  ## RFC 7230 "determining how to process the payload" (Not explicitly
+  ## specified...)
   $header->{$proto}->{payload_processing} = 1
       if $header->{$proto}->{representation_metadata} or
          $header->{$proto}->{payload};
