@@ -74,6 +74,8 @@ for (
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
     $Data->{headers}->{$header_name}->{$proto}->{$key} = 1;
+  } elsif (m{^(304-representation-metadata)(?:\s+(MAY)|)$}) {
+    $Data->{headers}->{$header_name}->{$proto}->{'304_representation_metadata'} = $2 || 'MUST';
   } elsif (/^(wildcard)$/) {
     $Data->{headers}->{$header_name}->{$1} = 1;
   } elsif (/\S/) {
@@ -113,12 +115,18 @@ for (keys %{$Data->{headers}}) {
          $header->{$proto}->{response_control_data} or
          $header->{$proto}->{payload_processing};
 
-  ## Perl RFC 7231 4.3.8., "sensitive data that might be disclosed by
+  ## Per RFC 7231 4.3.8., "sensitive data that might be disclosed by
   ## the response.  For example, ... stored user credentials [RFC7235]
   ## or cookies [RFC6265]"
   $header->{$proto}->{trace_unsafe} = 1
       if $header->{$proto}->{authentication_credentials} or
          $header->{$proto}->{cookie};
+
+  ## <https://tools.ietf.org/html/rfc7232#section-4.1>
+  if ($header->{$proto}->{representation_metadata}) {
+    $header->{$proto}->{response}->{304} = 'SHOULD NOT'
+        unless $header->{$proto}->{'304_representation_metadata'};
+  }
 }
 
 my $protocol_name;
