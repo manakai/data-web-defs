@@ -543,8 +543,13 @@
       },
       "etag" : {
          "http" : {
-            "fingerprinting" : 1,
-            "validator" : 1
+            "id" : "section-2.3",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC7232",
+            "validator" : 1,
+            "value_type" : "entity-tag"
          },
          "name" : "ETag"
       },
@@ -628,33 +633,45 @@
       "if-match" : {
          "http" : {
             "conditional" : 1,
+            "fingerprinting" : 1,
+            "id" : "section-3.1",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
             },
-            "request_modifier" : 1
+            "request_modifier" : 1,
+            "spec" : "RFC7232"
          },
          "name" : "If-Match"
       },
       "if-modified-since" : {
          "http" : {
             "conditional" : 1,
+            "fingerprinting" : 1,
+            "id" : "section-3.3",
             "not_for_trailer" : 1,
             "request" : {
-               "*" : ""
+               "*" : "ignored",
+               "GET" : "MAY",
+               "HEAD" : "MAY"
             },
-            "request_modifier" : 1
+            "request_modifier" : 1,
+            "spec" : "RFC7232",
+            "value_type" : "HTTP-date"
          },
          "name" : "If-Modified-Since"
       },
       "if-none-match" : {
          "http" : {
             "conditional" : 1,
+            "fingerprinting" : 1,
+            "id" : "section-3.2",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
             },
-            "request_modifier" : 1
+            "request_modifier" : 1,
+            "spec" : "RFC7232"
          },
          "name" : "If-None-Match"
       },
@@ -672,11 +689,15 @@
       "if-unmodified-since" : {
          "http" : {
             "conditional" : 1,
+            "fingerprinting" : 1,
+            "id" : "section-3.4",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
             },
-            "request_modifier" : 1
+            "request_modifier" : 1,
+            "spec" : "RFC7232",
+            "value_type" : "HTTP-date"
          },
          "name" : "If-Unmodified-Since"
       },
@@ -698,7 +719,13 @@
       },
       "last-modified" : {
          "http" : {
-            "validator" : 1
+            "id" : "section-2.2",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC7232",
+            "validator" : 1,
+            "value_type" : "HTTP-date"
          },
          "name" : "Last-Modified"
       },

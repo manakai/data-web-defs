@@ -293,6 +293,20 @@ response
 spec https://tools.ietf.org/html/rfc7231#appendix-B
 obsolete
 
+* Last-Modified
+
+spec https://tools.ietf.org/html/rfc7232#section-2.2
+value HTTP-date
+validator
+response
+
+* ETag
+
+spec https://tools.ietf.org/html/rfc7232#section-2.3
+value entity-tag
+validator
+response
+
 * Accept-Ranges
 
 response-context
@@ -320,23 +334,43 @@ authentication-challenge
 
 * If-Match
 
+spec https://tools.ietf.org/html/rfc7232#section-3.1
 conditional
 request
+
+## <http://trac.webkit.org/wiki/Fingerprinting#v.HTTPETags>
+fingerprinting
 
 * If-None-Match
 
+spec https://tools.ietf.org/html/rfc7232#section-3.2
 conditional
 request
+
+## <http://trac.webkit.org/wiki/Fingerprinting#v.HTTPETags>
+fingerprinting
 
 * If-Modified-Since
 
+spec https://tools.ietf.org/html/rfc7232#section-3.3
+value HTTP-date
 conditional
+
 request
+x ignored
+request GET MAY
+request HEAD MAY
+
+fingerprinting
 
 * If-Unmodified-Since
 
+spec https://tools.ietf.org/html/rfc7232#section-3.4
+value HTTP-date
 conditional
 request
+
+fingerprinting
 
 * If-Range
 
@@ -371,17 +405,6 @@ response
 * Pragma
 
 control
-
-* ETag
-
-validator
-
-## <http://trac.webkit.org/wiki/Fingerprinting#v.HTTPETags>
-fingerprinting
-
-* Last-Modified
-
-validator
 
 * Max-Forwards
 
