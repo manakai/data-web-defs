@@ -104,7 +104,7 @@ for (
       my $value = $2;
       $key =~ s/-/_/g;
       $Methods->{$method_name}->{$proto}->{$key} = $value;
-    } elsif (m{^(required)\s*$}) {
+    } elsif (m{^(required|ims|range|not-for-representation)\s*$}) {
       my $key = $1;
       $key =~ s/-/_/g;
       $Methods->{$method_name}->{$proto}->{$key} = 1;

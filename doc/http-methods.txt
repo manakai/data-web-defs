@@ -75,6 +75,22 @@ properties, including:
         The ID in the specification identified by |id| at which the
         method is defined, if known.
 
+      ims [boolean]
+
+        Whether the |If-Modified-Since:| header is applicable to this
+        method and the |If-None-Match:| header will return a 304
+        response rather than a 412 response.
+
+      not_for_representation [boolean]
+
+        Whether the request mtehod does not involve the selection or
+        modification of a selected representation
+        <https://tools.ietf.org/html/rfc7232#section-5>.
+
+      range [boolean]
+
+        Whether a range request is applicable to this method or not.
+
       request_body [string?]
 
         Whether the request body is allowed in a request message which
@@ -100,6 +116,9 @@ properties, including:
 
 RFC 7231, Hypertext Transfer Protocol (HTTP/1.1): Semantics and
 Content <https://tools.ietf.org/html/rfc7231>.
+
+RFC 7232, Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
+<https://tools.ietf.org/html/rfc7232>.
 
 Hypertext Transfer Protocol (HTTP) Method Registry
 <http://www.iana.org/assignments/http-methods/http-methods.xml>.
