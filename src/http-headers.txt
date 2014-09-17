@@ -94,6 +94,7 @@ payload-processing
 representation-metadata
 request
 response
+byteranges SHOULD
 
 * Content-Encoding
 
@@ -312,30 +313,6 @@ validator
 response
 304-representation-metadata
 
-* Accept-Ranges
-
-response-context
-
-* Warning
-
-response
-control-data
-
-* Authorization
-
-authentication-credentials
-
-* Proxy-Authorization
-
-authentication-credentials
-
-* WWW-Authenticate
-
-authentication-challenge
-
-* Proxy-Authenticate
-
-authentication-challenge
 
 * If-Match
 
@@ -377,19 +354,60 @@ request
 
 fingerprinting
 
-* If-Range
+* Accept-Ranges
 
-conditional
-request
-
-* Content-Range
-
-payload
-payload-processing
+spec https://tools.ietf.org/html/rfc7233#section-2.3
+response-context
+response
 
 * Range
 
+spec https://tools.ietf.org/html/rfc7233#section-3.1
 control
+request
+x ignored
+request GET MAY
+
+* If-Range
+
+spec https://tools.ietf.org/html/rfc7233#section-3.2
+conditional
+request
+x ignored
+request GET MAY
+
+* Content-Range
+
+spec https://tools.ietf.org/html/rfc7233#section-4.2
+payload
+payload-processing
+byteranges MUST
+
+response
+xxx ignored
+206
+416
+
+* Warning
+
+response
+control-data
+
+* Authorization
+
+authentication-credentials
+
+* Proxy-Authorization
+
+authentication-credentials
+
+* WWW-Authenticate
+
+authentication-challenge
+
+* Proxy-Authenticate
+
+authentication-challenge
 
 * Age
 
@@ -415,10 +433,6 @@ control
 
 ## Not explicitly in spec
 304-representation-metadata MAY
-
-* Max-Forwards
-
-control
 
 * Keep-Alive
 
