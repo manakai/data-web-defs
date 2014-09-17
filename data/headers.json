@@ -259,7 +259,12 @@
       },
       "accept-ranges" : {
          "http" : {
-            "response_context" : 1
+            "id" : "section-2.3",
+            "response" : {
+               "xxx" : ""
+            },
+            "response_context" : 1,
+            "spec" : "RFC7233"
          },
          "name" : "Accept-Ranges"
       },
@@ -315,6 +320,7 @@
       },
       "cache-control" : {
          "http" : {
+            "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "control" : 1,
             "not_for_trailer" : 1,
@@ -373,6 +379,7 @@
       },
       "content-encoding" : {
          "http" : {
+            "206_representation_metadata" : "SHOULD NOT",
             "id" : "section-3.1.2.2",
             "multiple" : 1,
             "not_for_trailer" : 1,
@@ -393,6 +400,7 @@
       },
       "content-language" : {
          "http" : {
+            "206_representation_metadata" : "SHOULD NOT",
             "id" : "section-3.1.3.2",
             "multiple" : 1,
             "not_for_trailer" : 1,
@@ -433,6 +441,7 @@
       },
       "content-location" : {
          "http" : {
+            "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "id" : "section-3.1.4.2",
             "not_for_trailer" : 1,
@@ -458,14 +467,24 @@
       },
       "content-range" : {
          "http" : {
+            "byteranges" : "MUST",
+            "id" : "section-4.2",
             "not_for_trailer" : 1,
             "payload" : 1,
-            "payload_processing" : 1
+            "payload_processing" : 1,
+            "response" : {
+               "206" : "",
+               "416" : "",
+               "xxx" : "ignored"
+            },
+            "spec" : "RFC7233"
          },
          "name" : "Content-Range"
       },
       "content-type" : {
          "http" : {
+            "206_representation_metadata" : "SHOULD NOT",
+            "byteranges" : "SHOULD",
             "id" : "section-3.1.1.5",
             "not_for_trailer" : 1,
             "payload_processing" : 1,
@@ -501,6 +520,7 @@
       },
       "date" : {
          "http" : {
+            "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "id" : "section-7.1.1.2",
             "not_for_trailer" : 1,
@@ -549,6 +569,7 @@
       },
       "etag" : {
          "http" : {
+            "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "id" : "section-2.3",
             "response" : {
@@ -575,6 +596,7 @@
       },
       "expires" : {
          "http" : {
+            "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "not_for_trailer" : 1,
             "response" : {
@@ -686,11 +708,14 @@
       "if-range" : {
          "http" : {
             "conditional" : 1,
+            "id" : "section-3.2",
             "not_for_trailer" : 1,
             "request" : {
-               "*" : ""
+               "*" : "ignored",
+               "GET" : "MAY"
             },
-            "request_modifier" : 1
+            "request_modifier" : 1,
+            "spec" : "RFC7233"
          },
          "name" : "If-Range"
       },
@@ -727,6 +752,7 @@
       },
       "last-modified" : {
          "http" : {
+            "206_representation_metadata" : "SHOULD NOT",
             "304_representation_metadata" : "MAY",
             "id" : "section-2.2",
             "response" : {
@@ -930,8 +956,14 @@
       "range" : {
          "http" : {
             "control" : 1,
+            "id" : "section-3.1",
             "not_for_trailer" : 1,
-            "request_modifier" : 1
+            "request" : {
+               "*" : "ignored",
+               "GET" : "MAY"
+            },
+            "request_modifier" : 1,
+            "spec" : "RFC7233"
          },
          "name" : "Range"
       },
@@ -1187,6 +1219,7 @@
       },
       "vary" : {
          "http" : {
+            "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "id" : "section-7.1.4",
             "not_for_trailer" : 1,

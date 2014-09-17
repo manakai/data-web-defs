@@ -52,9 +52,9 @@ for (
     } elsif (length $type) {
       die "Bad value type |$type|";
     }
-  } elsif (/^([0-9x?]{3})\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY|ignored)$/) {
+  } elsif (/^([0-9x?]{3})(?:\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY|ignored)|)$/) {
     my $code = $1;
-    my $kwd = $2;
+    my $kwd = $2 // '';
     $code =~ s/\?/x/g;
     $Data->{headers}->{$header_name}->{$proto}->{response}->{$code} = $kwd;
   } elsif (/^(x|request \S+)\s+(MUST|MUST NOT|SHOULD|SHOULD NOT|MAY|ignored)$/) {
@@ -76,6 +76,9 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{$key} = 1;
   } elsif (m{^(304-representation-metadata)(?:\s+(MAY)|)$}) {
     $Data->{headers}->{$header_name}->{$proto}->{'304_representation_metadata'} = $2 || 'MUST';
+    $Data->{headers}->{$header_name}->{$proto}->{'206_representation_metadata'} = 'MUST' unless $2;
+  } elsif (/^(byteranges)\s+(MUST|SHOULD|MAY)$/) {
+    $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
   } elsif (/^(wildcard)$/) {
     $Data->{headers}->{$header_name}->{$1} = 1;
   } elsif (/\S/) {
@@ -122,10 +125,13 @@ for (keys %{$Data->{headers}}) {
       if $header->{$proto}->{authentication_credentials} or
          $header->{$proto}->{cookie};
 
-  ## <https://tools.ietf.org/html/rfc7232#section-4.1>
-  if ($header->{$proto}->{representation_metadata}) {
+  ## <https://tools.ietf.org/html/rfc7232#section-4.1>,
+  ## <http://wiki.suikawiki.org/n/representation%20metadata$233#anchor-4>
+  if ($header->{$proto}->{representation_metadata} or
+      $header->{$proto}->{validator}) {
     $header->{$proto}->{response}->{304} = 'SHOULD NOT'
         unless $header->{$proto}->{'304_representation_metadata'};
+    $header->{$proto}->{'206_representation_metadata'} ||= 'SHOULD NOT';
   }
 }
 

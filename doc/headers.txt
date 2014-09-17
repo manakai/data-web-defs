@@ -70,6 +70,16 @@ The file contains a JSON object with following name/value pairs:
         -> HTTP, |icap| -> ICAP).  The value is a JSON object with
         following name/value pairs:
 
+          206_representation_metadata [string?]
+
+            If the value is |MUST|, the header MUST be generated in
+            the 206 response to be same as that of the 200 response of
+            the same target resource.  If the value is |SHOULD NOT|,
+            the header SHOULD NOT be generated when the corresponding
+            request contains an |If-Range:| header.  These are
+            unclearly specified in RFC 7233
+            <https://tools.ietf.org/html/rfc7233#section-4.1>.
+
           304_representation_metadata [string?]
 
             If the value is |MUST|, the header MUST be generated in
@@ -96,6 +106,11 @@ The file contains a JSON object with following name/value pairs:
             Whether the header is used for carrying authentication
             credentials or not
             <https://tools.ietf.org/html/rfc7231#section-5.4>.
+
+          byteranges [conformance?]
+
+            Conformance of the existence of the header in a body part
+            in a |multipart/byteranges| payload, if known.
 
           conditional [boolean]
 
@@ -171,7 +186,8 @@ The file contains a JSON object with following name/value pairs:
 
           representation_metadata [boolean]
 
-            Whether the header is a representation metadata
+            Whether the header is a representation metadata or
+            representation header
             <https://tools.ietf.org/html/rfc7231#section-3.1> or not.
 
           request [object?]
@@ -337,6 +353,9 @@ Content <https://tools.ietf.org/html/rfc7231>.
 
 RFC 7232, Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
 <https://tools.ietf.org/html/rfc7232>.
+
+RFC 7233, Hypertext Transfer Protocol (HTTP/1.1): Range Requests
+<https://tools.ietf.org/html/rfc7233>.
 
 RFC 3507, Internet Content Adaptation Protocol (ICAP)
 <http://tools.ietf.org/html/rfc3507>.
