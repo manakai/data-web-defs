@@ -57,7 +57,7 @@ sub xref ($) {
   }
 } # xref
 
-my $d = file (__FILE__)->dir->parent->subdir ('local/www.whatwg.org/specs/web-apps/current-work/multipage/');
+my $d = file (__FILE__)->dir->parent->subdir ('local/html.spec.whatwg.org/multipage/');
 my $index_doc;
 my $input_table;
 my $xml_doc;

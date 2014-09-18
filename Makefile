@@ -227,9 +227,9 @@ data/encoding-indexes.json: local/indexes.json
 	cp $< $@
 
 local/encodings.json:
-	$(WGET) -O $@ http://encoding.spec.whatwg.org/encodings.json
+	$(WGET) -O $@ https://encoding.spec.whatwg.org/encodings.json
 local/indexes.json:	
-	$(WGET) -O $@ http://encoding.spec.whatwg.org/indexes.json
+	$(WGET) -O $@ https://encoding.spec.whatwg.org/indexes.json
 
 ## ------ JavaScript ------
 
@@ -255,7 +255,7 @@ clean-dom:
 	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
 	rm -fr local/xml5-spec.html local/schemaorg*
 	rm -fr local/dom.html local/domparsing.html
-	rm -fr local/www.whatwg.org
+	rm -fr local/html.spec.whatwg.org
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \
@@ -278,12 +278,12 @@ data/isindex-prompt.json: bin/isindex-prompt.pl
 	$(PERL) bin/isindex-prompt.pl > $@
 
 local/html:
-	cd local && ($(WGET) -m -np http://www.whatwg.org/specs/web-apps/current-work/multipage/ || true)
+	cd local && ($(WGET) -m -np https://html.spec.whatwg.org/multipage/ || true)
 	touch $@
 local/html-extracted.json: local/html bin/extract-html-standard.pl
 	$(PERL) bin/extract-html-standard.pl > $@
 local/html-status.xml:
-	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/status.cgi?action=get-all-annotations
+	$(WGET) -O $@ https://html.spec.whatwg.org/status.cgi?action=get-all-annotations
 local/obsvocab.html:
 	$(WGET) -O $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
 
@@ -301,7 +301,7 @@ data/dom-perl.json: src/dom-perl-methods.txt bin/dom-perl.pl
 	$(PERL) bin/dom-perl.pl > $@
 
 data/html-charrefs.json:
-	$(WGET) -O $@ http://www.whatwg.org/specs/web-apps/current-work/entities.json
+	$(WGET) -O $@ https://html.spec.whatwg.org/entities.json
 
 data/xhtml-charrefs.dtd: local/html-extracted.json
 
@@ -334,7 +334,7 @@ data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
 	!(grep 'isindex' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
-	$(PERL) bin/extract-html-tokenizer.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html > $@
+	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
 local/html-tokenizer-charrefs.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs.html > $@
@@ -349,7 +349,7 @@ local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 	$(PERL) bin/extract-html-tokenizer.pl local/xml5-spec.html > $@
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
-	$(PERL) bin/extract-html-tree.pl local/www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html > $@
+	$(PERL) bin/extract-html-tree.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
 	!(grep '"DESC"' $@ > /dev/null)
 	!(grep '"COND"' $@ > /dev/null)
 	!(grep '"misc"' $@ > /dev/null)
@@ -380,11 +380,11 @@ data/webidl.json: bin/webidl.pl
 	$(PERL) bin/webidl.pl > $@
 
 local/dom.html:
-	$(WGET) -O $@ http://dom.spec.whatwg.org/
+	$(WGET) -O $@ https://dom.spec.whatwg.org/
 local/domparsing.html:
-	$(WGET) -O $@ http://domparsing.spec.whatwg.org/
+	$(WGET) -O $@ https://domparsing.spec.whatwg.org/
 local/xhr.html:
-	$(WGET) -O $@ http://xhr.spec.whatwg.org/
+	$(WGET) -O $@ https://xhr.spec.whatwg.org/
 local/idl-extracted.json: local/dom.html local/domparsing.html \
     local/xhr.html \
     bin/extract-idls.pl
