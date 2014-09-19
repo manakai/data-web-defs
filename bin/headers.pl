@@ -5,6 +5,7 @@ use Path::Tiny;
 
 my $Data = {};
 my $src_path = path (__FILE__)->parent->parent->child ('src');
+my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parameters.json')->slurp;
 
 for (
   ['http-headers.txt', 'http'],
@@ -165,6 +166,21 @@ for (split /\x0D?\x0A/, $src_path->child ('http-protocols.txt')->slurp_utf8) {
   }
 }
 
+{
+  for my $record (@{$IANAData->{registries}->{'transfer-coding'}->{records}}) {
+    my $coding_name = $record->{name};
+    $Data->{codings}->{$coding_name}->{transfer}->{TE} = 1;
+    $Data->{codings}->{$coding_name}->{transfer}->{'Transfer-Encoding'} = 1;
+    $Data->{codings}->{$coding_name}->{transfer}->{iana} = 1;
+    my $desc = $record->{description};
+    if ($desc =~ /^Deprecated \(alias for (\w+)\)$/) {
+      $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
+      $Data->{codings}->{$coding_name}->{transfer}->{preferred_name} = $1;
+    } elsif ($desc =~ /^\(withdrawn /) {
+      $Data->{codings}->{$coding_name}->{transfer}->{obsolete} = 1;
+    }
+  }
+}
 my $coding_name;
 for (split /\x0D?\x0A/, $src_path->child ('http-transfer-codings.txt')->slurp_utf8) {
   if (/^\s*#/) {
@@ -205,6 +221,21 @@ for (split /\x0D?\x0A/, $src_path->child ('http-transfer-codings.txt')->slurp_ut
 }
 
 undef $coding_name;
+{
+  for my $record (@{$IANAData->{registries}->{'content-coding'}->{records}}) {
+    my $coding_name = $record->{name};
+    $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'} = 1;
+    $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'} = 1;
+    $Data->{codings}->{$coding_name}->{content}->{iana} = 1;
+    my $desc = $record->{description};
+    if ($desc =~ /^Deprecated \(alias for (\w+)\)$/) {
+      $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
+      $Data->{codings}->{$coding_name}->{content}->{preferred_name} = $1;
+    } elsif ($desc =~ /^Reserved \(/) {
+      $Data->{codings}->{$coding_name}->{content}->{reserved} = 1;
+    }
+  }
+}
 for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf8) {
   if (/^\s*#/) {
     next;
@@ -213,7 +244,6 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
     $coding_name = $name;
     $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'} = 1;
     $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'} = 1;
-    $Data->{codings}->{$coding_name}->{content} ||= {};
     next;
   } elsif (/\S/) {
     die "Coding not defined at first line" unless defined $coding_name;
@@ -239,6 +269,40 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
+  }
+}
+
+{
+  for my $record (@{$IANAData->{registries}->{'range-units'}->{records}}) {
+    my $name = $record->{name};
+    $Data->{range_units}->{$name}->{iana} = 1;
+    my $desc = $record->{description};
+    if ($desc =~ /^reserved as /) {
+      $Data->{range_units}->{$name}->{reserved} = 1;
+    }
+  }
+  my $name;
+  for (split /\x0D?\x0A/, $src_path->child ('http-range-units.txt')->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^\*\s*(\S+)\s*$/) {
+      $name = $1;
+      next;
+    } elsif (/\S/) {
+      die "Unit not defined at first line" unless defined $name;
+    }
+
+    if (/^spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $Data->{range_units}->{$name}->{spec} = "RFC$1";
+        $Data->{range_units}->{$name}->{id} = $2;
+      } else {
+        $Data->{range_units}->{$name}->{url} = $url;
+      }
+    } elsif (/\S/) {
+      die "Bad line: |$_|\n";
+    }
   }
 }
 

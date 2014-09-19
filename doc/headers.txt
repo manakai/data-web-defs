@@ -34,14 +34,27 @@ The file contains a JSON object with following name/value pairs:
 
             Whether the coding is deprecated or not.
 
+          iana [boolean]
+
+            Whether the coding is registered with the IANA registry or
+            not.
+
           id [id-in-spec?]
 
             The ID in the relevant specification, if any.
+
+          obsolete [boolean]
+
+            Whether the coding is obsolete or not.
 
           preferred_name [string?]
 
             The preferred name of the coding, if the coding name is
             deprecated, in lowercase.
+
+          reserved [boolean]
+
+            Whether the coding is reserved or not.
 
           spec [spec?]
 
@@ -343,6 +356,32 @@ The file contains a JSON object with following name/value pairs:
         Whether the protocol is used in the protocol field of the
         |Via:| header or not.
 
+  range_units [object]
+
+    Names are range-unit values (in lowercase) and values are their
+    descriptions, as JSON objects with following name/value pairs:
+
+      iana [boolean]
+
+        Whether the value is registered with the IANA registry or not.
+
+      id [id-in-spec?]
+
+        The ID in the relevant specification, if any.
+
+      reserved [boolean]
+
+        Whether the value is reserved or not.
+
+      spec [spec?]
+
+        The relevant specification, if any.
+
+      url [string?]
+
+        The URL of the relevant specification, if any and |spec| is
+        not specified.
+
 * Sources
 
 RFC 7230, Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and
@@ -359,6 +398,9 @@ RFC 7233, Hypertext Transfer Protocol (HTTP/1.1): Range Requests
 
 RFC 3507, Internet Content Adaptation Protocol (ICAP)
 <http://tools.ietf.org/html/rfc3507>.
+
+Hypertext Transfer Protocol (HTTP) Parameters
+<http://www.iana.org/assignments/http-parameters/http-parameters.xml>.
 
 SuikaWiki:protocol <http://wiki.suikawiki.org/n/protocol$22089>.
 

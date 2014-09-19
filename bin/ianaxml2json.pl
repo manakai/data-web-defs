@@ -16,6 +16,27 @@ my $doc = new Web::DOM::Document;
   $parser->parse_char_string ((decode 'utf-8', <>) => $doc);
 }
 
+sub _tc ($) {
+  my $el = shift;
+  my $r = '';
+  for my $node ($el->child_nodes->to_list) {
+    if ($node->node_type == $node->ELEMENT_NODE) {
+      if ($node->local_name eq 'xref') {
+        my $value = $node->text_content;
+        unless (length $value) {
+          $value = uc $node->get_attribute ('data');
+        }
+        $r .= '[' . $value . ']';
+      } else {
+        $r .= $node->text_content;
+      }
+    } elsif ($node->node_type == $node->TEXT_NODE) {
+      $r .= $node->data;
+    }
+  }
+  return $r;
+} # _tc
+
 for my $el ($doc->document_element->children->to_list) {
   my $ln = $el->local_name;
   if ($ln eq 'registry') {
@@ -31,7 +52,7 @@ for my $el ($doc->document_element->children->to_list) {
                         data => $f->get_attribute ('data'),
                         label => $f->text_content};
           } else {
-            $d->{$m} = $f->text_content;
+            $d->{$m} = _tc $f;
           }
         }
         push @{$data->{records} ||= []}, $d;
@@ -40,11 +61,11 @@ for my $el ($doc->document_element->children->to_list) {
                        data => $e->get_attribute ('data'),
                        label => $e->text_content};
       } else {
-        $data->{$l} = $e->text_content;
+        $data->{$l} = _tc $e;
       }
     }
   } else {
-    $Data->{$ln} = $el->text_content;
+    $Data->{$ln} = _tc $el;
   }
 }
 
