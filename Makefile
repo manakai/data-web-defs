@@ -7,6 +7,8 @@ clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
 
 WGET = wget
 CURL = curl
+SAVEURL = $(CURL) -s -S -L -o
+SAVETREE = $(WGET) --no-check-certificate -m -np
 GIT = git
 PERL = ./perl
 PROVE = ./prove
@@ -31,7 +33,7 @@ git-submodules:
 
 local/bin/pmbp.pl:
 	mkdir -p local/bin
-	$(WGET) -O $@ https://raw.github.com/wakaba/perl-setupenv/master/bin/pmbp.pl
+	$(SAVEURL) $@ https://raw.github.com/wakaba/perl-setupenv/master/bin/pmbp.pl
 pmbp-upgrade: local/bin/pmbp.pl
 	perl local/bin/pmbp.pl --update-pmbp-pl
 pmbp-update: git-submodules pmbp-upgrade
@@ -161,7 +163,7 @@ local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
 	touch $@
 
 local/chars-scripts.json:
-	$(WGET) -O $@ https://raw.github.com/manakai/data-chars/master/data/scripts.json
+	$(SAVEURL) $@ https://raw.github.com/manakai/data-chars/master/data/scripts.json
 
 data/langtags.json: bin/langtags.pl \
   local/langtags/subtag-registry local/langtags/ext-registry \
@@ -227,9 +229,9 @@ data/encoding-indexes.json: local/indexes.json
 	cp $< $@
 
 local/encodings.json:
-	$(WGET) -O $@ https://encoding.spec.whatwg.org/encodings.json
+	$(SAVEURL) $@ https://encoding.spec.whatwg.org/encodings.json
 local/indexes.json:	
-	$(WGET) -O $@ https://encoding.spec.whatwg.org/indexes.json
+	$(SAVEURL) $@ https://encoding.spec.whatwg.org/indexes.json
 
 ## ------ JavaScript ------
 
@@ -278,17 +280,17 @@ data/isindex-prompt.json: bin/isindex-prompt.pl
 	$(PERL) bin/isindex-prompt.pl > $@
 
 local/html:
-	cd local && ($(WGET) -m -np https://html.spec.whatwg.org/multipage/ || true)
+	cd local && ($(SAVETREE) https://html.spec.whatwg.org/multipage/ || true)
 	touch $@
 local/html-extracted.json: local/html bin/extract-html-standard.pl
 	$(PERL) bin/extract-html-standard.pl > $@
 local/html-status.xml:
-	$(WGET) -O $@ https://html.spec.whatwg.org/status.cgi?action=get-all-annotations
+	$(SAVEURL) $@ https://html.spec.whatwg.org/status.cgi?action=get-all-annotations
 local/obsvocab.html:
-	$(WGET) -O $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
+	$(SAVEURL) $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
 
 local/aria.rdf:
-	$(WGET) -O $@ http://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
+	$(SAVEURL) $@ http://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
 
 data/aria.json: local/aria.rdf bin/ariardf.pl
 	$(PERL) bin/ariardf.pl > $@
@@ -301,7 +303,7 @@ data/dom-perl.json: src/dom-perl-methods.txt bin/dom-perl.pl
 	$(PERL) bin/dom-perl.pl > $@
 
 data/html-charrefs.json:
-	$(WGET) -O $@ https://html.spec.whatwg.org/entities.json
+	$(SAVEURL) $@ https://html.spec.whatwg.org/entities.json
 
 data/xhtml-charrefs.dtd: local/html-extracted.json
 
@@ -343,7 +345,7 @@ local/html-tokenizer-charrefs-jump.json: bin/extract-html-tokenizer.pl \
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-jump.html > $@
 
 local/xml5-spec.html:
-	$(WGET) -O $@ https://dvcs.w3.org/hg/xml-er/raw-file/3fb2e443ca50/Overview.src.html
+	$(SAVEURL) $@ https://dvcs.w3.org/hg/xml-er/raw-file/3fb2e443ca50/Overview.src.html
 
 local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 	$(PERL) bin/extract-html-tokenizer.pl local/xml5-spec.html > $@
@@ -380,11 +382,11 @@ data/webidl.json: bin/webidl.pl
 	$(PERL) bin/webidl.pl > $@
 
 local/dom.html:
-	$(WGET) -O $@ https://dom.spec.whatwg.org/
+	$(SAVEURL) $@ https://dom.spec.whatwg.org/
 local/domparsing.html:
-	$(WGET) -O $@ https://domparsing.spec.whatwg.org/
+	$(SAVEURL) $@ https://domparsing.spec.whatwg.org/
 local/xhr.html:
-	$(WGET) -O $@ https://xhr.spec.whatwg.org/
+	$(SAVEURL) $@ https://xhr.spec.whatwg.org/
 local/idl-extracted.json: local/dom.html local/domparsing.html \
     local/xhr.html \
     bin/extract-idls.pl
