@@ -200,6 +200,13 @@ local/iana/http-methods.xml:
 local/iana/http-methods.json: local/iana/http-methods.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
+local/iana/http-parameters.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/http-parameters/http-parameters.xml
+local/iana/http-parameters.json: local/iana/http-parameters.xml \
+    bin/ianaxml2json.pl
+	$(PERL) bin/ianaxml2json.pl $< > $@
+
 data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
     local/iana-rtsp.xml local/iana-sip.xml \
@@ -213,7 +220,8 @@ data/http-methods.json: \
 	$(PERL) bin/http-methods.pl > $@
 data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-content-codings.txt src/http-transfer-codings.txt \
-    src/icap-headers.txt
+    src/icap-headers.txt local/iana/http-parameters.json \
+    src/http-range-units.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
