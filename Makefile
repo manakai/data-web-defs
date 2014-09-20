@@ -33,7 +33,7 @@ git-submodules:
 
 local/bin/pmbp.pl:
 	mkdir -p local/bin
-	$(SAVEURL) $@ https://raw.github.com/wakaba/perl-setupenv/master/bin/pmbp.pl
+	$(SAVEURL) $@ https://raw.githubusercontent.com/wakaba/perl-setupenv/master/bin/pmbp.pl
 pmbp-upgrade: local/bin/pmbp.pl
 	perl local/bin/pmbp.pl --update-pmbp-pl
 pmbp-update: git-submodules pmbp-upgrade
@@ -163,7 +163,7 @@ local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
 	touch $@
 
 local/chars-scripts.json:
-	$(SAVEURL) $@ https://raw.github.com/manakai/data-chars/master/data/scripts.json
+	$(SAVEURL) $@ https://raw.githubusercontent.com/manakai/data-chars/master/data/scripts.json
 
 data/langtags.json: bin/langtags.pl \
   local/langtags/subtag-registry local/langtags/ext-registry \
