@@ -109,9 +109,9 @@
          "type" : "webidl:parse error"
       },
       {
-         "di" : 130,
-         "fragment" : "ArrayBuffer data);\u000A  void [*id=\u0022dom-websocket-send\u0022*]send(ArrayBufferView data);\u000A};",
-         "index" : 1602,
+         "di" : 1,
+         "fragment" : "typedef (ArrayBuffer or ArrayBufferView) ArrayBufferData;\u000Atypedef unsigned long long DOMTimeStamp;\u000Ac",
+         "index" : 51,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -3435,6 +3435,37 @@
                ]
             },
             "spec" : "HTML"
+         }
+      ],
+      "ArrayBufferData" : [
+         "typedef",
+         {
+            "spec" : "WEBIDL",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref",
+                        "ArrayBuffer"
+                     ],
+                     [
+                        "ref_typedef",
+                        "ArrayBufferView"
+                     ]
+                  ],
+                  "flattened" : {
+                     "ref[ArrayBuffer]" : [
+                        "ref",
+                        "ArrayBuffer"
+                     ],
+                     "ref_typedef[ArrayBufferView]" : [
+                        "ref_typedef",
+                        "ArrayBufferView"
+                     ]
+                  }
+               }
+            ]
          }
       ],
       "ArrayBufferView" : [
