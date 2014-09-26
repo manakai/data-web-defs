@@ -6,6 +6,7 @@ use Path::Tiny;
 my $Data = {};
 my $src_path = path (__FILE__)->parent->parent->child ('src');
 my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parameters.json')->slurp;
+my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http-protocols.json')->slurp;
 
 for (
   ['http-headers.txt', 'http'],
@@ -136,6 +137,15 @@ for (keys %{$Data->{headers}}) {
   }
 }
 
+{
+  for my $record (@{$IANAUpgradeData->{registries}->{'http-upgrade-tokens-1'}->{records}}) {
+    my $name = $record->{value};
+    $Data->{protocols}->{$name}->{iana} = 1;
+    if (defined $record->{expected} and length $record->{expected}) {
+      $Data->{protocols}->{$name}->{need_version} = 1;
+    }
+  }
+}
 my $protocol_name;
 for (split /\x0D?\x0A/, $src_path->child ('http-protocols.txt')->slurp_utf8) {
   if (/^\s*#/) {
