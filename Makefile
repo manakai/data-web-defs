@@ -200,6 +200,13 @@ local/iana/http-methods.xml:
 local/iana/http-methods.json: local/iana/http-methods.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
+local/iana/http-protocols.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/http-upgrade-tokens/http-upgrade-tokens.xml
+local/iana/http-protocols.json: local/iana/http-protocols.xml \
+    bin/ianaxml2json.pl
+	$(PERL) bin/ianaxml2json.pl $< > $@
+
 local/iana/http-parameters.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/http-parameters/http-parameters.xml
@@ -221,7 +228,7 @@ data/http-methods.json: \
 data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-content-codings.txt src/http-transfer-codings.txt \
     src/icap-headers.txt local/iana/http-parameters.json \
-    src/http-range-units.txt
+    src/http-range-units.txt local/iana/http-protocols.json
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
@@ -392,7 +399,8 @@ data/webidl.json: bin/webidl.pl
 local/dom.html:
 	$(SAVEURL) $@ https://dom.spec.whatwg.org/
 local/domparsing.html:
-	$(SAVEURL) $@ https://domparsing.spec.whatwg.org/
+	#$(SAVEURL) $@ https://domparsing.spec.whatwg.org/
+	$(SAVEURL) $@ https://raw.githubusercontent.com/whatwg/domparsing/edc795ccfdc03e396197bf81a0f550105930e90b/domparser
 local/xhr.html:
 	$(SAVEURL) $@ https://xhr.spec.whatwg.org/
 local/idl-extracted.json: local/dom.html local/domparsing.html \
