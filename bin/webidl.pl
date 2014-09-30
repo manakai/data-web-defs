@@ -135,7 +135,7 @@ my $XAttrAllowed = {
     Clamp => 1, EnforceRange => 1, EnsureUTF16 => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1,
-    Unforgeable => 1,
+    Unforgeable => 1, Unscopeable => 1,
   },
   static_attribute => {
     Clamp => 1, EnsureUTF16 => 1, Exposed => 1,
@@ -143,6 +143,7 @@ my $XAttrAllowed = {
   },
   operation => {
     Exposed => 1, NewObject => 1, TreatNullAs => 1, Unforgeable => 1,
+    Unscopeable => 1,
   },
   static_operation => {
     Exposed => 1, NewObject => 1, TreatNullAs => 1,
@@ -204,6 +205,7 @@ my $XAttrArgs = {
   PrimaryGlobal => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
   Exposed => {id => 1, id => 1, id_list => 1},
   NamedConstructor => {id => 1, named_args => 1},
+  Unscopeable => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
