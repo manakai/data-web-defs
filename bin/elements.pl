@@ -276,7 +276,7 @@ use Encode;
 use Web::DOM::Document;
 use Web::XML::Parser;
 my $statuses = {};
-{
+if (0) {
   my $doc = Web::DOM::Document->new;
   {
     my $f = file (__FILE__)->dir->parent->file ('local', 'html-status.xml');
@@ -369,25 +369,25 @@ my $id_for_status = {
 for my $ns (keys %{$Data->{elements}}) {
   for my $ln (keys %{$Data->{elements}->{$ns}}) {
     my $v = $Data->{elements}->{$ns}->{$ln};
-    if ($v->{id} and $statuses->{$v->{id}} and $v->{spec} eq 'HTML') {
-      $v->{status} ||= $statuses->{$v->{id}};
-      delete $v->{status} if $v->{status} eq 'UNKNOWN' or $v->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/;
-    }
+#    if ($v->{id} and $statuses->{$v->{id}} and $v->{spec} eq 'HTML') {
+#      $v->{status} ||= $statuses->{$v->{id}};
+#      delete $v->{status} if $v->{status} eq 'UNKNOWN' or $v->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/;
+#    }
 
     for my $ans (keys %{$v->{attrs} || {}}) {
       for my $aln (keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
         next if defined $w->{status};
         if ($w->{id} and $statuses->{$w->{id}} and $w->{spec} eq 'HTML') {
-          $w->{status} ||= $statuses->{$w->{id}};
+#          $w->{status} ||= $statuses->{$w->{id}};
         } elsif ($w->{id} and $id_for_status->{$w->{id}} and
                  $statuses->{$id_for_status->{$w->{id}}}) {
-          $w->{status} ||= $statuses->{$id_for_status->{$w->{id}}};
+#          $w->{status} ||= $statuses->{$id_for_status->{$w->{id}}};
         } elsif ($w->{id} and $w->{id} =~ /^handler-/ and $w->{spec} eq 'HTML') {
-          $w->{status} ||= $statuses->{'event-handlers-on-elements,-document-objects,-and-window-objects'};
+#          $w->{status} ||= $statuses->{'event-handlers-on-elements,-document-objects,-and-window-objects'};
           $w->{value_type} ||= 'event handler';
         } elsif ($ans eq '' and $statuses->{"the-$aln-attribute"}) {
-          $w->{status} ||= $statuses->{"the-$aln-attribute"};
+#          $w->{status} ||= $statuses->{"the-$aln-attribute"};
         }
         delete $w->{status} if defined $w->{status} and ($w->{status} eq 'UNKNOWN' or $w->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/);
         $w->{status} ||= $v->{status} if defined $v->{status};
