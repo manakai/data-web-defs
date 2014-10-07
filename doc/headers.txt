@@ -8,6 +8,22 @@ formats.
 
 The file contains a JSON object with following name/value pairs:
 
+  cache_directives [object]
+
+    Names are cache-directive names (in lowercase) and values are
+    their descriptions, as [protocol-object], with following
+    additional name/value pairs:
+
+      request [protocol-object?]
+
+        Descriptions of the cache-directive, applied when the
+        directive is used in a request message.
+
+      response [protocol-object?]
+
+        Descriptions of the cache-directive, applied when the
+        directive is used in a response message.
+
   codings [object]
 
     Names are coding names in lowercase and values are their
@@ -323,20 +339,32 @@ The file contains a JSON object with following name/value pairs:
         properties of one or more headers sharing same header name
         pattern.
 
+  pragma_directives [object]
+
+    Names are pragma-directive names (in lowercase) and values are
+    their descriptions, as [protocol-object], with following
+    additional name/value pairs:
+
+      request [protocol-object?]
+
+        Descriptions of the cache-directive, applied when the
+        directive is used in a request message.
+
+      response [protocol-object?]
+
+        Descriptions of the cache-directive, applied when the
+        directive is used in a response message.
+
   protocol [object]
 
     Names are protocols (name and optional version) and values are
-    their descriptions.  Values are JSON objects with following
-    name/value pairs:
+    their descriptions, as |protocol-description|.  Values are JSON
+    objects with following name/value pairs:
 
       iana [boolean]
 
         Whether the protocol is registered with IANA HTTP Upgrade
         token registry or not.
-
-      id [id-in-spec?]
-
-        The ID in the relevant specification, if any.
 
       need_version [boolean]
 
@@ -347,10 +375,6 @@ The file contains a JSON object with following name/value pairs:
 
         Whether the protocol is used in CGI |SERVER_PROTOCOL|
         meta-variable or not.
-
-      spec [spec?]
-
-        The relevant specification, if any.
 
       start_line [boolean]
 
@@ -369,28 +393,12 @@ The file contains a JSON object with following name/value pairs:
   range_units [object]
 
     Names are range-unit values (in lowercase) and values are their
-    descriptions, as JSON objects with following name/value pairs:
+    descriptions, as [protocol-object].
 
-      iana [boolean]
+  warn_codes [object]
 
-        Whether the value is registered with the IANA registry or not.
-
-      id [id-in-spec?]
-
-        The ID in the relevant specification, if any.
-
-      reserved [boolean]
-
-        Whether the value is reserved or not.
-
-      spec [spec?]
-
-        The relevant specification, if any.
-
-      url [string?]
-
-        The URL of the relevant specification, if any and |spec| is
-        not specified.
+    Names are warn-code values and values are their descriptions, as
+    [protocol-object].
 
 * Sources
 
@@ -405,6 +413,9 @@ RFC 7232, Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
 
 RFC 7233, Hypertext Transfer Protocol (HTTP/1.1): Range Requests
 <https://tools.ietf.org/html/rfc7233>.
+
+RFC 7234, Hypertext Transfer Protocol (HTTP/1.1): Caching
+<https://tools.ietf.org/html/rfc7234>.
 
 RFC 3507, Internet Content Adaptation Protocol (ICAP)
 <http://tools.ietf.org/html/rfc3507>.

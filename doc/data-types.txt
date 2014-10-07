@@ -99,6 +99,7 @@ value-type
     currency                  (ISO currency code)
     date string               [HTML]
     date string with optional time [HTML]
+    delta-seconds             [RFC7234]
     dimension value           [OBSVOCAB]
     DUNS number
     e-mail address            [HTML]
@@ -305,6 +306,36 @@ States of elements are represented by one of following strings:
                      item (|ul| or |ol|)
   |scripting|      - If scripting is enabled
 
+* Protocol item object
+
+A "protocol item object", identified as |protocol-object|, is an
+|object| with following name/value pairs:
+
+  iana [boolean]
+
+    Whether the target in question is registered with the IANA
+    registry or not.
+
+  id [id-in-spec?]
+
+    The ID in the relevant specification for the target in question,
+    if any.
+
+  reserved [boolean]
+
+    Whether the target in question is reserved or not.
+
+  spec [spec?]
+
+    The relevant specification for the target in question, if any.
+
+  url [string?]
+
+    The URL of the relevant specification for the target in question,
+    if any and |spec| is not specified.
+
+Additional name/value pairs can also be defined.
+
 * Web IDL object
 
 A "Web IDL object" represents a concept in Web IDL.  It is a JSON
@@ -320,3 +351,17 @@ If the value is represented by an array of the type and an object with
 descriptions, following name/value pairs are used in the object:
 
   XXX
+
+* Sources
+
+RFC 7230, Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and
+Routing <https://tools.ietf.org/html/rfc7230>.
+
+RFC 7231, Hypertext Transfer Protocol (HTTP/1.1): Semantics and
+Content <https://tools.ietf.org/html/rfc7231>.
+
+RFC 7232, Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
+<https://tools.ietf.org/html/rfc7232>.
+
+RFC 7234, Hypertext Transfer Protocol (HTTP/1.1): Caching
+<https://tools.ietf.org/html/rfc7234>.
