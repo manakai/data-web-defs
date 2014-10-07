@@ -210,8 +210,13 @@ local/iana/http-protocols.json: local/iana/http-protocols.xml \
 local/iana/http-parameters.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/http-parameters/http-parameters.xml
-local/iana/http-parameters.json: local/iana/http-parameters.xml \
-    bin/ianaxml2json.pl
+local/iana/http-cache-control.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/http-cache-directives/http-cache-directives.xml
+local/iana/http-warn-codes.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/http-warn-codes/http-warn-codes.xml
+local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
 data/http-status-codes.json: \
@@ -228,7 +233,11 @@ data/http-methods.json: \
 data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-content-codings.txt src/http-transfer-codings.txt \
     src/icap-headers.txt local/iana/http-parameters.json \
-    src/http-range-units.txt local/iana/http-protocols.json
+    src/http-range-units.txt src/http-cache-directives.txt \
+    src/http-pragma-directives.txt src/http-warn-codes.txt \
+    local/iana/http-protocols.json \
+    local/iana/http-cache-control.json \
+    local/iana/http-warn-codes.json
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------

@@ -1,4 +1,146 @@
 {
+   "cache_directives" : {
+      "max-age" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.1",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST",
+            "value_should" : "token",
+            "value_type" : "delta-seconds"
+         },
+         "response" : {
+            "id" : "section-5.2.2.8",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST",
+            "value_should" : "token",
+            "value_type" : "delta-seconds"
+         }
+      },
+      "max-stale" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.2",
+            "spec" : "RFC7234",
+            "value_optionality" : "MAY",
+            "value_should" : "token",
+            "value_type" : "delta-seconds"
+         }
+      },
+      "min-fresh" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.3",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST",
+            "value_should" : "token",
+            "value_type" : "delta-seconds"
+         }
+      },
+      "must-revalidate" : {
+         "iana" : 1,
+         "response" : {
+            "id" : "section-5.2.2.1",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "no-cache" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.4",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         },
+         "response" : {
+            "id" : "section-5.2.2.2",
+            "multiple" : 1,
+            "spec" : "RFC7234",
+            "value_is_list" : "*",
+            "value_optionality" : "MAY",
+            "value_should" : "quoted-string",
+            "value_type" : "field-name"
+         }
+      },
+      "no-store" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.5",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         },
+         "response" : {
+            "id" : "section-5.2.2.3",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "no-transform" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.6",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         },
+         "response" : {
+            "id" : "section-5.2.2.4",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "only-if-cached" : {
+         "iana" : 1,
+         "request" : {
+            "id" : "section-5.2.1.7",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "private" : {
+         "iana" : 1,
+         "response" : {
+            "id" : "section-5.2.2.6",
+            "multiple" : 1,
+            "spec" : "RFC7234",
+            "value_is_list" : "*",
+            "value_optionality" : "MAY",
+            "value_should" : "quoted-string",
+            "value_type" : "field-name"
+         }
+      },
+      "proxy-revalidate" : {
+         "iana" : 1,
+         "response" : {
+            "id" : "section-5.2.2.7",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "public" : {
+         "iana" : 1,
+         "response" : {
+            "id" : "section-5.2.2.5",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "s-maxage" : {
+         "iana" : 1,
+         "response" : {
+            "id" : "section-5.2.2.9",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST",
+            "value_should" : "token",
+            "value_type" : "delta-seconds"
+         }
+      },
+      "stale-if-error" : {
+         "iana" : 1
+      },
+      "stale-while-revalidate" : {
+         "iana" : 1
+      }
+   },
    "codings" : {
       "7bit" : {
          "content" : {
@@ -287,11 +429,14 @@
       },
       "age" : {
          "http" : {
+            "id" : "section-5.1",
             "not_for_trailer" : 1,
             "response" : {
                "xxx" : ""
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7234",
+            "value_type" : "delta-seconds"
          },
          "name" : "Age"
       },
@@ -340,12 +485,19 @@
             "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "control" : 1,
+            "id" : "section-5.2",
+            "multiple" : 1,
             "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
             "request_modifier" : 1,
             "response" : {
                "xxx" : ""
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7234",
+            "value_is_list" : "\u002B"
          },
          "icap" : {
             "id" : "section-4.3.1",
@@ -615,11 +767,14 @@
          "http" : {
             "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
+            "id" : "section-5.3",
             "not_for_trailer" : 1,
             "response" : {
                "xxx" : ""
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7234",
+            "value_type" : "HTTP-date"
          },
          "icap" : {
             "id" : "section-4.3.1",
@@ -913,8 +1068,18 @@
          "http" : {
             "304_representation_metadata" : "MAY",
             "control" : 1,
+            "id" : "section-5.4",
+            "multiple" : 1,
             "not_for_trailer" : 1,
-            "request_modifier" : 1
+            "request" : {
+               "*" : ""
+            },
+            "request_modifier" : 1,
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC7234",
+            "value_is_list" : "\u002B"
          },
          "icap" : {
             "id" : "section-4.3.1",
@@ -1267,11 +1432,18 @@
       },
       "warning" : {
          "http" : {
+            "id" : "section-5.5",
+            "multiple" : 1,
             "not_for_trailer" : 1,
+            "request" : {
+               "*" : ""
+            },
             "response" : {
                "xxx" : ""
             },
-            "response_control_data" : 1
+            "response_control_data" : 1,
+            "spec" : "RFC7234",
+            "value_is_list" : "\u002B"
          },
          "name" : "Warning"
       },
@@ -1460,6 +1632,18 @@
          "name" : "X-WSSE"
       }
    },
+   "pragma_directives" : {
+      "no-cache" : {
+         "request" : {
+            "id" : "section-5.4",
+            "spec" : "RFC7234",
+            "value_optionality" : "MUST NOT"
+         },
+         "response" : {
+            "value_optionality" : "MUST NOT"
+         }
+      }
+   },
    "protocols" : {
       "GridHTTP/1.0" : {
          "upgrade" : 1
@@ -1570,6 +1754,52 @@
       },
       "xpointer" : {
          "url" : "http://web.archive.org/web/20050306041708/http://www.mindswap.org/papers/swrp-iswc04.pdf"
+      }
+   },
+   "warn_codes" : {
+      "100" : {
+         "id" : "section-5.5.1",
+         "spec" : "RFC7234"
+      },
+      "110" : {
+         "default_warn_text" : "Response is Stale",
+         "iana" : 1
+      },
+      "111" : {
+         "default_warn_text" : "Revalidation Failed",
+         "iana" : 1,
+         "id" : "section-5.5.2",
+         "spec" : "RFC7234"
+      },
+      "112" : {
+         "default_warn_text" : "Disconnected Operation",
+         "iana" : 1,
+         "id" : "section-5.5.3",
+         "spec" : "RFC7234"
+      },
+      "113" : {
+         "default_warn_text" : "Heuristic Expiration",
+         "iana" : 1,
+         "id" : "section-5.5.4",
+         "spec" : "RFC7234"
+      },
+      "199" : {
+         "default_warn_text" : "Miscellaneous Warning",
+         "iana" : 1,
+         "id" : "section-5.5.5",
+         "spec" : "RFC7234"
+      },
+      "214" : {
+         "default_warn_text" : "Transformation Applied",
+         "iana" : 1,
+         "id" : "section-5.5.6",
+         "spec" : "RFC7234"
+      },
+      "299" : {
+         "default_warn_text" : "Miscellaneous Persistent Warning",
+         "iana" : 1,
+         "id" : "section-5.5.7",
+         "spec" : "RFC7234"
       }
    }
 }

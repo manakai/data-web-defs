@@ -282,17 +282,25 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
   }
 }
 
-{
-  for my $record (@{$IANAData->{registries}->{'range-units'}->{records}}) {
-    my $name = $record->{name};
-    $Data->{range_units}->{$name}->{iana} = 1;
+sub add_data ($) {
+  my $x = shift;
+  my $registry = $IANAData;
+  if (defined $x->{iana_registry_file_name}) {
+    $registry = json_bytes2perl $src_path->parent->child ('local/iana/', $x->{iana_registry_file_name})->slurp;
+  }
+  for my $record (@{$registry->{registries}->{$x->{iana_registry_name}}->{records}}) {
+    my $name = $record->{$x->{iana_value_key}};
+    $Data->{$x->{key}}->{$name}->{iana} = 1;
     my $desc = $record->{description};
-    if ($desc =~ /^reserved as /) {
-      $Data->{range_units}->{$name}->{reserved} = 1;
+    if (defined $desc and $desc =~ /^reserved as /) {
+      $Data->{$x->{key}}->{$name}->{reserved} = 1;
+    }
+    if ($x->{key} eq 'warn_codes' and defined $desc) {
+      $Data->{$x->{key}}->{$name}->{default_warn_text} = $desc;
     }
   }
   my $name;
-  for (split /\x0D?\x0A/, $src_path->child ('http-range-units.txt')->slurp_utf8) {
+  for (split /\x0D?\x0A/, $src_path->child ($x->{src_file_name})->slurp_utf8) {
     if (/^\s*#/) {
       next;
     } elsif (/^\*\s*(\S+)\s*$/) {
@@ -302,19 +310,63 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
       die "Unit not defined at first line" unless defined $name;
     }
 
-    if (/^spec\s+(\S+)\s*$/) {
-      my $url = $1;
+    if (/^(?:(request|response)\s+|)spec\s+(\S+)\s*$/) {
+      my $type = $1;
+      my $url = $2;
+      my $v = $Data->{$x->{key}}->{$name} ||= {};
+      $v = $v->{$type} ||= {} if defined $type;
       if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
-        $Data->{range_units}->{$name}->{spec} = "RFC$1";
-        $Data->{range_units}->{$name}->{id} = $2;
+        $v->{spec} = "RFC$1";
+        $v->{id} = $2;
       } else {
-        $Data->{range_units}->{$name}->{url} = $url;
+        $v->{url} = $url;
       }
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name)\s*$/) {
+      my ($type, $n, $value_type) = ($1, $2, $3);
+      my $v = $Data->{$x->{key}}->{$name} ||= {};
+      $v = $v->{$type} ||= {} if defined $type;
+      if ($n eq '#') {
+        $v->{value_is_list} = '*';
+        $v->{multiple} = 1;
+      } elsif ($n eq '1#') {
+        $v->{value_is_list} = '+';
+        $v->{multiple} = 1;
+      }
+      $v->{value_type} = $value_type;
+    } elsif (/^(?:(request|response)\s+|)value\s+SHOULD\s+(token|quoted-string)\s*$/) {
+      my $type = $1;
+      my $v = $Data->{$x->{key}}->{$name} ||= {};
+      $v = $v->{$type} ||= {} if defined $type;
+      $v->{value_should} = $2;
+    } elsif (/^(?:(request|response)\s+|)value\s+(MUST|MAY|MUST NOT)\s*$/) {
+      my $type = $1;
+      my $v = $Data->{$x->{key}}->{$name} ||= {};
+      $v = $v->{$type} ||= {} if defined $type;
+      $v->{value_optionality} = $2;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
   }
-}
+} # add_data
+
+add_data +{iana_registry_name => 'range-units',
+           iana_value_key => 'name',
+           key => 'range_units',
+           src_file_name => 'http-range-units.txt'};
+add_data +{iana_registry_file_name => 'http-cache-control.json',
+           iana_registry_name => 'cache-directives',
+           iana_value_key => 'value',
+           key => 'cache_directives',
+           src_file_name => 'http-cache-directives.txt'};
+add_data +{iana_registry_name => '___dummy___',
+           iana_value_key => 'value',
+           key => 'pragma_directives',
+           src_file_name => 'http-pragma-directives.txt'};
+add_data +{iana_registry_file_name => 'http-warn-codes.json',
+           iana_registry_name => 'warn-codes',
+           iana_value_key => 'value',
+           key => 'warn_codes',
+           src_file_name => 'http-warn-codes.txt'};
 
 print perl2json_bytes_for_record $Data;
 
