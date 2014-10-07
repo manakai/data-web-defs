@@ -75,6 +75,7 @@ for my $f (($d->children)) {
     my $heading = $dl->previous_element_sibling;
     while ($heading) {
       last if $heading->local_name =~ /^h[1-6]$/;
+      $heading = $heading->previous_element_sibling;
     }
     next unless $heading;
     next unless $heading->id =~ /^the-([0-9a-z_-]+)-element$/; # h1-h6 do not match
