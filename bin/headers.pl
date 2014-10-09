@@ -290,12 +290,13 @@ sub add_data ($) {
   }
   for my $record (@{$registry->{registries}->{$x->{iana_registry_name}}->{records}}) {
     my $name = $record->{$x->{iana_value_key}};
-    $Data->{$x->{key}}->{$name}->{iana} = 1;
+    $Data->{$x->{key}}->{$name}->{$x->{iana_key} // 'iana'} = 1;
     my $desc = $record->{description};
     if (defined $desc and $desc =~ /^reserved as /) {
       $Data->{$x->{key}}->{$name}->{reserved} = 1;
     }
     if ($x->{key} eq 'warn_codes' and defined $desc) {
+      $desc =~ s/: .+$//s;
       $Data->{$x->{key}}->{$name}->{default_warn_text} = $desc;
     }
   }
@@ -304,7 +305,7 @@ sub add_data ($) {
     if (/^\s*#/) {
       next;
     } elsif (/^\*\s*(\S+)\s*$/) {
-      $name = $1;
+      $name = lc $1;
       next;
     } elsif (/\S/) {
       die "Unit not defined at first line" unless defined $name;
@@ -321,7 +322,7 @@ sub add_data ($) {
       } else {
         $v->{url} = $url;
       }
-    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer)\s*$/) {
       my ($type, $n, $value_type) = ($1, $2, $3);
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -343,6 +344,8 @@ sub add_data ($) {
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
       $v->{value_optionality} = $2;
+    } elsif (/^(rfc2068_warn_code)\s+(\S+)$/) {
+      $Data->{$x->{key}}->{$name}->{$1} = $2;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
@@ -367,6 +370,12 @@ add_data +{iana_registry_file_name => 'http-warn-codes.json',
            iana_value_key => 'value',
            key => 'warn_codes',
            src_file_name => 'http-warn-codes.txt'};
+add_data +{iana_registry_file_name => 'sip.json',
+           iana_registry_name => 'sip-parameters-5',
+           iana_value_key => 'value',
+           iana_key => 'iana_sip',
+           key => 'warn_codes',
+           src_file_name => 'sip-warn-codes.txt'};
 
 print perl2json_bytes_for_record $Data;
 

@@ -194,6 +194,8 @@ local/iana-rtsp.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
 local/iana-sip.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
+local/iana/sip.json: local/iana-sip.xml
+	$(PERL) bin/ianaxml2json.pl $< > $@
 local/iana/http-methods.xml:
 	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/http-methods/http-methods.xml
@@ -237,7 +239,7 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-pragma-directives.txt src/http-warn-codes.txt \
     local/iana/http-protocols.json \
     local/iana/http-cache-control.json \
-    local/iana/http-warn-codes.json
+    local/iana/http-warn-codes.json local/iana/sip.json
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
