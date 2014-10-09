@@ -1,5 +1,43 @@
 {
    "cache_directives" : {
+      "access-restricted" : {
+         "response" : {
+            "url" : "http://tools.ietf.org/html/draft-melve-cachecontrol-00#section-3",
+            "value_optionality" : "MUST"
+         }
+      },
+      "cache-group" : {
+         "response" : {
+            "url" : "http://tools.ietf.org/html/draft-manoj-cachecontrol-00#section-3",
+            "value_optionality" : "MUST"
+         }
+      },
+      "context" : {
+         "response" : {
+            "url" : "http://tools.ietf.org/html/draft-pettersen-cache-context-06#section-3.2",
+            "value_optionality" : "MUST"
+         }
+      },
+      "discard-context" : {
+         "response" : {
+            "url" : "http://tools.ietf.org/html/draft-pettersen-cache-context-06#section-3.3",
+            "value_optionality" : "MUST"
+         }
+      },
+      "im" : {
+         "response" : {
+            "id" : "section-10.8.2",
+            "spec" : "RFC3229",
+            "value_optionality" : "MUST NOT"
+         }
+      },
+      "inv-maxage" : {
+         "response" : {
+            "url" : "http://tools.ietf.org/html/draft-nottingham-linked-cache-inv-00.html#section-5",
+            "value_optionality" : "MUST",
+            "value_type" : "delta-seconds"
+         }
+      },
       "max-age" : {
          "iana" : 1,
          "request" : {
@@ -96,6 +134,18 @@
             "value_optionality" : "MUST NOT"
          }
       },
+      "post-check" : {
+         "response" : {
+            "value_optionality" : "MUST",
+            "value_type" : "delta-seconds"
+         }
+      },
+      "pre-check" : {
+         "response" : {
+            "value_optionality" : "MUST",
+            "value_type" : "delta-seconds"
+         }
+      },
       "private" : {
          "iana" : 1,
          "response" : {
@@ -124,6 +174,14 @@
             "value_optionality" : "MUST NOT"
          }
       },
+      "retain" : {
+         "response" : {
+            "id" : "section-10.8.1",
+            "spec" : "RFC3229",
+            "value_optionality" : "MAY",
+            "value_type" : "delta-seconds"
+         }
+      },
       "s-maxage" : {
          "iana" : 1,
          "response" : {
@@ -135,10 +193,33 @@
          }
       },
       "stale-if-error" : {
-         "iana" : 1
+         "iana" : 1,
+         "request" : {
+            "id" : "section-4",
+            "spec" : "RFC5861",
+            "value_optionality" : "MUST",
+            "value_type" : "delta-seconds"
+         },
+         "response" : {
+            "id" : "section-4",
+            "spec" : "RFC5861",
+            "value_optionality" : "MUST",
+            "value_type" : "delta-seconds"
+         }
       },
       "stale-while-revalidate" : {
-         "iana" : 1
+         "iana" : 1,
+         "response" : {
+            "id" : "section-3",
+            "spec" : "RFC5861",
+            "value_optionality" : "MUST",
+            "value_type" : "delta-seconds"
+         }
+      },
+      "x-gzip-ok" : {
+         "response" : {
+            "value_optionality" : "MUST"
+         }
       }
    },
    "codings" : {
@@ -1633,6 +1714,111 @@
       }
    },
    "pragma_directives" : {
+      "accelbw" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251173.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         },
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251173.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "accelduration" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251174.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         },
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251174.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "burstbw" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251182.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         },
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251182.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "burstduration" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251183.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         },
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251183.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "client-id" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251187.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "client-lag" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251188.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "expect-new-header" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251199.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "features" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251200.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "for" : {
+         "request" : {
+            "url" : "http://web.archive.org/web/20010221065920/http://www.cs.cmu.edu/webhelp/for-protocol.html",
+            "value_optionality" : "MUST"
+         },
+         "response" : {
+            "url" : "http://web.archive.org/web/20010221065920/http://www.cs.cmu.edu/webhelp/for-protocol.html",
+            "value_optionality" : "MUST"
+         }
+      },
+      "linkbw" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251207.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "log-line" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251209.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "max-duration" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251212.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
       "no-cache" : {
          "request" : {
             "id" : "section-5.4",
@@ -1641,6 +1827,180 @@
          },
          "response" : {
             "value_optionality" : "MUST NOT"
+         }
+      },
+      "packet-num" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251221.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "packet-pair-experiment" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251223.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "pipeline-experiment" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251225.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "pipeline-request" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251226.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "pipeline-result" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251227.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "pl-offset" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251230.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "integer"
+         }
+      },
+      "playlist-gen-id" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251231.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "playlist-seek-id" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251232.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "proxy-client-agent" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251238.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "rate" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251242.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "request-context" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251244.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "speed" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251253.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "stream-offset" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251256.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "stream-switch-count" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251257.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "stream-switch-entry" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251258.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "stream-time" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251259.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "timeout" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251264.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "version-info" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251267.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "version-url" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251268.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "absolute URL"
+         }
+      },
+      "version11-enabled" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251269.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "xclientguid" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251279.aspx",
+            "value_optionality" : "MUST"
+         }
+      },
+      "xkeepaliveinpause" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251280.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "xplaynextentry" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251281.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "xplaystrm" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251282.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "xresetstrm" : {
+         "response" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251283.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
+         }
+      },
+      "xstopstrm" : {
+         "request" : {
+            "url" : "http://msdn.microsoft.com/en-us/library/cc251284.aspx",
+            "value_optionality" : "MUST",
+            "value_type" : "non-negative integer"
          }
       }
    },
@@ -1721,11 +2081,23 @@
          "id" : "section-3.7",
          "spec" : "RFC2326"
       },
+      "email" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
+      "finterpring" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
+      "hostname" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
       "id" : {
          "url" : "http://www.w3.org/TR/media-frags-recipes/#rangerequestheaderdef"
       },
       "items" : {
          "url" : "http://livedocs.dojotoolkit.org/dojox/data/JsonRestStore#paging"
+      },
+      "name" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "none" : {
          "iana" : 1,
@@ -1736,6 +2108,9 @@
       "npt" : {
          "id" : "section-3.6",
          "spec" : "RFC2326"
+      },
+      "number" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "rows" : {
          "url" : "http://download.microsoft.com/download/5/0/1/501ED102-E53F-4CE0-AA6B-B0F93629DDC6/Exchange/%5BMS-XWDSEARCH%5D.pdf#page=9"
@@ -1752,6 +2127,21 @@
          "id" : "section-3.5",
          "spec" : "RFC2326"
       },
+      "started_at" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
+      "type" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
+      "updated_at" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
+      "url" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
+      "version" : {
+         "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
+      },
       "xpointer" : {
          "url" : "http://web.archive.org/web/20050306041708/http://www.mindswap.org/papers/swrp-iswc04.pdf"
       }
@@ -1759,6 +2149,7 @@
    "warn_codes" : {
       "100" : {
          "id" : "section-5.5.1",
+         "rfc2068_warn_code" : "10",
          "spec" : "RFC7234"
       },
       "110" : {
@@ -1769,18 +2160,21 @@
          "default_warn_text" : "Revalidation Failed",
          "iana" : 1,
          "id" : "section-5.5.2",
+         "rfc2068_warn_code" : "11",
          "spec" : "RFC7234"
       },
       "112" : {
          "default_warn_text" : "Disconnected Operation",
          "iana" : 1,
          "id" : "section-5.5.3",
+         "rfc2068_warn_code" : "12",
          "spec" : "RFC7234"
       },
       "113" : {
          "default_warn_text" : "Heuristic Expiration",
          "iana" : 1,
          "id" : "section-5.5.4",
+         "rfc2068_warn_code" : "13",
          "spec" : "RFC7234"
       },
       "199" : {
@@ -1793,13 +2187,71 @@
          "default_warn_text" : "Transformation Applied",
          "iana" : 1,
          "id" : "section-5.5.6",
+         "rfc2068_warn_code" : "14",
          "spec" : "RFC7234"
       },
       "299" : {
          "default_warn_text" : "Miscellaneous Persistent Warning",
          "iana" : 1,
          "id" : "section-5.5.7",
+         "rfc2068_warn_code" : "99",
          "spec" : "RFC7234"
+      },
+      "300" : {
+         "default_warn_text" : "Incompatible network protocol",
+         "iana_sip" : 1
+      },
+      "301" : {
+         "default_warn_text" : "Incompatible network address formats",
+         "iana_sip" : 1
+      },
+      "302" : {
+         "default_warn_text" : "Incompatible transport protocol",
+         "iana_sip" : 1
+      },
+      "303" : {
+         "default_warn_text" : "Incompatible bandwidth units",
+         "iana_sip" : 1
+      },
+      "304" : {
+         "default_warn_text" : "Media type not available",
+         "iana_sip" : 1
+      },
+      "305" : {
+         "default_warn_text" : "Incompatible media format",
+         "iana_sip" : 1
+      },
+      "306" : {
+         "default_warn_text" : "Attribute not understood",
+         "iana_sip" : 1
+      },
+      "307" : {
+         "default_warn_text" : "Session description parameter not understood",
+         "iana_sip" : 1
+      },
+      "330" : {
+         "default_warn_text" : "Multicast not available",
+         "iana_sip" : 1
+      },
+      "331" : {
+         "default_warn_text" : "Unicast not available",
+         "iana_sip" : 1
+      },
+      "370" : {
+         "default_warn_text" : "Insufficient bandwidth",
+         "iana_sip" : 1
+      },
+      "380" : {
+         "default_warn_text" : "SIPS Not Allowed",
+         "iana_sip" : 1
+      },
+      "381" : {
+         "default_warn_text" : "SIPS Required",
+         "iana_sip" : 1
+      },
+      "399" : {
+         "default_warn_text" : "Miscellaneous warning",
+         "iana_sip" : 1
       }
    }
 }
