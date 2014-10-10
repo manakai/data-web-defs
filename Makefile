@@ -283,15 +283,21 @@ clean-dom:
 	rm -fr data/xhtml-charrefs.dtd data/html-charrefs.json
 	rm -fr local/xml5-spec.html local/schemaorg*
 	rm -fr local/dom.html local/domparsing.html
-	rm -fr local/html.spec.whatwg.org
+	rm -fr local/html.spec.whatwg.org local/webidl.html
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \
   src/idl/*.idl
 	$(PERL) bin/dom.pl > $@
 
-data/errors.json: bin/errors.pl local/dom-extracted.json
+data/errors.json: bin/errors.pl local/webidl.json \
+    intermediate/dom-error-types.json
 	$(PERL) bin/errors.pl > $@
+
+local/webidl.html:
+	$(SAVEURL) $@ http://heycam.github.io/webidl/
+local/webidl.json: local/webidl.html bin/extract-webidl.pl
+	$(PERL) bin/extract-webidl.pl > $@
 local/dom-extracted.json: local/dom.html bin/extract-dom-standard.pl
 	$(PERL) bin/extract-dom-standard.pl > $@
 
