@@ -18,13 +18,15 @@ for (
 }
 
 for (qw(
-  callback interface partial dictionary exception enum typedef implements
-  const null true false -Infinity Infinity NaN serializer getter stringifier
-  static attribute inherit readonly setter creator deleter legacycaller
-  iterator object optional ByteString Date DOMString RegExp any boolean
-  byte double float long octet or sequence short unsigned void
-  exception unrestricted required
-  Promise
+  callback interface partial dictionary enum typedef implements const
+  null true false -Infinity Infinity NaN serializer getter stringifier
+  static attribute inherit readonly setter creator deleter
+  legacycaller legacyiterable iterable optional ByteString Date
+  DOMString RegExp any boolean byte double float long octet or
+  sequence short unsigned void unrestricted required maplike setlike
+  Promise Error DOMException ArrayBuffer Int8Array Int16Array
+  Int32Array Uint8Array Uint16Array Uint32Array Uint8ClampedArray
+  Float32Array Float64Array DataView
 
   class extends
 
@@ -40,11 +42,12 @@ for (qw(
   }
 }
 
+## <http://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
-  attribute callback const creator deleter dictionary enum exception
-  getter implements inherit interface legacycaller partial serializer
-  setter static stringifier typedef unrestricted
-  required
+  attribute callback const creator deleter dictionary enum
+  getter implements inherit interface iterable legacycaller
+  legacyiterable maplike partial serializer setlike setter static
+  stringifier typedef unrestricted required
 
   class extends
 );
@@ -152,10 +155,10 @@ my $XAttrAllowed = {
     Clamp => 1, EnforceRange => 1, TreatNullAs => 1,
   },
   serializer => {},
-  iterator => {
+  iterator => { # XXX
     Exposed => 1,
   },
-  iterator_object => {},
+  iterator_object => {}, # XXX
   dictionary => {
     Constructor => 1, Exposed => 1,
   },
@@ -163,7 +166,7 @@ my $XAttrAllowed = {
   dictionary_member => {
     Clamp => 1, EnforceRange => 1,
   },
-  exception => {
+  exception => { # XXX
     NoInterfaceObject => 1,
   },
   field => {},
@@ -201,7 +204,7 @@ my $XAttrArgs = {
   Unforgeable => {no => 1},
   Global => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
   PrimaryGlobal => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
-  Exposed => {id => 1, id => 1, id_list => 1},
+  Exposed => {id => 1, id_list => 1},
   NamedConstructor => {id => 1, named_args => 1},
   Unscopeable => {no => 1},
 };

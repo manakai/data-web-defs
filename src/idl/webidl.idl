@@ -1,7 +1,12 @@
 /* Web IDL builtin definitions */
 [*spec=WEBIDL*]
 
-typedef (ArrayBuffer or ArrayBufferView) ArrayBufferData;
+typedef (Int8Array or Uint8Array or Uint8ClampedArray or
+         Int16Array or Uint16Array or
+         Int32Array or Uint32Array or
+         Float32Array or Float64Array or
+         DataView) ArrayBufferView;
+typedef (ArrayBufferView or ArrayBuffer) BufferSource;
 typedef unsigned long long DOMTimeStamp;
 callback Function = any (any... arguments);
 callback VoidFunction = void ();
