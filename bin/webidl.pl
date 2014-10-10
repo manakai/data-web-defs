@@ -26,7 +26,7 @@ for (qw(
   sequence short unsigned void unrestricted required maplike setlike
   Promise Error DOMException ArrayBuffer Int8Array Int16Array
   Int32Array Uint8Array Uint16Array Uint32Array Uint8ClampedArray
-  Float32Array Float64Array DataView
+  Float32Array Float64Array DataView USVString
 
   class extends
 
