@@ -22,7 +22,7 @@ for (qw(
   null true false -Infinity Infinity NaN serializer getter stringifier
   static attribute inherit readonly setter creator deleter
   legacycaller legacyiterable iterable optional ByteString Date
-  DOMString RegExp any boolean byte double float long octet or
+  DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
   Promise Error DOMException ArrayBuffer Int8Array Int16Array
   Int32Array Uint8Array Uint16Array Uint32Array Uint8ClampedArray
