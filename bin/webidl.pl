@@ -114,13 +114,13 @@ for (
 my $XAttrAllowed = {
   interface => {
     ArrayClass => 1, Constructor => 1, Exposed => 1, Global => 1,
-    ImplicitThis => 1, MapClass => 1, NamedConstructor => 1,
+    ImplicitThis => 1, NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
   },
   callback_interface => {
     ArrayClass => 1, Exposed => 1, Global => 1,
-    ImplicitThis => 1, MapClass => 1,
+    ImplicitThis => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
   },
@@ -132,13 +132,13 @@ my $XAttrAllowed = {
     Exposed => 1,
   },
   attribute => {
-    Clamp => 1, EnforceRange => 1, EnsureUTF16 => 1, Exposed => 1,
+    Clamp => 1, EnforceRange => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1,
     Unforgeable => 1, Unscopeable => 1,
   },
   static_attribute => {
-    Clamp => 1, EnsureUTF16 => 1, Exposed => 1,
+    Clamp => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
   },
   operation => {
@@ -149,7 +149,7 @@ my $XAttrAllowed = {
     Exposed => 1, NewObject => 1, TreatNullAs => 1,
   },
   argument => {
-    Clamp => 1, EnforceRange => 1, EnsureUTF16 => 1, TreatNullAs => 1,
+    Clamp => 1, EnforceRange => 1, TreatNullAs => 1,
   },
   serializer => {},
   iterator => {
@@ -187,10 +187,8 @@ my $XAttrArgs = {
   Clamp => {no => 1},
   Constructor => {no => 1, args => 1},
   EnforceRange => {no => 1},
-  EnsureUTF16 => {no => 1},
   ImplicitThis => {no => 1},
   LenientThis => {no => 1},
-  MapClass => {pair => 1},
   NewObject => {no => 1},
   NoInterfaceObject => {no => 1},
   OverrideBuiltins => {no => 1},
@@ -222,11 +220,8 @@ for my $name (keys %$XAttrMultiple) {
 }
 
 my $XAttrDisallowedCombinations = [
-  ['ArrayClass', 'MapClass'],
   ['Clamp', 'EnforceRange'],
   ['Constructor', 'NoInterfaceObject'],
-  ['MapClass', 'Global'],
-  ['MapClass', 'PrimaryGlobal'],
   ['OverrideBuiltins', 'Global'],
   ['OverrideBuiltins', 'PrimaryGlobal'],
   ['PutForwards', 'Replaceable'],
