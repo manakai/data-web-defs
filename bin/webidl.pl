@@ -18,13 +18,15 @@ for (
 }
 
 for (qw(
-  callback interface partial dictionary exception enum typedef implements
-  const null true false -Infinity Infinity NaN serializer getter stringifier
-  static attribute inherit readonly setter creator deleter legacycaller
-  iterator object optional ByteString Date DOMString RegExp any boolean
-  byte double float long octet or sequence short unsigned void
-  exception unrestricted required
-  Promise
+  callback interface partial dictionary enum typedef implements const
+  null true false -Infinity Infinity NaN serializer getter stringifier
+  static attribute inherit readonly setter creator deleter
+  legacycaller legacyiterable iterable optional ByteString Date
+  DOMString RegExp any boolean byte double float long octet or
+  sequence short unsigned void unrestricted required maplike setlike
+  Promise Error DOMException ArrayBuffer Int8Array Int16Array
+  Int32Array Uint8Array Uint16Array Uint32Array Uint8ClampedArray
+  Float32Array Float64Array DataView
 
   class extends
 
@@ -40,11 +42,12 @@ for (qw(
   }
 }
 
+## <http://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
-  attribute callback const creator deleter dictionary enum exception
-  getter implements inherit interface legacycaller partial serializer
-  setter static stringifier typedef unrestricted
-  required
+  attribute callback const creator deleter dictionary enum
+  getter implements inherit interface iterable legacycaller
+  legacyiterable maplike partial serializer setlike setter static
+  stringifier typedef unrestricted required
 
   class extends
 );
@@ -114,13 +117,13 @@ for (
 my $XAttrAllowed = {
   interface => {
     ArrayClass => 1, Constructor => 1, Exposed => 1, Global => 1,
-    ImplicitThis => 1, MapClass => 1, NamedConstructor => 1,
+    ImplicitThis => 1, NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
   },
   callback_interface => {
     ArrayClass => 1, Exposed => 1, Global => 1,
-    ImplicitThis => 1, MapClass => 1,
+    ImplicitThis => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
   },
@@ -132,13 +135,13 @@ my $XAttrAllowed = {
     Exposed => 1,
   },
   attribute => {
-    Clamp => 1, EnforceRange => 1, EnsureUTF16 => 1, Exposed => 1,
+    Clamp => 1, EnforceRange => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1,
     Unforgeable => 1, Unscopeable => 1,
   },
   static_attribute => {
-    Clamp => 1, EnsureUTF16 => 1, Exposed => 1,
+    Clamp => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
   },
   operation => {
@@ -149,13 +152,13 @@ my $XAttrAllowed = {
     Exposed => 1, NewObject => 1, TreatNullAs => 1,
   },
   argument => {
-    Clamp => 1, EnforceRange => 1, EnsureUTF16 => 1, TreatNullAs => 1,
+    Clamp => 1, EnforceRange => 1, TreatNullAs => 1,
   },
   serializer => {},
-  iterator => {
+  iterator => { # XXX
     Exposed => 1,
   },
-  iterator_object => {},
+  iterator_object => {}, # XXX
   dictionary => {
     Constructor => 1, Exposed => 1,
   },
@@ -163,7 +166,7 @@ my $XAttrAllowed = {
   dictionary_member => {
     Clamp => 1, EnforceRange => 1,
   },
-  exception => {
+  exception => { # XXX
     NoInterfaceObject => 1,
   },
   field => {},
@@ -187,10 +190,8 @@ my $XAttrArgs = {
   Clamp => {no => 1},
   Constructor => {no => 1, args => 1},
   EnforceRange => {no => 1},
-  EnsureUTF16 => {no => 1},
   ImplicitThis => {no => 1},
   LenientThis => {no => 1},
-  MapClass => {pair => 1},
   NewObject => {no => 1},
   NoInterfaceObject => {no => 1},
   OverrideBuiltins => {no => 1},
@@ -203,7 +204,7 @@ my $XAttrArgs = {
   Unforgeable => {no => 1},
   Global => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
   PrimaryGlobal => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
-  Exposed => {id => 1, id => 1, id_list => 1},
+  Exposed => {id => 1, id_list => 1},
   NamedConstructor => {id => 1, named_args => 1},
   Unscopeable => {no => 1},
 };
@@ -222,11 +223,8 @@ for my $name (keys %$XAttrMultiple) {
 }
 
 my $XAttrDisallowedCombinations = [
-  ['ArrayClass', 'MapClass'],
   ['Clamp', 'EnforceRange'],
   ['Constructor', 'NoInterfaceObject'],
-  ['MapClass', 'Global'],
-  ['MapClass', 'PrimaryGlobal'],
   ['OverrideBuiltins', 'Global'],
   ['OverrideBuiltins', 'PrimaryGlobal'],
   ['PutForwards', 'Replaceable'],
