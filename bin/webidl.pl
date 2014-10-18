@@ -65,7 +65,6 @@ for (
   [callback_interface => 'interface', 'callback interface'],
   [dictionary => 'dictionary', 'dictionary'],
   [partial_dictionary => 'dictionary', 'partial dictionary definition'],
-  [exception => 'exception', 'exception'],
   [enum => 'enum', 'enumeration'],
   [callback => 'callback', 'callback function'],
   [typedef => 'typedef', 'typedef'],
@@ -84,18 +83,12 @@ for (
   [operation => undef, 'operation'],
   [static_operation => undef, 'static operation'],
   [serializer => 'serializer', 'serializer'],
-  [iterator => 'iterator', 'iterator'],
-  [iterator_object => 'iterator', 'iterator object'],
+  [iterable => 'iterable', 'iterable declaration'],
+  [legacyiterable => 'legacyiterable', 'legacyiterable declaration'],
+  [maplike => 'maplike', 'maplike declaration'],
+  [setlike => 'setlike', 'setlike declaration'],
 ) {
   $Data->{constructs}->{$_->[0]}->{interface_member} = 1;
-  $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1] if defined $_->[1];
-}
-
-for (
-  [const => 'const', 'constant'],
-  [field => undef, 'exception field'],
-) {
-  $Data->{constructs}->{$_->[0]}->{exception_member} = 1;
   $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1] if defined $_->[1];
   $Data->{constructs}->{$_->[0]}->{name} = $_->[2];
 }
@@ -155,10 +148,14 @@ my $XAttrAllowed = {
     Clamp => 1, EnforceRange => 1, TreatNullAs => 1,
   },
   serializer => {},
-  iterator => { # XXX
+  iterable => {
     Exposed => 1,
   },
-  iterator_object => {}, # XXX
+  legacyiterable => {
+    Exposed => 1,
+  },
+  maplike => {},
+  setlike => {},
   dictionary => {
     Constructor => 1, Exposed => 1,
   },
@@ -166,10 +163,6 @@ my $XAttrAllowed = {
   dictionary_member => {
     Clamp => 1, EnforceRange => 1,
   },
-  exception => { # XXX
-    NoInterfaceObject => 1,
-  },
-  field => {},
   enum => {},
   callback => {
     TreatNonObjectAsNull => 1,
@@ -246,18 +239,28 @@ my $Reserved = {
   static_attribute => {prototype => 1},
   operation => {prototype => 1},
   static_operation => {prototype => 1},
-  exception => {Error => 1, EvalError => 1, RangeError => 1,
-                ReferenceError => 1, SyntaxError => 1, TypeError => 1,
-                URIError => 1},
-  field => {name => 1, message => 1},
+  iterable => {
+    entries => 1, keys => 1, values => 1,
+  },
+  legacyiterable => {
+    entries => 1, keys => 1, values => 1,
+  },
+  maplike => {
+    entries => 1, forEach => 1, get => 1, has => 1, keys => 1, values => 1,
+    #clear => 1, delete => 1, set => 1,
+  },
+  setlike => {
+    entries => 1, forEach => 1, has => 1, keys => 1, values => 1,
+    #clear => 1, delete => 1, add => 1,
+  },
 };
 
 for my $name (keys %$ReservedIdentifiers) {
   $Data->{constructs}->{$_}->{reserved}->{$name} = 1
       for qw(interface partial_interface callback_interface
              dictionary partial_dictionary
-             exception enum callback typedef const attribute
-             static_attribute field dictionary_member
+             enum callback typedef const attribute
+             static_attribute dictionary_member
              operation static_operation argument
              class);
 }
