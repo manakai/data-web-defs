@@ -239,20 +239,6 @@ my $Reserved = {
   static_attribute => {prototype => 1},
   operation => {prototype => 1},
   static_operation => {prototype => 1},
-  iterable => {
-    entries => 1, keys => 1, values => 1,
-  },
-  legacyiterable => {
-    entries => 1, keys => 1, values => 1,
-  },
-  maplike => {
-    entries => 1, forEach => 1, get => 1, has => 1, keys => 1, values => 1,
-    #clear => 1, delete => 1, set => 1,
-  },
-  setlike => {
-    entries => 1, forEach => 1, has => 1, keys => 1, values => 1,
-    #clear => 1, delete => 1, add => 1,
-  },
 };
 
 for my $name (keys %$ReservedIdentifiers) {
