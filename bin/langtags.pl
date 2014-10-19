@@ -16,7 +16,7 @@ my $subtags;
   local $/ = undef;
 
   ## NOTE: Based on RFC 4646 3.1.'s syntax, but more error-tolerant.
-  for (split /\x0D?+\x0A%%\x0D?+\x0A/, decode 'utf-8', <$langreg_source_file>) {
+  for (split /\x0D?+\x0A%%[\x20\x09]*\x0D?+\x0A/, decode 'utf-8', <$langreg_source_file>) {
     my $fields = [['' => '']];
     for (split /\x0D?+\x0A/, $_) {
       if (/^\s/) { ## Part of continuous line
@@ -80,7 +80,7 @@ if ($full) {
   local $/ = undef;
 
   ## NOTE: Based on RFC 4646 3.1.'s syntax, but more error-tolerant.
-  for (split /\x0D?+\x0A%%\x0D?+\x0A/, decode 'utf-8', <$langreg_source_file>) {
+  for (split /\x0D?+\x0A%%[\x20\x09]*\x0D?+\x0A/, decode 'utf-8', <$langreg_source_file>) {
     my $fields = [['' => '']];
     for (split /\x0D?+\x0A/, $_) {
       if (/^\s/) { ## Part of continuous line
