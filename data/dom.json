@@ -1,14 +1,6 @@
 {
    "_idl_errors" : [
       {
-         "di" : 1,
-         "fragment" : "Int16Array or Uint16Array or\u000A         Int32Array or Uint32Array or\u000A         Float32Array or Float64A",
-         "index" : 117,
-         "level" : "m",
-         "text" : "unsigned, ",
-         "type" : "webidl:parse error"
-      },
-      {
          "di" : 127,
          "fragment" : "TreatNonCallableAsNull]\u000Acallback [*id=\u0022eventhandlernonnull\u0022*]EventHandlerNonNull = any (Event event)",
          "index" : 14,
@@ -126,15 +118,6 @@
          "type" : "webidl:parse error"
       },
       {
-         "di" : 133,
-         "fragment" : "ArrayBufferView data);\u000A};",
-         "index" : 1660,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "ArrayBufferView"
-      },
-      {
          "di" : 99,
          "fragment" : "typedef (HTMLImageElement or\u000A         HTMLVideoElement or\u000A         HTMLCanvasElement or\u000A         Blo",
          "index" : 233,
@@ -162,15 +145,6 @@
          "value" : "CanvasRenderingContext2D"
       },
       {
-         "di" : 5,
-         "fragment" : "readonly attribute DOMTimeStamp [*id=\u0022dom-event-timestamp\u0022*]timeStamp;\u000A\u000A  void [*id=\u0022dom-event-inite",
-         "index" : 1229,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "DOMTimeStamp"
-      },
-      {
          "di" : 131,
          "fragment" : "File file);",
          "index" : 64,
@@ -187,15 +161,6 @@
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "FileList"
-      },
-      {
-         "di" : 115,
-         "fragment" : "Function handler, optional long timeout = 0, any... arguments);\u000A  long [*id=\u0022dom-windowtimers-setint",
-         "index" : 482,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "Function"
       },
       {
          "di" : 60,
@@ -3351,6 +3316,41 @@
             "spec" : "HTML"
          }
       ],
+      "ArrayBufferView" : [
+         "typedef",
+         {
+            "spec" : "WEBIDL",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     "Int8Array",
+                     "Uint8Array",
+                     "Uint8ClampedArray",
+                     "Int16Array",
+                     "Uint16Array",
+                     "Int32Array",
+                     "Uint32Array",
+                     "Float32Array",
+                     "Float64Array",
+                     "DataView"
+                  ],
+                  "flattened" : {
+                     "DataView" : "DataView",
+                     "Float32Array" : "Float32Array",
+                     "Float64Array" : "Float64Array",
+                     "Int16Array" : "Int16Array",
+                     "Int32Array" : "Int32Array",
+                     "Int8Array" : "Int8Array",
+                     "Uint16Array" : "Uint16Array",
+                     "Uint32Array" : "Uint32Array",
+                     "Uint8Array" : "Uint8Array",
+                     "Uint8ClampedArray" : "Uint8ClampedArray"
+                  }
+               }
+            ]
+         }
+      ],
       "Attr" : [
          "interface",
          {
@@ -3843,6 +3843,31 @@
                ]
             },
             "spec" : "HTML"
+         }
+      ],
+      "BufferSource" : [
+         "typedef",
+         {
+            "spec" : "WEBIDL",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref_typedef",
+                        "ArrayBufferView"
+                     ],
+                     "ArrayBuffer"
+                  ],
+                  "flattened" : {
+                     "ArrayBuffer" : "ArrayBuffer",
+                     "ref_typedef[ArrayBufferView]" : [
+                        "ref_typedef",
+                        "ArrayBufferView"
+                     ]
+                  }
+               }
+            ]
          }
       ],
       "CanPlayTypeResult" : [
@@ -4900,6 +4925,13 @@
                }
             ],
             "spec" : "HTML"
+         }
+      ],
+      "DOMTimeStamp" : [
+         "typedef",
+         {
+            "spec" : "WEBIDL",
+            "type" : "unsigned long long"
          }
       ],
       "DOMTokenList" : [
@@ -8434,7 +8466,7 @@
                      "id" : "dom-event-timestamp",
                      "spec" : "DOM",
                      "type" : [
-                        "ref",
+                        "ref_typedef",
                         "DOMTimeStamp"
                      ]
                   }
@@ -9223,6 +9255,31 @@
                   }
                }
             ]
+         }
+      ],
+      "Function" : [
+         "callback",
+         {
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "spec" : "WEBIDL",
+                  "type" : "any"
+               },
+               "any" : {
+                  "args" : [
+                     {
+                        "name" : "arguments",
+                        "optionality" : "variadic",
+                        "spec" : "WEBIDL",
+                        "type" : "any"
+                     }
+                  ],
+                  "spec" : "WEBIDL",
+                  "type" : "any"
+               }
+            }
          }
       ],
       "FunctionStringCallback" : [
@@ -28358,6 +28415,19 @@
             "spec" : "HTML"
          }
       ],
+      "VoidFunction" : [
+         "callback",
+         {
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "spec" : "WEBIDL",
+                  "type" : "void"
+               }
+            }
+         }
+      ],
       "WebSocket" : [
          "interface",
          {
@@ -28600,7 +28670,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_typedef",
                                     "ArrayBufferView"
                                  ]
                               }
@@ -29950,7 +30020,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_callback",
                                     "Function"
                                  ]
                               }
@@ -29964,7 +30034,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_callback",
                                     "Function"
                                  ]
                               },
@@ -29988,7 +30058,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_callback",
                                     "Function"
                                  ]
                               },
@@ -30086,7 +30156,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_callback",
                                     "Function"
                                  ]
                               }
@@ -30100,7 +30170,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_callback",
                                     "Function"
                                  ]
                               },
@@ -30124,7 +30194,7 @@
                                  "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "ref",
+                                    "ref_callback",
                                     "Function"
                                  ]
                               },

@@ -8,4 +8,4 @@ test() {
 }
 
 test 1 '.idl_defs.DOMTokenList[1].members.toggle[0] == "operation"'
-test 2 '.idl_defs.DOMTimeStamp.definition_type == "typedef"'
+test 2 '.idl_defs.DOMTimeStamp[0] == "typedef"'
