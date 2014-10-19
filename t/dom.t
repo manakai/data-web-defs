@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..1"
+echo "1..2"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -8,3 +8,4 @@ test() {
 }
 
 test 1 '.idl_defs.DOMTokenList[1].members.toggle[0] == "operation"'
+test 2 '.idl_defs.DOMTimeStamp[0] == "typedef"'
