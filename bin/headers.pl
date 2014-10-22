@@ -326,6 +326,9 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
       my $v = $1;
       $v =~ tr/ /_/;
       $Data->{auth_schemes}->{$name}->{$v} = 1;
+    } elsif (defined $param_type and defined $param_type and
+             /^  (obsolete)$/) {
+      $Data->{auth_schemes}->{$name}->{$param_type}->{auth_params}->{$param_name}->{$1} = 1;
     } elsif (/^(challenge|credentials) (auth-param|token68|non-standard)$/) {
       $Data->{auth_schemes}->{$name}->{$1}->{syntax} = $2;
     } elsif (/^(challenge|credentials) (\S+)=""$/) {
@@ -336,8 +339,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
     } elsif (/^(http)$/) {
       $Data->{auth_schemes}->{$name}->{protocols}->{HTTP} = 'MAY';
       $Data->{auth_schemes}->{$name}->{protocols}->{RTSP} = 'MAY';
-    } elsif (/^(sip)$/) {
-      $Data->{auth_schemes}->{$name}->{protocols}->{SIP} = 'MAY';
+    } elsif (/^(sip|msrp)$/) {
+      $Data->{auth_schemes}->{$name}->{protocols}->{uc $1} = 'MAY';
     } elsif (/^(sip) (MUST NOT)$/) {
       $Data->{auth_schemes}->{$name}->{protocols}->{SIP} = $2;
     } elsif (/\S/) {

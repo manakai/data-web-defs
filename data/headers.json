@@ -1,5 +1,44 @@
 {
    "auth_schemes" : {
+      "authsub" : {
+         "challenge" : {
+            "auth_params" : {
+               "token" : {
+                  "name" : "token",
+                  "url" : "https://developers.google.com/accounts/docs/AuthSub"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "data" : {
+                  "name" : "data",
+                  "url" : "https://developers.google.com/accounts/docs/AuthSub"
+               },
+               "sig" : {
+                  "name" : "sig",
+                  "url" : "https://developers.google.com/accounts/docs/AuthSub"
+               },
+               "sigalg" : {
+                  "name" : "sigalg",
+                  "url" : "https://developers.google.com/accounts/docs/AuthSub"
+               },
+               "token" : {
+                  "name" : "token",
+                  "url" : "https://developers.google.com/accounts/docs/AuthSub"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "AuthSub",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "https://developers.google.com/accounts/docs/AuthSub"
+      },
       "aws" : {
          "credentials" : {
             "syntax" : "token68"
@@ -41,6 +80,10 @@
       "basic" : {
          "challenge" : {
             "auth_params" : {
+               "charset" : {
+                  "name" : "charset",
+                  "url" : "https://tools.ietf.org/html/draft-ietf-httpauth-basicauth-enc-03"
+               },
                "realm" : {
                   "id" : "section-2.2",
                   "name" : "realm",
@@ -108,7 +151,280 @@
          },
          "spec" : "RFC6750"
       },
+      "chap-password" : {
+         "challenge" : {
+            "auth_params" : {
+               "algorithm" : {
+                  "name" : "algorithm",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1"
+               },
+               "id" : {
+                  "name" : "id",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1"
+               },
+               "nonce" : {
+                  "name" : "nonce",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1"
+               },
+               "username" : {
+                  "name" : "username",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "id" : {
+                  "name" : "id",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2"
+               },
+               "nonce" : {
+                  "name" : "nonce",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2"
+               },
+               "response" : {
+                  "name" : "response",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2"
+               },
+               "username" : {
+                  "name" : "username",
+                  "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "CHAP-Password",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "SIP" : "MAY"
+         },
+         "proxy" : 1,
+         "url" : "https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6"
+      },
+      "clientcertificate" : {
+         "challenge" : {
+            "auth_params" : {
+               "dn" : {
+                  "name" : "dn",
+                  "url" : "http://tools.ietf.org/html/draft-thomson-httpbis-cant-01#section-3.1"
+               },
+               "realm" : {
+                  "id" : "section-2.2",
+                  "name" : "realm",
+                  "spec" : "RFC7235"
+               },
+               "sha-256" : {
+                  "name" : "sha-256",
+                  "url" : "http://tools.ietf.org/html/draft-thomson-httpbis-cant-01#section-3.2"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "ClientCertificate",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "proxy" : 1,
+         "url" : "http://tools.ietf.org/html/draft-thomson-httpbis-cant-01"
+      },
+      "credssp" : {
+         "challenge" : {
+            "syntax" : "token68"
+         },
+         "credentials" : {
+            "syntax" : "non-standard"
+         },
+         "name" : "CredSSP",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://technet.microsoft.com/en-us/library/ee922649(v=ws.10).aspx"
+      },
       "digest" : {
+         "challenge" : {
+            "auth_params" : {
+               "algorithm" : {
+                  "id" : "section-3.2.1",
+                  "name" : "algorithm",
+                  "spec" : "RFC2617"
+               },
+               "charset" : {
+                  "id" : "section-2.1.1",
+                  "name" : "charset",
+                  "obsolete" : 1,
+                  "spec" : "RFC2831"
+               },
+               "cipher" : {
+                  "id" : "section-2.1.1",
+                  "name" : "cipher",
+                  "obsolete" : 1,
+                  "spec" : "RFC2831"
+               },
+               "maxbuf" : {
+                  "id" : "section-2.1.1",
+                  "name" : "maxbuf",
+                  "obsolete" : 1,
+                  "spec" : "RFC2831"
+               },
+               "nonce" : {
+                  "id" : "section-3.2.1",
+                  "name" : "nonce",
+                  "spec" : "RFC2617"
+               },
+               "opaque" : {
+                  "id" : "section-3.2.1",
+                  "name" : "opaque",
+                  "spec" : "RFC2617"
+               },
+               "qop" : {
+                  "id" : "section-3.2.1",
+                  "name" : "qop",
+                  "spec" : "RFC2617"
+               },
+               "realm" : {
+                  "id" : "section-3.2.1",
+                  "name" : "realm",
+                  "spec" : "RFC2617"
+               },
+               "stale" : {
+                  "id" : "section-3.2.1",
+                  "name" : "stale",
+                  "spec" : "RFC2617"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "authzid" : {
+                  "id" : "section-2.1.2",
+                  "name" : "authzid",
+                  "obsolete" : 1,
+                  "spec" : "RFC2831"
+               },
+               "auts" : {
+                  "id" : "section-3.4",
+                  "name" : "auts",
+                  "spec" : "RFC3310"
+               },
+               "charset" : {
+                  "name" : "charset",
+                  "obsolete" : 1,
+                  "url" : "http://tools.ietf.org/html/draft-santesson-digestbind-01#section-2.2"
+               },
+               "cipher" : {
+                  "id" : "section-2.1.2",
+                  "name" : "cipher",
+                  "obsolete" : 1,
+                  "spec" : "RFC2831"
+               },
+               "cnonce" : {
+                  "id" : "section-3.2.2",
+                  "name" : "cnonce",
+                  "spec" : "RFC2617"
+               },
+               "digest-uri" : {
+                  "id" : "section-2.1.2",
+                  "name" : "digest-uri",
+                  "obsolete" : 1,
+                  "spec" : "RFC2831"
+               },
+               "hashed-dirs" : {
+                  "name" : "hashed-dirs",
+                  "obsolete" : 1,
+                  "url" : "http://tools.ietf.org/html/draft-santesson-digestbind-01#section-2.2"
+               },
+               "nc" : {
+                  "id" : "section-3.2.2",
+                  "name" : "nc",
+                  "spec" : "RFC2617"
+               },
+               "qop" : {
+                  "id" : "section-3.2.2",
+                  "name" : "qop",
+                  "spec" : "RFC2617"
+               },
+               "response" : {
+                  "id" : "section-3.2.2",
+                  "name" : "response",
+                  "spec" : "RFC2617"
+               },
+               "service-name" : {
+                  "name" : "service-name",
+                  "obsolete" : 1,
+                  "url" : "http://tools.ietf.org/html/draft-santesson-digestbind-01#section-2.2"
+               },
+               "uri" : {
+                  "id" : "section-3.2.2",
+                  "name" : "uri",
+                  "spec" : "RFC2617"
+               },
+               "username" : {
+                  "id" : "section-3.2.2",
+                  "name" : "username",
+                  "spec" : "RFC2617"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "iana" : 1,
+         "id" : "section-3",
+         "name" : "Digest",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "MSRP" : "MAY",
+            "RTSP" : "MAY",
+            "SIP" : "MAY"
+         },
+         "proxy" : 1,
+         "spec" : "RFC2617"
+      },
+      "eap" : {
+         "challenge" : {
+            "auth_params" : {
+               "eap-p" : {
+                  "name" : "eap-p",
+                  "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01#section-2.1"
+               },
+               "realm" : {
+                  "id" : "section-2.2",
+                  "name" : "realm",
+                  "spec" : "RFC7235"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "eap-p" : {
+                  "name" : "eap-p",
+                  "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01#section-2.2"
+               },
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01#section-2.2"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "Eap",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "proxy" : 1,
+         "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01"
+      },
+      "form" : {
          "challenge" : {
             "auth_params" : {
                "algorithm" : {
@@ -179,47 +495,7 @@
             },
             "syntax" : "auth-param"
          },
-         "iana" : 1,
-         "id" : "section-3",
-         "name" : "Digest",
-         "origin_server" : 1,
-         "protocols" : {
-            "HTTP" : "MAY",
-            "RTSP" : "MAY",
-            "SIP" : "MAY"
-         },
-         "proxy" : 1,
-         "spec" : "RFC2617"
-      },
-      "eap" : {
-         "challenge" : {
-            "auth_params" : {
-               "eap-p" : {
-                  "name" : "eap-p",
-                  "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01#section-2.1"
-               },
-               "realm" : {
-                  "id" : "section-2.2",
-                  "name" : "realm",
-                  "spec" : "RFC7235"
-               }
-            },
-            "syntax" : "auth-param"
-         },
-         "credentials" : {
-            "auth_params" : {
-               "eap-p" : {
-                  "name" : "eap-p",
-                  "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01#section-2.2"
-               },
-               "realm" : {
-                  "name" : "realm",
-                  "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01#section-2.2"
-               }
-            },
-            "syntax" : "auth-param"
-         },
-         "name" : "Eap",
+         "name" : "Form",
          "obsolete" : 1,
          "origin_server" : 1,
          "protocols" : {
@@ -227,7 +503,7 @@
             "RTSP" : "MAY"
          },
          "proxy" : 1,
-         "url" : "http://tools.ietf.org/html/draft-torvinen-http-eap-01"
+         "url" : "http://tools.ietf.org/html/draft-shanks-http-form-authentication-01"
       },
       "googlelogin" : {
          "credentials" : {
@@ -268,6 +544,41 @@
             "RTSP" : "MAY"
          },
          "url" : "http://tools.ietf.org/html/draft-johansson-http-gss-05"
+      },
+      "hoba" : {
+         "challenge" : {
+            "auth_params" : {
+               "challenge" : {
+                  "name" : "challenge",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-httpauth-hoba-05#section-3"
+               },
+               "max-age" : {
+                  "name" : "max-age",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-httpauth-hoba-05#section-3"
+               },
+               "realm" : {
+                  "id" : "section-2.2",
+                  "name" : "realm",
+                  "spec" : "RFC7235"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "result" : {
+                  "name" : "result"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "HOBA",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://tools.ietf.org/html/draft-ietf-httpauth-hoba-05#section-3"
       },
       "html" : {
          "name" : "HTML",
@@ -312,12 +623,155 @@
          "url" : "http://indiewebcamp.com/indieweb-messaging"
       },
       "kerberos" : {
+         "challenge" : {
+            "auth_params" : {
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "targetname" : {
+                  "name" : "targetname",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "version" : {
+                  "name" : "version",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               }
+            },
+            "syntax" : "non-standard"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "cnum" : {
+                  "name" : "cnum",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "crand" : {
+                  "name" : "crand",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "gssapi-data" : {
+                  "name" : "gssapi-data",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "qop" : {
+                  "name" : "qop",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "response" : {
+                  "name" : "response",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "targetname" : {
+                  "name" : "targetname",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               },
+               "version" : {
+                  "name" : "version",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+               }
+            },
+            "syntax" : "non-standard"
+         },
          "name" : "Kerberos",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY",
+            "SIP" : "MAY"
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx"
+      },
+      "keystone" : {
+         "challenge" : {
+            "auth_params" : {
+               "uri" : {
+                  "name" : "uri"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "Keystone",
          "origin_server" : 1,
          "protocols" : {
             "HTTP" : "MAY",
             "RTSP" : "MAY"
          }
+      },
+      "mac" : {
+         "challenge" : {
+            "auth_params" : {
+               "cb" : {
+                  "name" : "cb",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "h" : {
+                  "name" : "h",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "id" : {
+                  "name" : "id",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "mac" : {
+                  "name" : "mac",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "seq-nr" : {
+                  "name" : "seq-nr",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "ts" : {
+                  "name" : "ts",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "access_token" : {
+                  "name" : "access_token",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "cb" : {
+                  "name" : "cb",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "h" : {
+                  "name" : "h",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "id" : {
+                  "name" : "id",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "mac" : {
+                  "name" : "mac",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "seq-nr" : {
+                  "name" : "seq-nr",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               },
+               "ts" : {
+                  "name" : "ts",
+                  "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "MAC",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1"
       },
       "mutual" : {
          "challenge" : {
@@ -333,6 +787,21 @@
             "RTSP" : "MAY"
          },
          "url" : "https://tools.ietf.org/html/draft-ietf-httpauth-mutual-03#section-3"
+      },
+      "nego2" : {
+         "challenge" : {
+            "syntax" : "non-standard"
+         },
+         "credentials" : {
+            "syntax" : "non-standard"
+         },
+         "name" : "Nego2",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/dd358276.aspx"
       },
       "negotiate" : {
          "challenge" : {
@@ -351,12 +820,64 @@
          "url" : "https://tools.ietf.org/html/rfc4559"
       },
       "ntlm" : {
+         "challenge" : {
+            "auth_params" : {
+               "gssapi-data" : {
+                  "name" : "gssapi-data",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "opaque" : {
+                  "name" : "opaque",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "targetname" : {
+                  "name" : "targetname",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "version" : {
+                  "name" : "version",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               }
+            },
+            "syntax" : "non-standard"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "gssapi-data" : {
+                  "name" : "gssapi-data",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "qop" : {
+                  "name" : "qop",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "targetname" : {
+                  "name" : "targetname",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               },
+               "version" : {
+                  "name" : "version",
+                  "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
+               }
+            },
+            "syntax" : "non-standard"
+         },
          "name" : "NTLM",
          "origin_server" : 1,
          "protocols" : {
             "HTTP" : "MAY",
-            "RTSP" : "MAY"
-         }
+            "RTSP" : "MAY",
+            "SIP" : "MAY"
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx"
       },
       "oauth" : {
          "challenge" : {
@@ -597,6 +1118,168 @@
             "RTSP" : "MAY"
          },
          "url" : "http://www.w3.org/TR/WD-session-id.html"
+      },
+      "signature" : {
+         "challenge" : {
+            "auth_params" : {
+               "headers" : {
+                  "name" : "headers",
+                  "url" : "https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.3"
+               },
+               "realm" : {
+                  "id" : "section-2.2",
+                  "name" : "realm",
+                  "spec" : "RFC7235"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "algorithm" : {
+                  "name" : "algorithm",
+                  "url" : "https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.2"
+               },
+               "headers" : {
+                  "name" : "headers",
+                  "url" : "https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.3"
+               },
+               "keyid" : {
+                  "name" : "keyId",
+                  "url" : "https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.1"
+               },
+               "signature" : {
+                  "name" : "signature",
+                  "url" : "https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.4"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "Signature",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-3"
+      },
+      "tls-dsk" : {
+         "challenge" : {
+            "auth_params" : {
+               "opaque" : {
+                  "name" : "opaque",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "sts-uri" : {
+                  "name" : "sts-uri"
+               },
+               "targetname" : {
+                  "name" : "targetname",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "version" : {
+                  "name" : "version",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "cnum" : {
+                  "name" : "cnum",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "gssapi-data" : {
+                  "name" : "gssapi-data",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "qop" : {
+                  "name" : "qop",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "realm" : {
+                  "name" : "realm",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "response" : {
+                  "name" : "response",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "targetname" : {
+                  "name" : "targetname",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               },
+               "version" : {
+                  "name" : "version",
+                  "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "TLS-DSK",
+         "origin_server" : 1,
+         "protocols" : {
+            "SIP" : "MAY"
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx"
+      },
+      "token" : {
+         "challenge" : {
+            "auth_params" : {
+               "coverage" : {
+                  "name" : "coverage",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-4.2"
+               },
+               "realm" : {
+                  "id" : "section-2.2",
+                  "name" : "realm",
+                  "spec" : "RFC7235"
+               },
+               "timestamp" : {
+                  "name" : "timestamp",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-4.3"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "auth" : {
+                  "name" : "auth",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.5"
+               },
+               "coverage" : {
+                  "name" : "coverage",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.2"
+               },
+               "nonce" : {
+                  "name" : "nonce",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.3"
+               },
+               "timestamp" : {
+                  "name" : "timestamp",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.4"
+               },
+               "token" : {
+                  "name" : "token",
+                  "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.1"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "Token",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://tools.ietf.org/html/draft-hammer-http-token-auth-01"
       },
       "wsse" : {
          "challenge" : {

@@ -5,6 +5,8 @@ challenge auth-param
 credentials token68
 challenge realm=""
   spec https://tools.ietf.org/html/rfc7235#section-2.2
+challenge charset=""
+  spec https://tools.ietf.org/html/draft-ietf-httpauth-basicauth-enc-03
 origin server
 proxy
 http
@@ -13,6 +15,70 @@ sip MUST NOT
 * Digest
 
 spec http://tools.ietf.org/html/rfc2617#section-3
+challenge auth-param
+challenge realm=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.1
+challenge nonce=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.1
+challenge opaque=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.1
+challenge stale=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.1
+challenge algorithm=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.1
+challenge qop=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.1
+challenge maxbuf=""
+  spec http://tools.ietf.org/html/rfc2831#section-2.1.1
+  obsolete
+challenge charset=""
+  spec http://tools.ietf.org/html/rfc2831#section-2.1.1
+  obsolete
+challenge cipher=""
+  spec http://tools.ietf.org/html/rfc2831#section-2.1.1
+  obsolete
+credentials auth-param
+credentials username=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.2
+credentials uri=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.2
+credentials qop=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.2
+credentials cnonce=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.2
+credentials nc=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.2
+credentials response=""
+  spec http://tools.ietf.org/html/rfc2617#section-3.2.2
+credentials auts=""
+  spec https://tools.ietf.org/html/rfc3310#section-3.4
+credentials hashed-dirs=""
+  spec http://tools.ietf.org/html/draft-santesson-digestbind-01#section-2.2
+  obsolete
+credentials service-name=""
+  spec http://tools.ietf.org/html/draft-santesson-digestbind-01#section-2.2
+  obsolete
+credentials charset=""
+  spec http://tools.ietf.org/html/draft-santesson-digestbind-01#section-2.2
+  obsolete
+credentials digest-uri=""
+  spec http://tools.ietf.org/html/rfc2831#section-2.1.2
+  obsolete
+credentials cipher=""
+  spec http://tools.ietf.org/html/rfc2831#section-2.1.2
+  obsolete
+credentials authzid=""
+  spec http://tools.ietf.org/html/rfc2831#section-2.1.2
+  obsolete
+origin server
+proxy
+http
+sip
+msrp
+
+* Form
+
+spec http://tools.ietf.org/html/draft-shanks-http-form-authentication-01
 challenge auth-param
 challenge realm=""
   spec http://tools.ietf.org/html/rfc2617#section-3.2.1
@@ -42,11 +108,21 @@ credentials response=""
 origin server
 proxy
 http
-sip
+
+## Spec no longer maintained
+obsolete
 
 * Negotiate
 
 spec https://tools.ietf.org/html/rfc4559
+challenge non-standard
+credentials non-standard
+origin server
+http
+
+* Nego2
+
+spec http://msdn.microsoft.com/en-us/library/dd358276.aspx
 challenge non-standard
 credentials non-standard
 origin server
@@ -185,8 +261,63 @@ http
 
 * Kerberos
 
+spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+challenge non-standard
+challenge realm=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+challenge targetname=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+challenge version=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials non-standard
+credentials qop=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials realm=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials targetname=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials gssapi-data=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials version=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials crand=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials cnum=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
+credentials response=""
+  spec http://msdn.microsoft.com/en-us/library/dd924859(v=office.12).aspx
 origin server
 http
+sip
+
+* TLS-DSK
+
+spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+challenge realm=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+challenge targetname=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+challenge version=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+challenge opaque=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials gssapi-data=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials qop=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials realm=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials targetname=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials version=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials cnum=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+credentials response=""
+  spec http://msdn.microsoft.com/en-us/library/ff530353(v=office.12).aspx
+challenge sts-uri=""
+origin server
+sip
 
 * Mutual
 
@@ -198,6 +329,38 @@ http
 
 * NTLM
 
+spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+challenge non-standard
+challenge realm=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+challenge targetname=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+challenge version=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+challenge opaque=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+challenge gssapi-data=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+credentials non-standard
+credentials qop=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+credentials realm=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+credentials targetname=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+credentials gssapi-data=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+credentials version=""
+  spec http://msdn.microsoft.com/en-us/library/dd944123(v=office.12).aspx
+origin server
+http
+sip
+
+* CredSSP
+
+spec http://technet.microsoft.com/en-us/library/ee922649(v=ws.10).aspx
+challenge token68
+credentials non-standard
 origin server
 http
 
@@ -284,5 +447,154 @@ challenge profile=""
   spec http://www.xml.com/pub/a/2003/12/17/dive.html
 credentials profile=""
   spec http://www.xml.com/pub/a/2003/12/17/dive.html
+origin server
+http
+
+* MAC
+
+spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+challenge id=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials id=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+challenge ts=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials ts=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+challenge seq-nr=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials seq-nr=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials access_token=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+challenge mac=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials mac=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+challenge cb=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials cb=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+challenge h=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+credentials h=""
+  spec http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05#section-5.1
+origin server
+http
+
+* Token
+
+spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01
+challenge realm=""
+  spec https://tools.ietf.org/html/rfc7235#section-2.2
+challenge coverage=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-4.2
+challenge timestamp=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-4.3
+credentials token=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.1
+credentials coverage=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.2
+credentials nonce=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.3
+credentials timestamp=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.4
+credentials auth=""
+  spec http://tools.ietf.org/html/draft-hammer-http-token-auth-01#section-5.5
+origin server
+http
+
+## Spec no longer maintained
+obsolete
+
+* ClientCertificate
+
+spec http://tools.ietf.org/html/draft-thomson-httpbis-cant-01
+challenge realm=""
+  spec https://tools.ietf.org/html/rfc7235#section-2.2
+challenge dn=""
+  spec http://tools.ietf.org/html/draft-thomson-httpbis-cant-01#section-3.1
+challenge sha-256=""
+  spec http://tools.ietf.org/html/draft-thomson-httpbis-cant-01#section-3.2
+origin server
+proxy
+http
+
+* CHAP-Password
+
+spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6
+challenge username=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1
+challenge algorithm=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1
+challenge id=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1
+challenge nonce=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.1
+credentials username=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2
+credentials id=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2
+credentials nonce=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2
+credentials response=""
+  spec https://tools.ietf.org/html/draft-byerly-sip-radius-00#section-6.2
+origin server
+proxy
+sip
+
+## Spec no longer maintained
+obsolete
+
+* HOBA
+
+spec http://tools.ietf.org/html/draft-ietf-httpauth-hoba-05#section-3
+challenge realm=""
+  spec https://tools.ietf.org/html/rfc7235#section-2.2
+challenge challenge=""
+  spec http://tools.ietf.org/html/draft-ietf-httpauth-hoba-05#section-3
+challenge max-age=""
+  spec http://tools.ietf.org/html/draft-ietf-httpauth-hoba-05#section-3
+credentials result=""
+origin server
+http
+
+* Signature
+
+spec https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-3
+challenge realm=""
+  spec https://tools.ietf.org/html/rfc7235#section-2.2
+challenge headers=""
+  spec https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.3
+credentials keyId=""
+  spec https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.1
+credentials algorithm=""
+  spec https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.2
+credentials headers=""
+  spec https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.3
+credentials signature=""
+  spec https://tools.ietf.org/html/draft-cavage-http-signatures-03#section-2.1.4
+origin server
+http
+
+* AuthSub
+
+spec https://developers.google.com/accounts/docs/AuthSub
+challenge token=""
+  spec https://developers.google.com/accounts/docs/AuthSub
+credentials token=""
+  spec https://developers.google.com/accounts/docs/AuthSub
+credentials sigalg=""
+  spec https://developers.google.com/accounts/docs/AuthSub
+credentials sig=""
+  spec https://developers.google.com/accounts/docs/AuthSub
+credentials data=""
+  spec https://developers.google.com/accounts/docs/AuthSub
+origin server
+http
+
+* Keystone
+
+challenge uri=""
 origin server
 http
