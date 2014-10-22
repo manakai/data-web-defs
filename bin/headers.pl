@@ -7,6 +7,7 @@ my $Data = {};
 my $src_path = path (__FILE__)->parent->parent->child ('src');
 my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parameters.json')->slurp;
 my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http-protocols.json')->slurp;
+my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-auth-schemes.json')->slurp;
 
 for (
   ['http-headers.txt', 'http'],
@@ -71,7 +72,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|fingerprinting)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|fingerprinting|trailer)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -279,6 +280,69 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
+  }
+}
+
+{
+  for my $record (@{$IANAAuthData->{registries}->{authschemes}->{records}}) {
+    my $name = lc $record->{value};
+    $Data->{auth_schemes}->{$name}->{name} = $record->{value};
+    $Data->{auth_schemes}->{$name}->{iana} = 1;
+  }
+  my $name;
+  my $param_type;
+  my $param_name;
+  for (split /\x0D?\x0A/, $src_path->child ('http-auth-schemes.txt')->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^\*\s*(\S+)\s*$/) {
+      $name = lc $1;
+      $Data->{auth_schemes}->{$name}->{name} ||= $1;
+      undef $param_type;
+      undef $param_name;
+      next;
+    } elsif (/\S/) {
+      die "auth-scheme not defined at first line" unless defined $name;
+    }
+
+    if (/^spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $Data->{auth_schemes}->{$name}->{spec} = "RFC$1";
+        $Data->{auth_schemes}->{$name}->{id} = $2;
+      } else {
+        $Data->{auth_schemes}->{$name}->{url} = $url;
+      }
+    } elsif (defined $param_type and defined $param_type and
+             /^  spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $Data->{auth_schemes}->{$name}->{$param_type}->{auth_params}->{$param_name}->{spec} = "RFC$1";
+        $Data->{auth_schemes}->{$name}->{$param_type}->{auth_params}->{$param_name}->{id} = $2;
+      } else {
+        $Data->{auth_schemes}->{$name}->{$param_type}->{auth_params}->{$param_name}->{url} = $url;
+      }
+    } elsif (/^(obsolete|origin server|proxy)$/) {
+      my $v = $1;
+      $v =~ tr/ /_/;
+      $Data->{auth_schemes}->{$name}->{$v} = 1;
+    } elsif (/^(challenge|credentials) (auth-param|token68|non-standard)$/) {
+      $Data->{auth_schemes}->{$name}->{$1}->{syntax} = $2;
+    } elsif (/^(challenge|credentials) (\S+)=""$/) {
+      $param_type = $1;
+      $param_name = lc $2;
+      $Data->{auth_schemes}->{$name}->{$1}->{auth_params}->{$param_name}->{name} = $2;
+      $Data->{auth_schemes}->{$name}->{$1}->{syntax} ||= 'auth-param';
+    } elsif (/^(http)$/) {
+      $Data->{auth_schemes}->{$name}->{protocols}->{HTTP} = 'MAY';
+      $Data->{auth_schemes}->{$name}->{protocols}->{RTSP} = 'MAY';
+    } elsif (/^(sip)$/) {
+      $Data->{auth_schemes}->{$name}->{protocols}->{SIP} = 'MAY';
+    } elsif (/^(sip) (MUST NOT)$/) {
+      $Data->{auth_schemes}->{$name}->{protocols}->{SIP} = $2;
+    } elsif (/\S/) {
+      die "Bad line: |$_|\n";
+    }
   }
 }
 
