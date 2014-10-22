@@ -432,21 +432,48 @@ request
 response
 control-data
 
-* Authorization
-
-authentication-credentials
-
-* Proxy-Authorization
-
-authentication-credentials
-
 * WWW-Authenticate
 
+spec https://tools.ietf.org/html/rfc7235#section-4.1
+value 1#challenge
 authentication-challenge
+response
+401 MUST
+xxx MAY
+
+* Authorization
+
+spec https://tools.ietf.org/html/rfc7235#section-4.2
+value credentials
+authentication-credentials
+request
 
 * Proxy-Authenticate
 
+spec https://tools.ietf.org/html/rfc7235#section-4.3
+value 1#challenge
 authentication-challenge
+response
+407 MUST
+
+* Proxy-Authorization
+
+spec https://tools.ietf.org/html/rfc7235#section-4.4
+value credentials
+authentication-credentials
+request
+
+* Authentication-Info
+
+spec http://tools.ietf.org/html/rfc2617#section-3.2.3
+value 1#
+response
+trailer
+
+* Proxy-support
+
+spec https://tools.ietf.org/html/rfc4559#section-6
+response
 
 * Keep-Alive
 

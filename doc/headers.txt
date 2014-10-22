@@ -8,6 +8,63 @@ formats.
 
 The file contains a JSON object with following name/value pairs:
 
+  auth_schemes [object]
+
+    Names are auth-scheme values (in lowercase) and values are their
+    descriptions, as [protocol-object], with following additional
+    name/value pairs:
+
+      challenge [protocol-object?]
+      credentials [protocol-object?]
+
+        If specified, the |auth-scheme| value might be used in
+        |challenge| or |credentials|, respectively.  Values are
+        descriptions of |challenge| or |credentials| for the
+        authorization scheme, with following name/value pairs:
+
+          auth_params [object?]
+
+            Names are known |auth-param| names in lowercase and values
+            are their descriptions, as [protocol-object], with
+            following name/value pair:
+
+              name [string]
+
+                The canonical |auth-param| name used in relevant
+                specifications.
+
+          syntax [string?]
+
+            The syntax of the component following the |auth-scheme|
+            and spaces in |challenge| or |credentials|, if known,
+            represented by one of following values:
+
+              |auth-param|   A |#auth-param| value.
+              |token68|      A authorization scheme specific |token68| value.
+              |non-standard| A non-standard value.
+
+      name [string]
+
+        The canonical |auth-scheme| value used in relevant
+        specifications.
+
+      origin_server [boolean]
+
+        Whether the authorization scheme is intended to be used to
+        authenticate with the origin server or not.
+
+      proxy [boolean]
+
+        Whether the authorization scheme is intended to be used to
+        authenticate with a proxy or not.
+
+      protocol [object?]
+
+        Names are protocol names such as |HTTP|, |RTSP|, |SIP|, and
+        |MSRP| and values are [conformance] value representing the
+        conformance of the authorization scheme in the protocol in
+        question.
+
   cache_directives [object]
 
     Names are cache-directive names (in lowercase) and values are
@@ -199,7 +256,7 @@ The file contains a JSON object with following name/value pairs:
 
             Whether the header cannot be used in trailers according to
             <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
-            not.
+            not.  See also |trailer|.
 
           payload [boolean]
 
@@ -302,6 +359,11 @@ The file contains a JSON object with following name/value pairs:
             Whether the header contains a sensitive data such that it
             should not be included in a TRACE request and should be
             excluded from a response to a TRACE request.
+
+          trailer [boolean]
+
+            Whether the header is explicitly allowed to be used in the
+            trailer part or not.  See also |not_for_trailer|.
 
           url [string?]
 
@@ -426,8 +488,14 @@ RFC 7233, Hypertext Transfer Protocol (HTTP/1.1): Range Requests
 RFC 7234, Hypertext Transfer Protocol (HTTP/1.1): Caching
 <https://tools.ietf.org/html/rfc7234>.
 
+RFC 7235, Hypertext Transfer Protocol (HTTP/1.1): Authentication
+<http://tools.ietf.org/html/rfc7231>.
+
 RFC 2068, Hypertext Transfer Protocol -- HTTP/1.1
 <http://tools.ietf.org/html/rfc2068>.
+
+RFC 2617, HTTP Authentication: Basic and Digest Access Authentication
+<http://tools.ietf.org/html/rfc2617>.
 
 RFC 3229, Delta encoding in HTTP <http://tools.ietf.org/html/rfc3229>.
 
