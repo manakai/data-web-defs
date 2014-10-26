@@ -1197,7 +1197,9 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
   my $alts = {};
   my $target;
   for (($f->slurp)) {
-    if (/^<(\S+)>$/) {
+    if (/^#/) {
+      #
+    } elsif (/^<(\S+)>$/) {
       die "$f: No alternative is specified for @$target" if $target;
       $target = [$1];
     } elsif (/^<(\S+) (\S+)>$/) {

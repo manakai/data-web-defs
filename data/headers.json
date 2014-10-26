@@ -1755,6 +1755,30 @@
          }
       }
    },
+   "forwarded" : {
+      "by" : {
+         "iana" : 1,
+         "id" : "section-5.1",
+         "spec" : "RFC7239",
+         "value_type" : "HTTP node"
+      },
+      "for" : {
+         "iana" : 1,
+         "id" : "section-5.2",
+         "spec" : "RFC7239",
+         "value_type" : "HTTP node"
+      },
+      "host" : {
+         "iana" : 1,
+         "id" : "section-5.3",
+         "spec" : "RFC7239"
+      },
+      "proto" : {
+         "iana" : 1,
+         "id" : "section-5.4",
+         "spec" : "RFC7239"
+      }
+   },
    "headers" : {
       "accept" : {
          "http" : {
@@ -1825,6 +1849,7 @@
       },
       "age" : {
          "http" : {
+            "cache" : 1,
             "id" : "section-5.1",
             "not_for_trailer" : 1,
             "response" : {
@@ -2203,6 +2228,19 @@
          },
          "name" : "Expires"
       },
+      "forwarded" : {
+         "http" : {
+            "fingerprinting" : 1,
+            "multiple" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "url" : "https://tools.ietf.org/html/rfc7239",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Forwarded"
+      },
       "from" : {
          "http" : {
             "fingerprinting" : 1,
@@ -2211,6 +2249,7 @@
                "*" : ""
             },
             "request_context" : 1,
+            "robot" : 1,
             "spec" : "RFC7231",
             "value_type" : "mailbox"
          },
@@ -2527,6 +2566,7 @@
             "authentication_challenge" : 1,
             "id" : "section-4.3",
             "multiple" : 1,
+            "proxy" : 1,
             "response" : {
                "407" : "MUST",
                "xxx" : ""
@@ -2568,6 +2608,7 @@
       "proxy-support" : {
          "http" : {
             "id" : "section-6",
+            "proxy" : 1,
             "response" : {
                "xxx" : ""
             },
@@ -2858,6 +2899,7 @@
             "id" : "section-5.7.1",
             "multiple" : 1,
             "not_for_trailer" : 1,
+            "proxy" : 1,
             "request" : {
                "*" : ""
             },
@@ -2872,9 +2914,11 @@
       },
       "warning" : {
          "http" : {
+            "cache" : 1,
             "id" : "section-5.5",
             "multiple" : 1,
             "not_for_trailer" : 1,
+            "proxy" : 1,
             "request" : {
                "*" : ""
             },
@@ -2956,6 +3000,61 @@
             "url" : "http://tools.ietf.org/html/draft-stecher-icap-subid-00#section-3.1"
          },
          "name" : "X-Client-IP"
+      },
+      "x-forwarded-by" : {
+         "http" : {
+            "multiple" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "value_is_list" : "\u002B"
+         },
+         "name" : "X-Forwarded-By"
+      },
+      "x-forwarded-for" : {
+         "http" : {
+            "multiple" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "value_is_list" : "\u002B"
+         },
+         "name" : "X-Forwarded-For"
+      },
+      "x-forwarded-host" : {
+         "http" : {
+            "multiple" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "value_is_list" : "\u002B"
+         },
+         "name" : "X-Forwarded-Host"
+      },
+      "x-forwarded-scheme" : {
+         "http" : {
+            "multiple" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "value_is_list" : "\u002B"
+         },
+         "name" : "X-Forwarded-Scheme"
+      },
+      "x-forwrded-proto" : {
+         "http" : {
+            "multiple" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "value_is_list" : "\u002B"
+         },
+         "name" : "X-Forwrded-Proto"
       },
       "x-icap*" : {
          "http" : {

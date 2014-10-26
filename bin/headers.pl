@@ -72,7 +72,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|fingerprinting|trailer)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|fingerprinting|trailer|proxy|cache|robot)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -389,7 +389,7 @@ sub add_data ($) {
       } else {
         $v->{url} = $url;
       }
-    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node)\s*$/) {
       my ($type, $n, $value_type) = ($1, $2, $3);
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -443,6 +443,10 @@ add_data +{iana_registry_file_name => 'sip.json',
            iana_key => 'iana_sip',
            key => 'warn_codes',
            src_file_name => 'sip-warn-codes.txt'};
+add_data +{iana_registry_name => 'forwarded',
+           iana_value_key => 'name',
+           key => 'forwarded',
+           src_file_name => 'http-forwarded.txt'};
 
 print perl2json_bytes_for_record $Data;
 

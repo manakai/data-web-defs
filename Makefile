@@ -243,7 +243,8 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     local/iana/http-protocols.json \
     local/iana/http-cache-control.json \
     local/iana/http-warn-codes.json local/iana/sip.json \
-    local/iana/http-auth-schemes.json src/http-auth-schemes.txt
+    local/iana/http-auth-schemes.json src/http-auth-schemes.txt \
+    src/http-forwarded.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
