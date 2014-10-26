@@ -58,6 +58,7 @@ spec https://tools.ietf.org/html/rfc7230#section-5.7.1
 value 1#
 request
 response
+proxy
 
 ## Implied by section title in spec
 routing
@@ -185,6 +186,7 @@ spec https://tools.ietf.org/html/rfc7231#section-5.5.1
 value mailbox
 request
 request-context
+robot
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -394,6 +396,7 @@ spec https://tools.ietf.org/html/rfc7234#section-5.1
 value delta-seconds
 control-data
 response
+cache
 
 * Cache-Control
 
@@ -431,6 +434,8 @@ value 1#
 request
 response
 control-data
+proxy
+cache
 
 * WWW-Authenticate
 
@@ -455,6 +460,7 @@ value 1#challenge
 authentication-challenge
 response
 407 MUST
+proxy
 
 * Proxy-Authorization
 
@@ -474,6 +480,47 @@ trailer
 
 spec https://tools.ietf.org/html/rfc4559#section-6
 response
+proxy
+
+* Forwarded
+
+spec https://tools.ietf.org/html/rfc7239
+value 1#
+request
+proxy
+
+# https://tools.ietf.org/html/rfc7239#section-8.3
+fingerprinting
+
+* X-Forwarded-By
+
+value 1#
+request
+proxy
+
+* X-Forwarded-For
+
+value 1#
+request
+proxy
+
+* X-Forwarded-Host
+
+value 1#
+request
+proxy
+
+* X-Forwrded-Proto
+
+value 1#
+request
+proxy
+
+* X-Forwarded-Scheme
+
+value 1#
+request
+proxy
 
 * Keep-Alive
 
