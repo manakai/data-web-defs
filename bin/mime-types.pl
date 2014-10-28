@@ -115,6 +115,11 @@ for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slur
     $type =~ tr/A-Z/a-z/;
     $Data->{$type}->{type} ||= $type =~ m{/\*$} ? 'type' : $type =~ m{^\*/\*\+} ? 'suffix' : $type =~ /\*/ ? 'pattern' : 'subtype';
     undef $attr;
+    my $t2 = $type;
+    $t2 =~ s{/.+$}{/*}s;
+    if (not $type eq $t2 and $t2 =~ m{/\*$}) {
+      $Data->{$t2} ||= {type => 'type'};
+    }
   } elsif (m{^  ([0-9A-Za-z_-]+)$}) {
     $Data->{$type}->{$1} ||= 1;
   } elsif (m{^  ([0-9A-Za-z_.-]+)=""$}) {
