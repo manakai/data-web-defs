@@ -443,6 +443,43 @@ The file contains a JSON object with following name/value pairs:
         Descriptions of the cache-directive, applied when the
         directive is used in a response message.
 
+  preferences [object]
+
+    Names are preference tokens (in lowercase) and avlues are their
+    descriptions, as [protocol-object], with following additional
+    name/value pairs:
+
+      enumerated [object?]
+
+        Names are allowed values in lowercase and values are JSON
+        objects.
+
+      name [string]
+
+        Preference token in canonical form used in specifications.
+
+      params [object?]
+
+        Names are available parameter names in lowercase and values
+        are their descriptions, as [protocol-element], with following
+        additional name/value pairs:
+
+          optionality [conformance?]
+
+            Whether the parameter is required or not.
+
+          value_type [value-type?]
+
+            The type of the value, if known.
+
+      value_optionality [conformance]
+
+        Whether the value is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
   protocol [object]
 
     Names are protocols (name and optional version) and values are
@@ -519,6 +556,8 @@ RFC 7235, Hypertext Transfer Protocol (HTTP/1.1): Authentication
 
 RFC 7239, Forwarded HTTP Extension
 <http://tools.ietf.org/html/rfc7239>.
+
+RFC 7240, Prefer Header for HTTP <http://tools.ietf.org/html/rfc7240>.
 
 RFC 2068, Hypertext Transfer Protocol -- HTTP/1.1
 <http://tools.ietf.org/html/rfc2068>.
