@@ -313,7 +313,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
       } else {
         $Data->{auth_schemes}->{$name}->{url} = $url;
       }
-    } elsif (defined $param_type and defined $param_type and
+    } elsif (defined $param_type and defined $param_name and
              /^  spec\s+(\S+)\s*$/) {
       my $url = $1;
       if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
@@ -326,7 +326,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
       my $v = $1;
       $v =~ tr/ /_/;
       $Data->{auth_schemes}->{$name}->{$v} = 1;
-    } elsif (defined $param_type and defined $param_type and
+    } elsif (defined $param_type and defined $param_name and
              /^  (obsolete)$/) {
       $Data->{auth_schemes}->{$name}->{$param_type}->{auth_params}->{$param_name}->{$1} = 1;
     } elsif (/^(challenge|credentials) (auth-param|token68|non-standard)$/) {
@@ -343,6 +343,65 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
       $Data->{auth_schemes}->{$name}->{protocols}->{uc $1} = 'MAY';
     } elsif (/^(sip) (MUST NOT)$/) {
       $Data->{auth_schemes}->{$name}->{protocols}->{SIP} = $2;
+    } elsif (/\S/) {
+      die "Bad line: |$_|\n";
+    }
+  }
+}
+
+{
+  for my $record (@{$IANAData->{registries}->{preferences}->{records}}) {
+    my $name = lc $record->{name};
+    $Data->{preferences}->{$name}->{name} = $record->{name};
+    $Data->{preferences}->{$name}->{iana} = 1;
+  }
+  my $name;
+  my $param_name;
+  for (split /\x0D?\x0A/, $src_path->child ('http-preferences.txt')->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^\*\s*(\S+)\s*$/) {
+      $name = lc $1;
+      $Data->{preferences}->{$name}->{name} ||= $1;
+      undef $param_name;
+      next;
+    } elsif (/\S/) {
+      die "preference not defined at first line" unless defined $name;
+    }
+
+    if (/^spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $Data->{preferences}->{$name}->{spec} = "RFC$1";
+        $Data->{preferences}->{$name}->{id} = $2;
+      } else {
+        $Data->{preferences}->{$name}->{url} = $url;
+      }
+    } elsif (defined $param_name and /^  spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $Data->{preferences}->{$name}->{params}->{$param_name}->{spec} = "RFC$1";
+        $Data->{preferences}->{$name}->{params}->{$param_name}->{id} = $2;
+      } else {
+        $Data->{preferences}->{$name}->{params}->{$param_name}->{url} = $url;
+      }
+    } elsif (/^(\w+)=""$/) {
+      $param_name = $1;
+      $Data->{preferences}->{$name}->{params}->{$param_name} ||= {};
+    } elsif (/^value none$/) {
+      $Data->{preferences}->{$name}->{value_optionality} = 'MUST NOT';
+    } elsif (/^value (delta-seconds|non-negative integer)$/) {
+      $Data->{preferences}->{$name}->{value_optionality} = 'MUST';
+      $Data->{preferences}->{$name}->{value_type} = $1;
+    } elsif (/^value=(\w+)$/) {
+      $Data->{preferences}->{$name}->{value_optionality} = 'MUST';
+      $Data->{preferences}->{$name}->{enumerated}->{$1} ||= {};
+    } elsif (/^value$/) {
+      $Data->{preferences}->{$name}->{value_optionality} = 'MUST';
+    } elsif (defined $param_name and /^  (MUST)$/) {
+      $Data->{preferences}->{$name}->{params}->{$param_name}->{optionality} = $1;
+    } elsif (defined $param_name and /^  value (URL|non-negative integer)$/) {
+      $Data->{preferences}->{$name}->{params}->{$param_name}->{value_type} = $1;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
