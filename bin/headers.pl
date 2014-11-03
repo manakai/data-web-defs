@@ -416,6 +416,8 @@ sub add_data ($) {
   }
   for my $record (@{$registry->{registries}->{$x->{iana_registry_name}}->{records}}) {
     my $name = $record->{$x->{iana_value_key}};
+    $Data->{$x->{key}}->{lc $name}->{name} = $name;
+    $name = lc $name;
     $Data->{$x->{key}}->{$name}->{$x->{iana_key} // 'iana'} = 1;
     my $desc = $record->{description};
     if (defined $desc and $desc =~ /^reserved as /) {
@@ -431,6 +433,7 @@ sub add_data ($) {
     if (/^\s*#/) {
       next;
     } elsif (/^\*\s*(\S+)\s*$/) {
+      $Data->{$x->{key}}->{lc $1}->{name} = $1;
       $name = lc $1;
       next;
     } elsif (/\S/) {
@@ -470,8 +473,14 @@ sub add_data ($) {
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
       $v->{value_optionality} = $2;
+    } elsif (/^(mime|http|vpim|sip)$/) {
+      $Data->{$x->{key}}->{$name}->{protocols}->{uc $1} = 1;
+    } elsif (m{^(multipart/form-data)$}) {
+      $Data->{$x->{key}}->{$name}->{protocols}->{$1} = 1;
     } elsif (/^(rfc2068_warn_code)\s+(\S+)$/) {
       $Data->{$x->{key}}->{$name}->{$1} = $2;
+    } elsif (/^(obsolete)$/) {
+      $Data->{$x->{key}}->{$name}->{$1} = 1;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
@@ -506,6 +515,16 @@ add_data +{iana_registry_name => 'forwarded',
            iana_value_key => 'name',
            key => 'forwarded',
            src_file_name => 'http-forwarded.txt'};
+add_data +{iana_registry_file_name => 'cont-disp.json',
+           iana_registry_name => 'cont-disp-1',
+           iana_value_key => 'name',
+           key => 'disposition_types',
+           src_file_name => 'disposition-types.txt'};
+add_data +{iana_registry_file_name => 'cont-disp.json',
+           iana_registry_name => 'cont-disp-2',
+           iana_value_key => 'name',
+           key => 'disposition_params',
+           src_file_name => 'disposition-params.txt'};
 
 print perl2json_bytes_for_record $Data;
 
