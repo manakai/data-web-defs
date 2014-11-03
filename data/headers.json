@@ -1119,6 +1119,30 @@
          },
          "url" : "http://www.w3.org/TR/WD-session-id.html"
       },
+      "sharedkey" : {
+         "credentials" : {
+            "syntax" : "non-standard"
+         },
+         "name" : "SharedKey",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx#Subheading2"
+      },
+      "sharedkeylite" : {
+         "credentials" : {
+            "syntax" : "non-standard"
+         },
+         "name" : "SharedKeyLite",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/azure/dd179428.aspx#Subheading2"
+      },
       "signature" : {
          "challenge" : {
             "auth_params" : {
@@ -1316,30 +1340,38 @@
    },
    "cache_directives" : {
       "access-restricted" : {
+         "name" : "access-restricted",
          "response" : {
             "url" : "http://tools.ietf.org/html/draft-melve-cachecontrol-00#section-3",
             "value_optionality" : "MUST"
          }
       },
+      "auth-cache" : {
+         "name" : "auth-cache"
+      },
       "cache-group" : {
+         "name" : "cache-group",
          "response" : {
             "url" : "http://tools.ietf.org/html/draft-manoj-cachecontrol-00#section-3",
             "value_optionality" : "MUST"
          }
       },
       "context" : {
+         "name" : "context",
          "response" : {
             "url" : "http://tools.ietf.org/html/draft-pettersen-cache-context-06#section-3.2",
             "value_optionality" : "MUST"
          }
       },
       "discard-context" : {
+         "name" : "discard-context",
          "response" : {
             "url" : "http://tools.ietf.org/html/draft-pettersen-cache-context-06#section-3.3",
             "value_optionality" : "MUST"
          }
       },
       "im" : {
+         "name" : "im",
          "response" : {
             "id" : "section-10.8.2",
             "spec" : "RFC3229",
@@ -1347,6 +1379,7 @@
          }
       },
       "inv-maxage" : {
+         "name" : "inv-maxage",
          "response" : {
             "url" : "http://tools.ietf.org/html/draft-nottingham-linked-cache-inv-00.html#section-5",
             "value_optionality" : "MUST",
@@ -1355,6 +1388,7 @@
       },
       "max-age" : {
          "iana" : 1,
+         "name" : "max-age",
          "request" : {
             "id" : "section-5.2.1.1",
             "spec" : "RFC7234",
@@ -1372,6 +1406,7 @@
       },
       "max-stale" : {
          "iana" : 1,
+         "name" : "max-stale",
          "request" : {
             "id" : "section-5.2.1.2",
             "spec" : "RFC7234",
@@ -1382,6 +1417,7 @@
       },
       "min-fresh" : {
          "iana" : 1,
+         "name" : "min-fresh",
          "request" : {
             "id" : "section-5.2.1.3",
             "spec" : "RFC7234",
@@ -1392,6 +1428,7 @@
       },
       "must-revalidate" : {
          "iana" : 1,
+         "name" : "must-revalidate",
          "response" : {
             "id" : "section-5.2.2.1",
             "spec" : "RFC7234",
@@ -1400,6 +1437,7 @@
       },
       "no-cache" : {
          "iana" : 1,
+         "name" : "no-cache",
          "request" : {
             "id" : "section-5.2.1.4",
             "spec" : "RFC7234",
@@ -1417,6 +1455,7 @@
       },
       "no-store" : {
          "iana" : 1,
+         "name" : "no-store",
          "request" : {
             "id" : "section-5.2.1.5",
             "spec" : "RFC7234",
@@ -1430,6 +1469,7 @@
       },
       "no-transform" : {
          "iana" : 1,
+         "name" : "no-transform",
          "request" : {
             "id" : "section-5.2.1.6",
             "spec" : "RFC7234",
@@ -1443,6 +1483,7 @@
       },
       "only-if-cached" : {
          "iana" : 1,
+         "name" : "only-if-cached",
          "request" : {
             "id" : "section-5.2.1.7",
             "spec" : "RFC7234",
@@ -1450,12 +1491,14 @@
          }
       },
       "post-check" : {
+         "name" : "post-check",
          "response" : {
             "value_optionality" : "MUST",
             "value_type" : "delta-seconds"
          }
       },
       "pre-check" : {
+         "name" : "pre-check",
          "response" : {
             "value_optionality" : "MUST",
             "value_type" : "delta-seconds"
@@ -1463,6 +1506,7 @@
       },
       "private" : {
          "iana" : 1,
+         "name" : "private",
          "response" : {
             "id" : "section-5.2.2.6",
             "multiple" : 1,
@@ -1475,6 +1519,7 @@
       },
       "proxy-revalidate" : {
          "iana" : 1,
+         "name" : "proxy-revalidate",
          "response" : {
             "id" : "section-5.2.2.7",
             "spec" : "RFC7234",
@@ -1483,6 +1528,7 @@
       },
       "public" : {
          "iana" : 1,
+         "name" : "public",
          "response" : {
             "id" : "section-5.2.2.5",
             "spec" : "RFC7234",
@@ -1490,6 +1536,7 @@
          }
       },
       "retain" : {
+         "name" : "retain",
          "response" : {
             "id" : "section-10.8.1",
             "spec" : "RFC3229",
@@ -1499,6 +1546,7 @@
       },
       "s-maxage" : {
          "iana" : 1,
+         "name" : "s-maxage",
          "response" : {
             "id" : "section-5.2.2.9",
             "spec" : "RFC7234",
@@ -1509,6 +1557,7 @@
       },
       "stale-if-error" : {
          "iana" : 1,
+         "name" : "stale-if-error",
          "request" : {
             "id" : "section-4",
             "spec" : "RFC5861",
@@ -1524,6 +1573,7 @@
       },
       "stale-while-revalidate" : {
          "iana" : 1,
+         "name" : "stale-while-revalidate",
          "response" : {
             "id" : "section-3",
             "spec" : "RFC5861",
@@ -1532,6 +1582,7 @@
          }
       },
       "x-gzip-ok" : {
+         "name" : "x-gzip-ok",
          "response" : {
             "value_optionality" : "MUST"
          }
@@ -1755,27 +1806,299 @@
          }
       }
    },
+   "disposition_params" : {
+      "3gpp-alternative-service" : {
+         "name" : "3gpp-alternative-service",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "https://tools.ietf.org/html/draft-bakker-sipping-3gpp-ims-xml-body-handling-08"
+      },
+      "3gpp-service-info" : {
+         "name" : "3gpp-service-info",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "https://tools.ietf.org/html/draft-bakker-sipping-3gpp-ims-xml-body-handling-08"
+      },
+      "creation-date" : {
+         "iana" : 1,
+         "id" : "section-2.4",
+         "name" : "creation-date",
+         "protocols" : {
+            "MIME" : 1
+         },
+         "spec" : "RFC2183"
+      },
+      "filename" : {
+         "iana" : 1,
+         "id" : "section-2.3",
+         "name" : "filename",
+         "protocols" : {
+            "HTTP" : 1,
+            "MIME" : 1,
+            "multipart/form-data" : 1
+         },
+         "spec" : "RFC2183"
+      },
+      "handling" : {
+         "iana" : 1,
+         "name" : "handling",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "http://tools.ietf.org/html/rfc3459"
+      },
+      "modification-date" : {
+         "iana" : 1,
+         "id" : "section-2.5",
+         "name" : "modification-date",
+         "protocols" : {
+            "MIME" : 1
+         },
+         "spec" : "RFC2183"
+      },
+      "ms-proxy-2007fallback" : {
+         "name" : "ms-proxy-2007fallback",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "http://msdn.microsoft.com/en-us/library/dd908475(v=office.12).aspx"
+      },
+      "name" : {
+         "iana" : 1,
+         "id" : "section-3",
+         "name" : "name",
+         "protocols" : {
+            "multipart/form-data" : 1
+         },
+         "spec" : "RFC2388"
+      },
+      "program" : {
+         "name" : "program",
+         "obsolete" : 1,
+         "protocols" : {
+            "MIME" : 1
+         },
+         "url" : "https://tools.ietf.org/html/draft-rfced-exp-whalen-00#section-2.2"
+      },
+      "read-date" : {
+         "iana" : 1,
+         "id" : "section-2.6",
+         "name" : "read-date",
+         "protocols" : {
+            "MIME" : 1
+         },
+         "spec" : "RFC2183"
+      },
+      "recording-session" : {
+         "name" : "recording-session",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "https://tools.ietf.org/html/draft-ietf-siprec-protocol-14#section-9"
+      },
+      "size" : {
+         "iana" : 1,
+         "id" : "section-2.7",
+         "name" : "size",
+         "protocols" : {
+            "MIME" : 1
+         },
+         "spec" : "RFC2183",
+         "value_type" : "non-negative integer"
+      },
+      "voice" : {
+         "iana" : 1,
+         "id" : "section-4.3.2",
+         "name" : "voice",
+         "protocols" : {
+            "VPIM" : 1
+         },
+         "spec" : "RFC3801"
+      }
+   },
+   "disposition_types" : {
+      "aib" : {
+         "iana" : 1,
+         "name" : "aib",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "http://tools.ietf.org/html/rfc3893"
+      },
+      "alert" : {
+         "iana" : 1,
+         "id" : "section-20.11",
+         "name" : "alert",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC3261"
+      },
+      "ancillary" : {
+         "name" : "ancillary",
+         "obsolete" : 1,
+         "protocols" : {
+            "MIME" : 1
+         },
+         "url" : "http://tools.ietf.org/html/draft-newman-mime-cdisp-metadata-02"
+      },
+      "attachment" : {
+         "iana" : 1,
+         "id" : "section-2.2",
+         "name" : "attachment",
+         "protocols" : {
+            "HTTP" : 1,
+            "MIME" : 1
+         },
+         "spec" : "RFC2183"
+      },
+      "by-reference" : {
+         "iana" : 1,
+         "id" : "section-9.4",
+         "name" : "by-reference",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC5621"
+      },
+      "early-session" : {
+         "iana" : 1,
+         "name" : "early-session",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "http://tools.ietf.org/html/rfc3959"
+      },
+      "file" : {
+         "id" : "section-4.4",
+         "name" : "file",
+         "obsolete" : 1,
+         "protocols" : {
+            "multipart/form-data" : 1
+         },
+         "spec" : "RFC2388"
+      },
+      "form-data" : {
+         "iana" : 1,
+         "id" : "section-3",
+         "name" : "form-data",
+         "protocols" : {
+            "multipart/form-data" : 1
+         },
+         "spec" : "RFC2388"
+      },
+      "icon" : {
+         "iana" : 1,
+         "id" : "section-20.11",
+         "name" : "icon",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC3261"
+      },
+      "info-package" : {
+         "iana" : 1,
+         "id" : "section-4.3.1",
+         "name" : "Info-Package",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC6086"
+      },
+      "inline" : {
+         "iana" : 1,
+         "id" : "section-2.1",
+         "name" : "inline",
+         "protocols" : {
+            "HTTP" : 1,
+            "MIME" : 1
+         },
+         "spec" : "RFC2183"
+      },
+      "notification" : {
+         "iana" : 1,
+         "id" : "section-9",
+         "name" : "notification",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC5438"
+      },
+      "process" : {
+         "name" : "process",
+         "obsolete" : 1,
+         "protocols" : {
+            "MIME" : 1
+         },
+         "url" : "https://tools.ietf.org/html/draft-rfced-exp-whalen-00#section-2.1"
+      },
+      "recipient-list" : {
+         "iana" : 1,
+         "name" : "recipient-list",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "url" : "http://tools.ietf.org/html/rfc5363"
+      },
+      "recipient-list-history" : {
+         "iana" : 1,
+         "id" : "section-7",
+         "name" : "recipient-list-history",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC5364"
+      },
+      "render" : {
+         "iana" : 1,
+         "id" : "section-20.11",
+         "name" : "render",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC3261"
+      },
+      "session" : {
+         "iana" : 1,
+         "id" : "section-20.11",
+         "name" : "session",
+         "protocols" : {
+            "SIP" : 1
+         },
+         "spec" : "RFC3261"
+      },
+      "signal" : {
+         "iana" : 1,
+         "name" : "signal"
+      }
+   },
    "forwarded" : {
       "by" : {
          "iana" : 1,
          "id" : "section-5.1",
+         "name" : "by",
          "spec" : "RFC7239",
          "value_type" : "HTTP node"
       },
       "for" : {
          "iana" : 1,
          "id" : "section-5.2",
+         "name" : "for",
          "spec" : "RFC7239",
          "value_type" : "HTTP node"
       },
       "host" : {
          "iana" : 1,
          "id" : "section-5.3",
+         "name" : "host",
          "spec" : "RFC7239"
       },
       "proto" : {
          "iana" : 1,
          "id" : "section-5.4",
+         "name" : "proto",
          "spec" : "RFC7239"
       }
    },
@@ -1985,6 +2308,15 @@
             "spec" : "RFC3507"
          },
          "name" : "Connection"
+      },
+      "content-disposition" : {
+         "http" : {
+            "response" : {
+               "xxx" : ""
+            },
+            "url" : "http://tools.ietf.org/html/rfc6266"
+         },
+         "name" : "Content-Disposition"
       },
       "content-encoding" : {
          "http" : {
@@ -3208,6 +3540,7 @@
    },
    "pragma_directives" : {
       "accelbw" : {
+         "name" : "AccelBW",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251173.aspx",
             "value_optionality" : "MUST",
@@ -3220,6 +3553,7 @@
          }
       },
       "accelduration" : {
+         "name" : "AccelDuration",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251174.aspx",
             "value_optionality" : "MUST",
@@ -3232,6 +3566,7 @@
          }
       },
       "burstbw" : {
+         "name" : "BurstBW",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251182.aspx",
             "value_optionality" : "MUST",
@@ -3244,6 +3579,7 @@
          }
       },
       "burstduration" : {
+         "name" : "BurstDuration",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251183.aspx",
             "value_optionality" : "MUST",
@@ -3256,6 +3592,7 @@
          }
       },
       "client-id" : {
+         "name" : "client-id",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251187.aspx",
             "value_optionality" : "MUST",
@@ -3263,6 +3600,7 @@
          }
       },
       "client-lag" : {
+         "name" : "client-lag",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251188.aspx",
             "value_optionality" : "MUST",
@@ -3270,6 +3608,7 @@
          }
       },
       "expect-new-header" : {
+         "name" : "expect-new-header",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251199.aspx",
             "value_optionality" : "MUST",
@@ -3277,12 +3616,14 @@
          }
       },
       "features" : {
+         "name" : "features",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251200.aspx",
             "value_optionality" : "MUST"
          }
       },
       "for" : {
+         "name" : "for",
          "request" : {
             "url" : "http://web.archive.org/web/20010221065920/http://www.cs.cmu.edu/webhelp/for-protocol.html",
             "value_optionality" : "MUST"
@@ -3293,6 +3634,7 @@
          }
       },
       "linkbw" : {
+         "name" : "LinkBW",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251207.aspx",
             "value_optionality" : "MUST",
@@ -3300,12 +3642,14 @@
          }
       },
       "log-line" : {
+         "name" : "log-line",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251209.aspx",
             "value_optionality" : "MUST"
          }
       },
       "max-duration" : {
+         "name" : "max-duration",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251212.aspx",
             "value_optionality" : "MUST",
@@ -3313,6 +3657,7 @@
          }
       },
       "no-cache" : {
+         "name" : "no-cache",
          "request" : {
             "id" : "section-5.4",
             "spec" : "RFC7234",
@@ -3323,6 +3668,7 @@
          }
       },
       "packet-num" : {
+         "name" : "packet-num",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251221.aspx",
             "value_optionality" : "MUST",
@@ -3330,6 +3676,7 @@
          }
       },
       "packet-pair-experiment" : {
+         "name" : "packet-pair-experiment",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251223.aspx",
             "value_optionality" : "MUST",
@@ -3337,6 +3684,7 @@
          }
       },
       "pipeline-experiment" : {
+         "name" : "pipeline-experiment",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251225.aspx",
             "value_optionality" : "MUST",
@@ -3344,6 +3692,7 @@
          }
       },
       "pipeline-request" : {
+         "name" : "pipeline-request",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251226.aspx",
             "value_optionality" : "MUST",
@@ -3351,6 +3700,7 @@
          }
       },
       "pipeline-result" : {
+         "name" : "pipeline-result",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251227.aspx",
             "value_optionality" : "MUST",
@@ -3358,6 +3708,7 @@
          }
       },
       "pl-offset" : {
+         "name" : "pl-offset",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251230.aspx",
             "value_optionality" : "MUST",
@@ -3365,6 +3716,7 @@
          }
       },
       "playlist-gen-id" : {
+         "name" : "playlist-gen-id",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251231.aspx",
             "value_optionality" : "MUST",
@@ -3372,6 +3724,7 @@
          }
       },
       "playlist-seek-id" : {
+         "name" : "playlist-seek-id",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251232.aspx",
             "value_optionality" : "MUST",
@@ -3379,18 +3732,21 @@
          }
       },
       "proxy-client-agent" : {
+         "name" : "proxy-client-agent",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251238.aspx",
             "value_optionality" : "MUST"
          }
       },
       "rate" : {
+         "name" : "rate",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251242.aspx",
             "value_optionality" : "MUST"
          }
       },
       "request-context" : {
+         "name" : "request-context",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251244.aspx",
             "value_optionality" : "MUST",
@@ -3398,30 +3754,35 @@
          }
       },
       "speed" : {
+         "name" : "speed",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251253.aspx",
             "value_optionality" : "MUST"
          }
       },
       "stream-offset" : {
+         "name" : "stream-offset",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251256.aspx",
             "value_optionality" : "MUST"
          }
       },
       "stream-switch-count" : {
+         "name" : "stream-switch-count",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251257.aspx",
             "value_optionality" : "MUST"
          }
       },
       "stream-switch-entry" : {
+         "name" : "stream-switch-entry",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251258.aspx",
             "value_optionality" : "MUST"
          }
       },
       "stream-time" : {
+         "name" : "stream-time",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251259.aspx",
             "value_optionality" : "MUST",
@@ -3429,6 +3790,7 @@
          }
       },
       "timeout" : {
+         "name" : "timeout",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251264.aspx",
             "value_optionality" : "MUST",
@@ -3436,12 +3798,14 @@
          }
       },
       "version-info" : {
+         "name" : "version-info",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251267.aspx",
             "value_optionality" : "MUST"
          }
       },
       "version-url" : {
+         "name" : "version-url",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251268.aspx",
             "value_optionality" : "MUST",
@@ -3449,6 +3813,7 @@
          }
       },
       "version11-enabled" : {
+         "name" : "version11-enabled",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251269.aspx",
             "value_optionality" : "MUST",
@@ -3456,12 +3821,14 @@
          }
       },
       "xclientguid" : {
+         "name" : "xClientGUID",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251279.aspx",
             "value_optionality" : "MUST"
          }
       },
       "xkeepaliveinpause" : {
+         "name" : "xKeepAliveInPause",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251280.aspx",
             "value_optionality" : "MUST",
@@ -3469,6 +3836,7 @@
          }
       },
       "xplaynextentry" : {
+         "name" : "xPlayNextEntry",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251281.aspx",
             "value_optionality" : "MUST",
@@ -3476,6 +3844,7 @@
          }
       },
       "xplaystrm" : {
+         "name" : "xPlayStrm",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251282.aspx",
             "value_optionality" : "MUST",
@@ -3483,6 +3852,7 @@
          }
       },
       "xresetstrm" : {
+         "name" : "xResetStrm",
          "response" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251283.aspx",
             "value_optionality" : "MUST",
@@ -3490,6 +3860,7 @@
          }
       },
       "xstopstrm" : {
+         "name" : "xStopStrm",
          "request" : {
             "url" : "http://msdn.microsoft.com/en-us/library/cc251284.aspx",
             "value_optionality" : "MUST",
@@ -3682,91 +4053,115 @@
       "bytes" : {
          "iana" : 1,
          "id" : "section-2.1",
+         "name" : "bytes",
          "spec" : "RFC7233"
       },
       "clock" : {
          "id" : "section-3.7",
+         "name" : "clock",
          "spec" : "RFC2326"
       },
       "email" : {
+         "name" : "email",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "finterpring" : {
+         "name" : "finterpring",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "hostname" : {
+         "name" : "hostname",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "id" : {
+         "name" : "id",
          "url" : "http://www.w3.org/TR/media-frags-recipes/#rangerequestheaderdef"
       },
       "items" : {
+         "name" : "items",
          "url" : "http://livedocs.dojotoolkit.org/dojox/data/JsonRestStore#paging"
       },
       "name" : {
+         "name" : "name",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "none" : {
          "iana" : 1,
          "id" : "section-2.3",
+         "name" : "none",
          "reserved" : 1,
          "spec" : "RFC7233"
       },
       "npt" : {
          "id" : "section-3.6",
+         "name" : "npt",
          "spec" : "RFC2326"
       },
       "number" : {
+         "name" : "number",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "rows" : {
+         "name" : "rows",
          "url" : "http://download.microsoft.com/download/5/0/1/501ED102-E53F-4CE0-AA6B-B0F93629DDC6/Exchange/%5BMS-XWDSEARCH%5D.pdf#page=9"
       },
       "smpte" : {
          "id" : "section-3.5",
+         "name" : "smpte",
          "spec" : "RFC2326"
       },
       "smpte-25" : {
          "id" : "section-3.5",
+         "name" : "smpte-25",
          "spec" : "RFC2326"
       },
       "smpte-30-drop" : {
          "id" : "section-3.5",
+         "name" : "smpte-30-drop",
          "spec" : "RFC2326"
       },
       "started_at" : {
+         "name" : "started_at",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "type" : {
+         "name" : "type",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "updated_at" : {
+         "name" : "updated_at",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "url" : {
+         "name" : "url",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "version" : {
+         "name" : "version",
          "url" : "https://devcenter.heroku.com/articles/platform-api-reference#ranges"
       },
       "xpointer" : {
+         "name" : "xpointer",
          "url" : "http://web.archive.org/web/20050306041708/http://www.mindswap.org/papers/swrp-iswc04.pdf"
       }
    },
    "warn_codes" : {
       "100" : {
          "id" : "section-5.5.1",
+         "name" : "100",
          "rfc2068_warn_code" : "10",
          "spec" : "RFC7234"
       },
       "110" : {
          "default_warn_text" : "Response is Stale",
-         "iana" : 1
+         "iana" : 1,
+         "name" : "110"
       },
       "111" : {
          "default_warn_text" : "Revalidation Failed",
          "iana" : 1,
          "id" : "section-5.5.2",
+         "name" : "111",
          "rfc2068_warn_code" : "11",
          "spec" : "RFC7234"
       },
@@ -3774,6 +4169,7 @@
          "default_warn_text" : "Disconnected Operation",
          "iana" : 1,
          "id" : "section-5.5.3",
+         "name" : "112",
          "rfc2068_warn_code" : "12",
          "spec" : "RFC7234"
       },
@@ -3781,6 +4177,7 @@
          "default_warn_text" : "Heuristic Expiration",
          "iana" : 1,
          "id" : "section-5.5.4",
+         "name" : "113",
          "rfc2068_warn_code" : "13",
          "spec" : "RFC7234"
       },
@@ -3788,12 +4185,14 @@
          "default_warn_text" : "Miscellaneous Warning",
          "iana" : 1,
          "id" : "section-5.5.5",
+         "name" : "199",
          "spec" : "RFC7234"
       },
       "214" : {
          "default_warn_text" : "Transformation Applied",
          "iana" : 1,
          "id" : "section-5.5.6",
+         "name" : "214",
          "rfc2068_warn_code" : "14",
          "spec" : "RFC7234"
       },
@@ -3801,64 +4200,79 @@
          "default_warn_text" : "Miscellaneous Persistent Warning",
          "iana" : 1,
          "id" : "section-5.5.7",
+         "name" : "299",
          "rfc2068_warn_code" : "99",
          "spec" : "RFC7234"
       },
       "300" : {
          "default_warn_text" : "Incompatible network protocol",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "300"
       },
       "301" : {
          "default_warn_text" : "Incompatible network address formats",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "301"
       },
       "302" : {
          "default_warn_text" : "Incompatible transport protocol",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "302"
       },
       "303" : {
          "default_warn_text" : "Incompatible bandwidth units",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "303"
       },
       "304" : {
          "default_warn_text" : "Media type not available",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "304"
       },
       "305" : {
          "default_warn_text" : "Incompatible media format",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "305"
       },
       "306" : {
          "default_warn_text" : "Attribute not understood",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "306"
       },
       "307" : {
          "default_warn_text" : "Session description parameter not understood",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "307"
       },
       "330" : {
          "default_warn_text" : "Multicast not available",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "330"
       },
       "331" : {
          "default_warn_text" : "Unicast not available",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "331"
       },
       "370" : {
          "default_warn_text" : "Insufficient bandwidth",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "370"
       },
       "380" : {
          "default_warn_text" : "SIPS Not Allowed",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "380"
       },
       "381" : {
          "default_warn_text" : "SIPS Required",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "381"
       },
       "399" : {
          "default_warn_text" : "Miscellaneous warning",
-         "iana_sip" : 1
+         "iana_sip" : 1,
+         "name" : "399"
       }
    }
 }

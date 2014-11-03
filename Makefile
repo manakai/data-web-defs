@@ -221,6 +221,9 @@ local/iana/http-warn-codes.xml:
 local/iana/http-auth-schemes.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/http-authschemes/http-authschemes.xml
+local/iana/cont-disp.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/cont-disp/cont-disp.xml
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
@@ -244,7 +247,9 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     local/iana/http-cache-control.json \
     local/iana/http-warn-codes.json local/iana/sip.json \
     local/iana/http-auth-schemes.json src/http-auth-schemes.txt \
-    src/http-forwarded.txt src/http-preferences.txt
+    src/http-forwarded.txt src/http-preferences.txt \
+    local/iana/cont-disp.json src/disposition-types.txt \
+    src/disposition-params.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
