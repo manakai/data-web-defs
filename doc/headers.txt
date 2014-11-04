@@ -61,14 +61,29 @@ The file contains a JSON object with following name/value pairs:
     additional name/value pairs:
 
       request [protocol-object?]
-
-        Descriptions of the cache-directive, applied when the
-        directive is used in a request message.
-
       response [protocol-object?]
 
         Descriptions of the cache-directive, applied when the
-        directive is used in a response message.
+        directive is used in a request or response message,
+        respectively.  The value can contain following additional
+        name/value pairs:
+
+          value_is_list [boolean]
+
+            Whether the value is an HTTP list (|#|) or not.
+
+          value_optionality [conformance?]
+
+            Whether the value is allowed, required, or not.
+
+          value_should [string?]
+
+            The RECOMMENDED syntax for the value, |token| or
+            |quoted-string|, if any.
+
+          value_type [value-type?]
+
+            The type of the value, if known.
 
   codings [object]
 
@@ -276,10 +291,15 @@ The file contains a JSON object with following name/value pairs:
             to <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
             not.
 
-          multiple [boolean]
+          multiple [string?]
 
             Whether the header can be used multiple times in a message
-            or not.
+            or not.  If the value is |#|, multiple headers can be
+            specified and they can be combined as specified in the
+            HTTP specification (i.e. join by |,|).  If the value is
+            |1|, multiple headers can be specified but is not allowed
+            to be combined as specified in HTTP.  Otherwise, the
+            header cannot be specified multiple times.
 
           not_for_http10 [boolean]
 
@@ -290,6 +310,10 @@ The file contains a JSON object with following name/value pairs:
             Whether the header cannot be used in trailers according to
             <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
             not.  See also |trailer|.
+
+          obsolete [boolean]
+
+            Whether the header is obsolete or not.
 
           payload [boolean]
 

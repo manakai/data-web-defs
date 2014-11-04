@@ -95,7 +95,10 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
 for my $scheme (keys %{$Data}) {
   $Data->{$scheme}->{'scheme-default-port'} ||= $Data->{$scheme}->{'default-port'}
       if defined $Data->{$scheme}->{'default-port'};
-}
+  if (defined $Data->{$scheme}->{'no-tls'}) {
+    $Data->{$scheme}->{secure} = 1;
+  }
+} # $scheme
 
 open my $json_file, '>', 'data/url-schemes.json' or die "$0: url-schemes.json: $!";
 print $json_file perl2json_bytes_for_record $Data;

@@ -231,6 +231,38 @@
          "proxy" : 1,
          "url" : "http://tools.ietf.org/html/draft-thomson-httpbis-cant-01"
       },
+      "cookie" : {
+         "challenge" : {
+            "auth_params" : {
+               "cookie-name" : {
+                  "name" : "cookie-name",
+                  "url" : "https://tools.ietf.org/html/draft-broyer-http-cookie-auth-00#section-3"
+               },
+               "form-action" : {
+                  "name" : "form-action",
+                  "url" : "https://tools.ietf.org/html/draft-broyer-http-cookie-auth-00#section-3"
+               },
+               "realm" : {
+                  "id" : "section-2.2",
+                  "name" : "realm",
+                  "spec" : "RFC7235"
+               },
+               "secure-cookie-name" : {
+                  "name" : "secure-cookie-name",
+                  "url" : "https://tools.ietf.org/html/draft-broyer-http-cookie-auth-00#section-3"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "Cookie",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "https://tools.ietf.org/html/draft-broyer-http-cookie-auth-00"
+      },
       "credssp" : {
          "challenge" : {
             "syntax" : "token68"
@@ -1445,7 +1477,6 @@
          },
          "response" : {
             "id" : "section-5.2.2.2",
-            "multiple" : 1,
             "spec" : "RFC7234",
             "value_is_list" : "*",
             "value_optionality" : "MAY",
@@ -1509,7 +1540,6 @@
          "name" : "private",
          "response" : {
             "id" : "section-5.2.2.6",
-            "multiple" : 1,
             "spec" : "RFC7234",
             "value_is_list" : "*",
             "value_optionality" : "MAY",
@@ -2137,7 +2167,7 @@
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.2",
-            "multiple" : 1,
+            "multiple" : "#",
             "request" : {
                "*" : ""
             },
@@ -2151,7 +2181,7 @@
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.3",
-            "multiple" : 1,
+            "multiple" : "#",
             "request" : {
                "*" : ""
             },
@@ -2165,7 +2195,7 @@
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.4",
-            "multiple" : 1,
+            "multiple" : "#",
             "request" : {
                "*" : ""
             },
@@ -2179,7 +2209,7 @@
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.5",
-            "multiple" : 1,
+            "multiple" : "#",
             "request" : {
                "*" : ""
             },
@@ -2216,7 +2246,7 @@
       "allow" : {
          "http" : {
             "id" : "section-7.4.1",
-            "multiple" : 1,
+            "multiple" : "#",
             "response" : {
                "405" : "MUST",
                "xxx" : "MAY"
@@ -2241,7 +2271,7 @@
       "authentication-info" : {
          "http" : {
             "id" : "section-3.2.3",
-            "multiple" : 1,
+            "multiple" : "#",
             "response" : {
                "xxx" : ""
             },
@@ -2278,7 +2308,7 @@
             "304_representation_metadata" : "MUST",
             "control" : 1,
             "id" : "section-5.2",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
@@ -2314,7 +2344,7 @@
       "connection" : {
          "http" : {
             "id" : "section-6.1",
-            "multiple" : 1,
+            "multiple" : "#",
             "request" : {
                "*" : ""
             },
@@ -2351,7 +2381,7 @@
          "http" : {
             "206_representation_metadata" : "SHOULD NOT",
             "id" : "section-3.1.2.2",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "payload_processing" : 1,
             "representation_metadata" : 1,
@@ -2372,7 +2402,7 @@
          "http" : {
             "206_representation_metadata" : "SHOULD NOT",
             "id" : "section-3.1.3.2",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "payload_processing" : 1,
             "representation_metadata" : 1,
@@ -2476,6 +2506,11 @@
             "authentication" : 1,
             "cookie" : 1,
             "fingerprinting" : 1,
+            "id" : "section-4.2",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC6265",
             "trace_unsafe" : 1
          },
          "name" : "Cookie"
@@ -2484,6 +2519,12 @@
          "http" : {
             "authentication" : 1,
             "cookie" : 1,
+            "id" : "page-13",
+            "obsolete" : 1,
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2965",
             "trace_unsafe" : 1
          },
          "name" : "Cookie2"
@@ -2592,7 +2633,7 @@
       "forwarded" : {
          "http" : {
             "fingerprinting" : 1,
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "request" : {
                "*" : ""
@@ -2884,7 +2925,7 @@
             "304_representation_metadata" : "MAY",
             "control" : 1,
             "id" : "section-5.4",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
@@ -2913,7 +2954,7 @@
             "connection_option" : 1,
             "fingerprinting" : 1,
             "id" : "section-2",
-            "multiple" : 1,
+            "multiple" : "#",
             "request" : {
                "*" : ""
             },
@@ -2925,7 +2966,7 @@
       "preference-applied" : {
          "http" : {
             "id" : "section-3",
-            "multiple" : 1,
+            "multiple" : "#",
             "response" : {
                "xxx" : ""
             },
@@ -2952,7 +2993,7 @@
             "authentication" : 1,
             "authentication_challenge" : 1,
             "id" : "section-4.3",
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "response" : {
                "407" : "MUST",
@@ -3109,12 +3150,40 @@
          },
          "name" : "Service-ID"
       },
+      "set-cookie" : {
+         "http" : {
+            "authentication" : 1,
+            "cookie" : 1,
+            "id" : "section-4.1",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC6265",
+            "trace_unsafe" : 1
+         },
+         "multiple" : 1,
+         "name" : "Set-Cookie"
+      },
+      "set-cookie2" : {
+         "http" : {
+            "authentication" : 1,
+            "cookie" : 1,
+            "id" : "page-5",
+            "obsolete" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC2965",
+            "trace_unsafe" : 1
+         },
+         "name" : "Set-Cookie2"
+      },
       "te" : {
          "http" : {
             "connection_option" : 1,
             "control" : 1,
             "id" : "section-4.3",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "request" : {
                "*" : ""
@@ -3132,7 +3201,7 @@
       "trailer" : {
          "http" : {
             "id" : "section-4.4",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "payload" : 1,
             "payload_processing" : 1,
@@ -3179,7 +3248,7 @@
          "http" : {
             "id" : "section-3.3.1",
             "message_framing" : 1,
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_http10" : 1,
             "not_for_trailer" : 1,
             "payload" : 1,
@@ -3222,7 +3291,7 @@
          "http" : {
             "connection_option" : 1,
             "id" : "section-6.7",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_http10" : 1,
             "request" : {
                "*" : ""
@@ -3284,7 +3353,7 @@
       "via" : {
          "http" : {
             "id" : "section-5.7.1",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "proxy" : 1,
             "request" : {
@@ -3303,7 +3372,7 @@
          "http" : {
             "cache" : 1,
             "id" : "section-5.5",
-            "multiple" : 1,
+            "multiple" : "#",
             "not_for_trailer" : 1,
             "proxy" : 1,
             "request" : {
@@ -3323,7 +3392,7 @@
             "authentication" : 1,
             "authentication_challenge" : 1,
             "id" : "section-4.1",
-            "multiple" : 1,
+            "multiple" : "#",
             "response" : {
                "401" : "MUST",
                "xxx" : "MAY"
@@ -3390,7 +3459,7 @@
       },
       "x-forwarded-by" : {
          "http" : {
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "request" : {
                "*" : ""
@@ -3401,7 +3470,7 @@
       },
       "x-forwarded-for" : {
          "http" : {
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "request" : {
                "*" : ""
@@ -3412,7 +3481,7 @@
       },
       "x-forwarded-host" : {
          "http" : {
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "request" : {
                "*" : ""
@@ -3423,7 +3492,7 @@
       },
       "x-forwarded-scheme" : {
          "http" : {
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "request" : {
                "*" : ""
@@ -3434,7 +3503,7 @@
       },
       "x-forwrded-proto" : {
          "http" : {
-            "multiple" : 1,
+            "multiple" : "#",
             "proxy" : 1,
             "request" : {
                "*" : ""
