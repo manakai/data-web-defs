@@ -414,7 +414,7 @@ sub add_data ($) {
   if (defined $x->{iana_registry_file_name}) {
     $registry = json_bytes2perl $src_path->parent->child ('local/iana/', $x->{iana_registry_file_name})->slurp;
   }
-  for my $record (@{$registry->{registries}->{$x->{iana_registry_name}}->{records}}) {
+  for my $record (@{$registry->{registries}->{$x->{iana_registry_name} // ''}->{records}}) {
     my $name = $record->{$x->{iana_value_key}};
     $Data->{$x->{key}}->{lc $name}->{name} = $name;
     $name = lc $name;
@@ -451,7 +451,7 @@ sub add_data ($) {
       } else {
         $v->{url} = $url;
       }
-    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date)\s*$/) {
       my ($type, $n, $value_type) = ($1, $2, $3);
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -468,7 +468,7 @@ sub add_data ($) {
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
       $v->{value_should} = $2;
-    } elsif (/^(?:(request|response)\s+|)value\s+(MUST|MAY|MUST NOT)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(MUST|MAY|MUST NOT|SHOULD|SHOULD NOT)\s*$/) {
       my $type = $1;
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -525,6 +525,8 @@ add_data +{iana_registry_file_name => 'cont-disp.json',
            iana_value_key => 'name',
            key => 'disposition_params',
            src_file_name => 'disposition-params.txt'};
+add_data +{key => 'cookie_attrs',
+           src_file_name => 'http-cookie-attrs.txt'};
 
 print perl2json_bytes_for_record $Data;
 
