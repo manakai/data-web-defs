@@ -40,10 +40,10 @@ for (
     $type =~ s/\s+$//;
     if ($type =~ s/^\#//) {
       $Data->{headers}->{$header_name}->{$proto}->{value_is_list} = '*';
-      $Data->{headers}->{$header_name}->{$proto}->{multiple} = 1;
+      $Data->{headers}->{$header_name}->{$proto}->{multiple} = '#';
     } elsif ($type =~ s/^1#//) {
       $Data->{headers}->{$header_name}->{$proto}->{value_is_list} = '+';
-      $Data->{headers}->{$header_name}->{$proto}->{multiple} = 1;
+      $Data->{headers}->{$header_name}->{$proto}->{multiple} = '#';
     }
     if ($type =~ /^([A-Za-z0-9 -]+)$/) {
       $Data->{headers}->{$header_name}->{$proto}->{value_type} = {
@@ -82,7 +82,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{'206_representation_metadata'} = 'MUST' unless $2;
   } elsif (/^(byteranges)\s+(MUST|SHOULD|MAY)$/) {
     $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
-  } elsif (/^(wildcard)$/) {
+  } elsif (/^(wildcard|multiple)$/) {
     $Data->{headers}->{$header_name}->{$1} = 1;
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
@@ -457,10 +457,10 @@ sub add_data ($) {
       $v = $v->{$type} ||= {} if defined $type;
       if ($n eq '#') {
         $v->{value_is_list} = '*';
-        $v->{multiple} = 1;
+        #$v->{multiple} = '#';
       } elsif ($n eq '1#') {
         $v->{value_is_list} = '+';
-        $v->{multiple} = 1;
+        #$v->{multiple} = '#';
       }
       $v->{value_type} = $value_type;
     } elsif (/^(?:(request|response)\s+|)value\s+SHOULD\s+(token|quoted-string)\s*$/) {
