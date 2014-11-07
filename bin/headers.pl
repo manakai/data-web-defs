@@ -527,6 +527,8 @@ add_data +{iana_registry_file_name => 'cont-disp.json',
            src_file_name => 'disposition-params.txt'};
 add_data +{key => 'cookie_attrs',
            src_file_name => 'http-cookie-attrs.txt'};
+add_data +{key => 'keep_alive_params',
+           src_file_name => 'http-keep-alive.txt'};
 
 print perl2json_bytes_for_record $Data;
 
