@@ -109,15 +109,6 @@
          "type" : "webidl:parse error"
       },
       {
-         "di" : 233,
-         "fragment" : "",
-         "index" : 625,
-         "level" : "m",
-         "spec" : "XHR",
-         "text" : ";, ",
-         "type" : "webidl:parse error"
-      },
-      {
          "di" : 99,
          "fragment" : "typedef (HTMLImageElement or\u000A         HTMLVideoElement or\u000A         HTMLCanvasElement or\u000A         Blo",
          "index" : 233,
@@ -2406,6 +2397,64 @@
          {
             "Exposed" : {
                "Window" : 1
+            }
+         }
+      ],
+      "ProgressEvent" : [
+         "operation",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "overload_set" : {
+               "DOMString" : {
+                  "args" : [
+                     {
+                        "name" : "type",
+                        "optionality" : "required",
+                        "spec" : "XHR",
+                        "type" : "DOMString"
+                     }
+                  ],
+                  "id" : "concept-event-constructor",
+                  "spec" : "XHR",
+                  "type" : [
+                     "ref_interface",
+                     "ProgressEvent"
+                  ]
+               },
+               "DOMString,ref[ProgressEventInit]" : {
+                  "args" : [
+                     {
+                        "name" : "type",
+                        "optionality" : "required",
+                        "spec" : "XHR",
+                        "type" : "DOMString"
+                     },
+                     {
+                        "name" : "eventInitDict",
+                        "optionality" : "optional",
+                        "spec" : "XHR",
+                        "type" : [
+                           "ref_dictionary",
+                           "ProgressEventInit"
+                        ],
+                        "value" : [
+                           "dictionary_value",
+                           {
+                           }
+                        ]
+                     }
+                  ],
+                  "id" : "concept-event-constructor",
+                  "spec" : "XHR",
+                  "type" : [
+                     "ref_interface",
+                     "ProgressEvent"
+                  ]
+               }
             }
          }
       ],
@@ -25802,6 +25851,96 @@
                ]
             },
             "spec" : "DOM"
+         }
+      ],
+      "ProgressEvent" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "id" : "progressevent",
+            "implements" : {
+               "Event" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+               "lengthComputable" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-progressevent-lengthcomputable",
+                     "spec" : "XHR",
+                     "type" : "boolean"
+                  }
+               ],
+               "loaded" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-progressevent-loaded",
+                     "spec" : "XHR",
+                     "type" : "unsigned long long"
+                  }
+               ],
+               "total" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-progressevent-total",
+                     "spec" : "XHR",
+                     "type" : "unsigned long long"
+                  }
+               ]
+            },
+            "spec" : "XHR"
+         }
+      ],
+      "ProgressEventInit" : [
+         "dictionary",
+         {
+            "id" : "progresseventinit",
+            "implements" : {
+               "EventInit" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+               "lengthComputable" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "XHR",
+                     "type" : "boolean",
+                     "value" : "false"
+                  }
+               ],
+               "loaded" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "XHR",
+                     "type" : "unsigned long long",
+                     "value" : [
+                        "integer",
+                        0
+                     ]
+                  }
+               ],
+               "total" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "XHR",
+                     "type" : "unsigned long long",
+                     "value" : [
+                        "integer",
+                        0
+                     ]
+                  }
+               ]
+            },
+            "spec" : "XHR"
          }
       ],
       "PropertyNodeList" : [
