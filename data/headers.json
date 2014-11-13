@@ -1,5 +1,33 @@
 {
    "auth_schemes" : {
+      "anon" : {
+         "challenge" : {
+            "syntax" : "token68"
+         },
+         "credentials" : {
+            "syntax" : "token68"
+         },
+         "name" : "anon",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://www.w3.org/Privacy/Proposals.html"
+      },
+      "apikey" : {
+         "credentials" : {
+            "syntax" : "non-standard"
+         },
+         "name" : "ApiKey",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "https://docs.tutum.co/v2/api/#authentication"
+      },
       "authsub" : {
          "challenge" : {
             "auth_params" : {
@@ -3091,7 +3119,18 @@
       },
       "meter" : {
          "http" : {
-            "connection_option" : 1
+            "connection_option" : 1,
+            "multiple" : "#",
+            "origin_server" : 1,
+            "proxy" : 1,
+            "request" : {
+               "*" : ""
+            },
+            "response" : {
+               "xxx" : ""
+            },
+            "url" : "http://tools.ietf.org/html/rfc2227",
+            "value_is_list" : "*"
          },
          "name" : "Meter"
       },
@@ -3378,6 +3417,15 @@
             "spec" : "RFC7231"
          },
          "name" : "Retry-After"
+      },
+      "safe" : {
+         "http" : {
+            "response" : {
+               "xxx" : ""
+            },
+            "url" : "http://tools.ietf.org/html/rfc2310"
+         },
+         "name" : "Safe"
       },
       "server" : {
          "http" : {
@@ -3956,6 +4004,154 @@
          "name" : "timeout",
          "url" : "https://tools.ietf.org/html/draft-thomson-hybi-http-timeout-03#section-2.1",
          "value_type" : "delta-seconds"
+      }
+   },
+   "meter_directives" : {
+      "c" : {
+         "id" : "section-5.2",
+         "name" : "c",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST"
+      },
+      "count" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "count",
+         "preferred_name" : "c",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST"
+      },
+      "d" : {
+         "id" : "section-5.2",
+         "name" : "d",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "do-report" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "do-report",
+         "preferred_name" : "d",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "dont-report" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "dont-report",
+         "preferred_name" : "e",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "e" : {
+         "id" : "section-5.2",
+         "name" : "e",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "max-reuses" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "max-reuses",
+         "preferred_name" : "r",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST",
+         "value_type" : "non-negative integer"
+      },
+      "max-uses" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "max-uses",
+         "preferred_name" : "u",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST",
+         "value_type" : "non-negative integer"
+      },
+      "n" : {
+         "id" : "section-5.2",
+         "name" : "n",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "r" : {
+         "id" : "section-5.2",
+         "name" : "r",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST",
+         "value_type" : "non-negative integer"
+      },
+      "t" : {
+         "id" : "section-5.2",
+         "name" : "t",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST",
+         "value_type" : "non-negative integer"
+      },
+      "timeout" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "timeout",
+         "preferred_name" : "t",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST",
+         "value_type" : "non-negative integer"
+      },
+      "u" : {
+         "id" : "section-5.2",
+         "name" : "u",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST",
+         "value_type" : "non-negative integer"
+      },
+      "w" : {
+         "id" : "section-5.2",
+         "name" : "w",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "will-report-and-limit" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "will-report-and-limit",
+         "preferred_name" : "w",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "wont-ask" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "wont-ask",
+         "preferred_name" : "n",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "wont-limit" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "wont-limit",
+         "preferred_name" : "y",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "wont-report" : {
+         "deprecated" : "SHOULD NOT",
+         "id" : "section-5.1",
+         "name" : "wont-report",
+         "preferred_name" : "x",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "x" : {
+         "id" : "section-5.2",
+         "name" : "x",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      },
+      "y" : {
+         "id" : "section-5.2",
+         "name" : "y",
+         "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
       }
    },
    "pragma_directives" : {
