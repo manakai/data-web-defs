@@ -72,7 +72,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -481,6 +481,9 @@ sub add_data ($) {
       $Data->{$x->{key}}->{$name}->{$1} = $2;
     } elsif (/^(obsolete)$/) {
       $Data->{$x->{key}}->{$name}->{$1} = 1;
+    } elsif (/^(SHOULD NOT) -> (\S+)$/) {
+      $Data->{$x->{key}}->{$name}->{deprecated} = 'SHOULD NOT';
+      $Data->{$x->{key}}->{$name}->{preferred_name} = $2;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
@@ -529,6 +532,8 @@ add_data +{key => 'cookie_attrs',
            src_file_name => 'http-cookie-attrs.txt'};
 add_data +{key => 'keep_alive_params',
            src_file_name => 'http-keep-alive.txt'};
+add_data +{key => 'meter_directives',
+           src_file_name => 'http-meter-directives.txt'};
 
 print perl2json_bytes_for_record $Data;
 

@@ -250,7 +250,7 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-forwarded.txt src/http-preferences.txt \
     local/iana/cont-disp.json src/disposition-types.txt \
     src/disposition-params.txt src/http-cookie-attrs.txt \
-    src/http-keep-alive.txt
+    src/http-keep-alive.txt src/http-meter-directives.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------
