@@ -84,6 +84,8 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
   } elsif (/^(wildcard|multiple)$/) {
     $Data->{headers}->{$header_name}->{$1} = 1;
+  } elsif (/^(multiple) (#SHOULD NOT)$/) {
+    $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
