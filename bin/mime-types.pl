@@ -143,6 +143,8 @@ for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slur
   } elsif (m{^  ->\s*(\S+)\s*\((SHOULD)\)$}) {
     $Data->{$type}->{deprecated} = $2;
     $Data->{$type}->{preferred_type} = $1;
+  } elsif (m{^  ->\s*(\S+)$}) {
+    $Data->{$type}->{preferred_type} = $1;
   } elsif (m{^  #(\S+)$}) {
     $Data->{$type}->{fragment} = $1;
     if ($1 eq 'xpointer:rfc7303') {

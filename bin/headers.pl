@@ -536,6 +536,10 @@ add_data +{key => 'keep_alive_params',
            src_file_name => 'http-keep-alive.txt'};
 add_data +{key => 'meter_directives',
            src_file_name => 'http-meter-directives.txt'};
+add_data +{key => 'safe_natures',
+           src_file_name => 'http-safe.txt'};
+add_data +{key => 'addition_types',
+           src_file_name => 'http-additions.txt'};
 
 print perl2json_bytes_for_record $Data;
 

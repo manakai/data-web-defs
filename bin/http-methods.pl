@@ -26,6 +26,7 @@ for (@{(parse 'sw-http-methods.xml')->query_selector_all
   $method = $1;
   next if $method eq 'request-method';
   my $protocols = [grep { length $_ }
+                   map { {HTCPCP => 'HTTP'}->{$_} // $_ }
                    map { /^\s*([A-Za-z0-9_-]+)/ ? $1 : '' }
                    split /,/, ($cells->[1] ? $cells->[1]->text_content : '')];
   $Methods->{$method}->{protocols}->{$_} = 1 for @$protocols;
