@@ -213,10 +213,11 @@ The file contains a JSON object with following name/value pairs:
 
       http [object?]
       icap [object?]
+      s-http [object?]
 
         Descriptions for the header, when used in the protocol (|http|
-        -> HTTP, |icap| -> ICAP).  The value is a JSON object with
-        following name/value pairs:
+        -> HTTP, |icap| -> ICAP, |s-http| -> S-HTTP).  The value is a
+        JSON object with following name/value pairs:
 
           206_representation_metadata [string?]
 
@@ -236,6 +237,10 @@ The file contains a JSON object with following name/value pairs:
             header MAY be generated in the 304 response.  These are
             unclearly specified in RFC 7232
             <https://tools.ietf.org/html/rfc7232#section-4.1>.
+
+          accept_ [boolean]
+
+            Whether the header is an Accept- header or not.
 
           authentication [boolean]
 
@@ -508,6 +513,29 @@ The file contains a JSON object with following name/value pairs:
 
         The type of the value, if known.
 
+  list_directives [object]
+
+    Names are list-directive names (in lowercase) and values are their
+    descriptions, as [protocol-object], with following additional
+    name/value pair:
+
+      value_is_list [string?]
+
+        If the value is |*|, the value of the directive is defined as
+        a list of zero or more values (i.e. by ABNF |#| syntax).
+        Otherwise, if the value is |+|, the value of the directive is
+        defined as a list of one or more values (i.e. by ABNF |1#|
+        syntax).  Otherwise, the value of the directive is not defined
+        as a list.
+
+      value_optionality [conformance]
+
+        Whether the value is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
   meter_directives [object]
 
     Names are meter-directive names (in lowercase) used in |Meter:|
@@ -517,6 +545,29 @@ The file contains a JSON object with following name/value pairs:
       preferred_name [string?]
 
         The preferred directive name, if any.
+
+      value_optionality [conformance]
+
+        Whether the value is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
+  negotiate_directives [object]
+
+    Names are negotiate-directive names (in lowercase) and values are
+    their descriptions, as [protocol-object], with following
+    additional name/value pair:
+
+      value_is_list [string?]
+
+        If the value is |*|, the value of the directive is defined as
+        a list of zero or more values (i.e. by ABNF |#| syntax).
+        Otherwise, if the value is |+|, the value of the directive is
+        defined as a list of one or more values (i.e. by ABNF |1#|
+        syntax).  Otherwise, the value of the directive is not defined
+        as a list.
 
       value_optionality [conformance]
 
@@ -620,6 +671,29 @@ The file contains a JSON object with following name/value pairs:
     Names are |Safe:| header values (in lowercase) and values are
     their descriptions, as [protocol-object].
 
+  tcn_directives [object]
+
+    Names are |TCN:| header's type or directive names (in lowercase)
+    and values are their descriptions, as [protocol-object], with
+    following additional name/value pair:
+
+      value_is_list [string?]
+
+        If the value is |*|, the value of the directive is defined as
+        a list of zero or more values (i.e. by ABNF |#| syntax).
+        Otherwise, if the value is |+|, the value of the directive is
+        defined as a list of one or more values (i.e. by ABNF |1#|
+        syntax).  Otherwise, the value of the directive is not defined
+        as a list.
+
+      value_optionality [conformance]
+
+        Whether the value of the directive is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value of the directive, if known.
+
   warn_codes [object]
 
     Names are warn-code values and values are their descriptions, as
@@ -646,8 +720,14 @@ The Content-Disposition Header Field
 RFC 2227, Simple Hit-Metering and Usage-Limiting for HTTP
 <http://tools.ietf.org/html/rfc2227>.
 
+RFC 2295, Transparent Content Negotiation in HTTP
+<http://tools.ietf.org/html/rfc2295>.
+
 RFC 2617, HTTP Authentication: Basic and Digest Access Authentication
 <http://tools.ietf.org/html/rfc2617>.
+
+RFC 2660, The Secure HyperText Transfer Protocol
+<http://tools.ietf.org/html/rfc2660>.
 
 RFC 3229, Delta encoding in HTTP <http://tools.ietf.org/html/rfc3229>.
 

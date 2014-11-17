@@ -77,6 +77,7 @@ $Methods->{$_}->{http}->{required} = 1 for qw(GET HEAD);
 for (
   ['http-methods.txt' => 'http', 'HTTP'],
   ['icap-methods.txt' => 'icap', 'ICAP'],
+  ['shttp-methods.txt' => 's-http', 'S-HTTP'],
 ) {
   my ($file_name, $proto, $PROTO) = @$_;
   my $method_name;

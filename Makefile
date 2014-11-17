@@ -231,12 +231,14 @@ data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
     local/iana-rtsp.xml local/iana-sip.xml \
     src/http-status-codes.txt src/icap-status-codes.txt \
+    src/shttp-status-codes.txt \
     bin/http-status-codes.pl
 	$(PERL) bin/http-status-codes.pl > $@
 data/http-methods.json: \
     local/sw-http-methods.xml local/iana/http-methods.json \
     local/iana-rtsp.xml local/iana-sip.xml \
-    bin/http-methods.pl src/http-methods.txt src/icap-methods.txt
+    bin/http-methods.pl src/http-methods.txt src/icap-methods.txt \
+    src/shttp-methods.txt
 	$(PERL) bin/http-methods.pl > $@
 data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-content-codings.txt src/http-transfer-codings.txt \
@@ -250,7 +252,9 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-forwarded.txt src/http-preferences.txt \
     local/iana/cont-disp.json src/disposition-types.txt \
     src/disposition-params.txt src/http-cookie-attrs.txt \
-    src/http-keep-alive.txt src/http-meter-directives.txt
+    src/http-keep-alive.txt src/http-meter-directives.txt \
+    src/http-list-directives.txt src/http-tcn-directives.txt \
+    src/shttp-headers.txt
 	$(PERL) bin/headers.pl > $@
 
 ## ------ Encodings ------

@@ -60,6 +60,16 @@
          "name" : "Skim",
          "spec" : "RFC2324"
       },
+      "stevia" : {
+         "id" : "section-2.2.1",
+         "name" : "Stevia",
+         "spec" : "RFC7168"
+      },
+      "sugar" : {
+         "id" : "section-2.2.1",
+         "name" : "Sugar",
+         "spec" : "RFC7168"
+      },
       "vanilla" : {
          "id" : "section-2.2.2.1",
          "name" : "Vanilla",
@@ -74,6 +84,11 @@
          "id" : "section-2.2.2.1",
          "name" : "Whole-milk",
          "spec" : "RFC2324"
+      },
+      "xylitol" : {
+         "id" : "section-2.2.1",
+         "name" : "Xylitol",
+         "spec" : "RFC7168"
       }
    },
    "auth_schemes" : {
@@ -2395,6 +2410,7 @@
    "headers" : {
       "accept" : {
          "http" : {
+            "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.2",
@@ -2409,6 +2425,7 @@
       },
       "accept-charset" : {
          "http" : {
+            "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.3",
@@ -2435,8 +2452,22 @@
          },
          "name" : "Accept-Encoding"
       },
+      "accept-features" : {
+         "http" : {
+            "accept_" : 1,
+            "id" : "section-8.2",
+            "multiple" : "#",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "*"
+         },
+         "name" : "Accept-Features"
+      },
       "accept-language" : {
          "http" : {
+            "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.5",
@@ -2509,6 +2540,18 @@
          },
          "name" : "Allowed"
       },
+      "alternates" : {
+         "http" : {
+            "id" : "section-8.3",
+            "multiple" : "#",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Alternates"
+      },
       "authentication-info" : {
          "http" : {
             "id" : "section-3.2.3",
@@ -2574,6 +2617,14 @@
          },
          "name" : "Cache-Control"
       },
+      "certificate-info" : {
+         "http" : {
+            "id" : "section-3.3.2",
+            "spec" : "RFC2660"
+         },
+         "multiple" : 1,
+         "name" : "Certificate-Info"
+      },
       "chargeto" : {
          "http" : {
             "obsolete" : 1,
@@ -2617,7 +2668,11 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Connection"
+         "name" : "Connection",
+         "s-http" : {
+            "id" : "section-2.6.3.3",
+            "spec" : "RFC2660"
+         }
       },
       "content-base" : {
          "http" : {
@@ -2737,6 +2792,13 @@
          },
          "name" : "Content-MD5"
       },
+      "content-privacy-domain" : {
+         "name" : "Content-Privacy-Domain",
+         "s-http" : {
+            "id" : "section-2.4.1",
+            "spec" : "RFC2660"
+         }
+      },
       "content-range" : {
          "http" : {
             "byteranges" : "MUST",
@@ -2761,7 +2823,11 @@
             },
             "url" : "http://www.w3.org/Protocols/HTTP/Object_Headers.html#content-transfer-encoding"
          },
-         "name" : "Content-Transfer-Encoding"
+         "name" : "Content-Transfer-Encoding",
+         "s-http" : {
+            "id" : "section-2.5",
+            "spec" : "RFC2660"
+         }
       },
       "content-type" : {
          "http" : {
@@ -2781,7 +2847,11 @@
             "spec" : "RFC7231",
             "value_type" : "MIME type"
          },
-         "name" : "Content-Type"
+         "name" : "Content-Type",
+         "s-http" : {
+            "id" : "section-2.4.2",
+            "spec" : "RFC2660"
+         }
       },
       "content-version" : {
          "http" : {
@@ -2896,6 +2966,13 @@
          },
          "name" : "Encapsulated"
       },
+      "encryption-identity" : {
+         "http" : {
+            "id" : "section-3.3.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "Encryption-Identity"
+      },
       "etag" : {
          "http" : {
             "206_representation_metadata" : "MUST",
@@ -3004,7 +3081,11 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Host"
+         "name" : "Host",
+         "s-http" : {
+            "id" : "section-2.6.3.2",
+            "spec" : "RFC2660"
+         }
       },
       "if-match" : {
          "http" : {
@@ -3035,7 +3116,11 @@
             "spec" : "RFC7232",
             "value_type" : "HTTP-date"
          },
-         "name" : "If-Modified-Since"
+         "name" : "If-Modified-Since",
+         "s-http" : {
+            "id" : "section-5.2.5",
+            "spec" : "RFC2660"
+         }
       },
       "if-none-match" : {
          "http" : {
@@ -3106,6 +3191,17 @@
          },
          "name" : "Keep-Alive"
       },
+      "key-assign" : {
+         "http" : {
+            "id" : "section-3.3.3",
+            "spec" : "RFC2660"
+         },
+         "name" : "Key-Assign",
+         "s-http" : {
+            "id" : "section-3.3.3",
+            "spec" : "RFC2660"
+         }
+      },
       "last-modified" : {
          "http" : {
             "206_representation_metadata" : "SHOULD NOT",
@@ -3157,6 +3253,13 @@
          },
          "name" : "LOG-*",
          "wildcard" : 1
+      },
+      "mac-info" : {
+         "name" : "MAC-Info",
+         "s-http" : {
+            "id" : "section-2.4.5",
+            "spec" : "RFC2660"
+         }
       },
       "max-connections" : {
          "icap" : {
@@ -3243,6 +3346,34 @@
             "spec" : "RFC7231"
          },
          "name" : "MIME-Version"
+      },
+      "negotiate" : {
+         "http" : {
+            "id" : "section-8.4",
+            "multiple" : "#",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Negotiate"
+      },
+      "nonce" : {
+         "http" : {
+            "id" : "section-3.3.4.1",
+            "spec" : "RFC2660"
+         },
+         "multiple" : 1,
+         "name" : "Nonce"
+      },
+      "nonce-echo" : {
+         "http" : {
+            "id" : "section-4.1.1",
+            "spec" : "RFC2660"
+         },
+         "multiple" : 1,
+         "name" : "Nonce-Echo"
       },
       "object-length" : {
          "icap" : {
@@ -3349,6 +3480,13 @@
             "spec" : "RFC3507"
          },
          "name" : "Pragma"
+      },
+      "prearranged-key-info" : {
+         "name" : "Prearranged-Key-Info",
+         "s-http" : {
+            "id" : "section-2.4.4",
+            "spec" : "RFC2660"
+         }
       },
       "prefer" : {
          "http" : {
@@ -3546,6 +3684,13 @@
          },
          "name" : "Safe"
       },
+      "security-scheme" : {
+         "http" : {
+            "id" : "section-4.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "Security-Scheme"
+      },
       "server" : {
          "http" : {
             "id" : "section-7.4.2",
@@ -3611,6 +3756,89 @@
             "trace_unsafe" : 1
          },
          "name" : "Set-Cookie2"
+      },
+      "shttp-certificate-types" : {
+         "http" : {
+            "id" : "section-3.2.4.2",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Certificate-Types"
+      },
+      "shttp-cryptopts" : {
+         "http" : {
+            "id" : "section-3.4.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Cryptopts"
+      },
+      "shttp-key-exchange-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.3",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Key-Exchange-Algorithms"
+      },
+      "shttp-mac-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.8",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-MAC-Algorithms"
+      },
+      "shttp-message-digest-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.5",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Message-Digest-Algorithms"
+      },
+      "shttp-privacy-domains" : {
+         "http" : {
+            "id" : "section-3.2.4.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Privacy-Domains"
+      },
+      "shttp-privacy-enhancements" : {
+         "http" : {
+            "id" : "section-3.2.4.9",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Privacy-Enhancements"
+      },
+      "shttp-signature-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.4",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Signature-Algorithms"
+      },
+      "shttp-symmetric-content-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.6",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Symmetric-Content-Algorithms"
+      },
+      "shttp-symmetric-header-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.7",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Symmetric-Header-Algorithms"
+      },
+      "tcn" : {
+         "http" : {
+            "304_representation_metadata" : "MAY",
+            "id" : "section-8.5",
+            "multiple" : "#",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "*"
+         },
+         "name" : "TCN"
       },
       "te" : {
          "http" : {
@@ -3792,6 +4020,16 @@
             "spec" : "RFC3507"
          },
          "name" : "User-Agent"
+      },
+      "variant-vary" : {
+         "http" : {
+            "id" : "section-8.6",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2295"
+         },
+         "name" : "Variant-Vary"
       },
       "vary" : {
          "http" : {
@@ -4111,6 +4349,13 @@
             "trace_unsafe" : 1
          },
          "name" : "X-WSSE"
+      },
+      "your-key-pattern" : {
+         "http" : {
+            "id" : "section-3.2.4.10",
+            "spec" : "RFC2660"
+         },
+         "name" : "Your-Key-Pattern"
       }
    },
    "keep_alive_params" : {
@@ -4123,6 +4368,15 @@
          "name" : "timeout",
          "url" : "https://tools.ietf.org/html/draft-thomson-hybi-http-timeout-03#section-2.1",
          "value_type" : "delta-seconds"
+      }
+   },
+   "list_directives" : {
+      "proxy-rvsa" : {
+         "id" : "section-8.3",
+         "name" : "proxy-rvsa",
+         "spec" : "RFC2295",
+         "value_is_list" : "*",
+         "value_optionality" : "MUST"
       }
    },
    "meter_directives" : {
@@ -4270,6 +4524,38 @@
          "id" : "section-5.2",
          "name" : "y",
          "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      }
+   },
+   "negotiate_directives" : {
+      "*" : {
+         "id" : "section-8.4",
+         "name" : "*",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "1.0" : {
+         "id" : "section-3",
+         "name" : "1.0",
+         "spec" : "RFC2296",
+         "value_optionality" : "MUST NOT"
+      },
+      "guess-small" : {
+         "id" : "section-8.4",
+         "name" : "guess-small",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "trans" : {
+         "id" : "section-8.4",
+         "name" : "trans",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "vlist" : {
+         "id" : "section-8.4",
+         "name" : "vlist",
+         "spec" : "RFC2295",
          "value_optionality" : "MUST NOT"
       }
    },
@@ -4773,6 +5059,8 @@
          "via" : 1
       },
       "Secure-HTTP/1.4" : {
+         "id" : "section-2.2",
+         "spec" : "RFC2660",
          "start_line" : 1
       },
       "TLS/1.0" : {
@@ -4895,6 +5183,38 @@
          "id" : "section-4",
          "name" : "yes",
          "spec" : "RFC2310"
+      }
+   },
+   "tcn_directives" : {
+      "adhoc" : {
+         "id" : "section-8.5",
+         "name" : "adhoc",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "choice" : {
+         "id" : "section-8.5",
+         "name" : "choice",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "keep" : {
+         "id" : "section-8.5",
+         "name" : "keep",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "list" : {
+         "id" : "section-8.5",
+         "name" : "list",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "re-choose" : {
+         "id" : "section-8.5",
+         "name" : "re-choose",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
       }
    },
    "warn_codes" : {

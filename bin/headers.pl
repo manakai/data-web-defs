@@ -12,6 +12,7 @@ my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-au
 for (
   ['http-headers.txt', 'http'],
   ['icap-headers.txt', 'icap'],
+  ['shttp-headers.txt', 's-http'],
 ) {
   my $header_name;
   my ($file_name, $proto) = @$_;
@@ -20,6 +21,7 @@ for (
       next;
     } elsif (/^\*\s*(\S+)\s*$/) {
       my $name = $1;
+      $name =~ s/:$//;
       $header_name = lc $name;
       $Data->{headers}->{$header_name}->{name} ||= $name;
       next;
@@ -72,7 +74,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -453,7 +455,7 @@ sub add_data ($) {
       } else {
         $v->{url} = $url;
       }
-    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date|)\s*$/) {
       my ($type, $n, $value_type) = ($1, $2, $3);
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -464,7 +466,7 @@ sub add_data ($) {
         $v->{value_is_list} = '+';
         #$v->{multiple} = '#';
       }
-      $v->{value_type} = $value_type;
+      $v->{value_type} = $value_type if length $value_type;
     } elsif (/^(?:(request|response)\s+|)value\s+SHOULD\s+(token|quoted-string)\s*$/) {
       my $type = $1;
       my $v = $Data->{$x->{key}}->{$name} ||= {};
@@ -540,6 +542,12 @@ add_data +{key => 'safe_natures',
            src_file_name => 'http-safe.txt'};
 add_data +{key => 'addition_types',
            src_file_name => 'http-additions.txt'};
+add_data +{key => 'list_directives',
+           src_file_name => 'http-list-directives.txt'};
+add_data +{key => 'negotiate_directives',
+           src_file_name => 'http-negotiate-directives.txt'};
+add_data +{key => 'tcn_directives',
+           src_file_name => 'http-tcn-directives.txt'};
 
 print perl2json_bytes_for_record $Data;
 
