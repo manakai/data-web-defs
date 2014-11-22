@@ -8,11 +8,13 @@ my $src_path = path (__FILE__)->parent->parent->child ('src');
 my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parameters.json')->slurp;
 my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http-protocols.json')->slurp;
 my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-auth-schemes.json')->slurp;
+my $IANAIMData = json_bytes2perl $src_path->parent->child ('local/iana/http-ims.json')->slurp;
 
 for (
   ['http-headers.txt', 'http'],
   ['icap-headers.txt', 'icap'],
   ['shttp-headers.txt', 's-http'],
+  ['ssdp-headers.txt', 'ssdp'],
 ) {
   my $header_name;
   my ($file_name, $proto) = @$_;
@@ -221,8 +223,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-transfer-codings.txt')->slurp_ut
   } elsif (/^deprecated\s*->\s*(\S+)$/) {
     $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
     $Data->{codings}->{$coding_name}->{transfer}->{preferred_name} = $1;
-  } elsif (/^deprecated$/) {
-    $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
+  } elsif (/^(deprecated|compression)$/) {
+    $Data->{codings}->{$coding_name}->{transfer}->{$1} = 1;
   } elsif (/^bad$/) {
     delete $Data->{codings}->{$coding_name}->{transfer}->{TE};
     delete $Data->{codings}->{$coding_name}->{transfer}->{'Transfer-Encoding'};
@@ -275,13 +277,54 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
   } elsif (/^deprecated\s*->\s*(\S+)$/) {
     $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
     $Data->{codings}->{$coding_name}->{content}->{preferred_name} = $1;
-  } elsif (/^deprecated$/) {
-    $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
+  } elsif (/^(deprecated|compression)$/) {
+    $Data->{codings}->{$coding_name}->{content}->{$1} = 1;
   } elsif (/^bad$/) {
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
     delete $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'};
   } elsif (/^Accept-Encoding only$/) {
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
+
+undef $coding_name;
+{
+  for my $record (@{$IANAIMData->{registries}->{'inst-man-values'}->{records}}) {
+    my $coding_name = lc $record->{name};
+    $Data->{codings}->{$coding_name}->{im}->{'IM'} = 1;
+    $Data->{codings}->{$coding_name}->{im}->{'A-IM'} = 1;
+    $Data->{codings}->{$coding_name}->{im}->{iana} = 1;
+  }
+}
+for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*(\S+)\s*$/) {
+    my $name = lc $1;
+    $coding_name = $name;
+    $Data->{ims}->{$coding_name}->{im}->{'IM'} = 1;
+    $Data->{ims}->{$coding_name}->{im}->{'A-IM'} = 1;
+    next;
+  } elsif (/\S/) {
+    die "Coding not defined at first line" unless defined $coding_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $Data->{codings}->{$coding_name}->{im}->{spec} = "RFC$1";
+      $Data->{codings}->{$coding_name}->{im}->{id} = $2;
+    } else {
+      $Data->{codings}->{$coding_name}->{im}->{url} = $url;
+    }
+  } elsif (/^(obsolete|delta-coding|compression)$/) {
+    my $v = $1;
+    $v =~ tr/-/_/;
+    $Data->{codings}->{$coding_name}->{im}->{$v} = 1;
+  } elsif (/^A-IM only$/) {
+    delete $Data->{codings}->{$coding_name}->{im}->{'IM'};
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
@@ -548,6 +591,8 @@ add_data +{key => 'negotiate_directives',
            src_file_name => 'http-negotiate-directives.txt'};
 add_data +{key => 'tcn_directives',
            src_file_name => 'http-tcn-directives.txt'};
+add_data +{key => 'extension_declarations',
+           src_file_name => 'http-ext-decls.txt'};
 
 print perl2json_bytes_for_record $Data;
 

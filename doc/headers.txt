@@ -110,21 +110,36 @@ The file contains a JSON object with following name/value pairs:
     descriptions.  Values are JSON objects with following name/value
     pairs:
 
-      content, transfer [object?]
+      content [object?]
+      im [object?]
+      transfer [object?]
 
-        Descriptions for the content-coding or transfer-coding,
-        respectively, if applicable.  Values are JSON objects with
-        following name/value pairs:
+        Descriptions for the content-coding, instance-manipulation, or
+        transfer-coding, respectively, if applicable.  Values are JSON
+        objects with following name/value pairs:
+
+          A-IM [boolean]
+
+            Whether the coding can be specified in the HTTP |A-IM:|
+            header or not.
 
           Accept-Encoding [boolean]
 
             Whether the coding can be specified in the HTTP
-            |Accept-Encoding| header or not.
+            |Accept-Encoding:| header or not.
+
+          compression [boolean]
+
+            Whether the coding is a compression scheme or not.
 
           Content-Encoding [boolean]
 
             Whether the coding can be specified in the HTTP
-            |Content-Encoding| header or not.
+            |Content-Encoding:| header or not.
+
+          delta_coding [boolean]
+
+            Whether the coding is a delta-coding or not.
 
           deprecated [boolean]
 
@@ -138,6 +153,11 @@ The file contains a JSON object with following name/value pairs:
           id [id-in-spec?]
 
             The ID in the relevant specification, if any.
+
+          IM [boolean]
+
+            Whether the coding can be specified in the HTTP |IM:|
+            header or not.
 
           obsolete [boolean]
 
@@ -158,13 +178,13 @@ The file contains a JSON object with following name/value pairs:
 
           TE [boolean]
 
-            Whether the coding can be specified in the HTTP |TE|
+            Whether the coding can be specified in the HTTP |TE:|
             header or not.
 
           Transfer-Encoding [boolean]
 
             Whether the coding can be specified in the HTTP
-            |Transfer-Encoding| header or not.
+            |Transfer-Encoding:| header or not.
 
   disposition_params [object]
 
@@ -194,6 +214,17 @@ The file contains a JSON object with following name/value pairs:
         Applicable protocols, if known.  Names are protocol names such
         as |MIME|, |HTTP|, or |SIP| and values are true values.
 
+  extension_declarations [object]
+
+    Names are RFC 2774 extension declaration declaration names in
+    lowercase and values are their descriptions as [protocol-object],
+    with following additional name/value pair:
+
+      value_type [value-type?]
+
+        The type of the declaration value, if known and representable
+        as a value type.
+
   forwarded [object]
 
     Names are |Forwarded:| header's parameter names in lowercase and
@@ -214,10 +245,11 @@ The file contains a JSON object with following name/value pairs:
       http [object?]
       icap [object?]
       s-http [object?]
+      ssdp [object?]
 
         Descriptions for the header, when used in the protocol (|http|
-        -> HTTP, |icap| -> ICAP, |s-http| -> S-HTTP).  The value is a
-        JSON object with following name/value pairs:
+        -> HTTP, |icap| -> ICAP, |s-http| -> S-HTTP, |ssdp| -> SSDP).
+        The value is a JSON object with following name/value pairs:
 
           206_representation_metadata [string?]
 
@@ -728,6 +760,9 @@ RFC 2617, HTTP Authentication: Basic and Digest Access Authentication
 
 RFC 2660, The Secure HyperText Transfer Protocol
 <http://tools.ietf.org/html/rfc2660>.
+
+RFC 2774, An HTTP Extension Framework
+<http://tools.ietf.org/html/rfc2774>.
 
 RFC 3229, Delta encoding in HTTP <http://tools.ietf.org/html/rfc3229>.
 

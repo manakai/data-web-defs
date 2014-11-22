@@ -78,6 +78,7 @@ for (
   ['http-methods.txt' => 'http', 'HTTP'],
   ['icap-methods.txt' => 'icap', 'ICAP'],
   ['shttp-methods.txt' => 's-http', 'S-HTTP'],
+  ['ssdp-methods.txt' => 'ssdp', 'SSDP'],
 ) {
   my ($file_name, $proto, $PROTO) = @$_;
   my $method_name;
