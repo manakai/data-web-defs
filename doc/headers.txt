@@ -8,6 +8,11 @@ formats.
 
 The file contains a JSON object with following name/value pairs:
 
+  addition_types [object]
+
+    Names are addition-type values (in lowercase) and values are their
+    descriptions, as [protocol-object].
+
   auth_schemes [object]
 
     Names are auth-scheme values (in lowercase) and values are their
@@ -105,21 +110,36 @@ The file contains a JSON object with following name/value pairs:
     descriptions.  Values are JSON objects with following name/value
     pairs:
 
-      content, transfer [object?]
+      content [object?]
+      im [object?]
+      transfer [object?]
 
-        Descriptions for the content-coding or transfer-coding,
-        respectively, if applicable.  Values are JSON objects with
-        following name/value pairs:
+        Descriptions for the content-coding, instance-manipulation, or
+        transfer-coding, respectively, if applicable.  Values are JSON
+        objects with following name/value pairs:
+
+          A-IM [boolean]
+
+            Whether the coding can be specified in the HTTP |A-IM:|
+            header or not.
 
           Accept-Encoding [boolean]
 
             Whether the coding can be specified in the HTTP
-            |Accept-Encoding| header or not.
+            |Accept-Encoding:| header or not.
+
+          compression [boolean]
+
+            Whether the coding is a compression scheme or not.
 
           Content-Encoding [boolean]
 
             Whether the coding can be specified in the HTTP
-            |Content-Encoding| header or not.
+            |Content-Encoding:| header or not.
+
+          delta_coding [boolean]
+
+            Whether the coding is a delta-coding or not.
 
           deprecated [boolean]
 
@@ -133,6 +153,11 @@ The file contains a JSON object with following name/value pairs:
           id [id-in-spec?]
 
             The ID in the relevant specification, if any.
+
+          IM [boolean]
+
+            Whether the coding can be specified in the HTTP |IM:|
+            header or not.
 
           obsolete [boolean]
 
@@ -153,13 +178,13 @@ The file contains a JSON object with following name/value pairs:
 
           TE [boolean]
 
-            Whether the coding can be specified in the HTTP |TE|
+            Whether the coding can be specified in the HTTP |TE:|
             header or not.
 
           Transfer-Encoding [boolean]
 
             Whether the coding can be specified in the HTTP
-            |Transfer-Encoding| header or not.
+            |Transfer-Encoding:| header or not.
 
   disposition_params [object]
 
@@ -189,6 +214,17 @@ The file contains a JSON object with following name/value pairs:
         Applicable protocols, if known.  Names are protocol names such
         as |MIME|, |HTTP|, or |SIP| and values are true values.
 
+  extension_declarations [object]
+
+    Names are RFC 2774 extension declaration declaration names in
+    lowercase and values are their descriptions as [protocol-object],
+    with following additional name/value pair:
+
+      value_type [value-type?]
+
+        The type of the declaration value, if known and representable
+        as a value type.
+
   forwarded [object]
 
     Names are |Forwarded:| header's parameter names in lowercase and
@@ -208,10 +244,12 @@ The file contains a JSON object with following name/value pairs:
 
       http [object?]
       icap [object?]
+      s-http [object?]
+      ssdp [object?]
 
         Descriptions for the header, when used in the protocol (|http|
-        -> HTTP, |icap| -> ICAP).  The value is a JSON object with
-        following name/value pairs:
+        -> HTTP, |icap| -> ICAP, |s-http| -> S-HTTP, |ssdp| -> SSDP).
+        The value is a JSON object with following name/value pairs:
 
           206_representation_metadata [string?]
 
@@ -231,6 +269,10 @@ The file contains a JSON object with following name/value pairs:
             header MAY be generated in the 304 response.  These are
             unclearly specified in RFC 7232
             <https://tools.ietf.org/html/rfc7232#section-4.1>.
+
+          accept_ [boolean]
+
+            Whether the header is an Accept- header or not.
 
           authentication [boolean]
 
@@ -503,6 +545,29 @@ The file contains a JSON object with following name/value pairs:
 
         The type of the value, if known.
 
+  list_directives [object]
+
+    Names are list-directive names (in lowercase) and values are their
+    descriptions, as [protocol-object], with following additional
+    name/value pair:
+
+      value_is_list [string?]
+
+        If the value is |*|, the value of the directive is defined as
+        a list of zero or more values (i.e. by ABNF |#| syntax).
+        Otherwise, if the value is |+|, the value of the directive is
+        defined as a list of one or more values (i.e. by ABNF |1#|
+        syntax).  Otherwise, the value of the directive is not defined
+        as a list.
+
+      value_optionality [conformance]
+
+        Whether the value is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
   meter_directives [object]
 
     Names are meter-directive names (in lowercase) used in |Meter:|
@@ -512,6 +577,29 @@ The file contains a JSON object with following name/value pairs:
       preferred_name [string?]
 
         The preferred directive name, if any.
+
+      value_optionality [conformance]
+
+        Whether the value is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
+  negotiate_directives [object]
+
+    Names are negotiate-directive names (in lowercase) and values are
+    their descriptions, as [protocol-object], with following
+    additional name/value pair:
+
+      value_is_list [string?]
+
+        If the value is |*|, the value of the directive is defined as
+        a list of zero or more values (i.e. by ABNF |#| syntax).
+        Otherwise, if the value is |+|, the value of the directive is
+        defined as a list of one or more values (i.e. by ABNF |1#|
+        syntax).  Otherwise, the value of the directive is not defined
+        as a list.
 
       value_optionality [conformance]
 
@@ -610,6 +698,34 @@ The file contains a JSON object with following name/value pairs:
     Names are range-unit values (in lowercase) and values are their
     descriptions, as [protocol-object].
 
+  safe_natures [object]
+
+    Names are |Safe:| header values (in lowercase) and values are
+    their descriptions, as [protocol-object].
+
+  tcn_directives [object]
+
+    Names are |TCN:| header's type or directive names (in lowercase)
+    and values are their descriptions, as [protocol-object], with
+    following additional name/value pair:
+
+      value_is_list [string?]
+
+        If the value is |*|, the value of the directive is defined as
+        a list of zero or more values (i.e. by ABNF |#| syntax).
+        Otherwise, if the value is |+|, the value of the directive is
+        defined as a list of one or more values (i.e. by ABNF |1#|
+        syntax).  Otherwise, the value of the directive is not defined
+        as a list.
+
+      value_optionality [conformance]
+
+        Whether the value of the directive is allowed or disallowed.
+
+      value_type [value-type?]
+
+        The type of the value of the directive, if known.
+
   warn_codes [object]
 
     Names are warn-code values and values are their descriptions, as
@@ -636,8 +752,17 @@ The Content-Disposition Header Field
 RFC 2227, Simple Hit-Metering and Usage-Limiting for HTTP
 <http://tools.ietf.org/html/rfc2227>.
 
+RFC 2295, Transparent Content Negotiation in HTTP
+<http://tools.ietf.org/html/rfc2295>.
+
 RFC 2617, HTTP Authentication: Basic and Digest Access Authentication
 <http://tools.ietf.org/html/rfc2617>.
+
+RFC 2660, The Secure HyperText Transfer Protocol
+<http://tools.ietf.org/html/rfc2660>.
+
+RFC 2774, An HTTP Extension Framework
+<http://tools.ietf.org/html/rfc2774>.
 
 RFC 3229, Delta encoding in HTTP <http://tools.ietf.org/html/rfc3229>.
 
@@ -655,6 +780,9 @@ RFC 5861, HTTP Cache-Control Extensions for Stale Content
 
 RFC 6265, HTTP State Management Mechanism
 <http://tools.ietf.org/html/rfc6265>.
+
+RFC 7168, The Hyper Text Coffee Pot Control Protocol for Tea Efflux
+Appliances (HTCPCP-TEA), <http://tools.ietf.org/html/rfc7168>.
 
 RFC 7230, Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and
 Routing <https://tools.ietf.org/html/rfc7230>.

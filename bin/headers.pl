@@ -8,10 +8,13 @@ my $src_path = path (__FILE__)->parent->parent->child ('src');
 my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parameters.json')->slurp;
 my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http-protocols.json')->slurp;
 my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-auth-schemes.json')->slurp;
+my $IANAIMData = json_bytes2perl $src_path->parent->child ('local/iana/http-ims.json')->slurp;
 
 for (
   ['http-headers.txt', 'http'],
   ['icap-headers.txt', 'icap'],
+  ['shttp-headers.txt', 's-http'],
+  ['ssdp-headers.txt', 'ssdp'],
 ) {
   my $header_name;
   my ($file_name, $proto) = @$_;
@@ -20,6 +23,7 @@ for (
       next;
     } elsif (/^\*\s*(\S+)\s*$/) {
       my $name = $1;
+      $name =~ s/:$//;
       $header_name = lc $name;
       $Data->{headers}->{$header_name}->{name} ||= $name;
       next;
@@ -72,7 +76,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -219,8 +223,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-transfer-codings.txt')->slurp_ut
   } elsif (/^deprecated\s*->\s*(\S+)$/) {
     $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
     $Data->{codings}->{$coding_name}->{transfer}->{preferred_name} = $1;
-  } elsif (/^deprecated$/) {
-    $Data->{codings}->{$coding_name}->{transfer}->{deprecated} = 1;
+  } elsif (/^(deprecated|compression)$/) {
+    $Data->{codings}->{$coding_name}->{transfer}->{$1} = 1;
   } elsif (/^bad$/) {
     delete $Data->{codings}->{$coding_name}->{transfer}->{TE};
     delete $Data->{codings}->{$coding_name}->{transfer}->{'Transfer-Encoding'};
@@ -273,13 +277,54 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
   } elsif (/^deprecated\s*->\s*(\S+)$/) {
     $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
     $Data->{codings}->{$coding_name}->{content}->{preferred_name} = $1;
-  } elsif (/^deprecated$/) {
-    $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
+  } elsif (/^(deprecated|compression)$/) {
+    $Data->{codings}->{$coding_name}->{content}->{$1} = 1;
   } elsif (/^bad$/) {
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
     delete $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'};
   } elsif (/^Accept-Encoding only$/) {
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
+  } elsif (/\S/) {
+    die "Bad line: |$_|\n";
+  }
+}
+
+undef $coding_name;
+{
+  for my $record (@{$IANAIMData->{registries}->{'inst-man-values'}->{records}}) {
+    my $coding_name = lc $record->{name};
+    $Data->{codings}->{$coding_name}->{im}->{'IM'} = 1;
+    $Data->{codings}->{$coding_name}->{im}->{'A-IM'} = 1;
+    $Data->{codings}->{$coding_name}->{im}->{iana} = 1;
+  }
+}
+for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
+  if (/^\s*#/) {
+    next;
+  } elsif (/^\*\s*(\S+)\s*$/) {
+    my $name = lc $1;
+    $coding_name = $name;
+    $Data->{ims}->{$coding_name}->{im}->{'IM'} = 1;
+    $Data->{ims}->{$coding_name}->{im}->{'A-IM'} = 1;
+    next;
+  } elsif (/\S/) {
+    die "Coding not defined at first line" unless defined $coding_name;
+  }
+
+  if (/^spec\s+(\S+)\s*$/) {
+    my $url = $1;
+    if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+      $Data->{codings}->{$coding_name}->{im}->{spec} = "RFC$1";
+      $Data->{codings}->{$coding_name}->{im}->{id} = $2;
+    } else {
+      $Data->{codings}->{$coding_name}->{im}->{url} = $url;
+    }
+  } elsif (/^(obsolete|delta-coding|compression)$/) {
+    my $v = $1;
+    $v =~ tr/-/_/;
+    $Data->{codings}->{$coding_name}->{im}->{$v} = 1;
+  } elsif (/^A-IM only$/) {
+    delete $Data->{codings}->{$coding_name}->{im}->{'IM'};
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
@@ -453,7 +498,7 @@ sub add_data ($) {
       } else {
         $v->{url} = $url;
       }
-    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date|)\s*$/) {
       my ($type, $n, $value_type) = ($1, $2, $3);
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -464,7 +509,7 @@ sub add_data ($) {
         $v->{value_is_list} = '+';
         #$v->{multiple} = '#';
       }
-      $v->{value_type} = $value_type;
+      $v->{value_type} = $value_type if length $value_type;
     } elsif (/^(?:(request|response)\s+|)value\s+SHOULD\s+(token|quoted-string)\s*$/) {
       my $type = $1;
       my $v = $Data->{$x->{key}}->{$name} ||= {};
@@ -536,6 +581,18 @@ add_data +{key => 'keep_alive_params',
            src_file_name => 'http-keep-alive.txt'};
 add_data +{key => 'meter_directives',
            src_file_name => 'http-meter-directives.txt'};
+add_data +{key => 'safe_natures',
+           src_file_name => 'http-safe.txt'};
+add_data +{key => 'addition_types',
+           src_file_name => 'http-additions.txt'};
+add_data +{key => 'list_directives',
+           src_file_name => 'http-list-directives.txt'};
+add_data +{key => 'negotiate_directives',
+           src_file_name => 'http-negotiate-directives.txt'};
+add_data +{key => 'tcn_directives',
+           src_file_name => 'http-tcn-directives.txt'};
+add_data +{key => 'extension_declarations',
+           src_file_name => 'http-ext-decls.txt'};
 
 print perl2json_bytes_for_record $Data;
 

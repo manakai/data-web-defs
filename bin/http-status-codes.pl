@@ -73,6 +73,8 @@ for (keys %$StatusCodes) {
 for (
   ['http-status-codes.txt', 'http'],
   ['icap-status-codes.txt', 'icap'],
+  ['shttp-status-codes.txt', 's-http'],
+  ['ssdp-status-codes.txt', 'ssdp'],
 ) {
   my ($file_name, $proto) = @$_;
   my $method_name;

@@ -146,6 +146,7 @@ spec https://tools.ietf.org/html/rfc7231#section-5.3.2
 value #
 request
 content-negotiation
+accept-
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -156,6 +157,7 @@ spec https://tools.ietf.org/html/rfc7231#section-5.3.3
 value 1#
 request
 content-negotiation
+accept-
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -176,6 +178,7 @@ spec https://tools.ietf.org/html/rfc7231#section-5.3.5
 value 1#
 request
 content-negotiation
+accept-
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -316,8 +319,8 @@ spec https://tools.ietf.org/html/rfc7232#section-2.3
 value entity-tag
 validator
 response
+226 MUST
 304-representation-metadata
-
 
 * If-Match
 
@@ -690,10 +693,132 @@ response
 proxy
 origin-server
 
+* Accept-Features
+
+spec http://tools.ietf.org/html/rfc2295#section-8.2
+value #
+request
+accept-
+
+* Alternates
+
+spec http://tools.ietf.org/html/rfc2295#section-8.3
+value 1#
+response
+
+* Negotiate
+
+spec http://tools.ietf.org/html/rfc2295#section-8.4
+value 1#
+request
+
+* TCN
+
+spec http://tools.ietf.org/html/rfc2295#section-8.5
+value #
+response
+304-representation-metadata MAY
+
+* Variant-Vary
+
+spec http://tools.ietf.org/html/rfc2295#section-8.6
+response
+
 * Safe
 
 spec http://tools.ietf.org/html/rfc2310
 response
+
+* SHTTP-Privacy-Domains:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.1
+* SHTTP-Certificate-Types:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.2
+* SHTTP-Key-Exchange-Algorithms:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.3
+* SHTTP-Signature-Algorithms:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.4
+* SHTTP-Message-Digest-Algorithms:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.5
+* SHTTP-Symmetric-Content-Algorithms:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.6
+* SHTTP-Symmetric-Header-Algorithms:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.7
+* SHTTP-MAC-Algorithms:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.8
+* SHTTP-Privacy-Enhancements:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.9
+* Your-Key-Pattern:
+spec http://tools.ietf.org/html/rfc2660#section-3.2.4.10
+* Encryption-Identity:
+spec http://tools.ietf.org/html/rfc2660#section-3.3.1
+* Certificate-Info:
+spec http://tools.ietf.org/html/rfc2660#section-3.3.2
+multiple
+* Key-Assign:
+spec http://tools.ietf.org/html/rfc2660#section-3.3.3
+* Nonce:
+spec http://tools.ietf.org/html/rfc2660#section-3.3.4.1
+multiple
+* SHTTP-Cryptopts:
+spec http://tools.ietf.org/html/rfc2660#section-3.4.1
+* Security-Scheme:
+spec http://tools.ietf.org/html/rfc2660#section-4.1
+* Nonce-Echo:
+spec http://tools.ietf.org/html/rfc2660#section-4.1.1
+multiple
+
+* Man
+
+spec http://tools.ietf.org/html/rfc2774#section-4.1
+value 1#
+
+* Opt
+
+spec http://tools.ietf.org/html/rfc2774#section-4.1
+value 1#
+
+* C-Man
+
+spec http://tools.ietf.org/html/rfc2774#section-4.2
+value 1#
+
+* C-Opt
+
+spec http://tools.ietf.org/html/rfc2774#section-4.2
+value 1#
+
+* Ext
+
+spec http://tools.ietf.org/html/rfc2774#section-4.3
+
+* C-Ext
+
+spec http://tools.ietf.org/html/rfc2774#section-4.3
+
+* Delta-Base
+
+spec http://tools.ietf.org/html/rfc3229#section-10.5.1
+value entity-tag
+response
+226 MAY
+
+* IM
+
+spec http://tools.ietf.org/html/rfc3229#section-10.5.2
+value #
+response
+226 MUST
+
+* A-IM
+
+spec http://tools.ietf.org/html/rfc3229#section-10.5.3
+value #
+request
+
+* F-range
+
+spec http://www.wyman.us/main/2004/09/using_rfc3229_w.html
+request
 
 * OPES-System
 
@@ -743,3 +868,82 @@ spec http://tools.ietf.org/html/rfc3507#section-4.3.4
 
 ## Not in any spec
 authentication-credentials
+
+* CPFN.UPNP.ORG
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=48
+request
+
+* CPUUID.UPNP.ORG
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=48
+request
+
+* NT
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
+value ASCII absolute URL
+request
+
+* TIMEOUT
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
+request
+
+* CALLBACK
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
+request
+
+* STATEVAR
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
+request
+
+* ACCEPTED-STATEVAR
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=95
+response
+
+* SID
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=97
+value ASCII absolute URL
+response
+
+* NTS
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=103
+value ASCII absolute URL
+request
+
+* SEQ
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=103
+request
+
+* SVCID
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=106
+request
+
+* LVL
+
+spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=106
+request
+
+* Get-Dictionary
+
+spec https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1
+value 1#ASCII URL
+response
+
+* Avail-Dictionary
+
+spec https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1
+value 1#
+request
+
+* X-SDCH-Encode
+
+spec https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1

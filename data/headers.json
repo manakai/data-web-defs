@@ -1,4 +1,96 @@
 {
+   "addition_types" : {
+      "*" : {
+         "id" : "section-2.2.2.1",
+         "name" : "*",
+         "spec" : "RFC2324"
+      },
+      "almond" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Almond",
+         "spec" : "RFC2324"
+      },
+      "aquavit" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Aquavit",
+         "spec" : "RFC2324"
+      },
+      "chocolate" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Chocolate",
+         "spec" : "RFC2324"
+      },
+      "cream" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Cream",
+         "spec" : "RFC2324"
+      },
+      "half-and-half" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Half-and-half",
+         "spec" : "RFC2324"
+      },
+      "kahlua" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Kahlua",
+         "spec" : "RFC2324"
+      },
+      "non-dairy" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Non-Dairy",
+         "spec" : "RFC2324"
+      },
+      "part-skim" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Part-Skim",
+         "spec" : "RFC2324"
+      },
+      "raspberry" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Raspberry",
+         "spec" : "RFC2324"
+      },
+      "rum" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Rum",
+         "spec" : "RFC2324"
+      },
+      "skim" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Skim",
+         "spec" : "RFC2324"
+      },
+      "stevia" : {
+         "id" : "section-2.2.1",
+         "name" : "Stevia",
+         "spec" : "RFC7168"
+      },
+      "sugar" : {
+         "id" : "section-2.2.1",
+         "name" : "Sugar",
+         "spec" : "RFC7168"
+      },
+      "vanilla" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Vanilla",
+         "spec" : "RFC2324"
+      },
+      "whisky" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Whisky",
+         "spec" : "RFC2324"
+      },
+      "whole-milk" : {
+         "id" : "section-2.2.2.1",
+         "name" : "Whole-milk",
+         "spec" : "RFC2324"
+      },
+      "xylitol" : {
+         "id" : "section-2.2.1",
+         "name" : "Xylitol",
+         "spec" : "RFC7168"
+      }
+   },
    "auth_schemes" : {
       "anon" : {
          "challenge" : {
@@ -1729,6 +1821,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "bzip2"
          }
@@ -1736,7 +1829,8 @@
       "bzip2" : {
          "content" : {
             "Accept-Encoding" : 1,
-            "Content-Encoding" : 1
+            "Content-Encoding" : 1,
+            "compression" : 1
          }
       },
       "chunked" : {
@@ -1751,6 +1845,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1,
             "id" : "section-4.2.1",
             "spec" : "RFC7230"
@@ -1758,6 +1853,7 @@
          "transfer" : {
             "TE" : 1,
             "Transfer-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1,
             "id" : "section-4.2.1",
             "spec" : "RFC7230"
@@ -1767,16 +1863,30 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1,
+            "id" : "section-4.2.2",
+            "spec" : "RFC7230"
+         },
+         "im" : {
+            "compression" : 1,
             "id" : "section-4.2.2",
             "spec" : "RFC7230"
          },
          "transfer" : {
             "TE" : 1,
             "Transfer-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1,
             "id" : "section-4.2.2",
             "spec" : "RFC7230"
+         }
+      },
+      "diffe" : {
+         "im" : {
+            "delta_coding" : 1,
+            "id" : "section-10.1",
+            "spec" : "RFC3229"
          }
       },
       "exi" : {
@@ -1786,17 +1896,41 @@
             "iana" : 1
          }
       },
+      "f-range" : {
+         "im" : {
+            "url" : "http://www.wyman.us/main/2004/09/using_rfc3229_w.html"
+         }
+      },
+      "feed" : {
+         "im" : {
+            "url" : "http://www.wyman.us/main/2004/09/using_rfc3229_w.html"
+         }
+      },
+      "gdiff" : {
+         "im" : {
+            "delta_coding" : 1,
+            "id" : "section-10.1",
+            "spec" : "RFC3229"
+         }
+      },
       "gzip" : {
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1,
+            "id" : "section-4.2.3",
+            "spec" : "RFC7230"
+         },
+         "im" : {
+            "compression" : 1,
             "id" : "section-4.2.3",
             "spec" : "RFC7230"
          },
          "transfer" : {
             "TE" : 1,
             "Transfer-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1,
             "id" : "section-4.2.3",
             "spec" : "RFC7230"
@@ -1810,8 +1944,17 @@
             "reserved" : 1,
             "spec" : "RFC7231"
          },
+         "im" : {
+            "id" : "section-10.5.3",
+            "spec" : "RFC3229"
+         },
          "transfer" : {
             "iana" : 1,
+            "obsolete" : 1
+         }
+      },
+      "items" : {
+         "im" : {
             "obsolete" : 1
          }
       },
@@ -1819,11 +1962,26 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "iana" : 1
          }
       },
       "quoted-printable" : {
          "content" : {
+         }
+      },
+      "range" : {
+         "im" : {
+            "id" : "section-10.1",
+            "spec" : "RFC3229"
+         }
+      },
+      "sdch" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1,
+            "compression" : 1,
+            "url" : "https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1"
          }
       },
       "text/html" : {
@@ -1841,10 +1999,17 @@
             "spec" : "RFC7230"
          }
       },
+      "vcdiff" : {
+         "im" : {
+            "delta_coding" : 1,
+            "url" : "https://tools.ietf.org/html/rfc3284"
+         }
+      },
       "x-bzip" : {
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "bzip2"
          }
@@ -1853,6 +2018,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "bzip2"
          }
@@ -1861,6 +2027,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "iana" : 1,
             "id" : "section-4.2.1",
@@ -1870,6 +2037,7 @@
          "transfer" : {
             "TE" : 1,
             "Transfer-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "iana" : 1,
             "id" : "section-4.2.1",
@@ -1881,6 +2049,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "deflate"
          }
@@ -1889,6 +2058,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "iana" : 1,
             "id" : "section-4.2.3",
@@ -1898,6 +2068,7 @@
          "transfer" : {
             "TE" : 1,
             "Transfer-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "iana" : 1,
             "id" : "section-4.2.3",
@@ -1915,6 +2086,7 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "compress"
          }
@@ -2287,6 +2459,13 @@
          "obsolete" : 1
       }
    },
+   "extension_declarations" : {
+      "ns" : {
+         "id" : "section-3",
+         "name" : "ns",
+         "spec" : "RFC2774"
+      }
+   },
    "forwarded" : {
       "by" : {
          "iana" : 1,
@@ -2316,8 +2495,21 @@
       }
    },
    "headers" : {
+      "a-im" : {
+         "http" : {
+            "id" : "section-10.5.3",
+            "multiple" : "#",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC3229",
+            "value_is_list" : "*"
+         },
+         "name" : "A-IM"
+      },
       "accept" : {
          "http" : {
+            "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.2",
@@ -2332,6 +2524,7 @@
       },
       "accept-charset" : {
          "http" : {
+            "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.3",
@@ -2358,8 +2551,22 @@
          },
          "name" : "Accept-Encoding"
       },
+      "accept-features" : {
+         "http" : {
+            "accept_" : 1,
+            "id" : "section-8.2",
+            "multiple" : "#",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "*"
+         },
+         "name" : "Accept-Features"
+      },
       "accept-language" : {
          "http" : {
+            "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
             "id" : "section-5.3.5",
@@ -2382,6 +2589,15 @@
             "spec" : "RFC7233"
          },
          "name" : "Accept-Ranges"
+      },
+      "accepted-statevar" : {
+         "http" : {
+            "response" : {
+               "xxx" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=95"
+         },
+         "name" : "ACCEPTED-STATEVAR"
       },
       "age" : {
          "http" : {
@@ -2432,6 +2648,18 @@
          },
          "name" : "Allowed"
       },
+      "alternates" : {
+         "http" : {
+            "id" : "section-8.3",
+            "multiple" : "#",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Alternates"
+      },
       "authentication-info" : {
          "http" : {
             "id" : "section-3.2.3",
@@ -2466,6 +2694,48 @@
          },
          "name" : "Authorization"
       },
+      "avail-dictionary" : {
+         "http" : {
+            "multiple" : "#",
+            "request" : {
+               "*" : ""
+            },
+            "url" : "https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Avail-Dictionary"
+      },
+      "bootid.upnp.org" : {
+         "name" : "BOOTID.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=31"
+         }
+      },
+      "c-ext" : {
+         "http" : {
+            "id" : "section-4.3",
+            "spec" : "RFC2774"
+         },
+         "name" : "C-Ext"
+      },
+      "c-man" : {
+         "http" : {
+            "id" : "section-4.2",
+            "multiple" : "#",
+            "spec" : "RFC2774",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "C-Man"
+      },
+      "c-opt" : {
+         "http" : {
+            "id" : "section-4.2",
+            "multiple" : "#",
+            "spec" : "RFC2774",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "C-Opt"
+      },
       "cache-control" : {
          "http" : {
             "206_representation_metadata" : "MUST",
@@ -2495,7 +2765,27 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Cache-Control"
+         "name" : "Cache-Control",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=30"
+         }
+      },
+      "callback" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94"
+         },
+         "name" : "CALLBACK"
+      },
+      "certificate-info" : {
+         "http" : {
+            "id" : "section-3.3.2",
+            "spec" : "RFC2660"
+         },
+         "multiple" : 1,
+         "name" : "Certificate-Info"
       },
       "chargeto" : {
          "http" : {
@@ -2514,6 +2804,12 @@
             "spec" : "RFC7230"
          },
          "name" : "close"
+      },
+      "configid.upnp.org" : {
+         "name" : "CONFIGID.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=32"
+         }
       },
       "connection" : {
          "http" : {
@@ -2540,7 +2836,11 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Connection"
+         "name" : "Connection",
+         "s-http" : {
+            "id" : "section-2.6.3.3",
+            "spec" : "RFC2660"
+         }
       },
       "content-base" : {
          "http" : {
@@ -2660,6 +2960,13 @@
          },
          "name" : "Content-MD5"
       },
+      "content-privacy-domain" : {
+         "name" : "Content-Privacy-Domain",
+         "s-http" : {
+            "id" : "section-2.4.1",
+            "spec" : "RFC2660"
+         }
+      },
       "content-range" : {
          "http" : {
             "byteranges" : "MUST",
@@ -2684,7 +2991,11 @@
             },
             "url" : "http://www.w3.org/Protocols/HTTP/Object_Headers.html#content-transfer-encoding"
          },
-         "name" : "Content-Transfer-Encoding"
+         "name" : "Content-Transfer-Encoding",
+         "s-http" : {
+            "id" : "section-2.5",
+            "spec" : "RFC2660"
+         }
       },
       "content-type" : {
          "http" : {
@@ -2704,7 +3015,11 @@
             "spec" : "RFC7231",
             "value_type" : "MIME type"
          },
-         "name" : "Content-Type"
+         "name" : "Content-Type",
+         "s-http" : {
+            "id" : "section-2.4.2",
+            "spec" : "RFC2660"
+         }
       },
       "content-version" : {
          "http" : {
@@ -2757,6 +3072,30 @@
          },
          "name" : "Cost"
       },
+      "cpfn.upnp.org" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=48"
+         },
+         "name" : "CPFN.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=39"
+         }
+      },
+      "cpuuid.upnp.org" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=48"
+         },
+         "name" : "CPUUID.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=39"
+         }
+      },
       "date" : {
          "http" : {
             "206_representation_metadata" : "MUST",
@@ -2785,7 +3124,22 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Date"
+         "name" : "Date",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page"
+         }
+      },
+      "delta-base" : {
+         "http" : {
+            "id" : "section-10.5.1",
+            "response" : {
+               "226" : "MAY",
+               "xxx" : ""
+            },
+            "spec" : "RFC3229",
+            "value_type" : "entity-tag"
+         },
+         "name" : "Delta-Base"
       },
       "derived-from" : {
          "http" : {
@@ -2819,12 +3173,20 @@
          },
          "name" : "Encapsulated"
       },
+      "encryption-identity" : {
+         "http" : {
+            "id" : "section-3.3.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "Encryption-Identity"
+      },
       "etag" : {
          "http" : {
             "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "id" : "section-2.3",
             "response" : {
+               "226" : "MUST",
                "xxx" : ""
             },
             "spec" : "RFC7232",
@@ -2871,6 +3233,25 @@
          },
          "name" : "Expires"
       },
+      "ext" : {
+         "http" : {
+            "id" : "section-4.3",
+            "spec" : "RFC2774"
+         },
+         "name" : "Ext",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page"
+         }
+      },
+      "f-range" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://www.wyman.us/main/2004/09/using_rfc3229_w.html"
+         },
+         "name" : "F-range"
+      },
       "forwarded" : {
          "http" : {
             "fingerprinting" : 1,
@@ -2905,6 +3286,18 @@
          },
          "name" : "From"
       },
+      "get-dictionary" : {
+         "http" : {
+            "multiple" : "#",
+            "response" : {
+               "xxx" : ""
+            },
+            "url" : "https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1",
+            "value_is_list" : "\u002B",
+            "value_type" : "ASCII URL"
+         },
+         "name" : "Get-Dictionary"
+      },
       "host" : {
          "http" : {
             "control" : 1,
@@ -2927,7 +3320,14 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Host"
+         "name" : "Host",
+         "s-http" : {
+            "id" : "section-2.6.3.2",
+            "spec" : "RFC2660"
+         },
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=30"
+         }
       },
       "if-match" : {
          "http" : {
@@ -2958,7 +3358,11 @@
             "spec" : "RFC7232",
             "value_type" : "HTTP-date"
          },
-         "name" : "If-Modified-Since"
+         "name" : "If-Modified-Since",
+         "s-http" : {
+            "id" : "section-5.2.5",
+            "spec" : "RFC2660"
+         }
       },
       "if-none-match" : {
          "http" : {
@@ -3003,6 +3407,19 @@
          },
          "name" : "If-Unmodified-Since"
       },
+      "im" : {
+         "http" : {
+            "id" : "section-10.5.2",
+            "multiple" : "#",
+            "response" : {
+               "226" : "MUST",
+               "xxx" : ""
+            },
+            "spec" : "RFC3229",
+            "value_is_list" : "*"
+         },
+         "name" : "IM"
+      },
       "istag" : {
          "icap" : {
             "id" : "section-4.7",
@@ -3028,6 +3445,17 @@
             "value_is_list" : "*"
          },
          "name" : "Keep-Alive"
+      },
+      "key-assign" : {
+         "http" : {
+            "id" : "section-3.3.3",
+            "spec" : "RFC2660"
+         },
+         "name" : "Key-Assign",
+         "s-http" : {
+            "id" : "section-3.3.3",
+            "spec" : "RFC2660"
+         }
       },
       "last-modified" : {
          "http" : {
@@ -3069,7 +3497,10 @@
             "spec" : "RFC7231",
             "value_type" : "ASCII URL"
          },
-         "name" : "Location"
+         "name" : "Location",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=30"
+         }
       },
       "log-*" : {
          "icap" : {
@@ -3080,6 +3511,34 @@
          },
          "name" : "LOG-*",
          "wildcard" : 1
+      },
+      "lvl" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=106"
+         },
+         "name" : "LVL"
+      },
+      "mac-info" : {
+         "name" : "MAC-Info",
+         "s-http" : {
+            "id" : "section-2.4.5",
+            "spec" : "RFC2660"
+         }
+      },
+      "man" : {
+         "http" : {
+            "id" : "section-4.1",
+            "multiple" : "#",
+            "spec" : "RFC2774",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Man",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=38"
+         }
       },
       "max-connections" : {
          "icap" : {
@@ -3167,6 +3626,72 @@
          },
          "name" : "MIME-Version"
       },
+      "mx" : {
+         "name" : "MX",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=38"
+         }
+      },
+      "negotiate" : {
+         "http" : {
+            "id" : "section-8.4",
+            "multiple" : "#",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Negotiate"
+      },
+      "nextbootid.upnp.org" : {
+         "name" : "NEXTBOOTID.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=36"
+         }
+      },
+      "nonce" : {
+         "http" : {
+            "id" : "section-3.3.4.1",
+            "spec" : "RFC2660"
+         },
+         "multiple" : 1,
+         "name" : "Nonce"
+      },
+      "nonce-echo" : {
+         "http" : {
+            "id" : "section-4.1.1",
+            "spec" : "RFC2660"
+         },
+         "multiple" : 1,
+         "name" : "Nonce-Echo"
+      },
+      "nt" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94",
+            "value_type" : "ASCII absolute URL"
+         },
+         "name" : "NT",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=30"
+         }
+      },
+      "nts" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=103",
+            "value_type" : "ASCII absolute URL"
+         },
+         "name" : "NTS",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=31"
+         }
+      },
       "object-length" : {
          "icap" : {
             "request" : {
@@ -3218,6 +3743,15 @@
          },
          "name" : "OPES-Via"
       },
+      "opt" : {
+         "http" : {
+            "id" : "section-4.1",
+            "multiple" : "#",
+            "spec" : "RFC2774",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "Opt"
+      },
       "opt-body-type" : {
          "icap" : {
             "id" : "section-4.10.2",
@@ -3243,6 +3777,12 @@
             "fingerprinting" : 1
          },
          "name" : "Origin"
+      },
+      "powerstate" : {
+         "name" : "Powerstate",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/lp/UPnP-lp-LowPower-v1-Service.pdf#page=11"
+         }
       },
       "pragma" : {
          "http" : {
@@ -3272,6 +3812,13 @@
             "spec" : "RFC3507"
          },
          "name" : "Pragma"
+      },
+      "prearranged-key-info" : {
+         "name" : "Prearranged-Key-Info",
+         "s-http" : {
+            "id" : "section-2.4.4",
+            "spec" : "RFC2660"
+         }
       },
       "prefer" : {
          "http" : {
@@ -3425,6 +3972,12 @@
          },
          "name" : "Referer"
       },
+      "registrationstate" : {
+         "name" : "RegistrationState",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/lp/UPnP-lp-LowPower-v1-Service.pdf#page=11"
+         }
+      },
       "request-date" : {
          "icap" : {
             "request" : {
@@ -3469,6 +4022,34 @@
          },
          "name" : "Safe"
       },
+      "searchport.upnp.org" : {
+         "name" : "SEARCHPORT.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=32"
+         }
+      },
+      "securelocation.upnp.org" : {
+         "name" : "SECURELOCATION.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=32"
+         }
+      },
+      "security-scheme" : {
+         "http" : {
+            "id" : "section-4.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "Security-Scheme"
+      },
+      "seq" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=103"
+         },
+         "name" : "SEQ"
+      },
       "server" : {
          "http" : {
             "id" : "section-7.4.2",
@@ -3485,7 +4066,10 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "Server"
+         "name" : "Server",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=31"
+         }
       },
       "service" : {
          "icap" : {
@@ -3535,6 +4119,135 @@
          },
          "name" : "Set-Cookie2"
       },
+      "shttp-certificate-types" : {
+         "http" : {
+            "id" : "section-3.2.4.2",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Certificate-Types"
+      },
+      "shttp-cryptopts" : {
+         "http" : {
+            "id" : "section-3.4.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Cryptopts"
+      },
+      "shttp-key-exchange-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.3",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Key-Exchange-Algorithms"
+      },
+      "shttp-mac-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.8",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-MAC-Algorithms"
+      },
+      "shttp-message-digest-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.5",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Message-Digest-Algorithms"
+      },
+      "shttp-privacy-domains" : {
+         "http" : {
+            "id" : "section-3.2.4.1",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Privacy-Domains"
+      },
+      "shttp-privacy-enhancements" : {
+         "http" : {
+            "id" : "section-3.2.4.9",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Privacy-Enhancements"
+      },
+      "shttp-signature-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.4",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Signature-Algorithms"
+      },
+      "shttp-symmetric-content-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.6",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Symmetric-Content-Algorithms"
+      },
+      "shttp-symmetric-header-algorithms" : {
+         "http" : {
+            "id" : "section-3.2.4.7",
+            "spec" : "RFC2660"
+         },
+         "name" : "SHTTP-Symmetric-Header-Algorithms"
+      },
+      "sid" : {
+         "http" : {
+            "response" : {
+               "xxx" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=97",
+            "value_type" : "ASCII absolute URL"
+         },
+         "name" : "SID"
+      },
+      "sleepperiod" : {
+         "name" : "SleepPeriod",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/lp/UPnP-lp-LowPower-v1-Service.pdf#page=11"
+         }
+      },
+      "st" : {
+         "name" : "ST",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=38"
+         }
+      },
+      "statevar" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94"
+         },
+         "name" : "STATEVAR"
+      },
+      "svcid" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=106"
+         },
+         "name" : "SVCID"
+      },
+      "tcn" : {
+         "http" : {
+            "304_representation_metadata" : "MAY",
+            "id" : "section-8.5",
+            "multiple" : "#",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2295",
+            "value_is_list" : "*"
+         },
+         "name" : "TCN"
+      },
+      "tcpport.upnp.org" : {
+         "name" : "TCPPORT.UPNP.ORG",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=39"
+         }
+      },
       "te" : {
          "http" : {
             "connection_option" : 1,
@@ -3554,6 +4267,15 @@
             "value_type" : "t-codings"
          },
          "name" : "TE"
+      },
+      "timeout" : {
+         "http" : {
+            "request" : {
+               "*" : ""
+            },
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94"
+         },
+         "name" : "TIMEOUT"
       },
       "title" : {
          "http" : {
@@ -3714,7 +4436,26 @@
             },
             "spec" : "RFC3507"
          },
-         "name" : "User-Agent"
+         "name" : "User-Agent",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=38"
+         }
+      },
+      "usn" : {
+         "name" : "USN",
+         "ssdp" : {
+            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=31"
+         }
+      },
+      "variant-vary" : {
+         "http" : {
+            "id" : "section-8.6",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC2295"
+         },
+         "name" : "Variant-Vary"
       },
       "vary" : {
          "http" : {
@@ -3991,6 +4732,12 @@
          },
          "name" : "X-Response-Info"
       },
+      "x-sdch-encode" : {
+         "http" : {
+            "url" : "https://docs.google.com/a/chromium.org/document/d/1REMkwjXY5yFOkJwtJPjCMwZ4Shx3D9vfdAytV_KQCUo/edit?pli=1"
+         },
+         "name" : "X-SDCH-Encode"
+      },
       "x-server-ip" : {
          "icap" : {
             "request" : {
@@ -4034,6 +4781,81 @@
             "trace_unsafe" : 1
          },
          "name" : "X-WSSE"
+      },
+      "your-key-pattern" : {
+         "http" : {
+            "id" : "section-3.2.4.10",
+            "spec" : "RFC2660"
+         },
+         "name" : "Your-Key-Pattern"
+      }
+   },
+   "ims" : {
+      "channel" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "deflate" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "diffe" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "f-range" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "feed" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "gdiff" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "gzip" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "identity" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "items" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "range" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
+      },
+      "vcdiff" : {
+         "im" : {
+            "A-IM" : 1,
+            "IM" : 1
+         }
       }
    },
    "keep_alive_params" : {
@@ -4046,6 +4868,15 @@
          "name" : "timeout",
          "url" : "https://tools.ietf.org/html/draft-thomson-hybi-http-timeout-03#section-2.1",
          "value_type" : "delta-seconds"
+      }
+   },
+   "list_directives" : {
+      "proxy-rvsa" : {
+         "id" : "section-8.3",
+         "name" : "proxy-rvsa",
+         "spec" : "RFC2295",
+         "value_is_list" : "*",
+         "value_optionality" : "MUST"
       }
    },
    "meter_directives" : {
@@ -4193,6 +5024,38 @@
          "id" : "section-5.2",
          "name" : "y",
          "spec" : "RFC2227",
+         "value_optionality" : "MUST NOT"
+      }
+   },
+   "negotiate_directives" : {
+      "*" : {
+         "id" : "section-8.4",
+         "name" : "*",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "1.0" : {
+         "id" : "section-3",
+         "name" : "1.0",
+         "spec" : "RFC2296",
+         "value_optionality" : "MUST NOT"
+      },
+      "guess-small" : {
+         "id" : "section-8.4",
+         "name" : "guess-small",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "trans" : {
+         "id" : "section-8.4",
+         "name" : "trans",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "vlist" : {
+         "id" : "section-8.4",
+         "name" : "vlist",
+         "spec" : "RFC2295",
          "value_optionality" : "MUST NOT"
       }
    },
@@ -4696,6 +5559,8 @@
          "via" : 1
       },
       "Secure-HTTP/1.4" : {
+         "id" : "section-2.2",
+         "spec" : "RFC2660",
          "start_line" : 1
       },
       "TLS" : {
@@ -4804,6 +5669,55 @@
       "xpointer" : {
          "name" : "xpointer",
          "url" : "http://web.archive.org/web/20050306041708/http://www.mindswap.org/papers/swrp-iswc04.pdf"
+      }
+   },
+   "safe_natures" : {
+      "if-user-awake" : {
+         "id" : "section-2.2.1.1",
+         "name" : "if-user-awake",
+         "spec" : "RFC2324"
+      },
+      "no" : {
+         "id" : "section-4",
+         "name" : "no",
+         "spec" : "RFC2310"
+      },
+      "yes" : {
+         "id" : "section-4",
+         "name" : "yes",
+         "spec" : "RFC2310"
+      }
+   },
+   "tcn_directives" : {
+      "adhoc" : {
+         "id" : "section-8.5",
+         "name" : "adhoc",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "choice" : {
+         "id" : "section-8.5",
+         "name" : "choice",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "keep" : {
+         "id" : "section-8.5",
+         "name" : "keep",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "list" : {
+         "id" : "section-8.5",
+         "name" : "list",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
+      },
+      "re-choose" : {
+         "id" : "section-8.5",
+         "name" : "re-choose",
+         "spec" : "RFC2295",
+         "value_optionality" : "MUST NOT"
       }
    },
    "warn_codes" : {
