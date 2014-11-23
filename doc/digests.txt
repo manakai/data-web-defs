@@ -1,0 +1,55 @@
+digests.json
+~~~~~~~~~~~~
+
+The file contains list of digest algorithms.
+
+* Structure
+
+The file contains a JSON object with following name/value pair:
+
+  algorihtms [object]
+
+    Keys are algorithm names in lowercase and values are JSON objects
+    which contains name/value pairs whose name is |HTTP| and values
+    are their descriptions as [protocol-object], with following
+    additional name/value pairs:
+
+      Digest [boolean]
+
+        Whether the algorithm name can be specified in the HTTP
+        |Digest:| header or not.
+
+      name [string]
+
+        The canonical name of the algorithm, as used in relevant
+        specifications.
+
+      value_syntax [string?]
+
+        The syntax of the value encoded by the algorithm, if known,
+        using one of followings:
+
+          base16    Zero or more ASCII hexadecimal digits (case-insensitive).
+          base64    Base64 encoded byte sequence.
+          digits    Zero or more ASCII digits.
+
+      Want-Digest [boolean]
+
+        Whether the algorithm name can be specified in the HTTP
+        |Want-Digest:| header or not.
+
+* Sources
+
+RFC 3230, Instance Digests in HTTP
+<http://tools.ietf.org/html/rfc3230>.
+
+RFC 5843, Additional Hash Algorithms for HTTP Instance Digests
+<http://tools.ietf.org/html/rfc5843>.
+
+Hypertext Transfer Protocol (HTTP) Digest Algorithm Values
+<http://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of the JSON file.

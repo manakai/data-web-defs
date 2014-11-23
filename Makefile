@@ -176,7 +176,7 @@ data/langtags.json: bin/langtags.pl \
 ## ------ HTTP ------
 
 all-http: data/http-status-codes.json data/http-methods.json \
-    data/headers.json
+    data/headers.json data/digests.json
 
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
@@ -227,6 +227,9 @@ local/iana/cont-disp.xml:
 local/iana/http-ims.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/inst-man-values/inst-man-values.xml
+local/iana/http-digests.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/http-dig-alg/http-dig-alg.xml
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
@@ -261,6 +264,9 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/ssdp-headers.txt \
     local/iana/http-ims.json src/http-ims.txt
 	$(PERL) bin/headers.pl > $@
+data/digests.json: bin/digests.pl \
+    local/iana/http-digests.json src/http-digests.txt
+	$(PERL) bin/digests.pl > $@
 
 ## ------ Encodings ------
 
