@@ -275,7 +275,7 @@ clean-encodings:
 	rm -fr local/encodings.json local/indexes.json
 
 data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt \
-    local/encodings.json
+    local/encodings.json local/dom-extracted.json
 	$(PERL) bin/encodings.pl > $@
 data/encoding-indexes.json: local/indexes.json
 	cp $< $@

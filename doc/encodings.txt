@@ -7,6 +7,39 @@ This file contains data on character encodings for the Web.
 
 The file contains a JSON object with following name/value pairs:
 
+  encodings [object]
+
+    Names are the names of the encodings and values are their
+    descriptions, as [protocol-object] with following additional
+    name/value pairs:
+
+      compat_name [string]
+
+        The name of the encoding returned by |characterSet| and
+        |inputEncoding| attributes of the |Document| interface
+        (i.e. the compatibility name of the encoding, if any, or the
+        name of the encoding).
+
+      html_decl_mapped [string?]
+
+        The mapped encoding name used in HTML character encoding
+        declaration, if any.  If a string is set, when the encoding is
+        specified by an HTML character encoding declaration, it is
+        interpreted as the encoding identified by the string instead
+        by the prescan algorithm
+        <http://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
+        and the change the encoding algorithm
+        <http://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
+
+      labels [object]
+
+        Names are the labels of the encoding, in lowercase, and values
+        are boolean true values.
+
+      name [object]
+
+        The name of the encoding.
+
   html_decl_map [object]
 
     A JSON object whose names and values are encoding names (not
@@ -42,17 +75,35 @@ The file contains a JSON object with following name/value pairs:
 
 * Sources
 
-Encoding Standard <http://encoding.spec.whatwg.org/>.
+Encoding Standard <https://encoding.spec.whatwg.org/>.
 
-HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
+HTML Standard <https://html.spec.whatwg.org/>.
+
+DOM Standard <https://dom.spec.whatwg.org/>.
 
 * License
 
 You are granted a license to use, reproduce, and create derivative
 works of this JSON file.
 
+This JSON file partially derived from the Encoding Standard: "This
+standard is written by Anne van Kesteren (Mozilla,
+annevk@annevk.nl). The API chapter was initially written by Joshua
+Bell (Google).  Per CC0
+<https://creativecommons.org/publicdomain/zero/1.0/>, to the extent
+possible under law, the editors have waived all copyright and related
+or neighboring rights to this work."
+
 This JSON file partially derived from the HTML Standard: "Written by
 Ian Hickson (Google, ian@hixie.ch) - Parts © Copyright 2004-2014 Apple
 Inc., Mozilla Foundation, and Opera Software ASA; You are granted a
 license to use, reproduce and create derivative works of this
-document".
+document."
+
+This JSON file partially derived from the DOM Standard: "This standard
+is written by Anne van Kesteren (Mozilla, annevk@annevk.nl) with
+substantial contributions from Aryeh Gregor (Mozilla, ayg@aryeh.name)
+and Ms2ger (Mozilla, ms2ger@gmail.com).  Per CC0
+<https://creativecommons.org/publicdomain/zero/1.0/>, to the extent
+possible under law, the editors have waived all copyright and related
+or neighboring rights to this work."
