@@ -262,7 +262,8 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-list-directives.txt src/http-tcn-directives.txt \
     src/shttp-headers.txt src/http-ext-decls.txt \
     src/ssdp-headers.txt \
-    local/iana/http-ims.json src/http-ims.txt
+    local/iana/http-ims.json src/http-ims.txt \
+    src/http-p3p.txt
 	$(PERL) bin/headers.pl > $@
 data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt
