@@ -181,7 +181,7 @@ all-http: data/http-status-codes.json data/http-methods.json \
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
 	rm -fr local/iana-http-statuses.xml
-	rm -fr local/iana-rtsp.xml local/iana-sip.xml
+	rm -fr local/iana/rtsp.xml local/iana/sip.xml
 	rm -fr local/iana/http*.xml
 
 local/sw-http-statuses.xml:
@@ -190,12 +190,12 @@ local/sw-http-methods.xml:
 	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20methods?format=xml"
 local/iana-http-statuses.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/http-status-codes/http-status-codes.xml
-local/iana-rtsp.xml:
-	$(WGET) -O $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
-local/iana-sip.xml:
-	$(WGET) -O $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
-local/iana/sip.json: local/iana-sip.xml
-	$(PERL) bin/ianaxml2json.pl $< > $@
+local/iana/rtsp.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
+local/iana/sip.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
 local/iana/http-methods.xml:
 	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/http-methods/http-methods.xml
@@ -230,19 +230,22 @@ local/iana/http-ims.xml:
 local/iana/http-digests.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/http-dig-alg/http-dig-alg.xml
+local/iana/headers.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/message-headers/message-headers.xml
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
 data/http-status-codes.json: \
     local/sw-http-statuses.xml local/iana-http-statuses.xml \
-    local/iana-rtsp.xml local/iana-sip.xml \
+    local/iana/rtsp.xml local/iana/sip.xml \
     src/http-status-codes.txt src/icap-status-codes.txt \
     src/shttp-status-codes.txt src/ssdp-status-codes.txt \
     bin/http-status-codes.pl
 	$(PERL) bin/http-status-codes.pl > $@
 data/http-methods.json: \
     local/sw-http-methods.xml local/iana/http-methods.json \
-    local/iana-rtsp.xml local/iana-sip.xml \
+    local/iana/rtsp.xml local/iana/sip.xml \
     bin/http-methods.pl src/http-methods.txt src/icap-methods.txt \
     src/shttp-methods.txt src/ssdp-methods.txt
 	$(PERL) bin/http-methods.pl > $@
@@ -261,9 +264,9 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-keep-alive.txt src/http-meter-directives.txt \
     src/http-list-directives.txt src/http-tcn-directives.txt \
     src/shttp-headers.txt src/http-ext-decls.txt \
-    src/ssdp-headers.txt \
+    src/ssdp-headers.txt local/iana/rtsp.json \
     local/iana/http-ims.json src/http-ims.txt \
-    src/http-p3p.txt
+    src/http-p3p.txt local/iana/headers.json
 	$(PERL) bin/headers.pl > $@
 data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt
