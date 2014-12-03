@@ -3129,6 +3129,21 @@
             "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page"
          }
       },
+      "dav" : {
+         "http" : {
+            "id" : "section-10.1",
+            "multiple" : "#",
+            "request" : {
+               "*" : "SHOULD NOT"
+            },
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC4918",
+            "value_is_list" : "\u002B"
+         },
+         "name" : "DAV"
+      },
       "delta-base" : {
          "http" : {
             "id" : "section-10.5.1",
@@ -3140,6 +3155,21 @@
             "value_type" : "entity-tag"
          },
          "name" : "Delta-Base"
+      },
+      "depth" : {
+         "http" : {
+            "id" : "section-10.2",
+            "request" : {
+               "*" : "",
+               "COPY" : "MAY",
+               "LOCK" : "MAY",
+               "MOVE" : "MAY",
+               "PROPFIND" : "MUST"
+            },
+            "spec" : "RFC4918",
+            "value_type" : "depth"
+         },
+         "name" : "Depth"
       },
       "derived-from" : {
          "http" : {
@@ -3153,6 +3183,18 @@
             "spec" : "RFC2068"
          },
          "name" : "Derived-From"
+      },
+      "destination" : {
+         "http" : {
+            "id" : "section-10.3",
+            "request" : {
+               "COPY" : "MUST",
+               "MOVE" : "MUST"
+            },
+            "spec" : "RFC4918",
+            "value_type" : "ASCII URL"
+         },
+         "name" : "Destination"
       },
       "dnt" : {
          "http" : {
@@ -3329,6 +3371,19 @@
             "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=30"
          }
       },
+      "if" : {
+         "http" : {
+            "conditional" : 1,
+            "id" : "section-10.4",
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : "MAY"
+            },
+            "request_modifier" : 1,
+            "spec" : "RFC4918"
+         },
+         "name" : "If"
+      },
       "if-match" : {
          "http" : {
             "conditional" : 1,
@@ -3501,6 +3556,19 @@
          "ssdp" : {
             "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=30"
          }
+      },
+      "lock-token" : {
+         "http" : {
+            "id" : "section-10.5",
+            "request" : {
+               "UNLOCK" : "MUST"
+            },
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC4918"
+         },
+         "name" : "Lock-Token"
       },
       "log-*" : {
          "icap" : {
@@ -3777,6 +3845,19 @@
             "fingerprinting" : 1
          },
          "name" : "Origin"
+      },
+      "overwrite" : {
+         "http" : {
+            "conditional" : 1,
+            "id" : "section-10.6",
+            "not_for_trailer" : 1,
+            "request" : {
+               "*" : "MAY"
+            },
+            "request_modifier" : 1,
+            "spec" : "RFC4918"
+         },
+         "name" : "Overwrite"
       },
       "powerstate" : {
          "name" : "Powerstate",
@@ -4220,6 +4301,17 @@
          },
          "name" : "STATEVAR"
       },
+      "status-uri" : {
+         "http" : {
+            "id" : "section-9.7",
+            "response" : {
+               "102" : "MAY",
+               "xxx" : ""
+            },
+            "spec" : "RFC2518"
+         },
+         "name" : "Status-URI"
+      },
       "svcid" : {
          "http" : {
             "request" : {
@@ -4268,14 +4360,33 @@
          },
          "name" : "TE"
       },
+      "time-out" : {
+         "http" : {
+            "id" : "section-18",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC4918"
+         },
+         "name" : "Time-Out"
+      },
       "timeout" : {
          "http" : {
+            "id" : "section-10.7",
+            "multiple" : "#",
             "request" : {
-               "*" : ""
+               "*" : "MUST NOT",
+               "LOCK" : "MAY",
+               "SUBSCRIBE" : "MAY"
             },
-            "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94"
+            "response" : {
+               "200" : "MAY"
+            },
+            "spec" : "RFC4918",
+            "value_is_list" : "\u002B",
+            "value_type" : "HTTP timeout"
          },
-         "name" : "TIMEOUT"
+         "name" : "Timeout"
       },
       "title" : {
          "http" : {
@@ -5563,11 +5674,8 @@
          "spec" : "RFC2660",
          "start_line" : 1
       },
-      "TLS" : {
-         "iana" : 1,
-         "need_version" : 1
-      },
       "TLS/1.0" : {
+         "iana" : 1,
          "upgrade" : 1
       },
       "WebSocket" : {

@@ -1,0 +1,328 @@
+* activelock
+
+spec http://tools.ietf.org/html/rfc4918#section-14.1
+cm (lockscope, locktype, depth, owner?, timeout?, locktoken?, lockroot)
+
+* allprop
+
+spec http://tools.ietf.org/html/rfc4918#section-14.2
+cm EMPTY
+
+* collection
+
+spec http://tools.ietf.org/html/rfc4918#section-14.3
+cm EMPTY
+resource type
+
+* depth
+
+spec http://tools.ietf.org/html/rfc4918#section-14.4
+cm (#PCDATA)
+value depth
+
+* error
+
+spec http://tools.ietf.org/html/rfc4918#section-14.5
+content error conditions
+response root
+
+* exclusive
+
+spec http://tools.ietf.org/html/rfc4918#section-14.6
+cm EMPTY
+
+* href
+
+spec http://tools.ietf.org/html/rfc4918#section-14.7
+value Simple-ref
+
+* include
+
+spec http://tools.ietf.org/html/rfc4918#section-14.8
+content properties
+
+* location
+
+spec http://tools.ietf.org/html/rfc4918#section-14.9
+cm (href)
+
+* lockentry
+
+spec http://tools.ietf.org/html/rfc4918#section-14.10
+cm (lockscope, locktype)
+
+* lockinfo
+
+spec http://tools.ietf.org/html/rfc4918#section-14.11
+cm (lockscope, locktype, owner?)
+request PROPFIND root
+
+* lockroot
+
+spec http://tools.ietf.org/html/rfc4918#section-14.12
+cm (href)
+
+* lockscope
+
+spec http://tools.ietf.org/html/rfc4918#section-14.13
+cm (exclusive | shared)
+
+* locktoken
+
+spec http://tools.ietf.org/html/rfc4918#section-14.14
+cm (href)
+
+* locktype
+
+spec http://tools.ietf.org/html/rfc4918#section-14.15
+cm (write)
+
+* multistatus
+
+spec http://tools.ietf.org/html/rfc4918#section-14.16
+cm (response*, responsedescription?)
+response 207 root
+
+* owner
+
+spec http://tools.ietf.org/html/rfc4918#section-14.17
+content property value
+
+* prop
+
+spec http://tools.ietf.org/html/rfc4918#section-14.18
+content properties
+response PROPFIND root
+
+* propertyupdate
+
+spec http://tools.ietf.org/html/rfc4918#section-14.19
+cm (remove | set)+
+request PROPPATCH root
+
+* propfind
+
+spec http://tools.ietf.org/html/rfc4918#section-14.20
+cm ( propname | (allprop, include?) | prop )
+request PROPFIND root
+
+* propname
+
+spec http://tools.ietf.org/html/rfc4918#section-14.21
+cm EMPTY
+
+* propstat
+
+spec http://tools.ietf.org/html/rfc4918#section-14.22
+cm (prop, status, error?, responsedescription?)
+
+* remove
+
+spec http://tools.ietf.org/html/rfc4918#section-14.23
+cm (prop)
+
+* response
+
+spec http://tools.ietf.org/html/rfc4918#section-14.24
+cm (href, ((href*, status)|(propstat+)), error?, responsedescription? , location?)
+
+* responsedescription
+
+spec http://tools.ietf.org/html/rfc4918#section-14.25
+content text
+
+* set
+
+spec http://tools.ietf.org/html/rfc4918#section-14.26
+cm (prop)
+
+* shared
+
+spec http://tools.ietf.org/html/rfc4918#section-14.27
+cm EMPTY
+
+* status
+
+spec http://tools.ietf.org/html/rfc4918#section-14.28
+value status-line
+
+* timeout
+
+spec http://tools.ietf.org/html/rfc4918#section-14.29
+value HTTP timeout
+
+* write
+
+spec http://tools.ietf.org/html/rfc4918#section-14.30
+cm EMPTY
+
+* creationdate
+
+spec http://tools.ietf.org/html/rfc4918#section-15.1
+value HTTP-date
+prop
+protect MAY
+COPY SHOULD preserve
+MOVE SHOULD NOT preserve
+
+* displayname
+
+spec http://tools.ietf.org/html/rfc4918#section-15.2
+value text
+prop
+protect SHOULD NOT
+COPY SHOULD preserve
+MOVE SHOULD preserve
+
+* getcontentlanguage
+
+spec http://tools.ietf.org/html/rfc4918#section-15.3
+header Content-Language
+COPY/MOVE SHOULD preserve
+protect SHOULD NOT
+prop
+
+* getcontentlength
+
+spec http://tools.ietf.org/html/rfc4918#section-15.4
+header Content-Length
+COPY/MOVE does not preserve
+computed
+prop
+
+* getcontenttype
+
+spec http://tools.ietf.org/html/rfc4918#section-15.5
+header Content-Type
+COPY/MOVE SHOULD preserve
+protect MAY
+prop
+
+* getetag
+
+spec http://tools.ietf.org/html/rfc4918#section-15.6
+header ETag
+COPY/MOVE does not preserve
+protect MUST
+prop
+
+* getlastmodified
+
+spec http://tools.ietf.org/html/rfc4918#section-15.7
+header Last-Modified
+COPY/MOVE does not preserve
+protect SHOULD
+prop
+
+* lockdiscovery
+
+spec http://tools.ietf.org/html/rfc4918#section-15.8
+protect MUST
+COPY/MOVE does not preserve
+cm (activelock)*
+prop
+
+* resourcetype
+
+spec http://tools.ietf.org/html/rfc4918#section-15.9
+protect SHOULD
+COPY/MOVE generally preserve
+content resource types
+prop
+
+* supportedlock
+
+spec http://tools.ietf.org/html/rfc4918#section-15.10
+protect MUST
+COPY/MOVE does not preserve
+cm (lockentry)*
+prop
+
+* lock-token-matches-request-uri
+
+spec http://tools.ietf.org/html/rfc4918#page-99
+409
+precondition
+
+* lock-token-submitted
+
+spec http://tools.ietf.org/html/rfc4918#page-100
+423
+precondition
+cm (href+)
+
+* no-conflicting-lock
+
+spec http://tools.ietf.org/html/rfc4918#page-100
+423 typically
+precondition
+cm (href)*
+
+* no-external-entities
+
+spec http://tools.ietf.org/html/rfc4918#page-100
+403
+precondition
+
+* preserved-live-properties
+
+spec http://tools.ietf.org/html/rfc4918#page-100
+409
+postcondition
+
+* propfind-finite-depth
+
+spec http://tools.ietf.org/html/rfc4918#page-101
+403
+precondition
+
+* cannot-modify-protected-property
+
+spec http://tools.ietf.org/html/rfc4918#page-101
+403
+precondition
+
+* link
+
+spec http://tools.ietf.org/html/rfc2518#section-12.4
+cm (src+, dst+)
+obsolete
+
+* dst
+
+spec http://tools.ietf.org/html/rfc2518#section-12.4.1
+value URL
+obsolete
+
+* src
+
+spec http://tools.ietf.org/html/rfc2518#section-12.4.2
+value URL
+obsolete
+
+* propertybehavior
+
+spec http://tools.ietf.org/html/rfc2518#section-12.12
+cm (omit | keepalive)
+obsolete
+request COPY root
+request MOVE root
+
+* keepalive
+
+spec http://tools.ietf.org/html/rfc2518#section-12.12.1
+cm ("*" | href+)
+obsolete
+
+* omit
+
+spec http://tools.ietf.org/html/rfc2518#section-12.12.2
+cm EMPTY
+obsolete
+
+* source
+
+spec http://tools.ietf.org/html/rfc2518#section-13.10
+cm (link)*
+obsolete
+prop

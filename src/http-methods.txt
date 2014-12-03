@@ -15,16 +15,19 @@ ims
 
 spec https://tools.ietf.org/html/rfc7231#section-4.3.3
 request-body MAY
+write-lock
 
 * PUT
 
 spec https://tools.ietf.org/html/rfc7231#section-4.3.4
 request-body MAY
+write-lock
 
 * DELETE
 
 spec https://tools.ietf.org/html/rfc7231#section-4.3.5
 request-body undefined
+write-lock
 
 * CONNECT
 
@@ -67,3 +70,48 @@ request-body undefined
 
 spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=98
 request-body undefined
+
+* PROPFIND
+
+spec http://tools.ietf.org/html/rfc4918#section-9.1
+request-body MAY
+safe
+idempotent
+cacheable
+
+* PROPPATCH
+
+spec http://tools.ietf.org/html/rfc4918#section-9.2
+request-body MUST
+idempotent
+write-lock
+
+* MKCOL
+
+spec http://tools.ietf.org/html/rfc4918#section-9.3
+request-body MAY
+idempotent
+write-lock
+
+* COPY
+
+spec http://tools.ietf.org/html/rfc4918#section-9.8
+idempotent
+write-lock
+
+* MOVE
+
+spec http://tools.ietf.org/html/rfc4918#section-9.9
+idempotent
+write-lock
+
+* LOCK
+
+spec http://tools.ietf.org/html/rfc4918#section-9.10
+request-body MAY
+write-lock
+
+* UNLOCK
+
+spec http://tools.ietf.org/html/rfc4918#section-9.11
+write-lock
