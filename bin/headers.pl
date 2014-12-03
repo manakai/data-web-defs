@@ -9,12 +9,73 @@ my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parame
 my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http-protocols.json')->slurp;
 my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-auth-schemes.json')->slurp;
 my $IANAIMData = json_bytes2perl $src_path->parent->child ('local/iana/http-ims.json')->slurp;
+my $IANASIPData = json_bytes2perl $src_path->parent->child ('local/iana/sip.json')->slurp;
+
+{
+  my $json = json_bytes2perl $src_path->parent->child ('local/iana/headers.json')->slurp;
+  for my $record (
+    @{$json->{registries}->{'perm-headers'}->{records}},
+    @{$json->{registries}->{'prov-headers'}->{records}},
+  ) {
+    my $name = $record->{value};
+    my $key = lc $name;
+    $Data->{headers}->{$key}->{name} ||= $name;
+    my $proto = lc $record->{protocol};
+    next if $proto eq 'none';
+    $Data->{headers}->{$key}->{$proto}->{iana} = 1;
+    if (defined $record->{status}) {
+      if ($record->{status} eq 'deprecated') {
+        $Data->{headers}->{$key}->{$proto}->{deprecated} = 1;
+      } elsif ($record->{status} eq 'obsoleted') {
+        $Data->{headers}->{$key}->{$proto}->{obsolete} = 1;
+      } elsif ($record->{status} eq 'standard') {
+        #
+      } elsif ($record->{status} eq 'informational') {
+        #
+      } elsif ($record->{status} eq 'reserved') {
+        #
+      } else {
+        warn "Unknown status: $record->{status}";
+      }
+    }
+  }
+}
+
+{
+  my $json = json_bytes2perl $src_path->parent->child ('local/iana/rtsp.json')->slurp;
+  for my $record (
+    @{$json->{registries}->{'rtsp-parameters-2'}->{records}},
+  ) {
+    my $name = $record->{name};
+    my $key = lc $name;
+    $Data->{headers}->{$key}->{name} ||= $name;
+    $Data->{headers}->{$key}->{rtsp}->{iana} = 1;
+  }
+}
+
+{
+  for my $record (@{$IANASIPData->{registries}->{'sip-parameters-2'}->{records}}) {
+    my $name = $record->{value};
+    my $deprecated = $name =~ s/\s*\(Deprecated\)\s*$//;
+    my $key = lc $name;
+    $Data->{headers}->{$key}->{name} ||= $name;
+    $Data->{headers}->{$key}->{sip}->{iana} = 1;
+    $Data->{headers}->{$key}->{sip}->{deprecated} = 1 if $deprecated;
+    if (defined $record->{compact}) {
+      my $name = $record->{compact};
+      my $key = lc $name;
+      $Data->{headers}->{$key}->{name} ||= $name;
+      $Data->{headers}->{$key}->{sip}->{iana} = 1;
+      $Data->{headers}->{$key}->{sip}->{deprecated} = 1 if $deprecated;
+    }
+  }
+}
 
 for (
-  ['http-headers.txt', 'http'],
   ['icap-headers.txt', 'icap'],
   ['shttp-headers.txt', 's-http'],
   ['ssdp-headers.txt', 'ssdp'],
+  ['http-headers.txt', 'http'],
 ) {
   my $header_name;
   my ($file_name, $proto) = @$_;
@@ -25,7 +86,7 @@ for (
       my $name = $1;
       $name =~ s/:$//;
       $header_name = lc $name;
-      $Data->{headers}->{$header_name}->{name} ||= $name;
+      $Data->{headers}->{$header_name}->{name} = $name;
       next;
     } elsif (/\S/) {
       die "Header not defined at first line" unless defined $header_name;
