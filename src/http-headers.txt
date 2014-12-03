@@ -843,6 +843,70 @@ trailer
 spec https://tools.ietf.org/html/rfc4236#section-5
 request
 
+* DAV
+
+spec http://tools.ietf.org/html/rfc4918#section-10.1
+value 1#
+request
+x SHOULD NOT
+response
+
+* Depth
+
+spec http://tools.ietf.org/html/rfc4918#section-10.2
+value depth
+request
+request PROPFIND MUST
+request COPY MAY
+request MOVE MAY
+request LOCK MAY
+
+* Destination
+
+spec http://tools.ietf.org/html/rfc4918#section-10.3
+value ASCII URL
+request COPY MUST
+request MOVE MUST
+
+* If
+
+spec http://tools.ietf.org/html/rfc4918#section-10.4
+request * MAY
+conditional
+
+* Lock-Token
+
+spec http://tools.ietf.org/html/rfc4918#section-10.5
+request UNLOCK MUST
+response
+
+* Overwrite
+
+spec http://tools.ietf.org/html/rfc4918#section-10.6
+request * MAY
+conditional
+
+* Timeout
+
+spec http://tools.ietf.org/html/rfc4918#section-10.7
+#spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
+value 1#HTTP timeout
+request * MUST NOT
+request LOCK MAY
+request SUBSCRIBE MAY
+200 MAY
+
+* Status-URI
+
+spec http://tools.ietf.org/html/rfc2518#section-9.7
+response
+102 MAY
+
+* Time-Out
+
+spec http://tools.ietf.org/html/rfc4918#section-18
+response
+
 * Origin
 
 ## <http://trac.webkit.org/wiki/Fingerprinting#RefererHeader>
@@ -883,11 +947,6 @@ request
 
 spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
 value ASCII absolute URL
-request
-
-* TIMEOUT
-
-spec http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=94
 request
 
 * CALLBACK
