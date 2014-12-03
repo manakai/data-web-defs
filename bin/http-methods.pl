@@ -111,7 +111,7 @@ for (
       my $key = $1;
       $key =~ s/-/_/g;
       $Methods->{$method_name}->{$key} = 1;
-    } elsif (m{^(required|ims|range|not-for-representation|write-lock|safe|idempotent|cacheable)\s*$}) {
+    } elsif (m{^(required|ims|range|not-for-representation|write-lock|safe|idempotent|cacheable|obsolete)\s*$}) {
       my $key = $1;
       $key =~ s/-/_/g;
       $Methods->{$method_name}->{$proto}->{$key} = 1;

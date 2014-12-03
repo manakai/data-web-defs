@@ -498,7 +498,7 @@ sub add_data ($) {
       } else {
         $v->{url} = $url;
       }
-    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date|)\s*$/) {
+    } elsif (/^(?:(request|response)\s+|)value\s+(#|1#|)(delta-seconds|field-name|absolute URL|non-negative integer|integer|HTTP node|HTTP-date|ASCII URL|text|)\s*$/) {
       my ($type, $n, $value_type) = ($1, $2, $3);
       my $v = $Data->{$x->{key}}->{$name} ||= {};
       $v = $v->{$type} ||= {} if defined $type;
@@ -593,6 +593,8 @@ add_data +{key => 'tcn_directives',
            src_file_name => 'http-tcn-directives.txt'};
 add_data +{key => 'extension_declarations',
            src_file_name => 'http-ext-decls.txt'};
+add_data +{key => 'p3p_directives',
+           src_file_name => 'http-p3p.txt'};
 
 print perl2json_bytes_for_record $Data;
 
