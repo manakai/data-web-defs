@@ -37,8 +37,8 @@ for (@{(parse 'sw-http-statuses.xml')->query_selector_all
 }
 
 for ((map { [$_, 'HTTP'] } @{(parse 'iana-http-statuses.xml')->query_selector_all ('record')}),
-     (map { [$_, 'RTSP'] } @{(parse 'iana-rtsp.xml')->query_selector_all ('registry[id="rtsp-parameters-3"] record')}),
-     (map { [$_, 'SIP'] } @{(parse 'iana-sip.xml')->query_selector_all ('registry[id="sip-parameters-7"] record')})) {
+     (map { [$_, 'RTSP'] } @{(parse 'iana/rtsp.xml')->query_selector_all ('registry[id="rtsp-parameters-3"] record')}),
+     (map { [$_, 'SIP'] } @{(parse 'iana/sip.xml')->query_selector_all ('registry[id="sip-parameters-7"] record')})) {
   my ($el, $proto) = @$_;
   my $code = ($el->query_selector ('value') or next)->text_content;
   next unless $code =~ /\A[0-9]+\z/;

@@ -46,8 +46,8 @@ for (@{(parse 'sw-http-methods.xml')->query_selector_all
   }
 }
 
-for ((map { [$_, 'RTSP'] } @{(parse 'iana-rtsp.xml')->query_selector_all ('registry[id="rtsp-parameters-1"] record')}),
-     (map { [$_, 'SIP'] } @{(parse 'iana-sip.xml')->query_selector_all ('registry[id="sip-parameters-6"] record')})) {
+for ((map { [$_, 'RTSP'] } @{(parse 'iana/rtsp.xml')->query_selector_all ('registry[id="rtsp-parameters-1"] record')}),
+     (map { [$_, 'SIP'] } @{(parse 'iana/sip.xml')->query_selector_all ('registry[id="sip-parameters-6"] record')})) {
   my ($el, $proto) = @$_;
   my $method = ($el->query_selector ('value') or next)->text_content;
   next unless $method =~ /\A[0-9A-Za-z_-]+\z/;
