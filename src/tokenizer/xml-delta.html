@@ -5,14 +5,10 @@
 
 <dl class=switch>
 
-<dt>U+005D (])
+<!-- Not in XML5 -->
+<dt>U+005D RIGHT SQUARE BRACKET (])
 <dd>
   <p>Switch to the <span>in msc state</span>.
-  <p>Emit the <span>current input character</span> as
-  a <span>character token</span>.
-
-<dt>Anything else
-<dd>
   <p>Emit the <span>current input character</span> as
   a <span>character token</span>.
 
@@ -22,7 +18,7 @@
 
 <dl class=switch>
 
-<dt>U+005B ([)
+<dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
   <p>Switch to the <span>DOCTYPE internal subset state</span>.
   <p>Set the <i>has internal subset</i> flag of the current token.
@@ -41,5 +37,37 @@
   <p>Set the <i>has internal subset</i> flag of the current token.
   <p>Set the <i>DOCTYPE mode</i> of the parser to <i>internal subset</i>.
   <p>Emit the current <!--DOCTYPE -->token.
+
+</dl>
+
+<h1><span>After DOCTYPE name state</span></h1>
+
+<dl class=switch>
+
+<dt>Anything else
+<dd>
+  <p>If the six characters starting from the <span>current input
+  character</span> are a <span>case-sensitive</span> match for the
+  word "PUBLIC", then consume those characters and switch to
+  the <span>after DOCTYPE public keyword state</span>.
+  <p>If the six characters starting from the <span>current input
+  character</span> are an <span>ASCII case-insensitive</span> match
+  for the word "PUBLIC", then this is a <span>parse error</span>;
+  consume those characters and switch to the <span>after DOCTYPE
+  public keyword state</span>.
+
+  <p>Otherwise, if the six characters starting from the <span>current
+  input character</span> are a <span>case-sensitive</span> match for the
+  word "SYSTEM", then consume those characters and switch to
+  the <span>after DOCTYPE system keyword state</span>.
+  <p>Otherwise, if the six characters starting from the <span>current
+  input character</span> are an <span>ASCII case-insensitive</span>
+  match for the word "SYSTEM", then this is a <span>parse
+  error</span>; consume those characters and switch to the <span>after
+  DOCTYPE system keyword state</span>.
+
+  <p>Otherwise, this is a <span>parse error</span>. Set the DOCTYPE token's
+  <i>force-quirks</i> flag to <i>on</i>. Switch to the <span>bogus
+  DOCTYPE state</span>.
 
 </dl>

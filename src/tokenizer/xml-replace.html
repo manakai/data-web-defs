@@ -104,3 +104,77 @@
   in XML5-->.
 
 </dl>
+
+<h1><span>Markup declaration open state</span></h1>
+<!-- Markup declaration state in XML5 -->
+
+<p>If the next two characters are both U+002D HYPHEN-MINUS characters
+(-), consume those two characters, create a <span>comment token</span>
+whose <i>data</i> is the empty string, and switch to the <span>comment
+start state</span>.
+
+<p>Otherwise, if the next seven characters are
+a <span>case-sensitive</span> match for the string "DOCTYPE", then
+consume those characters and switch to the <span>DOCTYPE state</span>.
+
+<p>Otherwise, if the next seven characters are an <span>ASCII
+case-insensitive</span> match for the word "DOCTYPE", then this is a
+parse error; consume those characters and switch to the <span>DOCTYPE
+state</span>.
+
+<p>Otherwise, if the next seven characters are a
+<span>case-sensitive</span> match for the string "[CDATA[" (the five
+uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character
+before and after), then consume those characters and switch to the
+<span>CDATA section state</span>.
+
+<p>Otherwise, this is a <span>parse error</span>. Switch to
+the <span>bogus comment state</span>. The next character that is
+consumed, if any, is the first character that will be in the comment.
+
+<h1><span>DOCTYPE name state</span></h1>
+<!-- DOCTYPE root name state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Switch to the <span>after DOCTYPE name state</span>.
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current <!--DOCTYPE--> token.<!-- Not in XML5 -->
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p>Switch to the <span>DOCTYPE internal subset state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <i>DOCTYPE mode</i> of the parser to <i>internal subset</i>.
+  <p>Emit the current <!--DOCTYPE -->token.<!-- Not in XML5 -->
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Set the DOCTYPE token's <i>force-quirks</i> flag to <i>on</i>.
+  <p>Emit the current <!--DOCTYPE--> token.
+  <p>Reconsume the <span>current input character</span>.
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to the current
+  token's <i>name</i>.<!-- Not in XML5 -->
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>name</i>.<!-- Not in XML5 -->
+
+</dl>

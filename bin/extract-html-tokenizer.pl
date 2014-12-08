@@ -71,6 +71,7 @@ sub parse_action ($) {
                      state => $2,
                      script_state => $1};
     } elsif ($action =~ s/^Emit the token\.\s*// or
+             $action =~ s/^Emit the current token\.\s*// or
              $action =~ s/^Emit (?:the current|that|the) (?:tag|DOCTYPE|comment) token(?:\.\s*| and then )// or
              $action =~ s/^Emit the current token and then //) { # xml5
       push @action, {type => 'emit'};
@@ -117,7 +118,7 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Append a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+ character \([^()]+\)|\([^()]+\)),?(?: and|) ([^.]+ to the comment token's data\.)\s*/Append $2/) {
                 push @action, {type => 'append', field => 'data',
                                value => chr hex $1};
-              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|data|target)\.\s*//) {
+              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|name|data|target)\.\s*//) {
                 push @action, {type => 'append', field => $2,
                                value => chr hex $1};
               } elsif ($action =~ s/^Append the (?:current |)input character to the current attribute's (name|value)(?:\.\s*| and then )//) {
@@ -173,8 +174,10 @@ sub parse_action ($) {
                 push @action, {type => 'set-empty-to-attr', field => 'value'};
               } elsif ($action =~ s/^Append an entity\.\s*//) { # xml5
                 push @action, {type => 'append-entity'};
-              } elsif ($action =~ s/^Set the self-closing flag of the current tag token\.\s*//) {
-                push @action, {type => 'set-flag', field => 'self-closing flag'};
+              } elsif ($action =~ s/^Set the (.+? flag) of the current (?:tag |)token\.\s*//) {
+                push @action, {type => 'set-flag', field => $1};
+              } elsif ($action =~ s/^Set the DOCTYPE mode of the parser to (.+?)\.\s*//) {
+                push @action, {type => 'set-DOCTYPE-mode', value => $1};
               } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) force-quirks flag to on\.\s*//) {
                 push @action, {type => 'set-flag', field => 'force-quirks flag'};
               } elsif ($action =~ s/^Set the entity flag to "([^"]+)"\.\s*//) { # xml5
@@ -187,18 +190,18 @@ sub parse_action ($) {
                 push @action, {type => 'switch-and-emit', state => $1,
                                if => 'appropriate end tag',
                                break => 1};
-              } elsif ($action =~ s/^If the six characters starting from the current input character are an ASCII case-insensitive match for the word "PUBLIC", then consume those characters and switch to the after DOCTYPE public keyword state\.\s*//) {
+              } elsif ($action =~ s/^If the six characters starting from the current input character are an? (ASCII case-insensitive|case-sensitive) match for the word "PUBLIC", then (this is a parse error; |)consume those characters and switch to the after DOCTYPE public keyword state\.\s*//) {
                 push @action, {type => 'IF-KEYWORD',
                                keyword => 'PUBLIC',
-                               case_insensitive => 1,
+                               case_insensitive => ($1 eq 'ASCII case-insensitive' ? ($2 ? 'error' : 1) : 0),
                                value => [
                                  {type => 'switch',
                                   'state' => 'after DOCTYPE public keyword state'},
                                ]};
-              } elsif ($action =~ s/Otherwise, if the six characters starting from the current input character are an ASCII case-insensitive match for the word "SYSTEM", then consume those characters and switch to the after DOCTYPE system keyword state\.\s*//) {
+              } elsif ($action =~ s/Otherwise, if the six characters starting from the current input character are an? (ASCII case-insensitive|case-sensitive) match for the word "SYSTEM", then (this is a parse error; |)consume those characters and switch to the after DOCTYPE system keyword state\.\s*//) {
                 push @action, {type => 'IF-KEYWORD',
                                keyword => 'SYSTEM',
-                               case_insensitive => 1,
+                               case_insensitive => ($1 eq 'ASCII case-insensitive' ? ($2 ? 'error' : 1) : 0),
                                value => [
                                  {type => 'switch',
                                   'state' => 'after DOCTYPE system keyword state'},
@@ -278,6 +281,21 @@ sub parse_action ($) {
            value => [
              {type => 'switch', state => 'DOCTYPE state'},
            ]};
+    } elsif ($action =~ s/^Otherwise, if the next seven characters are a case-sensitive match for the (?:word|string) "DOCTYPE", then consume those characters and switch to the DOCTYPE state\.//) {
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => 'DOCTYPE',
+           value => [
+             {type => 'switch', state => 'DOCTYPE state'},
+           ]};
+    } elsif ($action =~ s/^Otherwise, if the next seven characters are an ASCII case-insensitive match for the word "DOCTYPE", then this is a parse error; consume those characters and switch to the DOCTYPE state\.//) {
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => 'DOCTYPE',
+           case_insensitive => 'error',
+           value => [
+             {type => 'switch', state => 'DOCTYPE state'},
+           ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an exact match for "DOCTYPE", then this is a parse error\. Consume those characters and switch to the DOCTYPE state\.//) { # xml5
       push @action,
           {type => 'IF-KEYWORD',
@@ -302,12 +320,12 @@ sub parse_action ($) {
               if => 'in-foreign', break => 1},
              {type => 'SAME-AS-ELSE'},
            ]};
-    } elsif ($action =~ s/^Otherwise, if the next seven characters are an exact match for "\[CDATA\[", then consume those characters and switch to the CDATA state\.//) {
+    } elsif ($action =~ s/^Otherwise, if the next seven characters are an? (?:exact|case-sensitive) match for the (?:string |word |)"\[CDATA\["(?: \([^()]+\)|), then consume those characters and switch to the (.+? state)\.//) {
       push @action,
           {type => 'IF-KEYWORD',
            keyword => '[CDATA[',
            value => [
-             {type => 'switch', state => 'CDATA state'},
+             {type => 'switch', state => $1},
            ]};
     } elsif ($action =~ s/^Otherwise, switch to the DOCTYPE bogus comment state\.//) {
       push @action, {type => 'switch', state => 'DOCTYPE bogus comment state'};
@@ -629,16 +647,25 @@ sub modify_actions (&) {
         my $cs = '';
         my $save = {type => 'append-to-temp'};
         my $suffix = defined $act->{if} ? ':' . $act->{if} : '';
+        my $kwd = $act->{keyword};
         while (length $act->{keyword}) {
           my $c = substr $act->{keyword}, 0, 1;
           $cs .= $c;
           $new_state .= $c;
           (substr $act->{keyword}, 0, 1) = '';
-          if (0 == length $act->{keyword}) {
+          if (0 == length $act->{keyword}) { ## Last character
             $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = $act->{value};
             if ($act->{case_insensitive}) {
-              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
-              $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = $act->{value};
+              if ($act->{case_insensitive} eq 'error') {
+                my $chk = {if => 'temp-wrong-case', type => 'parse error',
+                           name => 'keyword-wrong-case',
+                           expected_keyword => $kwd};
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$chk, @{$act->{value}}];
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [$chk, @{$act->{value}}];
+              } else {
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = $act->{value};
+              }
             }
           } else {
             if ($old_state eq $state) {
