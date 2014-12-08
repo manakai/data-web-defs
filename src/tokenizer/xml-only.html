@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<title>XML tokenizer</title>
+
+<p>A <span>DOCTYPE token</span> has a <i>has internal subset</i> flag,
+which is initially unset.
+
+<p>An <span>XML parser</span> has a <i>DOCTYPE mode</i>, whose initial
+value is <i>N/A</i>.  Its value can be one of <i>N/A</i>
+or <i>internal subset</i>.
+
+<h1><dfn>PI state</dfn></h1>
+<!-- pi state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dt>U+003F QUESTION MARK (?)<!-- Not in XML5 -->
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>bogus comment state</span> with <i>initial
+  data</i> "?".
+  <p>Reconsume the <span>current input character</span>.
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Create a new <span>processing instruction token</span>.
+  <p>Set its <i>target</i> to a U+FFFD REPLACEMENT CHARACTER character.
+  <p>Set its <i>data</i> to the empty string.
+  <p>Switch to the <span>PI target state</span>.
+
+<dt>Anything else
+<dd>
+  <p>Create a new <span>processing instruction token</span>.
+  <p>Set its <i>target</i> to the <span>current input character</span>.
+  <p>Set its <i>data</i> to the empty string.
+  <p>Switch to the <span>PI target state</span>.
+
+</dl>
+
+<h1><dfn>PI target state</dfn></h1>
+<!-- pi target state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Switch to the <span>after PI target state</span>.
+  <p>Set the <span>current input character</span> to
+  the <span>temporary buffer</span>.<!-- Not in XML5 --><!-- XXX ??? -->
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Switch to the <span>PI target question state<!-- pi after state
+  in XML5 --></span>.
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to the current
+  token's <i>target</i>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>target<!-- tag name in XML5 --></i>.
+
+</dl>
+
+<h1><dfn>after PI target state</dfn></h1>
+<!-- pi target after state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.<!-- Not in XML5 --><!-- XXX ??? -->
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>PI data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>PI data state</dfn></h1>
+<!-- pi data state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Switch to the <span>in pic state</span>.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to the current
+  token's <i>data</i>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>data</i>.
+
+</dl>
+
+<h1><dfn>PI target question state</dfn></h1>
+<!--Not in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current token.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p>Set a U+003F QUESTION MARK (?) character to the current
+  token's <i>data</i>.
+  <p>Switch to the <span>PI data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>in pic state</dfn></h1>
+<!-- pi after state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current token.
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Append a U+003F QUESTION MARK character to the current
+  token's <i>data</i>.
+
+<dt>Anything else
+<dd>
+  <p>Append a U+003F QUESTION MARK character to the current
+  token's <i>data</i>.<!-- Not in XML5 -->
+  <p>Switch to the <span>PI data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+
+XXX
+
+<h1><dfn>DOCTYPE NOTATION state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009
+<!--<dt>U+000C-->
+<dt>U+000A
+<dt>U+0020
+<dd>
+  <p>Switch to the <span>before DOCTYPE NOTATION name state</span>.
+
+</dl>
+
+<h1><dfn>in msc state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+005D (])
+<dd>
+  <p>Switch to the <span>after msc state</span>.
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>after msc state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E (>)
+<dd>
+  <p><span>Parse error</span>.<!-- Not a parse error in XML5. -->
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>U+005D (])
+<dd>
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>before DOCTYPE NOTATION name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009
+<dt>U+000A
+<dt>U+000C
+<dt>U+0020
+<dd>
+  <p>Ignore the character.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DOCTYPE internal subset state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p>Create a new <span>NOTATION token</span>.
+  <p>Set the token's <i>name</i> to the <span>current input
+  character</span>.
+  <p>Switch to the <span>DOCTYPE NOTATION name state</span>.
+
+</dl>
+
+<h1><dfn>DOCTYPE NOTATION name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009
+<dt>U+000A
+<dt>U+000C
+<dt>U+0020
+<dd>
+  <p>Switch to the <span>after DOCTYPE NOTATION name state</span>.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DOCTYPE internal subset state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>name</i>.
+
+</dl>
+
+<h1><dfn>After DOCTYPE NOTATION name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009
+<dt>U+000A
+<dt>U+000C
+<dt>U+0020
+<dd>
+  <p>Ignore the character.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DOCTYPE internal subset state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>DOCTYPE NOTATION identifier state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>

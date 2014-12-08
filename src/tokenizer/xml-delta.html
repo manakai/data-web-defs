@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<title>XML tokenizer</title>
+
+<h1><span>Data state</span></h1>
+
+<dl class=switch>
+
+<dt>U+005D (])
+<dd>
+  <p>Switch to the <span>in msc state</span>.
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>Anything else
+<dd>
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+</dl>
+
+<h1><span>After DOCTYPE system identifier state</span></h1>
+
+<dl class=switch>
+
+<dt>U+005B ([)
+<dd>
+  <p>Switch to the <span>DOCTYPE internal subset state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <i>DOCTYPE mode</i> of the parser to <i>internal subset</i>.
+  <p>Emit the current <!--DOCTYPE -->token.
+
+</dl>
+
+<h1><span>Bogus DOCTYPE state</span></h1>
+
+<dl class=switch>
+
+<dt>U+005B ([)
+<dd>
+  <p>Switch to the <span>DOCTYPE internal subset state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <i>DOCTYPE mode</i> of the parser to <i>internal subset</i>.
+  <p>Emit the current <!--DOCTYPE -->token.
+
+</dl>

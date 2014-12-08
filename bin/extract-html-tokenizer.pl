@@ -52,6 +52,8 @@ sub parse_action ($) {
       push @action, {type => 'parse error'};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
+    } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state) with initial data "([^"]+)"(?:\.\s*|\s*$)//) {
+      push @action, {type => 'switch', state => $1, INITIAL_DATA => $2};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0022 QUOTATION MARK (").\E//) {
       push @action,
           {type => 'set-to-temp', value => '&'},
@@ -78,7 +80,7 @@ sub parse_action ($) {
                 push @action, {type => 'emit', token => 'short end tag token'};
               } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token\.\s*//) {
                 push @action, {type => 'emit-char'};
-              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|\([^()]+\)) character(?: token|)\.\s*//) {
+              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|)\.\s*//) {
                 push @action, {type => 'emit-char', value => chr hex $1};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|\([^()]+\)) character token,?(?: and|) (a|the) /Emit $2 /) {
                 push @action, {type => 'emit-char', value => chr hex $1};
@@ -95,7 +97,7 @@ sub parse_action ($) {
               } elsif ($action =~ s/^[Rr](?:eprocess|econsume) the (?:current |)input character in the ([A-Za-z0-9 ._()-]+ state)\.\s*//) { # xml5
                 push @action, {type => 'switch', state => $1};
                 push @action, {type => 'reconsume'};
-              } elsif ($action =~ s/^Append the current input character to the (?:current |)(?:tag|DOCTYPE|comment) token's (tag name|name|public identifier|system identifier|data)\.\s*//) {
+              } elsif ($action =~ s/^Append the current input character to the (?:current |)(?:tag |DOCTYPE |comment |)token's (tag name|name|public identifier|system identifier|data|target)\.\s*//) {
                 push @action, {type => 'append', field => $1};
               } elsif ($action =~ s/^Append the current (?:input |)character to the tag name and //) { # xml5
                 push @action, {type => 'append', field => 'tag name'};
@@ -115,7 +117,7 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Append a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+ character \([^()]+\)|\([^()]+\)),?(?: and|) ([^.]+ to the comment token's data\.)\s*/Append $2/) {
                 push @action, {type => 'append', field => 'data',
                                value => chr hex $1};
-              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|comment) token's (tag name|data)\.\s*//) {
+              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|data|target)\.\s*//) {
                 push @action, {type => 'append', field => $2,
                                value => chr hex $1};
               } elsif ($action =~ s/^Append the (?:current |)input character to the current attribute's (name|value)(?:\.\s*| and then )//) {
@@ -136,7 +138,9 @@ sub parse_action ($) {
                 push @action, {type => 'set-empty-to-temp'};
               } elsif ($action =~ s/^Set a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the temporary buffer\.//) {
                 push @action, {type => 'set-to-temp', value => chr hex $1};
-              } elsif ($action =~ s/^Create (?:a new|an) ((?:start tag|end tag|tag|DOCTYPE|processing instruction) token)(?:\.\s*|,? and |, )//) {
+              } elsif ($action =~ s/^Set the current input character to the temporary buffer\.//) {
+                push @action, {type => 'set-to-temp'};
+              } elsif ($action =~ s/^Create (?:a new|an) ((?:start tag|end tag|tag|DOCTYPE|processing instruction|ENTITY|NOTATION|parameter entity|ATTLIST|ELEMENT) token)(?:\.\s*|,? and |, )//) {
                 push @action, {type => 'create', token => $1};
               } elsif ($action =~ s/^Create an entity token with the name set to the current input character and the value set to the empty string\.\s*//) { # xml5
                 push @action, {type => 'create', token => 'entity token'};
@@ -144,17 +148,17 @@ sub parse_action ($) {
                 push @action, {type => 'set-empty', field => 'value'};
               } elsif ($action =~ s/^Start a new attribute in the current tag token\.\s*//) {
                 push @action, {type => 'create-attr'};
-              } elsif ($action =~ s/^[Ss]et (?:its|the token's) (tag name|name) to the (?:current |)input character(?:\.\s*|, then )//) {
+              } elsif ($action =~ s/^[Ss]et (?:its|the token's) (tag name|name|target|data) to the (?:current |)input character(?:\.\s*|, then )//) {
                 push @action, {type => 'set', field => $1};
               } elsif ($action =~ s/^Set target to the current input character and data to the empty string\.\s*//) { # xml5
                 push @action, {type => 'set', field => 'target'};
                 push @action, {type => 'set-empty', field => 'data'};
               } elsif ($action =~ s/^[Ss]et (?:its|the token's) (tag name|name) to the lowercase version of the current input character \(add 0x0020 to the character's code point\)(?:\.\s*|, then )//) {
                 push @action, {type => 'set', field => $1, offset => 0x0020};
-              } elsif ($action =~ s/^Set the token's (name) to a U\+([0-9A-F]+) [A-Z0-9 _-]+ character\.\s*//) {
+              } elsif ($action =~ s/^Set (?:the token's|its) (name|tag name|target|data) to a U\+([0-9A-F]+) [A-Z0-9 _-]+ character\.\s*//) {
                 push @action, {type => 'set', field => $1,
                                value => chr hex $2};
-              } elsif ($action =~ s/^Set the DOCTYPE token's (public identifier|system identifier) to the empty string \(not missing\), then //) {
+              } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) (public identifier|system identifier|tag name|name|target|data) to the empty string(?: \(not missing\), then |\.)//) {
                 push @action, {type => 'set-empty', field => $1};
               } elsif ($action =~ s/^Set that attribute's name to the current input character,? and its value to the empty string(?:\.\s*| and then )//) {
                 push @action, {type => 'set-to-attr', field => 'name'};
@@ -389,8 +393,11 @@ sub parse_action ($) {
         push @a, pop @act;
       }
       push @act,
-          {type => 'create', token => 'comment token'},
-          {type => 'set-empty', field => 'data'},
+          (defined $_->{INITIAL_DATA}
+               ? ({type => 'create', token => 'comment token', index_offset => length $_->{INITIAL_DATA}},
+                  {type => 'set', field => 'data', value => delete $_->{INITIAL_DATA}})
+               : ({type => 'create', token => 'comment token'},
+                  {type => 'set-empty', field => 'data'})),
           @a,
           $_,
           {type => 'reconsume'};
