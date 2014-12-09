@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <title>XML tokenizer</title>
 
-<!-- Not in XML5 -->
-<p>A <span>DOCTYPE token</span> has a <i>has internal subset</i> flag,
-which is initially unset.
+<p>A <span>DOCTYPE token</span> has a <i>has internal subset</i> flag
+and an <i>internal subset tainted</i> flag.  They are initially unset.
 
-<!-- Not in XML5 -->
-<p>A <span>DOCTYPE token</span> has an <i>internal subset tainted</i>
-flag, which is initially unset.
-
-<!-- Not in XML5 -->
 <p>An <span>XML parser</span> has a <i>DOCTYPE mode</i>, whose initial
 value is <i>N/A</i>.  Its value can be one of <i>N/A</i>
 or <i>internal subset</i>.
 
-<p>There are following additional token types<!-- not in XML5 -->:
-<dfn>processing instruction token</dfn>, and <dfn>end-of-DOCTYPE
+<p>There are following additional token types:
+<dfn>processing instruction token</dfn>, <dfn>ENTITY
+token</dfn>, <dfn>NOTATION token</dfn>, and <dfn>end-of-DOCTYPE
 token</dfn>.
 
 <p>A <span>processing instruction token</span> has <i>target</i>
 and <i>data</i>.
+
+<p>A <span>ENTITY token</span> has <i>name</i>, <i>public
+identifier</i>, <i>system identifier</i>, <i>notation name</i>,
+and <i>value</i>.  They are initially <i>null</i>.  It also has
+an <i>is parameter entity</i> flag, which is initially unset.
+
+<p>A <span>NOTATION token</span> has <i>name</i>, <i>public
+identifier</i>, and <i>system identifier</i>.  They are
+initially <i>null</i>.
 
 <h1><dfn>PI state</dfn></h1>
 <!-- pi state in XML5 -->
@@ -212,8 +216,8 @@ and <i>data</i>.
 <!-- Not defined in XML5 -->
 <dt>U+0025 PERCENT SIGN (%)
 <dd>
-  <p>Switch to the <span>parameter entity name state - DOCTYPE
-  internal subset state</span>.
+  <p>Set the <span>original state</span> to the current state.
+  <p>Switch to the <span>parameter entity name in DTD state</span>.
 
 <dt>U+005D RIGHT SQUARE BRACKET (])
 <dd>
@@ -371,25 +375,6 @@ the <span>bogus comment state<!-- DOCTYPE bogus comment state in XML5
 --></span>. The next character that is consumed, if any, is the first
 character that will be in the comment.
 
-
-
-XXX
-
-<h1><dfn>DOCTYPE NOTATION state</dfn></h1>
-
-<p>Consume the <span>next input character</span>:
-
-<dl class=switch>
-
-<dt>U+0009
-<!--<dt>U+000C-->
-<dt>U+000A
-<dt>U+0020
-<dd>
-  <p>Switch to the <span>before DOCTYPE NOTATION name state</span>.
-
-</dl>
-
 <h1><dfn>in msc state</dfn></h1>
 
 <p>Consume the <span>next input character</span>:
@@ -430,86 +415,6 @@ XXX
 <dt>Anything else
 <dd>
   <p>Switch to the <span>data state</span>.
-  <p>Reconsume the <span>current input character</span>.
-
-</dl>
-
-<h1><dfn>before DOCTYPE NOTATION name state</dfn></h1>
-
-<p>Consume the <span>next input character</span>:
-
-<dl class=switch>
-
-<dt>U+0009
-<dt>U+000A
-<dt>U+000C
-<dt>U+0020
-<dd>
-  <p>Ignore the character.
-
-<dt>EOF
-<dd>
-  <p><span>Parse error</span>.
-  <p>Switch to the <span>DOCTYPE internal subset state</span>.
-  <p>Reconsume the <span>current input character</span>.
-
-<dt>Anything else
-<dd>
-  <p>Create a new <span>NOTATION token</span>.
-  <p>Set the token's <i>name</i> to the <span>current input
-  character</span>.
-  <p>Switch to the <span>DOCTYPE NOTATION name state</span>.
-
-</dl>
-
-<h1><dfn>DOCTYPE NOTATION name state</dfn></h1>
-
-<p>Consume the <span>next input character</span>:
-
-<dl class=switch>
-
-<dt>U+0009
-<dt>U+000A
-<dt>U+000C
-<dt>U+0020
-<dd>
-  <p>Switch to the <span>after DOCTYPE NOTATION name state</span>.
-
-<dt>EOF
-<dd>
-  <p><span>Parse error</span>.
-  <p>Switch to the <span>DOCTYPE internal subset state</span>.
-  <p>Reconsume the <span>current input character</span>.
-
-<dt>Anything else
-<dd>
-  <p>Append the <span>current input character</span> to the current
-  token's <i>name</i>.
-
-</dl>
-
-<h1><dfn>After DOCTYPE NOTATION name state</dfn></h1>
-
-<p>Consume the <span>next input character</span>:
-
-<dl class=switch>
-
-<dt>U+0009
-<dt>U+000A
-<dt>U+000C
-<dt>U+0020
-<dd>
-  <p>Ignore the character.
-
-<dt>EOF
-<dd>
-  <p><span>Parse error</span>.
-  <p>Switch to the <span>DOCTYPE internal subset state</span>.
-  <p>Reconsume the <span>current input character</span>.
-
-<dt>Anything else
-<dd>
-  <p>Switch to the <span>DOCTYPE NOTATION identifier state</span>.
   <p>Reconsume the <span>current input character</span>.
 
 </dl>

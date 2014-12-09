@@ -381,7 +381,8 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/html-tokenizer-charrefs-jump.json \
     local/xml-tokenizer-delta.json \
     local/xml-tokenizer-replace.json \
-    local/xml-tokenizer-only.json
+    local/xml-tokenizer-only.json \
+    local/xml-tokenizer-only2.json
 	$(PERL) bin/xml-syntax.pl > $@
 	#!(grep '"misc"' $@ > /dev/null)
 data/html-tokenizer-expanded.json: data/html-syntax.json \
@@ -426,6 +427,14 @@ local/xml-tokenizer-replace.json: bin/extract-html-tokenizer.pl \
 local/xml-tokenizer-only.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/xml-only.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/xml-only.html > $@
+
+local/xml-tokenizer.html: src/tokenizer/*.txt \
+    bin/tokenizer-text-to-html.pl
+	mkdir -p local
+	$(PERL) bin/tokenizer-text-to-html.pl src/tokenizer/*.txt > $@
+local/xml-tokenizer-only2.json: bin/extract-html-tokenizer.pl \
+    local/xml-tokenizer.html
+	$(PERL) bin/extract-html-tokenizer.pl local/xml-tokenizer.html > $@
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
 	$(PERL) bin/extract-html-tree.pl local/html.spec.whatwg.org/multipage/syntax.html > $@

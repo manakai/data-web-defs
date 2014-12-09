@@ -29,6 +29,7 @@ for (
        'local/html-tokenizer-charrefs-jump.json',
        'local/html-tokenizer-charrefs.json',
        'local/xml-tokenizer-only.json',
+       'local/xml-tokenizer-only2.json',
        'local/xml-tokenizer-replace.json') {
     my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ($_)->slurp;
     for (keys %{$tokenizer->{char_sets} or {}}) {
