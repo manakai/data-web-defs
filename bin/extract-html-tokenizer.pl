@@ -93,6 +93,8 @@ sub parse_action ($) {
                 push @action, {type => 'emit-temp'};
               } elsif ($action =~ s/^Emit an end-of-file token\.\s*//) {
                 push @action, {type => 'emit-eof'};
+              } elsif ($action =~ s/^Emit an end-of-DOCTYPE token\.\s*//) {
+                push @action, {type => 'emit-end-of-DOCTYPE'};
               } elsif ($action =~ s/^Reconsume the (?:current input |EOF |)character\.\s*//) {
                 push @action, {type => 'reconsume'};
               } elsif ($action =~ s/^[Rr](?:eprocess|econsume) the (?:current |)input character in the ([A-Za-z0-9 ._()-]+ state)\.\s*//) { # xml5
@@ -281,20 +283,20 @@ sub parse_action ($) {
            value => [
              {type => 'switch', state => 'DOCTYPE state'},
            ]};
-    } elsif ($action =~ s/^Otherwise, if the next seven characters are a case-sensitive match for the (?:word|string) "DOCTYPE", then consume those characters and switch to the DOCTYPE state\.//) {
+    } elsif ($action =~ s/^Otherwise, if the next \S+ characters are a case-sensitive match for the (?:word|string) "(\S+?)", then consume those characters and switch to the (\S+ state)\.//) {
       push @action,
           {type => 'IF-KEYWORD',
-           keyword => 'DOCTYPE',
+           keyword => $1,
            value => [
-             {type => 'switch', state => 'DOCTYPE state'},
+             {type => 'switch', state => $2},
            ]};
-    } elsif ($action =~ s/^Otherwise, if the next seven characters are an ASCII case-insensitive match for the word "DOCTYPE", then this is a parse error; consume those characters and switch to the DOCTYPE state\.//) {
+    } elsif ($action =~ s/^Otherwise, if the next \S+ characters are an ASCII case-insensitive match for the word "(\S+?)", then this is a parse error; consume those characters and switch to the (\S+ state)\.//) {
       push @action,
           {type => 'IF-KEYWORD',
-           keyword => 'DOCTYPE',
+           keyword => $1,
            case_insensitive => 'error',
            value => [
-             {type => 'switch', state => 'DOCTYPE state'},
+             {type => 'switch', state => $2},
            ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an exact match for "DOCTYPE", then this is a parse error\. Consume those characters and switch to the DOCTYPE state\.//) { # xml5
       push @action,
