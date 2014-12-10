@@ -20,7 +20,7 @@ ELSE -> set to name; ATTLIST name state
 
 WS   -> before ATTLIST attribute name state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 NULL -> error; append U+FFFD to name
 ELSE -> append to name
@@ -29,7 +29,7 @@ ELSE -> append to name
 
 WS   -> 
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> DTD state; emit
 NULL -> attr; ATTLIST attribute name state; set U+FFFD to attr's name
 ELSE -> attr; ATTLIST attribute name state; set to attr's name
@@ -38,7 +38,7 @@ ELSE -> attr; ATTLIST attribute name state; set to attr's name
 
 WS   -> after ATTLIST attribute name state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 (    -> error; after ATTLIST attribute name state; reconsume
 NULL -> error; append U+FFFD to attr's name
@@ -48,7 +48,7 @@ ELSE -> append to attr's name
 
 WS   -> 
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 (    -> before allowed token state
 ELSE -> ATTLIST attribute type state; set to attr's declared type
@@ -57,7 +57,7 @@ ELSE -> ATTLIST attribute type state; set to attr's declared type
 
 WS   -> after ATTLIST attribute type state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 (    -> before allowed token state
  #   -> error; after ATTLIST attribute type state
@@ -67,7 +67,7 @@ ELSE -> append to attr's declared type
 
 WS   -> 
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 (    -> before allowed token state
  #   -> before ATTLIST attribute default state
@@ -82,7 +82,7 @@ WS   ->
 |    -> error
 )    -> error; after allowed token list state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 NULL -> error; set U+FFFD to token's value; allowed token state
 ELSE -> token; set to token's value; allowed token state
@@ -93,7 +93,7 @@ WS   -> after allowed token state
 |    -> before allowed token state
 )    -> after allowed token list state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 NULL -> error; append U+FFFD to token's value
 ELSE -> append to token's value
@@ -104,16 +104,15 @@ WS   ->
 |    -> before allowed token state
 )    -> after allowed token list state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
-NULL -> error; append U+0020 to token's value; append U+FFFD to token's value
-ELSE -> append U+0020 to token's value; append to token's value
+ELSE -> error; bogus markup declaration state
 
 * after allowed token list state
 
 WS   -> after after allowed token list state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 ELSE -> error; after after allowed token list state; reconsume
 
@@ -121,7 +120,7 @@ ELSE -> error; after after allowed token list state; reconsume
 
 WS   -> 
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
  #   -> before ATTLIST attribute default state
 "    -> attribute value (double-quoted) state; set empty to attr's value
@@ -131,7 +130,7 @@ ELSE -> error; attribute value (unquoted) state; set to attr's value
 
 * before ATTLIST attribute default state
 
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; emit
 WS   -> error; bogus markup declaration state
 %"'  -> error; bogus markup declaration state
@@ -141,7 +140,7 @@ ELSE -> append to attr's default type; ATTLIST attribute default state
 
 WS   -> after ATTLIST attribute default state
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> DTD state; emit
 "    -> error; attribute value (double-quoted) state; set empty to attr's value
 '    -> error; attribute value (single-quoted) state; set empty to attr's value
@@ -151,7 +150,7 @@ ELSE -> error; before ATTLIST attribute name state; reconsume
 
 WS   -> 
 %    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
+EOF  -> error; DTD state; reconsume
 >    -> DTD state; emit
 "    -> attribute value (double-quoted) state; set empty to attr's value
 '    -> attribute value (single-quoted) state; set empty to attr's value

@@ -1,0 +1,75 @@
+* ELEMENT state
+## <!ELEMENT
+
+WS   -> before ELEMENT type state
+%    -> parameter entity name in markup declaration state
+ELSE -> error; before ELEMENT name state; reconsume
+
+* before ELEMENT name state
+## <!ELEMENT(WS)
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+>    -> error; DTD state; reconsume
+NULL -> set U+FFFD to name; ELEMENT name state
+ELSE -> set to name; ELEMENT name state
+
+* ELEMENT name state
+## <!ELEMENT n
+
+WS   -> before content model item state
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+>    -> error; DTD state; emit
+(    -> error; before content model item state; reconsume
+NULL -> append U+FFFD to name
+ELSE -> append to name
+
+* before content model item state
+
+WS   ->
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+>    -> error; DTD state; emit
+(    -> cm group
+)+*?|, -> error; bogus markup declaration state
+NULL -> error; cm element; set U+FFFD to cm element's name; content model element state
+ELSE -> cm element; set to cm element's name; content model element state
+
+* content model element state
+
+WS   -> after content model element state
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+>    -> no cm group or error, bogus markup declaration state; DTD state; emit
+(    -> error; bogus markup declaration state
+)    -> after content model group state
++*?  -> set to cm element's repetition; after content model element state
+|,   -> cm separator; before content model element state
+NULL -> error; append U+FFFD to cm element's name
+ELSE -> append to cm element's name
+
+* after content model element state
+
+WS   ->
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+>    -> no cm group or error, bogus markup declaration state; DTD state; emit
+(    -> error; bogus markup declaration state
+)    -> after content model group state
++*?  -> error; bogus markup declaration state
+|,   -> cm separator; before content model element state
+ELSE -> error; bogus markup declaration state
+
+* after content model group state
+
+WS   -> close cm group or error(-1), bogus markup declaration state; after content model element state
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+>    -> no cm group or error, bogus markup declaration state; DTD state; emit
+(    -> error; bogus markup declaration state
+)    -> close cm group or error(-1), bogus markup declaration state
++*?  -> set to cm group's repetition if cm group; close cm group or error(-1), bogus markup declaration state; after content model element state
+|,   -> close cm group or error(-1), bogus markup declaration state; after content model element state; reconsume
+ELSE -> error; bogus markup declaration state

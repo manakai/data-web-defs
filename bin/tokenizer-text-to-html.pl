@@ -49,6 +49,7 @@ sub _current ($) {
     '' => 'current token',
     "attr's " => 'current attribute definition',
     "token's " => 'current allowed token',
+    "cm group's" => 'current content model group',
   }->{$_[0]};
 } # _current
 
@@ -78,6 +79,9 @@ sub add_cond ($$$) {
           ignore => q{Ignore the character.},
           attr => q{Create an attribute definition and append it to the list of attribute definitions of the current token.},
           token => q{Create an allowed token and append it to the list of allowed tokens of the current attribute definition.},
+          'cm group' => q{Create a content model group and append it to the list of content model groups of the current token.},
+          'cm element' => q{Create a content model element and append it to the <span>current content model container</span>.},
+          'cm separator' => q{Append the <span>current input character</span> as a <span>content model separator</span> to the <span>current content model container</span>.},
         }->{$expr};
         if (defined $html) {
           my $p = $doc->create_element ('p');
@@ -113,9 +117,9 @@ sub add_cond ($$$) {
           $p->children->[-2]->text_content (_current $1);
           $p->children->[-1]->text_content ($2);
           $dd->append_child ($p);
-        } elsif ($expr =~ /^set to (.+?'s |)(.+)$/) {
+        } elsif ($expr =~ /^set to (.+?'s |)(.+?)( if cm group|)$/) {
           my $p = $doc->create_element ('p');
-          $p->inner_html (q{Set the <span></span>'s <i></i> to the <span>current input character</span>.});
+          $p->inner_html (($3 ? q{If the list of content model groups of the current token is not empty, set} : 'Set').q{ the <span></span>'s <i></i> to the <span>current input character</span>.});
           $p->children->[0]->text_content (_current $1);
           $p->children->[1]->text_content ($2);
           $dd->append_child ($p);

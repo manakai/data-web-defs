@@ -74,10 +74,10 @@ for (
         push @action_list, $_->{actions} if defined $_->{actions};
       }
     }
-    my @state = keys %{$Data->{tokenizer}->{states}};
+    my @state = sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}};
     for (@state) {
       unless ($referenced->{$_}) {
-        warn "$_ is not referenced";
+        warn "GC: $_ is not referenced\n";
         delete $Data->{tokenizer}->{states}->{$_};
       }
     }
