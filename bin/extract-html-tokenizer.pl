@@ -50,9 +50,11 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Parse error\.\s*// or
              $action =~ s/^Otherwise, this is a parse error\.\s*//) {
       push @action, {type => 'parse error'};
-    } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
+    } elsif ($action =~ s/^Parse error \(offset=([0-9]+)\)\.$//) {
+      push @action, {type => 'parse error', index_offset => $1};
+    } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+ state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
-    } elsif ($action =~ s/^(?:S|s|Finally, s|Then s)witch to the ([A-Za-z0-9 ._()-]+ state) with initial data "([^"]+)"(?:\.\s*|\s*$)//) {
+    } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+ state) with initial data "([^"]+)"(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1, INITIAL_DATA => $2};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0022 QUOTATION MARK (").\E//) {
       push @action,
@@ -100,7 +102,7 @@ sub parse_action ($) {
               } elsif ($action =~ s/^[Rr](?:eprocess|econsume) the (?:current |)input character in the ([A-Za-z0-9 ._()-]+ state)\.\s*//) { # xml5
                 push @action, {type => 'switch', state => $1};
                 push @action, {type => 'reconsume'};
-              } elsif ($action =~ s/^Append the current input character to the (?:current |)(?:tag |DOCTYPE |comment |)token's (tag name|name|public identifier|system identifier|data|target)\.\s*//) {
+              } elsif ($action =~ s/^Append the current input character to the (?:current |)(?:tag |DOCTYPE |comment |)token's (tag name|name|public identifier|system identifier|data|target|value)\.\s*//) {
                 push @action, {type => 'append', field => $1};
               } elsif ($action =~ s/^Append the current (?:input |)character to the tag name and //) { # xml5
                 push @action, {type => 'append', field => 'tag name'};
@@ -120,15 +122,15 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Append a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+ character \([^()]+\)|\([^()]+\)),?(?: and|) ([^.]+ to the comment token's data\.)\s*/Append $2/) {
                 push @action, {type => 'append', field => 'data',
                                value => chr hex $1};
-              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|name|data|target)\.\s*//) {
+              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|name|data|target|value)\.\s*//) {
                 push @action, {type => 'append', field => $2,
                                value => chr hex $1};
-              } elsif ($action =~ s/^Append the (?:current |)input character to the current attribute's (name|value)(?:\.\s*| and then )//) {
+              } elsif ($action =~ s/^Append the (?:current |)input character to the current attribute(?: definition|)'s (name|value|declared type|default type)(?:\.\s*| and then )//) {
                 push @action, {type => 'append-to-attr', field => $1};
               } elsif ($action =~ s/^Append the lowercase version of the current input character \(add 0x0020 to the character's code point\) to the current attribute's name\.\s*//) {
                 push @action, {type => 'append-to-attr', field => 'name',
                                offset => 0x0020};
-              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character to the current attribute's (name|value)\.\s*//) {
+              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character to the current attribute(?: definition|)'s (name|value|declared type|default type)\.\s*//) {
                 push @action, {type => 'append-to-attr', field => $2,
                                value => chr hex $1};
               } elsif ($action =~ s/^Append the current input character to the temporary buffer\.\s*//) {
@@ -158,7 +160,7 @@ sub parse_action ($) {
                 push @action, {type => 'set-empty', field => 'data'};
               } elsif ($action =~ s/^[Ss]et (?:its|the token's) (tag name|name) to the lowercase version of the current input character \(add 0x0020 to the character's code point\)(?:\.\s*|, then )//) {
                 push @action, {type => 'set', field => $1, offset => 0x0020};
-              } elsif ($action =~ s/^Set (?:the token's|its) (name|tag name|target|data) to a U\+([0-9A-F]+) [A-Z0-9 _-]+ character\.\s*//) {
+              } elsif ($action =~ s/^Set (?:the token's|its|the current token's) (name|tag name|target|data) to a U\+([0-9A-F]+) [A-Z0-9 _-]+ (?:\([^()]+\) |)character\.\s*//) {
                 push @action, {type => 'set', field => $1,
                                value => chr hex $2};
               } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) (public identifier|system identifier|tag name|name|target|data) to the empty string(?: \(not missing\), then |\.)//) {
@@ -174,6 +176,13 @@ sub parse_action ($) {
                 push @action, {type => 'set-to-attr', field => 'name',
                                value => chr hex $1};
                 push @action, {type => 'set-empty-to-attr', field => 'value'};
+              } elsif ($action =~ s/^Set that attribute definition's (name|value) to a U\+([0-9A-F]+) [A-Z0-9 _-]+ character\.\s*//) {
+                push @action, {type => 'set-to-attr', field => $1,
+                               value => chr hex $2};
+              } elsif ($action =~ s/^Set the current attribute definition's (value|declared type|default type) to the empty string\.//) {
+                push @action, {type => 'set-empty-to-attr', field => $1};
+              } elsif ($action =~ s/^Set the current attribute definition's (value|declared type|default type) to the current input character\.//) {
+                push @action, {type => 'set-to-attr', field => $1};
               } elsif ($action =~ s/^Append an entity\.\s*//) { # xml5
                 push @action, {type => 'append-entity'};
               } elsif ($action =~ s/^Set the (.+? flag) of the current (?:tag |)token\.\s*//) {
@@ -208,8 +217,17 @@ sub parse_action ($) {
                                  {type => 'switch',
                                   'state' => 'after DOCTYPE system keyword state'},
                                ]};
-              } elsif ($action =~ s/^(?:T|Otherwise, t)reat it as per the "anything else" entry below\.\s*//) {
-                push @action, {type => 'SAME-AS-ELSE'};
+    } elsif ($action =~ s/^If the DTD mode of the parser is ((?:not |)internal subset), switch to the (.*? state)\.//) {
+      push @action, {type => 'switch', state => $2,
+                     if => 'DTD mode is ' . $1,
+                     break => 1};
+    } elsif ($action =~ s/^If the DTD mode is internal subset, this is a parse error and switch to the (data state), emit an end-of-DOCTYPE token, and reconsume the current input character\.//) {
+      push @action, {type => 'parse error-and-switch-and-emit-eod-and-reconsume',
+                     if => 'DTD mode is internal subset',
+                     state => $1,
+                     break => 1};
+    } elsif ($action =~ s/^(?:T|Otherwise, t)reat it as per the "anything else" entry below\.\s*//) {
+      push @action, {type => 'SAME-AS-ELSE'};
     } elsif ($action =~ s/^Ignore the character\.\s*//) {
       #
     } elsif ($action =~ s/^\(Don't[^()]+\)\s*// or
@@ -377,6 +395,19 @@ sub parse_action ($) {
     } elsif ($action =~ s/^\QReturn one or two character tokens for the character(s) corresponding to the character reference name (as given by the second column of the named character references table).\E//) {
       push @action, {type => 'RETURN-CHARS'};
 
+    } elsif ($action =~ s/^If the internal subset tainted flag of the current token is set, parse error\.//) {
+      push @action, {type => 'parse error', if => 'internal subset tainted'};
+    } elsif ($action =~ s/^If the marked section nesting level is not zero \(0\), parse error\.//) {
+      push @action, {type => 'parse error', if => 'marked section nesting level is not zero'};
+    } elsif ($action =~ s/^If the marked section nesting level is zero, parse error \(offset=2\)\.//) {
+      push @action, {type => 'parse error', index_offset => 2,
+                     if => 'marked section nesting level is zero'};
+    } elsif ($action =~ s/^Otherwise, decrement marked section nesting level by one \(1\)\.//) {
+      push @action, {type => 'decrement-marked-section-nesting-level',
+                     OTHERWISE => 1};
+    } elsif ($action =~ s/^Increment the marked section nesting level of the parser by one \(1\)\.//) {
+      push @action, {type => 'increment-marked-section-nesting-level'};
+
     } elsif ($action =~ s/^Switch back to the original state\.//) {
       push @action, {type => 'SWITCH-BACK'};
     } elsif ($action =~ s/^Process the temporary buffer as a decimal reference\.//) {
@@ -391,7 +422,7 @@ sub parse_action ($) {
       push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'value'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
       push @action, {type => 'SET-ALLOWED-CHAR', value => undef};
-    } elsif ($action =~ s/^Set the original state to (.+ state)\.//) {
+    } elsif ($action =~ s/^Set the original state to (?:the |)(.+ state)\.//) {
       push @action, {type => 'set-original-state', state => $1};
 
     } elsif ($action =~ s/^([^.]+\.+)\s*//) {
@@ -451,7 +482,7 @@ sub parse_switch ($) {
         $cond = 'DIGIT';
       } elsif ($cond eq 'ASCII hex digit') {
         $cond = 'HEXDIGIT';
-      } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+(?:\([^()\s]+\)|)$/) {
+      } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+(?:\((?:[^()\s]+|[()])\)|)$/) {
         $cond = sprintf 'CHAR:%04X', hex $1;
       } elsif ($cond =~ /^u?U\+([0-9A-F]+)(?:\s+\([^()+]\)|):?\s*$/) { # xml5
         $cond = 'CHAR:' . $1;

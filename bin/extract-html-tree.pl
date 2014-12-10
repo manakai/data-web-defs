@@ -288,7 +288,7 @@ while (@node) {
     my $ln = $node->local_name;
     if ($ln =~ /^h[1-6]$/ or $ln eq 'dt') {
       my $tc = _n $node->text_content;
-      if ($tc =~ /^[0-9.]+ The "(.+)" insertion mode$/) {
+      if ($tc =~ /^(?:[0-9.]+ |)The "(.+)" insertion mode$/) {
         $im_name = _n $1;
         $Data->{ims}->{$im_name} ||= {};
       } elsif ($tc =~ /^[0-9.]+ The rules for parsing tokens in foreign content$/) {
@@ -366,7 +366,7 @@ while (@node) {
               my @s;
               push @s, $1 while $s =~ /([a-z0-9_.-]+)/g;
               $cond .= join ' ', sort { $a cmp $b } grep { not $_ eq 'or' } @s;
-            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]+)"$/) {
+            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]*)"$/) {
               $cond = (uc $1) . ':' . $2;
             } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]+)", if the token has any attributes named ("[^"]+"(?:(?:, |,? or )"[^"]+")*)$/) {
               $cond = (uc $1) . '-ATTR:' . $2;
@@ -386,9 +386,9 @@ while (@node) {
               my @s;
               push @s, $1 while $s =~ /"([^"]+)"/g;
               $cond = (uc $token) . ':' . join ' ', sort { $a cmp $b } @s;
-            } elsif ($cond eq 'Any other start tag') {
+            } elsif ($cond eq 'Any other start tag' or $cond eq 'A start tag') {
               $cond = 'START-ELSE';
-            } elsif ($cond eq 'Any other end tag') {
+            } elsif ($cond eq 'Any other end tag' or $cond eq 'An end tag') {
               $cond = 'END-ELSE';
             } elsif ($cond eq 'A character token') {
               $cond = 'CHAR-ELSE';
@@ -398,8 +398,14 @@ while (@node) {
               $cond = 'ELSE';
             } elsif ($cond eq 'An end-of-file token') {
               $cond = 'EOF';
-            } elsif ($cond =~ /^A (DOCTYPE|comment) token$/) {
+            } elsif ($cond =~ /^An? (DOCTYPE|comment|ENTITY|ELEMENT|ATTLIST|NOTATION) token$/) {
               $cond = uc $1;
+            } elsif ($cond eq 'An end-of-DOCTYPE token') {
+              $cond = 'EOD';
+            } elsif ($cond eq 'A processing instruction token') {
+              $cond = 'PI';
+            } elsif ($cond =~ /^A processing instruction token whose target is "([^"]+)"$/) {
+              $cond = 'PI:' . $1;
             } else {
               $cond = 'MISC:' . $cond;
             }
@@ -816,6 +822,18 @@ $DescIsType->{$_} = 1 for
   'stop parsing',
   'take a deep breath',
   'add the attribute and its corresponding value to that element',
+
+  'insert a processing instruction',
+  'insert a DOCTYPE',
+  'process an XML declaration',
+  'process an ELEMENT token',
+  'process an ATTLIST token',
+  'process an ENTITY token',
+  'process a NOTATION token',
+  'process the external subset',
+  'set the stop processing flag of the parser',
+  'insert an XML element for the token',
+  'XML declaration is missing',
   ;
 my $NormalizeDesc = {};
 $NormalizeDesc->{$_->[0]} = $_->[1] for
@@ -1574,6 +1592,11 @@ sub process_actions ($$) {
           $act->{until} = {ns => 'HTML', same_tag_name_as_token => 1};
           delete $act->{actions};
           delete $act->{COND};
+        } elsif ($act->{COND} =~ /^an element with the same tag name as the token has been popped from the stack$/) { # xml
+          $act->{type} = 'pop-oe';
+          $act->{until} = {same_tag_name_as_token => 1};
+          delete $act->{actions};
+          delete $act->{COND};
         } elsif ($act->{COND} =~ /^an HTML element whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the stack$/) {
           $act->{type} = 'pop-oe';
           $act->{until} = {ns => 'HTML', name => [qw(h1 h2 h3 h4 h5 h6)]};
@@ -2041,8 +2064,8 @@ for my $im (keys %{$Data->{ims}}) {
 }
 
 for my $def (
-  $Data->{ims}->{text}->{conds}->{'END:script'},
-  $Data->{ims}->{'in foreign content'}->{conds}->{'END:script'}->{actions}->[0],
+  (($Data->{ims}->{text} or {})->{conds}->{'END:script'} or {}),
+  (($Data->{ims}->{'in foreign content'} or {})->{conds}->{'END:script'} or {})->{actions}->[0],
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -2093,7 +2116,7 @@ for my $def (
 }
 
 for my $def (
-  $Data->{ims}->{'in head'}->{conds}->{'START:meta'},
+  (($Data->{ims}->{'in head'} or {})->{conds}->{'START:meta'} or {}),
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -2115,7 +2138,7 @@ for my $def (
 
 my @doctype_switch_def;
 for my $def (
-  $Data->{ims}->{'initial'}->{conds}->{'DOCTYPE'},
+  (($Data->{ims}->{'initial'} or {})->{conds}->{'DOCTYPE'} || {}),
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -2196,7 +2219,7 @@ if (@doctype_switch_def == 3) {
     }
   }
 } else {
-  die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
+  #die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
 }
 
 for my $im (keys %{$Data->{ims}}) {

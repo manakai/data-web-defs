@@ -196,35 +196,35 @@ ELSE -> set to notation name; NDATA identifier state
 
 * NDATA identifier state
 
-WS   -> after NDATA identifier state
+WS   -> after ENTITY parameter state
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> DTD state; emit
 NULL -> append U+FFFD to notation name
 ELSE -> append to notation name
 
-* after NDATA identifier state
-
-WS   -> 
-%    -> parameter entity name in markup declaration state
-EOF  -> error; DTD state; emit; reconsume
->    -> DTD state; emit
-ELSE -> error; bogus markup declaration state
-
 * ENTITY value (double-quoted) state
 
-"    -> after ENTITY value state
+"    -> after ENTITY parameter state
 %    -> parameter entity name in entity value state
-&    -> ENTITY value entity state
+&    -> ENTITY value character reference state
 EOF  -> error; DTD state; emit; reconsume
 NULL -> append U+FFFD to value
 ELSE -> append to value
 
 * ENTITY value (single-quoted) state
 
-'    -> after ENTITY value state
+'    -> after ENTITY parameter state
 %    -> parameter entity name in entity value state
 &    -> ENTITY value character reference state
 EOF  -> error; DTD state; emit; reconsume
 NULL -> append U+FFFD to value
 ELSE -> append to value
+
+* after ENTITY parameter state
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; emit; reconsume
+>    -> DTD state; emit
+ELSE -> error; bogus markup declaration state

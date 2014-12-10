@@ -302,10 +302,12 @@ data/js-lexical.json: bin/js-lexical.pl
 all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
     data/html-tokenizer-expanded.json \
+    data/xml-tokenizer-expanded.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
     data/xml-datatypes.json data/xpath.json data/webidl.json \
     data/html-tree-constructor-expanded.json \
     data/html-tree-constructor-expanded-no-isindex.json \
+    data/xml-tree-constructor-expanded.json \
     intermediate/errors/parser-errors.json data/errors.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
@@ -382,13 +384,20 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/xml-tokenizer-delta.json \
     local/xml-tokenizer-replace.json \
     local/xml-tokenizer-only.json \
-    local/xml-tokenizer-only2.json
+    local/xml-tokenizer-only2.json \
+    local/xml-tree.json
 	$(PERL) bin/xml-syntax.pl > $@
 	#!(grep '"misc"' $@ > /dev/null)
+
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
+data/xml-tokenizer-expanded.json: data/xml-syntax.json \
+    bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
+	$(PERL) bin/tokenizer-variants.pl < data/xml-syntax.json > $@
+	!(grep reconsume $@ > /dev/null)
+
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
@@ -403,6 +412,10 @@ data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
 	NO_ISINDEX=1 \
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep 'isindex' $@ > /dev/null)
+data/xml-tree-constructor-expanded.json: data/xml-syntax.json \
+    bin/expand-tree-constructor.pl data/elements.json \
+    intermediate/errors/parser-errors.json
+	$(PERL) bin/expand-tree-constructor.pl < data/xml-syntax.json > $@
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
@@ -447,6 +460,8 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"SAME-AS"' $@ > /dev/null)
 	!(grep '"LABEL"' $@ > /dev/null)
 	!(grep '"LOOP"' $@ > /dev/null)
+local/xml-tree.json: bin/extract-html-tree.pl src/xml-tree-construction.html
+	$(PERL) bin/extract-html-tree.pl src/xml-tree-construction.html > $@
 
 intermediate/errors/parser-errors.json: bin/parser-errors.pl \
     src/parser-errors.txt data/html-syntax.json

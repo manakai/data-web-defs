@@ -147,7 +147,7 @@ for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
     if ($cond =~ /^(START|END):(.+)$/) {
       $Data->{tag_name_groups}->{$2} = 1;
-    } elsif ($cond =~ /^(?:COMMENT|EOF|DOCTYPE|CHAR:0000|CHAR:WS|CHAR-ELSE|START-ELSE|END-ELSE|ELSE)$/) {
+    } elsif ($cond =~ /^(?:COMMENT|EOF|DOCTYPE|CHAR:0000|CHAR:WS|CHAR-ELSE|START-ELSE|END-ELSE|PI|PI:xml|END:|ELEMENT|ATTLIST|ENTITY|NOTATION|EOD|ELSE)$/) {
       #
     } else {
       die "Unknown cond |$cond|";
@@ -1188,7 +1188,7 @@ for my $im (keys %{$Data->{ims}}) {
   }
 
   my @cond;
-  push @cond, [$Data->{dispatcher_html}, undef];
+  push @cond, [$Data->{dispatcher_html}, undef] if defined $Data->{dispatcher_html};
   for my $im (keys %{$Data->{ims}}) {
     for my $token_type (keys %{$Data->{ims}->{$im}->{conds}}) {
       $Data->{ims}->{$im}->{conds}->{$token_type}->{actions} = for_actions {

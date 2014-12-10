@@ -235,7 +235,7 @@ for my $state_name (sort { $a cmp $b } keys %$Data) {
     add_cond $conds, [$Data->{$state_name}->{$cond}] => $dl;
   }
 
-  if ($Data->{$state_name}->{ELSE}) {
+  if (defined $Data->{$state_name}->{ELSE}) {
     if (@kwd_cond) {
       add_cond ['Anything else'], [
         (map { $_ => $Data->{$state_name}->{$_} } @kwd_cond),

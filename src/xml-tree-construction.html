@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<title>XML tree construction</title>
+
+<h1>The "<dfn title='the "in element" insertion mode'>in element</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the "in element" insertion mode'>in element</span>"
+<span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A character token that is U+0000 NULL
+<dd><p><span>Parse error</span>.  Ignore the token.
+
+<dt>Any other character token
+<dd><p><span>Insert the token's character</span>.
+
+<dt>A start tag
+<dd>
+  <p><span>Insert an XML element</span> for the token.
+  <p>If the token has its <i>self-closing flag</i> set, then pop the
+  <span>current node</span> off the <span>stack of open
+  elements</span>, and <span>acknowledge the token's <i>self-closing
+  flag</i></span>.
+
+<dt>An end tag whose tag name is ""
+<dd>
+  <p>If the parser was originally created as part of the <span>HTML
+  fragment parsing algorithm</span> and the <span>stack of the open
+  elements</span> has only one node on it, <span>parse error</span>.
+  <p>Otherwise, pop the <span>current node</span> off the <span>stack
+  of open elements</span>.
+
+<dt>Any other end tag
+<dd>
+  <p>If the <span>stack of open elements</span> does not <span>have an
+  element in scope</span><!-- XXX = ignore fragment parsing's open
+  elements[0] --> that is an element with the same tag name as that of
+  the token, then this is a <span>parse error</span>; ignore the
+  token.
+  <p>Otherwise, run these steps:
+    <ol>
+    <li>If the <span>current node</span> is not an element with the
+    same tag name as that of the token, then this is a <span>parse
+    error</span>.
+    <li>Pop elements from the <span>stack of open elements</span>
+    until an element with the same tag name as the token has been
+    popped from the stack.
+    <li>If the <span>stack of open elements</span> is empty, switch
+    the <span>insertion mode</span> to "<span title='the "after root
+    element" insertion mode'>after root element</span>".
+    </ol>
+
+<dt>A comment token
+<dd><p><span>Insert a comment</span>.
+
+<dt>A processing instruction token
+<dd><p><span>Insert a processing instruction</span>.
+
+<dt>An end-of-file token
+<dd>
+  <p>If the parser was not originally created as part of
+  the <span>HTML fragment parsing algorithm</span>, or if
+  the <span>stack of the open elements</span> has more than one node
+  on it, <span>parse error</span>.
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "after root element" insertion mode'>after root element</span>".
+
+<dt>A DOCTYPE token
+<dd>
+  <p><span>Parse error</span>.
+  <p>If the token's <i>has internal subset</i> flag is set, set
+  the <span>stop processing</span> flag of the parser and switch
+  the <span>insertion mode</span> to "<span title='the "in subset"
+  insertion mode'>in subset</span>".
+
+</dl>
+
+<h1>The "<dfn title='the "in subset" insertion mode'>in subset</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"in subset" insertion mode'>in subset</span>" <span>insertion
+mode</span>, the user agent <em class=rfc2119>MUST</em> handle the
+token as follows:
+
+<dl class=switch>
+
+<dt>A comment token
+<dd><p>Ignore the token.
+
+<dt>A processing instruction token
+<dd><p><span>Insert a processing instruction</span>.
+
+<dt>An ELEMENT token
+<dd><p><span>Process an ELEMENT token</span>.
+<dt>An ATTLIST token
+<dd><p><span>Process an ATTLIST token</span>.
+<dt>An ENTITY token
+<dd><p><span>Process an ENTITY token</span>.
+<dt>A NOTATION token
+<dd><p><span>Process a NOTATION token</span>.
+
+<dt>An end-of-DOCTYPE token
+<dd>
+  <p>If the <span>stack of open elements</span> is not empty, switch
+  the <span>insertion mode</span> to "<span title='the "in element"
+  insertion mode'>in element</span>".
+  <p>Otherwise, if there is the document element, switch
+  the <span>insertion mode</span> to "<span title='the "after root
+  element" insertion mode'>after root element</span>".
+  <p>Otherwise, switch the <span>insertion mode</span> to
+  "<span title='the "before root element" insertion mode'>before root
+  element</span>".
+  <p>If the <span>system identifier</span> of the token is not
+  empty, <span>process the external subset</span>.
+
+<dt>An end-of-file token
+<dd><p><span>Stop parsing</span>.
+
+<dt>A character token that is one of U+0009 CHARACTER TABULATION,
+U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
+(CR), or U+0020 SPACE
+<dd><p>Ignore the token.
+
+<dt>Any other character token
+<dd><p><span>Parse error</span>.  Ignore the token.
+
+</dl>
+
+<h1>The "<dfn title='the "after root element" insertion mode'>after root element</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"after root element" insertion mode'>after root
+element</span>" <span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A comment token
+<dd><p><span>Insert a comment</span>.
+
+<dt>A processing instruction token
+<dd><p><span>Insert a processing instruction</span>.
+
+<dt>A character token that is one of U+0009 CHARACTER TABULATION,
+U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
+(CR), or U+0020 SPACE
+<dd><p>Ignore the token.
+
+<dt>A start tag
+<dt>An end tag
+<dt>Any other character token
+<dd><p><span>Parse error</span>.  Ignore the token.
+
+<dt>An end-of-file token
+<dd><p><span>Stop parsing</span>.
+
+<dt>A DOCTYPE token
+<dd>
+  <p><span>Parse error</span>.
+  <p>If the token's <i>has internal subset</i> flag is set, set
+  the <span>stop processing</span> flag of the parser and switch
+  the <span>insertion mode</span> to "<span title='the "in subset"
+  insertion mode'>in subset</span>".
+
+</dl>
+
+<h1>The "<dfn title='the "before root element" insertion mode'>before root element</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"before root element" insertion mode'>before root
+element</span>" <span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A start tag
+<dd>
+  <p><span>Insert an XML element</span> for the token.
+  <p>If the token has its <i>self-closing flag</i> set, pop the
+  <span>current node</span> off the <span>stack of open
+  elements</span>, <span>acknowledge the token's <i>self-closing
+  flag</i></span>, and switch the <span>insertion mode</span> to
+  "<span title='the "after root element" insertion mode'>after root
+  element</span>".
+  <p>Otherwise, switch the <span>insertion mode</span> to
+  "<span title='the "in element" insertion mode'>in element</span>".
+
+<dt>A comment token
+<dd><p><span>Insert a comment</span>.
+
+<dt>A processing instruction token
+<dd><p><span>Insert a processing instruction</span>.
+
+<dt>A character token that is one of U+0009 CHARACTER TABULATION,
+U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
+(CR), or U+0020 SPACE
+<dd><p>Ignore the token.
+
+<dt>An end tag
+<dt>Any other character token
+<dd><p><span>Parse error</span>.  Ignore the token.
+
+<dt>An end-of-file token
+<dd><p><span>Parse error</span>.  <span>Stop parsing</span>.
+
+<dt>A DOCTYPE token
+<dd>
+  <p><span>Parse error</span>.
+  <p>If the token's <i>has internal subset</i> flag is set, set
+  the <span>stop processing</span> flag of the parser and switch
+  the <span>insertion mode</span> to "<span title='the "in subset"
+  insertion mode'>in subset</span>".
+
+</dl>
+
+<h1>The "<dfn title='the "before DOCTYPE" insertion mode'>before DOCTYPE</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"before DOCTYPE" insertion mode'>before
+DOCTYPE</span>" <span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A start tag
+<dt>An end-of-file token
+<dd>
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "before root element" insertion mode'>before root element</span>".
+  <p>Reprocess the token.
+
+<dt>A comment token
+<dd><p><span>Insert a comment</span>.
+
+<dt>A processing instruction token
+<dd><p><span>Insert a processing instruction</span>.
+
+<dt>A character token that is one of U+0009 CHARACTER TABULATION,
+U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
+(CR), or U+0020 SPACE
+<dd><p>Ignore the token.
+
+<dt>Any other character token
+<dt>An end tag
+<dd><p><span>Parse error</span>.  Ignore the token.
+
+<dt>A DOCTYPE token
+<dd>
+  <p><span>Insert a DOCTYPE</span>.
+  <p>If the token's <i>has internal subset</i> flag is set, switch
+  the <span>insertion mode</span> to "<span title='the "in subset"
+  insertion mode'>in subset</span>".
+  <p>Otherwise, if the <span>system identifier</span> of the token is
+  not empty, <span>process the external subset</span>.
+  <p>Otherwise, switch the <span>insertion mode</span> to
+  "<span title='the "before root element" insertion mode'>before root
+  element</span>".
+
+</dl>
+
+<h1>The "<dfn title='the "initial" insertion mode'>initial</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"initial" insertion mode'>initial</span>" <span>insertion mode</span>,
+the user agent <em class=rfc2119>MUST</em> handle the token as
+follows:
+
+<dl class=switch>
+
+<dt>A processing instruction token whose target is "xml"
+<dd>
+  <p><span>Process an XML declaration</span>.
+  <p>Switch the <span>insertion mode</span> to the <span>next
+  insertion mode</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>XML declaration is missing</span>.
+  <p>Switch the <span>insertion mode</span> to the <span>next
+  insertion mode</span>.
+  <p>Reprocess the token.
+
+</dl>

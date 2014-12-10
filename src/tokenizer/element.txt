@@ -1,7 +1,7 @@
 * ELEMENT state
 ## <!ELEMENT
 
-WS   -> before ELEMENT type state
+WS   -> before ELEMENT name state
 %    -> parameter entity name in markup declaration state
 ELSE -> error; before ELEMENT name state; reconsume
 
@@ -46,7 +46,7 @@ EOF  -> error; DTD state; reconsume
 (    -> error; bogus markup declaration state
 )    -> after content model group state
 +*?  -> set to cm element's repetition; after content model element state
-|,   -> cm separator; before content model element state
+|,   -> cm separator; before content model item state
 NULL -> error; append U+FFFD to cm element's name
 ELSE -> append to cm element's name
 
@@ -59,7 +59,7 @@ EOF  -> error; DTD state; reconsume
 (    -> error; bogus markup declaration state
 )    -> after content model group state
 +*?  -> error; bogus markup declaration state
-|,   -> cm separator; before content model element state
+|,   -> cm separator; before content model item state
 ELSE -> error; bogus markup declaration state
 
 * after content model group state
