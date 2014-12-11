@@ -403,7 +403,7 @@ data/html-tree-constructor-expanded.json: data/html-syntax.json \
     intermediate/errors/parser-errors.json
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep '"tree_steps"' $@ > /dev/null)
-	!(grep '"CHAR"' $@ > /dev/null)
+	!(grep '"CHAR' $@ > /dev/null)
 	!(grep '"FIELD"' $@ > /dev/null)
 	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
@@ -416,6 +416,10 @@ data/xml-tree-constructor-expanded.json: data/xml-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
 	$(PERL) bin/expand-tree-constructor.pl < data/xml-syntax.json > $@
+	!(grep '"tree_steps"' $@ > /dev/null)
+	!(grep '"CHAR' $@ > /dev/null)
+	!(grep '"FIELD"' $@ > /dev/null)
+	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/syntax.html > $@

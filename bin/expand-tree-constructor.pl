@@ -104,6 +104,7 @@ for my $step_name (keys %{$Data->{tree_steps}}) {
   } $Data->{tree_steps}->{$step_name}->{actions};
 }
 
+# XXX HTML only
 ## For invoking the steps to reset the form owner
 for my $cat ('form-associated element', 'category-form-attr') {
   my @el;
@@ -191,7 +192,8 @@ for my $im (keys %{$Data->{ims}}) {
 
 my $tag_name_to_group = {};
 {
-  my @cond = ($Data->{dispatcher_html});
+  my @cond;
+  push @cond, $Data->{dispatcher_html} if defined $Data->{dispatcher_html};
   while (@cond) {
     my $cond = shift @cond;
     if ($cond->[0] eq 'token tag_name') {
@@ -251,7 +253,8 @@ my $tag_name_to_group = {};
     #}
 
     for ('CHAR-ELSE', 'START-ELSE', 'END-ELSE',
-         'DOCTYPE', 'COMMENT', 'EOF') { # XXXxml
+         'DOCTYPE', 'COMMENT', 'EOF',
+         'PI', 'ELEMENT', 'ATTLIST', 'ENTITY', 'NOTATION', 'EOD') {
       $Data->{ims}->{$im}->{conds}->{$_}
           ||= {%{$Data->{ims}->{$im}->{conds}->{ELSE} or {}}};
     }
@@ -311,6 +314,7 @@ my $tag_name_to_group = {};
               'push-oe' => 1,
               'pop-oe' => 1,
               'appcache-processing' => 1,
+              'ignore the token' => 1,
             }->{$_->{type}}) {
               #
             } elsif ($_->{type} eq 'switch the insertion mode' and
@@ -330,6 +334,7 @@ my $tag_name_to_group = {};
             } elsif ($_->{type} eq 'reprocess the token' and 1 == keys %$_) {
               #
             } else {
+              warn "Can't merge |CHAR| rules because of |$_->{type}|.\n";
               last WS_PREFIX_ELSE_SWITCH;
             }
           }
@@ -498,6 +503,26 @@ my $tag_name_to_group = {};
         $ims->{$im}->{conds}->{TEXT} = delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
         last MERGE;
       } # TABLE
+
+      ELSEONLY: {
+        last ELSEONLY if defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'};
+        last ELSEONLY if defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'};
+        last ELSEONLY unless
+            @{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}} and
+            $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[-1]->{type} eq 'reprocess the token';
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}) {
+          unless ({
+            'the XML declaration is missing' => 1,
+            'switch the insertion mode' => 1,
+            'reprocess the token' => 1,
+          }->{$_->{type}}) {
+            last ELSEONLY;
+          }
+        }
+
+        $ims->{$im}->{conds}->{TEXT} = delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+        last MERGE;
+      } # ELSEONLY
     } # MERGE
   }
 

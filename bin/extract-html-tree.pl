@@ -833,7 +833,7 @@ $DescIsType->{$_} = 1 for
   'process the external subset',
   'set the stop processing flag of the parser',
   'insert an XML element for the token',
-  'XML declaration is missing',
+  'the XML declaration is missing',
   ;
 my $NormalizeDesc = {};
 $NormalizeDesc->{$_->[0]} = $_->[1] for

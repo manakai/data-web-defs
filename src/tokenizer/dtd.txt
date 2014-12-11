@@ -8,19 +8,27 @@ ELSE ->
 * parameter entity name in DTD state
 #XXX
 
+&%"' -> error; DTD state; reconsume
 ELSE -> 
+EOF  -> error; DTD state; reconsume
 
 * parameter entity name in markup declaration state
 #XXX
 
+&%"' -> error; bogus markup declaration state; reconsume
 ELSE -> 
+EOF  -> error; DTD state; reconsume
 
 * parameter entity name in entity value state
 #XXX
 
+&%"' -> error; ENTITY value (double-quoted) state; reconsume
 ELSE -> 
+EOF  -> error; DTD state; reconsume
 
 * ENTITY value character reference state
 #XXX
 
+&%"' -> error; ENTITY value (double-quoted) state; reconsume
 ELSE -> 
+EOF  -> error; DTD state; reconsume

@@ -176,6 +176,8 @@ for (
   $Data->{ims} = $tree->{ims};
 }
 
+$Data->{tree_patterns}->{'HTML element'} ||= {ns => 'HTML'};
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
