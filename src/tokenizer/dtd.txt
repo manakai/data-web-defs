@@ -1,4 +1,3 @@
-
 * bogus markup declaration state
 
 >    -> DTD state; emit
@@ -32,3 +31,64 @@ EOF  -> error; DTD state; reconsume
 &%"' -> error; ENTITY value (double-quoted) state; reconsume
 ELSE -> 
 EOF  -> error; DTD state; reconsume
+
+* after mss state
+## <![
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+"INCLUDE" -> after INCLUDE keyword state
+"IGNORE" -> after IGNORE keyword state
+# []<> -> error; marked section; ignored section state; reconsume
+ELSE -> error; marked section; ignored section state; reconsume
+
+* after INCLUDE keyword state
+
+WS   ->
+[    -> marked section(INCLUDE); DTD state
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+# ]<>  -> error; marked section; ignored section state; reconsume
+ELSE -> error; marked section; ignored section state; reconsume
+
+* after IGNORE keyword state
+
+WS   -> 
+[    -> marked section; ignored section state
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state; reconsume
+# ]<>  -> error; marked section; ignored section state; reconsume
+ELSE -> error; marked section; ignored section state; reconsume
+
+* ignored section state
+
+]    -> in ignored section msc state
+EOF  -> error; DTD state; reconsume
+ELSE -> 
+
+* in ignored section msc state
+
+]    -> after ignored section msc state
+EOF  -> error; DTD state; reconsume
+ELSE -> ignored section state
+
+* after ignored section msc state
+
+>    -> close marked section and reset
+]    -> 
+EOF  -> error; DTD state; reconsume
+ELSE -> ignored section state
+
+* in DTD msc state
+
+]    -> after DTD msc state
+EOF  -> error; DTD state; reconsume
+ELSE -> error(-1); DTD state
+
+* after DTD msc state
+
+>    -> close marked section and reset
+]    -> error(-2)
+EOF  -> error; DTD state; reconsume
+ELSE -> error(-2); DTD state

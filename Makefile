@@ -387,7 +387,7 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/xml-tokenizer-only2.json \
     local/xml-tree.json
 	$(PERL) bin/xml-syntax.pl > $@
-	#!(grep '"misc"' $@ > /dev/null)
+	!(grep '"misc"' $@ > /dev/null)
 
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json

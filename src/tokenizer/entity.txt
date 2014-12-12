@@ -110,9 +110,9 @@ WS   -> between ENTITY public and system identifiers state
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
-"    -> error; ENTITY system identifier state
-'    -> error; ENTITY system identifier state
-ELSE -> error; bogus markup delcaration state
+"    -> error; ENTITY system identifier (double-quoted) state
+'    -> error; ENTITY system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
 
 * between ENTITY public and system identifiers state
 
@@ -120,9 +120,9 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
-"    -> ENTITY system identifier state
-'    -> ENTITY system identifier state
-ELSE -> error; bogus markup delcaration state
+"    -> ENTITY system identifier (double-quoted) state
+'    -> ENTITY system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
 
 * after ENTITY system keyword state
 ## <!ENTITY n SYSTEM

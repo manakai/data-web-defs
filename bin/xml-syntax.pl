@@ -56,6 +56,8 @@ for (
     ['attribute value (double-quoted) state', '"'],
     ['attribute value (single-quoted) state', "'"],
     ['attribute value (unquoted) state', '<'],
+    ['default attribute value (double-quoted) state', '"'],
+    ['default attribute value (single-quoted) state', "'"],
   ) {
     my ($orig_state, $additional) = @$_;
     for my $state (keys %{$tokenizer_charrefs->{states}}) {
@@ -105,6 +107,7 @@ for (
         for (values %{$Data->{tokenizer}->{states}}) {
           for (values %{$Data->{tokenizer}->{states}->{$s}->{conds}}) {
             push @action_list, $_->{actions};
+            push @action_list, $_->{false_actions} if defined $_->{false_actions};
           }
         }
       }
@@ -116,6 +119,7 @@ for (
       for (@{$acts or []}) {
         $visit_state->($_->{state}) if defined $_->{state};
         push @action_list, $_->{actions} if defined $_->{actions};
+        push @action_list, $_->{false_actions} if defined $_->{false_actions};
       }
     }
     my @state = sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}};

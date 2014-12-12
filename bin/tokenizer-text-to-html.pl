@@ -35,6 +35,9 @@ for (@ARGV) {
       my $left = $1;
       my $right = $2;
       $Data->{$state_name}->{$left} = $right;
+    } elsif (/^\s*(\S+)\s+(!?)\[([^\[\]]+)\]\s+->\s*(.*)$/) {
+      my $left = $1;
+      $Data->{$state_name}->{$left}->{$3}->{$2} = $4;
     } else {
       die "Broken line: |$_|";
     }
@@ -49,39 +52,90 @@ sub _current ($) {
     '' => 'current token',
     "attr's " => 'current attribute definition',
     "token's " => 'current allowed token',
-    "cm group's" => 'current content model group',
-  }->{$_[0]};
+    "cm group's " => 'current content model group',
+    "cm element's " => 'current content model element',
+  }->{$_[0]} // die "Unknown item |$_[0]|";
 } # _current
 
+sub add_cond ($$$);
 sub add_cond ($$$) {
   my ($conds, $exprs, $dl) = @_;
   for my $cond (@$conds) {
-    my $dt = $doc->create_element ('dt');
-    $dt->text_content ($cond);
+    my $dt = ref $cond ? $cond : $doc->create_element ('dt');
+    $dt->text_content ($cond) if not ref $cond;
     $dl->append_child ($dt);
   }
   my $dd = $doc->create_element ('dd');
   while (@$exprs) {
     if (@$exprs == 1) {
+      if (ref $exprs->[0] eq 'HASH' and 1 == keys %{$exprs->[0]}) {
+        my $key = each %{$exprs->[0]};
+        my $true = $exprs->[0]->{$key}->{''};
+        my $false = $exprs->[0]->{$key}->{'!'};
+        shift @$exprs;
+        my $_dl = $doc->create_element ('dl');
+        $_dl->class_name ('switch');
+        my $dt = $doc->create_element ('dt');
+        $dt->inner_html ('If the <span></span> is empty');
+        $dt->first_element_child->text_content ({
+          'cm group' => 'stack of open content model groups',
+        }->{$key} // $key);
+        add_cond ([$dt], [$true] => $_dl);
+        add_cond (['Otherwise'], [$false] => $_dl);
+        $dd->append_child ($_dl);
+        next;
+      }
+
       if (defined $dd->first_element_child) {
-        my $p = $doc->create_element ('p');
-        $p->text_content ('Otherwise:');
-        $dd->append_child ($p);
+        if ($exprs->[0] =~ /^error; marked section; ([^;]+? state); reconsume$/) {
+          shift @$exprs;
+          my $p = $doc->create_element ('p');
+          $p->inner_html ('Otherwise, this is a <span>parse error</span>.  Create a marked section whose status is <i>IGNORE</i> and push it onto the <span>stack of open marked sections</span>.  Switch to the <span></span>.  Reconsume the <span>current input character</span>.');
+          $p->children->[-2]->text_content ($1);
+          $dd->append_child ($p);
+          next;
+        } elsif ($exprs->[0] =~ /^error; ([^;]+? state)$/) {
+          shift @$exprs;
+          my $p = $doc->create_element ('p');
+          $p->inner_html ('Otherwise, this is a <span>parse error</span>.  Switch to the <span></span>.');
+          $p->last_element_child->text_content ($1);
+          $dd->append_child ($p);
+          next;
+        } elsif ($exprs->[0] =~ /^([^;]+? state)$/) {
+          shift @$exprs;
+          my $p = $doc->create_element ('p');
+          $p->inner_html ('Otherwise, switch to the <span></span>.');
+          $p->last_element_child->text_content ($1);
+          $dd->append_child ($p);
+          next;
+        } else {
+          die $exprs->[0];
+          my $p = $doc->create_element ('p');
+          $p->text_content ('Otherwise:');
+          $dd->append_child ($p);
+        }
       }
       my @expr = split /\s*;\s*/, _n shift @$exprs;
       @expr = ('ignore') unless @expr;
       for my $expr (map { _n $_ } @expr) {
         my $html = {
           error => q{<span>Parse error</span>.},
+          'error(-1)' => q{<span>Parse error</span> <ins>(offset=1)</ins>.},
+          'error(-2)' => q{<span>Parse error</span> <ins>(offset=2)</ins>.},
           emit => q{Emit the current token.},
           reconsume => q{Reconsume the <span>current input character</span>.},
           q{is parameter entity} => q{Set the <i>is parameter entity</i> flag of the current token.},
           ignore => q{Ignore the character.},
           attr => q{Create an attribute definition and append it to the list of attribute definitions of the current token.},
+          'close attribute definition' => q{},
           token => q{Create an allowed token and append it to the list of allowed tokens of the current attribute definition.},
-          'cm group' => q{Create a content model group and append it to the list of content model groups of the current token.},
-          'cm element' => q{Create a content model element and append it to the <span>current content model container</span>.},
-          'cm separator' => q{Append the <span>current input character</span> as a <span>content model separator</span> to the <span>current content model container</span>.},
+          'cm group' => q{Create a content model group and append it to the <span>current content model group</span> and to the <span>stack of open content model groups</span>.},
+          'close cm group' => q{Pop the <span>current content model group</span> off the <span>stack of open content model groups</span>.},
+          'cm element' => q{Create a content model element and append it to the <span>current content model group</span>.},
+          'cm separator' => q{Append the <span>current input character</span> as a <span>content model separator</span> to the <span>current content model group</span>.},
+          'marked section(INCLUDE)' => q{Create a marked section whose status is <i>INCLUDE</i> and push it onto the <span>stack of open marked sections</span>.},
+          'marked section' => q{Create a marked section whose status is <i>IGNORE</i> and push it onto the <span>stack of open marked sections</span>.},
+          'close marked section and reset' => q{Pop the <span>current marked section</span> off the <span>stack of open marked sections</span> and reset the state.},
         }->{$expr};
         if (defined $html) {
           my $p = $doc->create_element ('p');
@@ -117,9 +171,9 @@ sub add_cond ($$$) {
           $p->children->[-2]->text_content (_current $1);
           $p->children->[-1]->text_content ($2);
           $dd->append_child ($p);
-        } elsif ($expr =~ /^set to (.+?'s |)(.+?)( if cm group|)$/) {
+        } elsif ($expr =~ /^set to (.+?'s |)(.+?)$/) {
           my $p = $doc->create_element ('p');
-          $p->inner_html (($3 ? q{If the list of content model groups of the current token is not empty, set} : 'Set').q{ the <span></span>'s <i></i> to the <span>current input character</span>.});
+          $p->inner_html (q{Set the <span></span>'s <i></i> to the <span>current input character</span>.});
           $p->children->[0]->text_content (_current $1);
           $p->children->[1]->text_content ($2);
           $dd->append_child ($p);
@@ -168,9 +222,11 @@ sub add_cond ($$$) {
     }
   }
   my $p0 = $dd->first_element_child;
-  my $text = $p0->text_content;
-  $text =~ s/^\s*Otherwise, if/If/;
-  $p0->text_content ($text);
+  if (defined $p0 and $p0->local_name eq 'p') {
+    my $text = $p0->text_content;
+    $text =~ s/^\s*Otherwise, if/If/;
+    $p0->text_content ($text);
+  }
   $dl->append_child ($dd);
 } # add_cond
 

@@ -80,9 +80,9 @@ WS   -> between NOTATION public and system identifiers state
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> DTD state; emit
-"    -> error; NOTATION system identifier state
-'    -> error; NOTATION system identifier state
-ELSE -> error; bogus markup delcaration state
+"    -> error; NOTATION system identifier (double-quoted) state
+'    -> error; NOTATION system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
 
 * between NOTATION public and system identifiers state
 
@@ -90,9 +90,9 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> DTD state; emit
-"    -> NOTATION system identifier state
-'    -> NOTATION system identifier state
-ELSE -> error; bogus markup delcaration state
+"    -> NOTATION system identifier (double-quoted) state
+'    -> NOTATION system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
 
 * after NOTATION system keyword state
 ## <!NOTATION n SYSTEM
@@ -136,4 +136,4 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> DTD state; emit
-ELSE -> error; bogus markup delcaration state
+ELSE -> error; bogus markup declaration state
