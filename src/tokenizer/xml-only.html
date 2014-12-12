@@ -40,12 +40,17 @@ initially <i>null</i>.
 <dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
 <dt>U+0020 SPACE
 <dt>U+003F QUESTION MARK (?)<!-- Not in XML5 -->
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>bogus comment state</span> with <i>initial
+  data</i> "?".
+
 <dt>EOF
 <dd>
   <p><span>Parse error</span>.
   <p>Switch to the <span>bogus comment state</span> with <i>initial
   data</i> "?".
-  <p>Reconsume the <span>current input character</span>.
+  <!--<p>Reconsume the <span>current input character</span>.-->
 
 <!-- Not in XML5 -->
 <dt>U+0000 NULL
@@ -239,12 +244,10 @@ initially <i>null</i>.
 
 <dt>EOF
 <dd>
-  <p>If the <span>marked section nesting level</span> is <em>not</em>
-  zero (0), <span>parse error</span>.
-  <p>If the <span>DTD mode</span> is <i>internal subset</i>, this is
-  a <span>parse error</span> and switch to the <span>data
-  state</span>, emit an <span>end-of-DOCTYPE token</span>, and
-  reconsume the <span>current input character</span>.
+  <!-- XXX Unless internal subset -->
+  <p>Switch to the <span>data state</span>.
+  <p>Emit an <span>end-of-DOCTYPE token</span>.
+  <p>Reconsume the <span>current input character</span>.
 
 <dt>Anything else
 <dd>

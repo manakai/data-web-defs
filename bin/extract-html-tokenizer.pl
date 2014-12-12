@@ -212,7 +212,7 @@ sub parse_action ($) {
                                field => $1,
                                value => chr hex $2};
               } elsif ($action =~ s/^Pop the current content model group off the stack of open content model groups\.//) {
-                push @action, {type => 'pop-cmgroups'};
+                push @action, {type => 'pop-cmgroup'};
               } elsif ($action =~ s/^Set the current content model group's (repetition) to the current input character\.//) {
                 push @action, {type => 'set-to-cmgroup', field => $1};
               } elsif ($action =~ s/^Append the current input character as a content model separator to the current content model group\.//) {
@@ -447,16 +447,6 @@ sub parse_action ($) {
 
     } elsif ($action =~ s/^If the internal subset tainted flag of the current token is set, parse error\.//) {
       push @action, {type => 'parse error', if => 'internal subset tainted'};
-    } elsif ($action =~ s/^If the marked section nesting level is not zero \(0\), parse error\.//) {
-      push @action, {type => 'parse error', if => 'marked section nesting level is not zero'};
-    } elsif ($action =~ s/^If the marked section nesting level is zero, parse error \(offset=2\)\.//) {
-      push @action, {type => 'parse error', index_offset => 2,
-                     if => 'marked section nesting level is zero'};
-    } elsif ($action =~ s/^Otherwise, decrement marked section nesting level by one \(1\)\.//) {
-      push @action, {type => 'decrement-marked-section-nesting-level',
-                     OTHERWISE => 1};
-    } elsif ($action =~ s/^Increment the marked section nesting level of the parser by one \(1\)\.//) {
-      push @action, {type => 'increment-marked-section-nesting-level'};
 
     } elsif ($action =~ s/^Switch back to the original state\.//) {
       push @action, {type => 'SWITCH-BACK'};

@@ -415,6 +415,7 @@ data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
 data/xml-tree-constructor-expanded.json: data/xml-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
+	PARSER_LANG=XML \
 	$(PERL) bin/expand-tree-constructor.pl < data/xml-syntax.json > $@
 	!(grep '"tree_steps"' $@ > /dev/null)
 	!(grep '"CHAR' $@ > /dev/null)

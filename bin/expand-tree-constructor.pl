@@ -5,6 +5,8 @@ use warnings FATAL => 'recursion';
 use JSON::PS;
 use Path::Tiny;
 
+my $LANG = $ENV{PARSER_LANG} || 'HTML';
+
 my $Data = do {
   local $/ = undef;
   my $data = json_bytes2perl scalar <>;
@@ -254,7 +256,7 @@ my $tag_name_to_group = {};
 
     for ('CHAR-ELSE', 'START-ELSE', 'END-ELSE',
          'DOCTYPE', 'COMMENT', 'EOF',
-         'PI', 'ELEMENT', 'ATTLIST', 'ENTITY', 'NOTATION', 'EOD') {
+         ($LANG eq 'XML' ? ('PI', 'ELEMENT', 'ATTLIST', 'ENTITY', 'NOTATION', 'EOD') : ())) {
       $Data->{ims}->{$im}->{conds}->{$_}
           ||= {%{$Data->{ims}->{$im}->{conds}->{ELSE} or {}}};
     }
@@ -596,7 +598,8 @@ my $tag_name_to_group = {};
   $Data->{ims} = $ims;
 }
 
-for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
+for my $token_type (qw(COMMENT DOCTYPE EOF),
+                    ($LANG eq 'XML' ? ('PI', 'ELEMENT', 'ATTLIST', 'ENTITY', 'NOTATION', 'EOD') : ())) {
   {
     my $changed = 0;
     for my $im (keys %{$Data->{ims}}) {
