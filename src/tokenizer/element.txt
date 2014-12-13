@@ -32,7 +32,7 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; reconsume
 >    -> error; DTD state
-(    -> cm group; before content model item state
+(    -> cm group; set token's cm group; before content model item state
 )+*?|, -> error; bogus markup declaration state
 ELSE -> set to content keyword; ELEMENT content keyword state
 
@@ -58,7 +58,7 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; reconsume
 >    -> error; DTD state
-(    -> cm group
+(    -> cm group; append cm group
 )+*?|, -> error; bogus markup declaration state
 NULL -> error; cm element; set U+FFFD to cm element's name; content model element state
 ELSE -> cm element; set to cm element's name; content model element state

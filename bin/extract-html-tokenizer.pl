@@ -157,8 +157,18 @@ sub parse_action ($) {
                 push @action, {type => 'insert-attrdef'};
               } elsif ($action =~ s/^Create an allowed token and append it to the list of allowed tokens of the current attribute definition\.//) {
                 push @action, {type => 'insert-allowed-token'};
-              } elsif ($action =~ s/^Create a content model group and append it to the current content model group and to the stack of open content model groups\.//) {
-                push @action, {type => 'insert-cmgroup'};
+              } elsif ($action =~ s/^Create a new content model group\.//) {
+                push @action, {type => 'create-cmgroup'};
+              } elsif ($action =~ s/^Set the current token's content model group to the content model group\.//) {
+                push @action, {type => 'set-cmgroup'};
+              } elsif ($action =~ s/^Set the stack of the open content model groups to a stack that contains only the content model group\.//) {
+                push @action, {type => 'push-cmgroup-as-only-item'};
+              } elsif ($action =~ s/^Push the content model group to the stack of open content model groups\.//) {
+                push @action, {type => 'push-cmgroup'};
+              } elsif ($action =~ s/^Append the content model group to the current content model group\.//) {
+                push @action, {type => 'append-cmgroup'};
+              } elsif ($action =~ s/^Pop the current content model group off the stack of open content model groups\.//) {
+                push @action, {type => 'pop-cmgroup'};
               } elsif ($action =~ s/^Create a content model element and append it to the current content model group\.//) {
                 push @action, {type => 'insert-cmelement'};
               } elsif ($action =~ s/^Create a marked section whose status is INCLUDE and push it onto the stack of open marked sections\.//) {
@@ -211,8 +221,6 @@ sub parse_action ($) {
                 push @action, {type => 'set-to-allowed-token',
                                field => $1,
                                value => chr hex $2};
-              } elsif ($action =~ s/^Pop the current content model group off the stack of open content model groups\.//) {
-                push @action, {type => 'pop-cmgroup'};
               } elsif ($action =~ s/^Set the current content model group's (repetition) to the current input character\.//) {
                 push @action, {type => 'set-to-cmgroup', field => $1};
               } elsif ($action =~ s/^Append the current input character as a content model separator to the current content model group\.//) {
@@ -237,8 +245,8 @@ sub parse_action ($) {
                 push @action, {type => 'append-entity'};
               } elsif ($action =~ s/^Set the (.+? flag) of the current (?:tag |)token\.\s*//) {
                 push @action, {type => 'set-flag', field => $1};
-              } elsif ($action =~ s/^Set the DOCTYPE mode of the parser to (.+?)\.\s*//) {
-                push @action, {type => 'set-DOCTYPE-mode', value => $1};
+              } elsif ($action =~ s/^Set the DTD mode to (.+?)\.\s*//) {
+                push @action, {type => 'set-DTD-mode', value => $1};
               } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) force-quirks flag to on\.\s*//) {
                 push @action, {type => 'set-flag', field => 'force-quirks flag'};
               } elsif ($action =~ s/^Set the entity flag to "([^"]+)"\.\s*//) { # xml5
