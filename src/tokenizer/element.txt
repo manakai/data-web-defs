@@ -12,8 +12,8 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; reconsume
 >    -> error; DTD state
-NULL -> set U+FFFD to name; ELEMENT name state
-ELSE -> set to name; ELEMENT name state
+NULL -> error; create(ELEMENT); set U+FFFD to name; ELEMENT name state
+ELSE -> create(ELEMENT); set to name; ELEMENT name state
 
 * ELEMENT name state
 ## <!ELEMENT n

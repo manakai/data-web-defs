@@ -1,0 +1,1233 @@
+{
+   "_errors" : [
+      "Error type for parse error \u0022before-doctype-end-else\u0022 not defined",
+      "Error type for parse error \u0022before-doctype-char\u0022 not defined",
+      "Error type for parse error \u0022before-root-element-end-else\u0022 not defined",
+      "Error type for parse error \u0022before-root-element-eof\u0022 not defined",
+      "Error type for parse error \u0022before-root-element-char\u0022 not defined",
+      "Error type for parse error \u0022before-root-element-doctype\u0022 not defined",
+      "Error type for parse error \u0022in-subset-char\u0022 not defined",
+      "Error type for parse error \u0022in-element-end-else\u0022 not defined",
+      "Error type for parse error \u0022in-element-end-else-2\u0022 not defined",
+      "Error type for parse error \u0022in-element-eof\u0022 not defined",
+      "Error type for parse error \u0022in-element-eof-2\u0022 not defined",
+      "Error type for parse error \u0022in-element-null\u0022 not defined",
+      "Error type for parse error \u0022in-element-doctype\u0022 not defined",
+      "Error type for parse error \u0022after-root-element-end-else\u0022 not defined",
+      "Error type for parse error \u0022after-root-element-char\u0022 not defined",
+      "Error type for parse error \u0022after-root-element-start-else\u0022 not defined",
+      "Error type for parse error \u0022after-root-element-doctype\u0022 not defined"
+   ],
+   "actions" : {
+      "after root element;ATTLIST" : [
+      ],
+      "after root element;COMMENT" : [
+         {
+            "type" : "insert a comment"
+         }
+      ],
+      "after root element;DOCTYPE" : [
+         {
+            "name" : "after-root-element-doctype",
+            "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "set the stop processing flag"
+               },
+               {
+                  "im" : "in subset after root element",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "has internal subset flag"
+            ],
+            "type" : "if"
+         }
+      ],
+      "after root element;ELEMENT" : [
+      ],
+      "after root element;END-ELSE" : [
+         {
+            "name" : "after-root-element-end-else",
+            "type" : "parse error"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "after root element;ENTITY" : [
+      ],
+      "after root element;EOD" : [
+      ],
+      "after root element;EOF" : [
+         {
+            "type" : "stop parsing"
+         }
+      ],
+      "after root element;NOTATION" : [
+      ],
+      "after root element;PI" : [
+         {
+            "type" : "insert a processing instruction"
+         }
+      ],
+      "after root element;START-ELSE" : [
+         {
+            "name" : "after-root-element-start-else",
+            "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "error_text" : [
+                     "token",
+                     "tag name"
+                  ],
+                  "error_type" : "nestc",
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "after root element;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "char_actions" : [
+               {
+                  "name" : "after-root-element-char",
+                  "type" : "parse error"
+               }
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "before DOCTYPE;ATTLIST" : [
+      ],
+      "before DOCTYPE;COMMENT" : [
+         {
+            "type" : "insert a comment"
+         }
+      ],
+      "before DOCTYPE;DOCTYPE" : [
+         {
+            "type" : "insert a DOCTYPE"
+         },
+         {
+            "actions" : [
+               {
+                  "im" : "in subset",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "has internal subset flag"
+            ],
+            "false_actions" : [
+               {
+                  "actions" : [
+                     {
+                        "type" : "process the external subset"
+                     }
+                  ],
+                  "cond" : [
+                     "token",
+                     "non-empty",
+                     "system identifier"
+                  ],
+                  "false_actions" : [
+                     {
+                        "im" : "before root element",
+                        "type" : "switch the insertion mode"
+                     }
+                  ],
+                  "type" : "if"
+               }
+            ],
+            "type" : "if"
+         }
+      ],
+      "before DOCTYPE;ELEMENT" : [
+      ],
+      "before DOCTYPE;END-ELSE" : [
+         {
+            "name" : "before-doctype-end-else",
+            "type" : "parse error"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "before DOCTYPE;ENTITY" : [
+      ],
+      "before DOCTYPE;EOD" : [
+      ],
+      "before DOCTYPE;EOF" : [
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DOCTYPE;NOTATION" : [
+      ],
+      "before DOCTYPE;PI" : [
+         {
+            "type" : "insert a processing instruction"
+         }
+      ],
+      "before DOCTYPE;START-ELSE" : [
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DOCTYPE;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "char_actions" : [
+               {
+                  "name" : "before-doctype-char",
+                  "type" : "parse error"
+               }
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "before root element;ATTLIST" : [
+      ],
+      "before root element;COMMENT" : [
+         {
+            "type" : "insert a comment"
+         }
+      ],
+      "before root element;DOCTYPE" : [
+         {
+            "name" : "before-root-element-doctype",
+            "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "set the stop processing flag"
+               },
+               {
+                  "im" : "in subset before root element",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "has internal subset flag"
+            ],
+            "type" : "if"
+         }
+      ],
+      "before root element;ELEMENT" : [
+      ],
+      "before root element;END-ELSE" : [
+         {
+            "name" : "before-root-element-end-else",
+            "type" : "parse error"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "before root element;ENTITY" : [
+      ],
+      "before root element;EOD" : [
+      ],
+      "before root element;EOF" : [
+         {
+            "name" : "before-root-element-eof",
+            "type" : "parse error"
+         },
+         {
+            "type" : "stop parsing"
+         }
+      ],
+      "before root element;NOTATION" : [
+      ],
+      "before root element;PI" : [
+         {
+            "type" : "insert a processing instruction"
+         }
+      ],
+      "before root element;START-ELSE" : [
+         {
+            "type" : "create an XML element"
+         },
+         {
+            "type" : "append-to-document"
+         },
+         {
+            "type" : "push-oe"
+         },
+         {
+            "type" : "appcache-processing"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "pop-oe"
+               },
+               {
+                  "type" : "acknowledge the token's self-closing flag"
+               },
+               {
+                  "im" : "after root element",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "false_actions" : [
+               {
+                  "im" : "in element",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "type" : "if"
+         }
+      ],
+      "before root element;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "char_actions" : [
+               {
+                  "name" : "before-root-element-char",
+                  "type" : "parse error"
+               }
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "in element;ATTLIST" : [
+      ],
+      "in element;COMMENT" : [
+         {
+            "type" : "insert a comment"
+         }
+      ],
+      "in element;DOCTYPE" : [
+         {
+            "name" : "in-element-doctype",
+            "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "set the stop processing flag"
+               },
+               {
+                  "im" : "in subset in element",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "has internal subset flag"
+            ],
+            "type" : "if"
+         }
+      ],
+      "in element;ELEMENT" : [
+      ],
+      "in element;END-ELSE" : [
+         {
+            "type" : "set-end-tag-name"
+         },
+         {
+            "actions" : [
+               {
+                  "actions" : [
+                     {
+                        "name" : "in-element-end-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "ignore the token"
+                     },
+                     {
+                        "type" : "abort these steps"
+                     }
+                  ],
+                  "cond" : [
+                     "and",
+                     [
+                        "fragment"
+                     ],
+                     [
+                        "node",
+                        "is",
+                        "oe[0]"
+                     ]
+                  ],
+                  "type" : "if"
+               },
+               {
+                  "actions" : [
+                     {
+                        "actions" : [
+                           {
+                              "name" : "in-element-end-else-2",
+                              "type" : "parse error"
+                           }
+                        ],
+                        "cond" : [
+                           "oe[-1]",
+                           "is not",
+                           "node"
+                        ],
+                        "type" : "if"
+                     },
+                     {
+                        "actions" : [
+                           {
+                              "im" : "after root element",
+                              "type" : "switch the insertion mode"
+                           }
+                        ],
+                        "cond" : [
+                           "node",
+                           "is",
+                           "oe[0]"
+                        ],
+                        "type" : "if"
+                     },
+                     {
+                        "type" : "pop-oe",
+                        "until" : "node"
+                     },
+                     {
+                        "type" : "abort these steps"
+                     }
+                  ],
+                  "cond" : [
+                     "node",
+                     "is",
+                     {
+                        "tag_name" : 1
+                     }
+                  ],
+                  "type" : "if"
+               }
+            ],
+            "between_actions" : [
+            ],
+            "type" : "for-each-reverse-oe-as-node"
+         }
+      ],
+      "in element;ENTITY" : [
+      ],
+      "in element;EOD" : [
+      ],
+      "in element;EOF" : [
+         {
+            "actions" : [
+               {
+                  "actions" : [
+                     {
+                        "name" : "in-element-eof",
+                        "type" : "parse error"
+                     }
+                  ],
+                  "cond" : [
+                     "oe",
+                     "> 1"
+                  ],
+                  "type" : "if"
+               },
+               {
+                  "type" : "stop parsing"
+               }
+            ],
+            "cond" : [
+               "fragment"
+            ],
+            "false_actions" : [
+               {
+                  "name" : "in-element-eof-2",
+                  "type" : "parse error"
+               },
+               {
+                  "type" : "stop parsing"
+               }
+            ],
+            "type" : "if"
+         }
+      ],
+      "in element;NOTATION" : [
+      ],
+      "in element;PI" : [
+         {
+            "type" : "insert a processing instruction"
+         }
+      ],
+      "in element;START-ELSE" : [
+         {
+            "type" : "create an XML element"
+         },
+         {
+            "type" : "append-to-current"
+         },
+         {
+            "type" : "push-oe"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "pop-oe"
+               },
+               {
+                  "type" : "acknowledge the token's self-closing flag"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         }
+      ],
+      "in element;TEXT" : [
+         {
+            "actions" : [
+               {
+                  "type" : "insert-chars"
+               }
+            ],
+            "null_char_actions" : [
+               {
+                  "name" : "in-element-null",
+                  "type" : "parse error"
+               }
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "in subset after root element;ATTLIST" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;COMMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;DOCTYPE" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;ELEMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;END-ELSE" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;ENTITY" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;EOD" : [
+         {
+            "im" : "after root element",
+            "type" : "switch the insertion mode"
+         }
+      ],
+      "in subset after root element;EOF" : [
+         {
+            "type" : "stop parsing"
+         }
+      ],
+      "in subset after root element;NOTATION" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;PI" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;START-ELSE" : [
+         {
+            "actions" : [
+               {
+                  "error_text" : [
+                     "token",
+                     "tag name"
+                  ],
+                  "error_type" : "nestc",
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset after root element;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "in subset before root element;ATTLIST" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;COMMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;DOCTYPE" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;ELEMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;END-ELSE" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;ENTITY" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;EOD" : [
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         }
+      ],
+      "in subset before root element;EOF" : [
+         {
+            "type" : "stop parsing"
+         }
+      ],
+      "in subset before root element;NOTATION" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;PI" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;START-ELSE" : [
+         {
+            "actions" : [
+               {
+                  "error_text" : [
+                     "token",
+                     "tag name"
+                  ],
+                  "error_type" : "nestc",
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset before root element;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "in subset in element;ATTLIST" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;COMMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;DOCTYPE" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;ELEMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;END-ELSE" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;ENTITY" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;EOD" : [
+         {
+            "im" : "in element",
+            "type" : "switch the insertion mode"
+         }
+      ],
+      "in subset in element;EOF" : [
+         {
+            "type" : "stop parsing"
+         }
+      ],
+      "in subset in element;NOTATION" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;PI" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;START-ELSE" : [
+         {
+            "actions" : [
+               {
+                  "error_text" : [
+                     "token",
+                     "tag name"
+                  ],
+                  "error_type" : "nestc",
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         },
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset in element;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "in subset;ATTLIST" : [
+         {
+            "type" : "process an ATTLIST token"
+         }
+      ],
+      "in subset;COMMENT" : [
+         {
+            "type" : "ignore the token"
+         }
+      ],
+      "in subset;DOCTYPE" : [
+      ],
+      "in subset;ELEMENT" : [
+         {
+            "type" : "process an ELEMENT token"
+         }
+      ],
+      "in subset;END-ELSE" : [
+      ],
+      "in subset;ENTITY" : [
+         {
+            "type" : "process an ENTITY token"
+         }
+      ],
+      "in subset;EOD" : [
+         {
+            "actions" : [
+               {
+                  "type" : "process the external subset"
+               }
+            ],
+            "cond" : [
+               "token",
+               "non-empty",
+               "system identifier"
+            ],
+            "type" : "if"
+         }
+      ],
+      "in subset;EOF" : [
+         {
+            "type" : "stop parsing"
+         }
+      ],
+      "in subset;NOTATION" : [
+         {
+            "type" : "process a NOTATION token"
+         }
+      ],
+      "in subset;PI" : [
+         {
+            "type" : "insert a processing instruction"
+         }
+      ],
+      "in subset;START-ELSE" : [
+         {
+            "actions" : [
+               {
+                  "error_text" : [
+                     "token",
+                     "tag name"
+                  ],
+                  "error_type" : "nestc",
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse error"
+               }
+            ],
+            "cond" : [
+               "token",
+               "has",
+               "self-closing flag"
+            ],
+            "type" : "if"
+         }
+      ],
+      "in subset;TEXT" : [
+         {
+            "actions" : [
+            ],
+            "char_actions" : [
+               {
+                  "name" : "in-subset-char",
+                  "type" : "parse error"
+               }
+            ],
+            "type" : "process-chars"
+         }
+      ],
+      "initial;ATTLIST" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;COMMENT" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;DOCTYPE" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;ELEMENT" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;END-ELSE" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;ENTITY" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;EOD" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;EOF" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;NOTATION" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;PI" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;PI:xml" : [
+         {
+            "type" : "process an XML declaration"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         }
+      ],
+      "initial;START-ELSE" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "initial;TEXT" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ]
+   },
+   "charrefs_pubids" : {
+      "-//W3C//DTD MathML 2.0//EN" : 1,
+      "-//W3C//DTD XHTML 1.0 Frameset//EN" : 1,
+      "-//W3C//DTD XHTML 1.0 Strict//EN" : 1,
+      "-//W3C//DTD XHTML 1.0 Transitional//EN" : 1,
+      "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" : 1,
+      "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" : 1,
+      "-//W3C//DTD XHTML 1.1//EN" : 1,
+      "-//W3C//DTD XHTML Basic 1.0//EN" : 1,
+      "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" : 1
+   },
+   "element_matching" : {
+      "element_groups" : [
+         "HTML:*",
+         "HTML:applet,HTML:audio,HTML:style,HTML:video",
+         "HTML:button,HTML:fieldset,HTML:input,HTML:keygen,HTML:label,HTML:output,HTML:select,HTML:textarea",
+         "HTML:img",
+         "HTML:object"
+      ],
+      "element_types" : [
+         "HTML:head",
+         "HTML:html",
+         "HTML:select",
+         "HTML:table",
+         "HTML:template"
+      ]
+   },
+   "ims" : {
+      "after root element" : {
+         "conds" : {
+            "ATTLIST" : "after root element;ATTLIST",
+            "COMMENT" : "after root element;COMMENT",
+            "DOCTYPE" : "after root element;DOCTYPE",
+            "ELEMENT" : "after root element;ELEMENT",
+            "END-ELSE" : "after root element;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "after root element;END-ELSE",
+            "ENTITY" : "after root element;ENTITY",
+            "EOD" : "after root element;EOD",
+            "EOF" : "after root element;EOF",
+            "NOTATION" : "after root element;NOTATION",
+            "PI" : "after root element;PI",
+            "START-ELSE" : "after root element;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "after root element;START-ELSE",
+            "TEXT" : "after root element;TEXT"
+         }
+      },
+      "before DOCTYPE" : {
+         "conds" : {
+            "ATTLIST" : "before DOCTYPE;ATTLIST",
+            "COMMENT" : "before DOCTYPE;COMMENT",
+            "DOCTYPE" : "before DOCTYPE;DOCTYPE",
+            "ELEMENT" : "before DOCTYPE;ELEMENT",
+            "END-ELSE" : "before DOCTYPE;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "before DOCTYPE;END-ELSE",
+            "ENTITY" : "before DOCTYPE;ENTITY",
+            "EOD" : "before DOCTYPE;EOD",
+            "EOF" : "before DOCTYPE;EOF",
+            "NOTATION" : "before DOCTYPE;NOTATION",
+            "PI" : "before DOCTYPE;PI",
+            "START-ELSE" : "before DOCTYPE;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "before DOCTYPE;START-ELSE",
+            "TEXT" : "before DOCTYPE;TEXT"
+         }
+      },
+      "before root element" : {
+         "conds" : {
+            "ATTLIST" : "before root element;ATTLIST",
+            "COMMENT" : "before root element;COMMENT",
+            "DOCTYPE" : "before root element;DOCTYPE",
+            "ELEMENT" : "before root element;ELEMENT",
+            "END-ELSE" : "before root element;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "before root element;END-ELSE",
+            "ENTITY" : "before root element;ENTITY",
+            "EOD" : "before root element;EOD",
+            "EOF" : "before root element;EOF",
+            "NOTATION" : "before root element;NOTATION",
+            "PI" : "before root element;PI",
+            "START-ELSE" : "before root element;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "before root element;START-ELSE",
+            "TEXT" : "before root element;TEXT"
+         }
+      },
+      "in element" : {
+         "conds" : {
+            "ATTLIST" : "in element;ATTLIST",
+            "COMMENT" : "in element;COMMENT",
+            "DOCTYPE" : "in element;DOCTYPE",
+            "ELEMENT" : "in element;ELEMENT",
+            "END-ELSE" : "in element;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "in element;END-ELSE",
+            "ENTITY" : "in element;ENTITY",
+            "EOD" : "in element;EOD",
+            "EOF" : "in element;EOF",
+            "NOTATION" : "in element;NOTATION",
+            "PI" : "in element;PI",
+            "START-ELSE" : "in element;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "in element;START-ELSE",
+            "TEXT" : "in element;TEXT"
+         }
+      },
+      "in subset" : {
+         "conds" : {
+            "ATTLIST" : "in subset;ATTLIST",
+            "COMMENT" : "in subset;COMMENT",
+            "DOCTYPE" : "in subset;DOCTYPE",
+            "ELEMENT" : "in subset;ELEMENT",
+            "END-ELSE" : "in subset;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "in subset;END-ELSE",
+            "ENTITY" : "in subset;ENTITY",
+            "EOD" : "in subset;EOD",
+            "EOF" : "in subset;EOF",
+            "NOTATION" : "in subset;NOTATION",
+            "PI" : "in subset;PI",
+            "START-ELSE" : "in subset;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "in subset;START-ELSE",
+            "TEXT" : "in subset;TEXT"
+         }
+      },
+      "in subset after root element" : {
+         "conds" : {
+            "ATTLIST" : "in subset after root element;ATTLIST",
+            "COMMENT" : "in subset after root element;COMMENT",
+            "DOCTYPE" : "in subset after root element;DOCTYPE",
+            "ELEMENT" : "in subset after root element;ELEMENT",
+            "END-ELSE" : "in subset after root element;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "in subset after root element;END-ELSE",
+            "ENTITY" : "in subset after root element;ENTITY",
+            "EOD" : "in subset after root element;EOD",
+            "EOF" : "in subset after root element;EOF",
+            "NOTATION" : "in subset after root element;NOTATION",
+            "PI" : "in subset after root element;PI",
+            "START-ELSE" : "in subset after root element;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "in subset after root element;START-ELSE",
+            "TEXT" : "in subset after root element;TEXT"
+         }
+      },
+      "in subset before root element" : {
+         "conds" : {
+            "ATTLIST" : "in subset before root element;ATTLIST",
+            "COMMENT" : "in subset before root element;COMMENT",
+            "DOCTYPE" : "in subset before root element;DOCTYPE",
+            "ELEMENT" : "in subset before root element;ELEMENT",
+            "END-ELSE" : "in subset before root element;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "in subset before root element;END-ELSE",
+            "ENTITY" : "in subset before root element;ENTITY",
+            "EOD" : "in subset before root element;EOD",
+            "EOF" : "in subset before root element;EOF",
+            "NOTATION" : "in subset before root element;NOTATION",
+            "PI" : "in subset before root element;PI",
+            "START-ELSE" : "in subset before root element;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "in subset before root element;START-ELSE",
+            "TEXT" : "in subset before root element;TEXT"
+         }
+      },
+      "in subset in element" : {
+         "conds" : {
+            "ATTLIST" : "in subset in element;ATTLIST",
+            "COMMENT" : "in subset in element;COMMENT",
+            "DOCTYPE" : "in subset in element;DOCTYPE",
+            "ELEMENT" : "in subset in element;ELEMENT",
+            "END-ELSE" : "in subset in element;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "in subset in element;END-ELSE",
+            "ENTITY" : "in subset in element;ENTITY",
+            "EOD" : "in subset in element;EOD",
+            "EOF" : "in subset in element;EOF",
+            "NOTATION" : "in subset in element;NOTATION",
+            "PI" : "in subset in element;PI",
+            "START-ELSE" : "in subset in element;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "in subset in element;START-ELSE",
+            "TEXT" : "in subset in element;TEXT"
+         }
+      },
+      "initial" : {
+         "conds" : {
+            "ATTLIST" : "initial;ATTLIST",
+            "COMMENT" : "initial;COMMENT",
+            "DOCTYPE" : "initial;DOCTYPE",
+            "ELEMENT" : "initial;ELEMENT",
+            "END-ELSE" : "initial;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "initial;END-ELSE",
+            "ENTITY" : "initial;ENTITY",
+            "EOD" : "initial;EOD",
+            "EOF" : "initial;EOF",
+            "NOTATION" : "initial;NOTATION",
+            "PI" : "initial;PI",
+            "PI:xml" : "initial;PI:xml",
+            "START-ELSE" : "initial;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "initial;START-ELSE",
+            "TEXT" : "initial;TEXT"
+         }
+      }
+   },
+   "reset_im_by_html_element" : {
+   },
+   "tag_name_groups" : [
+      "button fieldset img input keygen label object output select textarea"
+   ],
+   "tree_patterns" : {
+      "HTML element" : "HTML:*",
+      "category-form-attr" : "HTML:button,HTML:fieldset,HTML:input,HTML:keygen,HTML:label,HTML:output,HTML:select,HTML:textarea HTML:object",
+      "form-associated element" : "HTML:button,HTML:fieldset,HTML:input,HTML:keygen,HTML:label,HTML:output,HTML:select,HTML:textarea HTML:img HTML:object",
+      "has_popped_action" : "HTML:applet,HTML:audio,HTML:style,HTML:video HTML:object"
+   },
+   "tree_patterns_not" : {
+   }
+}

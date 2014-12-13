@@ -160,7 +160,8 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Create a new content model group\.//) {
                 push @action, {type => 'create-cmgroup'};
               } elsif ($action =~ s/^Set the current token's content model group to the content model group\.//) {
-                push @action, {type => 'set-cmgroup'};
+                push @action, {type => 'set-cmgroup',
+                               field => 'content model group'};
               } elsif ($action =~ s/^Set the stack of the open content model groups to a stack that contains only the content model group\.//) {
                 push @action, {type => 'push-cmgroup-as-only-item'};
               } elsif ($action =~ s/^Push the content model group to the stack of open content model groups\.//) {
@@ -452,9 +453,6 @@ sub parse_action ($) {
       push @action, {type => 'ERROR-UNLESS-SEMICOLON'};
     } elsif ($action =~ s/^\QReturn one or two character tokens for the character(s) corresponding to the character reference name (as given by the second column of the named character references table).\E//) {
       push @action, {type => 'RETURN-CHARS'};
-
-    } elsif ($action =~ s/^If the internal subset tainted flag of the current token is set, parse error\.//) {
-      push @action, {type => 'parse error', if => 'internal subset tainted'};
 
     } elsif ($action =~ s/^Switch back to the original state\.//) {
       push @action, {type => 'SWITCH-BACK'};

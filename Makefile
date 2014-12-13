@@ -377,6 +377,8 @@ data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
     local/html-tree.json
 	$(PERL) bin/html-syntax.pl > $@
 	!(grep '"misc"' $@ > /dev/null)
+	!(grep '"UNPARSED"' $@ > /dev/null)
+	!(grep '"COND"' $@ > /dev/null)
 data/xml-syntax.json: bin/xml-syntax.pl \
     local/html-tokenizer.json \
     local/html-tokenizer-charrefs.json \
@@ -388,6 +390,8 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/xml-tree.json
 	$(PERL) bin/xml-syntax.pl > $@
 	!(grep '"misc"' $@ > /dev/null)
+	!(grep '"UNPARSED"' $@ > /dev/null)
+	!(grep '"COND"' $@ > /dev/null)
 
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json

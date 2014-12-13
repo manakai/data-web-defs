@@ -12,8 +12,8 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; reconsume
 >    -> error; DTD state; reconsume
-NULL -> error; set U+FFFD to name; ATTLIST name state
-ELSE -> set to name; ATTLIST name state
+NULL -> error; create(ATTLIST); set U+FFFD to name; ATTLIST name state
+ELSE -> create(ATTLIST); set to name; ATTLIST name state
 
 * ATTLIST name state
 ## <!ATTLIST n

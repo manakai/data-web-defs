@@ -133,6 +133,40 @@ for (
 }
 
 {
+  my $changed = 0;
+  for my $state (keys %{$Data->{tokenizer}->{states}}) {
+    my $state_def = $Data->{tokenizer}->{states}->{$state};
+    for my $cond (keys %{$state_def->{conds}}) {
+      my $types = {%{$state_def->{initial_token_types} or {}}};
+      my $last_state = $state;
+      for my $act (@{$state_def->{conds}->{$cond}->{actions}}) {
+        if ($act->{type} eq 'create') {
+          $types = {};
+          $types->{$act->{token}} = 1;
+        } elsif ($act->{type} eq 'emit') {
+          $types = {};
+        } elsif ($act->{type} eq 'switch') {
+          if (defined $act->{if}) {
+            for (keys %$types) {
+              $Data->{tokenizer}->{states}->{$act->{state}}->{initial_token_types}->{$_} ||= do { $changed = 1; $types->{$_} };
+            }
+          } else {
+            $last_state = $act->{state};
+          }
+        } elsif ($act->{type} eq 'switch-and-emit') {
+          #
+        }
+      }
+      for (keys %$types) {
+        my $value = ($last_state eq 'data state' and $cond eq 'EOF') ? -1 : $types->{$_};
+        $Data->{tokenizer}->{states}->{$last_state}->{initial_token_types}->{$_} ||= do { $changed = 1; $value };
+      }
+    }
+  }
+  redo if $changed;
+}
+
+{
   for my $state (keys %{$Data->{tokenizer}->{states}}) {
     my $state_def = $Data->{tokenizer}->{states}->{$state};
     for my $cond (keys %{$state_def->{conds}}) {
@@ -146,7 +180,7 @@ for (
           $act->{possible_token_types} = $types;
           $act->{check_end_tag_token} = 1 if $types->{'end tag token'};
         }
-        if (defined $act->{field}) {
+        if (defined $act->{field} and not $act->{type} =~ /-to-/) {
           $Data->{tokenizer}->{tokens}->{$_}->{fields}->{$act->{field}} = 1 for keys %$types;
         }
       }
