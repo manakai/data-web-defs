@@ -769,11 +769,12 @@ sub modify_actions (&) {
             $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = $act->{value};
             if ($act->{case_insensitive}) {
               if ($act->{case_insensitive} eq 'error') {
-                my $chk = {if => 'temp-wrong-case', type => 'parse error',
-                           name => 'keyword-wrong-case',
-                           expected_keyword => $kwd};
-                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [$chk, @{$act->{value}}];
-                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [$chk, @{$act->{value}}];
+                my $chk = [{type => 'append-to-temp'},
+                           {if => 'temp-wrong-case', type => 'parse error',
+                            name => 'keyword-wrong-case',
+                            expected_keyword => $kwd}];
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [@$chk, @{$act->{value}}];
+                $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [@$chk, @{$act->{value}}];
               } else {
                 $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = $act->{value};
                 $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = $act->{value};

@@ -893,6 +893,7 @@ my $DescPatterns = [
   [qr/append (.+?) to (.+)/, 'APPEND', 'ITEM', 'LIST'],
   [qr/insert (.+?) at the end of (.+)/, 'APPEND', 'ITEM', 'LIST'],
   [qr/insert a comment as (.+)/, 'insert a comment', 'AS'],
+  [qr/insert a processing instruction as (.+)/, 'insert a processing instruction', 'AS'],
   [qr/insert a (.+) character/, 'insert a character', 'CHAR'],
   [qr/insert the characters given by (.+)/, 'insert a character', 'CHAR'],
   [qr/insert (?:more |)characters \((see below for what they should say)\)/,
@@ -1503,18 +1504,22 @@ sub process_actions ($$) {
       delete $act->{TARGET};
     } # INCREMENT/DECREMENT
 
-    if ($act->{type} eq 'insert a comment' and
-        defined $act->{AS}) {
-      if ($act->{AS} eq 'the last child of the Document object') {
-        $act->{position} = 'document';
-        delete $act->{AS};
-      } elsif ($act->{AS} eq 'the last child of the first element in the stack of open elements (the html element)') {
-        $act->{position} = 'oe[0]';
-        delete $act->{AS};
-      } else {
-        warn $act->{AS};
+    for my $type ('insert a comment', 'insert a processing instruction') {
+      if ($act->{type} eq $type and defined $act->{AS}) {
+        if ($act->{AS} eq 'the last child of the Document object') {
+          $act->{position} = 'document';
+          delete $act->{AS};
+        } elsif ($act->{AS} eq 'the last child of the DocumentType object') {
+          $act->{position} = 'doctype';
+          delete $act->{AS};
+        } elsif ($act->{AS} eq 'the last child of the first element in the stack of open elements (the html element)') {
+          $act->{position} = 'oe[0]';
+          delete $act->{AS};
+        } else {
+          warn $act->{AS};
+        }
       }
-    } # insert a comment
+    }
 
     if ($act->{type} eq 'insert a character' and
         defined $act->{CHAR}) {

@@ -34,6 +34,7 @@
             "COMMENT" : {
                "actions" : [
                   {
+                     "position" : "document",
                      "type" : "insert a comment"
                   }
                ]
@@ -84,6 +85,7 @@
             "PI" : {
                "actions" : [
                   {
+                     "position" : "document",
                      "type" : "insert a processing instruction"
                   }
                ]
@@ -124,6 +126,7 @@
             "COMMENT" : {
                "actions" : [
                   {
+                     "position" : "document",
                      "type" : "insert a comment"
                   }
                ]
@@ -195,6 +198,7 @@
             "PI" : {
                "actions" : [
                   {
+                     "position" : "document",
                      "type" : "insert a processing instruction"
                   }
                ]
@@ -235,6 +239,7 @@
             "COMMENT" : {
                "actions" : [
                   {
+                     "position" : "document",
                      "type" : "insert a comment"
                   }
                ]
@@ -289,6 +294,7 @@
             "PI" : {
                "actions" : [
                   {
+                     "position" : "document",
                      "type" : "insert a processing instruction"
                   }
                ]
@@ -613,6 +619,10 @@
                         "system identifier"
                      ],
                      "type" : "if"
+                  },
+                  {
+                     "im" : "before root element",
+                     "type" : "switch the insertion mode"
                   }
                ]
             },
@@ -633,6 +643,7 @@
             "PI" : {
                "actions" : [
                   {
+                     "position" : "doctype",
                      "type" : "insert a processing instruction"
                   }
                ]
@@ -725,7 +736,7 @@
                      "type" : "the XML declaration is missing"
                   },
                   {
-                     "im" : "before root element",
+                     "im" : "before DOCTYPE",
                      "type" : "switch the insertion mode"
                   },
                   {
@@ -1989,6 +2000,9 @@
                "CHAR:0054" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "ATTLIST",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -2002,6 +2016,9 @@
                },
                "CHAR:0074" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "ATTLIST",
                         "if" : "temp-wrong-case",
@@ -2461,6 +2478,9 @@
                "CHAR:0054" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "ELEMENT",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -2474,6 +2494,9 @@
                },
                "CHAR:0074" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "ELEMENT",
                         "if" : "temp-wrong-case",
@@ -2763,6 +2786,9 @@
                "CHAR:0059" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "ENTITY",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -2776,6 +2802,9 @@
                },
                "CHAR:0079" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "ENTITY",
                         "if" : "temp-wrong-case",
@@ -3287,6 +3316,9 @@
                "CHAR:004E" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "NOTATION",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -3300,6 +3332,9 @@
                },
                "CHAR:006E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "NOTATION",
                         "if" : "temp-wrong-case",
@@ -5864,6 +5899,28 @@
                      }
                   ]
                },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "field" : "has internal subset flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "type" : "set-DTD-mode",
+                        "value" : "internal subset"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
                "CHAR:0070" : {
                   "actions" : [
                      {
@@ -6181,6 +6238,9 @@
                "CHAR:0043" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "PUBLIC",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -6194,6 +6254,9 @@
                },
                "CHAR:0063" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "PUBLIC",
                         "if" : "temp-wrong-case",
@@ -6487,6 +6550,9 @@
                "CHAR:004D" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "SYSTEM",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -6500,6 +6566,9 @@
                },
                "CHAR:006D" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "SYSTEM",
                         "if" : "temp-wrong-case",
@@ -7475,6 +7544,9 @@
                "CHAR:0043" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "PUBLIC",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -7488,6 +7560,9 @@
                },
                "CHAR:0063" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "PUBLIC",
                         "if" : "temp-wrong-case",
@@ -7761,6 +7836,9 @@
                "CHAR:004D" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "SYSTEM",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -7774,6 +7852,9 @@
                },
                "CHAR:006D" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "SYSTEM",
                         "if" : "temp-wrong-case",
@@ -8797,6 +8878,9 @@
                "CHAR:0043" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "PUBLIC",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -8810,6 +8894,9 @@
                },
                "CHAR:0063" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "PUBLIC",
                         "if" : "temp-wrong-case",
@@ -9083,6 +9170,9 @@
                "CHAR:004D" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "SYSTEM",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -9096,6 +9186,9 @@
                },
                "CHAR:006D" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "SYSTEM",
                         "if" : "temp-wrong-case",
@@ -10845,6 +10938,9 @@
                "CHAR:0045" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "IGNORE",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -10858,6 +10954,9 @@
                },
                "CHAR:0065" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "IGNORE",
                         "if" : "temp-wrong-case",
@@ -11176,6 +11275,9 @@
                "CHAR:0045" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "INCLUDE",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -11189,6 +11291,9 @@
                },
                "CHAR:0065" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "INCLUDE",
                         "if" : "temp-wrong-case",
@@ -14506,6 +14611,9 @@
                "CHAR:0041" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "NDATA",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -14519,6 +14627,9 @@
                },
                "CHAR:0061" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "NDATA",
                         "if" : "temp-wrong-case",
@@ -18961,6 +19072,9 @@
                "CHAR:0045" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "expected_keyword" : "DOCTYPE",
                         "if" : "temp-wrong-case",
                         "name" : "keyword-wrong-case",
@@ -18974,6 +19088,9 @@
                },
                "CHAR:0065" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "expected_keyword" : "DOCTYPE",
                         "if" : "temp-wrong-case",

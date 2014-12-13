@@ -99,7 +99,8 @@ token as follows:
 <dd><p>Ignore the token.
 
 <dt>A processing instruction token
-<dd><p><span>Insert a processing instruction</span>.
+<dd><p><span>Insert a processing instruction</span> as the last child
+of the <code>DocumentType</code> object.
 
 <dt>An ELEMENT token
 <dd><p><span>Process an ELEMENT token</span>.
@@ -114,6 +115,8 @@ token as follows:
 <dd>
   <p>If the <span>system identifier</span> of the token is not
   empty, <span>process the external subset</span>.
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "before root element" insertion mode'>before root element</span>".
 
 <dt>An end-of-file token
 <dd><p><span>Stop parsing</span>.
@@ -204,10 +207,12 @@ agent <em class=rfc2119>MUST</em> handle the token as follows:
 <dl class=switch>
 
 <dt>A comment token
-<dd><p><span>Insert a comment</span>.
+<dd><p><span>Insert a comment</span> as the last child of
+the <code>Document</code> object.
 
 <dt>A processing instruction token
-<dd><p><span>Insert a processing instruction</span>.
+<dd><p><span>Insert a processing instruction</span> as the last child
+of the <code>Document</code> object.
 
 <dt>A character token that is one of U+0009 CHARACTER TABULATION,
 U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
@@ -258,10 +263,12 @@ agent <em class=rfc2119>MUST</em> handle the token as follows:
   "<span title='the "in element" insertion mode'>in element</span>".
 
 <dt>A comment token
-<dd><p><span>Insert a comment</span>.
+<dd><p><span>Insert a comment</span> as the last child of
+the <code>Document</code> object.
 
 <dt>A processing instruction token
-<dd><p><span>Insert a processing instruction</span>.
+<dd><p><span>Insert a processing instruction</span> as the last child
+of the <code>Document</code> object.
 
 <dt>A character token that is one of U+0009 CHARACTER TABULATION,
 U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
@@ -302,10 +309,12 @@ agent <em class=rfc2119>MUST</em> handle the token as follows:
   <p>Reprocess the token.
 
 <dt>A comment token
-<dd><p><span>Insert a comment</span>.
+<dd><p><span>Insert a comment</span> as the last child of
+the <code>Document</code> object.
 
 <dt>A processing instruction token
-<dd><p><span>Insert a processing instruction</span>.
+<dd><p><span>Insert a processing instruction</span> as the last child
+of the <code>Document</code> object.
 
 <dt>A character token that is one of U+0009 CHARACTER TABULATION,
 U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
@@ -350,7 +359,7 @@ follows:
 <dd>
   <p><span>The XML declaration is missing</span>.
   <p>Switch the <span>insertion mode</span> to "<span title='the
-  "before root element" insertion mode'>before root element</span>".
+  "before DOCTYPE" insertion mode'>before DOCTYPE</span>".
   <p>Reprocess the token.
 
 </dl>
