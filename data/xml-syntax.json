@@ -744,14 +744,36 @@
                   }
                ]
             },
-            "PI:xml" : {
+            "PI" : {
                "actions" : [
                   {
-                     "type" : "process an XML declaration"
-                  },
-                  {
-                     "im" : "before root element",
-                     "type" : "switch the insertion mode"
+                     "actions" : [
+                        {
+                           "type" : "process an XML declaration"
+                        },
+                        {
+                           "im" : "before root element",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "cond" : [
+                        "token target",
+                        "is",
+                        "xml"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "the XML declaration is missing"
+                        },
+                        {
+                           "im" : "before DOCTYPE",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "if"
                   }
                ]
             }

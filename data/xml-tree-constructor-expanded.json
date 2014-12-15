@@ -992,23 +992,33 @@
       ],
       "initial;PI" : [
          {
-            "type" : "the XML declaration is missing"
-         },
-         {
-            "im" : "before DOCTYPE",
-            "type" : "switch the insertion mode"
-         },
-         {
-            "type" : "reprocess the token"
-         }
-      ],
-      "initial;PI:xml" : [
-         {
-            "type" : "process an XML declaration"
-         },
-         {
-            "im" : "before root element",
-            "type" : "switch the insertion mode"
+            "actions" : [
+               {
+                  "type" : "process an XML declaration"
+               },
+               {
+                  "im" : "before root element",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token target",
+               "is",
+               "xml"
+            ],
+            "false_actions" : [
+               {
+                  "type" : "the XML declaration is missing"
+               },
+               {
+                  "im" : "before DOCTYPE",
+                  "type" : "switch the insertion mode"
+               },
+               {
+                  "type" : "reprocess the token"
+               }
+            ],
+            "type" : "if"
          }
       ],
       "initial;START-ELSE" : [
@@ -1221,7 +1231,6 @@
             "EOF" : "initial;EOF",
             "NOTATION" : "initial;NOTATION",
             "PI" : "initial;PI",
-            "PI:xml" : "initial;PI:xml",
             "START-ELSE" : "initial;START-ELSE",
             "START:button fieldset img input keygen label object output select textarea" : "initial;START-ELSE",
             "TEXT" : "initial;TEXT"

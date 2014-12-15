@@ -124,7 +124,7 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $3), (parse_step $f), (parse_step $i)];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), then(?: run these substeps|)(?: instead|):$/o) {
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), then(?: run these (?:sub|)steps|)(?: instead|):$/o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
       $_->{RUN_NEXT} = 1;
@@ -1062,6 +1062,8 @@ sub parse_cond ($) {
     $cond = ['token', 'non-empty', $1];
   } elsif ($COND =~ /^If the token's tag name is "([^"]+)"$/) {
     $cond = ['token tag_name', 'is', $1];
+  } elsif ($COND =~ /the current token's target is "([^"]+)"$/) {
+    $cond = ['token target', 'is', $1];
   } elsif ($COND =~ /^the list of active formatting elements contains an? ([\w-]+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
     $cond = ['afe', 'in scope', 'marker', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
