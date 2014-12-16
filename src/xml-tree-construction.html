@@ -113,13 +113,17 @@ of the <code>DocumentType</code> object.
 
 <dt>An end-of-DOCTYPE token
 <dd>
-  <p>If the <span>system identifier</span> of the token is not
+  <p>If the <span>DOCTYPE system identifier</span> is not
   empty, <span>process the external subset</span>.
   <p>Switch the <span>insertion mode</span> to "<span title='the
   "before root element" insertion mode'>before root element</span>".
 
 <dt>An end-of-file token
-<dd><p><span>Stop parsing</span>.
+<dd>
+  <p><span>Parse error</span>.
+  <p>If the <span>DOCTYPE system identifier</span> is not
+  empty, <span>process the external subset</span>.
+  <p><span>Stop parsing</span>.
 
 <dt>A character token that is one of U+0009 CHARACTER TABULATION,
 U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
@@ -328,11 +332,13 @@ U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
 <dt>A DOCTYPE token
 <dd>
   <p><span>Insert a DOCTYPE</span>.
+  <p>Set the <span>DOCTYPE system identifier</span> to
+  the <span>system identifier</span> of the token.
   <p>If the token has its <i>has internal subset</i> flag set, switch
   the <span>insertion mode</span> to "<span title='the "in subset"
   insertion mode'>in subset</span>".
-  <p>Otherwise, if the <span>system identifier</span> of the token is
-  not empty, <span>process the external subset</span>.
+  <p>Otherwise, if the <span>DOCTYPE system identifier</span> is not
+  empty, <span>process the external subset</span>.
   <p>Otherwise, switch the <span>insertion mode</span> to
   "<span title='the "before root element" insertion mode'>before root
   element</span>".

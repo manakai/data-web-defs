@@ -137,6 +137,9 @@
                      "type" : "insert a DOCTYPE"
                   },
                   {
+                     "type" : "set-DOCTYPE-system-identifier"
+                  },
+                  {
                      "actions" : [
                         {
                            "im" : "in subset",
@@ -156,9 +159,8 @@
                               }
                            ],
                            "cond" : [
-                              "token",
-                              "non-empty",
-                              "system identifier"
+                              "DOCTYPE system identifier",
+                              "non-empty"
                            ],
                            "false_actions" : [
                               {
@@ -614,9 +616,8 @@
                         }
                      ],
                      "cond" : [
-                        "token",
-                        "non-empty",
-                        "system identifier"
+                        "DOCTYPE system identifier",
+                        "non-empty"
                      ],
                      "type" : "if"
                   },
@@ -628,6 +629,22 @@
             },
             "EOF" : {
                "actions" : [
+                  {
+                     "name" : "in-subset-eof",
+                     "type" : "parse error"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "process the external subset"
+                        }
+                     ],
+                     "cond" : [
+                        "DOCTYPE system identifier",
+                        "non-empty"
+                     ],
+                     "type" : "if"
+                  },
                   {
                      "type" : "stop parsing"
                   }
@@ -946,15 +963,8 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "name" : "attlist-attribute-default-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "before ATTLIST attribute name state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
+                        "field" : "default type",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -1033,12 +1043,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -1117,12 +1121,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -1195,12 +1193,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -5683,12 +5675,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -5787,12 +5773,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -9687,12 +9667,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -9751,12 +9725,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -9830,12 +9798,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -11409,12 +11371,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -13214,12 +13170,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -13386,9 +13336,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
@@ -15001,12 +14948,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "ATTLIST token" : 1
-                        },
-                        "type" : "emit"
                      }
                   ]
                },
@@ -17257,8 +17198,7 @@
                      },
                      {
                         "field" : "value",
-                        "index_offset" : 0,
-                        "type" : "append",
+                        "type" : "append-to-attr",
                         "value" : "�"
                      }
                   ]
@@ -17283,7 +17223,7 @@
                   "actions" : [
                      {
                         "field" : "value",
-                        "type" : "append"
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -17746,8 +17686,7 @@
                      },
                      {
                         "field" : "value",
-                        "index_offset" : 0,
-                        "type" : "append",
+                        "type" : "append-to-attr",
                         "value" : "�"
                      }
                   ]
@@ -17772,7 +17711,7 @@
                   "actions" : [
                      {
                         "field" : "value",
-                        "type" : "append"
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -20503,8 +20442,7 @@
       "tokens" : {
          "ATTLIST token" : {
             "fields" : {
-               "name" : 1,
-               "value" : 1
+               "name" : 1
             },
             "short_name" : "ATTLIST"
          },

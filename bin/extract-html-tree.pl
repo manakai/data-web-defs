@@ -1062,8 +1062,10 @@ sub parse_cond ($) {
     $cond = ['token', 'non-empty', $1];
   } elsif ($COND =~ /^If the token's tag name is "([^"]+)"$/) {
     $cond = ['token tag_name', 'is', $1];
-  } elsif ($COND =~ /the current token's target is "([^"]+)"$/) {
+  } elsif ($COND =~ /^the current token's target is "([^"]+)"$/) {
     $cond = ['token target', 'is', $1];
+  } elsif ($COND =~ /^the DOCTYPE system identifier is not empty$/) {
+    $cond = ['DOCTYPE system identifier', 'non-empty'];
   } elsif ($COND =~ /^the list of active formatting elements contains an? ([\w-]+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
     $cond = ['afe', 'in scope', 'marker', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
@@ -1427,6 +1429,11 @@ sub process_actions ($$) {
                $act->{VALUE} eq 'quirks mode') {
         $act->{type} = 'set-compat-mode';
         $act->{value} = 'quirks';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "the DOCTYPE system identifier" and
+               $act->{VALUE} eq "the system identifier of the token") {
+        $act->{type} = 'set-DOCTYPE-system-identifier';
         delete $act->{TARGET};
         delete $act->{VALUE};
       } else {

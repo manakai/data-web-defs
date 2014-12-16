@@ -1461,6 +1461,8 @@ for my $im (keys %{$Data->{ims}}) {
             }
           } elsif ($act->{type} eq 'insert a foreign element') {
             $foreign = 1;
+          } elsif ($act->{type} eq 'create an XML element') {
+            $foreign = 1;
           } elsif ($act->{type} eq "acknowledge the token's self-closing flag") {
             push @ack, $act;
           }
@@ -1479,6 +1481,8 @@ for my $im (keys %{$Data->{ims}}) {
                   not defined $act->{local_name}) {
             $act->{possible_local_names}->{ELSE} = {};
           } elsif ($act->{type} eq 'insert a foreign element') {
+            $foreign = 1;
+          } elsif ($act->{type} eq 'create an XML element') {
             $foreign = 1;
           } elsif ($act->{type} eq "acknowledge the token's self-closing flag") {
             push @ack, $act;

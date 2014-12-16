@@ -6,6 +6,7 @@
       "Error type for parse error \u0022before-root-element-eof\u0022 not defined",
       "Error type for parse error \u0022before-root-element-char\u0022 not defined",
       "Error type for parse error \u0022before-root-element-doctype\u0022 not defined",
+      "Error type for parse error \u0022in-subset-eof\u0022 not defined",
       "Error type for parse error \u0022in-subset-char\u0022 not defined",
       "Error type for parse error \u0022in-element-end-else\u0022 not defined",
       "Error type for parse error \u0022in-element-end-else-2\u0022 not defined",
@@ -132,6 +133,9 @@
             "type" : "insert a DOCTYPE"
          },
          {
+            "type" : "set-DOCTYPE-system-identifier"
+         },
+         {
             "actions" : [
                {
                   "im" : "in subset",
@@ -151,9 +155,8 @@
                      }
                   ],
                   "cond" : [
-                     "token",
-                     "non-empty",
-                     "system identifier"
+                     "DOCTYPE system identifier",
+                     "non-empty"
                   ],
                   "false_actions" : [
                      {
@@ -303,6 +306,7 @@
                   "type" : "pop-oe"
                },
                {
+                  "foreign" : 1,
                   "type" : "acknowledge the token's self-closing flag"
                },
                {
@@ -516,6 +520,7 @@
                   "type" : "pop-oe"
                },
                {
+                  "foreign" : 1,
                   "type" : "acknowledge the token's self-closing flag"
                }
             ],
@@ -821,9 +826,8 @@
                }
             ],
             "cond" : [
-               "token",
-               "non-empty",
-               "system identifier"
+               "DOCTYPE system identifier",
+               "non-empty"
             ],
             "type" : "if"
          },
@@ -833,6 +837,22 @@
          }
       ],
       "in subset;EOF" : [
+         {
+            "name" : "in-subset-eof",
+            "type" : "parse error"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "process the external subset"
+               }
+            ],
+            "cond" : [
+               "DOCTYPE system identifier",
+               "non-empty"
+            ],
+            "type" : "if"
+         },
          {
             "type" : "stop parsing"
          }
