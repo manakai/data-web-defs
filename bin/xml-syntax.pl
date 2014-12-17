@@ -132,6 +132,48 @@ for (
   } ## GCing
 }
 
+my @ActionKey = qw(actions false_actions between_actions ws_actions
+                   null_actions char_actions ws_char_actions ws_seq_actions
+                   null_char_actions null_seq_actions);
+sub for_actions (&$);
+sub for_actions (&$) {
+  my ($code, $acts) = @_;
+  my $new_acts = [];
+  for (@$acts) {
+    my $act = {%$_};
+    for (@ActionKey) {
+      $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
+    }
+    push @$new_acts, $act;
+  }
+  return $code->($new_acts);
+} # for_actions
+
+{
+  my @state = ('PI state', 'comment state', 'bogus comment state');
+  my %state_done;
+  while (@state) {
+    my $state = shift @state;
+    next if $state_done{$state}++;
+    for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+      $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions} = for_actions {
+        my $acts = shift;
+        for my $act (@$acts) {
+          if (2 == keys %$act and
+              $act->{type} eq 'switch' and defined $act->{state}) {
+            if ($act->{state} eq 'data state') {
+              $act->{dtd_state} = 'DTD state';
+            } else {
+              push @state, $act->{state};
+            }
+          }
+        }
+        return $acts;
+      } $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
+    }
+  }
+}
+
 {
   my $changed = 0;
   for my $state (keys %{$Data->{tokenizer}->{states}}) {
@@ -149,6 +191,10 @@ for (
           if (defined $act->{if}) {
             for (keys %$types) {
               $Data->{tokenizer}->{states}->{$act->{state}}->{initial_token_types}->{$_} ||= do { $changed = 1; $types->{$_} };
+            }
+          } elsif (defined $act->{dtd_state}) {
+            for (keys %$types) {
+              $Data->{tokenizer}->{states}->{$act->{dtd_state}}->{initial_token_types}->{$_} ||= do { $changed = 1; $types->{$_} };
             }
           } else {
             $last_state = $act->{state};
