@@ -296,12 +296,19 @@ my $tag_name_to_group = {};
         if (defined $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'} and
             defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'} and
             not defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'}) {
+          my $ws_or_error = 1;
           for (@{$Data->{ims}->{$im}->{conds}->{'CHAR:WS'}->{actions}}) {
-            unless ({
-              'reconstruct the active formatting elements' => 1,
-              'insert a character' => 1,
+            if ({
               'ignore the token' => 1,
             }->{$_->{type}}) {
+              #
+            } elsif ({
+              'reconstruct the active formatting elements' => 1,
+              'insert a character' => 1,
+            }->{$_->{type}}) {
+              $ws_or_error = 0;
+            } else {
+              $ws_or_error = 0;
               last WS_PREFIX_ELSE_SWITCH;
             }
           }
@@ -309,6 +316,10 @@ my $tag_name_to_group = {};
           for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}) {
             if ({
               'parse error' => 1,
+              'ignore the token' => 1,
+            }->{$_->{type}}) {
+              #
+            } elsif ({
               'create an HTML element' => 1,
               'insert an HTML element' => 1,
               'set-head-element-pointer' => 1,
@@ -316,12 +327,12 @@ my $tag_name_to_group = {};
               'push-oe' => 1,
               'pop-oe' => 1,
               'appcache-processing' => 1,
-              'ignore the token' => 1,
             }->{$_->{type}}) {
-              #
+              $ws_or_error = 0;
             } elsif ($_->{type} eq 'switch the insertion mode' and
                      not ref $_->{im}) {
               $next_im = $_->{im};
+              $ws_or_error = 0;
             } elsif ($_->{type} eq 'if') {
               for (@{$_->{actions}}, @{$_->{false_actions} or []}) {
                 if ({
@@ -333,16 +344,33 @@ my $tag_name_to_group = {};
                   last WS_PREFIX_ELSE_SWITCH;
                 }
               }
+              $ws_or_error = 0;
             } elsif ($_->{type} eq 'reprocess the token' and 1 == keys %$_) {
-              #
+              $ws_or_error = 0;
             } else {
               warn "Can't merge |CHAR| rules because of |$_->{type}|.\n";
+              $ws_or_error = 0;
               last WS_PREFIX_ELSE_SWITCH;
             }
           }
+
+          if ($ws_or_error) {
+            ## Note that this can change the number of parse errors
+            ## reported.
+            $ims->{$im}->{conds}->{TEXT}->{actions}
+                = [{type => 'text-with-optional-ws-prefix',
+                    ws_actions => [],
+                    actions => [@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}]}];
+            
+            delete $ims->{$im}->{conds}->{'CHAR:WS'};
+            delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+            last MERGE;
+          }
+
           last WS_PREFIX_ELSE_SWITCH
               if not defined $next_im or
                  not $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[-1]->{type} eq 'reprocess the token';
+warn "IM = $im";
 
           $ims->{$im}->{conds}->{TEXT}->{actions}
               = [{type => 'text-with-optional-ws-prefix',
@@ -1351,7 +1379,8 @@ for my $im (keys %{$Data->{ims}}) {
 
   {
     my %found;
-    my @tn = grep { not $found{$_}++ } @same_tag_name;
+    my @tn = grep { not $found{$_}++ } @same_tag_name,
+        'HTML:template'; ## Used by HTML and XML tree builder
     $Data->{element_matching}->{element_types} = [sort { $a cmp $b } grep { not /:\*$/ } @tn];
     push @{$Data->{element_matching}->{element_groups}}, grep { /:\*$/ } @tn;
   }
