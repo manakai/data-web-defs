@@ -195,6 +195,14 @@ sub add_cond ($$$) {
           $p->children->[0]->text_content (_current $1);
           $p->children->[1]->text_content ($2);
           $dd->append_child ($p);
+        } elsif ($expr =~ /^set U\+0026 to temp$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Set a U+0026 AMPERSAND character (&amp;) to the <span>temporary buffer</span>.});
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^end$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Switch to the <span>data state</span>.  Reconsume the <span>current input character</span>.});
+          $dd->append_child ($p);
         } else {
           die "Unknown expr |$expr|";
         }

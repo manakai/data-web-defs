@@ -48,8 +48,8 @@ WS   -> after ENTITY name state
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
-"    -> error; ENTITY value (double-quoted) state
-'    -> error; ENTITY value (single-quoted) state
+"    -> error; after ENTITY name state; reconsume
+'    -> error; after ENTITY name state; reconsume
 NULL -> append U+FFFD to name
 ELSE -> append to name
 
@@ -60,8 +60,8 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
-"    -> ENTITY value (double-quoted) state
-'    -> ENTITY value (single-quoted) state
+"    -> ENTITY value (double-quoted) state; set empty to value
+'    -> ENTITY value (single-quoted) state; set empty to value
 "PUBLIC" -> after ENTITY public keyword state
 "SYSTEM" -> after ENTITY system keyword state
 ELSE -> error; bogus markup declaration state
@@ -207,7 +207,7 @@ ELSE -> append to notation name
 
 "    -> after ENTITY parameter state
 %    -> parameter entity name in entity value state
-&    -> ENTITY value character reference state
+&    -> set U+0026 to temp; ENTITY value (double-quoted) state - character reference state
 EOF  -> error; DTD state; emit; reconsume
 NULL -> append U+FFFD to value
 ELSE -> append to value
@@ -216,7 +216,15 @@ ELSE -> append to value
 
 '    -> after ENTITY parameter state
 %    -> parameter entity name in entity value state
-&    -> ENTITY value character reference state
+&    -> set U+0026 to temp; ENTITY value (single-quoted) state - character reference state
+EOF  -> error; DTD state; emit; reconsume
+NULL -> append U+FFFD to value
+ELSE -> append to value
+
+* ENTITY value in entity state
+
+%    -> parameter entity name in entity value state
+&    -> set U+0026 to temp; ENTITY value in entity state - character reference state
 EOF  -> error; DTD state; emit; reconsume
 NULL -> append U+FFFD to value
 ELSE -> append to value

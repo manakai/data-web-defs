@@ -56,44 +56,72 @@ for (
     ['attribute value (double-quoted) state', '"'],
     ['attribute value (single-quoted) state', "'"],
     ['attribute value (unquoted) state', '<'],
+    ['attribute value in entity state', undef],
     ['default attribute value (double-quoted) state', '"'],
     ['default attribute value (single-quoted) state', "'"],
+    ['default attribute value in entity state', undef],
+    ['ENTITY value (double-quoted) state', '"'],
+    ['ENTITY value (single-quoted) state', "'"],
+    ['ENTITY value in entity state', undef],
   ) {
     my ($orig_state, $additional) = @$_;
     for my $state (keys %{$tokenizer_charrefs->{states}}) {
-      for my $cond (keys %{$tokenizer_charrefs->{states}->{$state}->{conds}}) {
-        my $def = $tokenizer_charrefs->{states}->{$state}->{conds}->{$cond};
-        my $acts = [map {
-          if ($_->{type} eq 'SWITCH-BACK') {
-            +{%$_, type => 'switch', state => $orig_state};
-          } elsif ($_->{type} eq 'switch') {
-            +{%$_, state => "$orig_state - $_->{state}"};
-          } elsif ($_->{type} =~ /^process-temp-as-/) {
-            if ($orig_state =~ /attribute/) {
-              +{%$_, in_attr => 1};
-            } else {
-              +{%$_};
+      if ($Data->{tokenizer}->{states}->{"$orig_state - $state"}) {
+        for my $cond (keys %{$Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}}) {
+          my $acts = $Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}->{$cond}->{actions};
+          for my $act (@$acts) {
+            if ($act->{type} eq 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR') {
+              if ($orig_state =~ /ENTITY value/) {
+                $act = {type => 'append-temp', field => 'value'};
+              } elsif ($orig_state =~ /attribute/) {
+                $act = {type => 'append-temp-to-attr', field => $act->{field}};
+              } else {
+                $act = {type => 'emit-temp'};
+              }
             }
-          } elsif ($_->{type} eq 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR') {
-            if ($orig_state =~ /attribute/) {
-              +{type => 'append-temp-to-attr', field => $_->{field}};
-            } else {
-              +{type => 'emit-temp'};
-            }
-          } else {
-            $_;
-          }
-        } @{$def->{actions}}];
-        if ($cond eq 'ALLOWED_CHAR') {
-          if (defined $additional) {
-            $cond = sprintf 'CHAR:%04X', ord $additional;
-          } else {
-            next;
           }
         }
-        $Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}->{$cond} = {%$def, actions => $acts};
+      } else {
+        for my $cond (keys %{$tokenizer_charrefs->{states}->{$state}->{conds}}) {
+          my $def = $tokenizer_charrefs->{states}->{$state}->{conds}->{$cond};
+          my $acts = [map {
+            if ($_->{type} eq 'SWITCH-BACK') {
+              +{%$_, type => 'switch', state => $orig_state};
+            } elsif ($_->{type} eq 'switch') {
+              +{%$_, state => "$orig_state - $_->{state}"};
+            } elsif ($_->{type} =~ /^process-temp-as-/) {
+              if ($orig_state =~ /ENTITY value/) {
+                +{%$_, in_entity_value => 1};
+              } elsif ($orig_state =~ /default attribute/) {
+                +{%$_, in_attr => 1, in_default_attr => 1};
+              } elsif ($orig_state =~ /attribute/) {
+                +{%$_, in_attr => 1};
+              } else {
+                +{%$_};
+              }
+            } elsif ($_->{type} eq 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR') {
+              if ($orig_state =~ /ENTITY value/) {
+                +{type => 'append-temp', field => 'value'};
+              } elsif ($orig_state =~ /attribute/) {
+                +{type => 'append-temp-to-attr', field => $_->{field}};
+              } else {
+                +{type => 'emit-temp'};
+              }
+            } else {
+              $_;
+            }
+          } @{$def->{actions}}];
+          if ($cond eq 'ALLOWED_CHAR') {
+            if (defined $additional) {
+              $cond = sprintf 'CHAR:%04X', ord $additional;
+            } else {
+              next;
+            }
+          }
+          $Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}->{$cond} = {%$def, actions => $acts};
+        }
       }
-    }
+    } # $state
   }
   delete $Data->{tokenizer}->{states}->{'character reference in attribute value state'};
 
@@ -114,6 +142,9 @@ for (
       $referenced->{$s} = 1;
     };
     $visit_state->('data state');
+    $visit_state->('attribute value in entity state');
+    $visit_state->('default attribute value in entity state');
+    $visit_state->('ENTITY value in entity state');
     while (@action_list) {
       my $acts = shift @action_list;
       for (@{$acts or []}) {

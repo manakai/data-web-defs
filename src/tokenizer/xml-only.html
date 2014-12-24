@@ -242,6 +242,7 @@ initially <i>null</i>.
 <dt>EOF
 <dd>
   <!-- XXX Unless internal subset -->
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
   <p>Switch to the <span>data state</span>.
   <p>Emit an <span>end-of-DOCTYPE token</span>.
   <p>Reconsume the <span>current input character</span>.
@@ -261,12 +262,14 @@ initially <i>null</i>.
 
 <dt>U+003E GREATER-THAN SIGN (>)
 <dd>
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
   <p>Switch to the <span>data state</span>.
   <p>Emit an <span>end-of-DOCTYPE token</span>.
 
 <dt>EOF
 <dd>
   <p><span>Parse error</span>.
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
   <p>Switch to the <span>data state</span>.
   <p>Emit an <span>end-of-DOCTYPE token</span>.
   <p>Reconsume the <span>current input character</span>.
@@ -274,6 +277,7 @@ initially <i>null</i>.
 <dt>Anything else
 <dd>
   <p><span>Parse error</span>.<!-- Not in XML5 -->
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
   <p>Switch to the <span>bogus after DOCTYPE internal subset
   state</span>.<!-- Not in XML5 -->
 
@@ -440,6 +444,96 @@ initially <i>null</i>.
 <dt>Anything else
 <dd>
   <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>ENTITY value (double-quoted) state - character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (double-quoted) state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (double-quoted) state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>ENTITY value (single-quoted) state - character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (single-quoted) state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (single-quoted) state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>ENTITY value in entity state - character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value in entity state</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value in entity state</span>.
   <p>Reconsume the <span>current input character</span>.
 
 </dl>

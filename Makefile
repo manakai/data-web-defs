@@ -392,6 +392,7 @@ data/xml-syntax.json: bin/xml-syntax.pl \
 	!(grep '"misc"' $@ > /dev/null)
 	!(grep '"UNPARSED"' $@ > /dev/null)
 	!(grep '"COND"' $@ > /dev/null)
+	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@ > /dev/null)
 
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json

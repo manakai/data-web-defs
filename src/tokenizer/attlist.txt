@@ -157,7 +157,7 @@ ELSE -> close attribute definition; before ATTLIST attribute name state; reconsu
 * default attribute value (double-quoted) state
 
 "    -> close attribute definition; before ATTLIST attribute name state
-&    -> default attribute value (double-quoted) state - character reference state
+&    -> set U+0026 to temp; default attribute value (double-quoted) state - character reference state
 EOF  -> error; DTD state; reconsume
 NULL -> error; append U+FFFD to attr's value
 ELSE -> append to attr's value
@@ -165,7 +165,21 @@ ELSE -> append to attr's value
 * default attribute value (single-quoted) state
 
 '    -> close attribute definition; before ATTLIST attribute name state
-&    -> default attribute value (single-quoted) state - character reference state
+&    -> set U+0026 to temp; default attribute value (single-quoted) state - character reference state
 EOF  -> error; DTD state; reconsume
+NULL -> error; append U+FFFD to attr's value
+ELSE -> append to attr's value
+
+* attribute value in entity state
+
+&    -> set U+0026 to temp; attribute value in entity state - character reference state
+EOF  -> end
+NULL -> error; append U+FFFD to attr's value
+ELSE -> append to attr's value
+
+* default attribute value in entity state
+
+&    -> set U+0026 to temp; default attribute value in entity state - character reference state
+EOF  -> end
 NULL -> error; append U+FFFD to attr's value
 ELSE -> append to attr's value

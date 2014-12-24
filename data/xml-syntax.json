@@ -4047,6 +4047,10 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "type" : "set-DTD-mode",
+                        "value" : "N/A"
+                     },
+                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -4277,8 +4281,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state",
+                        "state" : "after ENTITY name state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -4297,8 +4304,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value (single-quoted) state",
+                        "state" : "after ENTITY name state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -4700,7 +4710,12 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "state" : "ENTITY value character reference state",
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -4739,6 +4754,413 @@
                "ENTITY token" : 1
             }
          },
+         "ENTITY value (double-quoted) state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-before-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (double-quoted) state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-decimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (double-quoted) state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (double-quoted) state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "validate-temp-as-entref"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "validate-temp-as-entref"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (double-quoted) state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (double-quoted) state - character reference state" : {
+            "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
          "ENTITY value (single-quoted) state" : {
             "conds" : {
                "CHAR:0000" : {
@@ -4762,7 +5184,12 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "state" : "ENTITY value character reference state",
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference state",
                         "type" : "switch"
                      }
                   ]
@@ -4809,16 +5236,20 @@
                "ENTITY token" : 1
             }
          },
-         "ENTITY value character reference state" : {
+         "ENTITY value (single-quoted) state - character reference before hexadecimal number state" : {
             "conds" : {
-               "CHAR:0022" : {
+               "ELSE" : {
                   "actions" : [
                      {
-                        "name" : "entity-value-character-reference-0022",
+                        "name" : "character-reference-before-hexadecimal-number-else",
                         "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state",
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
                      },
                      {
@@ -4826,29 +5257,272 @@
                      }
                   ]
                },
-               "CHAR:0025" : {
+               "HEXDIGIT" : {
                   "actions" : [
                      {
-                        "name" : "entity-value-character-reference-0025",
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (single-quoted) state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-decimal-number-else",
                         "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state",
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (single-quoted) state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (single-quoted) state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "validate-temp-as-entref"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "validate-temp-as-entref"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (single-quoted) state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value (single-quoted) state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference number state",
+                        "type" : "switch"
                      }
                   ]
                },
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "entity-value-character-reference-0026",
-                        "type" : "parse error"
+                        "field" : "value",
+                        "type" : "append-temp"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state",
+                        "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
                      },
                      {
@@ -4859,11 +5533,11 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
-                        "name" : "entity-value-character-reference-0027",
-                        "type" : "parse error"
+                        "field" : "value",
+                        "type" : "append-temp"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state",
+                        "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
                      },
                      {
@@ -4871,8 +5545,143 @@
                      }
                   ]
                },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value in entity state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "state" : "parameter entity name in entity value state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append"
+                     }
                   ]
                },
                "EOF" : {
@@ -4886,13 +5695,389 @@
                         "type" : "switch"
                      },
                      {
+                        "possible_token_types" : {
+                        },
+                        "type" : "emit"
+                     },
+                     {
                         "type" : "reconsume"
                      }
                   ]
                }
-            },
-            "initial_token_types" : {
-               "ENTITY token" : 1
+            }
+         },
+         "ENTITY value in entity state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-before-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "ENTITY value in entity state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-decimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "ENTITY value in entity state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_entity_value" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "ENTITY value in entity state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "validate-temp-as-entref"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "validate-temp-as-entref"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "ENTITY value in entity state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "ENTITY value in entity state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
             }
          },
          "NDATA identifier state" : {
@@ -5887,6 +7072,10 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "type" : "set-DTD-mode",
+                        "value" : "N/A"
+                     },
+                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -5902,6 +7091,10 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "set-DTD-mode",
+                        "value" : "N/A"
+                     },
+                     {
                         "state" : "bogus after DOCTYPE internal subset state",
                         "type" : "switch"
                      }
@@ -5912,6 +7105,10 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "set-DTD-mode",
+                        "value" : "N/A"
                      },
                      {
                         "state" : "data state",
@@ -7268,6 +8465,10 @@
                      {
                         "state" : "ENTITY value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "set-empty"
                      }
                   ]
                },
@@ -7284,6 +8485,10 @@
                      {
                         "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "set-empty"
                      }
                   ]
                },
@@ -13226,6 +14431,451 @@
                "start tag token" : 1
             }
          },
+         "attribute value in entity state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value in entity state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-before-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value in entity state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-decimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value in entity state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value in entity state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "before_equals" : 1,
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value in entity state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "attribute value in entity state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
          "before ATTLIST attribute default state" : {
             "conds" : {
                "CHAR:0022" : {
@@ -17346,6 +18996,11 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
                         "state" : "default attribute value (double-quoted) state - character reference state",
                         "type" : "switch"
                      }
@@ -17422,6 +19077,7 @@
                   "actions" : [
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-decimal"
                      },
                      {
@@ -17449,6 +19105,7 @@
                      },
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-decimal"
                      },
                      {
@@ -17475,6 +19132,7 @@
                   "actions" : [
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-hexadecimal"
                      },
                      {
@@ -17495,6 +19153,7 @@
                      },
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-hexadecimal"
                      },
                      {
@@ -17531,6 +19190,7 @@
                      },
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -17548,6 +19208,7 @@
                      {
                         "before_equals" : 1,
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -17574,6 +19235,7 @@
                   "actions" : [
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -17826,6 +19488,11 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
                         "state" : "default attribute value (single-quoted) state - character reference state",
                         "type" : "switch"
                      }
@@ -17910,6 +19577,7 @@
                   "actions" : [
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-decimal"
                      },
                      {
@@ -17937,6 +19605,7 @@
                      },
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-decimal"
                      },
                      {
@@ -17963,6 +19632,7 @@
                   "actions" : [
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-hexadecimal"
                      },
                      {
@@ -17983,6 +19653,7 @@
                      },
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-hexadecimal"
                      },
                      {
@@ -18019,6 +19690,7 @@
                      },
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -18036,6 +19708,7 @@
                      {
                         "before_equals" : 1,
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -18062,6 +19735,7 @@
                   "actions" : [
                      {
                         "in_attr" : 1,
+                        "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -18294,6 +19968,458 @@
             },
             "initial_token_types" : {
                "ATTLIST token" : 1
+            }
+         },
+         "default attribute value in entity state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 0,
+                        "type" : "set-to-temp",
+                        "value" : "&"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "default attribute value in entity state - character reference before hexadecimal number state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-before-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            }
+         },
+         "default attribute value in entity state - character reference decimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-decimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-decimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "default attribute value in entity state - character reference hexadecimal number state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-hexadecimal-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-hexadecimal"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "HEXDIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "default attribute value in entity state - character reference name state" : {
+            "conds" : {
+               "CHAR:003B" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003D" : {
+                  "actions" : [
+                     {
+                        "before_equals" : 1,
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            }
+         },
+         "default attribute value in entity state - character reference number state" : {
+            "conds" : {
+               "CHAR:0058" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0078" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference before hexadecimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference decimal number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-number-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            }
+         },
+         "default attribute value in entity state - character reference state" : {
+            "conds" : {
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference number state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "DIGIT" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "LOWER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
             }
          },
          "end tag open state" : {

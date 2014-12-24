@@ -180,6 +180,8 @@ sub parse_action ($) {
                 push @action, {type => 'pop-section'};
               } elsif ($action =~ s/^[Ss]et (?:its|the (?:current |)token's) (tag name|name|target|data|notation name|content keyword) to the (?:current |)input character(?:\.\s*|, then )//) {
                 push @action, {type => 'set', field => $1};
+              } elsif ($action =~ s/^[Ss]et the current token's (value) to the empty string\.//) {
+                push @action, {type => 'set-empty', field => $1};
               } elsif ($action =~ s/^Set target to the current input character and data to the empty string\.\s*//) { # xml5
                 push @action, {type => 'set', field => 'target'};
                 push @action, {type => 'set-empty', field => 'data'};
@@ -464,6 +466,8 @@ sub parse_action ($) {
       push @action, {type => 'process-temp-as-named'};
     } elsif ($action =~ s/^Process the temporary buffer as a named reference with before equals flag set\.//) {
       push @action, {type => 'process-temp-as-named', before_equals => 1};
+    } elsif ($action =~ s/^Validate an entity reference name\.//) {
+      push @action, {type => 'validate-temp-as-entref'};
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
       push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'value'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
