@@ -218,6 +218,108 @@
             }
          }
       },
+      "before XML declaration" : {
+         "conds" : {
+            "ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "the XML declaration is missing"
+                  },
+                  {
+                     "im" : "before DOCTYPE",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "PI" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "process an XML declaration"
+                        },
+                        {
+                           "im" : "before DOCTYPE",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "cond" : [
+                        "token target",
+                        "is",
+                        "xml"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "the XML declaration is missing"
+                        },
+                        {
+                           "im" : "before DOCTYPE",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            }
+         }
+      },
+      "before content text declaration" : {
+         "conds" : {
+            "ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "the XML declaration is missing"
+                  },
+                  {
+                     "im" : "in element",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            },
+            "PI" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "process an XML declaration"
+                        },
+                        {
+                           "im" : "in element",
+                           "type" : "switch the insertion mode"
+                        }
+                     ],
+                     "cond" : [
+                        "token target",
+                        "is",
+                        "xml"
+                     ],
+                     "false_actions" : [
+                        {
+                           "type" : "the XML declaration is missing"
+                        },
+                        {
+                           "im" : "in element",
+                           "type" : "switch the insertion mode"
+                        },
+                        {
+                           "type" : "reprocess the token"
+                        }
+                     ],
+                     "type" : "if"
+                  }
+               ]
+            }
+         }
+      },
       "before root element" : {
          "conds" : {
             "CHAR-ELSE" : {

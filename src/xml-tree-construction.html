@@ -379,3 +379,73 @@ follows:
   <p>Reprocess the token.
 
 </dl>
+
+<h1>The "<dfn title='the "before XML declaration" insertion mode'>before XML declaration</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"before XML declaration" insertion mode'>before XML
+declaration</span>" <span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A processing instruction token
+<dd>
+  <p>If the current token's <span>target</span> is "<code>xml</code>",
+  then run these steps:
+    <ol>
+    <li><span>Process an XML declaration</span>.
+    <li>Switch the <span>insertion mode</span> to "<span title='the
+    "before DOCTYPE" insertion mode'>before DOCTYPE</span>".
+    </ol>
+  <p>Otherwise, run these steps:
+    <ol>
+    <li><span>The XML declaration is missing</span>.
+    <li>Switch the <span>insertion mode</span> to "<span title='the
+    "before DOCTYPE" insertion mode'>before DOCTYPE</span>".
+    <li>Reprocess the token.
+    </ol>
+
+<dt>Anything else
+<dd>
+  <p><span>The XML declaration is missing</span>.
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "before DOCTYPE" insertion mode'>before DOCTYPE</span>".
+  <p>Reprocess the token.
+
+</dl>
+
+<h1>The "<dfn title='the "before content text declaration" insertion mode'>before content text declaration</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"before content text declaration" insertion mode'>before content text
+declaration</span>" <span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A processing instruction token
+<dd>
+  <p>If the current token's <span>target</span> is "<code>xml</code>",
+  then run these steps:
+    <ol>
+    <li><span>Process an XML declaration</span>.
+    <li>Switch the <span>insertion mode</span> to "<span title='the
+    "in element" insertion mode'>in element</span>".
+    </ol>
+  <p>Otherwise, run these steps:
+    <ol>
+    <li><span>The XML declaration is missing</span>.
+    <li>Switch the <span>insertion mode</span> to "<span title='the
+    "in element" insertion mode'>in element</span>".
+    <li>Reprocess the token.
+    </ol>
+
+<dt>Anything else
+<dd>
+  <p><span>The XML declaration is missing</span>.
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "in element" insertion mode'>in element</span>".
+  <p>Reprocess the token.
+
+</dl>
