@@ -3746,6 +3746,14 @@
                      }
                   ]
                },
+               "UPPER" : {
+                  "actions" : [
+                     {
+                        "field" : "name",
+                        "type" : "append"
+                     }
+                  ]
+               },
                "WS:HTML" : {
                   "actions" : [
                      {
@@ -6778,6 +6786,10 @@
             "conds" : {
                "CHAR:0000" : {
                   "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "data",
                         "index_offset" : 0,
@@ -14956,7 +14968,6 @@
                   "actions" : [
                      {
                         "field" : "name",
-                        "offset" : 32,
                         "type" : "append-to-attr"
                      }
                   ]
@@ -15014,6 +15025,18 @@
                      }
                   ]
                },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "name" : "attribute-value-double-quoted-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -15034,6 +15057,15 @@
                      },
                      {
                         "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : " "
                      }
                   ]
                }
@@ -15514,6 +15546,18 @@
                      }
                   ]
                },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "name" : "attribute-value-single-quoted-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -15534,6 +15578,15 @@
                      },
                      {
                         "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : " "
                      }
                   ]
                }
@@ -16585,6 +16638,15 @@
                         "type" : "reconsume"
                      }
                   ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : " "
+                     }
+                  ]
                }
             }
          },
@@ -17605,7 +17667,6 @@
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
                         "type" : "set"
                      },
                      {
@@ -20902,7 +20963,6 @@
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
                         "type" : "set-to-attr"
                      },
                      {
@@ -23380,6 +23440,15 @@
                         "type" : "reconsume"
                      }
                   ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : " "
+                     }
+                  ]
                }
             },
             "initial_token_types" : {
@@ -23880,6 +23949,15 @@
                         "type" : "reconsume"
                      }
                   ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : " "
+                     }
+                  ]
                }
             },
             "initial_token_types" : {
@@ -24366,6 +24444,15 @@
                      },
                      {
                         "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr",
+                        "value" : " "
                      }
                   ]
                }
@@ -27806,7 +27893,6 @@
                   "actions" : [
                      {
                         "field" : "tag name",
-                        "offset" : 32,
                         "type" : "append"
                      }
                   ]

@@ -14,6 +14,29 @@
 
 </dl>
 
+<h1><span>Before DOCTYPE name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Create a new DOCTYPE token.  Set the token's name to
+  the <span>current input character</span>.  Switch to
+  the <span>DOCTYPE name state</span>.
+
+</dl>
+
+<h1><span>DOCTYPE name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  DOCTYPE token's name.
+
+</dl>
+
 <h1><span>DOCTYPE name state</span></h1>
 <!-- DOCTYPE root name state in XML5 with different definitions -->
 
@@ -171,6 +194,81 @@
   <p>Set the <i>has internal subset</i> flag of the current token.
   <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
   <p>Emit the current token.
+
+</dl>
+
+<h1><span>Before attribute name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Start a new attribute in the current tag token.  Set that
+  attribute's name to the <span>current input character</span>, and
+  its value to the empty string.  Switch to the <span>attribute name
+  state</span>.
+
+</dl>
+
+<h1><span>Attribute name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  attribute's name.
+
+</dl>
+
+<h1><span>Attribute value (double-quoted) state</span></h1>
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Append a U+0020 SPACE character to the <span>current
+  attribute</span>'s <span>value</span>.
+
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append the <span>current input character</span> to
+  the <span>current attribute</span>'s <span>value</span>.
+
+</dl>
+
+<h1><span>Attribute value (single-quoted) state</span></h1>
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Append a U+0020 SPACE character to the <span>current
+  attribute</span>'s <span>value</span>.
+
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append the <span>current input character</span> to
+  the <span>current attribute</span>'s <span>value</span>.
+
+</dl>
+
+<h1><span>Tag name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  tag token's tag name.
 
 </dl>
 
