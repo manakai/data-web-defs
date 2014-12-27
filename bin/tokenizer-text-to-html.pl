@@ -17,9 +17,9 @@ sub _n ($) {
 
 my $Data = {};
 
-for (@ARGV) {
+sub parse ($$) {
   my $state_name;
-  for (split /\x0D?\x0A/, path ($_)->slurp_utf8) {
+  for (split /\x0D?\x0A/, $_[0]) {
     if (/^\*(.+)$/) {
       $state_name = _n $1;
       next;
@@ -34,14 +34,18 @@ for (@ARGV) {
     if (/^\s*(\S+)\s+->\s*(.*)$/) {
       my $left = $1;
       my $right = $2;
-      $Data->{$state_name}->{$left} = $right;
+      $_[1]->{$state_name}->{$left} = $right;
     } elsif (/^\s*(\S+)\s+(!?)\[([^\[\]]+)\]\s+->\s*(.*)$/) {
       my $left = $1;
-      $Data->{$state_name}->{$left}->{$3}->{$2} = $4;
+      $_[1]->{$state_name}->{$left}->{$3}->{$2} = $4;
     } else {
       die "Broken line: |$_|";
     }
   }
+} # parse
+
+for (@ARGV) {
+  parse path ($_)->slurp_utf8 => $Data;
 }
 
 $doc->inner_html (q{<!DOCTYPE html><title>XML tokenizer</title>});
@@ -56,6 +60,9 @@ sub _current ($) {
     "cm element's " => 'current content model element',
   }->{$_[0]} // die "Unknown item |$_[0]|";
 } # _current
+
+my $OriginalStates = {};
+my $CurrentState;
 
 sub add_cond ($$$);
 sub add_cond ($$$) {
@@ -142,28 +149,45 @@ sub add_cond ($$$) {
           'marked section(INCLUDE)' => q{Create a marked section whose status is <i>INCLUDE</i> and push it onto the <span>stack of open marked sections</span>.},
           'marked section' => q{Create a marked section whose status is <i>IGNORE</i> and push it onto the <span>stack of open marked sections</span>.},
           'close marked section and reset' => q{Pop the <span>current marked section</span> off the <span>stack of open marked sections</span> and reset the state.},
+          'parameter entity reference in DTD' => q{<span>Process the parameter entity reference in DTD</span>.},
+          'parameter entity reference in entity value' => q{<span>Process the parameter entity reference in an entity value</span>.},
+          'parameter entity reference in markup declaration' => q{<span>Process the parameter entity reference in a markup declaration</span>.},
+          'text declaration in value' => q{<span>Process the text declaration in the <span>current token</span>'s <i>value</i>, if any</span>.},
+          'temp as text declaration' => q{<span>Process the temporary buffer as a text declaration</span>.},
         }->{$expr};
         if (defined $html) {
           my $p = $doc->create_element ('p');
           $p->inner_html ($html);
           $dd->append_child ($p);
+        } elsif ($expr eq 'parameter entity name in markup declaration state') {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Set a U+0025 PERCENT SIGN character (%) to the <span>temporary buffer</span>.  Set the <span>original state</span> to the current state.  Switch to the <span>parameter entity name in markup declaration state</span>.});
+          $OriginalStates->{$CurrentState} = 1;
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^parameter entity name in markup declaration state \((.+? state)\)$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Set a U+0025 PERCENT SIGN character (%) to the <span>temporary buffer</span>.  Set the <span>original state</span> to <span></span>.  Switch to the <span>parameter entity name in markup declaration state</span>.});
+          $p->children->[-2]->text_content ($1);
+          $OriginalStates->{$1} = 1;
+          $dd->append_child ($p);
         } elsif ($expr =~ / state$/) {
           my $p = $doc->create_element ('p');
-          # XXX original state for entity ref states
           $p->inner_html (q{Switch to the <span></span>.});
           $p->first_element_child->text_content ($expr);
           $dd->append_child ($p);
-        } elsif ($expr =~ /(.+? state) \((.+ state)\)$/) {
+        } elsif ($expr =~ /^append to temp$/) {
           my $p = $doc->create_element ('p');
-          # XXX original state for entity ref states
-          $p->inner_html (q{Switch to the <span></span>.});
-          $p->first_element_child->text_content ($1);
+          $p->inner_html (q{Append the <span>current input character</span> to the <span>temporary buffer</span>.});
           $dd->append_child ($p);
         } elsif ($expr =~ /^append to (.+?'s |)(.+)$/) {
           my $p = $doc->create_element ('p');
           $p->inner_html (q{Append the <span>current input character</span> to the <span></span>'s <i></i>.});
           $p->children->[-2]->text_content (_current $1);
           $p->children->[-1]->text_content ($2);
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^append U\+FFFD to temp$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Append a U+FFFD REPLACEMENT CHARACTER character to the <span>temporary buffer</span>.});
           $dd->append_child ($p);
         } elsif ($expr =~ /^append U\+FFFD to (.+?'s |)(.+)$/) {
           my $p = $doc->create_element ('p');
@@ -176,6 +200,14 @@ sub add_cond ($$$) {
           $p->inner_html (q{Append a U+0020 SPACE character to the <span></span>'s <i></i>.});
           $p->children->[-2]->text_content (_current $1);
           $p->children->[-1]->text_content ($2);
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^append temp to value$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Append the <span>temporary buffer</span>'s value to the current token's <i>value</i>.});
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^set to temp$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Set the <span>current input character</span> to the <span>temporary buffer</span>.});
           $dd->append_child ($p);
         } elsif ($expr =~ /^set to (.+?'s |)(.+?)$/) {
           my $p = $doc->create_element ('p');
@@ -194,6 +226,10 @@ sub add_cond ($$$) {
           $p->inner_html (q{Set the <span></span>'s <i></i> to the empty string.});
           $p->children->[0]->text_content (_current $1);
           $p->children->[1]->text_content ($2);
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^set U\+0025 to temp$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Set a U+0025 PERCENT SIGN character (%) to the <span>temporary buffer</span>.});
           $dd->append_child ($p);
         } elsif ($expr =~ /^set U\+0026 to temp$/) {
           my $p = $doc->create_element ('p');
@@ -266,11 +302,13 @@ sub add_cond ($$$) {
   } # charname
 }
 
-for my $state_name (sort { $a cmp $b } keys %$Data) {
+sub convert ($$) {
+  my ($state_name, $data) = @_;
   my $h1 = $doc->create_element ('h1');
   $h1->inner_html (q{<dfn></dfn>});
   $h1->first_child->text_content ($state_name);
   $body->append_child ($h1);
+  $CurrentState = $state_name;
 
   my $intro = $doc->create_element ('p');
   $intro->inner_html (q{Consume the <span>next input character</span>:});
@@ -280,7 +318,7 @@ for my $state_name (sort { $a cmp $b } keys %$Data) {
   $dl->set_attribute (class => 'switch');
 
   my @kwd_cond;
-  for my $cond (sort { $a cmp $b } keys %{$Data->{$state_name}}) {
+  for my $cond (sort { $a cmp $b } keys %$data) {
     my $conds = [];
     if ($cond =~ /^".+"$/) {
       push @kwd_cond, $cond;
@@ -302,21 +340,49 @@ for my $state_name (sort { $a cmp $b } keys %$Data) {
             (ord $_), (charname ord $_), $_;
       } split //, $cond];
     }
-    add_cond $conds, [$Data->{$state_name}->{$cond}] => $dl;
+    add_cond $conds, [$data->{$cond}] => $dl;
   }
 
-  if (defined $Data->{$state_name}->{ELSE}) {
+  if (defined $data->{ELSE}) {
     if (@kwd_cond) {
       add_cond ['Anything else'], [
-        (map { $_ => $Data->{$state_name}->{$_} } @kwd_cond),
-        $Data->{$state_name}->{ELSE},
+        (map { $_ => $data->{$_} } @kwd_cond),
+        $data->{ELSE},
       ] => $dl;
     } else {
-      add_cond ['Anything else'], [$Data->{$state_name}->{ELSE}] => $dl;
+      add_cond ['Anything else'], [$data->{ELSE}] => $dl;
     }
   }
 
   $body->append_child ($dl);
+} # convert
+
+for my $state_name (sort { $a cmp $b } keys %$Data) {
+  convert $state_name, $Data->{$state_name};
+}
+
+my $template = q{
+* @@ - before text declaration in markup declaration state
+
+<    -> set to temp; @@ - text declaration in markup declaration state
+ELSE -> @@; reconsume
+
+* @@ - text declaration in markup declaration state
+
+>    -> @@; temp as text declaration
+%&!< -> error; bogus markup declaration state
+EOF  -> error; bogus markup declaration state; reconsume
+NULL -> append U+FFFD to temp
+ELSE -> append to temp
+};
+
+for my $orig_state_name (sort { $a cmp $b } keys %$OriginalStates) {
+  my $def = $template;
+  $def =~ s/\@\@/$orig_state_name/g;
+  parse $def => my $parsed = {};
+  for my $state_name (sort { $a cmp $b } keys %$parsed) {
+    convert $state_name, $parsed->{$state_name};
+  }
 }
 
 binmode STDOUT, qw(:encoding(utf-8));

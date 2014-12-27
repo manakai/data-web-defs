@@ -224,6 +224,169 @@
             ]
          }
       ],
+      "before DTD text declaration;ATTLIST" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;COMMENT" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;DOCTYPE" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;ELEMENT" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;END-ELSE" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;ENTITY" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;EOD" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;EOF" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;NOTATION" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;PI" : [
+         {
+            "actions" : [
+               {
+                  "type" : "process an XML declaration"
+               },
+               {
+                  "im" : "in subset",
+                  "type" : "switch the insertion mode"
+               }
+            ],
+            "cond" : [
+               "token target",
+               "is",
+               "xml"
+            ],
+            "false_actions" : [
+               {
+                  "type" : "the XML declaration is missing"
+               },
+               {
+                  "im" : "in subset",
+                  "type" : "switch the insertion mode"
+               },
+               {
+                  "type" : "reprocess the token"
+               }
+            ],
+            "type" : "if"
+         }
+      ],
+      "before DTD text declaration;START-ELSE" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "before DTD text declaration;TEXT" : [
+         {
+            "type" : "the XML declaration is missing"
+         },
+         {
+            "im" : "in subset",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
       "before XML declaration;ATTLIST" : [
          {
             "type" : "the XML declaration is missing"
@@ -1164,18 +1327,14 @@
       ],
       "in subset;EOF" : [
          {
-            "name" : "in-subset-eof",
-            "type" : "parse error"
-         },
-         {
             "actions" : [
                {
-                  "type" : "process the external subset"
+                  "name" : "in-subset-eof",
+                  "type" : "parse error"
                }
             ],
             "cond" : [
-               "DOCTYPE system identifier",
-               "non-empty"
+               "not fragment"
             ],
             "type" : "if"
          },
@@ -1454,6 +1613,24 @@
             "START-ELSE" : "before DOCTYPE;START-ELSE",
             "START:button fieldset img input keygen label object output select textarea" : "before DOCTYPE;START-ELSE",
             "TEXT" : "before DOCTYPE;TEXT"
+         }
+      },
+      "before DTD text declaration" : {
+         "conds" : {
+            "ATTLIST" : "before DTD text declaration;ATTLIST",
+            "COMMENT" : "before DTD text declaration;COMMENT",
+            "DOCTYPE" : "before DTD text declaration;DOCTYPE",
+            "ELEMENT" : "before DTD text declaration;ELEMENT",
+            "END-ELSE" : "before DTD text declaration;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "before DTD text declaration;END-ELSE",
+            "ENTITY" : "before DTD text declaration;ENTITY",
+            "EOD" : "before DTD text declaration;EOD",
+            "EOF" : "before DTD text declaration;EOF",
+            "NOTATION" : "before DTD text declaration;NOTATION",
+            "PI" : "before DTD text declaration;PI",
+            "START-ELSE" : "before DTD text declaration;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "before DTD text declaration;START-ELSE",
+            "TEXT" : "before DTD text declaration;TEXT"
          }
       },
       "before XML declaration" : {

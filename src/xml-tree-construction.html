@@ -120,9 +120,8 @@ of the <code>DocumentType</code> object.
 
 <dt>An end-of-file token
 <dd>
-  <p><span>Parse error</span>.
-  <p>If the <span>DOCTYPE system identifier</span> is not
-  empty, <span>process the external subset</span>.
+  <p>If the parser was not originally created as part of the <span>XML
+  fragment parsing algorithm</span>, then <span>parse error</span>.
   <p><span>Stop parsing</span>.
 
 <dt>A character token that is one of U+0009 CHARACTER TABULATION,
@@ -446,6 +445,41 @@ agent <em class=rfc2119>MUST</em> handle the token as follows:
   <p><span>The XML declaration is missing</span>.
   <p>Switch the <span>insertion mode</span> to "<span title='the
   "in element" insertion mode'>in element</span>".
+  <p>Reprocess the token.
+
+</dl>
+
+<h1>The "<dfn title='the "before DTD text declaration" insertion mode'>before DTD text declaration</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"before DTD text declaration" insertion mode'>before DTD text
+declaration</span>" <span>insertion mode</span>, the user
+agent <em class=rfc2119>MUST</em> handle the token as follows:
+
+<dl class=switch>
+
+<dt>A processing instruction token
+<dd>
+  <p>If the current token's <span>target</span> is "<code>xml</code>",
+  then run these steps:
+    <ol>
+    <li><span>Process an XML declaration</span>.
+    <li>Switch the <span>insertion mode</span> to "<span title='the
+    "in subset" insertion mode'>in subset</span>".
+    </ol>
+  <p>Otherwise, run these steps:
+    <ol>
+    <li><span>The XML declaration is missing</span>.
+    <li>Switch the <span>insertion mode</span> to "<span title='the
+    "in subset" insertion mode'>in subset</span>".
+    <li>Reprocess the token.
+    </ol>
+
+<dt>Anything else
+<dd>
+  <p><span>The XML declaration is missing</span>.
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "in subset" insertion mode'>in subset</span>".
   <p>Reprocess the token.
 
 </dl>

@@ -5,25 +5,49 @@ EOF  -> error; DTD state; reconsume
 ELSE -> 
 
 * parameter entity name in DTD state
-#XXX
 
-&%"' -> error; DTD state; reconsume
-ELSE -> 
+WS   -> error; DTD state
+<>=&%"'`# -> error; DTD state; reconsume
+;    -> append to temp; parameter entity reference in DTD; DTD state
 EOF  -> error; DTD state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
 
 * parameter entity name in markup declaration state
-#XXX
 
-&%"' -> error; bogus markup declaration state; reconsume
-ELSE -> 
+WS   -> error; bogus markup declaration state
+<>=&%"'`# -> error; bogus markup declaration state; reconsume
+;    -> append to temp; parameter entity reference in markup declaration
+EOF  -> error; bogus markup declaration state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in entity value (double-quoted) state
+
+WS   -> error; append temp to value; ENTITY value (double-quoted) state; reconsume
+<>=&%"'`# -> error; append temp to value; ENTITY value (double-quoted) state; reconsume
+;    -> append to temp; parameter entity reference in entity value; ENTITY value (double-quoted) state
 EOF  -> error; DTD state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
 
-* parameter entity name in entity value state
-#XXX
+* parameter entity name in entity value (single-quoted) state
 
-&%"' -> error; ENTITY value (double-quoted) state; reconsume
-ELSE -> 
+WS   -> error; append temp to value; ENTITY value (single-quoted) state; reconsume
+<>=&%"'`# -> error; append temp to value; ENTITY value (single-quoted) state; reconsume
+;    -> append to temp; parameter entity reference in entity value; ENTITY value (single-quoted) state
 EOF  -> error; DTD state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in entity value in entity state
+
+WS   -> error; append temp to value; ENTITY value in entity state; reconsume
+<>=&%"'`# -> error; append temp to value; ENTITY value in entity state; reconsume
+;    -> append to temp; parameter entity reference in entity value; ENTITY value in entity state
+EOF  -> error; ENTITY value in entity state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
 
 * after mss state
 ## <![

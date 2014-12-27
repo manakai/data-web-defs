@@ -145,6 +145,12 @@ for (
     $visit_state->('attribute value in entity state');
     $visit_state->('default attribute value in entity state');
     $visit_state->('ENTITY value in entity state');
+    $visit_state->('before ENTITY value in entity state');
+    for (keys %{$Data->{tokenizer}->{states}}) {
+      if (/before text declaration in markup declaration state/) {
+        $visit_state->($_);
+      }
+    }
     while (@action_list) {
       my $acts = shift @action_list;
       for (@{$acts or []}) {

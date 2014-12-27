@@ -195,17 +195,14 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
   for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
     my $next_state;
     my $reconsume;
-    my $sb;
     for (@{$Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions}}) {
       if ($_->{type} eq 'switch' and not $_->{break}) {
         $next_state = $_->{state};
-      } elsif ($_->{type} eq 'switch-back') {
-        $sb = 1;
       } elsif ($_->{type} eq 'reconsume') {
         $reconsume = $_;
       }
     }
-    if ($reconsume and not defined $sb) {
+    if ($reconsume) {
       if (not defined $next_state) {
         die "Next state not defined for $state $cond";
       }

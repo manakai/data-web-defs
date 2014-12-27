@@ -2,7 +2,7 @@
 ## <!NOTATION
 
 WS   -> before NOTATION name state
-%    -> parameter entity name in markup declaration state
+%    -> parameter entity name in markup declaration state (before NOTATION name state)
 ELSE -> error; before NOTATION name state; reconsume
 
 * before NOTATION name state
@@ -19,7 +19,7 @@ ELSE -> create(NOTATION); set to name; NOTATION name state
 ## <!NOTATION n
 
 WS   -> after NOTATION name state
-%    -> parameter entity name in markup declaration state
+%    -> parameter entity name in markup declaration state (after NOTATION name state)
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
 NULL -> append U+FFFD to name
@@ -40,7 +40,7 @@ ELSE -> error; bogus markup declaration state
 ## <!NOTATION n PUBLIC
 
 WS   -> before NOTATION public identifier state
-%    -> parameter entity name in markup declaration state
+%    -> parameter entity name in markup declaration state (before NOTATION public identifier state)
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
 "    -> error; before NOTATION public identifier state
@@ -77,7 +77,7 @@ ELSE -> append to public identifier
 * after NOTATION public identifier state
 
 WS   -> between NOTATION public and system identifiers state
-%    -> parameter entity name in markup declaration state
+%    -> parameter entity name in markup declaration state (between NOTATION public and system identifiers state)
 EOF  -> error; DTD state; emit; reconsume
 >    -> DTD state; emit
 "    -> error; NOTATION system identifier (double-quoted) state
@@ -98,7 +98,7 @@ ELSE -> error; bogus markup declaration state
 ## <!NOTATION n SYSTEM
 
 WS   -> before NOTATION system identifier state
-%    -> parameter entity name in markup declaration state
+%    -> parameter entity name in markup declaration state (before NOTATION system identifier state)
 EOF  -> error; DTD state; emit; reconsume
 >    -> error; DTD state; emit
 "    -> error; before NOTATION system identifier state
