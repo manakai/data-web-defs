@@ -3670,6 +3670,10 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "name",
                         "index_offset" : 0,
                         "type" : "append",
@@ -5186,6 +5190,10 @@
                "CHAR:0058" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "append-to-temp"
                      },
                      {
@@ -5242,8 +5250,28 @@
          },
          "ENTITY value (double-quoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-allowed-char",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -5268,8 +5296,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -5286,6 +5356,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -5298,35 +5372,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "ENTITY value (double-quoted) state",
+                        "state" : "ENTITY value (double-quoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -5339,30 +5459,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "ENTITY value (double-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "ENTITY value (double-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -5671,6 +5773,10 @@
                "CHAR:0058" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "append-to-temp"
                      },
                      {
@@ -5727,6 +5833,41 @@
          },
          "ENTITY value (single-quoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -5738,8 +5879,31 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -5756,6 +5920,10 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -5771,6 +5939,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -5783,35 +5955,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value (single-quoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "ENTITY value (single-quoted) state",
+                        "state" : "ENTITY value (single-quoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -5824,30 +6042,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "ENTITY value (single-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "ENTITY value (single-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -6133,6 +6333,10 @@
                "CHAR:0058" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "append-to-temp"
                      },
                      {
@@ -6186,6 +6390,41 @@
          },
          "ENTITY value in entity state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -6197,8 +6436,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -6215,6 +6496,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -6227,35 +6512,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "ENTITY value in entity state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "ENTITY value in entity state",
+                        "state" : "ENTITY value in entity state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp"
                      },
@@ -6268,30 +6599,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "ENTITY value in entity state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "ENTITY value in entity state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp"
@@ -13042,6 +13355,10 @@
                "CHAR:002F" : {
                   "actions" : [
                      {
+                        "name" : "after-attribute-name-002f",
+                        "type" : "parse error"
+                     },
+                     {
                         "state" : "self-closing start tag state",
                         "type" : "switch"
                      }
@@ -13081,6 +13398,10 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "name" : "after-attribute-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -13096,6 +13417,10 @@
                },
                "ELSE" : {
                   "actions" : [
+                     {
+                        "name" : "after-attribute-name-else",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "create-attr"
                      },
@@ -13131,11 +13456,14 @@
                "UPPER" : {
                   "actions" : [
                      {
+                        "name" : "after-attribute-name-upper",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
                         "type" : "set-to-attr"
                      },
                      {
@@ -14888,6 +15216,10 @@
                "CHAR:002F" : {
                   "actions" : [
                      {
+                        "name" : "attribute-name-002f",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "set-attr"
                      },
                      {
@@ -14921,6 +15253,10 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "name" : "attribute-name-003e",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "set-attr"
                      },
@@ -15223,6 +15559,133 @@
          },
          "attribute value (double-quoted) state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -15242,10 +15705,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -15262,16 +15728,89 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -15288,17 +15827,26 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -15312,6 +15860,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -15370,8 +15922,28 @@
          },
          "attribute value (double-quoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-allowed-char",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -15396,8 +15968,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -15414,6 +16028,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -15426,35 +16044,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "attribute value (double-quoted) state",
+                        "state" : "attribute value (double-quoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -15467,30 +16131,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value (double-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -15744,6 +16390,133 @@
          },
          "attribute value (single-quoted) state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -15763,10 +16536,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -15783,16 +16559,89 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -15809,17 +16658,26 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -15833,6 +16691,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -15891,6 +16753,41 @@
          },
          "attribute value (single-quoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -15902,8 +16799,31 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -15920,6 +16840,10 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -15935,6 +16859,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -15947,35 +16875,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "attribute value (single-quoted) state",
+                        "state" : "attribute value (single-quoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -15988,30 +16962,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value (single-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value (single-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -16320,6 +17276,133 @@
          },
          "attribute value (unquoted) state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -16339,10 +17422,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -16359,16 +17445,89 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -16385,17 +17544,26 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -16409,6 +17577,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -16467,6 +17639,41 @@
          },
          "attribute value (unquoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -16478,8 +17685,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -16496,6 +17745,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -16508,35 +17761,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "attribute value (unquoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "attribute value (unquoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -16549,30 +17848,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -16786,6 +18067,133 @@
          },
          "attribute value in entity state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -16805,10 +18213,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -16825,16 +18236,89 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "type" : "process-temp-as-named"
                      },
@@ -16851,17 +18335,26 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -16871,6 +18364,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -16925,6 +18422,41 @@
          },
          "attribute value in entity state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -16936,8 +18468,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -16954,6 +18528,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -16966,35 +18544,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "attribute value in entity state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "attribute value in entity state",
+                        "state" : "attribute value in entity state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -17007,30 +18631,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value in entity state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "attribute value in entity state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -21015,6 +22621,10 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
+                        "name" : "before-attribute-value-0026",
+                        "type" : "parse error"
+                     },
+                     {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
                      },
@@ -21101,6 +22711,10 @@
                },
                "ELSE" : {
                   "actions" : [
+                     {
+                        "name" : "before-attribute-value-else",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-to-attr"
@@ -23104,6 +24718,123 @@
          },
          "data state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -23121,10 +24852,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -23139,16 +24873,83 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "process-temp-as-named"
                      },
                      {
@@ -23163,17 +24964,24 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -23193,6 +25001,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -23256,6 +25068,40 @@
          },
          "data state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "data state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -23267,8 +25113,48 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "emit-temp"
                      },
@@ -23284,6 +25170,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "emit-temp"
                      },
                      {
@@ -23295,34 +25185,78 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "data state - character reference name state",
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "emit-temp"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "data state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "emit-temp"
                      },
                      {
@@ -23334,30 +25268,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "data state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "data state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "emit-temp"
                      },
@@ -23604,6 +25520,138 @@
          },
          "default attribute value (double-quoted) state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -23624,10 +25672,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
@@ -23645,16 +25696,92 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
@@ -23672,17 +25799,27 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -23695,6 +25832,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -23752,8 +25893,28 @@
          },
          "default attribute value (double-quoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-allowed-char",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -23778,8 +25939,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -23796,6 +25999,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -23808,35 +26015,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "default attribute value (double-quoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "default attribute value (double-quoted) state",
+                        "state" : "default attribute value (double-quoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -23849,30 +26102,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "default attribute value (double-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "default attribute value (double-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -24113,6 +26348,138 @@
          },
          "default attribute value (single-quoted) state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -24133,10 +26500,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
@@ -24154,16 +26524,92 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
@@ -24181,17 +26627,27 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -24204,6 +26660,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -24261,6 +26721,41 @@
          },
          "default attribute value (single-quoted) state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -24272,8 +26767,31 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -24290,6 +26808,10 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-allowed-char",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -24305,6 +26827,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -24317,35 +26843,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "default attribute value (single-quoted) state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "default attribute value (single-quoted) state",
+                        "state" : "default attribute value (single-quoted) state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -24358,30 +26930,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "default attribute value (single-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "default attribute value (single-quoted) state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -24598,6 +27152,138 @@
          },
          "default attribute value in entity state - character reference name state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0023" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0023",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:003B" : {
                   "actions" : [
                      {
@@ -24618,10 +27304,13 @@
                      }
                   ]
                },
-               "CHAR:003D" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "before_equals" : 1,
+                        "name" : "character-reference-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
@@ -24639,16 +27328,92 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-name-003d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-name-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "in_attr" : 1,
                         "in_default_attr" : 1,
                         "type" : "process-temp-as-named"
@@ -24666,17 +27431,27 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "WS:HTML" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
+                        "name" : "character-reference-name-ws",
+                        "type" : "parse error"
+                     },
                      {
-                        "type" : "append-to-temp"
+                        "in_attr" : 1,
+                        "in_default_attr" : 1,
+                        "type" : "process-temp-as-named"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -24686,6 +27461,10 @@
             "conds" : {
                "CHAR:0058" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-number-0058",
+                        "type" : "parse error"
+                     },
                      {
                         "type" : "append-to-temp"
                      },
@@ -24740,6 +27519,41 @@
          },
          "default attribute value in entity state - character reference state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "append-to-temp",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "default attribute value in entity state - character reference name state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -24751,8 +27565,50 @@
                      }
                   ]
                },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0025",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0026" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-0026",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0027",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -24769,6 +27625,10 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "name" : "character-reference-003c",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -24781,35 +27641,81 @@
                      }
                   ]
                },
-               "DIGIT" : {
+               "CHAR:003D" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp"
+                        "name" : "character-reference-003d",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "default attribute value in entity state - character reference name state",
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0060" : {
+                  "actions" : [
+                     {
+                        "name" : "character-reference-0060",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp-to-attr"
+                     },
+                     {
+                        "state" : "default attribute value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-temp-to-attr"
+                        "type" : "append-to-temp"
                      },
                      {
-                        "state" : "default attribute value in entity state",
+                        "state" : "default attribute value in entity state - character reference name state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
                      },
@@ -24822,30 +27728,12 @@
                      }
                   ]
                },
-               "LOWER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "default attribute value in entity state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "default attribute value in entity state - character reference name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "name" : "character-reference-ws",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "value",
                         "type" : "append-temp-to-attr"
@@ -26170,6 +29058,11 @@
             "conds" : {
                "CHAR:005B" : {
                   "actions" : [
+                     {
+                        "if" : "OE is empty",
+                        "name" : "markup-declaration-open-else",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "CDATA section state",
                         "type" : "switch"
@@ -27964,19 +30857,12 @@
                         "type" : "switch"
                      },
                      {
-                        "token" : "end tag token",
-                        "type" : "create"
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "\u003C"
                      },
                      {
-                        "field" : "tag name",
-                        "type" : "set-empty"
-                     },
-                     {
-                        "check_end_tag_token" : 1,
-                        "possible_token_types" : {
-                           "end tag token" : 1
-                        },
-                        "type" : "emit"
+                        "type" : "reconsume"
                      }
                   ]
                },

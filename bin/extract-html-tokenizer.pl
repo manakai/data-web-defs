@@ -405,11 +405,12 @@ sub parse_action ($) {
               if => 'in-foreign', break => 1},
              {type => 'SAME-AS-ELSE'},
            ]};
-    } elsif ($action =~ s/^Otherwise, if the next seven characters are an? (?:exact|case-sensitive) match for the (?:string |word |)"\[CDATA\["(?: \([^()]+\)|), then consume those characters and switch to the (.+? state)\.//) {
+    } elsif ($action =~ s/^Otherwise, if the next seven characters are an? (?:exact|case-sensitive) match for the (?:string |word |)"\[CDATA\["(?: \([^()]+\)|), then: if the stack of open elements is empty, parse error; consume those characters; and switch to the (.+? state)\.//) {
       push @action,
           {type => 'IF-KEYWORD',
            keyword => '[CDATA[',
            value => [
+             {type => 'parse error', if => 'OE is empty'},
              {type => 'switch', state => $1},
            ]};
     } elsif ($action =~ s/^Otherwise, switch to the DOCTYPE bogus comment state\.//) {
@@ -673,8 +674,8 @@ sub modify_actions (&) {
           @$acts = @$new_acts;
 
           for my $act (@$acts) {
-            for my $key (qw(actions false_actions)) {
-              if (defined $act->{$key}) {
+            for my $key (qw(actions false_actions value)) {
+              if (defined $act->{$key} and ref $act->{$key} eq 'ARRAY') {
                 my $new_acts = [];
                 $code->($act->{$key} => $new_acts, $state, $cond);
                 @{$act->{$key}} = @$new_acts;
@@ -687,21 +688,27 @@ sub modify_actions (&) {
   }
 } # modify_actions
 
+## Also in |xml-syntax.pl|.
+sub error_name ($$) {
+  my $name = shift;
+  my $cond = shift;
+  $name =~ s/ state$//;
+  $name .= '-' . $cond;
+  $name =~ s/CHAR://;
+  $name =~ s/WS:[A-Z]+/WS/;
+  $name = lc $name;
+  $name =~ s/([^a-z0-9]+)/-/g;
+  $name = 'EOF' if $name =~ /-eof$/;
+  $name = 'NULL' if $name =~ /-0000$/;
+  return $name;
+} # error_name
+
 {
   modify_actions {
     my ($acts => $new_acts, $state, $cond) = @_;
     for (@$acts) {
       if ($_->{type} eq 'parse error') {
-        my $name = $state;
-        $name =~ s/ state$//;
-        $name .= '-' . $cond;
-        $name =~ s/CHAR://;
-        $name =~ s/WS:[A-Z]+/WS/;
-        $name = lc $name;
-        $name =~ s/([^a-z0-9]+)/-/g;
-        $name = 'EOF' if $name =~ /-eof$/;
-        $name = 'NULL' if $name =~ /-0000$/;
-        $_->{name} = $name;
+        $_->{name} = error_name $state, $cond;
       }
     }
     @$new_acts = @$acts;

@@ -24,6 +24,21 @@ for (
   $Data->{charrefs_pubids}->{$_} = 1;
 }
 
+## Also in |extract-html-tokenizer.pl|.
+sub error_name ($$) {
+  my $name = shift;
+  my $cond = shift;
+  $name =~ s/ state$//;
+  $name .= '-' . $cond;
+  $name =~ s/CHAR://;
+  $name =~ s/WS:[A-Z]+/WS/;
+  $name = lc $name;
+  $name =~ s/([^a-z0-9]+)/-/g;
+  $name = 'EOF' if $name =~ /-eof$/;
+  $name = 'NULL' if $name =~ /-0000$/;
+  return $name;
+} # error_name
+
 {
   for ('local/html-tokenizer.json',
        'local/html-tokenizer-charrefs-jump.json',
@@ -50,7 +65,43 @@ for (
     }
   }
 
-  my $tokenizer_charrefs = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer-charrefs.json')->slurp;
+  for (
+    ['attribute name state', 'CHAR:002F'], # /
+    ['attribute name state', 'CHAR:003E'], # >
+    ['after attribute name state', 'CHAR:002F'], # /
+    ['after attribute name state', 'CHAR:003E'], # >
+    ['after attribute name state', 'ELSE'],
+    ['before attribute value state', 'CHAR:0026'], # &
+    ['before attribute value state', 'ELSE'],
+  ) {
+    my ($state, $cond) = @$_;
+    my $acts = $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
+    unless (@$acts and $acts->[0]->{type} eq 'parse error') {
+      unshift @$acts, {type => 'parse error',
+                       name => error_name $state, $cond};
+    }
+  }
+
+  my $tokenizer_charrefs = do {
+    my $json1 = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer-charrefs.json')->slurp;
+    my $json2 = json_bytes2perl path (__FILE__)->parent->parent->child ('local/xml-tokenizer-charrefs-replace.json')->slurp;
+    for (keys %{$json2->{states}}) {
+      $json1->{states}->{$_} = $json2->{states}->{$_};
+    }
+
+    for (
+      ['character reference number state', 'CHAR:0058'], # X
+    ) {
+      my ($state, $cond) = @$_;
+      my $acts = $json1->{states}->{$state}->{conds}->{$cond}->{actions};
+      unless (@$acts and $acts->[0]->{type} eq 'parse error') {
+        unshift @$acts, {type => 'parse error',
+                         name => error_name $state, $cond};
+      }
+    }
+
+    $json1;
+  };
   for (
     ['data state', undef],
     ['attribute value (double-quoted) state', '"'],

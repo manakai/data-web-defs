@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<title>XML character references</title>
+
+<h1><dfn>Character reference state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)
+<dt>U+0020 SPACE
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dt>U+0026 AMPERSAND (&amp;)
+<dt>U+003D EQUALS SIGN (=)
+<dt>U+003E GREATER-THAN SIGN (>)
+<dt>U+0022 QUOTATION MARK (&quot;)
+<dt>U+0027 APOSTROPHE (')
+<dt>U+0060 GRAVE ACCENT (`)
+<dt>U+0025 PERCENT SIGN (%)
+<dt>U+0023 NUMBER SIGN (#)
+<dt>The <span>additional allowed character</span>, if there is one
+
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>U+0023 NUMBER SIGN (#)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference number state</span>.
+
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference name state</span>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p>Switch to the <span>character reference name state</span>.
+
+</dl>  
+
+<h1><dfn>Character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Process the temporary buffer as a named reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+
+<dt>U+003D EQUALS SIGN (=)
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Process the temporary buffer as a named reference</span> with <var title>before equals</var> flag set.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)
+<dt>U+0020 SPACE
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dt>U+0026 AMPERSAND (&amp;)
+<dt>U+003D EQUALS SIGN (=)
+<dt>U+003E GREATER-THAN SIGN (>)
+<dt>U+0022 QUOTATION MARK (&quot;)
+<dt>U+0027 APOSTROPHE (')
+<dt>U+0060 GRAVE ACCENT (`)
+<dt>U+0025 PERCENT SIGN (%)
+<dt>U+0023 NUMBER SIGN (#)
+<dt>The <span>additional allowed character</span>, if there is one
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Process the temporary buffer as a named reference</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch back to the <span>original state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to
+  the <span>temporary buffer</span>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+</dl>

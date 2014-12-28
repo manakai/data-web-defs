@@ -382,6 +382,7 @@ data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
 data/xml-syntax.json: bin/xml-syntax.pl \
     local/html-tokenizer.json \
     local/html-tokenizer-charrefs.json \
+    local/xml-tokenizer-charrefs-replace.json \
     local/html-tokenizer-charrefs-jump.json \
     local/xml-tokenizer-delta.json \
     local/xml-tokenizer-replace.json \
@@ -432,6 +433,9 @@ local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 local/html-tokenizer-charrefs.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs.html > $@
+local/xml-tokenizer-charrefs-replace.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/charrefs-xml-replace.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-xml-replace.html > $@
 local/html-tokenizer-charrefs-jump.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs-jump.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-jump.html > $@
