@@ -628,6 +628,28 @@
                                  "tag_name" : 1
                               }
                            ],
+                           "false_actions" : [
+                              {
+                                 "actions" : [
+                                    {
+                                       "name" : "in-element-end-else-3",
+                                       "type" : "parse error"
+                                    },
+                                    {
+                                       "type" : "ignore the token"
+                                    },
+                                    {
+                                       "type" : "abort these steps"
+                                    }
+                                 ],
+                                 "cond" : [
+                                    "node",
+                                    "is",
+                                    "oe[0]"
+                                 ],
+                                 "type" : "if"
+                              }
+                           ],
                            "type" : "if"
                         }
                      ],
@@ -6767,12 +6789,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -6847,12 +6863,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -6917,12 +6927,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -7026,12 +7030,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -7078,12 +7076,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -11521,12 +11513,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -12324,12 +12310,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -12432,12 +12412,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -12510,12 +12484,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -12733,12 +12701,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -21806,12 +21768,6 @@
                         "type" : "switch"
                      },
                      {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "type" : "reconsume"
                      }
                   ]
@@ -22019,12 +21975,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -23441,12 +23391,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "NOTATION token" : 1
-                        },
-                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -27822,12 +27766,15 @@
                         "type" : "parse error"
                      },
                      {
-                        "index_offset" : 2,
-                        "type" : "emit-char",
-                        "value" : "\u003C/"
+                        "token" : "comment token",
+                        "type" : "create"
                      },
                      {
-                        "state" : "data state",
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -27842,12 +27789,15 @@
                         "type" : "parse error"
                      },
                      {
-                        "index_offset" : 2,
-                        "type" : "emit-char",
-                        "value" : "\u003C/"
+                        "token" : "comment token",
+                        "type" : "create"
                      },
                      {
-                        "state" : "data state",
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "bogus comment state",
                         "type" : "switch"
                      },
                      {
