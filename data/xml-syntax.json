@@ -805,18 +805,6 @@
             "EOF" : {
                "actions" : [
                   {
-                     "actions" : [
-                        {
-                           "name" : "in-subset-eof",
-                           "type" : "parse error"
-                        }
-                     ],
-                     "cond" : [
-                        "not fragment"
-                     ],
-                     "type" : "if"
-                  },
-                  {
                      "type" : "stop parsing"
                   }
                ]
@@ -1130,6 +1118,9 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "type" : "insert-attrdef"
+                     },
+                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -1151,10 +1142,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -1234,6 +1221,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -1247,10 +1240,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -1275,6 +1264,21 @@
          },
          "ATTLIST attribute type state" : {
             "conds" : {
+               "CHAR:0022" : {
+                  "actions" : [
+                     {
+                        "name" : "attlist-attribute-type-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "after ATTLIST attribute type state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0023" : {
                   "actions" : [
                      {
@@ -1284,6 +1288,9 @@
                      {
                         "state" : "after ATTLIST attribute type state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -1305,8 +1312,27 @@
                      }
                   ]
                },
+               "CHAR:0027" : {
+                  "actions" : [
+                     {
+                        "name" : "attlist-attribute-type-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "after ATTLIST attribute type state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "CHAR:0028" : {
                   "actions" : [
+                     {
+                        "name" : "attlist-attribute-type-0028",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "before allowed token state",
                         "type" : "switch"
@@ -1322,6 +1348,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -1335,10 +1367,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -1398,12 +1426,14 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "name" : "attlist-name-003e",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -1417,10 +1447,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -1448,6 +1474,10 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
+                        "token" : "ATTLIST token",
+                        "type" : "create"
+                     },
+                     {
                         "index_offset" : 0,
                         "type" : "set-to-temp",
                         "value" : "%"
@@ -1463,11 +1493,27 @@
                      }
                   ]
                },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "attlist-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
                         "name" : "attlist-else",
                         "type" : "parse error"
+                     },
+                     {
+                        "token" : "ATTLIST token",
+                        "type" : "create"
                      },
                      {
                         "state" : "before ATTLIST name state",
@@ -1478,8 +1524,23 @@
                      }
                   ]
                },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "token" : "ATTLIST token",
+                        "type" : "create"
+                     },
                      {
                         "state" : "before ATTLIST name state",
                         "type" : "switch"
@@ -1492,7 +1553,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -1533,7 +1593,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -1586,7 +1645,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -1644,10 +1702,893 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
+            }
+         },
+         "DOCTYPE PI data state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE in pic state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "processing instruction token" : 1
+            }
+         },
+         "DOCTYPE PI state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "token" : "processing instruction token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "target",
+                        "type" : "set",
+                        "value" : "�"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "DOCTYPE PI target state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "name" : "pi-003f",
+                        "type" : "parse error"
+                     },
+                     {
+                        "index_offset" : 1,
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set",
+                        "value" : "?"
+                     },
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "token" : "processing instruction token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "target",
+                        "type" : "set"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "DOCTYPE PI target state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 1,
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set",
+                        "value" : "?"
+                     },
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "name" : "pi-ws",
+                        "type" : "parse error"
+                     },
+                     {
+                        "index_offset" : 1,
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set",
+                        "value" : "?"
+                     },
+                     {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ATTLIST token" : 1,
+               "ELEMENT token" : 1,
+               "ENTITY token" : 1,
+               "NOTATION token" : 1,
+               "processing instruction token" : 1
+            }
+         },
+         "DOCTYPE PI target question state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "processing instruction token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "pi-target-question-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set",
+                        "value" : "?"
+                     },
+                     {
+                        "state" : "DOCTYPE PI data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "processing instruction token" : 1
+            }
+         },
+         "DOCTYPE PI target state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "target",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE PI target question state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "target",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE after PI target state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "set-to-temp"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "processing instruction token" : 1
+            }
+         },
+         "DOCTYPE after PI target state" : {
+            "conds" : {
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE PI data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "processing instruction token" : 1
+            }
+         },
+         "DOCTYPE bogus comment state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE comment end bang state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 3,
+                        "type" : "append",
+                        "value" : "--!�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 3,
+                        "type" : "append",
+                        "value" : "--!"
+                     },
+                     {
+                        "state" : "DOCTYPE comment end dash state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 3,
+                        "type" : "append",
+                        "value" : "--!"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE comment end dash state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment end state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE comment end state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 2,
+                        "type" : "append",
+                        "value" : "--�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:0021" : {
+                  "actions" : [
+                     {
+                        "name" : "comment-end-0021",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DOCTYPE comment end bang state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "name" : "comment-end-002d",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "-"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "comment-end-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 2,
+                        "type" : "append",
+                        "value" : "--"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE comment start dash state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment end state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "comment-start-dash-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE comment start state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment start dash state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "comment-start-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE comment state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     }
+                  ]
+               },
+               "CHAR:002D" : {
+                  "actions" : [
+                     {
+                        "state" : "DOCTYPE comment end dash state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "type" : "append"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "comment token" : 1
+            }
+         },
+         "DOCTYPE in pic state" : {
+            "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "processing instruction token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "CHAR:003F" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "?"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "?"
+                     },
+                     {
+                        "state" : "DOCTYPE PI data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "processing instruction token" : 1
             }
          },
          "DOCTYPE markup declaration open state" : {
@@ -1721,7 +2662,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -1781,7 +2722,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -1795,7 +2736,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -1812,7 +2752,7 @@
                         "type" : "set-empty"
                      },
                      {
-                        "state" : "comment start state",
+                        "state" : "DOCTYPE comment start state",
                         "type" : "switch"
                      }
                   ]
@@ -1840,7 +2780,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -1865,7 +2805,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -1916,7 +2855,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -1941,7 +2880,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -1992,7 +2930,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2017,7 +2955,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2068,7 +3005,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2093,7 +3030,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2144,7 +3080,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2169,7 +3105,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2220,7 +3155,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2245,7 +3180,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2308,7 +3242,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2333,7 +3267,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2406,7 +3339,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2431,7 +3364,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2482,7 +3414,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2507,7 +3439,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2558,7 +3489,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2583,7 +3514,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2634,7 +3564,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2659,7 +3589,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2710,7 +3639,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2735,7 +3664,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2798,7 +3726,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2823,7 +3751,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2874,7 +3801,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2899,7 +3826,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -2950,7 +3876,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -2975,7 +3901,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3026,7 +3951,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3051,7 +3976,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3114,7 +4038,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3139,7 +4063,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3190,7 +4113,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3215,7 +4138,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3266,7 +4188,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3291,7 +4213,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3342,7 +4263,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3367,7 +4288,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3418,7 +4338,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3443,7 +4363,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3494,7 +4413,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3519,7 +4438,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3570,7 +4488,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3595,7 +4513,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -3658,7 +4575,7 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -3683,7 +4600,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -4021,7 +4937,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -4180,7 +5095,7 @@
                "CHAR:003F" : {
                   "actions" : [
                      {
-                        "state" : "PI state",
+                        "state" : "DOCTYPE PI state",
                         "type" : "switch"
                      }
                   ]
@@ -4200,7 +5115,7 @@
                         "type" : "set-empty"
                      },
                      {
-                        "state" : "bogus comment state",
+                        "state" : "DOCTYPE bogus comment state",
                         "type" : "switch"
                      },
                      {
@@ -4210,10 +5125,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -4229,7 +5140,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -4286,6 +5196,10 @@
                         "type" : "emit-eof"
                      },
                      {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "type" : "set-DTD-mode",
                         "value" : "N/A"
                      },
@@ -4311,7 +5225,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -4359,10 +5272,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -4453,10 +5362,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -4483,6 +5388,10 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
+                        "token" : "ELEMENT token",
+                        "type" : "create"
+                     },
+                     {
                         "index_offset" : 0,
                         "type" : "set-to-temp",
                         "value" : "%"
@@ -4498,11 +5407,27 @@
                      }
                   ]
                },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "element-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
                         "name" : "element-else",
                         "type" : "parse error"
+                     },
+                     {
+                        "token" : "ELEMENT token",
+                        "type" : "create"
                      },
                      {
                         "state" : "before ELEMENT name state",
@@ -4513,8 +5438,23 @@
                      }
                   ]
                },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "token" : "ELEMENT token",
+                        "type" : "create"
+                     },
                      {
                         "state" : "before ELEMENT name state",
                         "type" : "switch"
@@ -4527,7 +5467,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -4614,10 +5553,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -4688,10 +5623,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -4754,10 +5685,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -4785,6 +5712,18 @@
                      }
                   ]
                },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "entity-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -4797,6 +5736,17 @@
                      },
                      {
                         "state" : "before ENTITY name state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
                         "type" : "switch"
                      },
                      {
@@ -4822,7 +5772,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -4856,10 +5805,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -4904,10 +5849,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -4982,10 +5923,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -5566,10 +6503,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -6141,10 +7074,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -6697,10 +7626,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -6781,10 +7706,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -6855,10 +7776,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -6921,10 +7838,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -6943,6 +7856,10 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
+                        "token" : "NOTATION token",
+                        "type" : "create"
+                     },
+                     {
                         "index_offset" : 0,
                         "type" : "set-to-temp",
                         "value" : "%"
@@ -6958,11 +7875,27 @@
                      }
                   ]
                },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "name" : "notation-003e",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
                         "name" : "notation-else",
                         "type" : "parse error"
+                     },
+                     {
+                        "token" : "NOTATION token",
+                        "type" : "create"
                      },
                      {
                         "state" : "before NOTATION name state",
@@ -6973,8 +7906,23 @@
                      }
                   ]
                },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "WS:HTML" : {
                   "actions" : [
+                     {
+                        "token" : "NOTATION token",
+                        "type" : "create"
+                     },
                      {
                         "state" : "before NOTATION name state",
                         "type" : "switch"
@@ -6987,7 +7935,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -7021,10 +7968,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -7069,10 +8012,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -7126,7 +8065,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -7264,13 +8202,12 @@
                }
             },
             "initial_token_types" : {
-               "ATTLIST token" : 1,
-               "ELEMENT token" : 1,
-               "ENTITY token" : 1,
-               "NOTATION token" : 1,
-               "comment token" : 1,
+               "ATTLIST token" : -1,
+               "ELEMENT token" : -1,
+               "ENTITY token" : -1,
+               "NOTATION token" : -1,
                "end tag token" : -1,
-               "processing instruction token" : 1,
+               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7279,7 +8216,6 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -7355,7 +8291,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -7427,6 +8362,9 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "type" : "insert-attrdef"
+                     },
+                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -7441,6 +8379,9 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "insert-attrdef"
+                     },
+                     {
                         "state" : "before ATTLIST attribute name state",
                         "type" : "switch"
                      },
@@ -7451,10 +8392,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -7629,6 +8566,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -7646,10 +8589,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -7856,6 +8795,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -7873,10 +8818,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -8014,6 +8955,84 @@
                }
             }
          },
+         "after ATTLIST default value state" : {
+            "conds" : {
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "type" : "insert-attrdef"
+                     },
+                     {
+                        "state" : "before ATTLIST attribute name state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "insert-attrdef"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "name" : "after-attlist-default-value-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "insert-attrdef"
+                     },
+                     {
+                        "state" : "before ATTLIST attribute name state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "WS:HTML" : {
+                  "actions" : [
+                     {
+                        "type" : "insert-attrdef"
+                     },
+                     {
+                        "state" : "before ATTLIST attribute name state",
+                        "type" : "switch"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "ATTLIST token" : 1
+            }
+         },
          "after DOCTYPE internal subset state" : {
             "conds" : {
                "CHAR:003E" : {
@@ -8075,7 +9094,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -9323,10 +10341,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -9341,7 +10355,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -9393,10 +10406,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -9648,10 +10657,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -10422,10 +11427,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -10639,10 +11640,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -10735,10 +11732,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -10808,10 +11801,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -10911,10 +11900,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -10988,10 +11973,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -11010,7 +11991,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -11185,10 +12165,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -11207,7 +12183,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -11383,10 +12358,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -11504,10 +12475,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -12302,10 +13269,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -12404,10 +13367,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -12477,10 +13436,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -12695,10 +13650,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -12806,6 +13757,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -12823,10 +13780,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -12993,6 +13946,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -13013,10 +13972,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -13076,6 +14031,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -13101,10 +14062,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -13669,10 +14626,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -14046,10 +14999,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -14064,7 +15013,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14109,7 +15057,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -14178,10 +15125,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -14200,7 +15143,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14408,7 +15350,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14475,7 +15416,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14542,7 +15482,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14609,7 +15548,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14688,7 +15626,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14755,7 +15692,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14822,7 +15758,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14889,7 +15824,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -14956,7 +15890,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -15035,7 +15968,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -15089,6 +16021,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -15110,10 +16048,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -17863,6 +18797,18 @@
                      }
                   ]
                },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "name" : "attribute-value-in-entity-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -18661,6 +19607,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -18678,10 +19630,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -18713,7 +19661,11 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "insert-attrdef"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "type" : "create-attrdef"
                      },
                      {
                         "state" : "ATTLIST attribute name state",
@@ -18761,7 +19713,7 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "insert-attrdef"
+                        "type" : "create-attrdef"
                      },
                      {
                         "state" : "ATTLIST attribute name state",
@@ -18775,10 +19727,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -18925,10 +19873,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "token" : "ATTLIST token",
-                        "type" : "create"
-                     },
-                     {
                         "field" : "name",
                         "type" : "set",
                         "value" : "�"
@@ -18972,10 +19916,6 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "token" : "ATTLIST token",
-                        "type" : "create"
-                     },
-                     {
                         "field" : "name",
                         "type" : "set"
                      },
@@ -18987,10 +19927,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -19006,12 +19942,7 @@
                }
             },
             "initial_token_types" : {
-               "ATTLIST token" : 1,
-               "ELEMENT token" : 1,
-               "ENTITY token" : 1,
-               "NOTATION token" : 1,
-               "comment token" : 1,
-               "processing instruction token" : 1
+               "ATTLIST token" : 1
             }
          },
          "before ATTLIST name state - before text declaration in markup declaration state" : {
@@ -19253,7 +20184,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -19614,10 +20544,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -19763,10 +20689,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "token" : "ELEMENT token",
-                        "type" : "create"
-                     },
-                     {
                         "field" : "name",
                         "type" : "set",
                         "value" : "�"
@@ -19810,10 +20732,6 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "token" : "ELEMENT token",
-                        "type" : "create"
-                     },
-                     {
                         "field" : "name",
                         "type" : "set"
                      },
@@ -19825,10 +20743,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -19844,12 +20758,7 @@
                }
             },
             "initial_token_types" : {
-               "ATTLIST token" : 1,
-               "ELEMENT token" : 1,
-               "ENTITY token" : 1,
-               "NOTATION token" : 1,
-               "comment token" : 1,
-               "processing instruction token" : 1
+               "ELEMENT token" : 1
             }
          },
          "before ELEMENT name state - before text declaration in markup declaration state" : {
@@ -20030,10 +20939,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -20234,10 +21139,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -20437,10 +21338,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -20591,6 +21488,17 @@
                   "actions" : [
                      {
                         "state" : "before ENTITY name state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
                         "type" : "switch"
                      },
                      {
@@ -20888,10 +21796,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -21098,10 +22002,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -21480,8 +22380,8 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "token" : "NOTATION token",
-                        "type" : "create"
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "name",
@@ -21530,10 +22430,6 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "token" : "NOTATION token",
-                        "type" : "create"
-                     },
-                     {
                         "field" : "name",
                         "type" : "set"
                      },
@@ -21545,10 +22441,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -21564,12 +22456,7 @@
                }
             },
             "initial_token_types" : {
-               "ATTLIST token" : 1,
-               "ELEMENT token" : 1,
-               "ENTITY token" : 1,
-               "NOTATION token" : 1,
-               "comment token" : 1,
-               "processing instruction token" : 1
+               "NOTATION token" : 1
             }
          },
          "before NOTATION name state - before text declaration in markup declaration state" : {
@@ -21759,10 +22646,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -21969,10 +22852,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -22118,6 +22997,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "insert-allowed-token"
+                     },
+                     {
                         "field" : "value",
                         "type" : "set-to-allowed-token",
                         "value" : "�"
@@ -22167,6 +23049,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ATTLIST token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -22195,10 +23083,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -22855,10 +23739,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -23180,10 +24060,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -23384,10 +24260,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -23626,7 +24498,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -23651,7 +24522,6 @@
                         "type" : "emit"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      }
@@ -23674,7 +24544,6 @@
                         "type" : "emit"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -23702,7 +24571,6 @@
                            "ELEMENT token" : 1,
                            "ENTITY token" : 1,
                            "NOTATION token" : 1,
-                           "comment token" : 1,
                            "processing instruction token" : 1
                         },
                         "type" : "emit"
@@ -23715,10 +24583,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -23734,7 +24598,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -23762,7 +24625,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -23805,7 +24667,6 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -23842,7 +24703,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -23915,7 +24775,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -23984,7 +24843,6 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -24025,7 +24883,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -24258,7 +25115,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -24414,10 +25270,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -24499,7 +25351,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -24542,7 +25393,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -24598,7 +25448,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -24654,7 +25503,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -24935,7 +25783,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -25004,7 +25851,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -25236,7 +26082,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -25260,7 +26105,7 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
-                        "state" : "before ATTLIST attribute name state",
+                        "state" : "after ATTLIST default value state",
                         "type" : "switch"
                      }
                   ]
@@ -25278,6 +26123,18 @@
                      }
                   ]
                },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "name" : "default-attribute-value-double-quoted-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -25288,10 +26145,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -26101,8 +26954,20 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
-                        "state" : "before ATTLIST attribute name state",
+                        "state" : "after ATTLIST default value state",
                         "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "name" : "default-attribute-value-single-quoted-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -26116,10 +26981,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -26923,6 +27784,18 @@
                      {
                         "state" : "default attribute value in entity state - character reference state",
                         "type" : "switch"
+                     }
+                  ]
+               },
+               "CHAR:003C" : {
+                  "actions" : [
+                     {
+                        "name" : "default-attribute-value-in-entity-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -27811,7 +28684,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -27834,10 +28706,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -27852,7 +28720,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -27882,10 +28749,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -27900,7 +28763,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -27925,10 +28787,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -27943,7 +28801,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -27977,7 +28834,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -27988,7 +28844,6 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "dtd_state" : "DTD state",
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -28111,7 +28966,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28183,7 +29037,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28261,7 +29114,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28339,7 +29191,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28417,7 +29268,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28495,7 +29345,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28573,7 +29422,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28663,7 +29511,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28730,7 +29577,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28797,7 +29643,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28864,7 +29709,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28931,7 +29775,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -28998,7 +29841,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -29067,7 +29909,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
@@ -29642,10 +30483,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -29672,7 +30509,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -29884,10 +30720,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -30129,10 +30961,6 @@
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -30607,7 +31435,6 @@
                "ELEMENT token" : 1,
                "ENTITY token" : 1,
                "NOTATION token" : 1,
-               "comment token" : 1,
                "processing instruction token" : 1
             }
          },
@@ -30886,7 +31713,6 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "comment token" : -1,
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1

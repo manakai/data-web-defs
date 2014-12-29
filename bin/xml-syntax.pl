@@ -39,6 +39,23 @@ sub error_name ($$) {
   return $name;
 } # error_name
 
+my @ActionKey = qw(actions false_actions between_actions ws_actions
+                   null_actions char_actions ws_char_actions ws_seq_actions
+                   null_char_actions null_seq_actions);
+sub for_actions (&$);
+sub for_actions (&$) {
+  my ($code, $acts) = @_;
+  my $new_acts = [];
+  for (@$acts) {
+    my $act = {%$_};
+    for (@ActionKey) {
+      $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
+    }
+    push @$new_acts, $act;
+  }
+  return $code->($new_acts);
+} # for_actions
+
 {
   for ('local/html-tokenizer.json',
        'local/html-tokenizer-charrefs-jump.json',
@@ -142,7 +159,13 @@ sub error_name ($$) {
               +{%$_, state => "$orig_state - $_->{state}"};
             } elsif ($_->{type} =~ /^process-temp-as-/) {
               if ($orig_state =~ /ENTITY value/) {
-                +{%$_, in_entity_value => 1};
+                if ($orig_state =~ /default attribute/) {
+                  +{%$_, in_entity_value => 1, in_attr => 1, in_default_attr => 1};
+                } elsif ($orig_state =~ /attribute/) {
+                  +{%$_, in_entity_value => 1, in_attr => 1};
+                } else {
+                  +{%$_, in_entity_value => 1};
+                }
               } elsif ($orig_state =~ /default attribute/) {
                 +{%$_, in_attr => 1, in_default_attr => 1};
               } elsif ($orig_state =~ /attribute/) {
@@ -175,6 +198,39 @@ sub error_name ($$) {
     } # $state
   }
   delete $Data->{tokenizer}->{states}->{'character reference in attribute value state'};
+
+  {
+    my @state = ('PI state', 'comment start state', 'bogus comment state');
+    my %state_done;
+    while (@state) {
+      my $state = shift @state;
+      next if $state_done{$state}++;
+      my $new_state = "DOCTYPE $state";
+      for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+        $Data->{tokenizer}->{states}->{$new_state}->{conds}->{$cond}->{actions} = for_actions {
+          my $acts = shift;
+          my $new_acts = [];
+          for (@$acts) {
+            my $act = {%$_};
+            if (2 == keys %$act and
+                $act->{type} eq 'switch' and defined $act->{state}) {
+              if ($act->{state} eq 'data state') {
+                $act->{state} = 'DTD state';
+              } else {
+                push @state, $act->{state};
+                $act->{state} = "DOCTYPE $act->{state}";
+              }
+            } elsif ($cond eq 'EOF' and $act->{type} eq 'parse error' and
+                     2 == keys %$act) {
+              next;
+            }
+            push @$new_acts, $act;
+          }
+          return $new_acts;
+        } $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
+      }
+    }
+  }
 
   ## GCing
   {
@@ -218,48 +274,6 @@ sub error_name ($$) {
       }
     }
   } ## GCing
-}
-
-my @ActionKey = qw(actions false_actions between_actions ws_actions
-                   null_actions char_actions ws_char_actions ws_seq_actions
-                   null_char_actions null_seq_actions);
-sub for_actions (&$);
-sub for_actions (&$) {
-  my ($code, $acts) = @_;
-  my $new_acts = [];
-  for (@$acts) {
-    my $act = {%$_};
-    for (@ActionKey) {
-      $act->{$_} = &for_actions ($code, $act->{$_}) if defined $act->{$_};
-    }
-    push @$new_acts, $act;
-  }
-  return $code->($new_acts);
-} # for_actions
-
-{
-  my @state = ('PI state', 'comment state', 'bogus comment state');
-  my %state_done;
-  while (@state) {
-    my $state = shift @state;
-    next if $state_done{$state}++;
-    for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
-      $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions} = for_actions {
-        my $acts = shift;
-        for my $act (@$acts) {
-          if (2 == keys %$act and
-              $act->{type} eq 'switch' and defined $act->{state}) {
-            if ($act->{state} eq 'data state') {
-              $act->{dtd_state} = 'DTD state';
-            } else {
-              push @state, $act->{state};
-            }
-          }
-        }
-        return $acts;
-      } $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
-    }
-  }
 }
 
 {

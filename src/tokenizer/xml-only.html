@@ -245,6 +245,7 @@ initially <i>null</i>.
   <p>If the parser was originally created as part of the <span>XML
   fragment parsing algorithm</span>, emit an <span>end-of-file
   token</span> and abort these steps.
+  <p><span>Parse error</span>.
   <p>Set the <span>DTD mode</span> to <i>N/A</i>.
   <p>Switch to the <span>data state</span>.
   <p>Emit an <span>end-of-DOCTYPE token</span>.
@@ -322,20 +323,19 @@ initially <i>null</i>.
 
 <dt>U+003F QUESTION MARK (?)
 <dd>
-  <p>Switch to the <span>PI state<!-- DOCTYPE pi state in XML5
+  <p>Switch to the <span>DOCTYPE PI state<!-- DOCTYPE pi state in XML5
   --></span>.
 
 <dt>EOF
 <dd>
-  <p><span>Parse error</span>.
+  <!--<p><span>Parse error</span>.-->
   <p>Switch to the <span>DTD state<!-- data state in XML5 --></span>.
   <p>Reconsume the <span>current input character</span>.
 
 <dt>Anything else
 <dd>
   <p><span>Parse error</span>.
-  <p>Switch to the <span>bogus comment state<!-- DOCTYPE bogus comment
-  state in XML5 --></span>.
+  <p>Switch to the <span>DOCTYPE bogus comment state</span>.
 
 </dl>
 
@@ -350,8 +350,8 @@ initially <i>null</i>.
   <p>If the <i>DTD mode</i> of the parser is <em>not</em> <i>internal
   subset</i>, switch to the <span>after mss state</span>.
   <p>Otherwise, this is a <span>parse error</span>. Switch to
-  the <span>bogus comment state</span>. The next character that is
-  consumed, if any, is the first character that will be in the
+  the <span>DOCTYPE bogus comment state</span>. The next character
+  that is consumed, if any, is the first character that will be in the
   comment.
 
 <dt>Anything else
@@ -359,8 +359,7 @@ initially <i>null</i>.
   <p>If the next two characters are both U+002D HYPHEN-MINUS
   characters (-), consume those two characters, create a <span>comment
   token</span> whose <i>data</i> is the empty string, and switch to
-  the <span>comment start state<!-- DOCTYPE comment state in XML5
-  --></span>.
+  the <span>DOCTYPE comment start state</span>.
 
   <p>Otherwise, if the next six characters are
   a <span>case-sensitive</span> match for the string "ENTITY", then
@@ -401,9 +400,9 @@ initially <i>null</i>.
   the <span>ELEMENT state</span>.
 
   <p>Otherwise, this is a <span>parse error</span>. Switch to
-  the <span>bogus comment state<!-- DOCTYPE bogus comment state in
-  XML5 --></span>. The next character that is consumed, if any, is the
-  first character that will be in the comment.
+  the <span>DOCTYPE bogus comment state</span>. The next character
+  that is consumed, if any, is the first character that will be in the
+  comment.
 
 </dl>
 

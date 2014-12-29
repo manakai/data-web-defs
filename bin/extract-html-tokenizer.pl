@@ -42,11 +42,11 @@ sub parse_action ($) {
   my @action;
   while (1) {
     $action =~ s/^\s+//;
-    if ($action =~ s/^Otherwise, this is a parse error. Switch to the bogus comment state. The next character that is consumed, if any, is the first character that will be in the comment\.//) {
+    if ($action =~ s/^Otherwise, this is a parse error. Switch to the ((?:DOCTYPE |)bogus comment state). The next character that is consumed, if any, is the first character that will be in the comment\.//) {
       push @action,
           {type => 'parse error'},
           {type => 'append-temp', field => 'data'},
-          {type => 'switch', state => 'bogus comment state'};
+          {type => 'switch', state => $1};
     } elsif ($action =~ s/^Parse error\.\s*// or
              $action =~ s/^Otherwise, this is a parse error\.\s*//) {
       push @action, {type => 'parse error'};
@@ -158,7 +158,9 @@ sub parse_action ($) {
                 push @action, {type => 'set-empty', field => 'value'};
               } elsif ($action =~ s/^Start a new attribute in the current tag token\.\s*//) {
                 push @action, {type => 'create-attr'};
-              } elsif ($action =~ s/^Create an attribute definition and append it to the list of attribute definitions of the current token\.//) {
+              } elsif ($action =~ s/^Create an attribute definition\.//) {
+                push @action, {type => 'create-attrdef'};
+              } elsif ($action =~ s/^Append the attribute definition to the list of attribute definitions of the current token\.//) {
                 push @action, {type => 'insert-attrdef'};
               } elsif ($action =~ s/^Create an allowed token and append it to the list of allowed tokens of the current attribute definition\.//) {
                 push @action, {type => 'insert-allowed-token'};
@@ -347,7 +349,7 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Finally, switch back to the attribute value state that switched into this state\.//) {
       push @action, {type => 'SWITCH-BACK'};
       $PreserveStateBeforeSwitching->{$state_name} = 1;
-    } elsif ($action =~ s/^If the next two characters are both U\+002D HYPHEN-MINUS characters \(-\), consume those two characters, create a comment token whose data is the empty string, and switch to the (comment start state)\.// or
+    } elsif ($action =~ s/^If the next two characters are both U\+002D HYPHEN-MINUS characters \(-\), consume those two characters, create a comment token whose data is the empty string, and switch to the ((?:DOCTYPE |)comment start state)\.// or
              $action =~ s/^If the next two characters are both U\+002D \(-\) characters, consume those two characters, create a comment token whose data is the empty string and then switch to the (comment state)\.// or # xml5
              $action =~ s/^If the next two characters are both U\+002D \(-\) characters, then consume those characters and switch to the (DOCTYPE comment state)\.//) { # xml5
       push @action,
@@ -505,7 +507,9 @@ sub parse_action ($) {
     if ($_->{type} eq 'switch' and $state_name eq 'attribute name state') {
       push @act, {type => 'set-attr'};
     }
-    if ($_->{type} eq 'switch' and $_->{state} eq 'bogus comment state') {
+    if ($_->{type} eq 'switch' and
+        ($_->{state} eq 'bogus comment state' or
+         $_->{state} eq 'DOCTYPE bogus comment state')) {
       my @a;
       if (@act and $act[-1]->{type} eq 'append-temp') {
         push @a, pop @act;
