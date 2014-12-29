@@ -481,6 +481,11 @@ sub parse_action ($) {
       push @action, {type => 'process-temp-as-peref-entity-value'};
     } elsif ($action =~ s/^Process the parameter entity reference in a markup declaration\.//) {
       push @action, {type => 'process-temp-as-peref-md'};
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error; switch to the (bogus markup declaration state) and abort these steps\.//) {
+      push @action, {type => 'parse error-and-switch',
+                     state => $1,
+                     if => 'fragment', break => 1};
+
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
       push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'value'};
     } elsif ($action =~ s/^Unset the additional allowed character\.//) {
@@ -713,6 +718,8 @@ sub error_name ($$) {
     for (@$acts) {
       if ($_->{type} eq 'parse error') {
         $_->{name} = error_name $state, $cond;
+      } elsif ($_->{type} eq 'parse error-and-switch') {
+        $_->{name} = error_name $state, $cond . '-' . $_->{if};
       }
     }
     @$new_acts = @$acts;

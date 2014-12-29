@@ -1,6 +1,6 @@
 * bogus markup declaration state
 
->    -> DTD state; emit
+>    -> error in pe; DTD state; emit
 EOF  -> DTD state; reconsume
 ELSE -> 
 
@@ -45,7 +45,7 @@ ELSE -> append to temp
 WS   -> error; append temp to value; ENTITY value in entity state; reconsume
 <>=&%"'`# -> error; append temp to value; ENTITY value in entity state; reconsume
 ;    -> append to temp; parameter entity reference in entity value; ENTITY value in entity state
-EOF  -> error; ENTITY value in entity state; reconsume
+EOF  -> error; append temp to value; ENTITY value in entity state; reconsume
 NULL -> error; append U+FFFD to temp
 ELSE -> append to temp
 
@@ -57,7 +57,7 @@ WS   ->
 EOF  -> DTD state; reconsume
 "INCLUDE" -> after INCLUDE keyword state
 "IGNORE" -> after IGNORE keyword state
-# []<> -> error; marked section; ignored section state; reconsume
+[]<> -> error in pe; error; marked section; ignored section state; reconsume
 ELSE -> error; marked section; ignored section state; reconsume
 
 * after INCLUDE keyword state
@@ -66,16 +66,16 @@ WS   ->
 [    -> marked section(INCLUDE); DTD state
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
-# ]<>  -> error; marked section; ignored section state; reconsume
+]<>  -> error in pe; error; marked section; ignored section state; reconsume
 ELSE -> error; marked section; ignored section state; reconsume
 
 * after IGNORE keyword state
 
 WS   -> 
-[    -> marked section; ignored section state
+[    -> error in pe; marked section; ignored section state
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
-# ]<>  -> error; marked section; ignored section state; reconsume
+]<>  -> error in pe; error; marked section; ignored section state; reconsume
 ELSE -> error; marked section; ignored section state; reconsume
 
 * ignored section state

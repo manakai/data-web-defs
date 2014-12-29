@@ -154,6 +154,7 @@ sub add_cond ($$$) {
           'parameter entity reference in markup declaration' => q{<span>Process the parameter entity reference in a markup declaration</span>.},
           'text declaration in value' => q{<span>Process the text declaration in the <span>current token</span>'s <i>value</i>, if any</span>.},
           'temp as text declaration' => q{<span>Process the temporary buffer as a text declaration</span>.},
+          'error in pe' => q{If the parser was originally created for a parameter entity reference in a markup declaration, this is a <span>parse error</span>; switch to the <span>bogus markup declaration state</span> and abort these steps.},
         }->{$expr};
         if (defined $html) {
           my $p = $doc->create_element ('p');
