@@ -20,6 +20,150 @@
       "Error type for parse error \u0022after-root-element-doctype\u0022 not defined"
    ],
    "actions" : {
+      "after DOCTYPE;ATTLIST" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;COMMENT" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;DOCTYPE" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;ELEMENT" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;END-ELSE" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;ENTITY" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;EOD" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;EOF" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;NOTATION" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;PI" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;START-ELSE" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
+      "after DOCTYPE;TEXT" : [
+         {
+            "type" : "construct the DOCTYPE node, if necessary"
+         },
+         {
+            "im" : "before root element",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
+         }
+      ],
       "after root element;ATTLIST" : [
       ],
       "after root element;COMMENT" : [
@@ -152,6 +296,10 @@
                   "actions" : [
                      {
                         "type" : "process the external subset"
+                     },
+                     {
+                        "im" : "after DOCTYPE",
+                        "type" : "switch the insertion mode"
                      }
                   ],
                   "cond" : [
@@ -160,7 +308,7 @@
                   ],
                   "false_actions" : [
                      {
-                        "im" : "before root element",
+                        "im" : "after DOCTYPE",
                         "type" : "switch the insertion mode"
                      }
                   ],
@@ -1343,7 +1491,7 @@
             "type" : "if"
          },
          {
-            "im" : "before root element",
+            "im" : "after DOCTYPE",
             "type" : "switch the insertion mode"
          }
       ],
@@ -1589,6 +1737,24 @@
       ]
    },
    "ims" : {
+      "after DOCTYPE" : {
+         "conds" : {
+            "ATTLIST" : "after DOCTYPE;ATTLIST",
+            "COMMENT" : "after DOCTYPE;COMMENT",
+            "DOCTYPE" : "after DOCTYPE;DOCTYPE",
+            "ELEMENT" : "after DOCTYPE;ELEMENT",
+            "END-ELSE" : "after DOCTYPE;END-ELSE",
+            "END:button fieldset img input keygen label object output select textarea" : "after DOCTYPE;END-ELSE",
+            "ENTITY" : "after DOCTYPE;ENTITY",
+            "EOD" : "after DOCTYPE;EOD",
+            "EOF" : "after DOCTYPE;EOF",
+            "NOTATION" : "after DOCTYPE;NOTATION",
+            "PI" : "after DOCTYPE;PI",
+            "START-ELSE" : "after DOCTYPE;START-ELSE",
+            "START:button fieldset img input keygen label object output select textarea" : "after DOCTYPE;START-ELSE",
+            "TEXT" : "after DOCTYPE;TEXT"
+         }
+      },
       "after root element" : {
          "conds" : {
             "ATTLIST" : "after root element;ATTLIST",

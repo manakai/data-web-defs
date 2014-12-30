@@ -494,10 +494,12 @@ sub parse_action ($) {
       push @action, {type => 'set-original-state',
                      state => $1 eq 'current state' ? $state_name : $1};
       $action[-1]->{external_state} = $action[-1]->{state} . ' - before text declaration in markup declaration state';
-    } elsif ($action =~ s/^Process the text declaration in the current token's value, if any\.//) {
-      push @action, {type => 'process-xml-declaration-in-value'};
     } elsif ($action =~ s/^Process the temporary buffer as a text declaration\.//) {
       push @action, {type => 'process-xml-declaration-in-temp'};
+    } elsif ($action =~ s/^Set the in literal flag\.//) {
+      push @action, {type => 'set-in-literal'};
+    } elsif ($action =~ s/^Unset the in literal flag\.//) {
+      push @action, {type => 'unset-in-literal'};
 
     } elsif ($action =~ s/^([^.]+\.+)\s*//) {
       push @action, {type => 'misc', desc => $1};

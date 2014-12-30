@@ -11,6 +11,24 @@
       "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" : 1
    },
    "ims" : {
+      "after DOCTYPE" : {
+         "conds" : {
+            "ELSE" : {
+               "actions" : [
+                  {
+                     "type" : "construct the DOCTYPE node, if necessary"
+                  },
+                  {
+                     "im" : "before root element",
+                     "type" : "switch the insertion mode"
+                  },
+                  {
+                     "type" : "reprocess the token"
+                  }
+               ]
+            }
+         }
+      },
       "after root element" : {
          "conds" : {
             "CHAR-ELSE" : {
@@ -156,6 +174,10 @@
                            "actions" : [
                               {
                                  "type" : "process the external subset"
+                              },
+                              {
+                                 "im" : "after DOCTYPE",
+                                 "type" : "switch the insertion mode"
                               }
                            ],
                            "cond" : [
@@ -164,7 +186,7 @@
                            ],
                            "false_actions" : [
                               {
-                                 "im" : "before root element",
+                                 "im" : "after DOCTYPE",
                                  "type" : "switch the insertion mode"
                               }
                            ],
@@ -797,7 +819,7 @@
                      "type" : "if"
                   },
                   {
-                     "im" : "before root element",
+                     "im" : "after DOCTYPE",
                      "type" : "switch the insertion mode"
                   }
                ]
@@ -1072,6 +1094,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "set-in-literal"
+                     },
+                     {
                         "state" : "default attribute value (double-quoted) state",
                         "type" : "switch"
                      },
@@ -1104,6 +1129,9 @@
                      {
                         "name" : "attlist-attribute-default-0027",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "set-in-literal"
                      },
                      {
                         "state" : "default attribute value (single-quoted) state",
@@ -5661,6 +5689,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after ENTITY public identifier state",
                         "type" : "switch"
                      }
@@ -5668,6 +5699,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "break" : 1,
                         "if" : "fragment",
@@ -5730,6 +5764,9 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after ENTITY public identifier state",
                         "type" : "switch"
                      }
@@ -5737,6 +5774,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "break" : 1,
                         "if" : "fragment",
@@ -5883,6 +5923,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after ENTITY system identifier state",
                         "type" : "switch"
                      }
@@ -5926,6 +5969,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "state" : "after ENTITY system identifier state",
                         "type" : "switch"
@@ -5974,6 +6020,9 @@
                },
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "state" : "after ENTITY parameter state",
                         "type" : "switch"
@@ -6203,7 +6252,8 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "validate-temp-as-entref"
+                        "name" : "entity-value-double-quoted-state-character-reference-name-else",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "value",
@@ -6580,6 +6630,9 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after ENTITY parameter state",
                         "type" : "switch"
                      }
@@ -6782,7 +6835,8 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "validate-temp-as-entref"
+                        "name" : "entity-value-single-quoted-state-character-reference-name-else",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "value",
@@ -7341,7 +7395,8 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "validate-temp-as-entref"
+                        "name" : "entity-value-in-entity-state-character-reference-name-else",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "value",
@@ -7853,6 +7908,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after NOTATION public identifier state",
                         "type" : "switch"
                      }
@@ -7860,6 +7918,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "break" : 1,
                         "if" : "fragment",
@@ -7922,6 +7983,9 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after NOTATION public identifier state",
                         "type" : "switch"
                      }
@@ -7929,6 +7993,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "break" : 1,
                         "if" : "fragment",
@@ -8085,6 +8152,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after NOTATION system identifier state",
                         "type" : "switch"
                      }
@@ -8128,6 +8198,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "state" : "after NOTATION system identifier state",
                         "type" : "switch"
@@ -8452,6 +8525,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "set-in-literal"
+                     },
+                     {
                         "state" : "default attribute value (double-quoted) state",
                         "type" : "switch"
                      },
@@ -8481,6 +8557,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "default attribute value (single-quoted) state",
                         "type" : "switch"
@@ -8565,6 +8644,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after ATTLIST attribute default state",
                         "type" : "switch"
                      },
@@ -8584,6 +8669,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -8594,6 +8682,9 @@
                      {
                         "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -8608,6 +8699,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -8620,6 +8714,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -8630,6 +8727,9 @@
                      {
                         "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -8663,6 +8763,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -8776,6 +8879,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after ATTLIST attribute name state",
                         "type" : "switch"
                      },
@@ -8795,6 +8904,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -8805,6 +8917,9 @@
                      {
                         "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -8819,6 +8934,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -8831,6 +8949,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -8841,6 +8962,9 @@
                      {
                         "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -8876,6 +9000,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -8890,6 +9017,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "default attribute value (double-quoted) state",
                         "type" : "switch"
@@ -8928,6 +9058,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "default attribute value (single-quoted) state",
                         "type" : "switch"
@@ -9019,6 +9152,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after ATTLIST attribute type state",
                         "type" : "switch"
                      },
@@ -9038,6 +9177,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -9048,6 +9190,9 @@
                      {
                         "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -9062,6 +9207,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -9074,6 +9222,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -9084,6 +9235,9 @@
                      {
                         "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -9117,6 +9271,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -10662,6 +10819,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after ELEMENT content state",
                         "type" : "switch"
                      },
@@ -10681,6 +10844,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -10691,6 +10857,9 @@
                      {
                         "name" : "after-element-content-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -10705,6 +10874,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -10717,6 +10889,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -10727,6 +10902,9 @@
                      {
                         "name" : "after-element-content-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -10762,6 +10940,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -10776,6 +10957,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY value (double-quoted) state",
                         "type" : "switch"
@@ -10806,6 +10990,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY value (single-quoted) state",
                         "type" : "switch"
@@ -10933,6 +11120,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after ENTITY name state",
                         "type" : "switch"
                      },
@@ -10952,6 +11145,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -10962,6 +11158,9 @@
                      {
                         "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -10976,6 +11175,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -10988,6 +11190,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -10998,6 +11203,9 @@
                      {
                         "name" : "after-entity-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -11031,6 +11239,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -11716,6 +11927,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after ENTITY parameter state",
                         "type" : "switch"
                      },
@@ -11735,6 +11952,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -11745,6 +11965,9 @@
                      {
                         "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -11759,6 +11982,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -11771,6 +11997,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -11781,6 +12010,9 @@
                      {
                         "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -11816,6 +12048,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -11833,6 +12068,9 @@
                      {
                         "name" : "after-entity-public-identifier-0022",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "set-in-literal"
                      },
                      {
                         "state" : "ENTITY system identifier (double-quoted) state",
@@ -11863,6 +12101,9 @@
                      {
                         "name" : "after-entity-public-identifier-0027",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "set-in-literal"
                      },
                      {
                         "state" : "ENTITY system identifier (single-quoted) state",
@@ -12398,6 +12639,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after IGNORE keyword state",
                         "type" : "switch"
                      },
@@ -12417,6 +12664,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -12427,6 +12677,9 @@
                      {
                         "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -12441,6 +12694,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -12453,6 +12709,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -12463,6 +12722,9 @@
                      {
                         "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -12496,6 +12758,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -12672,6 +12937,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after INCLUDE keyword state",
                         "type" : "switch"
                      },
@@ -12691,6 +12962,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -12701,6 +12975,9 @@
                      {
                         "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -12715,6 +12992,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -12727,6 +13007,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -12737,6 +13020,9 @@
                      {
                         "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -12770,6 +13056,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -13003,6 +13292,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after NOTATION name state",
                         "type" : "switch"
                      },
@@ -13022,6 +13317,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -13032,6 +13330,9 @@
                      {
                         "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -13046,6 +13347,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -13058,6 +13362,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -13068,6 +13375,9 @@
                      {
                         "name" : "after-notation-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -13101,6 +13411,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -13706,6 +14019,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "set-in-literal"
+                     },
+                     {
                         "state" : "NOTATION system identifier (double-quoted) state",
                         "type" : "switch"
                      }
@@ -13734,6 +14050,9 @@
                      {
                         "name" : "after-notation-public-identifier-0027",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "set-in-literal"
                      },
                      {
                         "state" : "NOTATION system identifier (single-quoted) state",
@@ -13992,6 +14311,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after NOTATION system identifier state",
                         "type" : "switch"
                      },
@@ -14011,6 +14336,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14021,6 +14349,9 @@
                      {
                         "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14035,6 +14366,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14047,6 +14381,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14057,6 +14394,9 @@
                      {
                         "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14090,6 +14430,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14237,6 +14580,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "set-in-literal"
+                     },
+                     {
                         "state" : "default attribute value (double-quoted) state",
                         "type" : "switch"
                      },
@@ -14274,6 +14620,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "default attribute value (single-quoted) state",
                         "type" : "switch"
@@ -14357,6 +14706,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after after allowed token list state",
                         "type" : "switch"
                      },
@@ -14376,6 +14731,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14386,6 +14744,9 @@
                      {
                         "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14400,6 +14761,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14412,6 +14776,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14422,6 +14789,9 @@
                      {
                         "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14455,6 +14825,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14660,6 +15033,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after allowed token state",
                         "type" : "switch"
                      },
@@ -14679,6 +15058,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14689,6 +15071,9 @@
                      {
                         "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14703,6 +15088,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14715,6 +15103,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -14725,6 +15116,9 @@
                      {
                         "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -14758,6 +15152,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -15460,6 +15857,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after content model item state",
                         "type" : "switch"
                      },
@@ -15479,6 +15882,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -15489,6 +15895,9 @@
                      {
                         "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -15503,6 +15912,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -15515,6 +15927,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -15525,6 +15940,9 @@
                      {
                         "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -15558,6 +15976,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -15857,6 +16278,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "after mss state",
                         "type" : "switch"
                      },
@@ -15876,6 +16303,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -15886,6 +16316,9 @@
                      {
                         "name" : "after-mss-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -15900,6 +16333,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -15912,6 +16348,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -15922,6 +16361,9 @@
                      {
                         "name" : "after-mss-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -15955,6 +16397,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -20484,6 +20929,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ATTLIST attribute name state",
                         "type" : "switch"
                      },
@@ -20503,6 +20954,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -20513,6 +20967,9 @@
                      {
                         "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -20527,6 +20984,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -20539,6 +20999,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -20549,6 +21012,9 @@
                      {
                         "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -20582,6 +21048,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -20698,6 +21167,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ATTLIST name state",
                         "type" : "switch"
                      },
@@ -20717,6 +21192,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -20727,6 +21205,9 @@
                      {
                         "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -20741,6 +21222,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -20753,6 +21237,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -20763,6 +21250,9 @@
                      {
                         "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -20796,6 +21286,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21392,6 +21885,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ELEMENT content state",
                         "type" : "switch"
                      },
@@ -21411,6 +21910,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21421,6 +21923,9 @@
                      {
                         "name" : "before-element-content-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21435,6 +21940,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21447,6 +21955,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21457,6 +21968,9 @@
                      {
                         "name" : "before-element-content-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21490,6 +22004,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21606,6 +22123,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ELEMENT name state",
                         "type" : "switch"
                      },
@@ -21625,6 +22148,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21635,6 +22161,9 @@
                      {
                         "name" : "before-element-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21649,6 +22178,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21661,6 +22193,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21671,6 +22206,9 @@
                      {
                         "name" : "before-element-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21704,6 +22242,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21816,6 +22357,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ENTITY name state",
                         "type" : "switch"
                      },
@@ -21835,6 +22382,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21845,6 +22395,9 @@
                      {
                         "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21859,6 +22412,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21871,6 +22427,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -21881,6 +22440,9 @@
                      {
                         "name" : "before-entity-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -21916,6 +22478,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -21930,6 +22495,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY public identifier (double-quoted) state",
                         "type" : "switch"
@@ -21956,6 +22524,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY public identifier (single-quoted) state",
                         "type" : "switch"
@@ -22035,6 +22606,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ENTITY public identifier state",
                         "type" : "switch"
                      },
@@ -22054,6 +22631,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22064,6 +22644,9 @@
                      {
                         "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22078,6 +22661,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22090,6 +22676,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22100,6 +22689,9 @@
                      {
                         "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22135,6 +22727,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -22149,6 +22744,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY system identifier (double-quoted) state",
                         "type" : "switch"
@@ -22175,6 +22773,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY system identifier (single-quoted) state",
                         "type" : "switch"
@@ -22254,6 +22855,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ENTITY system identifier state",
                         "type" : "switch"
                      },
@@ -22273,6 +22880,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22283,6 +22893,9 @@
                      {
                         "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22297,6 +22910,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22309,6 +22925,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22319,6 +22938,9 @@
                      {
                         "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22352,6 +22974,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22421,6 +23046,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before ENTITY type state",
                         "type" : "switch"
                      },
@@ -22440,6 +23071,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22450,6 +23084,9 @@
                      {
                         "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22464,6 +23101,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22476,6 +23116,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22486,6 +23129,9 @@
                      {
                         "name" : "before-entity-type-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22521,6 +23167,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -22533,78 +23182,25 @@
          },
          "before ENTITY value in entity state" : {
             "conds" : {
-               "CHAR:0000" : {
+               "CHAR:003C" : {
                   "actions" : [
                      {
-                        "state" : "ENTITY value in entity state",
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "text declaration in ENTITY value in entity state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:0021" : {
-                  "actions" : [
-                     {
-                        "state" : "ENTITY value in entity state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:0025" : {
-                  "actions" : [
-                     {
-                        "state" : "ENTITY value in entity state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:0026" : {
-                  "actions" : [
-                     {
-                        "state" : "ENTITY value in entity state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "CHAR:003E" : {
-                  "actions" : [
-                     {
-                        "field" : "value",
-                        "type" : "append"
-                     },
-                     {
-                        "type" : "process-xml-declaration-in-value"
-                     },
-                     {
-                        "state" : "ENTITY value in entity state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
                      {
                         "state" : "ENTITY value in entity state",
                         "type" : "switch"
@@ -22726,6 +23322,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before NDATA identifier state",
                         "type" : "switch"
                      },
@@ -22745,6 +23347,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22755,6 +23360,9 @@
                      {
                         "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22769,6 +23377,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22781,6 +23392,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22791,6 +23405,9 @@
                      {
                         "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22824,6 +23441,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22947,6 +23567,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before NDATA keyword state",
                         "type" : "switch"
                      },
@@ -22966,6 +23592,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -22976,6 +23605,9 @@
                      {
                         "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -22990,6 +23622,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23002,6 +23637,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23012,6 +23650,9 @@
                      {
                         "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23045,6 +23686,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23400,6 +24044,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before NOTATION name state",
                         "type" : "switch"
                      },
@@ -23419,6 +24069,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23429,6 +24082,9 @@
                      {
                         "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23443,6 +24099,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23455,6 +24114,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23465,6 +24127,9 @@
                      {
                         "name" : "before-notation-name-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23500,6 +24165,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -23514,6 +24182,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "NOTATION public identifier (double-quoted) state",
                         "type" : "switch"
@@ -23540,6 +24211,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "NOTATION public identifier (single-quoted) state",
                         "type" : "switch"
@@ -23619,6 +24293,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before NOTATION public identifier state",
                         "type" : "switch"
                      },
@@ -23638,6 +24318,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23648,6 +24331,9 @@
                      {
                         "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23662,6 +24348,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23674,6 +24363,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23684,6 +24376,9 @@
                      {
                         "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23719,6 +24414,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -23733,6 +24431,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "NOTATION system identifier (double-quoted) state",
                         "type" : "switch"
@@ -23759,6 +24460,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "NOTATION system identifier (single-quoted) state",
                         "type" : "switch"
@@ -23838,6 +24542,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before NOTATION system identifier state",
                         "type" : "switch"
                      },
@@ -23857,6 +24567,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23867,6 +24580,9 @@
                      {
                         "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23881,6 +24597,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23893,6 +24612,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -23903,6 +24625,9 @@
                      {
                         "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -23936,6 +24661,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24084,6 +24812,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before allowed token state",
                         "type" : "switch"
                      },
@@ -24103,6 +24837,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -24113,6 +24850,9 @@
                      {
                         "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24127,6 +24867,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -24139,6 +24882,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -24149,6 +24895,9 @@
                      {
                         "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24182,6 +24931,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24753,6 +25505,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "before content model item state",
                         "type" : "switch"
                      },
@@ -24772,6 +25530,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -24782,6 +25543,9 @@
                      {
                         "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24796,6 +25560,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -24808,6 +25575,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -24818,6 +25588,9 @@
                      {
                         "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24851,6 +25624,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -24988,6 +25764,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "set-in-literal"
+                     },
+                     {
                         "state" : "ENTITY system identifier (double-quoted) state",
                         "type" : "switch"
                      }
@@ -25013,6 +25792,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "ENTITY system identifier (single-quoted) state",
                         "type" : "switch"
@@ -25092,6 +25874,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "between ENTITY public and system identifiers state",
                         "type" : "switch"
                      },
@@ -25111,6 +25899,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -25121,6 +25912,9 @@
                      {
                         "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -25135,6 +25929,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -25147,6 +25944,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -25157,6 +25957,9 @@
                      {
                         "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -25192,6 +25995,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      },
@@ -25206,6 +26012,9 @@
             "conds" : {
                "CHAR:0022" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "NOTATION system identifier (double-quoted) state",
                         "type" : "switch"
@@ -25232,6 +26041,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "set-in-literal"
+                     },
                      {
                         "state" : "NOTATION system identifier (single-quoted) state",
                         "type" : "switch"
@@ -25307,6 +26119,12 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "between NOTATION public and system identifiers state",
                         "type" : "switch"
                      },
@@ -25326,6 +26144,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -25336,6 +26157,9 @@
                      {
                         "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -25350,6 +26174,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -25362,6 +26189,9 @@
                         "type" : "parse error"
                      },
                      {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
                         "state" : "bogus markup declaration state",
                         "type" : "switch"
                      }
@@ -25372,6 +26202,9 @@
                      {
                         "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -25405,6 +26238,9 @@
                      {
                         "name" : "EOF",
                         "type" : "parse error"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
                      },
                      {
                         "state" : "bogus markup declaration state",
@@ -27139,6 +27975,9 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "type" : "unset-in-literal"
+                     },
+                     {
                         "state" : "after ATTLIST default value state",
                         "type" : "switch"
                      }
@@ -27987,6 +28826,9 @@
                },
                "CHAR:0027" : {
                   "actions" : [
+                     {
+                        "type" : "unset-in-literal"
+                     },
                      {
                         "state" : "after ATTLIST default value state",
                         "type" : "switch"
@@ -32754,6 +33596,125 @@
                "end tag token" : -1,
                "processing instruction token" : -1,
                "start tag token" : -1
+            }
+         },
+         "text declaration in ENTITY value in entity state" : {
+            "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0021" : {
+                  "actions" : [
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0025" : {
+                  "actions" : [
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:0026" : {
+                  "actions" : [
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "type" : "process-xml-declaration-in-temp"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
             }
          }
       },

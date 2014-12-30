@@ -152,9 +152,10 @@ sub add_cond ($$$) {
           'parameter entity reference in DTD' => q{<span>Process the parameter entity reference in DTD</span>.},
           'parameter entity reference in entity value' => q{<span>Process the parameter entity reference in an entity value</span>.},
           'parameter entity reference in markup declaration' => q{<span>Process the parameter entity reference in a markup declaration</span>.},
-          'text declaration in value' => q{<span>Process the text declaration in the <span>current token</span>'s <i>value</i>, if any</span>.},
           'temp as text declaration' => q{<span>Process the temporary buffer as a text declaration</span>.},
           'error in pe' => q{If the parser was originally created for a parameter entity reference in a markup declaration, this is a <span>parse error</span>; switch to the <span>bogus markup declaration state</span> and abort these steps.},
+          'start literal' => q{<span>Set the <span>in literal</span> flag</span>.},
+          'end literal' => q{<span>Unset the <span>in literal</span> flag</span>.},
         }->{$expr};
         if (defined $html) {
           my $p = $doc->create_element ('p');
@@ -221,6 +222,10 @@ sub add_cond ($$$) {
           $p->inner_html (q{Set the <span></span>'s <i></i> to a U+FFFD REPLACEMENT CHARACTER character.});
           $p->children->[0]->text_content (_current $1);
           $p->children->[1]->text_content ($2);
+          $dd->append_child ($p);
+        } elsif ($expr =~ /^set empty to temp$/) {
+          my $p = $doc->create_element ('p');
+          $p->inner_html (q{Set the <span>temporary buffer</span> to the empty string.});
           $dd->append_child ($p);
         } elsif ($expr =~ /^set empty to (.+?'s |)(.+)$/) {
           my $p = $doc->create_element ('p');
@@ -366,14 +371,14 @@ my $template = q{
 * @@ - before text declaration in markup declaration state
 
 <    -> set to temp; @@ - text declaration in markup declaration state
-ELSE -> @@; reconsume
+ELSE -> set to temp; temp as text declaration; @@; reconsume
 
 * @@ - text declaration in markup declaration state
 
 >    -> append to temp; @@; temp as text declaration
-%&!< -> error; bogus markup declaration state
-EOF  -> error; bogus markup declaration state; reconsume
-NULL -> error; bogus markup declaration state
+%&!< -> error; temp as text declaration; bogus markup declaration state
+EOF  -> error; temp as text declaration; bogus markup declaration state; reconsume
+NULL -> error; temp as text declaration; bogus markup declaration state
 ELSE -> append to temp
 };
 

@@ -119,7 +119,7 @@ of the <code>DocumentType</code> object.
   <p>If the <span>DOCTYPE system identifier</span> is not
   empty, <span>process the external subset</span>.
   <p>Switch the <span>insertion mode</span> to "<span title='the
-  "before root element" insertion mode'>before root element</span>".
+  "after DOCTYPE" insertion mode'>after DOCTYPE</span>".
 
 <dt>An end-of-file token
 <dd>
@@ -241,6 +241,24 @@ U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
 
 </dl>
 
+<h1>The "<dfn title='the "after DOCTYPE" insertion mode'>after DOCTYPE</dfn>" insertion mode</h1>
+
+<p>When the user agent is to apply the rules for the "<span title='the
+"after DOCTYPE" insertion mode'>after DOCTYPE</span>" <span>insertion
+mode</span>, the user agent <em class=rfc2119>MUST</em> handle the
+token as follows:
+
+<dl class=switch>
+
+<dt>Anything else
+<dd>
+  <p><span>Construct the DOCTYPE node, if necessary</span>.
+  <p>Switch the <span>insertion mode</span> to "<span title='the
+  "before root element" insertion mode'>before root element</span>".
+  <p>Reprocess the token.
+
+</dl>
+
 <h1>The "<dfn title='the "before root element" insertion mode'>before root element</dfn>" insertion mode</h1>
 
 <p>When the user agent is to apply the rules for the "<span title='the
@@ -338,10 +356,12 @@ U+000A LINE FEED (LF), U+000C FORM FEED (FF), U+000D CARRIAGE RETURN
   the <span>insertion mode</span> to "<span title='the "in subset"
   insertion mode'>in subset</span>".
   <p>Otherwise, if the <span>DOCTYPE system identifier</span> is not
-  empty, <span>process the external subset</span>.
+  empty, <span>process the external subset</span> and switch
+  the <span>insertion mode</span> to "<span title='the "after DOCTYPE"
+  insertion mode'>after DOCTYPE</span>".
   <p>Otherwise, switch the <span>insertion mode</span> to
-  "<span title='the "before root element" insertion mode'>before root
-  element</span>".
+  "<span title='the "after DOCTYPE" insertion mode'>after
+  DOCTYPE</span>".
 
 </dl>
 

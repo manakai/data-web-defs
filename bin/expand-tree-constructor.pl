@@ -545,6 +545,7 @@ warn "IM = $im";
             'the XML declaration is missing' => 1,
             'switch the insertion mode' => 1,
             'reprocess the token' => 1,
+            'construct the DOCTYPE node, if necessary' => 1,
           }->{$_->{type}}) {
             last ELSEONLY;
           }

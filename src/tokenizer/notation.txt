@@ -56,23 +56,23 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> NOTATION public identifier (double-quoted) state
-'    -> NOTATION public identifier (single-quoted) state
+"    -> start literal; NOTATION public identifier (double-quoted) state
+'    -> start literal; NOTATION public identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * NOTATION public identifier (double-quoted) state
 
-"    -> after NOTATION public identifier state
+"    -> end literal; after NOTATION public identifier state
 EOF  -> DTD state; reconsume
->    -> error in pe; error; DTD state; emit
+>    -> end literal; error in pe; error; DTD state; emit
 NULL -> append U+FFFD to public identifier
 ELSE -> append to public identifier
 
 * NOTATION public identifier (single-quoted) state
 
-'    -> after NOTATION public identifier state
+'    -> end literal; after NOTATION public identifier state
 EOF  -> DTD state; reconsume
->    -> error in pe; error; DTD state; emit
+>    -> end literal; error in pe; error; DTD state; emit
 NULL -> append U+FFFD to public identifier
 ELSE -> append to public identifier
 
@@ -82,8 +82,8 @@ WS   -> between NOTATION public and system identifiers state
 %    -> parameter entity name in markup declaration state (between NOTATION public and system identifiers state)
 EOF  -> DTD state; reconsume
 >    -> error in pe; DTD state; emit
-"    -> error; NOTATION system identifier (double-quoted) state
-'    -> error; NOTATION system identifier (single-quoted) state
+"    -> error; start literal; NOTATION system identifier (double-quoted) state
+'    -> error; start literal; NOTATION system identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * between NOTATION public and system identifiers state
@@ -92,8 +92,8 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; DTD state; emit
-"    -> NOTATION system identifier (double-quoted) state
-'    -> NOTATION system identifier (single-quoted) state
+"    -> start literal; NOTATION system identifier (double-quoted) state
+'    -> start literal; NOTATION system identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * after NOTATION system keyword state
@@ -114,20 +114,20 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> NOTATION system identifier (double-quoted) state
-'    -> NOTATION system identifier (single-quoted) state
+"    -> start literal; NOTATION system identifier (double-quoted) state
+'    -> start literal; NOTATION system identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * NOTATION system identifier (double-quoted) state
 
-"    -> after NOTATION system identifier state
+"    -> end literal; after NOTATION system identifier state
 EOF  -> DTD state; reconsume
 NULL -> append U+FFFD to system identifier
 ELSE -> append to system identifier
 
 * NOTATION system identifier (single-quoted) state
 
-'    -> after NOTATION system identifier state
+'    -> end literal; after NOTATION system identifier state
 EOF  -> DTD state; reconsume
 NULL -> append U+FFFD to system identifier
 ELSE -> append to system identifier

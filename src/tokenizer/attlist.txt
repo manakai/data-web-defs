@@ -73,8 +73,8 @@ EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
 (    -> before allowed token state
  #   -> before ATTLIST attribute default state
-"    -> default attribute value (double-quoted) state; set empty to attr's value
-'    -> default attribute value (single-quoted) state; set empty to attr's value
+"    -> start literal; default attribute value (double-quoted) state; set empty to attr's value
+'    -> start literal; default attribute value (single-quoted) state; set empty to attr's value
 ELSE -> error; bogus markup declaration state
 
 * before allowed token state
@@ -124,8 +124,8 @@ WS   ->
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
  #   -> before ATTLIST attribute default state
-"    -> default attribute value (double-quoted) state; set empty to attr's value
-'    -> default attribute value (single-quoted) state; set empty to attr's value
+"    -> start literal; default attribute value (double-quoted) state; set empty to attr's value
+'    -> start literal; default attribute value (single-quoted) state; set empty to attr's value
 ELSE -> error; bogus markup declaration state
 
 * before ATTLIST attribute default state
@@ -142,8 +142,8 @@ WS   -> after ATTLIST attribute default state
 %    -> parameter entity name in markup declaration state (after ATTLIST attribute default state)
 EOF  -> DTD state; reconsume
 >    -> error in pe; emit attr; DTD state; emit
-"    -> error; default attribute value (double-quoted) state; set empty to attr's value
-'    -> error; default attribute value (single-quoted) state; set empty to attr's value
+"    -> error; start literal; default attribute value (double-quoted) state; set empty to attr's value
+'    -> error; start literal; default attribute value (single-quoted) state; set empty to attr's value
 ELSE -> append to attr's default type
 
 * after ATTLIST attribute default state
@@ -152,14 +152,14 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; emit attr; DTD state; emit
-"    -> default attribute value (double-quoted) state; set empty to attr's value
-'    -> default attribute value (single-quoted) state; set empty to attr's value
+"    -> start literal; default attribute value (double-quoted) state; set empty to attr's value
+'    -> start literal; default attribute value (single-quoted) state; set empty to attr's value
 ELSE -> emit attr; before ATTLIST attribute name state; reconsume
 
 * default attribute value (double-quoted) state
 
 WS   -> append U+0020 to attr's value
-"    -> after ATTLIST default value state
+"    -> end literal; after ATTLIST default value state
 &    -> set U+0026 to temp; default attribute value (double-quoted) state - character reference state
 EOF  -> DTD state; reconsume
 NULL -> error; append U+FFFD to attr's value
@@ -169,7 +169,7 @@ ELSE -> append to attr's value
 * default attribute value (single-quoted) state
 
 WS   -> append U+0020 to attr's value
-'    -> after ATTLIST default value state
+'    -> end literal; after ATTLIST default value state
 &    -> set U+0026 to temp; default attribute value (single-quoted) state - character reference state
 EOF  -> DTD state; reconsume
 NULL -> error; append U+FFFD to attr's value

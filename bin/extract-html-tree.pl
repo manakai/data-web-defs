@@ -835,6 +835,7 @@ $DescIsType->{$_} = 1 for
   'process the external subset',
   'set the stop processing flag',
   'the XML declaration is missing',
+  'construct the DOCTYPE node, if necessary',
   ;
 my $NormalizeDesc = {};
 $NormalizeDesc->{$_->[0]} = $_->[1] for

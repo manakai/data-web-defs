@@ -63,8 +63,8 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> ENTITY value (double-quoted) state; set empty to value
-'    -> ENTITY value (single-quoted) state; set empty to value
+"    -> start literal; ENTITY value (double-quoted) state; set empty to value
+'    -> start literal; ENTITY value (single-quoted) state; set empty to value
 "PUBLIC" -> after ENTITY public keyword state
 "SYSTEM" -> after ENTITY system keyword state
 ELSE -> error; bogus markup declaration state
@@ -87,22 +87,22 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> ENTITY public identifier (double-quoted) state
-'    -> ENTITY public identifier (single-quoted) state
+"    -> start literal; ENTITY public identifier (double-quoted) state
+'    -> start literal; ENTITY public identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * ENTITY public identifier (double-quoted) state
 
-"    -> after ENTITY public identifier state
->    -> error in pe; error; DTD state; emit
+"    -> end literal; after ENTITY public identifier state
+>    -> end literal; error in pe; error; DTD state; emit
 EOF  -> DTD state; reconsume
 NULL -> append U+FFFD to public identifier
 ELSE -> append to public identifier
 
 * ENTITY public identifier (single-quoted) state
 
-'    -> after ENTITY public identifier state
->    -> error in pe; error; DTD state; emit
+'    -> end literal; after ENTITY public identifier state
+>    -> end literal; error in pe; error; DTD state; emit
 EOF  -> DTD state; reconsume
 NULL -> append U+FFFD to public identifier
 ELSE -> append to public identifier
@@ -113,8 +113,8 @@ WS   -> between ENTITY public and system identifiers state
 %    -> parameter entity name in markup declaration state (between ENTITY public and system identifiers state)
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> error; ENTITY system identifier (double-quoted) state
-'    -> error; ENTITY system identifier (single-quoted) state
+"    -> error; start literal; ENTITY system identifier (double-quoted) state
+'    -> error; start literal; ENTITY system identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * between ENTITY public and system identifiers state
@@ -123,8 +123,8 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> ENTITY system identifier (double-quoted) state
-'    -> ENTITY system identifier (single-quoted) state
+"    -> start literal; ENTITY system identifier (double-quoted) state
+'    -> start literal; ENTITY system identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * after ENTITY system keyword state
@@ -145,20 +145,20 @@ WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> DTD state; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> ENTITY system identifier (double-quoted) state
-'    -> ENTITY system identifier (single-quoted) state
+"    -> start literal; ENTITY system identifier (double-quoted) state
+'    -> start literal; ENTITY system identifier (single-quoted) state
 ELSE -> error; bogus markup declaration state
 
 * ENTITY system identifier (double-quoted) state
 
-"    -> after ENTITY system identifier state
+"    -> end literal; after ENTITY system identifier state
 EOF  -> DTD state; reconsume
 NULL -> append U+FFFD to system identifier
 ELSE -> append to system identifier
 
 * ENTITY system identifier (single-quoted) state
 
-'    -> after ENTITY system identifier state
+'    -> end literal; after ENTITY system identifier state
 EOF  -> DTD state; reconsume
 NULL -> append U+FFFD to system identifier
 ELSE -> append to system identifier
@@ -208,7 +208,7 @@ ELSE -> append to notation name
 
 * ENTITY value (double-quoted) state
 
-"    -> after ENTITY parameter state
+"    -> end literal; after ENTITY parameter state
 %    -> set U+0025 to temp; parameter entity name in entity value (double-quoted) state
 &    -> set U+0026 to temp; ENTITY value (double-quoted) state - character reference state
 EOF  -> DTD state; reconsume
@@ -217,7 +217,7 @@ ELSE -> append to value
 
 * ENTITY value (single-quoted) state
 
-'    -> after ENTITY parameter state
+'    -> end literal; after ENTITY parameter state
 %    -> set U+0025 to temp; parameter entity name in entity value (single-quoted) state
 &    -> set U+0026 to temp; ENTITY value (single-quoted) state - character reference state
 EOF  -> DTD state; reconsume
@@ -226,11 +226,16 @@ ELSE -> append to value
 
 * before ENTITY value in entity state
 
-%&!  -> ENTITY value in entity state; reconsume
->    -> append to value; text declaration in value; ENTITY value in entity state; reconsume
-EOF  -> ENTITY value in entity state; reconsume
-NULL -> ENTITY value in entity state; reconsume
-ELSE -> append to value
+<    -> set to temp; text declaration in ENTITY value in entity state
+ELSE -> set empty to temp; temp as text declaration; ENTITY value in entity state; reconsume
+
+* text declaration in ENTITY value in entity state
+
+%&!  -> temp as text declaration; append temp to value; ENTITY value in entity state; reconsume
+>    -> append to temp; temp as text declaration; append temp to value; ENTITY value in entity state
+EOF  -> temp as text declaration; append temp to value; ENTITY value in entity state; reconsume
+NULL -> temp as text declaration; append temp to value; ENTITY value in entity state; reconsume
+ELSE -> append to temp
 
 * ENTITY value in entity state
 
