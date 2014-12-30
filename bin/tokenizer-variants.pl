@@ -397,6 +397,7 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
         }
       } else {
         unshift @$new_acts, $_;
+        $has_switch = 0 if defined $_->{if} or $_->{break};
       }
     }
     $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions} = $new_acts;

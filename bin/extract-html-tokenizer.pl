@@ -293,6 +293,31 @@ sub parse_action ($) {
       push @action, {type => 'emit-eof',
                      if => 'fragment',
                      break => 1};
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, switch to the (DTD state) and abort these steps\.//) {
+      push @action, {type => 'switch',
+                     state => $1,
+                     if => 'fragment', break => 1};
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, this is a parse error; switch to the (DTD state) and abort these steps\.//) {
+      push @action, {type => 'parse error-and-switch',
+                     state => $1,
+                     if => 'fragment', break => 1};
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, this is a parse error \(offset=1\); switch to the (DTD state) and abort these steps\.//) {
+      push @action, {type => 'parse error-and-switch',
+                     state => $1,
+                     index_offset => 1,
+                     if => 'fragment', break => 1};
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error; switch to the (.+? state) and abort these steps\.//) {
+      push @action, {type => 'parse error-and-switch',
+                     state => $1,
+                     if => 'md-fragment', break => 1};
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error \(offset=1\); switch to the (.+? state) and abort these steps\.//) {
+      push @action, {type => 'parse error-and-switch',
+                     state => $1,
+                     index_offset => 1,
+                     if => 'md-fragment', break => 1};
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, abort these steps\.//) {
+      push @action, {type => 'break', if => 'md-fragment'};
+
     } elsif ($action =~ s/^(?:T|Otherwise, t)reat it as per the "anything else" entry below\.\s*//) {
       push @action, {type => 'SAME-AS-ELSE'};
     } elsif ($action =~ s/^Ignore the character\.\s*//) {
@@ -481,10 +506,6 @@ sub parse_action ($) {
       push @action, {type => 'process-temp-as-peref-entity-value'};
     } elsif ($action =~ s/^Process the parameter entity reference in a markup declaration\.//) {
       push @action, {type => 'process-temp-as-peref-md'};
-    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error; switch to the (bogus markup declaration state) and abort these steps\.//) {
-      push @action, {type => 'parse error-and-switch',
-                     state => $1,
-                     if => 'fragment', break => 1};
 
     } elsif ($action =~ s/^Flush the temporary buffer\.//) {
       push @action, {type => 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR', field => 'value'};
@@ -496,6 +517,12 @@ sub parse_action ($) {
       $action[-1]->{external_state} = $action[-1]->{state} . ' - before text declaration in markup declaration state';
     } elsif ($action =~ s/^Process the temporary buffer as a text declaration\.//) {
       push @action, {type => 'process-xml-declaration-in-temp'};
+    } elsif ($action =~ s/^Process the temporary buffer as a text declaration, or if it failed, parse error \(offset=1\) and switch to the (bogus markup declaration state)\.//) {
+      push @action, {type => 'process-xml-declaration-in-temp',
+                     false_actions => [{type => 'parse error-and-switch',
+                                        name => 'before-text-declaration-003c',
+                                        index_offset => 1,
+                                        state => $1}]};
     } elsif ($action =~ s/^Set the in literal flag\.//) {
       push @action, {type => 'set-in-literal'};
     } elsif ($action =~ s/^Unset the in literal flag\.//) {
@@ -721,7 +748,7 @@ sub error_name ($$) {
       if ($_->{type} eq 'parse error') {
         $_->{name} = error_name $state, $cond;
       } elsif ($_->{type} eq 'parse error-and-switch') {
-        $_->{name} = error_name $state, $cond . '-' . $_->{if};
+        $_->{name} = error_name $state, $cond . '-' . ($_->{if} // '');
       }
     }
     @$new_acts = @$acts;

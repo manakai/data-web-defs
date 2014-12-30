@@ -108,6 +108,13 @@ sub add_cond ($$$) {
           $p->last_element_child->text_content ($1);
           $dd->append_child ($p);
           next;
+        } elsif ($exprs->[0] =~ /^error; ([^;]+? state); reconsume$/) {
+          shift @$exprs;
+          my $p = $doc->create_element ('p');
+          $p->inner_html ('Otherwise, this is a <span>parse error</span>.  Switch to the <span></span>.  Reconsume the <span>current input character</span>.');
+          $p->children->[-2]->text_content ($1);
+          $dd->append_child ($p);
+          next;
         } elsif ($exprs->[0] =~ /^([^;]+? state)$/) {
           shift @$exprs;
           my $p = $doc->create_element ('p');
@@ -116,7 +123,7 @@ sub add_cond ($$$) {
           $dd->append_child ($p);
           next;
         } else {
-          die $exprs->[0];
+          die "@$conds - $exprs->[0]";
           my $p = $doc->create_element ('p');
           $p->text_content ('Otherwise:');
           $dd->append_child ($p);
@@ -153,17 +160,22 @@ sub add_cond ($$$) {
           'parameter entity reference in entity value' => q{<span>Process the parameter entity reference in an entity value</span>.},
           'parameter entity reference in markup declaration' => q{<span>Process the parameter entity reference in a markup declaration</span>.},
           'temp as text declaration' => q{<span>Process the temporary buffer as a text declaration</span>.},
+          'temp as text declaration or bogus(-1)' => q{<span>Process the temporary buffer as a text declaration</span>, or if it failed, <span>parse error</span> <ins>(offset=1)</ins> and switch to the <span>bogus markup declaration state</span>.},
           'error in pe' => q{If the parser was originally created for a parameter entity reference in a markup declaration, this is a <span>parse error</span>; switch to the <span>bogus markup declaration state</span> and abort these steps.},
+          'error in pe (bogus status keyword state)' => q{If the parser was originally created for a parameter entity reference in a markup declaration, this is a <span>parse error</span>; switch to the <span>bogus status keyword state</span> and abort these steps.},
           'start literal' => q{<span>Set the <span>in literal</span> flag</span>.},
           'end literal' => q{<span>Unset the <span>in literal</span> flag</span>.},
+          'DTD state or stop' => q{If the parser was originally created for a parameter entity reference in a markup declaration, abort these steps.  Switch to the <span>DTD state</span>.},
         }->{$expr};
         if (defined $html) {
           my $p = $doc->create_element ('p');
           $p->inner_html ($html);
           $dd->append_child ($p);
-        } elsif ($expr eq 'parameter entity name in markup declaration state') {
+        } elsif ($expr eq 'parameter entity name in markup declaration state' or
+                 $expr eq 'parameter entity name in status keyword state') {
           my $p = $doc->create_element ('p');
-          $p->inner_html (q{Set a U+0025 PERCENT SIGN character (%) to the <span>temporary buffer</span>.  Set the <span>original state</span> to the current state.  Switch to the <span>parameter entity name in markup declaration state</span>.});
+          $p->inner_html (q{Set a U+0025 PERCENT SIGN character (%) to the <span>temporary buffer</span>.  Set the <span>original state</span> to the current state.  Switch to the <span></span>.});
+          $p->children->[-1]->text_content ($expr);
           $OriginalStates->{$CurrentState} = 1;
           $dd->append_child ($p);
         } elsif ($expr =~ /^parameter entity name in markup declaration state \((.+? state)\)$/) {
@@ -375,10 +387,10 @@ ELSE -> set to temp; temp as text declaration; @@; reconsume
 
 * @@ - text declaration in markup declaration state
 
->    -> append to temp; @@; temp as text declaration
-%&!< -> error; temp as text declaration; bogus markup declaration state
-EOF  -> error; temp as text declaration; bogus markup declaration state; reconsume
-NULL -> error; temp as text declaration; bogus markup declaration state
+>    -> append to temp; @@; temp as text declaration or bogus(-1)
+%&!< -> error; temp as text declaration or bogus(-1); bogus markup declaration state
+EOF  -> error; temp as text declaration or bogus(-1); bogus markup declaration state; reconsume
+NULL -> error; temp as text declaration or bogus(-1); bogus markup declaration state
 ELSE -> append to temp
 };
 

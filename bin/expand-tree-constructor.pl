@@ -370,7 +370,6 @@ my $tag_name_to_group = {};
           last WS_PREFIX_ELSE_SWITCH
               if not defined $next_im or
                  not $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[-1]->{type} eq 'reprocess the token';
-warn "IM = $im";
 
           $ims->{$im}->{conds}->{TEXT}->{actions}
               = [{type => 'text-with-optional-ws-prefix',
