@@ -5122,6 +5122,9 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
                         "state" : "DOCTYPE markup declaration open state",
                         "type" : "switch"
                      }
@@ -5602,6 +5605,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ENTITY token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -7660,6 +7669,10 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "notation name",
                         "index_offset" : 0,
                         "type" : "append",
@@ -8567,8 +8580,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -8622,6 +8639,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after ATTLIST attribute default state",
                         "type" : "switch"
@@ -8771,8 +8791,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -8826,6 +8850,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after ATTLIST attribute name state",
                         "type" : "switch"
@@ -9007,8 +9034,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -9062,6 +9093,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after ATTLIST attribute type state",
                         "type" : "switch"
@@ -10055,6 +10089,10 @@
                "CHAR:005B" : {
                   "actions" : [
                      {
+                        "name" : "after-doctype-public-identifier-005b",
+                        "type" : "parse error"
+                     },
+                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -10175,6 +10213,32 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "name" : "after-doctype-public-keyword-005b",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "field" : "has internal subset flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "type" : "set-DTD-mode",
+                        "value" : "internal subset"
                      },
                      {
                         "possible_token_types" : {
@@ -10380,6 +10444,10 @@
                },
                "CHAR:005B" : {
                   "actions" : [
+                     {
+                        "name" : "after-doctype-system-keyword-005b",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -10609,8 +10677,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -10664,6 +10736,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after ELEMENT content state",
                         "type" : "switch"
@@ -10757,6 +10832,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ENTITY token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -10867,8 +10948,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -10922,6 +11007,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after ENTITY name state",
                         "type" : "switch"
@@ -11643,8 +11731,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -11698,6 +11790,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after ENTITY parameter state",
                         "type" : "switch"
@@ -11896,6 +11991,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ENTITY token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -11985,6 +12086,9 @@
                      {
                         "state" : "before NDATA keyword state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -12078,6 +12182,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ENTITY token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -12303,8 +12413,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -12358,6 +12472,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after IGNORE keyword state",
                         "type" : "switch"
@@ -12570,8 +12687,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -12625,6 +12746,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after INCLUDE keyword state",
                         "type" : "switch"
@@ -12712,6 +12836,9 @@
                      {
                         "state" : "before NDATA identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -12891,8 +13018,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -12946,6 +13077,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after NOTATION name state",
                         "type" : "switch"
@@ -13873,8 +14007,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13928,6 +14066,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after NOTATION system identifier state",
                         "type" : "switch"
@@ -14231,8 +14372,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -14286,6 +14431,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after after allowed token list state",
                         "type" : "switch"
@@ -14527,8 +14675,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -14582,6 +14734,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after allowed token state",
                         "type" : "switch"
@@ -15320,8 +15475,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -15375,6 +15534,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after content model item state",
                         "type" : "switch"
@@ -15710,8 +15872,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -15765,6 +15931,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "after mss state",
                         "type" : "switch"
@@ -20330,8 +20499,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -20385,6 +20558,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ATTLIST attribute name state",
                         "type" : "switch"
@@ -20537,8 +20713,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -20592,6 +20772,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ATTLIST name state",
                         "type" : "switch"
@@ -20665,6 +20848,40 @@
                      {
                         "state" : "data state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "name" : "before-doctype-name-005b",
+                        "type" : "parse error"
+                     },
+                     {
+                        "token" : "DOCTYPE token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "field" : "has internal subset flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "type" : "set-DTD-mode",
+                        "value" : "internal subset"
                      },
                      {
                         "possible_token_types" : {
@@ -20798,6 +21015,32 @@
                      }
                   ]
                },
+               "CHAR:005B" : {
+                  "actions" : [
+                     {
+                        "name" : "before-doctype-public-identifier-005b",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "field" : "has internal subset flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "type" : "set-DTD-mode",
+                        "value" : "internal subset"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -20898,6 +21141,10 @@
                },
                "CHAR:005B" : {
                   "actions" : [
+                     {
+                        "name" : "before-doctype-system-identifier-005b",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -21160,8 +21407,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -21215,6 +21466,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ELEMENT content state",
                         "type" : "switch"
@@ -21367,8 +21621,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -21422,6 +21680,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ELEMENT name state",
                         "type" : "switch"
@@ -21570,8 +21831,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -21625,6 +21890,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ENTITY name state",
                         "type" : "switch"
@@ -21710,6 +21978,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ENTITY token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -21776,8 +22050,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -21831,6 +22109,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ENTITY public identifier state",
                         "type" : "switch"
@@ -21916,6 +22197,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ENTITY token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -21982,8 +22269,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -22037,6 +22328,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before ENTITY system identifier state",
                         "type" : "switch"
@@ -22142,8 +22436,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -22198,6 +22496,9 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "type" : "append-to-temp"
+                     },
+                     {
                         "state" : "before ENTITY type state",
                         "type" : "switch"
                      },
@@ -22235,9 +22536,6 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "process-xml-declaration-in-value"
-                     },
-                     {
                         "state" : "ENTITY value in entity state",
                         "type" : "switch"
                      },
@@ -22248,9 +22546,6 @@
                },
                "CHAR:0021" : {
                   "actions" : [
-                     {
-                        "type" : "process-xml-declaration-in-value"
-                     },
                      {
                         "state" : "ENTITY value in entity state",
                         "type" : "switch"
@@ -22263,9 +22558,6 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "type" : "process-xml-declaration-in-value"
-                     },
-                     {
                         "state" : "ENTITY value in entity state",
                         "type" : "switch"
                      },
@@ -22277,9 +22569,6 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "type" : "process-xml-declaration-in-value"
-                     },
-                     {
                         "state" : "ENTITY value in entity state",
                         "type" : "switch"
                      },
@@ -22290,6 +22579,10 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "field" : "value",
+                        "type" : "append"
+                     },
                      {
                         "type" : "process-xml-declaration-in-value"
                      },
@@ -22313,9 +22606,6 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "type" : "process-xml-declaration-in-value"
-                     },
-                     {
                         "state" : "ENTITY value in entity state",
                         "type" : "switch"
                      },
@@ -22330,6 +22620,10 @@
             "conds" : {
                "CHAR:0000" : {
                   "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "notation name",
                         "type" : "set",
@@ -22447,8 +22741,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -22502,6 +22800,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before NDATA identifier state",
                         "type" : "switch"
@@ -22661,8 +22962,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -22716,6 +23021,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before NDATA keyword state",
                         "type" : "switch"
@@ -23107,8 +23415,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -23162,6 +23474,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before NOTATION name state",
                         "type" : "switch"
@@ -23319,8 +23634,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -23374,6 +23693,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before NOTATION public identifier state",
                         "type" : "switch"
@@ -23531,8 +23853,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -23586,6 +23912,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before NOTATION system identifier state",
                         "type" : "switch"
@@ -23770,8 +24099,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -23825,6 +24158,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before allowed token state",
                         "type" : "switch"
@@ -24432,8 +24768,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -24487,6 +24827,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "before content model item state",
                         "type" : "switch"
@@ -24566,6 +24909,10 @@
                },
                "CHAR:005B" : {
                   "actions" : [
+                     {
+                        "name" : "between-doctype-public-and-system-identifiers-005b",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
@@ -24760,8 +25107,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -24815,6 +25166,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "between ENTITY public and system identifiers state",
                         "type" : "switch"
@@ -24968,8 +25322,12 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
-                        "type" : "append-to-temp",
-                        "value" : "�"
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -25023,6 +25381,9 @@
                },
                "CHAR:003E" : {
                   "actions" : [
+                     {
+                        "type" : "append-to-temp"
+                     },
                      {
                         "state" : "between NOTATION public and system identifiers state",
                         "type" : "switch"

@@ -729,7 +729,8 @@ sub error_name ($$) {
     my ($acts => $new_acts, $state) = @_;
     for (@$acts) {
       if ($_->{type} eq 'switch') {
-        if ($_->{state} eq 'markup declaration open state') {
+        if ($_->{state} eq 'markup declaration open state' or
+            $_->{state} eq 'DOCTYPE markup declaration open state') {
           push @$new_acts,
               {type => 'set-empty-to-temp'},
               {%$_};

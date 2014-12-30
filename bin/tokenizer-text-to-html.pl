@@ -370,10 +370,10 @@ ELSE -> @@; reconsume
 
 * @@ - text declaration in markup declaration state
 
->    -> @@; temp as text declaration
+>    -> append to temp; @@; temp as text declaration
 %&!< -> error; bogus markup declaration state
 EOF  -> error; bogus markup declaration state; reconsume
-NULL -> append U+FFFD to temp
+NULL -> error; bogus markup declaration state
 ELSE -> append to temp
 };
 

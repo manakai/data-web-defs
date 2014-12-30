@@ -24,16 +24,15 @@
   the <span>current input character</span>.  Switch to
   the <span>DOCTYPE name state</span>.
 
-</dl>
-
-<h1><span>DOCTYPE name state</span></h1>
-
-<dl class=switch>
-
-<dt><span>Uppercase ASCII letter</span>
+<dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
-  <p>Append the <span>current input character</span> to the current
-  DOCTYPE token's name.
+  <p><span>Parse error</span>.
+  <p>Create a new DOCTYPE token.
+  <p>Set its force-quirks flag to <i>on</i>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
 
 </dl>
 
@@ -41,6 +40,11 @@
 <!-- DOCTYPE root name state in XML5 with different definitions -->
 
 <dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  DOCTYPE token's name.
 
 <dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
@@ -91,6 +95,36 @@
 
 </dl>
 
+<h1><span>After DOCTYPE public keyword state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>Before DOCTYPE public identifier state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
 <h1><span>After DOCTYPE public identifier state</span></h1>
 <!-- Not in XML5 -->
 
@@ -104,6 +138,7 @@
 
 <dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
+  <p><span>Parse error</span>.
   <p>Switch to the <span>DTD state</span>.
   <p>Set the <i>has internal subset</i> flag of the current token.
   <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
@@ -124,6 +159,7 @@
 
 <dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
+  <p><span>Parse error</span>.
   <p>Switch to the <span>DTD state</span>.
   <p>Set the <i>has internal subset</i> flag of the current token.
   <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
@@ -138,6 +174,7 @@
 
 <dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
+  <p><span>Parse error</span>.
   <p>Switch to the <span>DTD state</span>.
   <p>Set the <i>has internal subset</i> flag of the current token.
   <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
@@ -152,6 +189,7 @@
 
 <dt>U+005B LEFT SQUARE BRACKET ([)
 <dd>
+  <p><span>Parse error</span>.
   <p>Switch to the <span>DTD state</span>.
   <p>Set the <i>has internal subset</i> flag of the current token.
   <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
