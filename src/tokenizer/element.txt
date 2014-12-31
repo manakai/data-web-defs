@@ -94,7 +94,7 @@ ELSE -> error; bogus markup declaration state
 
 WS             ->
 %              -> parameter entity name in markup declaration state
-EOF            -> DTD state or stop; reconsume
+EOF            -> error; DTD state or stop; reconsume
 >   [cm group] -> error in pe; error; DTD state
 >  ![cm group] -> error in pe; DTD state; emit
 (              -> error; bogus markup declaration state
