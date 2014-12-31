@@ -1324,6 +1324,8 @@ MathML の要素でのみ意味があります。 HTML の void 要素
 * no space before attr name
 
 name=after-attribute-value-quoted-else
+module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 There is no space before an attribute
@@ -1352,6 +1354,8 @@ There is no space before an attribute
 
 !!!
 <!DOCTYPE html><p foo=""$$bar="">
+!!!XML
+<?xml version="1.0"$$encoding="utf-8"?><a/>
 
 * end tag attribute
 
@@ -1771,7 +1775,7 @@ There is no <code>;</code> at the end of a reference
 
 * invalid character reference
 
-layer=tokenizer
+layer=character-set
 module=Web::HTML::Parser::tokenizer
 
 @en
@@ -1805,8 +1809,9 @@ non-Unicode code point.
 
 * entity not declared
 
-layer=tokenizer
+layer=entity
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 Entity <code><var>{value}</var></code> is not declared
@@ -2788,7 +2793,7 @@ namespace (i.e. the <code>xmlns:xlink</code> attribute) must be
 
 * charref in charset
 
-layer=tokenizer
+layer=entity
 module=Web::HTML::Parser
 
 @en
@@ -2813,3 +2818,641 @@ The character encoding declaration contains a character reference
 <!DOCTYPE HTML><meta $$charset=utf&amp>
 !!!
 <!DOCTYPE HTML><meta http-equiv=content-type $$content="text/html;&#x20;charset=utf-8">
+
+* ref outside of root element
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+There is a reference outside of the root element
+@ja
+根要素の外に参照があります
+
+@en
+<p>Character or entity reference must be included in an element or
+an attribute value.
+
+@ja
+<p>文字参照や実体参照は要素や属性値の中でしか使えません。
+
+!!!XML
+$$&amp;
+!value=&amp;
+!!!XML
+<a/>$$&hoge;
+!value=&hoge;
+
+* WFC:No Recursion
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+An entity is recursively referenced
+@ja
+同じ実体が再帰的に参照されています
+
+@en
+<p>An entity cannot be referenced recursively.
+@ja
+<p>実体を再帰的に参照することはできません。
+
+!!!XML
+<!DOCTYPE p[
+  <!ENTITY foo "$$&foo;">
+]><p>&foo;
+!value=&foo;
+
+* WFC:No External Entity References
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+An external entity is referenced in an attribute value
+@ja
+属性値から外部実体が参照されています
+
+@en
+<p>An external entity cannot be referenced in an attribute value.
+
+@ja
+<p>属性値では外部実体を参照できません。
+
+!!!XML
+<!DOCTYPE a[<!ENTITY x SYSTEM "foo">]><a b="$$&x;">
+!value=&x;
+
+* VC:Standalone Document Declaration:attr
+
+layer=dtd-augmentation
+module=Web::XML::Parser::tree_constructor
+
+@en
+Attributes are affected by an external <code>ATTLIST</code> declaration
+@ja
+属性が外部実体の <code>ATTLIST</code> 宣言の影響を受けます
+
+@en
+<p>In an XML document with <code>standalone="yes"</code>,
+element attributes must not be affected by <code>ATTLIST</code>
+declarations in an external entity.
+
+@ja
+<p><code>standalone="yes"</code> が指定された XML 文書では、
+要素の属性が外部実体で宣言された <code>ATTLIST</code>
+宣言の影響を受けてはいけません。
+
+* VC:Standalone Document Declaration:entity
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+An externally declared entity is referenced in a standalone document
+@ja
+単独文書から外部実体で宣言された実体が参照されています
+
+@en
+<p>In an XML document with <code>standalone="yes"</code>,
+an externally declared entity cannot be referenced.
+
+@ja
+<p><code>standalone="yes"</code> が指定された XML 文書では外部実体で宣言された実体を参照できません。
+
+!!!XML
+<?xml version="1.0" standalone="yes"?><!DOCTYPE html [
+<!ENTITY % x PUBLIC "-//W3C//DTD XHTML 1.1//EN" "x">
+%x;
+]><p>$$&copy;</p>
+!value=&copy;
+
+* unparsed entity
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+An unparsed entity is referenced
+@ja
+非解析対象実体が参照されています
+
+@en
+<p>An unparsed entity cannot be referenced.
+@ja
+<p>非解析対象実体は参照できません。
+
+!!!XML
+<!DOCTYPE a[
+  <!ENTITY xy SYSTEM "x" NDATA foo>
+]><p>$$&xy;</p>
+!value=&xy;
+
+* external entref
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+!!!XML
+<?xml version="1.0" standalone="yes"?><!DOCTYPE a[
+  <!ENTITY ext SYSTEM "ext">
+]><a>$$&ext;</a>
+!value=&ext;
+!level=i
+
+* WFC:PEs in Internal Subset
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+There is an entity reference in a markup declaration
+@ja
+マーク付け宣言内に実体参照があります
+
+@en
+<p>A parameter entity reference is not allowed in a markup declaration
+in the internal subset or a parameter entity referenced from the
+internal subset.
+@ja
+<p>引数実体参照は、内部部分集合や内部部分集合から参照されている引数実体では使えません。
+
+!!!XML
+<!DOCTYPE a[<!ENTITY % foo "x ''"><!ENTITY $$%foo;>]><a/>
+!value=%foo;
+
+* entref in attr has element
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+There is a tag in an entity referenced in an attribute value
+@ja
+属性値で参照されたいる実体にタグがあります
+
+@en
+<p>None of tag, comment, processing instructions, declaration, or
+section can be used in an entity referenced in an attribute value.
+@ja
+<p>属性値で参照する実体ではタグ、注釈、処理指令、宣言、
+区間を使うことはできません。
+
+!!!XML
+<!DOCTYPE a[
+<!ENTITY x "<y></y>">
+]><a b="$$&x;"/>
+!value=&x;
+
+* stop processing
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+Processing of markup declarations is suppressed due to unread
+entity reference
+@ja
+読めない実体参照があったためマーク付け宣言の処理を停止します
+
+@en
+<p>Since there is a reference whose entity cannot be read and
+processed, further processing of markup declarations in the DTD is
+suppressed.
+@ja
+<p>参照されている実体を読んで処理できなかったため、以後の DTD
+中のマーク付け宣言の処理は行いません。
+
+!!!XML
+<!DOCTYPE hoge[
+  <!ENTITY % x SYSTEM "f">
+  $$%x;
+  <!ENTITY hoge "">
+]><hoge/>
+!level=i
+!!!XML
+<!DOCTYPE hoge[
+  $$%x;
+  <!ENTITY hoge "">
+]><hoge/>
+!level=i
+
+* no XML decl
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+There is no XML declaration
+@ja
+XML 宣言がありません
+
+@en
+<p>The document entity should contain an XML declaration.
+The other parsed entities should contain a text declaration.
+@ja
+<p>文書実体には XML 宣言を含めるべきです。
+その他の解析対象実体にはテキスト宣言を含めるべきです。
+
+!!!XML
+$$<p/>
+!level=s
+!!!XML
+$$  <p/>
+!level=s
+!!!XML
+$$abc<p/>
+!level=s
+
+* attribute missing:version
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+There is no <code>version</code> attribute
+@ja
+<code>version</code> 属性がありません
+
+@en
+<p>There must be the <code>version</code> pseudo-attribute in
+an XML declaration.
+@ja
+<p>XML 宣言には <code>version</code> 擬似属性が必要です。
+
+!!!XML
+<?$$xml?><a/>
+!!!XML
+<?xml $$encoding="utf-8"?><a/>
+!!!XML
+<?xml  $$encoding="utf-8"?><a/>
+
+* attribute missing:encoding
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+There is no <code>encoding</code> attribute
+@ja
+<code>encoding</code> 属性がありません
+
+@en
+<p>There must be the <code>encoding</code> pseudo-attribute in
+a text declaration.
+@ja
+<p>テキスト宣言には <code>encoding</code> 擬似属性が必要です。
+
+* attribute not allowed:standalone
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+There is a <code>standalone</code> attribute
+@ja
+<code>standalone</code> 属性があります
+
+@en
+<p>The <code>standalone</code> pseudo-attribute is not allowed
+in a text declaration.
+@ja
+<p>テキスト宣言では <code>standalone</code> 擬似属性は使えません。
+
+* XML standalone:syntax error
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+The <code>standalone</code> value is neither <code>yes</code> nor
+<code>no</code>
+@ja
+<code>standalone</code> 属性値が <code>yes</code> でも <code>no</code>
+でもありません
+
+@en
+<p>The <code>standalone</code> pseudo-attribute value must be
+<code>yes</code> or <code>no</code>.
+@ja
+<p><code>standalone</code> 擬似属性値は <code>yes</code> か
+<code>no</code> でなければいけません。
+
+!!!XML
+<?xml version="1.0" standalone="$$true"?><a/>
+!value=true
+
+* bogus XML declaration
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+The XML declaration is syntactically broken
+@ja
+この XML 宣言は構文的に正しくありません
+
+@en
+<p>The XML or text declaration is syntactically wrong.  It has
+stricter syntax than normal tags.
+@ja
+<p>XML 宣言やテキスト宣言が構文的に正しくありません。
+通常のタグより構文が厳密になっています。
+
+!!!XML
+<?xml version="1.0" $$foo="bar"?><a/>
+
+* string in internal subset
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+There is an unexpected string in the internal subset
+@ja
+内部部分集合に予期せぬ文字列があります
+
+@en
+<p>Nothing ohter than declarations, comments, and processing
+instructions can be used in the internal subset.
+@ja
+<p>内部部分集合では宣言、注釈、処理指令しか使えません。
+
+!!!XML
+<!DOCTYPE a[
+$$]]>
+]><a/>
+
+* unmatched mgc
+
+layer=tokenizer
+module=Web::XML::Parser::tokenizer
+
+@en
+There is an unmatched <code>)</code>
+@ja
+対応しない <code>)</code> があります
+
+@en
+<p>There must be <code>(</code> before <code>)</code> in the
+same entity.
+@ja
+同じ実体で <code>(</code> よりも後でないと <code>)</code> 
+は使えません。
+
+* xml:dtd:pi
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+There is a processing instruction in DTD
+@ja
+DTD 中に処理指令があります
+
+@en
+<p>Processing instructions in DTD are not interoperable.
+@ja
+<p>DTD 内の処理指令は相互運用性が高くありません。
+
+!!!XML
+<!DOCTYPE foo [$$<?hoge?>]><foo/>
+!level=w
+
+* xml:dtd:ext decl
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+There is a markup declaration in an external entity
+@ja
+外部実体にマーク付け宣言があります
+
+@en
+<p>Markup declarations in external entities are not interoperable.
+@ja
+<p>外部実体にあるマーク付け宣言は相互運用性が高くありません。
+
+* xml:dtd:unknown content keyword
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+An unknown content model keyword is specified
+@ja
+未知の内容モデルのキーワードが指定されています
+
+@en
+<p>The content model keyword in an <code>ELEMENT</code> declaration
+must be <code>EMPTY</code> or <code>ANY</code>.
+@ja
+<p><code>ELEMENT</code> 宣言の内容モデルのキーワードは
+<code>EMPTY</code> か <code>ANY</code> でなければいけません。
+
+!!!XML
+<!DOCTYPE a[$$<!ELEMENT a foo>]><a/>
+!value=foo
+
+* duplicate element decl
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+There is another declaration for the element
+@ja
+この要素の宣言が他にもあります
+
+@en
+<p>There must be at most one <code>ELEMENT</code> declaration
+for the same tag name.
+@ja
+<p>同じタグ名の <code>ELEMENT</code> 宣言は高々1つしか含められません。
+
+!!!XML
+<!DOCTYPE a[
+<!ELEMENT foo EMPTY>
+$$<!ELEMENT foo ANY>
+]><a/>
+!value=foo
+
+* xml:dtd:attlist ignored
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+The <code>ATTLIST</code> declaration is ignored
+@ja
+この <code>ATTLIST</code> 宣言は無視されます
+
+@en
+<p><code>ATTLIST</code> declarations are ignored if there is
+an unread entity reference before the declaration.
+@ja
+<code>ATTLIST</code> 宣言はその前に読んでいない実体参照があると無視されます。
+
+!!!XML
+<!DOCTYPE a[
+%foo;
+  $$<!ATTLIST hoge>
+]><a/>
+!level=w
+
+* duplicate attlist decl
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+There is another <code>ATTLIST</code> declaration for the element
+@ja
+同じ要素の <code>ATTLIST</code> 宣言が他にもあります
+
+@en
+<p>There should be at most one <code>ATTLIST</code> declaration
+for the same tag name.
+@ja
+<p>同じタグ名の <code>ATTLIST</code> 宣言は高々1つしか含めるべきではありません。
+
+!!!XML
+<!DOCTYPE a[
+  <!ATTLIST foo>$$<!ATTLIST foo>
+]><a/>
+!value=foo
+!level=w
+
+* empty attlist decl
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+The <code>ATTLIST</code> declaration is empty
+@ja
+この <code>ATTLIST</code> 宣言は空です
+
+@en
+<p>The <code>ATTLIST</code> declaration should contain
+at least one attribute definition.
+@ja
+<p><code>ATTLIST</code> 宣言は属性定義を最低1つは含めるべきです。
+
+!!!XML
+<!DOCTYPE a[$$<!ATTLIST fa>]><a/>
+!value=fa
+!level=w
+
+* unknown declared type
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+An unknown declared type keyword is specified
+@ja
+未知の宣言型キーワードが指定されています
+
+@en
+<p>The declared type must be one of allowed keywords.
+@ja
+<p>宣言型は認められているキーワードのいずれかを指定しなければいけません。
+
+!!!XML
+<!DOCTYPE a[
+  <!ATTLIST  f  $$abc hoge "">
+]><a/>
+!value=hoge
+
+* default value not allowed
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+Default value is not allowed for the default type
+@ja
+この既定型では既定値は指定できません
+
+@en
+<p>The default value can't be specified when the default type
+is <code>#IMPLIED</code> or <code>#REQUIRED</code>.
+@ja
+<p>既定値は既定型が <code>#IMPLIED</code> や <code>#REQUIRED</code>
+の時には指定できません。
+
+!!!XML
+<!DOCTYPE a[
+  <!ATTLIST foo $$bar CDATA #IMPLIED "a">
+]><a/>
+
+* default value not provided
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+Default value is not specified
+@ja
+既定値が指定されていません
+
+@en
+<p>The default value must be specified unless the default type
+is <code>#IMPLIED</code> or <code>#REQUIRED</code>.
+@ja
+<p>既定型が <code>#IMPLIED</code> や <code>#REQUIRED</code>
+の時以外は既定値を指定しなければなりません。
+
+!!!XML
+<!DOCTYPE a[
+  <!ATTLIST foo $$bar CDATA #FIXED >
+]><a/>
+
+* unknown default type
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+An unknown default type keyword is specified
+@ja
+未知の既定型キーワードが指定されています
+
+@en
+<p>The default type must be one of allowed keywords.
+@ja
+<p>既定型は認められているキーワードのいずれかを指定しなければいけません。
+
+!!!XML
+<!DOCTYPE a[
+  <!ATTLIST  f  $$abc hoge #hog>
+]><a/>
+!value=hog
+
+* duplicate attrdef
+
+layer=tree-construction
+module=Web::XML::Parser::tree_constructor
+
+@en
+There is another attribute definition with same name
+@ja
+同じ名前の属性定義が他にもあります
+
+@en
+<p>There should be at most one attribute definition for
+same element and attribute names.  Anything other than
+the first definition is ignored.
+@ja
+<p>同じ要素名と属性名の属性定義は高々1つしか含めるべきではありません。
+最初の属性定義以外は無視されます。
+
+!!!XML
+<!DOCTYPE a[
+  <!ATTLIST a bb CDATA "" $$bb ID #IMPLIED>
+]><a/>
+!value=bb
+!level=w

@@ -55,14 +55,14 @@ initially <i>null</i>.
   <p><span>Parse error</span>.
   <p>Create a new <span>processing instruction token</span>.
   <p>Set its <i>target</i> to a U+FFFD REPLACEMENT CHARACTER character.
-  <p>Set its <i>data</i> to the empty string.
+  <p>Set its <i>data</i> to the empty string <ins>(offset=1)</ins>.
   <p>Switch to the <span>PI target state</span>.
 
 <dt>Anything else
 <dd>
   <p>Create a new <span>processing instruction token</span>.
   <p>Set its <i>target</i> to the <span>current input character</span>.
-  <p>Set its <i>data</i> to the empty string.
+  <p>Set its <i>data</i> to the empty string <ins>(offset=1)</ins>.
   <p>Switch to the <span>PI target state</span>.
 
 </dl>
@@ -217,7 +217,7 @@ initially <i>null</i>.
 
 <dt>U+003C LESS-THAN SIGN (&lt;)
 <dd>
-  <p>Switch to the <span>DOCTYPE tag state</span>.
+  <p>Switch to the <span>DOCTYPE tag open state</span>.
 
 <!-- Not defined in XML5 -->
 <dt>U+0025 PERCENT SIGN (%)
@@ -317,7 +317,8 @@ initially <i>null</i>.
 
 </dl>
 
-<h1><dfn>DOCTYPE tag state</dfn></h1>
+<h1><dfn>DOCTYPE tag open state</dfn></h1>
+<!-- DOCTYPE tag state in XML5 -->
 
 <p>Consume the <span>next input character</span>:
 

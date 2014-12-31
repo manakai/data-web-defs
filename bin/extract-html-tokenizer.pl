@@ -197,8 +197,9 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Set (?:the token's|its|the current token's) (name|tag name|target|data|notation name) to a U\+([0-9A-F]+) [A-Z0-9 _-]+ (?:\([^()]+\) |)character\.\s*//) {
                 push @action, {type => 'set', field => $1,
                                value => chr hex $2};
-              } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) (public identifier|system identifier|tag name|name|target|data) to the empty string(?: \(not missing\), then |\.)//) {
+              } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) (public identifier|system identifier|tag name|name|target|data) to the empty string(?: \(offset=([0-9]+)\)|)(?: \(not missing\), then |\.)//) {
                 push @action, {type => 'set-empty', field => $1};
+                $action[-1]->{index_offset} = $2 if defined $2;
               } elsif ($action =~ s/^Set that attribute's name to the current input character,? and its value to the empty string(?:\.\s*| and then )//) {
                 push @action, {type => 'set-to-attr', field => 'name'};
                 push @action, {type => 'set-empty-to-attr', field => 'value'};

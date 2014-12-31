@@ -330,6 +330,7 @@ while (@path) {
           $c->{next_state} eq 'before attribute name state') {
         push @found, [@$path, $cond, $c->{next_state}];
       } elsif ($c->{next_state} eq 'DOCTYPE state' or
+               $c->{next_state} eq 'PI target state' or
                $c->{next_state} =~ /character reference/ or
                $c->{next_state} =~ /000D/) {
         #
