@@ -566,6 +566,29 @@
             }
          ]
       },
+      "bad predefined entity decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The entity declaration for a predefined entity must be\u000Aequivalent to the predefined entity.\u003C/p>",
+            "ja" : "\u003Cp>定義済み実体の実体宣言は定義済み実体と等価なものでなければいけません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The predefined entity declaration is wrong",
+            "ja" : "この定義済み実体の宣言は正しくありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ENTITY amp \u0022hoge\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "amp"
+            }
+         ]
+      },
       "bare etago" : {
          "default_level" : "m",
          "desc" : {
@@ -1128,6 +1151,60 @@
             }
          ]
       },
+      "duplicate entity decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There should be at most one \u003Ccode>ENTITY\u003C/code> declaration\u000Awith same type and name.  Anything other than the first declaration\u000Ais ignored.\u003C/p>",
+            "ja" : "\u003Cp>同じ種類と名前の \u003Ccode>ENTITY\u003C/code> 宣言は高々1つしか含めるべきではありません。\u000A最初の宣言以外は無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another \u003Ccode>ENTITY\u003C/code> declaration with\u000Asame type and name",
+            "ja" : "同じ種類と名前の \u003Ccode>ENTITY\u003C/code> 宣言が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE a[\u000A \u003C!ENTITY foo \u0022\u0022>\u003C!ENTITY foo \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "&foo;"
+            },
+            {
+               "index" : 32,
+               "input" : "\u003C!DOCTYPE a[\u000A \u003C!ENTITY % foo \u0022\u0022>\u003C!ENTITY % foo \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "%foo;"
+            }
+         ]
+      },
+      "duplicate notation decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be at most one \u003Ccode>NOTATION\u003C/code> declaration\u000Afor the same name.\u003C/p>",
+            "ja" : "\u003Cp>同じ名前の \u003Ccode>NOTATION\u003C/code> 宣言は高々1つしか含めるべきではありません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another \u003Ccode>NOTATION\u003C/code> declaration with the same name",
+            "ja" : "同じ名前の \u003Ccode>NOTATION\u003C/code> 宣言が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 41,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!NOTATION foo SYSTEM \u0022x\u0022>\u003C!NOTATION foo SYSTEM \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "foo"
+            }
+         ]
+      },
       "element not closed before implied ancestor end tag" : {
          "default_level" : "m",
          "desc" : {
@@ -1328,6 +1405,36 @@
                "value" : "&hoge;"
             }
          ]
+      },
+      "entity:too deep" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Level of entity reference nesting is too deep.\u000A\u003C/p>\u003Cp>No more entity reference in this subtree is expanded for security reasons.\u003C/p>",
+            "ja" : "\u003Cp>実体参照の入れ子の階層が深すぎます。\u000A\u003C/p>\u003Cp>この部分木の実体参照は安全のためこれ以上展開しません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "Entities are nesting too many times",
+            "ja" : "実体参照が深すぎます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "entity:too many refs" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There are too many entity references.\u000A\u003C/p>\u003Cp>No more entity reference is expanded for security reasons.\u003C/p>",
+            "ja" : "\u003Cp>実体参照が多すぎます。\u000A\u003C/p>\u003Cp>実体参照は安全のためこれ以上展開しません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "There are too many entity references",
+            "ja" : "実体参照が多すぎます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
       },
       "entref in attr has element" : {
          "default_level" : "m",
@@ -2128,6 +2235,21 @@
                "lang" : "HTML"
             }
          ]
+      },
+      "ms:unclosed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The conditional sections must be closed before the end of file or DTD.\u003C/p>",
+            "ja" : "\u003Cp>ファイルや DTD の末尾までに条件区間は閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unclosed marked section",
+            "ja" : "閉じられていないマーク区間があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
       },
       "nestc" : {
          "default_level" : "m",
@@ -3551,6 +3673,36 @@
             }
          ]
       },
+      "unclosed cmgroup" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Content model groups must be closed by \u003Ccode>)\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>内容モデル群は \u003Ccode>)\u003C/code> で閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unclosed content model group",
+            "ja" : "内容モデル群が括弧で閉じられていません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "unclosed literal" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The quoted string must be closed by matching quotation mark.\u003C/p>",
+            "ja" : "\u003Cp>引用符で始まった文字列は引用符で閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unclosed literal",
+            "ja" : "引用符の後引用符で閉じられていません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
       "unknown declared type" : {
          "default_level" : "m",
          "desc" : {
@@ -3658,6 +3810,53 @@
             }
          ]
       },
+      "xml:dtd:entity ignored" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An \u003Ccode>ENTITY\u003C/code> declaration is ignored if there\u000Ais an unread entity reference before the declaration.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ENTITY\u003C/code> 宣言は、その前に読んでいない実体参照があると無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>ENTITY\u003C/code> declaration is ignored",
+            "ja" : "この \u003Ccode>ENTITY\u003C/code> 宣言は無視されます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE a [\u000A  %foo;\u000A  \u003C!ENTITY hoge \u0022\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w"
+            }
+         ]
+      },
+      "xml:dtd:entity value:unparsed entref" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An unparsed entity cannot be referenced.\u003C/p>",
+            "ja" : "\u003Cp>非解析対象実体は参照できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "An unparsed entity is referenced",
+            "ja" : "非解析対象実体が参照されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 66,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ENTITY xy SYSTEM \u0022x\u0022 NDATA foo>\u000A  \u003C!ENTITY bar \u0022a&xy;a\u0022>\u000A]>\u003Cp>\u003C/p>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "&xy;"
+            }
+         ]
+      },
       "xml:dtd:ext decl" : {
          "default_level" : "m",
          "desc" : {
@@ -3672,6 +3871,29 @@
          "modules" : {
             "Web::XML::Parser::tree_constructor" : 1
          }
+      },
+      "xml:dtd:param entity with ndata" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The notation name cannot be specified in a parameter entity declaration.\u003C/p>",
+            "ja" : "\u003Cp>引数実体宣言には記法名を指定できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The notation name is specified for a parameter entity",
+            "ja" : "引数実体に記法名が指定されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 12,
+               "input" : "\u003C!DOCTYPE a[\u003C!ENTITY % foo SYSTEM \u0022bar\u0022 NDATA x>]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "%foo;"
+            }
+         ]
       },
       "xml:dtd:pi" : {
          "default_level" : "m",
