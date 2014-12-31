@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<title>XML tokenizer</title>
+
+<h1><span>Data state</span></h1>
+
+<dl class=switch>
+
+<!-- Not in XML5 -->
+<dt>U+005D RIGHT SQUARE BRACKET (])
+<dd>
+  <p>Switch to the <span>in msc state</span>.
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+</dl>
+
+<h1><span>Before DOCTYPE name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Create a new DOCTYPE token.  Set the token's name to
+  the <span>current input character</span>.  Switch to
+  the <span>DOCTYPE name state</span>.
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Create a new DOCTYPE token.
+  <p>Set its force-quirks flag to <i>on</i>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>DOCTYPE name state</span></h1>
+<!-- DOCTYPE root name state in XML5 with different definitions -->
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  DOCTYPE token's name.
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>After DOCTYPE name state</span></h1>
+<!-- DOCTYPE root name after state in XML5 with different definitions -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+<dt>Anything else
+<dd>
+  <p>If the six characters starting from the <span>current input
+  character</span> are a <span>case-sensitive</span> match for the
+  word "PUBLIC", then consume those characters and switch to
+  the <span>after DOCTYPE public keyword state</span>.
+  <p>If the six characters starting from the <span>current input
+  character</span> are an <span>ASCII case-insensitive</span> match
+  for the word "PUBLIC", then this is a <span>parse error</span>;
+  consume those characters and switch to the <span>after DOCTYPE
+  public keyword state</span>.
+
+  <p>Otherwise, if the six characters starting from the <span>current
+  input character</span> are a <span>case-sensitive</span> match for the
+  word "SYSTEM", then consume those characters and switch to
+  the <span>after DOCTYPE system keyword state</span>.
+  <p>Otherwise, if the six characters starting from the <span>current
+  input character</span> are an <span>ASCII case-insensitive</span>
+  match for the word "SYSTEM", then this is a <span>parse
+  error</span>; consume those characters and switch to the <span>after
+  DOCTYPE system keyword state</span>.
+
+  <p>Otherwise, this is a <span>parse error</span>. Set the DOCTYPE token's
+  <i>force-quirks</i> flag to <i>on</i>. Switch to the <span>bogus
+  DOCTYPE state</span>.
+
+</dl>
+
+<h1><span>After DOCTYPE public keyword state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>Before DOCTYPE public identifier state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>After DOCTYPE public identifier state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current token.
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>Between DOCTYPE public and system identifiers state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current token.
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>After DOCTYPE system keyword state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>Before DOCTYPE system identifier state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>DOCTYPE system identifier (double-quoted) state</span></h1>
+<!-- DOCTYPE identifier double quoted state in XML5 -->
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>system identifier</i>.
+
+</dl>
+
+<h1><span>DOCTYPE system identifier (single-quoted) state</span></h1>
+<!-- DOCTYPE identifier single quoted state in XML5 -->
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>system identifier</i>.
+
+</dl>
+
+<h1><span>After DOCTYPE system identifier state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>
+
+<h1><span>Before attribute name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Start a new attribute in the current tag token.  Set that
+  attribute's name to the <span>current input character</span>, and
+  its value to the empty string.  Switch to the <span>attribute name
+  state</span>.
+
+</dl>
+
+<h1><span>Attribute name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  attribute's name.
+
+</dl>
+
+<h1><span>After attribute name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p><span>Parse error</span>.
+  <p>Start a new attribute in the current tag token.  Set that
+  attribute's name to the <span>current input character</span>, and
+  its value to the empty string.  Switch to the <span>attribute name
+  state</span>.
+
+</dl>
+
+<h1><span>Attribute value (double-quoted) state</span></h1>
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Append a U+0020 SPACE character to the <span>current
+  attribute</span>'s <span>value</span>.
+
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append the <span>current input character</span> to
+  the <span>current attribute</span>'s <span>value</span>.
+
+</dl>
+
+<h1><span>Attribute value (single-quoted) state</span></h1>
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Append a U+0020 SPACE character to the <span>current
+  attribute</span>'s <span>value</span>.
+
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append the <span>current input character</span> to
+  the <span>current attribute</span>'s <span>value</span>.
+
+</dl>
+
+<h1><span>Tag name state</span></h1>
+
+<dl class=switch>
+
+<dt><span>Uppercase ASCII letter</span>
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  tag token's tag name.
+
+</dl>
+
+<h1><span>Bogus DOCTYPE state</span></h1>
+<!-- Not in XML5 -->
+
+<dl class=switch>
+
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p>Switch to the <span>DTD state</span>.
+  <p>Set the <i>has internal subset</i> flag of the current token.
+  <p>Set the <span>DTD mode</span> to <i>internal subset</i>.
+  <p>Emit the current token.
+
+</dl>

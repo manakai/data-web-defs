@@ -1,0 +1,132 @@
+* bogus markup declaration state
+
+>    -> error in pe; DTD state; emit
+EOF  -> error; DTD state or stop; reconsume
+ELSE -> 
+
+* parameter entity name in DTD state
+
+WS   -> error; DTD state
+<>=&%"'`# -> error; DTD state; reconsume
+;    -> append to temp; parameter entity reference in DTD; DTD state
+EOF  -> error; DTD state or stop; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in markup declaration state
+
+WS   -> error; bogus markup declaration state
+<>=&%"'`# -> error; bogus markup declaration state; reconsume
+;    -> append to temp; parameter entity reference in markup declaration
+EOF  -> error; bogus markup declaration state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in status keyword state
+
+WS   -> error; bogus status keyword state
+<>=&%"'`# -> error; bogus status keyword state; reconsume
+;    -> append to temp; parameter entity reference in markup declaration
+EOF  -> error; bogus status keyword state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in entity value (double-quoted) state
+
+WS   -> error; append temp to value; ENTITY value (double-quoted) state; reconsume
+<>=&%"'`# -> error; append temp to value; ENTITY value (double-quoted) state; reconsume
+;    -> append to temp; parameter entity reference in entity value; ENTITY value (double-quoted) state
+EOF  -> error; DTD state or stop; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in entity value (single-quoted) state
+
+WS   -> error; append temp to value; ENTITY value (single-quoted) state; reconsume
+<>=&%"'`# -> error; append temp to value; ENTITY value (single-quoted) state; reconsume
+;    -> append to temp; parameter entity reference in entity value; ENTITY value (single-quoted) state
+EOF  -> error; DTD state or stop; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* parameter entity name in entity value in entity state
+
+WS   -> error; append temp to value; ENTITY value in entity state; reconsume
+<>=&%"'`# -> error; append temp to value; ENTITY value in entity state; reconsume
+;    -> append to temp; parameter entity reference in entity value; ENTITY value in entity state
+EOF  -> error; append temp to value; ENTITY value in entity state; reconsume
+NULL -> error; append U+FFFD to temp
+ELSE -> append to temp
+
+* after mss state
+## <![
+
+WS   -> 
+%    -> parameter entity name in status keyword state
+EOF  -> error; DTD state or stop; reconsume
+"INCLUDE" -> after INCLUDE keyword state
+"IGNORE" -> after IGNORE keyword state
+[]<> -> error in pe (bogus status keyword state); error; bogus status keyword state; reconsume
+ELSE -> error; bogus status keyword state; reconsume
+
+* after INCLUDE keyword state
+
+WS   ->
+[    -> error in pe (bogus status keyword state); marked section(INCLUDE); DTD state
+%    -> parameter entity name in status keyword state
+EOF  -> error; DTD state or stop; reconsume
+]<>  -> error in pe (bogus status keyword state); error; bogus status keyword state; reconsume
+ELSE -> error; bogus status keyword state; reconsume
+
+* after IGNORE keyword state
+
+WS   -> 
+[    -> error in pe (bogus status keyword state); marked section; ignored section state
+%    -> parameter entity name in status keyword state
+EOF  -> error; DTD state or stop; reconsume
+]<>  -> error in pe (bogus status keyword state); error; bogus status keyword state; reconsume
+ELSE -> error; bogus status keyword state; reconsume
+
+* bogus status keyword state
+
+[    -> error in pe (bogus status keyword state); marked section; ignored section state
+%]<> -> error in pe (bogus status keyword state); marked section; ignored section state; reconsume
+ELSE -> 
+EOF  -> error; DTD state or stop; reconsume
+
+* ignored section state
+
+<    -> ignored section tag open state
+]    -> in ignored section msc state
+EOF  -> error; DTD state; reconsume
+ELSE -> 
+
+* ignored section tag open state
+
+!    -> ignored section markup declaration open state
+ELSE -> ignored section state; reconsume
+
+* ignored section markup declaration open state
+
+[    -> marked section; ignored section state
+ELSE -> ignored section state; reconsume
+
+* in ignored section msc state
+
+]    -> after ignored section msc state
+EOF  -> error; DTD state; reconsume
+ELSE -> ignored section state
+
+* after ignored section msc state
+
+>    -> close marked section and reset
+]    -> 
+EOF  -> error; DTD state; reconsume
+ELSE -> ignored section state
+
+* after DTD msc state
+
+>    -> close marked section and reset
+]    -> error(-2)
+EOF  -> error; DTD state; reconsume
+ELSE -> error(-2); DTD state

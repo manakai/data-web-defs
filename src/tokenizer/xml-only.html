@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<title>XML tokenizer</title>
+
+<p>An <span>XML parser</span> has a <dfn>DTD mode</dfn>, whose initial
+value is <i>N/A</i>.  Its value can be one of <i>N/A</i>
+or <i>internal subset</i>.
+
+<p>An <span>XML parser</span> has a <dfn>marked section nesting
+level</dfn>, which is initially set to zero (0).
+
+<p>There are following additional token types:
+<dfn>processing instruction token</dfn>, <dfn>ENTITY
+token</dfn>, <dfn>NOTATION token</dfn>, and <dfn>end-of-DOCTYPE
+token</dfn>.
+
+<p>A <span>processing instruction token</span> has <i>target</i>
+and <i>data</i>.
+
+<p>A <span>ENTITY token</span> has <i>name</i>, <i>public
+identifier</i>, <i>system identifier</i>, <i>notation name</i>,
+and <i>value</i>.  They are initially <i>null</i>.  It also has
+an <i>is parameter entity</i> flag, which is initially unset.
+
+<p>A <span>NOTATION token</span> has <i>name</i>, <i>public
+identifier</i>, and <i>system identifier</i>.  They are
+initially <i>null</i>.
+
+<h1><dfn>PI state</dfn></h1>
+<!-- pi state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dt>U+003F QUESTION MARK (?)<!-- Not in XML5 -->
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>bogus comment state</span> with <i>initial
+  data</i> "?".
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>bogus comment state</span> with <i>initial
+  data</i> "?".
+  <!--<p>Reconsume the <span>current input character</span>.-->
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Create a new <span>processing instruction token</span>.
+  <p>Set its <i>target</i> to a U+FFFD REPLACEMENT CHARACTER character.
+  <p>Set its <i>data</i> to the empty string <ins>(offset=1)</ins>.
+  <p>Switch to the <span>PI target state</span>.
+
+<dt>Anything else
+<dd>
+  <p>Create a new <span>processing instruction token</span>.
+  <p>Set its <i>target</i> to the <span>current input character</span>.
+  <p>Set its <i>data</i> to the empty string <ins>(offset=1)</ins>.
+  <p>Switch to the <span>PI target state</span>.
+
+</dl>
+
+<h1><dfn>PI target state</dfn></h1>
+<!-- pi target state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Switch to the <span>after PI target state</span>.
+  <p>Set the <span>current input character</span> to
+  the <span>temporary buffer</span>.<!-- Not in XML5 --><!-- XXX ??? -->
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Switch to the <span>PI target question state<!-- pi after state
+  in XML5 --></span>.
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to the current
+  token's <i>target</i>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>target<!-- tag name in XML5 --></i>.
+
+</dl>
+
+<h1><dfn>after PI target state</dfn></h1>
+<!-- pi target after state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.<!-- Not in XML5 --><!-- XXX ??? -->
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>PI data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>PI data state</dfn></h1>
+<!-- pi data state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Switch to the <span>in pic state</span>.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<!-- Not in XML5 -->
+<dt>U+0000 NULL
+<dd>
+  <p><span>Parse error</span>.
+  <p>Append a U+FFFD REPLACEMENT CHARACTER character to the current
+  token's <i>data</i>.
+
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to the current
+  token's <i>data</i>.
+
+</dl>
+
+<h1><dfn>PI target question state</dfn></h1>
+<!--Not in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current token.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p>Set the current token's <i>data</i> to a U+003F QUESTION MARK (?)
+  character.
+  <p>Switch to the <span>PI data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>in pic state</dfn></h1>
+<!-- pi after state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the current token.
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Append a U+003F QUESTION MARK character to the current
+  token's <i>data</i>.
+
+<dt>Anything else
+<dd>
+  <p>Append a U+003F QUESTION MARK character to the current
+  token's <i>data</i>.<!-- Not in XML5 -->
+  <p>Switch to the <span>PI data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>DTD state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dd>
+  <p>Switch to the <span>DOCTYPE tag open state</span>.
+
+<!-- Not defined in XML5 -->
+<dt>U+0025 PERCENT SIGN (%)
+<dd>
+  <p>Set a U+0025 PERCENT SIGN character (%) to the <span>temporary
+  buffer</span>.
+  <p>Switch to the <span>parameter entity name in DTD state</span>.
+
+<dt>U+005D RIGHT SQUARE BRACKET (])
+<dd>
+  <p>Switch to the <span>after DOCTYPE internal subset state</span>.
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)<!-- Not in XML5 -->
+<dt>U+0020 SPACE
+<dd>
+  <p>Ignore the character.
+
+<dt>EOF
+<dd>
+  <p>If the parser was originally created as part of the <span>XML
+  fragment parsing algorithm</span>, emit an <span>end-of-file
+  token</span> and abort these steps.
+  <p><span>Parse error</span>.
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
+  <p>Switch to the <span>data state</span>.
+  <p>Emit an <span>end-of-DOCTYPE token</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.<!-- Not in XML5 -->
+
+</dl>
+
+<h1><dfn>After DOCTYPE internal subset state</dfn></h1>
+<!-- DOCTYPE internal subset after state in XML5 (but has different definition) -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>If the parser was originally created as part of the <span>XML
+  fragment parsing algorithm</span>, this is a <span>parse
+  error</span> <ins>(offset=1)</ins>; switch to the <span>DTD
+  state</span> and abort these steps.
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
+  <p>Switch to the <span>data state</span>.
+  <p>Emit an <span>end-of-DOCTYPE token</span>.
+
+<dt>U+005D RIGHT SQUARE BRACKET (])
+<dd>
+  <p>Switch to the <span>after DTD msc state</span>.
+
+<dt>EOF
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DTD state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span> <ins>(offset=1)</ins>.
+  <p>If the parser was originally created as part of the <span>XML
+  fragment parsing algorithm</span>, switch to the <span>DTD
+  state</span> and abort these steps.
+  <p>Set the <span>DTD mode</span> to <i>N/A</i>.
+  <p>Switch to the <span>bogus after DOCTYPE internal subset
+  state</span>.
+
+</dl>
+
+<h1><dfn>Bogus after DOCTYPE internal subset state</dfn></h1>
+<!-- Not in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E GREATER-THAN SIGN (>)
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit an <span>end-of-DOCTYPE token</span>.
+
+<dt>EOF
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Emit an <span>end-of-DOCTYPE token</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p>Ignore the character.
+
+</dl>
+
+<h1><dfn>DOCTYPE tag open state</dfn></h1>
+<!-- DOCTYPE tag state in XML5 -->
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+0021 EXCLAMATION MARK (!)
+<dd>
+  <p>Switch to the <span>DOCTYPE markup declaration open state</span>.
+
+<dt>U+003F QUESTION MARK (?)
+<dd>
+  <p>Switch to the <span>DOCTYPE PI state<!-- DOCTYPE pi state in XML5
+  --></span>.
+
+<dt>EOF
+<dd>
+  <!--<p><span>Parse error</span>.-->
+  <p>Switch to the <span>DTD state<!-- data state in XML5 --></span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt>Anything else
+<dd>
+  <p><span>Parse error</span>.
+  <p>Switch to the <span>DOCTYPE bogus comment state</span>.
+
+</dl>
+
+<h1><dfn>DOCTYPE markup declaration open state</dfn></h1>
+<!-- DOCTYPE markup declaration state in XML5 -->
+
+<dl class=switch>
+
+<!-- Not in XML5 -->
+<dt>U+005B LEFT SQUARE BRACKET ([)
+<dd>
+  <p>If the <i>DTD mode</i> of the parser is <em>not</em> <i>internal
+  subset</i>, switch to the <span>after mss state</span>.
+  <p>Otherwise, this is a <span>parse error</span>.  Create a marked
+  section whose status is <i>IGNORE</i> and push it onto
+  the <span>stack of open marked sections</span>.  Switch to
+  the <span>ignored section state</span>.
+
+<dt>Anything else
+<dd>
+  <p>If the next two characters are both U+002D HYPHEN-MINUS
+  characters (-), consume those two characters, create a <span>comment
+  token</span> whose <i>data</i> is the empty string, and switch to
+  the <span>DOCTYPE comment start state</span>.
+
+  <p>Otherwise, if the next six characters are
+  a <span>case-sensitive</span> match for the string "ENTITY", then
+  consume those characters and switch to the <span>ENTITY
+  state</span>.
+
+  <p>Otherwise, if the next six characters are an <span>ASCII
+  case-insensitive</span> match for the word "ENTITY", then this is a
+  parse error; consume those characters and switch to the <span>ENTITY
+  state</span>.<!-- Not in XML5 -->
+
+  <p>Otherwise, if the next seven characters are
+  a <span>case-sensitive</span> match for the string "ATTLIST", then
+  consume those characters and switch to the <span>ATTLIST
+  state</span>.
+  <p>Otherwise, if the next seven characters are an <span>ASCII
+  case-insensitive</span> match for the word "ATTLIST", then this is a
+  parse error; consume those characters and switch to
+  the <span>ATTLIST state</span>.<!-- Not in XML5 -->
+
+  <p>Otherwise, if the next eight characters are
+  a <span>case-sensitive</span> match for the string "NOTATION", then
+  consume those characters and switch to the <span>NOTATION
+  state</span>.
+  <p>Otherwise, if the next eight characters are an <span>ASCII
+  case-insensitive</span> match for the word "NOTATION", then this is
+  a parse error; consume those characters and switch to
+  the <span>NOTATION state</span>.<!-- Not in XML5 -->
+
+  <!-- Not in XML5 -->
+  <p>Otherwise, if the next seven characters are
+  a <span>case-sensitive</span> match for the string "ELEMENT", then
+  consume those characters and switch to the <span>ELEMENT
+  state</span>.
+  <p>Otherwise, if the next seven characters are an <span>ASCII
+  case-insensitive</span> match for the word "ELEMENT", then this is a
+  parse error; consume those characters and switch to
+  the <span>ELEMENT state</span>.
+
+  <p>Otherwise, this is a <span>parse error</span>. Switch to
+  the <span>DOCTYPE bogus comment state</span>. The next character
+  that is consumed, if any, is the first character that will be in the
+  comment.
+
+</dl>
+
+<h1><dfn>in msc state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+005D (])
+<dd>
+  <p>Switch to the <span>after msc state</span>.
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>after msc state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003E (>)
+<dd>
+  <p><span>Parse error</span>.<!-- Not a parse error in XML5. -->
+  <p>Switch to the <span>data state</span>.
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>U+005D (])
+<dd>
+  <p>Emit the <span>current input character</span> as
+  a <span>character token</span>.
+
+<dt>Anything else
+<dd>
+  <p>Switch to the <span>data state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+</dl>
+
+<h1><dfn>ENTITY value (double-quoted) state - character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (double-quoted) state</span>.
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)
+<dt>U+0020 SPACE
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dt>U+0026 AMPERSAND (&amp;)
+<dt>U+003D EQUALS SIGN (=)
+<dt>U+003E GREATER-THAN SIGN (>)
+<dt>U+0022 QUOTATION MARK (&quot;)
+<dt>U+0027 APOSTROPHE (')
+<dt>U+0060 GRAVE ACCENT (`)
+<dt>U+0025 PERCENT SIGN (%)
+<dt>U+0023 NUMBER SIGN (#)
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (double-quoted) state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+</dl>
+
+<h1><dfn>ENTITY value (single-quoted) state - character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (single-quoted) state</span>.
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)
+<dt>U+0020 SPACE
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dt>U+0026 AMPERSAND (&amp;)
+<dt>U+003D EQUALS SIGN (=)
+<dt>U+003E GREATER-THAN SIGN (>)
+<dt>U+0022 QUOTATION MARK (&quot;)
+<dt>U+0027 APOSTROPHE (')
+<dt>U+0060 GRAVE ACCENT (`)
+<dt>U+0025 PERCENT SIGN (%)
+<dt>U+0023 NUMBER SIGN (#)
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value (single-quoted) state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+</dl>
+
+<h1><dfn>ENTITY value in entity state - character reference name state</dfn></h1>
+
+<p>Consume the <span>next input character</span>:
+
+<dl class=switch>
+
+<dt>U+003B SEMICOLON (;)
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+  <p><span>Validate an entity reference name</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value in entity state</span>.
+
+<dt>U+0009 CHARACTER TABULATION (tab)
+<dt>U+000A LINE FEED (LF)
+<dt>U+000C FORM FEED (FF)
+<dt>U+0020 SPACE
+<dt>U+003C LESS-THAN SIGN (&lt;)
+<dt>U+0026 AMPERSAND (&amp;)
+<dt>U+003D EQUALS SIGN (=)
+<dt>U+003E GREATER-THAN SIGN (>)
+<dt>U+0022 QUOTATION MARK (&quot;)
+<dt>U+0027 APOSTROPHE (')
+<dt>U+0060 GRAVE ACCENT (`)
+<dt>U+0025 PERCENT SIGN (%)
+<dt>U+0023 NUMBER SIGN (#)
+<dd>
+  <p><span>Parse error</span>.
+  <p><span>Flush the temporary buffer</span>.
+  <p>Switch to the <span>ENTITY value in entity state</span>.
+  <p>Reconsume the <span>current input character</span>.
+
+<dt><span>Uppercase ASCII letter</span>
+<dt><span>Lowercase ASCII letter</span>
+<dt><span>ASCII digit</span>
+<dt>Anything else
+<dd>
+  <p>Append the <span>current input character</span> to
+  the <span>temporary buffer</span>.
+
+</dl>

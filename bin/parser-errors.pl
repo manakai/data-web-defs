@@ -47,7 +47,12 @@ sub parse_file ($) {
       $in_test = 1;
       $last_lang = undef;
       push @{$Data->{errors}->{$error_type}->{parser_tests} ||= []},
-          {input => ''};
+          {input => '', lang => 'HTML'};
+    } elsif (defined $error_type and /^!!!(\w+)$/) {
+      $in_test = 1;
+      $last_lang = undef;
+      push @{$Data->{errors}->{$error_type}->{parser_tests} ||= []},
+          {input => '', lang => $1};
     } elsif (defined $last_lang) {
       ($Data->{errors}->{$error_type}->{$key_by_lang->{$last_lang}}->{$last_lang} //= '') .= "\x0A" . $_;
     } elsif ($in_test) {

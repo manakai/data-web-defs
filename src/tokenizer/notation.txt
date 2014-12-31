@@ -1,0 +1,141 @@
+* NOTATION state
+## <!NOTATION
+
+WS   -> create(NOTATION); before NOTATION name state
+%    -> create(NOTATION); parameter entity name in markup declaration state (before NOTATION name state)
+>    -> error in pe; error; DTD state
+ELSE -> error; create(NOTATION); before NOTATION name state; reconsume
+EOF  -> error; DTD state or stop; reconsume
+
+* before NOTATION name state
+## <!NOTATION(WS)
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; reconsume
+NULL -> error; set U+FFFD to name; NOTATION name state
+ELSE -> set to name; NOTATION name state
+
+* NOTATION name state
+## <!NOTATION n
+
+WS   -> after NOTATION name state
+%    -> parameter entity name in markup declaration state (after NOTATION name state)
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; emit
+NULL -> append U+FFFD to name
+ELSE -> append to name
+
+* after NOTATION name state
+## <!NOTATION n(WS)
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; emit
+"PUBLIC" -> after NOTATION public keyword state
+"SYSTEM" -> after NOTATION system keyword state
+ELSE -> error; bogus markup declaration state
+
+* after NOTATION public keyword state
+## <!NOTATION n PUBLIC
+
+WS   -> before NOTATION public identifier state
+%    -> parameter entity name in markup declaration state (before NOTATION public identifier state)
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; emit
+"    -> error; before NOTATION public identifier state
+'    -> error; before NOTATION public identifier state
+ELSE -> error; bogus markup declaration state
+
+* before NOTATION public identifier state
+## <!NOTATION n PUBLIC(WS)
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; emit
+"    -> start literal; NOTATION public identifier (double-quoted) state
+'    -> start literal; NOTATION public identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
+
+* NOTATION public identifier (double-quoted) state
+
+"    -> end literal; after NOTATION public identifier state
+EOF  -> error; DTD state or stop; reconsume
+>    -> end literal; error in pe; error; DTD state; emit
+NULL -> append U+FFFD to public identifier
+ELSE -> append to public identifier
+
+* NOTATION public identifier (single-quoted) state
+
+'    -> end literal; after NOTATION public identifier state
+EOF  -> error; DTD state or stop; reconsume
+>    -> end literal; error in pe; error; DTD state; emit
+NULL -> append U+FFFD to public identifier
+ELSE -> append to public identifier
+
+* after NOTATION public identifier state
+
+WS   -> between NOTATION public and system identifiers state
+%    -> parameter entity name in markup declaration state (between NOTATION public and system identifiers state)
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; DTD state; emit
+"    -> error; start literal; NOTATION system identifier (double-quoted) state
+'    -> error; start literal; NOTATION system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
+
+* between NOTATION public and system identifiers state
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; DTD state; emit
+"    -> start literal; NOTATION system identifier (double-quoted) state
+'    -> start literal; NOTATION system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
+
+* after NOTATION system keyword state
+## <!NOTATION n SYSTEM
+
+WS   -> before NOTATION system identifier state
+%    -> parameter entity name in markup declaration state (before NOTATION system identifier state)
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; emit
+"    -> error; before NOTATION system identifier state
+'    -> error; before NOTATION system identifier state
+ELSE -> error; bogus markup declaration state
+
+* before NOTATION system identifier state
+## <!NOTATION n SYSTEM(WS)
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; error; DTD state; emit
+"    -> start literal; NOTATION system identifier (double-quoted) state
+'    -> start literal; NOTATION system identifier (single-quoted) state
+ELSE -> error; bogus markup declaration state
+
+* NOTATION system identifier (double-quoted) state
+
+"    -> end literal; after NOTATION system identifier state
+EOF  -> error; DTD state or stop; reconsume
+NULL -> append U+FFFD to system identifier
+ELSE -> append to system identifier
+
+* NOTATION system identifier (single-quoted) state
+
+'    -> end literal; after NOTATION system identifier state
+EOF  -> error; DTD state or stop; reconsume
+NULL -> append U+FFFD to system identifier
+ELSE -> append to system identifier
+
+* after NOTATION system identifier state
+
+WS   -> 
+%    -> parameter entity name in markup declaration state
+EOF  -> error; DTD state or stop; reconsume
+>    -> error in pe; DTD state; emit
+ELSE -> error; bogus markup declaration state

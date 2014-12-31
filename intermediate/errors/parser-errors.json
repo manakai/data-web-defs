@@ -20,7 +20,8 @@
          "parser_tests" : [
             {
                "index" : 15,
-               "input" : "\u003C!DOCTYPE HTML>\u003C/br>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C/br>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -44,7 +45,8 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/p>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/p>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -66,6 +68,7 @@
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cb>\u003Cdiv>\u003C/b>",
+               "lang" : "HTML",
                "value" : "b"
             }
          ],
@@ -92,6 +95,7 @@
             {
                "index" : 26,
                "input" : "\u003C!DOCTYPE HTML>\u003Cb>\u003Ctable>b\u003C/b>a",
+               "lang" : "HTML",
                "value" : "b"
             }
          ],
@@ -118,6 +122,7 @@
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Cspan>\u003Cb>\u003C/span>\u003C/b>",
+               "lang" : "HTML",
                "value" : "b"
             }
          ],
@@ -144,6 +149,136 @@
             "NULL" : 1
          }
       },
+      "VC:Standalone Document Declaration:attr" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In an XML document with \u003Ccode>standalone=\u0022yes\u0022\u003C/code>,\u000Aelement attributes must not be affected by \u003Ccode>ATTLIST\u003C/code>\u000Adeclarations in an external entity.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>standalone=\u0022yes\u0022\u003C/code> が指定された XML 文書では、\u000A要素の属性が外部実体で宣言された \u003Ccode>ATTLIST\u003C/code>\u000A宣言の影響を受けてはいけません。\u003C/p>"
+         },
+         "layer" : "dtd-augmentation",
+         "message" : {
+            "en" : "Attributes are affected by an external \u003Ccode>ATTLIST\u003C/code> declaration",
+            "ja" : "属性が外部実体の \u003Ccode>ATTLIST\u003C/code> 宣言の影響を受けます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         }
+      },
+      "VC:Standalone Document Declaration:entity" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In an XML document with \u003Ccode>standalone=\u0022yes\u0022\u003C/code>,\u000Aan externally declared entity cannot be referenced.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>standalone=\u0022yes\u0022\u003C/code> が指定された XML 文書では外部実体で宣言された実体を参照できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "An externally declared entity is referenced in a standalone document",
+            "ja" : "単独文書から外部実体で宣言された実体が参照されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 117,
+               "input" : "\u003C?xml version=\u00221.0\u0022 standalone=\u0022yes\u0022?>\u003C!DOCTYPE html [\u000A\u003C!ENTITY % x PUBLIC \u0022-//W3C//DTD XHTML 1.1//EN\u0022 \u0022x\u0022>\u000A%x;\u000A]>\u003Cp>&copy;\u003C/p>",
+               "lang" : "XML",
+               "value" : "&copy;"
+            }
+         ]
+      },
+      "WFC:No External Entity References" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An external entity cannot be referenced in an attribute value.\u003C/p>",
+            "ja" : "\u003Cp>属性値では外部実体を参照できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "An external entity is referenced in an attribute value",
+            "ja" : "属性値から外部実体が参照されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 44,
+               "input" : "\u003C!DOCTYPE a[\u003C!ENTITY x SYSTEM \u0022foo\u0022>]>\u003Ca b=\u0022&x;\u0022>",
+               "lang" : "XML",
+               "value" : "&x;"
+            }
+         ]
+      },
+      "WFC:No Recursion" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An entity cannot be referenced recursively.\u003C/p>",
+            "ja" : "\u003Cp>実体を再帰的に参照することはできません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "An entity is recursively referenced",
+            "ja" : "同じ実体が再帰的に参照されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE p[\u000A  \u003C!ENTITY foo \u0022&foo;\u0022>\u000A]>\u003Cp>&foo;",
+               "lang" : "XML",
+               "value" : "&foo;"
+            }
+         ]
+      },
+      "WFC:PEs in Internal Subset" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A parameter entity reference is not allowed in a markup declaration\u000Ain the internal subset or a parameter entity referenced from the\u000Ainternal subset.\u003C/p>",
+            "ja" : "\u003Cp>引数実体参照は、内部部分集合や内部部分集合から参照されている引数実体では使えません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "There is an entity reference in a markup declaration",
+            "ja" : "マーク付け宣言内に実体参照があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 43,
+               "input" : "\u003C!DOCTYPE a[\u003C!ENTITY % foo \u0022x ''\u0022>\u003C!ENTITY %foo;>]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "%foo;"
+            }
+         ]
+      },
+      "XML standalone:syntax error" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>standalone\u003C/code> pseudo-attribute value must be\u000A\u003Ccode>yes\u003C/code> or \u003Ccode>no\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>standalone\u003C/code> 擬似属性値は \u003Ccode>yes\u003C/code> か\u000A\u003Ccode>no\u003C/code> でなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "The \u003Ccode>standalone\u003C/code> value is neither \u003Ccode>yes\u003C/code> nor\u000A\u003Ccode>no\u003C/code>",
+            "ja" : "\u003Ccode>standalone\u003C/code> 属性値が \u003Ccode>yes\u003C/code> でも \u003Ccode>no\u003C/code>\u000Aでもありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 32,
+               "input" : "\u003C?xml version=\u00221.0\u0022 standalone=\u0022true\u0022?>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "true"
+            }
+         ]
+      },
       "after head" : {
          "default_level" : "m",
          "desc" : {
@@ -165,7 +300,8 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE html>\u003C/head>\u003Clink>"
+               "input" : "\u003C!DOCTYPE html>\u003C/head>\u003Clink>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -190,7 +326,8 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE html>\u003C/html>\u003Cp>"
+               "input" : "\u003C!DOCTYPE html>\u003C/html>\u003Cp>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -234,13 +371,77 @@
          "parser_tests" : [
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>\u003C/foo>"
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>\u003C/foo>",
+               "lang" : "HTML"
             },
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar '>\u003C/foo>"
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar '>\u003C/foo>",
+               "lang" : "HTML"
             }
          ]
+      },
+      "attribute missing:encoding" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be the \u003Ccode>encoding\u003C/code> pseudo-attribute in\u000Aa text declaration.\u003C/p>",
+            "ja" : "\u003Cp>テキスト宣言には \u003Ccode>encoding\u003C/code> 擬似属性が必要です。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is no \u003Ccode>encoding\u003C/code> attribute",
+            "ja" : "\u003Ccode>encoding\u003C/code> 属性がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "attribute missing:version" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be the \u003Ccode>version\u003C/code> pseudo-attribute in\u000Aan XML declaration.\u003C/p>",
+            "ja" : "\u003Cp>XML 宣言には \u003Ccode>version\u003C/code> 擬似属性が必要です。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is no \u003Ccode>version\u003C/code> attribute",
+            "ja" : "\u003Ccode>version\u003C/code> 属性がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 2,
+               "input" : "\u003C?xml?>\u003Ca/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 6,
+               "input" : "\u003C?xml encoding=\u0022utf-8\u0022?>\u003Ca/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 7,
+               "input" : "\u003C?xml  encoding=\u0022utf-8\u0022?>\u003Ca/>",
+               "lang" : "XML"
+            }
+         ]
+      },
+      "attribute not allowed:standalone" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>standalone\u003C/code> pseudo-attribute is not allowed\u000Ain a text declaration.\u003C/p>",
+            "ja" : "\u003Cp>テキスト宣言では \u003Ccode>standalone\u003C/code> 擬似属性は使えません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is a \u003Ccode>standalone\u003C/code> attribute",
+            "ja" : "\u003Ccode>standalone\u003C/code> 属性があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
       },
       "bad DOCTYPE name" : {
          "default_level" : "m",
@@ -260,11 +461,13 @@
             {
                "index" : 0,
                "input" : "\u003C!DOCTYPE foo>",
+               "lang" : "HTML",
                "value" : "foo"
             },
             {
                "index" : 0,
                "input" : "\u003C!DOCTYPE html4>",
+               "lang" : "HTML",
                "value" : "html4"
             }
          ]
@@ -292,11 +495,13 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html>\u003Cp foo\u0022aa>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo\u0022aa>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html>\u003Cp foo'aa>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo'aa>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -326,31 +531,61 @@
          "parser_tests" : [
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar\u0022>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar'>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar'>",
+               "lang" : "HTML"
             },
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar`>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar`>",
+               "lang" : "HTML"
             },
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar=>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=bar=>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=`>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=`>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo==>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo==>",
+               "lang" : "HTML"
             },
             {
                "index" : 26,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo= bar=>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo= bar=>",
+               "lang" : "HTML"
+            }
+         ]
+      },
+      "bad predefined entity decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The entity declaration for a predefined entity must be\u000Aequivalent to the predefined entity.\u003C/p>",
+            "ja" : "\u003Cp>定義済み実体の実体宣言は定義済み実体と等価なものでなければいけません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The predefined entity declaration is wrong",
+            "ja" : "この定義済み実体の宣言は正しくありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ENTITY amp \u0022hoge\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "amp"
             }
          ]
       },
@@ -374,7 +609,8 @@
          "parser_tests" : [
             {
                "index" : 17,
-               "input" : "\u003C!DOCTYPE HTML>\u003C/!?>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C/!?>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -398,11 +634,13 @@
          "parser_tests" : [
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE HTML>&#x"
+               "input" : "\u003C!DOCTYPE HTML>&#x",
+               "lang" : "HTML"
             },
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE HTML>&#Xzza"
+               "input" : "\u003C!DOCTYPE HTML>&#Xzza",
+               "lang" : "HTML"
             }
          ]
       },
@@ -426,11 +664,13 @@
          "parser_tests" : [
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE HTML>a&#"
+               "input" : "\u003C!DOCTYPE HTML>a&#",
+               "lang" : "HTML"
             },
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE HTML>a&#abx"
+               "input" : "\u003C!DOCTYPE HTML>a&#abx",
+               "lang" : "HTML"
             }
          ]
       },
@@ -455,7 +695,8 @@
          "parser_tests" : [
             {
                "index" : 16,
-               "input" : "\u003C!DOCTYPE HTML>\u003C\u0022"
+               "input" : "\u003C!DOCTYPE HTML>\u003C\u0022",
+               "lang" : "HTML"
             }
          ]
       },
@@ -487,47 +728,80 @@
          "parser_tests" : [
             {
                "index" : 15,
-               "input" : "\u003C!DOCTYPE html !>"
+               "input" : "\u003C!DOCTYPE html !>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html PUBLIC!>"
+               "input" : "\u003C!DOCTYPE html PUBLIC!>",
+               "lang" : "HTML"
             },
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE html public \u0022a\u0022!>"
+               "input" : "\u003C!DOCTYPE html public \u0022a\u0022!>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html SYSTEM?>"
+               "input" : "\u003C!DOCTYPE html SYSTEM?>",
+               "lang" : "HTML"
             },
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html system \u0022\u0022@p>"
+               "input" : "\u003C!DOCTYPE html system \u0022\u0022@p>",
+               "lang" : "HTML"
             },
             {
                "index" : 67,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022abc\u0022 \u0022http://www.w3.org/TR/html4/strict.dtd\u0022?>"
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022abc\u0022 \u0022http://www.w3.org/TR/html4/strict.dtd\u0022?>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE html PUBLIC hoge>"
+               "input" : "\u003C!DOCTYPE html PUBLIC hoge>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE html SYSTEM hoge>"
+               "input" : "\u003C!DOCTYPE html SYSTEM hoge>",
+               "lang" : "HTML"
             },
             {
                "index" : 28,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022hoge\u0022hoge>"
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022hoge\u0022hoge>",
+               "lang" : "HTML"
             },
             {
                "index" : 29,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022hoge\u0022 hoge>"
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022hoge\u0022 hoge>",
+               "lang" : "HTML"
             },
             {
                "index" : 9,
-               "input" : "\u003C!DOCTYPE!>"
+               "input" : "\u003C!DOCTYPE!>",
+               "lang" : "HTML"
+            }
+         ]
+      },
+      "bogus XML declaration" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The XML or text declaration is syntactically wrong.  It has\u000Astricter syntax than normal tags.\u003C/p>",
+            "ja" : "\u003Cp>XML 宣言やテキスト宣言が構文的に正しくありません。\u000A通常のタグより構文が厳密になっています。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "The XML declaration is syntactically broken",
+            "ja" : "この XML 宣言は構文的に正しくありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 20,
+               "input" : "\u003C?xml version=\u00221.0\u0022 foo=\u0022bar\u0022?>\u003Ca/>",
+               "lang" : "XML"
             }
          ]
       },
@@ -551,11 +825,13 @@
          "parser_tests" : [
             {
                "index" : 17,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!HOGE>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!HOGE>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!DOCTYPO>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!DOCTYPO>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -565,7 +841,7 @@
             "en" : "\u003Cp>The character encoding declaration cannot contain any HTML\u000A    character reference.\u003C/p>",
             "ja" : "\u003Cp>文字符号化宣言は HTML の文字参照を含んではいけません。\u003C/p>"
          },
-         "layer" : "tokenizer",
+         "layer" : "entity",
          "message" : {
             "en" : "The character encoding declaration contains a character reference",
             "ja" : "文字符号化宣言に文字参照が使われています"
@@ -576,23 +852,72 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf-&#x38;>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf-&#x38;>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&#46;8>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&#46;8>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&amp;8>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&amp;8>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&amp>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta charset=utf&amp>",
+               "lang" : "HTML"
             },
             {
                "index" : 45,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta http-equiv=content-type content=\u0022text/html;&#x20;charset=utf-8\u0022>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cmeta http-equiv=content-type content=\u0022text/html;&#x20;charset=utf-8\u0022>",
+               "lang" : "HTML"
+            }
+         ]
+      },
+      "default value not allowed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The default value can't be specified when the default type\u000Ais \u003Ccode>#IMPLIED\u003C/code> or \u003Ccode>#REQUIRED\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>既定値は既定型が \u003Ccode>#IMPLIED\u003C/code> や \u003Ccode>#REQUIRED\u003C/code>\u000Aの時には指定できません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "Default value is not allowed for the default type",
+            "ja" : "この既定型では既定値は指定できません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ATTLIST foo bar CDATA #IMPLIED \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML"
+            }
+         ]
+      },
+      "default value not provided" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The default value must be specified unless the default type\u000Ais \u003Ccode>#IMPLIED\u003C/code> or \u003Ccode>#REQUIRED\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>既定型が \u003Ccode>#IMPLIED\u003C/code> や \u003Ccode>#REQUIRED\u003C/code>\u000Aの時以外は既定値を指定しなければなりません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "Default value is not specified",
+            "ja" : "既定値が指定されていません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ATTLIST foo bar CDATA #FIXED >\u000A]>\u003Ca/>",
+               "lang" : "XML"
             }
          ]
       },
@@ -628,56 +953,117 @@
          "parser_tests" : [
             {
                "index" : 15,
-               "input" : "\u003C!DOCTYPE html>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE html>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html>\u003Chtml>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE html>\u003Chtml>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003C/body>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C/body>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 36,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>\u003C/frameset>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>\u003C/frameset>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003C/head>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C/head>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 32,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccolgroup>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccolgroup>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 20,
-               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
+            }
+         ]
+      },
+      "duplicate attlist decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There should be at most one \u003Ccode>ATTLIST\u003C/code> declaration\u000Afor the same tag name.\u003C/p>",
+            "ja" : "\u003Cp>同じタグ名の \u003Ccode>ATTLIST\u003C/code> 宣言は高々1つしか含めるべきではありません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another \u003Ccode>ATTLIST\u003C/code> declaration for the element",
+            "ja" : "同じ要素の \u003Ccode>ATTLIST\u003C/code> 宣言が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ATTLIST foo>\u003C!ATTLIST foo>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "foo"
+            }
+         ]
+      },
+      "duplicate attrdef" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There should be at most one attribute definition for\u000Asame element and attribute names.  Anything other than\u000Athe first definition is ignored.\u003C/p>",
+            "ja" : "\u003Cp>同じ要素名と属性名の属性定義は高々1つしか含めるべきではありません。\u000A最初の属性定義以外は無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another attribute definition with same name",
+            "ja" : "同じ名前の属性定義が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 39,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ATTLIST a bb CDATA \u0022\u0022 bb ID #IMPLIED>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "bb"
             }
          ]
       },
@@ -700,6 +1086,7 @@
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Cdiv class=foo class=bar>",
+               "lang" : "HTML",
                "text" : "class"
             }
          ]
@@ -726,17 +1113,96 @@
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cbody>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Chtml>",
+               "lang" : "HTML",
                "value" : "html"
             }
          ],
          "value" : [
             "token",
             "tag name"
+         ]
+      },
+      "duplicate element decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be at most one \u003Ccode>ELEMENT\u003C/code> declaration\u000Afor the same tag name.\u003C/p>",
+            "ja" : "\u003Cp>同じタグ名の \u003Ccode>ELEMENT\u003C/code> 宣言は高々1つしか含められません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another declaration for the element",
+            "ja" : "この要素の宣言が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 34,
+               "input" : "\u003C!DOCTYPE a[\u000A\u003C!ELEMENT foo EMPTY>\u000A\u003C!ELEMENT foo ANY>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "foo"
+            }
+         ]
+      },
+      "duplicate entity decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There should be at most one \u003Ccode>ENTITY\u003C/code> declaration\u000Awith same type and name.  Anything other than the first declaration\u000Ais ignored.\u003C/p>",
+            "ja" : "\u003Cp>同じ種類と名前の \u003Ccode>ENTITY\u003C/code> 宣言は高々1つしか含めるべきではありません。\u000A最初の宣言以外は無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another \u003Ccode>ENTITY\u003C/code> declaration with\u000Asame type and name",
+            "ja" : "同じ種類と名前の \u003Ccode>ENTITY\u003C/code> 宣言が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 30,
+               "input" : "\u003C!DOCTYPE a[\u000A \u003C!ENTITY foo \u0022\u0022>\u003C!ENTITY foo \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "&foo;"
+            },
+            {
+               "index" : 32,
+               "input" : "\u003C!DOCTYPE a[\u000A \u003C!ENTITY % foo \u0022\u0022>\u003C!ENTITY % foo \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "%foo;"
+            }
+         ]
+      },
+      "duplicate notation decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be at most one \u003Ccode>NOTATION\u003C/code> declaration\u000Afor the same name.\u003C/p>",
+            "ja" : "\u003Cp>同じ名前の \u003Ccode>NOTATION\u003C/code> 宣言は高々1つしか含めるべきではありません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is another \u003Ccode>NOTATION\u003C/code> declaration with the same name",
+            "ja" : "同じ名前の \u003Ccode>NOTATION\u003C/code> 宣言が他にもあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 41,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!NOTATION foo SYSTEM \u0022x\u0022>\u003C!NOTATION foo SYSTEM \u0022a\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "foo"
+            }
          ]
       },
       "element not closed before implied ancestor end tag" : {
@@ -767,60 +1233,70 @@
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Cdt>\u003Cspan>\u003Cdt>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "dt"
             },
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Cdt>\u003Cspan>\u003Cdd>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "dd"
             },
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Cli>\u003Cspan>\u003Cli>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "li"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Cruby>\u003Crp>\u003Cspan>\u003Crt>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "rt"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Cruby>\u003Crt>\u003Cspan>\u003Crp>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "rp"
             },
             {
                "index" : 37,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003Ccaption>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "caption"
             },
             {
                "index" : 37,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003Ctr>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "tr"
             },
             {
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cp>",
+               "lang" : "HTML",
                "text" : "svg",
                "value" : "p"
             },
             {
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cfont face>",
+               "lang" : "HTML",
                "text" : "svg",
                "value" : "font"
             },
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Cinput>",
+               "lang" : "HTML",
                "text" : "select",
                "value" : "input"
             }
@@ -832,6 +1308,30 @@
          "value" : [
             "token",
             "tag name"
+         ]
+      },
+      "empty attlist decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>ATTLIST\u003C/code> declaration should contain\u000Aat least one attribute definition.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ATTLIST\u003C/code> 宣言は属性定義を最低1つは含めるべきです。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>ATTLIST\u003C/code> declaration is empty",
+            "ja" : "この \u003Ccode>ATTLIST\u003C/code> 宣言は空です"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 12,
+               "input" : "\u003C!DOCTYPE a[\u003C!ATTLIST fa>]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "fa"
+            }
          ]
       },
       "empty end tag" : {
@@ -855,7 +1355,8 @@
          "parser_tests" : [
             {
                "index" : 20,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003C/>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003C/>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -876,7 +1377,8 @@
          "parser_tests" : [
             {
                "index" : 32,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cdiv class=foo>aa\u003C/div class=foo>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cdiv class=foo>aa\u003C/div class=foo>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -886,19 +1388,94 @@
             "en" : "\u003Cp>The referenced entity is not declared.\u003C/p>\u000A\u000A    \u003Cdl class=\u0022swtich\u0022>\u000A      \u003Cdt>In HTML document\u000A\u000A      \u003C/dt>\u003Cdd>In an HTML document, only limited set of character\u000A      references can be used.\u000A\u000A      \u003C/dd>\u003Cdt>In XML document\u003C/dt>\u000A\u000A      \u003Cdd>In an XML document, most of entities must be declared in the\u000A      document type definition of the document.  Lack of entity\u000A      declaration is validity error, or sometimes well-formedness\u000A      error, depending on the standaloness of the document.\u003C/dd>\u000A\u000A      \u003Cdd>In an XML document, although entities \u003Ccode>amp\u003C/code>,\u000A      \u003Ccode>lt\u003C/code>, \u003Ccode>gt\u003C/code>, \u003Ccode>quot\u003C/code>, and\u000A      \u003Ccode>apos\u003C/code> are predefined, therefore they can be used\u000A      even when they are not explicitly declared, they have to be\u000A      declared for interoperability, according to the XML\u000A      specification.\u003C/dd>\u000A\u000A      \u003Cdt>In WebVTT document\u003C/dt>\u000A\u000A      \u003Cdd>In a WebVTT document, only the following character\u000A      references are allowed: \u003Ccode>&amp;amp;\u003C/code>,\u000A      \u003Ccode>&amp;lt;\u003C/code>, \u003Ccode>&amp;gt;\u003C/code>,\u000A      \u003Ccode>&amp;lrm;\u003C/code>, \u003Ccode>&amp;rlm;\u003C/code>, and\u000A      \u003Ccode>&amp;nbsp;\u003C/code>.\u003C/dd>\u000A    \u003C/dl>\u000A\u000A\u003Cp>To represent an \u003Ccode>&amp;\u003C/code> character, it must be escaped as\u000A\u003Ccode>&amp;amp;\u003C/code>.\u003C/p>",
             "ja" : "\u003Cp>参照されている実体は宣言されていません。\u003C/p>\u000A\u000A    \u003Cdl class=\u0022swtich\u0022>\u000A      \u003Cdt>HTML 文書\u000A\u000A      \u003C/dt>\u003Cdd>HTML 文書では、限られた文字参照しか使えません。\u000A\u000A      \u003C/dd>\u003Cdt>XML 文書\u003C/dt>\u000A\u000A      \u003Cdd>XML 文書では、ほとんどの実体は文書の文書型定義で制限されていなければなりません。\u000A      実体宣言が無いのは妥当性制約違反ですし、\u000A      文書の単独性如何によっては整形式制約違反でもあります。\u003C/dd>\u000A\u000A      \u003Cdd>XML 文書では、実体 \u003Ccode>amp\u003C/code>,\u000A      \u003Ccode>lt\u003C/code>, \u003Ccode>gt\u003C/code>, \u003Ccode>quot\u003C/code>, \u000A      \u003Ccode>apos\u003C/code> は定義済みであり、明示的に宣言する必要はないのですが、\u000A      XML 仕様によれば相互運用性のために敢えて宣言する必要があります。\u003C/dd>\u000A\u000A      \u003Cdt>WebVTT 文書\u003C/dt>\u000A\u000A      \u003Cdd>WebVTT 文書では、文字参照として使えるのは\u000A      \u003Ccode>&amp;amp;\u003C/code>,\u000A      \u003Ccode>&amp;lt;\u003C/code>, \u003Ccode>&amp;gt;\u003C/code>,\u000A      \u003Ccode>&amp;lrm;\u003C/code>, \u003Ccode>&amp;rlm;\u003C/code>,\u000A      \u003Ccode>&amp;nbsp;\u003C/code> だけです。\u003C/dd>\u000A    \u003C/dl>\u000A\u000A\u003Cp>\u003Ccode>&amp;\u003C/code> という文字を表したいときは、\u000A\u003Ccode>&amp;amp;\u003C/code> とエスケープしなければいけません。\u003C/p>"
          },
-         "layer" : "tokenizer",
+         "layer" : "entity",
          "message" : {
             "en" : "Entity \u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> is not declared",
             "ja" : "実体 \u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> は宣言されていません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_tests" : [
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>&hoge;",
+               "lang" : "HTML",
                "value" : "&hoge;"
+            }
+         ]
+      },
+      "entity:too deep" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Level of entity reference nesting is too deep.\u000A\u003C/p>\u003Cp>No more entity reference in this subtree is expanded for security reasons.\u003C/p>",
+            "ja" : "\u003Cp>実体参照の入れ子の階層が深すぎます。\u000A\u003C/p>\u003Cp>この部分木の実体参照は安全のためこれ以上展開しません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "Entities are nesting too many times",
+            "ja" : "実体参照が深すぎます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "entity:too many refs" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There are too many entity references.\u000A\u003C/p>\u003Cp>No more entity reference is expanded for security reasons.\u003C/p>",
+            "ja" : "\u003Cp>実体参照が多すぎます。\u000A\u003C/p>\u003Cp>実体参照は安全のためこれ以上展開しません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "There are too many entity references",
+            "ja" : "実体参照が多すぎます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "entref in attr has element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>None of tag, comment, processing instructions, declaration, or\u000Asection can be used in an entity referenced in an attribute value.\u003C/p>",
+            "ja" : "\u003Cp>属性値で参照する実体ではタグ、注釈、処理指令、宣言、\u000A区間を使うことはできません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "There is a tag in an entity referenced in an attribute value",
+            "ja" : "属性値で参照されたいる実体にタグがあります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 43,
+               "input" : "\u003C!DOCTYPE a[\u000A\u003C!ENTITY x \u0022\u003Cy>\u003C/y>\u0022>\u000A]>\u003Ca b=\u0022&x;\u0022/>",
+               "lang" : "XML",
+               "value" : "&x;"
+            }
+         ]
+      },
+      "external entref" : {
+         "default_level" : "m",
+         "desc" : {
+         },
+         "layer" : "entity",
+         "message" : {
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 85,
+               "input" : "\u003C?xml version=\u00221.0\u0022 standalone=\u0022yes\u0022?>\u003C!DOCTYPE a[\u000A  \u003C!ENTITY ext SYSTEM \u0022ext\u0022>\u000A]>\u003Ca>&ext;\u003C/a>",
+               "lang" : "XML",
+               "level" : "i",
+               "value" : "&ext;"
             }
          ]
       },
@@ -920,21 +1497,25 @@
             {
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Csvg xmlns=hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cmath xmlns=hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 26,
                "input" : "\u003C!DOCTYPE HTML>\u003Cmath>\u003Cfoo xmlns=hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Csvg xmlns:xlink=\u0022foo\u0022>",
+               "lang" : "HTML",
                "value" : "foo"
             }
          ]
@@ -959,7 +1540,8 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cimage>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cimage>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -984,31 +1566,38 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctr>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctr>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ccol>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ccol>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Chead>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Chead>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cframe>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cframe>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cframeset>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cframeset>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctbody>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctbody>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctd>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctd>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1036,31 +1625,37 @@
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Choge>",
+               "lang" : "HTML",
                "text" : "hoge"
             },
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Cframeset>",
+               "lang" : "HTML",
                "text" : "frameset"
             },
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>",
+               "lang" : "HTML",
                "text" : "template"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>\u003Cfoo>",
+               "lang" : "HTML",
                "text" : "foo"
             },
             {
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Cxmp>",
+               "lang" : "HTML",
                "text" : "xmp"
             },
             {
                "index" : 27,
                "input" : "\u003C!DOCTYPE HTML>\u003Cplaintext>a",
+               "lang" : "HTML",
                "text" : "plaintext"
             }
          ],
@@ -1091,12 +1686,14 @@
                "context" : "caption",
                "index" : 0,
                "input" : "\u003Ctbody>",
+               "lang" : "HTML",
                "text" : "tbody"
             },
             {
                "context" : "caption",
                "index" : 0,
                "input" : "\u003Ccol>",
+               "lang" : "HTML",
                "text" : "col"
             }
          ],
@@ -1148,17 +1745,20 @@
             {
                "context" : "colgroup",
                "index" : 0,
-               "input" : "\u003Cp>"
+               "input" : "\u003Cp>",
+               "lang" : "HTML"
             },
             {
                "context" : "colgroup",
                "index" : 0,
-               "input" : "\u003C/p>"
+               "input" : "\u003C/p>",
+               "lang" : "HTML"
             },
             {
                "context" : "colgroup",
                "index" : 0,
-               "input" : "h"
+               "input" : "h",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1183,17 +1783,20 @@
             {
                "context" : "frameset",
                "index" : 0,
-               "input" : "\u003Cp>"
+               "input" : "\u003Cp>",
+               "lang" : "HTML"
             },
             {
                "context" : "frameset",
                "index" : 0,
-               "input" : "\u003C/p>"
+               "input" : "\u003C/p>",
+               "lang" : "HTML"
             },
             {
                "context" : "frameset",
                "index" : 0,
-               "input" : "h"
+               "input" : "h",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1217,7 +1820,8 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Chead>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Chead>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1242,6 +1846,7 @@
             {
                "index" : 19,
                "input" : "\u003C!DOCTYPE HTML>\u003Ch3>\u003Ch5>",
+               "lang" : "HTML",
                "text" : "h3",
                "value" : "h5"
             }
@@ -1277,36 +1882,43 @@
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Cp>",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Choge>",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>foo",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Cnoscript>\u003C/noscript>",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Chead>\u003C/noscript>",
+               "lang" : "HTML",
                "noscript" : 1
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003Cbody>",
+               "lang" : "HTML",
                "noscript" : 1
             }
          ]
@@ -1331,11 +1943,13 @@
          "parser_tests" : [
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003Cfoo>"
+               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003Cfoo>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003C/foo>"
+               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003C/foo>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1360,6 +1974,7 @@
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cselect>\u003C/tbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             }
          ],
@@ -1389,6 +2004,7 @@
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cselect>\u003Ctbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             }
          ],
@@ -1419,19 +2035,23 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cp>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cp>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C/gfoo>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C/gfoo>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cform>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cform>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cinput>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cinput>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1457,6 +2077,7 @@
                "context" : "tbody",
                "index" : 0,
                "input" : "\u003Ctbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             }
          ],
@@ -1487,12 +2108,14 @@
                "context" : "tr",
                "index" : 0,
                "input" : "\u003Ctbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             },
             {
                "context" : "template",
                "index" : 9,
                "input" : "\u003Ctd>\u003C/td>\u003Ctbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             }
          ],
@@ -1522,11 +2145,13 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>abc"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>abc",
+               "lang" : "HTML"
             },
             {
                "index" : 25,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cp>abc"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cp>abc",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1536,7 +2161,7 @@
             "en" : "\u003Cp>A character reference cannot be used to reference a control\u000Acharacter, surrogate code point, noncharacter code point, or\u000Anon-Unicode code point.\u003C/p>",
             "ja" : "\u003Cp>文字参照は、制御文字、サロゲート符号位置、非文字符号位置、\u000A非 Unicode 符号位置を参照することはできません。\u003C/p>"
          },
-         "layer" : "tokenizer",
+         "layer" : "character-set",
          "message" : {
             "en" : "Special code point \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> is referenced",
             "ja" : "特殊な符号位置 \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> が参照されています"
@@ -1548,21 +2173,25 @@
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>&#0;",
+               "lang" : "HTML",
                "text" : "U\u002B0000"
             },
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>&#x7F;",
+               "lang" : "HTML",
                "text" : "U\u002B007F"
             },
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>&#x10FFFF;",
+               "lang" : "HTML",
                "text" : "U\u002B10FFFF"
             },
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>&#x000000000000000700ffff;",
+               "lang" : "HTML",
                "text" : "U-0700FFFF"
             }
          ]
@@ -1602,9 +2231,25 @@
          "parser_tests" : [
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022about:legacy-compat\u0022>"
+               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022about:legacy-compat\u0022>",
+               "lang" : "HTML"
             }
          ]
+      },
+      "ms:unclosed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The conditional sections must be closed before the end of file or DTD.\u003C/p>",
+            "ja" : "\u003Cp>ファイルや DTD の末尾までに条件区間は閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unclosed marked section",
+            "ja" : "閉じられていないマーク区間があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
       },
       "nestc" : {
          "default_level" : "m",
@@ -1627,17 +2272,20 @@
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>\u003Cp/>",
+               "lang" : "HTML",
                "text" : "p"
             },
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE HTML>\u003Cimg/>",
+               "lang" : "HTML",
                "level" : "w",
                "text" : "img"
             },
             {
                "index" : 18,
                "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003C/p/>",
+               "lang" : "HTML",
                "text" : "p"
             }
          ],
@@ -1666,11 +2314,13 @@
          "parser_tests" : [
             {
                "index" : 19,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp / >"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp / >",
+               "lang" : "HTML"
             },
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp/hoge>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp/hoge>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1694,7 +2344,8 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctd>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctd>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1718,11 +2369,13 @@
          "parser_tests" : [
             {
                "index" : 0,
-               "input" : "hoge"
+               "input" : "hoge",
+               "lang" : "HTML"
             },
             {
                "index" : 7,
-               "input" : "\u003C!---->hoge"
+               "input" : "\u003C!---->hoge",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1749,19 +2402,23 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html PUBLIC>"
+               "input" : "\u003C!DOCTYPE html PUBLIC>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE html PUBLIC >"
+               "input" : "\u003C!DOCTYPE html PUBLIC >",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html system>"
+               "input" : "\u003C!DOCTYPE html system>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE html system  >"
+               "input" : "\u003C!DOCTYPE html system  >",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1782,6 +2439,41 @@
          "parser_error_names" : {
             "before-doctype-name-003e" : 1
          }
+      },
+      "no XML decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The document entity should contain an XML declaration.\u000AThe other parsed entities should contain a text declaration.\u003C/p>",
+            "ja" : "\u003Cp>文書実体には XML 宣言を含めるべきです。\u000Aその他の解析対象実体にはテキスト宣言を含めるべきです。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is no XML declaration",
+            "ja" : "XML 宣言がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 0,
+               "input" : "\u003Cp/>",
+               "lang" : "XML",
+               "level" : "s"
+            },
+            {
+               "index" : 0,
+               "input" : "  \u003Cp/>",
+               "lang" : "XML",
+               "level" : "s"
+            },
+            {
+               "index" : 0,
+               "input" : "abc\u003Cp/>",
+               "lang" : "XML",
+               "level" : "s"
+            }
+         ]
       },
       "no refc" : {
          "default_level" : "m",
@@ -1804,19 +2496,23 @@
          "parser_tests" : [
             {
                "index" : 20,
-               "input" : "\u003C!DOCTYPE HTML>&#125abc;"
+               "input" : "\u003C!DOCTYPE HTML>&#125abc;",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>&#x125azabc;"
+               "input" : "\u003C!DOCTYPE HTML>&#x125azabc;",
+               "lang" : "HTML"
             },
             {
                "index" : 19,
-               "input" : "\u003C!DOCTYPE HTML>&amp**"
+               "input" : "\u003C!DOCTYPE HTML>&amp**",
+               "lang" : "HTML"
             },
             {
                "index" : 28,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ca href=\u0022&amp=aa\u0022>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ca href=\u0022&amp=aa\u0022>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1831,7 +2527,8 @@
             "ja" : "\u003Cp>属性の間や最初の属性の前には空白文字が1つ以上必要です。\u003C/p>\u000A\u000A    \u003Cp>文字 \u003Ccode>U\u002B000C\u003C/code> を XML 文書の属性の前の空白として使うことはできません。\u003C/p>\u000A\u000A    \u003Cp>文字 \u003Ccode>U\u002B0085\u003C/code> や文字 \u003Ccode>U\u002B202B\u003C/code>\u000A    を HTML や XML 1.0 の文書の属性の前の空白として使うことはできません。\u003C/p>"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "after-attribute-value-quoted-else" : 1
@@ -1839,7 +2536,13 @@
          "parser_tests" : [
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cp foo=\u0022\u0022bar=\u0022\u0022>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo=\u0022\u0022bar=\u0022\u0022>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 19,
+               "input" : "\u003C?xml version=\u00221.0\u0022encoding=\u0022utf-8\u0022?>\u003Ca/>",
+               "lang" : "XML"
             }
          ]
       },
@@ -1868,27 +2571,33 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html PUBLIC\u0022abc\u0022>"
+               "input" : "\u003C!DOCTYPE html PUBLIC\u0022abc\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html SYSTEM\u0022\u0022>"
+               "input" : "\u003C!DOCTYPE html SYSTEM\u0022\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 24,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022\u0022\u0022\u0022>"
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022\u0022\u0022\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html PUBLIC'abc'>"
+               "input" : "\u003C!DOCTYPE html PUBLIC'abc'>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html SYSTEM''>"
+               "input" : "\u003C!DOCTYPE html SYSTEM''>",
+               "lang" : "HTML"
             },
             {
                "index" : 27,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022abc\u0022'http'>"
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022abc\u0022'http'>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -1930,108 +2639,126 @@
             {
                "index" : 26,
                "input" : "\u003C!DOCTYPE HTML>\u003Cdiv>\u003Cspan>\u003C/div>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "div"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Cmarquee>\u003Cspan>\u003C/marquee>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "marquee"
             },
             {
                "index" : 26,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cdiv>\u003C/body>",
+               "lang" : "HTML",
                "text" : "div",
                "value" : "body"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cdt>\u003Cspan>\u003C/dt>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "dt"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ch3>\u003Cspan>\u003C/h3>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "h3"
             },
             {
                "index" : 33,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Cform>\u003Cspan>\u003C/form>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "form"
             },
             {
                "index" : 43,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctemplate>\u003Cform>\u003Cspan>\u003C/form>\u003C/template>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "form"
             },
             {
                "index" : 20,
                "input" : "\u003C!DOCTYPE HTML>\u003Cdiv>\u003C/html>",
+               "lang" : "HTML",
                "text" : "div",
                "value" : "html"
             },
             {
                "index" : 33,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Choge>\u003Cspan>\u003C/hoge>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "hoge"
             },
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Cli>\u003Cspan>\u003C/li>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "li"
             },
             {
                "index" : 37,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003C/caption>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "caption"
             },
             {
                "index" : 37,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003Cspan>\u003C/table>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "table"
             },
             {
                "index" : 36,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003Cspan>\u003C/td>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "td"
             },
             {
                "index" : 26,
                "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cg>\u003Ch>\u003C/g>",
+               "lang" : "HTML",
                "text" : "h",
                "value" : "g"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Csvg>\u003Cscript>\u003Ch>\u003C/script>",
+               "lang" : "HTML",
                "text" : "h",
                "value" : "script"
             },
             {
                "index" : 37,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>\u003Cmeta>\u003Choge>\u003C/template>",
+               "lang" : "HTML",
                "text" : "hoge",
                "value" : "template"
             },
             {
                "index" : 24,
                "input" : "\u003C!DOCTYPE HTML>\u003Cp>\u003Cspan>\u003Cp>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "p"
             },
             {
                "index" : 36,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003Cspan>\u003Ctd>",
+               "lang" : "HTML",
                "text" : "span",
                "value" : "td"
             }
@@ -2066,31 +2793,38 @@
          "parser_tests" : [
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022hoge\u0022>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022hoge\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022hoge\u0022 \u0022fuga\u0022>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022hoge\u0022 \u0022fuga\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022-//W3C//DTD HTML 4.01//EN\u0022 \u0022fa\u0022>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022-//W3C//DTD HTML 4.01//EN\u0022 \u0022fa\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022hoge\u0022>"
+               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022hoge\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022http://www.w3.org/TR/html4/strict.dtd\u0022>"
+               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022http://www.w3.org/TR/html4/strict.dtd\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE html PUBLIC \u0022-//W3C//DTD HTML 4.01 Transitional//EN\u0022>"
+               "input" : "\u003C!DOCTYPE html PUBLIC \u0022-//W3C//DTD HTML 4.01 Transitional//EN\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML system \u0022\u0022>"
+               "input" : "\u003C!DOCTYPE HTML system \u0022\u0022>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2111,7 +2845,8 @@
          "parser_tests" : [
             {
                "index" : 0,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022-//W3C//DTD HTML 4.01//EN\u0022>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022-//W3C//DTD HTML 4.01//EN\u0022>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2156,19 +2891,23 @@
          "parser_tests" : [
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u0000"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u0000",
+               "lang" : "HTML"
             },
             {
                "index" : 26,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Csvg>\u0000"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Csvg>\u0000",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u0000"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u0000",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u0000"
+               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u0000",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2193,11 +2932,13 @@
          "parser_tests" : [
             {
                "index" : 19,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!-->"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!-->",
+               "lang" : "HTML"
             },
             {
                "index" : 20,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!--->"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--->",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2223,15 +2964,18 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--!>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--!>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--->"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--->",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--b-->"
+               "input" : "\u003C!DOCTYPE HTML>\u003C!--a--b-->",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2261,31 +3005,37 @@
             {
                "index" : 18,
                "input" : "\u003C!DOCTYPE HTML>\u003Ca>\u003Ca>",
+               "lang" : "HTML",
                "value" : "a"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cform>\u003Cform>",
+               "lang" : "HTML",
                "value" : "form"
             },
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbutton>\u003Cbutton>",
+               "lang" : "HTML",
                "value" : "button"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cnobr>\u003Cnobr>",
+               "lang" : "HTML",
                "value" : "nobr"
             },
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Cselect>",
+               "lang" : "HTML",
                "value" : "select"
             },
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctable>",
+               "lang" : "HTML",
                "value" : "table"
             }
          ],
@@ -2317,27 +3067,33 @@
          "parser_tests" : [
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022>\u0022>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022>\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022>\u0022>"
+               "input" : "\u003C!DOCTYPE HTML SYSTEM \u0022>\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 26,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022\u0022 \u0022>\u0022>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022\u0022 \u0022>\u0022>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC '>'>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC '>'>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML SYSTEM '>'>"
+               "input" : "\u003C!DOCTYPE HTML SYSTEM '>'>",
+               "lang" : "HTML"
             },
             {
                "index" : 26,
-               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022\u0022 '>'>"
+               "input" : "\u003C!DOCTYPE HTML PUBLIC \u0022\u0022 '>'>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2361,7 +3117,8 @@
          "parser_tests" : [
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE html>\u003Cp =foo>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp =foo>",
+               "lang" : "HTML"
             }
          ]
       },
@@ -2385,11 +3142,71 @@
          "parser_tests" : [
             {
                "index" : 1,
-               "input" : "\u003C?xml version=\u00221.0\u0022?>\u003C!DOCTYPE HTML>"
+               "input" : "\u003C?xml version=\u00221.0\u0022?>\u003C!DOCTYPE HTML>",
+               "lang" : "HTML"
             },
             {
                "index" : 16,
-               "input" : "\u003C!DOCTYPE HTML>\u003C?php print (\u0022Hello!\u0022)?>"
+               "input" : "\u003C!DOCTYPE HTML>\u003C?php print (\u0022Hello!\u0022)?>",
+               "lang" : "HTML"
+            }
+         ]
+      },
+      "ref outside of root element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Character or entity reference must be included in an element or\u000Aan attribute value.\u003C/p>",
+            "ja" : "\u003Cp>文字参照や実体参照は要素や属性値の中でしか使えません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "There is a reference outside of the root element",
+            "ja" : "根要素の外に参照があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 0,
+               "input" : "&amp;",
+               "lang" : "XML",
+               "value" : "&amp;"
+            },
+            {
+               "index" : 4,
+               "input" : "\u003Ca/>&hoge;",
+               "lang" : "XML",
+               "value" : "&hoge;"
+            }
+         ]
+      },
+      "stop processing" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Since there is a reference whose entity cannot be read and\u000Aprocessed, further processing of markup declarations in the DTD is\u000Asuppressed.\u003C/p>",
+            "ja" : "\u003Cp>参照されている実体を読んで処理できなかったため、以後の DTD\u000A中のマーク付け宣言の処理は行いません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "Processing of markup declarations is suppressed due to unread\u000Aentity reference",
+            "ja" : "読めない実体参照があったためマーク付け宣言の処理を停止します"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 45,
+               "input" : "\u003C!DOCTYPE hoge[\u000A  \u003C!ENTITY % x SYSTEM \u0022f\u0022>\u000A  %x;\u000A  \u003C!ENTITY hoge \u0022\u0022>\u000A]>\u003Choge/>",
+               "lang" : "XML",
+               "level" : "i"
+            },
+            {
+               "index" : 18,
+               "input" : "\u003C!DOCTYPE hoge[\u000A  %x;\u000A  \u003C!ENTITY hoge \u0022\u0022>\u000A]>\u003Choge/>",
+               "lang" : "XML",
+               "level" : "i"
             }
          ]
       },
@@ -2452,285 +3269,359 @@
             {
                "index" : 15,
                "input" : "\u003C!DOCTYPE html>\u003C/hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE html>\u003Chtml>\u003C/hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE html>\u003C/head>\u003C/hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "context" : "html",
                "index" : 22,
                "input" : "\u003C!DOCTYPE html>\u003C/body>\u003C/html>",
+               "lang" : "HTML",
                "value" : "html"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/div>",
+               "lang" : "HTML",
                "value" : "div"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/object>",
+               "lang" : "HTML",
                "value" : "object"
             },
             {
                "context" : "body",
                "index" : 0,
                "input" : "\u003C/body>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/dt>",
+               "lang" : "HTML",
                "value" : "dt"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/form>",
+               "lang" : "HTML",
                "value" : "form"
             },
             {
                "index" : 35,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003Ctemplate>\u003Cbr>\u003C/form>",
+               "lang" : "HTML",
                "value" : "form"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/h4>",
+               "lang" : "HTML",
                "value" : "h4"
             },
             {
                "context" : "body",
                "index" : 0,
                "input" : "\u003C/html>",
+               "lang" : "HTML",
                "value" : "html"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Cbody>\u003C/li>",
+               "lang" : "HTML",
                "value" : "li"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/html>",
+               "lang" : "HTML",
                "value" : "html"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/body>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/thead>",
+               "lang" : "HTML",
                "value" : "thead"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/tbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/tfoot>",
+               "lang" : "HTML",
                "value" : "tfoot"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccaption>\u003C/col>",
+               "lang" : "HTML",
                "value" : "col"
             },
             {
                "context" : "caption",
                "index" : 0,
                "input" : "\u003C/caption>",
+               "lang" : "HTML",
                "value" : "caption"
             },
             {
                "context" : "caption",
                "index" : 0,
                "input" : "\u003C/table>",
+               "lang" : "HTML",
                "value" : "table"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/col>",
+               "lang" : "HTML",
                "value" : "col"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/body>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/html>",
+               "lang" : "HTML",
                "value" : "html"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/colgroup>",
+               "lang" : "HTML",
                "value" : "colgroup"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/caption>",
+               "lang" : "HTML",
                "value" : "caption"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/thead>",
+               "lang" : "HTML",
                "value" : "thead"
             },
             {
                "context" : "tr",
                "index" : 4,
                "input" : "\u003Ctd>\u003C/tbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             },
             {
                "context" : "td",
                "index" : 0,
                "input" : "\u003C/table>",
+               "lang" : "HTML",
                "value" : "table"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Ctd>\u003C/th>",
+               "lang" : "HTML",
                "value" : "th"
             },
             {
                "index" : 30,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003Cth>\u003C/td>",
+               "lang" : "HTML",
                "value" : "td"
             },
             {
                "index" : 32,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ccolgroup>\u003C/col>",
+               "lang" : "HTML",
                "value" : "col"
             },
             {
                "context" : "colgroup",
                "index" : 0,
                "input" : "\u003C/colgroup>",
+               "lang" : "HTML",
                "value" : "colgroup"
             },
             {
                "context" : "frameset",
                "index" : 0,
                "input" : "\u003C/frameset>",
+               "lang" : "HTML",
                "value" : "frameset"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C/hoge>",
+               "lang" : "HTML",
                "value" : "hoge"
             },
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003C/template>",
+               "lang" : "HTML",
                "value" : "template"
             },
             {
                "index" : 31,
                "input" : "\u003C!DOCTYPE HTML>\u003Chead>\u003Cnoscript>\u003C/hoge>",
+               "lang" : "HTML",
                "noscript" : 1,
                "value" : "hoge"
             },
             {
                "index" : 26,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctr>\u003C/body>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "context" : "tr",
                "index" : 0,
                "input" : "\u003C/table>",
+               "lang" : "HTML",
                "value" : "table"
             },
             {
                "context" : "tr",
                "index" : 0,
                "input" : "\u003C/tbody>",
+               "lang" : "HTML",
                "value" : "tbody"
             },
             {
                "context" : "tbody",
                "index" : 0,
                "input" : "\u003C/table>",
+               "lang" : "HTML",
                "value" : "table"
             },
             {
                "context" : "tr",
                "index" : 0,
                "input" : "\u003C/table>",
+               "lang" : "HTML",
                "value" : "table"
             },
             {
                "context" : "select",
                "index" : 0,
                "input" : "\u003C/select>",
+               "lang" : "HTML",
                "value" : "select"
             },
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C/option>",
+               "lang" : "HTML",
                "value" : "option"
             },
             {
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003C/optgroup>",
+               "lang" : "HTML",
                "value" : "optgroup"
             },
             {
                "index" : 29,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Ctbody>\u003C/body>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "context" : "tbody",
                "index" : 0,
                "input" : "\u003C/thead>",
+               "lang" : "HTML",
                "value" : "thead"
             },
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003C/body>",
+               "lang" : "HTML",
                "value" : "body"
             },
             {
                "context" : "table",
                "index" : 0,
                "input" : "\u003C/table>",
+               "lang" : "HTML",
                "value" : "table"
             },
             {
                "index" : 25,
                "input" : "\u003C!DOCTYPE HTML>\u003Ctemplate>\u003C/fpopo>",
+               "lang" : "HTML",
                "value" : "fpopo"
             },
             {
                "context" : "template",
                "index" : 6,
                "input" : "\u003Clink>\u003C/template>",
+               "lang" : "HTML",
                "value" : "template"
             }
          ],
          "value" : [
             "token",
             "tag name"
+         ]
+      },
+      "string in internal subset" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Nothing ohter than declarations, comments, and processing\u000Ainstructions can be used in the internal subset.\u003C/p>",
+            "ja" : "\u003Cp>内部部分集合では宣言、注釈、処理指令しか使えません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unexpected string in the internal subset",
+            "ja" : "内部部分集合に予期せぬ文字列があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 13,
+               "input" : "\u003C!DOCTYPE a[\u000A]]>\u000A]>\u003Ca/>",
+               "lang" : "XML"
+            }
          ]
       },
       "tag not closed" : {
@@ -2757,23 +3648,296 @@
          "parser_tests" : [
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE html>\u003Cp foo \u003Cbar>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo \u003Cbar>",
+               "lang" : "HTML"
             },
             {
                "index" : 21,
-               "input" : "\u003C!DOCTYPE html>\u003Cp foo\u003Cbar>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp foo\u003Cbar>",
+               "lang" : "HTML"
             },
             {
                "index" : 18,
-               "input" : "\u003C!DOCTYPE html>\u003Cp \u003Cbar>"
+               "input" : "\u003C!DOCTYPE html>\u003Cp \u003Cbar>",
+               "lang" : "HTML"
             },
             {
                "index" : 22,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=\u003Cbar>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=\u003Cbar>",
+               "lang" : "HTML"
             },
             {
                "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=a\u003Cbar>"
+               "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=a\u003Cbar>",
+               "lang" : "HTML"
+            }
+         ]
+      },
+      "unclosed cmgroup" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Content model groups must be closed by \u003Ccode>)\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>内容モデル群は \u003Ccode>)\u003C/code> で閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unclosed content model group",
+            "ja" : "内容モデル群が括弧で閉じられていません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "unclosed literal" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The quoted string must be closed by matching quotation mark.\u003C/p>",
+            "ja" : "\u003Cp>引用符で始まった文字列は引用符で閉じなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unclosed literal",
+            "ja" : "引用符の後引用符で閉じられていません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "unknown declared type" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The declared type must be one of allowed keywords.\u003C/p>",
+            "ja" : "\u003Cp>宣言型は認められているキーワードのいずれかを指定しなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "An unknown declared type keyword is specified",
+            "ja" : "未知の宣言型キーワードが指定されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ATTLIST  f  abc hoge \u0022\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "hoge"
+            }
+         ]
+      },
+      "unknown default type" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The default type must be one of allowed keywords.\u003C/p>",
+            "ja" : "\u003Cp>既定型は認められているキーワードのいずれかを指定しなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "An unknown default type keyword is specified",
+            "ja" : "未知の既定型キーワードが指定されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 29,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ATTLIST  f  abc hoge #hog>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "hog"
+            }
+         ]
+      },
+      "unmatched mgc" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be \u003Ccode>(\u003C/code> before \u003Ccode>)\u003C/code> in the\u000Asame entity.\u003C/p>",
+            "ja" : "同じ実体で \u003Ccode>(\u003C/code> よりも後でないと \u003Ccode>)\u003C/code> \u000Aは使えません。"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "There is an unmatched \u003Ccode>)\u003C/code>",
+            "ja" : "対応しない \u003Ccode>)\u003C/code> があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "unparsed entity" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An unparsed entity cannot be referenced.\u003C/p>",
+            "ja" : "\u003Cp>非解析対象実体は参照できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "An unparsed entity is referenced",
+            "ja" : "非解析対象実体が参照されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 54,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ENTITY xy SYSTEM \u0022x\u0022 NDATA foo>\u000A]>\u003Cp>&xy;\u003C/p>",
+               "lang" : "XML",
+               "value" : "&xy;"
+            }
+         ]
+      },
+      "xml:dtd:attlist ignored" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>\u003Ccode>ATTLIST\u003C/code> declarations are ignored if there is\u000Aan unread entity reference before the declaration.\u003C/p>",
+            "ja" : "\u003Ccode>ATTLIST\u003C/code> 宣言はその前に読んでいない実体参照があると無視されます。"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>ATTLIST\u003C/code> declaration is ignored",
+            "ja" : "この \u003Ccode>ATTLIST\u003C/code> 宣言は無視されます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 21,
+               "input" : "\u003C!DOCTYPE a[\u000A%foo;\u000A  \u003C!ATTLIST hoge>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w"
+            }
+         ]
+      },
+      "xml:dtd:entity ignored" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An \u003Ccode>ENTITY\u003C/code> declaration is ignored if there\u000Ais an unread entity reference before the declaration.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ENTITY\u003C/code> 宣言は、その前に読んでいない実体参照があると無視されます。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "The \u003Ccode>ENTITY\u003C/code> declaration is ignored",
+            "ja" : "この \u003Ccode>ENTITY\u003C/code> 宣言は無視されます"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE a [\u000A  %foo;\u000A  \u003C!ENTITY hoge \u0022\u0022>\u000A]>\u003Ca/>",
+               "lang" : "XML",
+               "level" : "w"
+            }
+         ]
+      },
+      "xml:dtd:entity value:unparsed entref" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An unparsed entity cannot be referenced.\u003C/p>",
+            "ja" : "\u003Cp>非解析対象実体は参照できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "An unparsed entity is referenced",
+            "ja" : "非解析対象実体が参照されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 66,
+               "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ENTITY xy SYSTEM \u0022x\u0022 NDATA foo>\u000A  \u003C!ENTITY bar \u0022a&xy;a\u0022>\u000A]>\u003Cp>\u003C/p>",
+               "lang" : "XML",
+               "level" : "w",
+               "value" : "&xy;"
+            }
+         ]
+      },
+      "xml:dtd:ext decl" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Markup declarations in external entities are not interoperable.\u003C/p>",
+            "ja" : "\u003Cp>外部実体にあるマーク付け宣言は相互運用性が高くありません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a markup declaration in an external entity",
+            "ja" : "外部実体にマーク付け宣言があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         }
+      },
+      "xml:dtd:param entity with ndata" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The notation name cannot be specified in a parameter entity declaration.\u003C/p>",
+            "ja" : "\u003Cp>引数実体宣言には記法名を指定できません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The notation name is specified for a parameter entity",
+            "ja" : "引数実体に記法名が指定されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 12,
+               "input" : "\u003C!DOCTYPE a[\u003C!ENTITY % foo SYSTEM \u0022bar\u0022 NDATA x>]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "%foo;"
+            }
+         ]
+      },
+      "xml:dtd:pi" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Processing instructions in DTD are not interoperable.\u003C/p>",
+            "ja" : "\u003Cp>DTD 内の処理指令は相互運用性が高くありません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a processing instruction in DTD",
+            "ja" : "DTD 中に処理指令があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 15,
+               "input" : "\u003C!DOCTYPE foo [\u003C?hoge?>]>\u003Cfoo/>",
+               "lang" : "XML",
+               "level" : "w"
+            }
+         ]
+      },
+      "xml:dtd:unknown content keyword" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The content model keyword in an \u003Ccode>ELEMENT\u003C/code> declaration\u000Amust be \u003Ccode>EMPTY\u003C/code> or \u003Ccode>ANY\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ELEMENT\u003C/code> 宣言の内容モデルのキーワードは\u000A\u003Ccode>EMPTY\u003C/code> か \u003Ccode>ANY\u003C/code> でなければいけません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "An unknown content model keyword is specified",
+            "ja" : "未知の内容モデルのキーワードが指定されています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 12,
+               "input" : "\u003C!DOCTYPE a[\u003C!ELEMENT a foo>]>\u003Ca/>",
+               "lang" : "XML",
+               "value" : "foo"
             }
          ]
       }

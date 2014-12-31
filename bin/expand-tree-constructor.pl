@@ -5,6 +5,8 @@ use warnings FATAL => 'recursion';
 use JSON::PS;
 use Path::Tiny;
 
+my $LANG = $ENV{PARSER_LANG} || 'HTML';
+
 my $Data = do {
   local $/ = undef;
   my $data = json_bytes2perl scalar <>;
@@ -104,6 +106,7 @@ for my $step_name (keys %{$Data->{tree_steps}}) {
   } $Data->{tree_steps}->{$step_name}->{actions};
 }
 
+# XXX HTML only
 ## For invoking the steps to reset the form owner
 for my $cat ('form-associated element', 'category-form-attr') {
   my @el;
@@ -147,7 +150,7 @@ for my $im (keys %{$Data->{ims}}) {
   for my $cond (keys %{$Data->{ims}->{$im}->{conds}}) {
     if ($cond =~ /^(START|END):(.+)$/) {
       $Data->{tag_name_groups}->{$2} = 1;
-    } elsif ($cond =~ /^(?:COMMENT|EOF|DOCTYPE|CHAR:0000|CHAR:WS|CHAR-ELSE|START-ELSE|END-ELSE|ELSE)$/) {
+    } elsif ($cond =~ /^(?:COMMENT|EOF|DOCTYPE|CHAR:0000|CHAR:WS|CHAR-ELSE|START-ELSE|END-ELSE|PI|PI:xml|ELEMENT|ATTLIST|ENTITY|NOTATION|EOD|ELSE)$/) {
       #
     } else {
       die "Unknown cond |$cond|";
@@ -191,7 +194,8 @@ for my $im (keys %{$Data->{ims}}) {
 
 my $tag_name_to_group = {};
 {
-  my @cond = ($Data->{dispatcher_html});
+  my @cond;
+  push @cond, $Data->{dispatcher_html} if defined $Data->{dispatcher_html};
   while (@cond) {
     my $cond = shift @cond;
     if ($cond->[0] eq 'token tag_name') {
@@ -251,7 +255,8 @@ my $tag_name_to_group = {};
     #}
 
     for ('CHAR-ELSE', 'START-ELSE', 'END-ELSE',
-         'DOCTYPE', 'COMMENT', 'EOF') { # XXXxml
+         'DOCTYPE', 'COMMENT', 'EOF',
+         ($LANG eq 'XML' ? ('PI', 'ELEMENT', 'ATTLIST', 'ENTITY', 'NOTATION', 'EOD') : ())) {
       $Data->{ims}->{$im}->{conds}->{$_}
           ||= {%{$Data->{ims}->{$im}->{conds}->{ELSE} or {}}};
     }
@@ -291,12 +296,19 @@ my $tag_name_to_group = {};
         if (defined $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'} and
             defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'} and
             not defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'}) {
+          my $ws_or_error = 1;
           for (@{$Data->{ims}->{$im}->{conds}->{'CHAR:WS'}->{actions}}) {
-            unless ({
-              'reconstruct the active formatting elements' => 1,
-              'insert a character' => 1,
+            if ({
               'ignore the token' => 1,
             }->{$_->{type}}) {
+              #
+            } elsif ({
+              'reconstruct the active formatting elements' => 1,
+              'insert a character' => 1,
+            }->{$_->{type}}) {
+              $ws_or_error = 0;
+            } else {
+              $ws_or_error = 0;
               last WS_PREFIX_ELSE_SWITCH;
             }
           }
@@ -304,6 +316,10 @@ my $tag_name_to_group = {};
           for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}) {
             if ({
               'parse error' => 1,
+              'ignore the token' => 1,
+            }->{$_->{type}}) {
+              #
+            } elsif ({
               'create an HTML element' => 1,
               'insert an HTML element' => 1,
               'set-head-element-pointer' => 1,
@@ -312,10 +328,11 @@ my $tag_name_to_group = {};
               'pop-oe' => 1,
               'appcache-processing' => 1,
             }->{$_->{type}}) {
-              #
+              $ws_or_error = 0;
             } elsif ($_->{type} eq 'switch the insertion mode' and
                      not ref $_->{im}) {
               $next_im = $_->{im};
+              $ws_or_error = 0;
             } elsif ($_->{type} eq 'if') {
               for (@{$_->{actions}}, @{$_->{false_actions} or []}) {
                 if ({
@@ -327,12 +344,29 @@ my $tag_name_to_group = {};
                   last WS_PREFIX_ELSE_SWITCH;
                 }
               }
+              $ws_or_error = 0;
             } elsif ($_->{type} eq 'reprocess the token' and 1 == keys %$_) {
-              #
+              $ws_or_error = 0;
             } else {
+              warn "Can't merge |CHAR| rules because of |$_->{type}|.\n";
+              $ws_or_error = 0;
               last WS_PREFIX_ELSE_SWITCH;
             }
           }
+
+          if ($ws_or_error) {
+            ## Note that this can change the number of parse errors
+            ## reported.
+            $ims->{$im}->{conds}->{TEXT}->{actions}
+                = [{type => 'text-with-optional-ws-prefix',
+                    ws_actions => [],
+                    actions => [@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}]}];
+            
+            delete $ims->{$im}->{conds}->{'CHAR:WS'};
+            delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+            last MERGE;
+          }
+
           last WS_PREFIX_ELSE_SWITCH
               if not defined $next_im or
                  not $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[-1]->{type} eq 'reprocess the token';
@@ -498,6 +532,27 @@ my $tag_name_to_group = {};
         $ims->{$im}->{conds}->{TEXT} = delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
         last MERGE;
       } # TABLE
+
+      ELSEONLY: {
+        last ELSEONLY if defined $Data->{ims}->{$im}->{conds}->{'CHAR:0000'};
+        last ELSEONLY if defined $Data->{ims}->{$im}->{conds}->{'CHAR:WS'};
+        last ELSEONLY unless
+            @{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}} and
+            $Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}->[-1]->{type} eq 'reprocess the token';
+        for (@{$Data->{ims}->{$im}->{conds}->{'CHAR-ELSE'}->{actions}}) {
+          unless ({
+            'the XML declaration is missing' => 1,
+            'switch the insertion mode' => 1,
+            'reprocess the token' => 1,
+            'construct the DOCTYPE node, if necessary' => 1,
+          }->{$_->{type}}) {
+            last ELSEONLY;
+          }
+        }
+
+        $ims->{$im}->{conds}->{TEXT} = delete $ims->{$im}->{conds}->{'CHAR-ELSE'};
+        last MERGE;
+      } # ELSEONLY
     } # MERGE
   }
 
@@ -571,7 +626,8 @@ my $tag_name_to_group = {};
   $Data->{ims} = $ims;
 }
 
-for my $token_type (qw(COMMENT DOCTYPE EOF)) { # XXXxml
+for my $token_type (qw(COMMENT DOCTYPE EOF),
+                    ($LANG eq 'XML' ? ('PI', 'ELEMENT', 'ATTLIST', 'ENTITY', 'NOTATION', 'EOD') : ())) {
   {
     my $changed = 0;
     for my $im (keys %{$Data->{ims}}) {
@@ -1188,7 +1244,7 @@ for my $im (keys %{$Data->{ims}}) {
   }
 
   my @cond;
-  push @cond, [$Data->{dispatcher_html}, undef];
+  push @cond, [$Data->{dispatcher_html}, undef] if defined $Data->{dispatcher_html};
   for my $im (keys %{$Data->{ims}}) {
     for my $token_type (keys %{$Data->{ims}->{$im}->{conds}}) {
       $Data->{ims}->{$im}->{conds}->{$token_type}->{actions} = for_actions {
@@ -1323,7 +1379,8 @@ for my $im (keys %{$Data->{ims}}) {
 
   {
     my %found;
-    my @tn = grep { not $found{$_}++ } @same_tag_name;
+    my @tn = grep { not $found{$_}++ } @same_tag_name,
+        'HTML:template'; ## Used by HTML and XML tree builder
     $Data->{element_matching}->{element_types} = [sort { $a cmp $b } grep { not /:\*$/ } @tn];
     push @{$Data->{element_matching}->{element_groups}}, grep { /:\*$/ } @tn;
   }
@@ -1433,6 +1490,8 @@ for my $im (keys %{$Data->{ims}}) {
             }
           } elsif ($act->{type} eq 'insert a foreign element') {
             $foreign = 1;
+          } elsif ($act->{type} eq 'create an XML element') {
+            $foreign = 1;
           } elsif ($act->{type} eq "acknowledge the token's self-closing flag") {
             push @ack, $act;
           }
@@ -1451,6 +1510,8 @@ for my $im (keys %{$Data->{ims}}) {
                   not defined $act->{local_name}) {
             $act->{possible_local_names}->{ELSE} = {};
           } elsif ($act->{type} eq 'insert a foreign element') {
+            $foreign = 1;
+          } elsif ($act->{type} eq 'create an XML element') {
             $foreign = 1;
           } elsif ($act->{type} eq "acknowledge the token's self-closing flag") {
             push @ack, $act;

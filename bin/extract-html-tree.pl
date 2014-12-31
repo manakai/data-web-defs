@@ -116,7 +116,7 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $3), (parse_step $f)];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), (?:then |)($SENTENCE)[;:] ($SENTENCE), (?:and(?: then|)|then) ($SENTENCE)$/o) {
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), (?:then |)($SENTENCE)[;:] ($SENTENCE)[,;] (?:and(?: then|)|then) ($SENTENCE)$/o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
       my $f = $4;
@@ -124,7 +124,7 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $3), (parse_step $f), (parse_step $i)];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), then(?: run these substeps|)(?: instead|):$/o) {
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), then(?: run these (?:sub|)steps|)(?: instead|):$/o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
       $_->{RUN_NEXT} = 1;
@@ -288,7 +288,7 @@ while (@node) {
     my $ln = $node->local_name;
     if ($ln =~ /^h[1-6]$/ or $ln eq 'dt') {
       my $tc = _n $node->text_content;
-      if ($tc =~ /^[0-9.]+ The "(.+)" insertion mode$/) {
+      if ($tc =~ /^(?:[0-9.]+ |)The "(.+)" insertion mode$/) {
         $im_name = _n $1;
         $Data->{ims}->{$im_name} ||= {};
       } elsif ($tc =~ /^[0-9.]+ The rules for parsing tokens in foreign content$/) {
@@ -366,7 +366,7 @@ while (@node) {
               my @s;
               push @s, $1 while $s =~ /([a-z0-9_.-]+)/g;
               $cond .= join ' ', sort { $a cmp $b } grep { not $_ eq 'or' } @s;
-            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]+)"$/) {
+            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]*)"$/) {
               $cond = (uc $1) . ':' . $2;
             } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]+)", if the token has any attributes named ("[^"]+"(?:(?:, |,? or )"[^"]+")*)$/) {
               $cond = (uc $1) . '-ATTR:' . $2;
@@ -386,9 +386,9 @@ while (@node) {
               my @s;
               push @s, $1 while $s =~ /"([^"]+)"/g;
               $cond = (uc $token) . ':' . join ' ', sort { $a cmp $b } @s;
-            } elsif ($cond eq 'Any other start tag') {
+            } elsif ($cond eq 'Any other start tag' or $cond eq 'A start tag') {
               $cond = 'START-ELSE';
-            } elsif ($cond eq 'Any other end tag') {
+            } elsif ($cond eq 'Any other end tag' or $cond eq 'An end tag') {
               $cond = 'END-ELSE';
             } elsif ($cond eq 'A character token') {
               $cond = 'CHAR-ELSE';
@@ -398,8 +398,14 @@ while (@node) {
               $cond = 'ELSE';
             } elsif ($cond eq 'An end-of-file token') {
               $cond = 'EOF';
-            } elsif ($cond =~ /^A (DOCTYPE|comment) token$/) {
+            } elsif ($cond =~ /^An? (DOCTYPE|comment|ENTITY|ELEMENT|ATTLIST|NOTATION) token$/) {
               $cond = uc $1;
+            } elsif ($cond eq 'An end-of-DOCTYPE token') {
+              $cond = 'EOD';
+            } elsif ($cond eq 'A processing instruction token') {
+              $cond = 'PI';
+            } elsif ($cond =~ /^A processing instruction token whose target is "([^"]+)"$/) {
+              $cond = 'PI:' . $1;
             } else {
               $cond = 'MISC:' . $cond;
             }
@@ -816,6 +822,20 @@ $DescIsType->{$_} = 1 for
   'stop parsing',
   'take a deep breath',
   'add the attribute and its corresponding value to that element',
+  'appcache-processing',
+
+  'create an XML element',
+  'insert a processing instruction',
+  'insert a DOCTYPE',
+  'process an XML declaration',
+  'process an ELEMENT token',
+  'process an ATTLIST token',
+  'process an ENTITY token',
+  'process a NOTATION token',
+  'process the external subset',
+  'set the stop processing flag',
+  'the XML declaration is missing',
+  'construct the DOCTYPE node, if necessary',
   ;
 my $NormalizeDesc = {};
 $NormalizeDesc->{$_->[0]} = $_->[1] for
@@ -839,6 +859,9 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
     ['change the encoding to the resulting encoding' => 'change the encoding'],
 
     ['the algorithm must be passed the Document object' => ''],
+
+    ['create an XML element for the token' => 'create an XML element'],
+    ['run the application cache selection algorithm, if necessary' => 'appcache-processing'],
     ;
 
 my $DescPatterns = [
@@ -871,6 +894,7 @@ my $DescPatterns = [
   [qr/append (.+?) to (.+)/, 'APPEND', 'ITEM', 'LIST'],
   [qr/insert (.+?) at the end of (.+)/, 'APPEND', 'ITEM', 'LIST'],
   [qr/insert a comment as (.+)/, 'insert a comment', 'AS'],
+  [qr/insert a processing instruction as (.+)/, 'insert a processing instruction', 'AS'],
   [qr/insert a (.+) character/, 'insert a character', 'CHAR'],
   [qr/insert the characters given by (.+)/, 'insert a character', 'CHAR'],
   [qr/insert (?:more |)characters \((see below for what they should say)\)/,
@@ -984,6 +1008,14 @@ sub parse_cond ($) {
     $cond = ['node', 'is', {category => 'special'}];
   } elsif ($COND =~ /^node is in the special category, but is not an address, div, or p element$/) {
     $cond = ['node', 'is', {category => 'special', except => ['address', 'div', 'p']}];
+  } elsif ($COND =~ /^node is the topmost node of the stack of open elements$/) { # xml
+    $cond = ['node', 'is', 'oe[0]'];
+  } elsif ($COND =~ /^node is the topmost element in the stack of open elements$/) { # html
+    $cond = ['node', 'is', {ns => 'HTML', name => 'html'}];
+  } elsif ($COND =~ /^the parser was originally created as part of the XML fragment parsing algorithm and node is the topmost node of the stack of open elements$/) {
+    $cond = ['and', ['fragment'], ['node', 'is', 'oe[0]']];
+  } elsif ($COND =~ /^the stack of open elements contains more than one element$/) {
+    $cond = ['oe', '> 1'];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element$/) {
     $cond = ['oe', 'not in scope', 'all', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^there is an? ([\w-]+) element on the stack of open elements$/) {
@@ -1023,14 +1055,18 @@ sub parse_cond ($) {
       ['oe', 'not in scope', 'all', {ns => 'HTML', name => 'template'}],
       ['form element pointer', 'is not null'],
     ];
-  } elsif ($COND =~ /^node is the topmost element in the stack of open elements$/) {
-    $cond = ['node', 'is', {ns => 'HTML', name => 'html'}];
   } elsif ($COND =~ /^the form element pointer is not null$/) {
     $cond = ['form element pointer', 'is not null'];
-  } elsif ($COND =~ /^the token has its self-closing flag set$/) {
-    $cond = ['token', 'has', 'self-closing flag'];
+  } elsif ($COND =~ /^the token has its (self-closing flag|has internal subset flag) set$/) {
+    $cond = ['token', 'has', $1];
+  } elsif ($COND =~ /^the (public identifier|system identifier) of the token is not empty$/) {
+    $cond = ['token', 'non-empty', $1];
   } elsif ($COND =~ /^If the token's tag name is "([^"]+)"$/) {
     $cond = ['token tag_name', 'is', $1];
+  } elsif ($COND =~ /^the current token's target is "([^"]+)"$/) {
+    $cond = ['token target', 'is', $1];
+  } elsif ($COND =~ /^the DOCTYPE system identifier is not empty$/) {
+    $cond = ['DOCTYPE system identifier', 'non-empty'];
   } elsif ($COND =~ /^the list of active formatting elements contains an? ([\w-]+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
     $cond = ['afe', 'in scope', 'marker', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
@@ -1041,9 +1077,9 @@ sub parse_cond ($) {
     $cond = ['NEXT_IS_LF_TOKEN'];
   } elsif ($COND =~ /^the document is not an iframe srcdoc document$/) {
     $cond = ['not iframe srcdoc document'];
-  } elsif ($COND =~ /^the parser was originally created (?:for|as part of) the HTML fragment parsing algorithm$/) {
+  } elsif ($COND =~ /^the parser was originally created (?:for|as part of) the (?:HTML|XML) fragment parsing algorithm$/) {
     $cond = ['fragment'];
-  } elsif ($COND =~ /^the parser was not originally created as part of the HTML fragment parsing algorithm \(fragment case\)$/) {
+  } elsif ($COND =~ /^the parser was not originally created as part of the (?:HTML|XML) fragment parsing algorithm(?: \(fragment case\)|)$/) {
     $cond = ['not fragment'];
   } elsif ($COND =~ /^the Document is being loaded as part of navigation of a browsing context$/) {
     $cond = ['navigate'];
@@ -1059,6 +1095,8 @@ sub parse_cond ($) {
     $cond = ['pending parsing-blocking script'];
   } elsif ($COND =~ /^the stack of open elements is empty$/) {
     $cond = ['oe', 'is empty'];
+  } elsif ($COND =~ /^the stack of open elements is not empty$/) {
+    $cond = ['oe', 'is not empty'];
   } elsif ($COND =~ /^the stack of script settings objects is empty$/) {
     $cond = ['stack of script settings objects', 'is empty'];
   } elsif ($COND =~ /^the token does not have an attribute with the name "type", or if it does, but that attribute's value is not an ASCII case-insensitive match for the string "hidden"$/) {
@@ -1080,6 +1118,8 @@ sub parse_cond ($) {
     $cond = ['and', ['token', 'is a', 'START'], ['token tag_name', 'is not', [$1, $2]]];
   } elsif ($COND =~ /^the token is a start tag whose tag name is "([^"]+)"$/) {
     $cond = ['and', ['token', 'is a', 'START'], ['token tag_name', 'is', [$1]]];
+  } elsif ($COND =~ /^node is an element whose tag name is tag name$/) {
+    $cond = ['node', 'is', {tag_name => 1}];
   }
 
   #warn $COND if not defined $cond;
@@ -1392,6 +1432,11 @@ sub process_actions ($$) {
         $act->{value} = 'quirks';
         delete $act->{TARGET};
         delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "the DOCTYPE system identifier" and
+               $act->{VALUE} eq "the system identifier of the token") {
+        $act->{type} = 'set-DOCTYPE-system-identifier';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
       } else {
         #warn $act->{TARGET};
       }
@@ -1446,6 +1491,10 @@ sub process_actions ($$) {
         $act->{item} = 'DocumentType';
         delete $act->{LIST};
         delete $act->{ITEM};
+      } elsif ($act->{ITEM} eq 'the newly created element') {
+        $act->{type} = 'append-to-current';
+        delete $act->{LIST};
+        delete $act->{ITEM};
       } elsif ($act->{LIST} eq 'the list of active formatting elements' and
                $act->{ITEM} eq 'a marker') {
         $act->{type} = 'append-marker-to-afe';
@@ -1465,18 +1514,22 @@ sub process_actions ($$) {
       delete $act->{TARGET};
     } # INCREMENT/DECREMENT
 
-    if ($act->{type} eq 'insert a comment' and
-        defined $act->{AS}) {
-      if ($act->{AS} eq 'the last child of the Document object') {
-        $act->{position} = 'document';
-        delete $act->{AS};
-      } elsif ($act->{AS} eq 'the last child of the first element in the stack of open elements (the html element)') {
-        $act->{position} = 'oe[0]';
-        delete $act->{AS};
-      } else {
-        warn $act->{AS};
+    for my $type ('insert a comment', 'insert a processing instruction') {
+      if ($act->{type} eq $type and defined $act->{AS}) {
+        if ($act->{AS} eq 'the last child of the Document object') {
+          $act->{position} = 'document';
+          delete $act->{AS};
+        } elsif ($act->{AS} eq 'the last child of the DocumentType object') {
+          $act->{position} = 'doctype';
+          delete $act->{AS};
+        } elsif ($act->{AS} eq 'the last child of the first element in the stack of open elements (the html element)') {
+          $act->{position} = 'oe[0]';
+          delete $act->{AS};
+        } else {
+          warn $act->{AS};
+        }
       }
-    } # insert a comment
+    }
 
     if ($act->{type} eq 'insert a character' and
         defined $act->{CHAR}) {
@@ -1572,6 +1625,11 @@ sub process_actions ($$) {
         } elsif ($act->{COND} =~ /^an HTML element with the same tag name as the token has been popped from the stack$/) {
           $act->{type} = 'pop-oe';
           $act->{until} = {ns => 'HTML', same_tag_name_as_token => 1};
+          delete $act->{actions};
+          delete $act->{COND};
+        } elsif ($act->{COND} =~ /^an element with the same tag name as the token has been popped from the stack$/) { # xml
+          $act->{type} = 'pop-oe';
+          $act->{until} = {same_tag_name_as_token => 1};
           delete $act->{actions};
           delete $act->{COND};
         } elsif ($act->{COND} =~ /^an HTML element whose tag name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the stack$/) {
@@ -2041,8 +2099,8 @@ for my $im (keys %{$Data->{ims}}) {
 }
 
 for my $def (
-  $Data->{ims}->{text}->{conds}->{'END:script'},
-  $Data->{ims}->{'in foreign content'}->{conds}->{'END:script'}->{actions}->[0],
+  (($Data->{ims}->{text} or {})->{conds}->{'END:script'} or {}),
+  (($Data->{ims}->{'in foreign content'} or {})->{conds}->{'END:script'} or {})->{actions}->[0],
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -2093,7 +2151,7 @@ for my $def (
 }
 
 for my $def (
-  $Data->{ims}->{'in head'}->{conds}->{'START:meta'},
+  (($Data->{ims}->{'in head'} or {})->{conds}->{'START:meta'} or {}),
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -2115,7 +2173,7 @@ for my $def (
 
 my @doctype_switch_def;
 for my $def (
-  $Data->{ims}->{'initial'}->{conds}->{'DOCTYPE'},
+  (($Data->{ims}->{'initial'} or {})->{conds}->{'DOCTYPE'} || {}),
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
@@ -2196,7 +2254,7 @@ if (@doctype_switch_def == 3) {
     }
   }
 } else {
-  die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
+  #die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
 }
 
 for my $im (keys %{$Data->{ims}}) {
@@ -2205,9 +2263,10 @@ for my $im (keys %{$Data->{ims}}) {
     while (@def) {
       my $def = shift @def;
       for my $key (qw(actions false_actions between_actions)) {
-        my $acts = $def->{$key} or next;
+        my $acts = [@{$def->{$key} or next}];
         my $new_acts = [];
-        for my $act (@$acts) {
+        while (@$acts) {
+          my $act = shift @$acts;
           if ($act->{type} eq 'SAME-AS') {
             if ($act->{FIELD} eq 'anything else') {
               my $else = $Data->{ims}->{$im}->{conds}->{ELSE}
@@ -2243,6 +2302,19 @@ for my $im (keys %{$Data->{ims}}) {
             } else {
               warn $act->{FIELD};
             }
+          } elsif ($act->{type} eq 'SET' and
+                   $act->{TARGET} eq 'tag name' and
+                   $act->{VALUE} eq 'the tag name of the token' and
+                   @$acts and
+                   $acts->[0]->{type} eq 'IF' and
+                   $acts->[0]->{COND} eq "tag name is the empty string" and
+                   @{$acts->[0]->{actions}} == 1 and
+                   $acts->[0]->{actions}->[0]->{type} eq 'SET' and
+                   $acts->[0]->{actions}->[0]->{TARGET} eq 'tag name' and
+                   $acts->[0]->{actions}->[0]->{VALUE} eq "the tag name of the current node") {
+            push @$new_acts, {type => 'set-end-tag-name'};
+            shift @$acts;
+            next;
           }
           if (defined $act->{actions} or
               defined $act->{false_actions} or

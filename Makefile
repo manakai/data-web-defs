@@ -302,10 +302,12 @@ data/js-lexical.json: bin/js-lexical.pl
 all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-syntax.json data/xhtml-charrefs.dtd data/xml-syntax.json \
     data/html-tokenizer-expanded.json \
+    data/xml-tokenizer-expanded.json \
     data/html-charrefs.json data/browsers.json data/rdf.json \
     data/xml-datatypes.json data/xpath.json data/webidl.json \
     data/html-tree-constructor-expanded.json \
     data/html-tree-constructor-expanded-no-isindex.json \
+    data/xml-tree-constructor-expanded.json \
     intermediate/errors/parser-errors.json data/errors.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
@@ -375,19 +377,39 @@ data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
     local/html-tree.json
 	$(PERL) bin/html-syntax.pl > $@
 	!(grep '"misc"' $@ > /dev/null)
-data/xml-syntax.json: bin/xml-syntax.pl local/xml-tokenizer.json
+	!(grep '"UNPARSED"' $@ > /dev/null)
+	!(grep '"COND"' $@ > /dev/null)
+data/xml-syntax.json: bin/xml-syntax.pl \
+    local/html-tokenizer.json \
+    local/html-tokenizer-charrefs.json \
+    local/xml-tokenizer-charrefs-replace.json \
+    local/html-tokenizer-charrefs-jump.json \
+    local/xml-tokenizer-delta.json \
+    local/xml-tokenizer-replace.json \
+    local/xml-tokenizer-only.json \
+    local/xml-tokenizer-only2.json \
+    local/xml-tree.json
 	$(PERL) bin/xml-syntax.pl > $@
-	#!(grep '"misc"' $@ > /dev/null)
+	!(grep '"misc"' $@ > /dev/null)
+	!(grep '"UNPARSED"' $@ > /dev/null)
+	!(grep '"COND"' $@ > /dev/null)
+	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@ > /dev/null)
+
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
+data/xml-tokenizer-expanded.json: data/xml-syntax.json \
+    bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
+	$(PERL) bin/tokenizer-variants.pl < data/xml-syntax.json > $@
+	!(grep reconsume $@ > /dev/null)
+
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep '"tree_steps"' $@ > /dev/null)
-	!(grep '"CHAR"' $@ > /dev/null)
+	!(grep '"CHAR' $@ > /dev/null)
 	!(grep '"FIELD"' $@ > /dev/null)
 	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
@@ -396,12 +418,24 @@ data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
 	NO_ISINDEX=1 \
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
 	!(grep 'isindex' $@ > /dev/null)
+data/xml-tree-constructor-expanded.json: data/xml-syntax.json \
+    bin/expand-tree-constructor.pl data/elements.json \
+    intermediate/errors/parser-errors.json
+	PARSER_LANG=XML \
+	$(PERL) bin/expand-tree-constructor.pl < data/xml-syntax.json > $@
+	!(grep '"tree_steps"' $@ > /dev/null)
+	!(grep '"CHAR' $@ > /dev/null)
+	!(grep '"FIELD"' $@ > /dev/null)
+	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
 local/html-tokenizer-charrefs.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs.html > $@
+local/xml-tokenizer-charrefs-replace.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/charrefs-xml-replace.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-xml-replace.html > $@
 local/html-tokenizer-charrefs-jump.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs-jump.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-jump.html > $@
@@ -411,6 +445,23 @@ local/xml5-spec.html:
 
 local/xml-tokenizer.json: bin/extract-html-tokenizer.pl local/xml5-spec.html
 	$(PERL) bin/extract-html-tokenizer.pl local/xml5-spec.html > $@
+local/xml-tokenizer-delta.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/xml-delta.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/xml-delta.html > $@
+local/xml-tokenizer-replace.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/xml-replace.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/xml-replace.html > $@
+local/xml-tokenizer-only.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/xml-only.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/xml-only.html > $@
+
+local/xml-tokenizer.html: src/tokenizer/*.txt \
+    bin/tokenizer-text-to-html.pl
+	mkdir -p local
+	$(PERL) bin/tokenizer-text-to-html.pl src/tokenizer/*.txt > $@
+local/xml-tokenizer-only2.json: bin/extract-html-tokenizer.pl \
+    local/xml-tokenizer.html
+	$(PERL) bin/extract-html-tokenizer.pl local/xml-tokenizer.html > $@
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
 	$(PERL) bin/extract-html-tree.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
@@ -423,6 +474,8 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"SAME-AS"' $@ > /dev/null)
 	!(grep '"LABEL"' $@ > /dev/null)
 	!(grep '"LOOP"' $@ > /dev/null)
+local/xml-tree.json: bin/extract-html-tree.pl src/xml-tree-construction.html
+	$(PERL) bin/extract-html-tree.pl src/xml-tree-construction.html > $@
 
 intermediate/errors/parser-errors.json: bin/parser-errors.pl \
     src/parser-errors.txt data/html-syntax.json
