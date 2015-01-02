@@ -136,9 +136,13 @@ for my $error_type (keys %{$Data->{errors}}) {
   $Data->{errors}->{$error_type}->{default_level} //= 'm';
 } # $error_type
 
-{
+for (
+  ['data/html-syntax.json', 'Web::HTML::Parser'],
+  ['data/xml-syntax.json', 'Web::XML::Parser'],
+) {
+  my ($file_name, $module) = @$_;
   my $json = json_bytes2perl path (__FILE__)->parent->parent->child
-      ('data/html-syntax.json')->slurp;
+      ($file_name)->slurp;
   my $tokenize_errors = extract_parse_error_names $json->{tokenizer}->{states};
   my $tree_errors = [
     @{extract_parse_error_names $json->{ims}},
@@ -149,11 +153,11 @@ for my $error_type (keys %{$Data->{errors}}) {
   }
 
   for (grep { defined } map { $Data->{parser_error_name_to_error_type}->{$_} } @$tokenize_errors) {
-    $Data->{errors}->{$_}->{modules}->{'Web::HTML::Parser::tokenizer'} //= 1;
+    $Data->{errors}->{$_}->{modules}->{$module.'::tokenizer'} //= 1;
     $Data->{errors}->{$_}->{layer} //= 'tokenization';
   }
   for (grep { defined } map { $Data->{parser_error_name_to_error_type}->{$_} } @$tree_errors) {
-    $Data->{errors}->{$_}->{modules}->{'Web::HTML::Parser::tree_constructor'} //= 1;
+    $Data->{errors}->{$_}->{modules}->{$module.'::tree_constructor'} //= 1;
     $Data->{errors}->{$_}->{layer} //= 'tree-construction';
   }
 }

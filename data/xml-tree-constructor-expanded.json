@@ -1,22 +1,12 @@
 {
    "_errors" : [
       "Error type for parse error \u0022before-doctype-end-else\u0022 not defined",
-      "Error type for parse error \u0022before-doctype-char\u0022 not defined",
       "Error type for parse error \u0022before-root-element-end-else\u0022 not defined",
-      "Error type for parse error \u0022before-root-element-eof\u0022 not defined",
-      "Error type for parse error \u0022before-root-element-char\u0022 not defined",
-      "Error type for parse error \u0022before-root-element-doctype\u0022 not defined",
       "Error type for parse error \u0022in-subset-char\u0022 not defined",
       "Error type for parse error \u0022in-element-end-else\u0022 not defined",
-      "Error type for parse error \u0022in-element-end-else-2\u0022 not defined",
-      "Error type for parse error \u0022in-element-end-else-3\u0022 not defined",
       "Error type for parse error \u0022in-element-eof\u0022 not defined",
-      "Error type for parse error \u0022in-element-eof-2\u0022 not defined",
-      "Error type for parse error \u0022in-element-null\u0022 not defined",
       "Error type for parse error \u0022in-element-doctype\u0022 not defined",
       "Error type for parse error \u0022after-root-element-end-else\u0022 not defined",
-      "Error type for parse error \u0022after-root-element-char\u0022 not defined",
-      "Error type for parse error \u0022after-root-element-start-else\u0022 not defined",
       "Error type for parse error \u0022after-root-element-doctype\u0022 not defined"
    ],
    "actions" : {
@@ -225,6 +215,7 @@
       ],
       "after root element;START-ELSE" : [
          {
+            "error_type" : "second root element",
             "name" : "after-root-element-start-else",
             "type" : "parse error"
          },
@@ -255,6 +246,7 @@
          {
             "actions" : [
                {
+                  "error_type" : "text outside of root element",
                   "name" : "after-root-element-char",
                   "type" : "parse error"
                }
@@ -363,6 +355,7 @@
          {
             "actions" : [
                {
+                  "error_type" : "text outside of root element",
                   "name" : "before-doctype-char",
                   "type" : "parse error"
                }
@@ -871,6 +864,7 @@
       ],
       "before root element;DOCTYPE" : [
          {
+            "error_type" : "doctype:bad context",
             "name" : "before-root-element-doctype",
             "type" : "parse error"
          },
@@ -909,6 +903,7 @@
       ],
       "before root element;EOF" : [
          {
+            "error_type" : "no root element",
             "name" : "before-root-element-eof",
             "type" : "parse error"
          },
@@ -969,6 +964,7 @@
          {
             "actions" : [
                {
+                  "error_type" : "text outside of root element",
                   "name" : "before-root-element-char",
                   "type" : "parse error"
                }
@@ -1047,6 +1043,15 @@
                      {
                         "actions" : [
                            {
+                              "error_text" : [
+                                 "oe[-1]",
+                                 "local name"
+                              ],
+                              "error_type" : "not closed before ancestor end tag",
+                              "error_value" : [
+                                 "token",
+                                 "tag name"
+                              ],
                               "name" : "in-element-end-else-2",
                               "type" : "parse error"
                            }
@@ -1091,6 +1096,11 @@
                      {
                         "actions" : [
                            {
+                              "error_type" : "stray end tag",
+                              "error_value" : [
+                                 "token",
+                                 "tag name"
+                              ],
                               "name" : "in-element-end-else-3",
                               "type" : "parse error"
                            },
@@ -1146,6 +1156,11 @@
             ],
             "false_actions" : [
                {
+                  "error_text" : [
+                     "oe[-1]",
+                     "local name"
+                  ],
+                  "error_type" : "in body:#eof",
                   "name" : "in-element-eof-2",
                   "type" : "parse error"
                },
@@ -1200,6 +1215,7 @@
             ],
             "null_char_actions" : [
                {
+                  "error_type" : "parser:NULL",
                   "name" : "in-element-null",
                   "type" : "parse error"
                }

@@ -143,7 +143,8 @@
             "ja" : "\u003Ccode class=\u0022charname\u0022>NULL\u003C/code> 文字があります"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "NULL" : 1
@@ -362,7 +363,8 @@
             "ja" : "属性名と属性値の間に \u003Ccode>=\u003C/code> がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "after-attribute-name-0022" : 1,
@@ -484,7 +486,8 @@
             "ja" : "属性名に \u003Ccode>\u0022\u003C/code> や \u003Ccode>'\u003C/code> が含まれています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "attribute-name-0022" : 1,
@@ -517,7 +520,8 @@
             "ja" : "引用符で括られていない属性値に \u003Ccode>\u0022\u003C/code>, \u003Ccode>'\u003C/code>,\u000A\u003Ccode>`\u003C/code>, \u003Ccode>=\u003C/code> が含まれています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "attribute-value-unquoted-0022" : 1,
@@ -589,6 +593,37 @@
             }
          ]
       },
+      "bare ero" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An \u003Ccode>&amp;\u003C/code> character which\u000A    is not part of any reference appears in the input stream.\u003C/p>\u000A\u000A    \u003Cp>\u003Cem>Any \u003Ccode>&amp;\u003C/code> character in URLs\u000A    must be escaped as \u003Ccode class=\u0022example\u0022>&amp;amp;\u003C/code>.\u003C/em>\u003C/p>\u000A\u000A    \u003Cp>The \u003Ccode>&amp;\u003C/code> character must\u000A    be the first character of a reference:\u000A    \u003C/p>\u000A\u000A      \u003Cdl class=\u0022switch\u0022>\u000A      \u003Cdt>Named character reference (HTML / WebVTT)\u003C/dt>\u000A          \u003Cdd>\u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;\u003Cvar>entity-name\u003C/var>;\u003C/code>\u003C/pre>\u000A          where \u003Cvar>entity-name\u003C/var> is the name of the\u000A          character to be referenced.\u003C/dd>\u000A      \u003Cdt>Numeric character reference (HTML only)\u003C/dt>\u000A          \u003Cdd>\u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;#\u003Cvar>d\u003C/var>;\u003C/code>\u003C/pre>\u000A          where \u003Cvar>d\u003C/var> is the decimal representation of\u000A          the code position of the character to be referenced.\u003C/dd>\u000A      \u003Cdt>Hexadecimal character reference (HTML only)\u003C/dt>\u000A          \u003Cdd>\u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;#x\u003Cvar>h\u003C/var>;\u003C/code>\u003C/pre>\u000A          where \u003Cvar>h\u003C/var> is the hexadecimal representation\u000A          of the code position of the character to be referenced.\u003C/dd>\u000A      \u003C/dl>\u000A\u000A    \u003Cp>To represent \u003Ccode>&amp;\u003C/code> as a data character, use\u000A    named character reference:\u000A    \u003C/p>\u000A      \u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;amp;\u003C/code>\u003C/pre>",
+            "ja" : "\u003Cp>文字 \u003Ccode>&amp;\u003C/code> が、文字参照の一部ではなく、\u000A    単独で現れました。\u003C/p>\u000A\u000A    \u003Cp>\u003Cem>URL 中の \u003Ccode>&amp;\u003C/code> 文字も\u000A    \u003Ccode class=\u0022example\u0022>&amp;amp;\u003C/code> \u000A    とエスケープしなければなりません。\u003C/em>\u003C/p>\u000A\u000A    \u003Cp>文字 \u003Ccode>&amp;\u003C/code> は参照の最初の1文字でなければなりません。\u000A    \u003C/p>\u000A\u000A      \u003Cdl class=\u0022switch\u0022>\u000A      \u003Cdt>名前付き文字参照 (HTML / WebVTT)\u003C/dt>\u000A          \u003Cdd>\u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;\u003Cvar>実体名\u003C/var>;\u003C/code>\u003C/pre>\u000A          の\u003Cvar>実体名\u003C/var>が参照する文字の名前となります。\u003C/dd>\u000A      \u003Cdt>数値文字参照 (HTML のみ)\u003C/dt>\u000A          \u003Cdd>\u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;#\u003Cvar>d\u003C/var>;\u003C/code>\u003C/pre>\u000A          の \u003Cvar>d\u003C/var> が参照する文字の符号位置の十進表現となります。\u003C/dd>\u000A      \u003Cdt>十六進数文字参照 (HTML のみ)\u003C/dt>\u000A          \u003Cdd>\u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;#x\u003Cvar>h\u003C/var>;\u003C/code>\u003C/pre>\u000A          の \u003Cvar>h\u003C/var> が参照する文字の符号位置の十六進表現となります。\u003C/dd>\u000A      \u003C/dl>\u000A\u000A    \u003Cp>データ文字としての \u003Ccode>&amp;\u003C/code> を表したい時は、\u000A    文字参照を使ってください。\u000A    \u003C/p>\u000A      \u003Cpre class=\u0022html example\u0022>\u000A\u003Ccode>&amp;amp;\u003C/code>\u003C/pre>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is an unescaped \u003Ccode>&amp;\u003C/code> character",
+            "ja" : "エスケープされていない \u003Ccode>&amp;\u003C/code> があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1,
+            "Whatpm::WebVTT::Parser" : 1
+         },
+         "parser_error_names" : {
+            "character-reference-0022" : 1,
+            "character-reference-0027" : 1,
+            "character-reference-003c" : 1,
+            "character-reference-003d" : 1,
+            "character-reference-0060" : 1,
+            "character-reference-ws" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 6,
+               "input" : "\u003Cp x=A&=>",
+               "lang" : "XML"
+            }
+         ]
+      },
       "bare etago" : {
          "default_level" : "m",
          "desc" : {
@@ -601,16 +636,23 @@
             "ja" : "\u003Ccode>&lt;/\u003C/code> の後にタグ名がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
-            "end-tag-open-else" : 1
+            "end-tag-open-else" : 1,
+            "end-tag-open-ws" : 1
          },
          "parser_tests" : [
             {
                "index" : 17,
                "input" : "\u003C!DOCTYPE HTML>\u003C/!?>",
                "lang" : "HTML"
+            },
+            {
+               "index" : 17,
+               "input" : "\u003C!DOCTYPE HTML>\u003C/ >",
+               "lang" : "XML"
             }
          ]
       },
@@ -626,7 +668,8 @@
             "ja" : "\u003Ccode>&amp;#x\u003C/code> の後に符号位置の数値がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "character-reference-before-hexadecimal-number-else" : 1
@@ -656,7 +699,8 @@
             "ja" : "\u003Ccode>&amp;#\u003C/code> の後に符号位置の数値がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "character-reference-number-else" : 1
@@ -674,6 +718,37 @@
             }
          ]
       },
+      "bare pio" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>After the \u003Ccode>&lt;?\u003C/code> string, there must be a processing instruction's\u000Atarget name.  To represent a string \u003Ccode>&lt;?\u003C/code>, the \u003Ccode>&lt;\u003C/code>\u000Acharacter must be escaped as \u003Ccode>&amp;lt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>&lt;?\u003C/code> の後には処理指令の対象名が必要です。文字列\u000A\u003Ccode>&lt;?\u003C/code> を表したい時は \u003Ccode>&lt;\u003C/code> を\u000A\u003Ccode>&amp;lt;\u003C/code> とエスケープしないといけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no processing instruction target",
+            "ja" : "処理指令の対象名がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "pi-003f" : 1,
+            "pi-ws" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 5,
+               "input" : "\u003Cp>Aa\u003C??>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 5,
+               "input" : "\u003Cp>Aa\u003C? ?>",
+               "lang" : "XML"
+            }
+         ]
+      },
       "bare stago" : {
          "default_level" : "m",
          "desc" : {
@@ -687,9 +762,12 @@
          },
          "modules" : {
             "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1,
             "Whatpm::WebVTT::Parser" : 1
          },
          "parser_error_names" : {
+            "doctype-tag-open-else" : 1,
+            "tag-open-003e" : 1,
             "tag-open-else" : 1
          },
          "parser_tests" : [
@@ -697,6 +775,16 @@
                "index" : 16,
                "input" : "\u003C!DOCTYPE HTML>\u003C\u0022",
                "lang" : "HTML"
+            },
+            {
+               "index" : 3,
+               "input" : "\u003Cp>\u003C>\u003C/p>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 12,
+               "input" : "\u003C!DOCTYPE a[\u003Cb>]>\u003Ca/>",
+               "lang" : "XML"
             }
          ]
       },
@@ -712,7 +800,8 @@
             "ja" : "DOCTYPE 内におかしな文字列があります"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "after-doctype-name-else" : 1,
@@ -817,9 +906,11 @@
             "ja" : "\u003Ccode>&lt;!\u003C/code> の後に \u003Ccode>--\u003C/code> がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
+            "doctype-markup-declaration-open-else" : 1,
             "markup-declaration-open-else" : 1
          },
          "parser_tests" : [
@@ -832,6 +923,11 @@
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003C!DOCTYPO>",
                "lang" : "HTML"
+            },
+            {
+               "index" : 14,
+               "input" : "\u003C!DOCTYPE x[\u003C!z>]]>",
+               "lang" : "XML"
             }
          ]
       },
@@ -933,7 +1029,8 @@
             "ja" : "DOCTYPE が文書の先頭ではありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tree_constructor" : 1
+            "Web::HTML::Parser::tree_constructor" : 1,
+            "Web::XML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
             "after-body-doctype" : 1,
@@ -941,6 +1038,7 @@
             "after-head-doctype" : 1,
             "before-head-doctype" : 1,
             "before-html-doctype" : 1,
+            "before-root-element-doctype" : 1,
             "in-body-doctype" : 1,
             "in-column-group-doctype" : 1,
             "in-foreign-content-doctype" : 1,
@@ -1080,7 +1178,8 @@
          },
          "modules" : {
             "Temma::Parser" : 1,
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_tests" : [
             {
@@ -1347,6 +1446,7 @@
          },
          "modules" : {
             "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1,
             "Whatpm::WebVTT::Parser" : 1
          },
          "parser_error_names" : {
@@ -1372,7 +1472,8 @@
             "ja" : "終了タグに属性が指定されています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_tests" : [
             {
@@ -1613,10 +1714,12 @@
             "ja" : "ファイルの末尾で \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>\u000A要素が閉じられていません"
          },
          "modules" : {
-            "Web::HTML::Parser::tree_constructor" : 1
+            "Web::HTML::Parser::tree_constructor" : 1,
+            "Web::XML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
             "in-body-eof" : 1,
+            "in-element-eof-2" : 1,
             "in-frameset-eof" : 1,
             "in-template-eof" : 1,
             "text-eof" : 1
@@ -1657,6 +1760,12 @@
                "input" : "\u003C!DOCTYPE HTML>\u003Cplaintext>a",
                "lang" : "HTML",
                "text" : "plaintext"
+            },
+            {
+               "index" : 6,
+               "input" : "\u003Cp>xxx",
+               "lang" : "XML",
+               "text" : "p"
             }
          ],
          "text" : [
@@ -2167,7 +2276,8 @@
             "ja" : "特殊な符号位置 \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> が参照されています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_tests" : [
             {
@@ -2236,6 +2346,37 @@
             }
          ]
       },
+      "lt in attr value" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>&lt;\u003C/code> character is not allowed in an attribute\u000Avalue.  It must be escaped as \u003Ccode>&amp;lt;\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>属性値に \u003Ccode>&lt;\u003C/code> を含めることはできません。 \u003Ccode>&amp;lt;\u003C/code>\u000Aとエスケープしなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is \u003Ccode>&lt;\u003C/code> in an attribute value",
+            "ja" : "属性値に \u003Ccode>&lt;\u003C/code> があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "attribute-value-double-quoted-003c" : 1,
+            "attribute-value-single-quoted-003c" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 7,
+               "input" : "\u003Cp x=\u0022a\u003Cb\u0022/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 7,
+               "input" : "\u003Cp x='a\u003Cb'/>",
+               "lang" : "XML"
+            }
+         ]
+      },
       "ms:unclosed" : {
          "default_level" : "m",
          "desc" : {
@@ -2263,7 +2404,8 @@
             "ja" : "その場で要素を閉じる構文 (\u003Ccode>/&gt;\u003C/code>) が使われています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "-start-tag-self-closing-flag" : 1
@@ -2306,7 +2448,8 @@
             "ja" : "タグが \u003Ccode>/\u003C/code> の後 \u003Ccode>&gt;\u003C/code> で閉じられていません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "self-closing-start-tag-else" : 1
@@ -2391,7 +2534,8 @@
             "ja" : "引用符で括られた文字列がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "after-doctype-public-keyword-003e" : 1,
@@ -2434,7 +2578,8 @@
             "ja" : "文書型名がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "before-doctype-name-003e" : 1
@@ -2475,6 +2620,73 @@
             }
          ]
       },
+      "no attr value" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be attribute value in XML.\u003C/p>",
+            "ja" : "\u003Cp>XML では属性値は必須です。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no attribute value",
+            "ja" : "属性値がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-attribute-name-002f" : 1,
+            "after-attribute-name-003e" : 1,
+            "after-attribute-name-else" : 1,
+            "attribute-name-002f" : 1,
+            "attribute-name-003e" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 6,
+               "input" : "\u003Cp foo/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 6,
+               "input" : "\u003Cp foo>\u003C/p>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 7,
+               "input" : "\u003Cp foo x/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 7,
+               "input" : "\u003Cp foo />",
+               "lang" : "XML"
+            },
+            {
+               "index" : 7,
+               "input" : "\u003Cp foo >",
+               "lang" : "XML"
+            }
+         ]
+      },
+      "no md def" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Markup declarations other than \u003Ccode>ATTLIST\u003C/code> must contain\u000Aparameters after the name:\u000A  \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A  \u003Cdt>\u003Ccode>ENTITY\u003C/code> declaration\u000A  \u003C/dt>\u003Cdd>Either a system identifier and optional public identifier and notation name,\u000A  or an entity value.\u000A  \u003C/dd>\u003Cdt>\u003Ccode>NOTATION\u003C/code> declaration\u000A  \u003C/dt>\u003Cdd>Public and/or system identifiers.\u000A  \u003C/dd>\u003Cdt>\u003Ccode>ELEMENT\u003C/code> declaration\u000A  \u003C/dt>\u003Cdd>The content model.\u000A  \u003C/dd>\u003C/dl>",
+            "ja" : "\u003Cp>\u003Ccode>ATTLIST\u003C/code> 以外のマーク付け宣言は名前の後に引数が必要です。\u000A  \u003C/p>\u003Cdl class=\u0022switch\u0022>\u000A  \u003Cdt>\u003Ccode>ENTITY\u003C/code> 宣言\u000A  \u003C/dt>\u003Cdd>システム識別子と省略可能な公開識別子や記法名か、実体値かのいずれか。\u000A  \u003C/dd>\u003Cdt>\u003Ccode>NOTATION\u003C/code> 宣言\u000A  \u003C/dt>\u003Cdd>公開識別子とシステム識別子の一方または両方。\u000A  \u003C/dd>\u003Cdt>\u003Ccode>ELEMENT\u003C/code> 宣言\u000A  \u003C/dt>\u003Cdd>内容モデル。\u000A  \u003C/dd>\u003C/dl>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The markup declaration has no parameter",
+            "ja" : "このマーク付け宣言には引数がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-entity-name-003e" : 1
+         }
+      },
       "no refc" : {
          "default_level" : "m",
          "desc" : {
@@ -2487,11 +2699,13 @@
             "ja" : "参照の末尾に \u003Ccode>;\u003C/code> がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "character-reference-decimal-number-else" : 1,
-            "character-reference-hexadecimal-number-else" : 1
+            "character-reference-hexadecimal-number-else" : 1,
+            "character-reference-name-003d" : 1
          },
          "parser_tests" : [
             {
@@ -2513,6 +2727,66 @@
                "index" : 28,
                "input" : "\u003C!DOCTYPE HTML>\u003Ca href=\u0022&amp=aa\u0022>",
                "lang" : "HTML"
+            },
+            {
+               "index" : 13,
+               "input" : "\u003Cp x=\u0022aa&copy=\u0022/>",
+               "lang" : "XML"
+            }
+         ]
+      },
+      "no root element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be the root element's start tag in an XML document.\u003C/p>",
+            "ja" : "\u003Cp>XML 文書には根要素の開始タグが必要です。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is no root element",
+            "ja" : "根要素がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "before-root-element-eof" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 0,
+               "input" : "",
+               "lang" : "XML"
+            },
+            {
+               "index" : 0,
+               "input" : "",
+               "lang" : "XML"
+            }
+         ]
+      },
+      "no s after target" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be a white space character between the target and data of\u000Aa processing instruction.\u003C/p>",
+            "ja" : "\u003Cp>処理指令の対象名とデータの間には空白が必要です。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is no space between the processing instruction's target and data",
+            "ja" : "処理指令の対象名とデータの間に空白がありません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "pi-target-question-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 6,
+               "input" : "\u003C?hoge??>",
+               "lang" : "XML"
             }
          ]
       },
@@ -2558,7 +2832,8 @@
             "ja" : "括られた文字列の前に空白がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "after-doctype-public-identifier-0022" : 1,
@@ -2613,7 +2888,8 @@
             "ja" : "この終了タグより前で \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> 要素が閉じられていません"
          },
          "modules" : {
-            "Web::HTML::Parser::tree_constructor" : 1
+            "Web::HTML::Parser::tree_constructor" : 1,
+            "Web::XML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
             "-steps-close-a-p-element" : 1,
@@ -2631,6 +2907,7 @@
             "in-caption-end-caption-2" : 1,
             "in-caption-end-table-2" : 1,
             "in-cell-end-td-th-2" : 1,
+            "in-element-end-else-2" : 1,
             "in-foreign-content-end-else" : 1,
             "in-foreign-content-end-script" : 1,
             "in-head-end-template-2" : 1
@@ -2761,6 +3038,13 @@
                "lang" : "HTML",
                "text" : "span",
                "value" : "td"
+            },
+            {
+               "index" : 6,
+               "input" : "\u003Cp>\u003Cq>\u003C/p>",
+               "lang" : "XML",
+               "text" : "q",
+               "value" : "p"
             }
          ],
          "text" : [
@@ -2862,7 +3146,8 @@
             "ja" : "タグや宣言の途中でファイルが途切れています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "EOF" : 1
@@ -2880,10 +3165,12 @@
             "ja" : "\u003Ccode>NULL\u003C/code> 文字は無視されます"
          },
          "modules" : {
-            "Web::HTML::Parser::tree_constructor" : 1
+            "Web::HTML::Parser::tree_constructor" : 1,
+            "Web::XML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
             "in-body-null" : 1,
+            "in-element-null" : 1,
             "in-foreign-content-null" : 1,
             "in-select-null" : 1,
             "in-table-text-null" : 1
@@ -2923,7 +3210,8 @@
             "ja" : "注釈が \u003Ccode>&gt;\u003C/code> によって閉じられています"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "comment-start-003e" : 1,
@@ -2954,7 +3242,8 @@
             "ja" : "注釈が \u003Ccode>--\u003C/code> を含んでいます"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "comment-end-0021" : 1,
@@ -3056,7 +3345,8 @@
             "ja" : "宣言が閉じられる前に閉じ引用符がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "doctype-public-identifier-double-quoted-003e" : 1,
@@ -3109,7 +3399,8 @@
             "ja" : "\u003Ccode>=\u003C/code> の前に属性名がありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "before-attribute-name-003d" : 1
@@ -3181,6 +3472,31 @@
             }
          ]
       },
+      "second root element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There must be only one root element.  No start tag is allowed\u000Aafter the end tag of the root element.\u003C/p>",
+            "ja" : "\u003Cp>根要素は1つだけです。根要素の終了タグの後に開始タグは使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is an element after the root element",
+            "ja" : "根要素の後に別の要素があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-root-element-start-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 4,
+               "input" : "\u003Cp/>\u003Cp>",
+               "lang" : "XML"
+            }
+         ]
+      },
       "stop processing" : {
          "default_level" : "m",
          "desc" : {
@@ -3222,7 +3538,8 @@
             "ja" : "終了タグ \u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code>\u000Aに対応する開始タグがありません"
          },
          "modules" : {
-            "Web::HTML::Parser::tree_constructor" : 1
+            "Web::HTML::Parser::tree_constructor" : 1,
+            "Web::XML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
             "after-body-end-html" : 1,
@@ -3247,6 +3564,7 @@
             "in-cell-end-td-th" : 1,
             "in-column-group-end-col" : 1,
             "in-column-group-end-colgroup" : 1,
+            "in-element-end-else-3" : 1,
             "in-frameset-end-frameset" : 1,
             "in-head-end-else" : 1,
             "in-head-end-template" : 1,
@@ -3595,6 +3913,12 @@
                "input" : "\u003Clink>\u003C/template>",
                "lang" : "HTML",
                "value" : "template"
+            },
+            {
+               "index" : 3,
+               "input" : "\u003Cp>\u003C/pq>\u003C/p>",
+               "lang" : "XML",
+               "value" : "pq"
             }
          ],
          "value" : [
@@ -3616,10 +3940,18 @@
          "modules" : {
             "Web::XML::Parser::tokenizer" : 1
          },
+         "parser_error_names" : {
+            "dtd-else" : 1
+         },
          "parser_tests" : [
             {
                "index" : 13,
                "input" : "\u003C!DOCTYPE a[\u000A]]>\u000A]>\u003Ca/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 13,
+               "input" : "\u003C!DOCTYPE a[ a]>\u003Ca/>",
                "lang" : "XML"
             }
          ]
@@ -3636,7 +3968,8 @@
             "ja" : "タグが閉じられていません"
          },
          "modules" : {
-            "Web::HTML::Parser::tokenizer" : 1
+            "Web::HTML::Parser::tokenizer" : 1,
+            "Web::XML::Parser::tokenizer" : 1
          },
          "parser_error_names" : {
             "after-attribute-name-003c" : 1,
@@ -3670,6 +4003,48 @@
                "index" : 23,
                "input" : "\u003C!DOCTYPE HTML>\u003Cp foo=a\u003Cbar>",
                "lang" : "HTML"
+            }
+         ]
+      },
+      "text outside of root element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Characters other than white spaces must be included in an\u000Aelement or an attribute value.\u003C/p>",
+            "ja" : "\u003Cp>空白以外の文字は要素や属性値の中でしか使えません。\u003C/p>"
+         },
+         "layer" : "tree-construction",
+         "message" : {
+            "en" : "There is a character outside of the root element",
+            "ja" : "根要素の外に文字があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tree_constructor" : 1
+         },
+         "parser_error_names" : {
+            "after-root-element-char" : 1,
+            "before-doctype-char" : 1,
+            "before-root-element-char" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 0,
+               "input" : "a\u003Cp/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 12,
+               "input" : "\u003C!DOCTYPE p>a\u003Cp/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 9,
+               "input" : "\u003C!---->  x\u003Ca/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 4,
+               "input" : "\u003Ca/>b",
+               "lang" : "XML"
             }
          ]
       },
@@ -3764,6 +4139,31 @@
             "Web::XML::Parser::tokenizer" : 1
          }
       },
+      "unmatched mse" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In XML, the \u003Ccode>&gt;\u003C/code> character in \u003Ccode>]]&gt;\u003C/code> must be\u000Aescaped as \u003Ccode>&amp;gt;\u003C/code> unless it is closing a \u003Ccode>CDATA\u003C/code>\u000Asection.\u003C/p>",
+            "ja" : "\u003Cp>XML では \u003Ccode>]]&gt;\u003C/code> の \u003Ccode>&gt;\u003C/code> は \u003Ccode>CDATA\u003C/code>\u000A区間を閉じる場合を除き \u003Ccode>&amp;gt;\u003C/code> とエスケープしないといけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "There is an unmatched \u003Ccode>]]&gt;\u003C/code>",
+            "ja" : "対応していない \u003Ccode>]]&gt;\u003C/code> があります"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "after-msc-003e" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 3,
+               "input" : "\u003Cp>]]>\u003C/p>",
+               "lang" : "XML"
+            }
+         ]
+      },
       "unparsed entity" : {
          "default_level" : "m",
          "desc" : {
@@ -3784,6 +4184,62 @@
                "input" : "\u003C!DOCTYPE a[\u000A  \u003C!ENTITY xy SYSTEM \u0022x\u0022 NDATA foo>\u000A]>\u003Cp>&xy;\u003C/p>",
                "lang" : "XML",
                "value" : "&xy;"
+            }
+         ]
+      },
+      "unquoted attr value" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In XML, the attribute value must be quoted by \u003Ccode>\u0022\u003C/code>\u000Aor \u003Ccode>'\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>XML では属性値は \u003Ccode>\u0022\u003C/code> か \u003Ccode>'\u003C/code> で括らなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The attribute value is not quoted",
+            "ja" : "属性値が引用符で括られていません"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "before-attribute-value-0026" : 1,
+            "before-attribute-value-else" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 5,
+               "input" : "\u003Ca b=c/>",
+               "lang" : "XML"
+            },
+            {
+               "index" : 5,
+               "input" : "\u003Ca b=&copy;/>",
+               "lang" : "XML"
+            }
+         ]
+      },
+      "uppercase hcro" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In XML, the \u003Ccode>x\u003C/code> character in \u003Ccode>&amp;#\u003Cmark>x\u003C/mark>\u003Ccode>\u000Aintroducing a hexadecimal character reference must be in\u000Alowercase.\u003C/code>\u003C/code>\u003C/p>",
+            "ja" : "\u003Cp>XML では十六進数文字参照の最初の \u003Ccode>&amp;#\u003Cmark>x\u003C/mark>\u003C/code>\u000Aの \u003Ccode>x\u003C/code> は小文字でなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenization",
+         "message" : {
+            "en" : "The \u003Ccode>x\u003C/code> character in the reference is in uppercase",
+            "ja" : "文字参照の \u003Ccode>x\u003C/code> が大文字になっています"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_error_names" : {
+            "character-reference-number-0058" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 5,
+               "input" : "\u003Ca>&#X21;\u003C/a>",
+               "lang" : "XML"
             }
          ]
       },
@@ -3948,76 +4404,423 @@
       "-steps-close-the-cell" : "not closed before ancestor end tag",
       "EOF" : "parser:EOF",
       "NULL" : "NULL",
+      "after-after-allowed-token-list-003e" : null,
+      "after-after-allowed-token-list-else" : null,
+      "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-003c" : null,
       "after-after-body-else" : "after-after-body-else",
       "after-after-frameset-else" : "after-after-body-else",
+      "after-allowed-token-003e" : null,
+      "after-allowed-token-else" : null,
+      "after-allowed-token-list-003e" : null,
+      "after-allowed-token-list-else" : null,
+      "after-allowed-token-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-allowed-token-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-allowed-token-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-allowed-token-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-attlist-attribute-name-003e" : null,
+      "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-attlist-attribute-type-003e" : null,
+      "after-attlist-attribute-type-else" : null,
+      "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-attlist-default-value-else" : null,
       "after-attribute-name-0022" : "attr:no =",
       "after-attribute-name-0027" : "attr:no =",
+      "after-attribute-name-002f" : "no attr value",
       "after-attribute-name-003c" : "tag not closed",
+      "after-attribute-name-003e" : "no attr value",
+      "after-attribute-name-else" : "no attr value",
+      "after-attribute-name-upper" : null,
       "after-attribute-value-quoted-else" : "no space before attr name",
       "after-body-doctype" : "doctype:bad context",
       "after-body-else" : "after-body-else",
       "after-body-end-html" : "stray end tag",
+      "after-content-model-group-0028" : null,
+      "after-content-model-group-else" : null,
+      "after-content-model-item-0028" : null,
+      "after-content-model-item-0029" : null,
+      "after-content-model-item-002a" : null,
+      "after-content-model-item-002b" : null,
+      "after-content-model-item-003e" : null,
+      "after-content-model-item-003f" : null,
+      "after-content-model-item-007c" : null,
+      "after-content-model-item-else" : null,
+      "after-content-model-item-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-content-model-item-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-content-model-item-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-content-model-item-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-doctype-internal-subset-else" : null,
       "after-doctype-name-else" : "bogus DOCTYPE",
       "after-doctype-public-identifier-0022" : "no space before literal",
       "after-doctype-public-identifier-0027" : "no space before literal",
+      "after-doctype-public-identifier-003e" : null,
+      "after-doctype-public-identifier-005b" : null,
       "after-doctype-public-identifier-else" : "bogus DOCTYPE",
       "after-doctype-public-keyword-0022" : "no space before literal",
       "after-doctype-public-keyword-0027" : "no space before literal",
       "after-doctype-public-keyword-003e" : "no DOCTYPE literal",
+      "after-doctype-public-keyword-005b" : null,
       "after-doctype-public-keyword-else" : "bogus DOCTYPE",
       "after-doctype-system-identifier-else" : "bogus DOCTYPE",
       "after-doctype-system-keyword-0022" : "no space before literal",
       "after-doctype-system-keyword-0027" : "no space before literal",
       "after-doctype-system-keyword-003e" : "no DOCTYPE literal",
+      "after-doctype-system-keyword-005b" : null,
       "after-doctype-system-keyword-else" : "bogus DOCTYPE",
+      "after-dtd-msc-005d" : null,
+      "after-dtd-msc-else" : null,
+      "after-element-content-else" : null,
+      "after-element-content-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-element-content-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-element-content-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-element-content-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-entity-name-003e" : "no md def",
+      "after-entity-name-else" : null,
+      "after-entity-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-entity-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-entity-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-entity-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-entity-parameter-else" : null,
+      "after-entity-parameter-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-entity-parameter-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-entity-parameter-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-entity-parameter-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-entity-public-identifier-0022" : null,
+      "after-entity-public-identifier-0027" : null,
+      "after-entity-public-identifier-003e" : null,
+      "after-entity-public-identifier-else" : null,
+      "after-entity-public-keyword-0022" : null,
+      "after-entity-public-keyword-0027" : null,
+      "after-entity-public-keyword-003e" : null,
+      "after-entity-public-keyword-else" : null,
+      "after-entity-system-identifier-else" : null,
+      "after-entity-system-keyword-0022" : null,
+      "after-entity-system-keyword-0027" : null,
+      "after-entity-system-keyword-003e" : null,
+      "after-entity-system-keyword-else" : null,
       "after-frameset-doctype" : "doctype:bad context",
       "after-frameset-else" : "after-body-else",
       "after-head-doctype" : "doctype:bad context",
       "after-head-end-else" : "stray end tag",
       "after-head-start-b3lmnsstt" : "after head",
       "after-head-start-head" : "after head",
+      "after-ignore-keyword-003c" : null,
+      "after-ignore-keyword-003e" : null,
+      "after-ignore-keyword-005d" : null,
+      "after-ignore-keyword-else" : null,
+      "after-ignore-keyword-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-ignore-keyword-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-ignore-keyword-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-ignore-keyword-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-include-keyword-003c" : null,
+      "after-include-keyword-003e" : null,
+      "after-include-keyword-005d" : null,
+      "after-include-keyword-else" : null,
+      "after-include-keyword-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-include-keyword-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-include-keyword-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-include-keyword-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-msc-003e" : "unmatched mse",
+      "after-mss-003c" : null,
+      "after-mss-003e" : null,
+      "after-mss-005b" : null,
+      "after-mss-005d" : null,
+      "after-mss-else" : null,
+      "after-mss-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-mss-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-mss-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-mss-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-ndata-keyword-003e" : null,
+      "after-ndata-keyword-else" : null,
+      "after-notation-name-003e" : null,
+      "after-notation-name-else" : null,
+      "after-notation-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-notation-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-notation-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-notation-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-notation-public-identifier-0022" : null,
+      "after-notation-public-identifier-0027" : null,
+      "after-notation-public-identifier-else" : null,
+      "after-notation-public-keyword-0022" : null,
+      "after-notation-public-keyword-0027" : null,
+      "after-notation-public-keyword-003e" : null,
+      "after-notation-public-keyword-else" : null,
+      "after-notation-system-identifier-else" : null,
+      "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0021" : null,
+      "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0025" : null,
+      "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0026" : null,
+      "after-notation-system-identifier-state-text-declaration-in-markup-declaration-003c" : null,
+      "after-notation-system-keyword-0022" : null,
+      "after-notation-system-keyword-0027" : null,
+      "after-notation-system-keyword-003e" : null,
+      "after-notation-system-keyword-else" : null,
+      "after-root-element-char" : "text outside of root element",
+      "after-root-element-doctype" : null,
+      "after-root-element-end-else" : null,
+      "after-root-element-start-else" : "second root element",
+      "allowed-token-003e" : null,
+      "attlist-003e" : null,
+      "attlist-attribute-default-0022" : null,
+      "attlist-attribute-default-0027" : null,
+      "attlist-attribute-name-0028" : null,
+      "attlist-attribute-name-003e" : null,
+      "attlist-attribute-type-0022" : null,
+      "attlist-attribute-type-0023" : null,
+      "attlist-attribute-type-0027" : null,
+      "attlist-attribute-type-0028" : null,
+      "attlist-attribute-type-003e" : null,
+      "attlist-else" : null,
       "attribute-name-0022" : "bad attribute name",
       "attribute-name-0027" : "bad attribute name",
+      "attribute-name-002f" : "no attr value",
       "attribute-name-003c" : "tag not closed",
+      "attribute-name-003e" : "no attr value",
+      "attribute-value-double-quoted-003c" : "lt in attr value",
+      "attribute-value-in-entity-003c" : null,
+      "attribute-value-single-quoted-003c" : "lt in attr value",
       "attribute-value-unquoted-0022" : "bad attribute value",
       "attribute-value-unquoted-0027" : "bad attribute value",
       "attribute-value-unquoted-003c" : "tag not closed",
       "attribute-value-unquoted-003d" : "bad attribute value",
       "attribute-value-unquoted-0060" : "bad attribute value",
+      "before-allowed-token-0029" : null,
+      "before-allowed-token-003e" : null,
+      "before-allowed-token-007c" : null,
+      "before-allowed-token-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-allowed-token-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-allowed-token-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-allowed-token-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-attlist-attribute-default-0022" : null,
+      "before-attlist-attribute-default-0025" : null,
+      "before-attlist-attribute-default-0027" : null,
+      "before-attlist-attribute-default-003e" : null,
+      "before-attlist-attribute-default-ws" : null,
+      "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-attlist-name-003e" : null,
+      "before-attlist-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-attlist-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-attlist-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-attlist-name-state-text-declaration-in-markup-declaration-003c" : null,
       "before-attribute-name-0022" : "bad attribute name",
       "before-attribute-name-0027" : "bad attribute name",
       "before-attribute-name-003c" : "tag not closed",
       "before-attribute-name-003d" : "parser:no attr name",
+      "before-attribute-value-0026" : "unquoted attr value",
       "before-attribute-value-003c" : "tag not closed",
       "before-attribute-value-003d" : "bad attribute value",
       "before-attribute-value-003e" : "bad attribute value",
       "before-attribute-value-0060" : "bad attribute value",
+      "before-attribute-value-else" : "unquoted attr value",
+      "before-content-model-item-0029" : null,
+      "before-content-model-item-002a" : null,
+      "before-content-model-item-002b" : null,
+      "before-content-model-item-002c" : null,
+      "before-content-model-item-003e" : null,
+      "before-content-model-item-003f" : null,
+      "before-content-model-item-007c" : null,
+      "before-content-model-item-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-content-model-item-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-content-model-item-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-content-model-item-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-doctype-char" : "text outside of root element",
+      "before-doctype-end-else" : null,
       "before-doctype-name-003e" : "no DOCTYPE name",
+      "before-doctype-name-005b" : null,
       "before-doctype-public-identifier-003e" : "no DOCTYPE literal",
+      "before-doctype-public-identifier-005b" : null,
       "before-doctype-public-identifier-else" : "bogus DOCTYPE",
       "before-doctype-system-identifier-003e" : "no DOCTYPE literal",
+      "before-doctype-system-identifier-005b" : null,
       "before-doctype-system-identifier-else" : "bogus DOCTYPE",
+      "before-element-content-0029" : null,
+      "before-element-content-002a" : null,
+      "before-element-content-002b" : null,
+      "before-element-content-002c" : null,
+      "before-element-content-003e" : null,
+      "before-element-content-003f" : null,
+      "before-element-content-007c" : null,
+      "before-element-content-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-element-content-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-element-content-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-element-content-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-element-name-003e" : null,
+      "before-element-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-element-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-element-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-element-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-entity-name-003e" : null,
+      "before-entity-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-entity-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-entity-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-entity-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-entity-public-identifier-003e" : null,
+      "before-entity-public-identifier-else" : null,
+      "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-entity-public-identifier-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-entity-system-identifier-003e" : null,
+      "before-entity-system-identifier-else" : null,
+      "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-entity-system-identifier-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-entity-type-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-entity-type-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-entity-type-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-entity-type-state-text-declaration-in-markup-declaration-003c" : null,
       "before-head-doctype" : "doctype:bad context",
       "before-head-end-else" : "stray end tag",
       "before-html-doctype" : "doctype:bad context",
       "before-html-end-else" : "stray end tag",
+      "before-ndata-identifier-003e" : null,
+      "before-ndata-identifier-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-ndata-identifier-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-ndata-identifier-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-ndata-identifier-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-ndata-keyword-else" : null,
+      "before-ndata-keyword-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-ndata-keyword-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-ndata-keyword-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-ndata-keyword-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-notation-name-003e" : null,
+      "before-notation-name-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-notation-name-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-notation-name-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-notation-name-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-notation-public-identifier-003e" : null,
+      "before-notation-public-identifier-else" : null,
+      "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-notation-public-identifier-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-notation-system-identifier-003e" : null,
+      "before-notation-system-identifier-else" : null,
+      "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0021" : null,
+      "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0025" : null,
+      "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0026" : null,
+      "before-notation-system-identifier-state-text-declaration-in-markup-declaration-003c" : null,
+      "before-root-element-char" : "text outside of root element",
+      "before-root-element-doctype" : "doctype:bad context",
+      "before-root-element-end-else" : null,
+      "before-root-element-eof" : "no root element",
+      "between-doctype-public-and-system-identifiers-003e" : null,
+      "between-doctype-public-and-system-identifiers-005b" : null,
       "between-doctype-public-and-system-identifiers-else" : "bogus DOCTYPE",
+      "between-entity-public-and-system-identifiers-003e" : null,
+      "between-entity-public-and-system-identifiers-else" : null,
+      "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0021" : null,
+      "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0025" : null,
+      "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026" : null,
+      "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003c" : null,
+      "between-notation-public-and-system-identifiers-else" : null,
+      "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0021" : null,
+      "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0025" : null,
+      "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026" : null,
+      "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003c" : null,
+      "character-reference-0022" : "bare ero",
+      "character-reference-0025" : null,
+      "character-reference-0026" : null,
+      "character-reference-0027" : "bare ero",
+      "character-reference-003c" : "bare ero",
+      "character-reference-003d" : "bare ero",
+      "character-reference-003e" : null,
+      "character-reference-0060" : "bare ero",
+      "character-reference-allowed-char" : null,
       "character-reference-before-hexadecimal-number-else" : "bare hcro",
       "character-reference-decimal-number-else" : "no refc",
       "character-reference-hexadecimal-number-else" : "no refc",
+      "character-reference-name-0022" : null,
+      "character-reference-name-0023" : null,
+      "character-reference-name-0025" : null,
+      "character-reference-name-0026" : null,
+      "character-reference-name-0027" : null,
+      "character-reference-name-003c" : null,
+      "character-reference-name-003d" : "no refc",
+      "character-reference-name-003e" : null,
+      "character-reference-name-0060" : null,
+      "character-reference-name-allowed-char" : null,
+      "character-reference-name-ws" : null,
+      "character-reference-number-0058" : "uppercase hcro",
       "character-reference-number-else" : "bare nero",
+      "character-reference-ws" : "bare ero",
       "comment-end-0021" : "parser:comment not closed",
       "comment-end-002d" : "parser:comment not closed",
       "comment-end-else" : "parser:comment not closed",
       "comment-start-003e" : "parser:comment closed",
       "comment-start-dash-003e" : "parser:comment closed",
+      "content-model-element-0028" : null,
+      "default-attribute-value-double-quoted-003c" : null,
+      "default-attribute-value-in-entity-003c" : null,
+      "default-attribute-value-single-quoted-003c" : null,
       "doctype-else" : "bogus DOCTYPE",
+      "doctype-markup-declaration-open-005b" : null,
+      "doctype-markup-declaration-open-else" : "bogus comment",
       "doctype-public-identifier-double-quoted-003e" : "parser:literal not closed",
       "doctype-public-identifier-single-quoted-003e" : "parser:literal not closed",
       "doctype-system-identifier-double-quoted-003e" : "parser:literal not closed",
       "doctype-system-identifier-single-quoted-003e" : "parser:literal not closed",
+      "doctype-tag-open-else" : "bare stago",
+      "dtd-else" : "string in internal subset",
+      "element-003e" : null,
+      "element-else" : null,
+      "element-name-0028" : null,
+      "element-name-003e" : null,
       "end-tag-open-003e" : "empty end tag",
       "end-tag-open-else" : "bare etago",
+      "end-tag-open-ws" : "bare etago",
+      "entity-003e" : null,
+      "entity-else" : null,
+      "entity-name-0022" : null,
+      "entity-name-0027" : null,
+      "entity-name-003e" : null,
+      "entity-public-identifier-double-quoted-003e" : null,
+      "entity-public-identifier-single-quoted-003e" : null,
+      "entity-value-double-quoted-state-character-reference-name-0022" : null,
+      "entity-value-double-quoted-state-character-reference-name-0023" : null,
+      "entity-value-double-quoted-state-character-reference-name-0025" : null,
+      "entity-value-double-quoted-state-character-reference-name-0026" : null,
+      "entity-value-double-quoted-state-character-reference-name-0027" : null,
+      "entity-value-double-quoted-state-character-reference-name-003c" : null,
+      "entity-value-double-quoted-state-character-reference-name-003d" : null,
+      "entity-value-double-quoted-state-character-reference-name-003e" : null,
+      "entity-value-double-quoted-state-character-reference-name-0060" : null,
+      "entity-value-double-quoted-state-character-reference-name-ws" : null,
+      "entity-value-in-entity-state-character-reference-name-0022" : null,
+      "entity-value-in-entity-state-character-reference-name-0023" : null,
+      "entity-value-in-entity-state-character-reference-name-0025" : null,
+      "entity-value-in-entity-state-character-reference-name-0026" : null,
+      "entity-value-in-entity-state-character-reference-name-0027" : null,
+      "entity-value-in-entity-state-character-reference-name-003c" : null,
+      "entity-value-in-entity-state-character-reference-name-003d" : null,
+      "entity-value-in-entity-state-character-reference-name-003e" : null,
+      "entity-value-in-entity-state-character-reference-name-0060" : null,
+      "entity-value-in-entity-state-character-reference-name-ws" : null,
+      "entity-value-single-quoted-state-character-reference-name-0022" : null,
+      "entity-value-single-quoted-state-character-reference-name-0023" : null,
+      "entity-value-single-quoted-state-character-reference-name-0025" : null,
+      "entity-value-single-quoted-state-character-reference-name-0026" : null,
+      "entity-value-single-quoted-state-character-reference-name-0027" : null,
+      "entity-value-single-quoted-state-character-reference-name-003c" : null,
+      "entity-value-single-quoted-state-character-reference-name-003d" : null,
+      "entity-value-single-quoted-state-character-reference-name-003e" : null,
+      "entity-value-single-quoted-state-character-reference-name-0060" : null,
+      "entity-value-single-quoted-state-character-reference-name-ws" : null,
       "in-body-doctype" : "doctype:bad context",
       "in-body-end-a3bbcd5f4hhlmmnopssu" : "stray end tag",
       "in-body-end-a3bbcd5f4hhlmmnopssu-2" : "not closed before ancestor end tag",
@@ -4074,6 +4877,13 @@
       "in-column-group-else" : "in colgroup",
       "in-column-group-end-col" : "stray end tag",
       "in-column-group-end-colgroup" : "stray end tag",
+      "in-element-doctype" : null,
+      "in-element-end-else" : null,
+      "in-element-end-else-2" : "not closed before ancestor end tag",
+      "in-element-end-else-3" : "stray end tag",
+      "in-element-eof" : null,
+      "in-element-eof-2" : "in body:#eof",
+      "in-element-null" : "parser:NULL",
       "in-foreign-content-doctype" : "doctype:bad context",
       "in-foreign-content-end-else" : "not closed before ancestor end tag",
       "in-foreign-content-end-script" : "not closed before ancestor end tag",
@@ -4108,6 +4918,7 @@
       "in-select-null" : "parser:NULL",
       "in-select-start-input-keygen-textarea" : "element not closed before implied ancestor end tag",
       "in-select-start-select" : "parser:element not nestable",
+      "in-subset-char" : null,
       "in-table-body-end-bc3ht3" : "stray end tag",
       "in-table-body-end-table" : "stray end tag",
       "in-table-body-end-tbody-tfoot-thead" : "stray end tag",
@@ -4127,10 +4938,90 @@
       "in-template-eof" : "in body:#eof",
       "initial-doctype" : "obsolete DOCTYPE",
       "initial-else" : "no DOCTYPE",
+      "keyword-wrong-case" : null,
       "markup-declaration-open-else" : "bogus comment",
+      "notation-003e" : null,
+      "notation-else" : null,
+      "notation-name-003e" : null,
+      "notation-public-identifier-double-quoted-003e" : null,
+      "notation-public-identifier-single-quoted-003e" : null,
+      "parameter-entity-declaration-or-reference-0022" : null,
+      "parameter-entity-declaration-or-reference-0025" : null,
+      "parameter-entity-declaration-or-reference-0026" : null,
+      "parameter-entity-declaration-or-reference-0027" : null,
+      "parameter-entity-declaration-or-reference-003c" : null,
+      "parameter-entity-declaration-or-reference-003d" : null,
+      "parameter-entity-declaration-or-reference-003e" : null,
+      "parameter-entity-declaration-or-reference-0060" : null,
+      "parameter-entity-declaration-or-reference-ws" : null,
+      "parameter-entity-name-in-dtd-0022" : null,
+      "parameter-entity-name-in-dtd-0023" : null,
+      "parameter-entity-name-in-dtd-0025" : null,
+      "parameter-entity-name-in-dtd-0026" : null,
+      "parameter-entity-name-in-dtd-0027" : null,
+      "parameter-entity-name-in-dtd-003c" : null,
+      "parameter-entity-name-in-dtd-003d" : null,
+      "parameter-entity-name-in-dtd-003e" : null,
+      "parameter-entity-name-in-dtd-0060" : null,
+      "parameter-entity-name-in-dtd-ws" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-0022" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-0023" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-0025" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-0026" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-0027" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-003c" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-003d" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-003e" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-0060" : null,
+      "parameter-entity-name-in-entity-value-double-quoted-ws" : null,
+      "parameter-entity-name-in-entity-value-in-entity-0022" : null,
+      "parameter-entity-name-in-entity-value-in-entity-0023" : null,
+      "parameter-entity-name-in-entity-value-in-entity-0025" : null,
+      "parameter-entity-name-in-entity-value-in-entity-0026" : null,
+      "parameter-entity-name-in-entity-value-in-entity-0027" : null,
+      "parameter-entity-name-in-entity-value-in-entity-003c" : null,
+      "parameter-entity-name-in-entity-value-in-entity-003d" : null,
+      "parameter-entity-name-in-entity-value-in-entity-003e" : null,
+      "parameter-entity-name-in-entity-value-in-entity-0060" : null,
+      "parameter-entity-name-in-entity-value-in-entity-ws" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-0022" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-0023" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-0025" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-0026" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-0027" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-003c" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-003d" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-003e" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-0060" : null,
+      "parameter-entity-name-in-entity-value-single-quoted-ws" : null,
+      "parameter-entity-name-in-markup-declaration-0022" : null,
+      "parameter-entity-name-in-markup-declaration-0023" : null,
+      "parameter-entity-name-in-markup-declaration-0025" : null,
+      "parameter-entity-name-in-markup-declaration-0026" : null,
+      "parameter-entity-name-in-markup-declaration-0027" : null,
+      "parameter-entity-name-in-markup-declaration-003c" : null,
+      "parameter-entity-name-in-markup-declaration-003d" : null,
+      "parameter-entity-name-in-markup-declaration-003e" : null,
+      "parameter-entity-name-in-markup-declaration-0060" : null,
+      "parameter-entity-name-in-markup-declaration-ws" : null,
+      "parameter-entity-name-in-status-keyword-0022" : null,
+      "parameter-entity-name-in-status-keyword-0023" : null,
+      "parameter-entity-name-in-status-keyword-0025" : null,
+      "parameter-entity-name-in-status-keyword-0026" : null,
+      "parameter-entity-name-in-status-keyword-0027" : null,
+      "parameter-entity-name-in-status-keyword-003c" : null,
+      "parameter-entity-name-in-status-keyword-003d" : null,
+      "parameter-entity-name-in-status-keyword-003e" : null,
+      "parameter-entity-name-in-status-keyword-0060" : null,
+      "parameter-entity-name-in-status-keyword-ws" : null,
+      "pi-003f" : "bare pio",
+      "pi-target-question-else" : "no s after target",
+      "pi-ws" : "bare pio",
       "self-closing-start-tag-else" : "nestc has no net",
+      "tag-open-003e" : "bare stago",
       "tag-open-003f" : "pio",
       "tag-open-else" : "bare stago",
+      "tag-open-ws" : null,
       "text-eof" : "in body:#eof"
    }
 }

@@ -83,6 +83,8 @@ sub parse_action ($) {
                 push @action, {type => 'emit', token => 'short end tag token'};
               } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token\.\s*//) {
                 push @action, {type => 'emit-char'};
+              } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token \(offset=([0-9]+)\)\.\s*//) {
+                push @action, {type => 'emit-char', index_offset => $1};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|)\.\s*//) {
                 push @action, {type => 'emit-char', value => chr hex $1};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|\([^()]+\)) character token,?(?: and|) (a|the) /Emit $2 /) {

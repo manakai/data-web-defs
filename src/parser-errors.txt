@@ -24,6 +24,7 @@ name=in-body-null
 name=in-foreign-content-null
 name=in-select-null
 name=in-table-text-null
+name=in-element-null
 
 @en
 The <code>NULL</code> character is ignored
@@ -109,6 +110,7 @@ name=in-table-body-end-tbody-tfoot-thead
 name=in-table-end-bc3ht6
 name=in-table-end-table
 name=in-template-end-else
+name=in-element-end-else-3
 value=tag_name
 
 @en
@@ -325,6 +327,9 @@ $$</table>
 !context=template
 <link>$$</template>
 !value=template
+!!!XML
+<p>$$</pq></p>
+!value=pq
 
 * not closed before ancestor end tag
 
@@ -346,6 +351,7 @@ name=in-foreign-content-end-script
 name=in-head-end-template-2
 name=-steps-close-a-p-element
 name=-steps-close-the-cell
+name=in-element-end-else-2
 text=current node.local_name
 value=tag_name
 
@@ -450,6 +456,10 @@ The <code><var>{text}</var></code> element is not closed before the
 <!DOCTYPE HTML><table><tr><td><span>$$<td>
 !value=td
 !text=span
+!!!XML
+<p><q>$$</p>
+!value=p
+!text=q
 
 * element not closed before implied ancestor end tag
 
@@ -853,6 +863,7 @@ name=in-head-doctype
 name=in-head-noscript-doctype
 name=in-select-doctype
 name=in-table-doctype
+name=before-root-element-doctype
 
 @en
 The DOCTYPE is not at the beginning of the document
@@ -1109,6 +1120,35 @@ attribute name and value.
 !!!
 <!DOCTYPE html><p $$=foo>
 
+* no attr value
+
+name=attribute-name-002f
+name=attribute-name-003e
+name=after-attribute-name-else
+name=after-attribute-name-002f
+name=after-attribute-name-003e
+
+@en
+There is no attribute value
+@ja
+属性値がありません
+
+@en
+<p>There must be attribute value in XML.
+@ja
+<p>XML では属性値は必須です。
+
+!!!XML
+<p foo$$/>
+!!!XML
+<p foo$$></p>
+!!!XML
+<p foo $$x/>
+!!!XML
+<p foo $$/>
+!!!XML
+<p foo $$>
+
 * bad attribute value
 
 name=attribute-value-unquoted-0022
@@ -1182,6 +1222,28 @@ example">&lt;foo&#x20;bar&#x20;baz=<mark>""</mark>></code>
 !!!
 <!DOCTYPE HTML><p foo= bar$$=>
 
+* lt in attr value
+
+name=attribute-value-double-quoted-003c
+name=attribute-value-single-quoted-003c
+
+@en
+There is <code>&lt;</code> in an attribute value
+@ja
+属性値に <code>&lt;</code> があります
+
+@en
+<p>The <code>&lt;</code> character is not allowed in an attribute
+value.  It must be escaped as <code>&amp;lt;</code>.
+@ja
+<p>属性値に <code>&lt;</code> を含めることはできません。 <code>&amp;lt;</code>
+とエスケープしなければいけません。
+
+!!!XML
+<p x="a$$<b"/>
+!!!XML
+<p x='a$$<b'/>
+
 * attr:no =
 
 name=after-attribute-name-0022
@@ -1211,6 +1273,27 @@ value.
 
 !!!
 <!DOCTYPE html><foo bar $$'></foo>
+
+* unquoted attr value
+
+name=before-attribute-value-else
+name=before-attribute-value-0026
+
+@en
+The attribute value is not quoted
+@ja
+属性値が引用符で括られていません
+
+@en
+<p>In XML, the attribute value must be quoted by <code>"</code>
+or <code>'</code>.
+@ja
+<p>XML では属性値は <code>"</code> か <code>'</code> で括らなければいけません。
+
+!!!XML
+<a b=$$c/>
+!!!XML
+<a b=$$&copy;/>
 
 * tag not closed
 
@@ -1284,6 +1367,7 @@ name=-start-tag-self-closing-flag
 text=tag_name
 layer=tree-construction
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 The self-closing syntax (<code>/></code>) is used
@@ -1361,6 +1445,7 @@ There is no space before an attribute
 
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 An attribute is specified for an end tag
@@ -1379,6 +1464,7 @@ An attribute is specified for an end tag
 
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 module=Temma::Parser
 
 @en
@@ -1445,6 +1531,8 @@ There is an empty end tag
 * bare stago
 
 name=tag-open-else
+name=tag-open-003e
+name=doctype-tag-open-else
 module=Whatpm::WebVTT::Parser
 
 @en
@@ -1475,10 +1563,15 @@ The <code>&lt;</code> character is not followed by a tag name or a
 
 !!!
 <!DOCTYPE HTML><$$"
+!!!XML
+<p>$$<></p>
+!!!XML
+<!DOCTYPE a[$$<b>]><a/>
 
 * bare etago
 
 name=end-tag-open-else
+name=end-tag-open-ws
 
 @en
 The <code>&lt;/</code> is not followed by a tag name
@@ -1507,10 +1600,37 @@ class="charname">LESS-THAN SIGN</code>) の後に
 
 !!!
 <!DOCTYPE HTML></$$!?>
+!!!XML
+<!DOCTYPE HTML></$$ >
+
+* bare pio
+
+name=pi-003f
+name=pi-ws
+
+@en
+There is no processing instruction target
+@ja
+処理指令の対象名がありません
+
+@en
+<p>After the <code>&lt;?</code> string, there must be a processing instruction's
+target name.  To represent a string <code>&lt;?</code>, the <code>&lt;</code>
+character must be escaped as <code>&amp;lt;</code>.
+@ja
+<p><code>&lt;?</code> の後には処理指令の対象名が必要です。文字列
+<code>&lt;?</code> を表したい時は <code>&lt;</code> を
+<code>&amp;lt;</code> とエスケープしないといけません。
+
+!!!XML
+<p>Aa$$<??>
+!!!XML
+<p>Aa$$<? ?>
 
 * bogus comment
 
 name=markup-declaration-open-else
+name=doctype-markup-declaration-open-else
 
 @en
 The <code>&lt;!</code> is not followed by <code>--</code>
@@ -1576,6 +1696,8 @@ The <code>&lt;!</code> is not followed by <code>--</code>
 <!DOCTYPE HTML><!$$HOGE>
 !!!
 <!DOCTYPE HTML><!DOCTYP$$O>
+!!!XML
+<!DOCTYPE x[<!$$z>]]>
 
 * pio
 
@@ -1676,6 +1798,83 @@ tag.
 !!!
 <!DOCTYPE html></head>$$<link>
 
+* bare ero
+
+module=Whatpm::WebVTT::Parser
+name=character-reference-ws
+name=character-reference-0022
+name=character-reference-0027
+name=character-reference-003c
+name=character-reference-003d
+name=character-reference-0060
+
+@en
+There is an unescaped <code>&amp;</code> character
+@ja
+エスケープされていない <code>&amp;</code> があります
+
+@en
+    <p>An <code>&amp;</code> character which
+    is not part of any reference appears in the input stream.</p>
+
+    <p><em>Any <code>&amp;</code> character in URLs
+    must be escaped as <code class="example">&amp;amp;</code>.</em></p>
+
+    <p>The <code>&amp;</code> character must
+    be the first character of a reference:
+    </p>
+
+      <dl class="switch">
+      <dt>Named character reference (HTML / WebVTT)</dt>
+          <dd><pre class="html example"><code>&amp;<var>entity-name</var>;</code></pre>
+          where <var>entity-name</var> is the name of the
+          character to be referenced.</dd>
+      <dt>Numeric character reference (HTML only)</dt>
+          <dd><pre class="html example"><code>&amp;#<var>d</var>;</code></pre>
+          where <var>d</var> is the decimal representation of
+          the code position of the character to be referenced.</dd>
+      <dt>Hexadecimal character reference (HTML only)</dt>
+          <dd><pre class="html example"><code>&amp;#x<var>h</var>;</code></pre>
+          where <var>h</var> is the hexadecimal representation
+          of the code position of the character to be referenced.</dd>
+      </dl>
+
+    <p>To represent <code>&amp;</code> as a data character, use
+    named character reference:
+    </p>
+      <pre class="html example"><code>&amp;amp;</code></pre>
+
+@ja
+    <p>文字 <code>&amp;</code> が、文字参照の一部ではなく、
+    単独で現れました。</p>
+
+    <p><em>URL 中の <code>&amp;</code> 文字も
+    <code class="example">&amp;amp;</code> 
+    とエスケープしなければなりません。</em></p>
+
+    <p>文字 <code>&amp;</code> は参照の最初の1文字でなければなりません。
+    </p>
+
+      <dl class="switch">
+      <dt>名前付き文字参照 (HTML / WebVTT)</dt>
+          <dd><pre class="html example"><code>&amp;<var>実体名</var>;</code></pre>
+          の<var>実体名</var>が参照する文字の名前となります。</dd>
+      <dt>数値文字参照 (HTML のみ)</dt>
+          <dd><pre class="html example"><code>&amp;#<var>d</var>;</code></pre>
+          の <var>d</var> が参照する文字の符号位置の十進表現となります。</dd>
+      <dt>十六進数文字参照 (HTML のみ)</dt>
+          <dd><pre class="html example"><code>&amp;#x<var>h</var>;</code></pre>
+          の <var>h</var> が参照する文字の符号位置の十六進表現となります。</dd>
+      </dl>
+
+    <p>データ文字としての <code>&amp;</code> を表したい時は、
+    文字参照を使ってください。
+    </p>
+      <pre class="html example"><code>&amp;amp;</code></pre>
+
+!!!XML
+<p x=A$$&=>
+
 * bare nero
 
 name=character-reference-number-else
@@ -1743,12 +1942,34 @@ character must be escaped as <code>&amp;amp;</code>.
 !!!
 <!DOCTYPE HTML>&#X$$zza
 
+* uppercase hcro
+
+name=character-reference-number-0058
+
+@en
+The <code>x</code> character in the reference is in uppercase
+@ja
+文字参照の <code>x</code> が大文字になっています
+
+@en
+<p>In XML, the <code>x</code> character in <code>&amp;#<mark>x</mark><code>
+introducing a hexadecimal character reference must be in
+lowercase.
+@ja
+<p>XML では十六進数文字参照の最初の <code>&amp;#<mark>x</mark></code>
+の <code>x</code> は小文字でなければいけません。
+
+!!!XML
+<a>&#$$X21;</a>
+
 * no refc
 
 name=character-reference-decimal-number-else
 name=character-reference-hexadecimal-number-else
+name=character-reference-name-003d
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 There is no <code>;</code> at the end of a reference
@@ -1772,11 +1993,14 @@ There is no <code>;</code> at the end of a reference
 <!DOCTYPE HTML>&amp$$**
 !!!
 <!DOCTYPE HTML><a href="&amp$$=aa">
+!!!XML
+<p x="aa&copy$$="/>
 
 * invalid character reference
 
 layer=character-set
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 Special code point <code><var>{text}</var></code> is referenced
@@ -2006,6 +2230,7 @@ name=in-body-eof
 name=in-frameset-eof
 name=in-template-eof
 name=text-eof
+name=in-element-eof-2
 text=current node.local_name
 
 @en
@@ -2045,6 +2270,28 @@ explicitly closed by their end tags before the end of file.
 !!!
 <!DOCTYPE HTML><plaintext>a$$
 !text=plaintext
+!!!XML
+<p>xxx
+!text=p
+
+* no root element
+
+name=before-root-element-eof
+
+@en
+There is no root element
+@ja
+根要素がありません
+
+@en
+<p>There must be the root element's start tag in an XML document.
+@ja
+<p>XML 文書には根要素の開始タグが必要です。
+
+!!!XML
+$$
+!!!XML
+     $$
 
 * duplicate body/html tag
 
@@ -2819,6 +3066,33 @@ The character encoding declaration contains a character reference
 !!!
 <!DOCTYPE HTML><meta http-equiv=content-type $$content="text/html;&#x20;charset=utf-8">
 
+* text outside of root element
+
+name=before-doctype-char
+name=before-root-element-char
+name=after-root-element-char
+
+@en
+There is a character outside of the root element
+@ja
+根要素の外に文字があります
+
+@en
+<p>Characters other than white spaces must be included in an
+element or an attribute value.
+
+@ja
+<p>空白以外の文字は要素や属性値の中でしか使えません。
+
+!!!XML
+$$a<p/>
+!!!XML
+<!DOCTYPE p>$$a<p/>
+!!!XML
+<!---->  $$x<a/>
+!!!XML
+<a/>$$b
+
 * ref outside of root element
 
 layer=entity
@@ -2842,6 +3116,24 @@ $$&amp;
 !!!XML
 <a/>$$&hoge;
 !value=&hoge;
+
+* second root element
+
+name=after-root-element-start-else
+
+@en
+There is an element after the root element
+@ja
+根要素の後に別の要素があります
+
+@en
+<p>There must be only one root element.  No start tag is allowed
+after the end tag of the root element.
+@ja
+<p>根要素は1つだけです。根要素の終了タグの後に開始タグは使えません。
+
+!!!XML
+<p/>$$<p>
 
 * WFC:No Recursion
 
@@ -3110,6 +3402,26 @@ There is an unclosed marked section
 @ja
 <p>ファイルや DTD の末尾までに条件区間は閉じなければいけません。
 
+* unmatched mse
+
+name=after-msc-003e
+
+@en
+There is an unmatched <code>]]></code>
+@ja
+対応していない <code>]]></code> があります
+
+@en
+<p>In XML, the <code>></code> character in <code>]]></code> must be
+escaped as <code>&amp;gt;</code> unless it is closing a <code>CDATA</code>
+section.
+@ja
+<p>XML では <code>]]></code> の <code>></code> は <code>CDATA</code>
+区間を閉じる場合を除き <code>&amp;gt;</code> とエスケープしないといけません。
+
+!!!XML
+<p>$$]]></p>
+
 * unclosed literal
 
 layer=tokenizer
@@ -3267,6 +3579,7 @@ stricter syntax than normal tags.
 
 * string in internal subset
 
+name=dtd-else
 layer=tokenizer
 module=Web::XML::Parser::tokenizer
 
@@ -3285,6 +3598,8 @@ instructions can be used in the internal subset.
 <!DOCTYPE a[
 $$]]>
 ]><a/>
+!!!XML
+<!DOCTYPE a[ $$a]><a/>
 
 * unmatched mgc
 
@@ -3322,6 +3637,24 @@ DTD 中に処理指令があります
 <!DOCTYPE foo [$$<?hoge?>]><foo/>
 !level=w
 
+* no s after target
+
+name=pi-target-question-else
+
+@en
+There is no space between the processing instruction's target and data
+@ja
+処理指令の対象名とデータの間に空白がありません
+
+@en
+<p>There must be a white space character between the target and data of
+a processing instruction.
+@ja
+<p>処理指令の対象名とデータの間には空白が必要です。
+
+!!!XML
+<?hoge$$??>
+
 * xml:dtd:ext decl
 
 layer=tree-construction
@@ -3336,6 +3669,38 @@ There is a markup declaration in an external entity
 <p>Markup declarations in external entities are not interoperable.
 @ja
 <p>外部実体にあるマーク付け宣言は相互運用性が高くありません。
+
+* no md def
+
+name=after-entity-name-003e
+
+@en
+The markup declaration has no parameter
+@ja
+このマーク付け宣言には引数がありません
+
+@en
+<p>Markup declarations other than <code>ATTLIST</code> must contain
+parameters after the name:
+  <dl class=switch>
+  <dt><code>ENTITY</code> declaration
+  <dd>Either a system identifier and optional public identifier and notation name,
+  or an entity value.
+  <dt><code>NOTATION</code> declaration
+  <dd>Public and/or system identifiers.
+  <dt><code>ELEMENT</code> declaration
+  <dd>The content model.
+  </dl>
+@ja
+<p><code>ATTLIST</code> 以外のマーク付け宣言は名前の後に引数が必要です。
+  <dl class=switch>
+  <dt><code>ENTITY</code> 宣言
+  <dd>システム識別子と省略可能な公開識別子や記法名か、実体値かのいずれか。
+  <dt><code>NOTATION</code> 宣言
+  <dd>公開識別子とシステム識別子の一方または両方。
+  <dt><code>ELEMENT</code> 宣言
+  <dd>内容モデル。
+  </dl>
 
 * xml:dtd:unknown content keyword
 
