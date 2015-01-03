@@ -1095,7 +1095,8 @@ for my $im (keys %{$Data->{ims}}) {
       $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
         my $acts = shift;
         for my $act (@$acts) {
-          if ($act->{type} eq 'parse error') {
+          if ($act->{type} eq 'parse error' or
+              $act->{type} eq 'parse error-and-switch') {
             unless (defined $act->{name}) {
               die "No parse error name in |$im| |$cond|";
             }

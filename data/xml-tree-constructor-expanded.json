@@ -3,11 +3,7 @@
       "Error type for parse error \u0022before-doctype-end-else\u0022 not defined",
       "Error type for parse error \u0022before-root-element-end-else\u0022 not defined",
       "Error type for parse error \u0022in-subset-char\u0022 not defined",
-      "Error type for parse error \u0022in-element-end-else\u0022 not defined",
-      "Error type for parse error \u0022in-element-eof\u0022 not defined",
-      "Error type for parse error \u0022in-element-doctype\u0022 not defined",
-      "Error type for parse error \u0022after-root-element-end-else\u0022 not defined",
-      "Error type for parse error \u0022after-root-element-doctype\u0022 not defined"
+      "Error type for parse error \u0022after-root-element-end-else\u0022 not defined"
    ],
    "actions" : {
       "after DOCTYPE;ATTLIST" : [
@@ -164,6 +160,7 @@
       ],
       "after root element;DOCTYPE" : [
          {
+            "error_type" : "doctype:bad context",
             "name" : "after-root-element-doctype",
             "type" : "parse error"
          },
@@ -983,6 +980,7 @@
       ],
       "in element;DOCTYPE" : [
          {
+            "error_type" : "doctype:bad context",
             "name" : "in-element-doctype",
             "type" : "parse error"
          },
@@ -1015,6 +1013,11 @@
                {
                   "actions" : [
                      {
+                        "error_type" : "stray end tag",
+                        "error_value" : [
+                           "token",
+                           "tag name"
+                        ],
                         "name" : "in-element-end-else",
                         "type" : "parse error"
                      },
@@ -1137,6 +1140,11 @@
                {
                   "actions" : [
                      {
+                        "error_text" : [
+                           "oe[-1]",
+                           "local name"
+                        ],
+                        "error_type" : "in body:#eof",
                         "name" : "in-element-eof",
                         "type" : "parse error"
                      }

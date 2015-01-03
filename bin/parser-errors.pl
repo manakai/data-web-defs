@@ -95,7 +95,9 @@ sub extract_parse_error_names ($) {
     my $value = shift @value;
     next unless defined $value;
     if (ref $value eq 'HASH') {
-      if (defined $value->{type} and $value->{type} eq 'parse error') {
+      if (defined $value->{type} and
+          ($value->{type} eq 'parse error' or
+           $value->{type} eq 'parse error-and-switch')) {
         if (defined $value->{name}) {
           push @name, $value->{name};
         }

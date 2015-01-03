@@ -283,7 +283,7 @@ initially <i>null</i>.
 
 <dt>Anything else
 <dd>
-  <p><span>Parse error</span> <ins>(offset=1)</ins>.
+  <p><span>Parse error</span>.
   <p>If the parser was originally created as part of the <span>XML
   fragment parsing algorithm</span>, switch to the <span>DTD
   state</span> and abort these steps.
@@ -356,10 +356,11 @@ initially <i>null</i>.
 <dd>
   <p>If the <i>DTD mode</i> of the parser is <em>not</em> <i>internal
   subset</i>, switch to the <span>after mss state</span>.
-  <p>Otherwise, this is a <span>parse error</span>.  Create a marked
-  section whose status is <i>IGNORE</i> and push it onto
-  the <span>stack of open marked sections</span>.  Switch to
-  the <span>ignored section state</span>.
+  <p>Otherwise, this is a <span>parse
+  error</span> <ins>(offset=2)</ins>.  Create a marked section whose
+  status is <i>IGNORE</i> and push it onto the <span>stack of open
+  marked sections</span>.  Switch to the <span>ignored section
+  state</span>.
 
 <dt>Anything else
 <dd>

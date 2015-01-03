@@ -50,7 +50,8 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Parse error\.\s*// or
              $action =~ s/^Otherwise, this is a parse error\.\s*//) {
       push @action, {type => 'parse error'};
-    } elsif ($action =~ s/^Parse error \(offset=([0-9]+)\)\.$//) {
+    } elsif ($action =~ s/^Parse error \(offset=([0-9]+)\)\.$// or
+             $action =~ s/^Otherwise, this is a parse error \(offset=([0-9]+)\)\.\s*//) {
       push @action, {type => 'parse error', index_offset => $1};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
@@ -843,6 +844,7 @@ sub error_name ($$) {
                 my $chk = [{type => 'append-to-temp'},
                            {if => 'temp-wrong-case', type => 'parse error',
                             name => 'keyword-wrong-case',
+                            index_offset => (length $kwd) - 1,
                             expected_keyword => $kwd}];
                 $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [@$chk, @{$act->{value}}];
                 $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [@$chk, @{$act->{value}}];
