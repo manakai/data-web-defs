@@ -28,6 +28,7 @@ for (
 sub error_name ($$) {
   my $name = shift;
   my $cond = shift;
+  $name =~ s/^.+ state - ((?:before |)text declaration in markup declaration state)/$1/;
   $name =~ s/ state$//;
   $name .= '-' . $cond;
   $name =~ s/CHAR://;

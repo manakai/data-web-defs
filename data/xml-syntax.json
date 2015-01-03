@@ -5473,6 +5473,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ELEMENT token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -6544,6 +6550,25 @@
                      }
                   ]
                },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "LOWER" : {
                   "actions" : [
                      {
@@ -7322,6 +7347,25 @@
                      }
                   ]
                },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "LOWER" : {
                   "actions" : [
                      {
@@ -8070,6 +8114,25 @@
                   "actions" : [
                      {
                         "type" : "append-to-temp"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-temp"
+                     },
+                     {
+                        "state" : "ENTITY value in entity state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9431,7 +9494,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9447,14 +9510,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9470,14 +9533,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9493,14 +9556,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9516,14 +9579,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9549,7 +9612,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9575,7 +9638,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-default-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9730,7 +9793,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9746,14 +9809,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9769,14 +9832,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9792,14 +9855,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9815,14 +9878,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9848,7 +9911,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -9874,7 +9937,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10067,7 +10130,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10083,14 +10146,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10106,14 +10169,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10129,14 +10192,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10152,14 +10215,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10185,7 +10248,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -10211,7 +10274,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-attlist-attribute-type-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11829,7 +11892,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11845,14 +11908,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-element-content-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11868,14 +11931,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-element-content-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11891,14 +11954,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-element-content-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11914,14 +11977,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-element-content-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11947,7 +12010,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -11973,7 +12036,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-element-content-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12194,7 +12257,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12210,14 +12273,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12233,14 +12296,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12256,14 +12319,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12279,14 +12342,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12312,7 +12375,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -12338,7 +12401,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13069,7 +13132,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13085,14 +13148,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13108,14 +13171,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13131,14 +13194,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13154,14 +13217,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13187,7 +13250,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13213,7 +13276,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-entity-parameter-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13361,6 +13424,9 @@
                      {
                         "state" : "before ENTITY public identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -13391,6 +13457,9 @@
                      {
                         "state" : "before ENTITY public identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -13865,7 +13934,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13881,14 +13950,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13904,14 +13973,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13927,14 +13996,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13950,14 +14019,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -13983,7 +14052,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14009,7 +14078,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-ignore-keyword-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14222,7 +14291,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14238,14 +14307,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14261,14 +14330,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14284,14 +14353,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14307,14 +14376,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14340,7 +14409,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14366,7 +14435,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-include-keyword-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14649,7 +14718,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14665,14 +14734,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14688,14 +14757,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14711,14 +14780,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14734,14 +14803,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14767,7 +14836,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -14793,7 +14862,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15525,6 +15594,9 @@
                      {
                         "state" : "before NOTATION public identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -15555,6 +15627,9 @@
                      {
                         "state" : "before NOTATION public identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -15752,7 +15827,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15768,14 +15843,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15791,14 +15866,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15814,14 +15889,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15837,14 +15912,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15870,7 +15945,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15896,7 +15971,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-notation-system-identifier-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -15925,6 +16000,9 @@
                      {
                         "state" : "before NOTATION system identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -15955,6 +16033,9 @@
                      {
                         "state" : "before NOTATION system identifier state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -16219,7 +16300,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16235,14 +16316,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16258,14 +16339,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16281,14 +16362,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16304,14 +16385,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16337,7 +16418,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16363,7 +16444,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-after-allowed-token-list-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16618,7 +16699,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16634,14 +16715,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16657,14 +16738,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16680,14 +16761,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16703,14 +16784,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16736,7 +16817,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -16762,7 +16843,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-allowed-token-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17514,7 +17595,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17530,14 +17611,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17553,14 +17634,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17576,14 +17657,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17599,14 +17680,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17632,7 +17713,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17658,7 +17739,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-content-model-item-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -17989,7 +18070,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -18005,14 +18086,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "after-mss-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -18028,14 +18109,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "after-mss-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -18051,14 +18132,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "after-mss-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -18074,14 +18155,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "after-mss-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -18107,7 +18188,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -18133,7 +18214,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "after-mss-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22734,7 +22815,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22750,14 +22831,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22773,14 +22854,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22796,14 +22877,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22819,14 +22900,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22852,7 +22933,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -22878,7 +22959,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-attribute-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23036,7 +23117,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23052,14 +23133,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23075,14 +23156,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23098,14 +23179,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23121,14 +23202,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23154,7 +23235,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23180,7 +23261,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-attlist-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23707,6 +23788,12 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "ELEMENT token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -23818,7 +23905,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23834,14 +23921,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-element-content-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23857,14 +23944,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-element-content-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23880,14 +23967,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-element-content-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23903,14 +23990,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-element-content-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23936,7 +24023,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -23962,7 +24049,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-content-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24120,7 +24207,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24136,14 +24223,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-element-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24159,14 +24246,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-element-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24182,14 +24269,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-element-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24205,14 +24292,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-element-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24238,7 +24325,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24264,7 +24351,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-element-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24418,7 +24505,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24434,14 +24521,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24457,14 +24544,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24480,14 +24567,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24503,14 +24590,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24536,7 +24623,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24562,7 +24649,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24731,7 +24818,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24747,14 +24834,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24770,14 +24857,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24793,14 +24880,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24816,14 +24903,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24849,7 +24936,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -24875,7 +24962,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-public-identifier-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25044,7 +25131,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25060,14 +25147,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25083,14 +25170,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25106,14 +25193,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25129,14 +25216,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25162,7 +25249,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25188,7 +25275,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-system-identifier-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25299,7 +25386,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25315,14 +25402,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25338,14 +25425,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25361,14 +25448,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25384,14 +25471,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-entity-type-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25417,7 +25504,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25443,7 +25530,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-entity-type-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25639,7 +25726,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25655,14 +25742,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25678,14 +25765,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25701,14 +25788,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25724,14 +25811,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25757,7 +25844,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25783,7 +25870,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-identifier-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25948,7 +26035,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25964,14 +26051,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -25987,14 +26074,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26010,14 +26097,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26033,14 +26120,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26066,7 +26153,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26092,7 +26179,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-ndata-keyword-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26401,9 +26488,6 @@
                      {
                         "state" : "DTD state",
                         "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
@@ -26491,7 +26575,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26507,14 +26591,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26530,14 +26614,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26553,14 +26637,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26576,14 +26660,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-name-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26609,7 +26693,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26635,7 +26719,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-name-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26804,7 +26888,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26820,14 +26904,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26843,14 +26927,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26866,14 +26950,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26889,14 +26973,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26922,7 +27006,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -26948,7 +27032,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-public-identifier-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27117,7 +27201,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27133,14 +27217,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27156,14 +27240,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27179,14 +27263,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27202,14 +27286,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27235,7 +27319,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27261,7 +27345,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-notation-system-identifier-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27451,7 +27535,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27467,14 +27551,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27490,14 +27574,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27513,14 +27597,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27536,14 +27620,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27569,7 +27653,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -27595,7 +27679,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-allowed-token-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28208,7 +28292,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28224,14 +28308,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28247,14 +28331,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28270,14 +28354,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28293,14 +28377,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28326,7 +28410,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28352,7 +28436,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "before-content-model-item-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28641,7 +28725,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28657,14 +28741,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28680,14 +28764,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28703,14 +28787,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28726,14 +28810,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28759,7 +28843,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28785,7 +28869,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-entity-public-and-system-identifiers-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28950,7 +29034,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0000-",
+                              "name" : "text-declaration-in-markup-declaration-0000-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28966,14 +29050,14 @@
                "CHAR:0021" : {
                   "actions" : [
                      {
-                        "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0021",
+                        "name" : "text-declaration-in-markup-declaration-0021",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -28989,14 +29073,14 @@
                "CHAR:0025" : {
                   "actions" : [
                      {
-                        "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0025",
+                        "name" : "text-declaration-in-markup-declaration-0025",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -29012,14 +29096,14 @@
                "CHAR:0026" : {
                   "actions" : [
                      {
-                        "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026",
+                        "name" : "text-declaration-in-markup-declaration-0026",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -29035,14 +29119,14 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
-                        "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003c",
+                        "name" : "text-declaration-in-markup-declaration-003c",
                         "type" : "parse error"
                      },
                      {
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-0026-",
+                              "name" : "text-declaration-in-markup-declaration-0026-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -29068,7 +29152,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-003e-",
+                              "name" : "text-declaration-in-markup-declaration-003e-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -29094,7 +29178,7 @@
                         "false_actions" : [
                            {
                               "index_offset" : 1,
-                              "name" : "between-notation-public-and-system-identifiers-state-text-declaration-in-markup-declaration-eof-",
+                              "name" : "text-declaration-in-markup-declaration-eof-",
                               "state" : "bogus markup declaration state",
                               "type" : "parse error-and-switch"
                            }
@@ -36882,6 +36966,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "index_offset" : "1",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -36902,6 +36987,7 @@
                "WS:HTML" : {
                   "actions" : [
                      {
+                        "index_offset" : "1",
                         "name" : "tag-open-ws",
                         "type" : "parse error"
                      },

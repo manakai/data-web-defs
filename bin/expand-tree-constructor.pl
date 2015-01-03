@@ -1108,9 +1108,7 @@ for my $im (keys %{$Data->{ims}}) {
               $act->{error_text} = $def->{text} if defined $def->{text};
               $act->{error_value} = $def->{value} if defined $def->{value};
             } else {
-              push @{$Data->{_errors} ||= []},
-                  sprintf 'Error type for parse error "%s" not defined',
-                      $act->{name};
+              $Data->{_errors_by_name}->{sprintf 'Error type for parse error "%s" not defined', $act->{name}} = 1;
             }
           }
         }

@@ -112,6 +112,9 @@ name=in-table-end-table
 name=in-template-end-else
 name=in-element-end-else-3
 name=in-element-end-else
+name=before-doctype-end-else
+name=before-root-element-end-else
+name=after-root-element-end-else
 value=tag_name
 
 @en
@@ -761,6 +764,28 @@ name=after-entity-public-identifier-0022
 name=after-entity-public-identifier-0027
 name=parameter-entity-declaration-or-reference-003e
 name=after-ndata-keyword-else
+name=parameter-entity-declaration-or-reference-003d
+name=parameter-entity-declaration-or-reference-003c
+name=parameter-entity-declaration-or-reference-0022
+name=parameter-entity-declaration-or-reference-0026
+name=parameter-entity-declaration-or-reference-0027
+name=parameter-entity-declaration-or-reference-0060
+name=parameter-entity-declaration-or-reference-0025
+name=parameter-entity-declaration-or-reference-ws
+name=after-entity-public-keyword-0022
+name=after-entity-public-keyword-0027
+name=after-entity-system-keyword-0022
+name=after-entity-system-keyword-0027
+name=entity-else
+name=entity-name-0022
+name=entity-name-0027
+name=element-name-0028
+name=after-notation-public-keyword-0022
+name=after-notation-public-keyword-0027
+name=after-notation-system-keyword-0022
+name=after-notation-system-keyword-0027
+name=after-notation-public-keyword-else
+name=after-notation-system-keyword-else
 
 @en
 There is no space between markup declaration parameters
@@ -776,6 +801,12 @@ declaration parameters such as keywords, literals, and groups.
 
 !!!XML
 <!DOCTYPE x [<!ATTLIST a b (c)$$"d">]><x/>
+!!!XML
+<!DOCTYPE x [<!ENTITY%$$=>]><x/>
+!!!XML
+<!DOCTYPE x [<!ENTITY%$$<>]><x/>
+!!!XML
+<!DOCTYPE x [<!ENTITY %$$#>]><x/>
 
 * no DOCTYPE literal
 
@@ -804,6 +835,10 @@ name=after-doctype-system-keyword-005b
 name=between-doctype-public-and-system-identifiers-005b
 name=after-doctype-public-identifier-003e
 name=between-doctype-public-and-system-identifiers-003e
+name=between-entity-public-and-system-identifiers-003e
+name=after-entity-public-identifier-003e
+name=after-entity-public-keyword-else
+name=after-entity-system-keyword-else
 
 @en
 There is no quoted string
@@ -839,6 +874,10 @@ name=doctype-public-identifier-double-quoted-003e
 name=doctype-public-identifier-single-quoted-003e
 name=doctype-system-identifier-double-quoted-003e
 name=doctype-system-identifier-single-quoted-003e
+name=entity-public-identifier-double-quoted-003e
+name=entity-public-identifier-single-quoted-003e
+name=notation-public-identifier-double-quoted-003e
+name=notation-public-identifier-single-quoted-003e
 
 @en
 The quoted string is not terminated before the declaration
@@ -1221,6 +1260,7 @@ attribute name and value.
 name=attribute-name-002f
 name=attribute-name-003e
 name=after-attribute-name-else
+name=after-attribute-name-upper
 name=after-attribute-name-002f
 name=after-attribute-name-003e
 
@@ -1239,7 +1279,7 @@ There is no attribute value
 !!!XML
 <p foo$$></p>
 !!!XML
-<p foo $$x/>
+<p foo $$x=""/>
 !!!XML
 <p foo $$/>
 !!!XML
@@ -1377,6 +1417,7 @@ value.
 name=before-attribute-value-else
 name=before-attribute-value-0026
 name=after-attlist-attribute-type-else
+name=after-after-allowed-token-list-else
 
 @en
 The attribute value is not quoted
@@ -1633,6 +1674,7 @@ There is an empty end tag
 
 name=tag-open-else
 name=tag-open-003e
+name=tag-open-ws
 name=doctype-tag-open-else
 module=Whatpm::WebVTT::Parser
 
@@ -1702,7 +1744,7 @@ class="charname">LESS-THAN SIGN</code>) の後に
 !!!
 <!DOCTYPE HTML></$$!?>
 !!!XML
-<!DOCTYPE HTML></$$ >
+<!DOCTYPE HTML>$$</ >
 
 * bare pio
 
@@ -2072,7 +2114,6 @@ name=character-reference-hexadecimal-number-else
 name=character-reference-name-003d
 name=parameter-entity-name-in-markup-declaration-ws
 name=parameter-entity-name-in-entity-value-double-quoted-0022
-name=parameter-entity-name-in-entity-value-single-quoted-0027
 name=entity-value-double-quoted-state-character-reference-name-0022
 name=parameter-entity-name-in-dtd-0025
 name=parameter-entity-name-in-dtd-003c
@@ -2080,6 +2121,99 @@ name=parameter-entity-name-in-dtd-ws
 name=character-reference-name-003c
 name=character-reference-name-0026
 name=character-reference-name-ws
+name=character-reference-003e
+name=character-reference-0025
+name=character-reference-name-0022
+name=character-reference-name-0025
+name=character-reference-name-0027
+name=character-reference-name-003e
+name=character-reference-name-0060
+name=character-reference-name-allowed-char
+name=entity-value-double-quoted-state-character-reference-name-003d
+name=entity-value-double-quoted-state-character-reference-name-0027
+name=entity-value-double-quoted-state-character-reference-name-003c
+name=entity-value-double-quoted-state-character-reference-name-0060
+name=entity-value-double-quoted-state-character-reference-name-0025
+name=entity-value-double-quoted-state-character-reference-name-ws
+name=entity-value-single-quoted-state-character-reference-name-003d
+name=entity-value-single-quoted-state-character-reference-name-0027
+name=entity-value-single-quoted-state-character-reference-name-003c
+name=entity-value-single-quoted-state-character-reference-name-0060
+name=entity-value-single-quoted-state-character-reference-name-0022
+name=entity-value-single-quoted-state-character-reference-name-0026
+name=entity-value-single-quoted-state-character-reference-name-0025
+name=entity-value-single-quoted-state-character-reference-name-ws
+name=entity-value-double-quoted-state-character-reference-name-0026
+name=entity-value-double-quoted-state-character-reference-name-0023
+name=entity-value-double-quoted-state-character-reference-name-003e
+name=entity-value-in-entity-state-character-reference-name-0022
+name=entity-value-in-entity-state-character-reference-name-0025
+name=entity-value-in-entity-state-character-reference-name-003e
+name=entity-value-in-entity-state-character-reference-name-003c
+name=entity-value-in-entity-state-character-reference-name-0060
+name=entity-value-in-entity-state-character-reference-name-0023
+name=entity-value-in-entity-state-character-reference-name-0026
+name=entity-value-in-entity-state-character-reference-name-0027
+name=entity-value-in-entity-state-character-reference-name-ws
+name=entity-value-single-quoted-state-character-reference-name-0023
+name=entity-value-single-quoted-state-character-reference-name-003e
+name=entity-value-in-entity-state-character-reference-name-003d
+name=character-reference-name-0023
+name=parameter-entity-name-in-dtd-0023
+name=parameter-entity-name-in-dtd-003e
+name=parameter-entity-name-in-dtd-0026
+name=parameter-entity-name-in-dtd-003d
+name=parameter-entity-name-in-dtd-0060
+name=parameter-entity-name-in-dtd-0027
+name=parameter-entity-name-in-dtd-0022
+name=parameter-entity-name-in-entity-value-double-quoted-0023
+name=parameter-entity-name-in-entity-value-double-quoted-ws
+name=parameter-entity-name-in-entity-value-double-quoted-003d
+name=parameter-entity-name-in-entity-value-double-quoted-003e
+name=parameter-entity-name-in-entity-value-double-quoted-003c
+name=parameter-entity-name-in-entity-value-double-quoted-0060
+name=parameter-entity-name-in-entity-value-double-quoted-0025
+name=parameter-entity-name-in-entity-value-double-quoted-0026
+name=parameter-entity-name-in-entity-value-double-quoted-0027
+name=parameter-entity-name-in-entity-value-single-quoted-0023
+name=parameter-entity-name-in-entity-value-single-quoted-ws
+name=parameter-entity-name-in-entity-value-single-quoted-003d
+name=parameter-entity-name-in-entity-value-single-quoted-003e
+name=parameter-entity-name-in-entity-value-single-quoted-003c
+name=parameter-entity-name-in-entity-value-single-quoted-0060
+name=parameter-entity-name-in-entity-value-single-quoted-0025
+name=parameter-entity-name-in-entity-value-single-quoted-0026
+name=parameter-entity-name-in-entity-value-single-quoted-0027
+name=parameter-entity-name-in-entity-value-single-quoted-0022
+name=parameter-entity-name-in-entity-value-in-entity-0023
+name=parameter-entity-name-in-entity-value-in-entity-0060
+name=parameter-entity-name-in-entity-value-in-entity-003d
+name=parameter-entity-name-in-entity-value-in-entity-003c
+name=parameter-entity-name-in-entity-value-in-entity-0025
+name=parameter-entity-name-in-entity-value-in-entity-0026
+name=parameter-entity-name-in-entity-value-in-entity-0027
+name=parameter-entity-name-in-entity-value-in-entity-0022
+name=parameter-entity-name-in-entity-value-in-entity-003e
+name=parameter-entity-name-in-entity-value-in-entity-ws
+name=parameter-entity-name-in-markup-declaration-0022
+name=parameter-entity-name-in-markup-declaration-0023
+name=parameter-entity-name-in-markup-declaration-003e
+name=parameter-entity-name-in-markup-declaration-0027
+name=parameter-entity-name-in-markup-declaration-0060
+name=parameter-entity-name-in-markup-declaration-0025
+name=parameter-entity-name-in-markup-declaration-0026
+name=parameter-entity-name-in-markup-declaration-003c
+name=parameter-entity-name-in-markup-declaration-003d
+name=parameter-entity-name-in-status-keyword-0022
+name=parameter-entity-name-in-status-keyword-0025
+name=parameter-entity-name-in-status-keyword-0026
+name=parameter-entity-name-in-status-keyword-003e
+name=parameter-entity-name-in-status-keyword-003d
+name=parameter-entity-name-in-status-keyword-003c
+name=parameter-entity-name-in-status-keyword-0060
+name=parameter-entity-name-in-status-keyword-0027
+name=parameter-entity-name-in-status-keyword-0023
+name=parameter-entity-name-in-status-keyword-ws
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
 module=Web::XML::Parser::tokenizer
@@ -2108,6 +2242,10 @@ There is no <code>;</code> at the end of a reference
 <!DOCTYPE HTML><a href="&amp$$=aa">
 !!!XML
 <p x="aa&copy$$="/>
+!!!XML
+<p x="aa&copy$$%"/>
+!!!XML
+<p x="aa&copy$$<"/>
 
 * invalid character reference
 
@@ -3447,6 +3585,8 @@ internal subset.
 
 * entref in attr has element
 
+name=attribute-value-in-entity-003c
+name=default-attribute-value-in-entity-003c
 layer=entity
 module=Web::XML::Parser::tokenizer
 
@@ -3748,11 +3888,37 @@ stricter syntax than normal tags.
 !!!XML
 <?xml version="1.0" $$foo="bar"?><a/>
 
+* tag in pe in markup declaration
+
+name=text-declaration-in-markup-declaration-003e-
+name=text-declaration-in-markup-declaration-eof-
+name=text-declaration-in-markup-declaration-003c
+name=text-declaration-in-markup-declaration-0021
+name=text-declaration-in-markup-declaration-0000
+name=text-declaration-in-markup-declaration-0000-
+name=text-declaration-in-markup-declaration-0025
+name=text-declaration-in-markup-declaration-0026
+name=text-declaration-in-markup-declaration-0026-
+
+@en
+There is a tag in a parameter entity referenced in a markup declaration
+@ja
+マーク付け宣言から参照されている引数実体にタグがあります
+
+@en
+<p>A parameter entity referenced from a markup declaration can't contain a tag,
+comment, declaration, section, or processing instruction.
+@ja
+<p>マーク付け宣言から参照されている引数実体にはタグ、注釈、宣言、区間、
+処理指令を含めることはできません。
+
 * string in internal subset
 
 name=dtd-else
+name=in-subset-char
 name=after-doctype-internal-subset-003e-fragment
 name=after-dtd-msc-else
+name=after-dtd-msc-005d
 layer=tokenizer
 module=Web::XML::Parser::tokenizer
 
@@ -3799,6 +3965,11 @@ name=before-allowed-token-003e
 name=before-allowed-token-007c
 name=before-allowed-token-0029
 name=before-content-model-item-0029
+name=before-content-model-item-002a
+name=before-content-model-item-007c
+name=before-content-model-item-002c
+name=before-content-model-item-003f
+name=before-content-model-item-002b
 
 @en
 No group item is specified
@@ -3830,6 +4001,9 @@ name=after-content-model-item-0029
 name=after-content-model-item-003f
 name=after-content-model-group-else
 name=after-content-model-item-002a
+name=after-content-model-group-0028
+name=after-content-model-item-0028
+name=content-model-element-0028
 
 @en
 There is an unexpected character after a group item
@@ -3928,8 +4102,9 @@ name=before-attlist-name-003e
 name=notation-003e
 name=before-entity-name-003e
 name=entity-003e
-name=before-entity-type-state-text-declaration-in-markup-declaration-003e-
-name=before-entity-type-state-text-declaration-in-markup-declaration-eof-
+name=element-003e
+name=before-notation-name-003e
+name=before-element-name-003e
 
 @en
 The markup declaration has no name
@@ -3950,6 +4125,14 @@ name=after-entity-name-003e
 name=notation-name-003e
 name=after-notation-name-003e
 name=entity-name-003e
+name=element-name-003e
+name=before-element-content-0029
+name=before-element-content-007c
+name=before-element-content-003f
+name=before-element-content-002c
+name=before-element-content-002a
+name=before-element-content-002b
+name=before-element-content-003e
 
 @en
 The markup declaration has no parameter
@@ -4019,6 +4202,8 @@ parameters after the name:
 
 name=after-element-content-else
 name=after-entity-parameter-else
+name=after-content-model-item-007c
+name=before-notation-system-identifier-else
 
 @en
 There is an unknown parameter in the markup declaration
@@ -4273,6 +4458,11 @@ name=before-attlist-attribute-default-ws
 name=attlist-attribute-type-003e
 name=after-attlist-attribute-type-003e
 name=before-attlist-attribute-default-0025
+name=after-allowed-token-list-003e
+name=after-after-allowed-token-list-003e
+name=before-attlist-attribute-default-0022
+name=before-attlist-attribute-default-0027
+name=before-attlist-attribute-default-003e
 
 @en
 There is no attribute default
@@ -4476,6 +4666,45 @@ name=before-attlist-attribute-name-003e-md-fragment
 name=attlist-name-003e-md-fragment
 name=before-attlist-name-003e-md-fragment
 name=after-include-keyword-005b-md-fragment
+name=after-entity-parameter-003e-md-fragment
+name=after-allowed-token-list-003e-md-fragment
+name=after-after-allowed-token-list-003e-md-fragment
+name=after-allowed-token-003e-md-fragment
+name=attlist-attribute-default-003e-md-fragment
+name=after-attlist-attribute-name-003e-md-fragment
+name=after-attlist-attribute-default-003e-md-fragment
+name=after-attlist-default-value-003e-md-fragment
+name=after-content-model-item-003e-md-fragment
+name=after-content-model-group-003e-md-fragment
+name=after-element-content-003e-md-fragment
+name=before-content-model-item-003e-md-fragment
+name=before-element-content-003e-md-fragment
+name=before-element-name-003e-md-fragment
+name=element-name-003e-md-fragment
+name=after-entity-public-identifier-003e-md-fragment
+name=after-entity-public-keyword-003e-md-fragment
+name=after-entity-system-keyword-003e-md-fragment
+name=after-entity-system-identifier-003e-md-fragment
+name=entity-003e-md-fragment
+name=element-003e-md-fragment
+name=notation-003e-md-fragment
+name=attlist-003e-md-fragment
+name=ndata-identifier-003e-md-fragment
+name=notation-public-identifier-double-quoted-003e-md-fragment
+name=notation-public-identifier-single-quoted-003e-md-fragment
+name=notation-name-003e-md-fragment
+name=after-notation-public-identifier-003e-md-fragment
+name=between-notation-public-and-system-identifiers-003e-md-fragment
+name=after-notation-system-keyword-003e-md-fragment
+name=after-notation-public-keyword-003e-md-fragment
+name=before-notation-public-identifier-003e-md-fragment
+name=before-notation-system-identifier-003e-md-fragment
+name=after-notation-name-003e-md-fragment
+name=after-notation-system-identifier-003e-md-fragment
+name=before-ndata-identifier-003e-md-fragment
+name=before-ndata-keyword-003e-md-fragment
+name=allowed-token-003e-md-fragment
+name=before-attlist-attribute-default-003e-md-fragment
 
 @en
 There is a <code>></code> in a parameter entity

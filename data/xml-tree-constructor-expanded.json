@@ -1,10 +1,4 @@
 {
-   "_errors" : [
-      "Error type for parse error \u0022before-doctype-end-else\u0022 not defined",
-      "Error type for parse error \u0022before-root-element-end-else\u0022 not defined",
-      "Error type for parse error \u0022in-subset-char\u0022 not defined",
-      "Error type for parse error \u0022after-root-element-end-else\u0022 not defined"
-   ],
    "actions" : {
       "after DOCTYPE;ATTLIST" : [
          {
@@ -186,6 +180,11 @@
       ],
       "after root element;END-ELSE" : [
          {
+            "error_type" : "stray end tag",
+            "error_value" : [
+               "token",
+               "tag name"
+            ],
             "name" : "after-root-element-end-else",
             "type" : "parse error"
          },
@@ -311,6 +310,11 @@
       ],
       "before DOCTYPE;END-ELSE" : [
          {
+            "error_type" : "stray end tag",
+            "error_value" : [
+               "token",
+               "tag name"
+            ],
             "name" : "before-doctype-end-else",
             "type" : "parse error"
          },
@@ -887,6 +891,11 @@
       ],
       "before root element;END-ELSE" : [
          {
+            "error_type" : "stray end tag",
+            "error_value" : [
+               "token",
+               "tag name"
+            ],
             "name" : "before-root-element-end-else",
             "type" : "parse error"
          },
@@ -1560,6 +1569,7 @@
          {
             "actions" : [
                {
+                  "error_type" : "string in internal subset",
                   "name" : "in-subset-char",
                   "type" : "parse error"
                }
