@@ -26,7 +26,7 @@ for (
 
 ## Also in |extract-html-tokenizer.pl|.
 sub error_name ($$) {
-  my $name = shift;
+  my $name = my $name_orig = shift;
   my $cond = shift;
   $name =~ s/^.+ state - ((?:before |)text declaration in markup declaration state)/$1/;
   $name =~ s/ state$//;
@@ -35,7 +35,7 @@ sub error_name ($$) {
   $name =~ s/WS:[A-Z]+/WS/;
   $name = lc $name;
   $name =~ s/([^a-z0-9]+)/-/g;
-  $name = 'EOF' if $name =~ /-eof$/;
+  $name = 'EOF' if $name =~ /-eof$/ and not $name_orig =~ /before ATTLIST attribute default state/;
   $name = 'NULL' if $name =~ /-0000$/;
   return $name;
 } # error_name

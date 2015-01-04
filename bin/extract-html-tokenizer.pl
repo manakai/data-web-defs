@@ -319,6 +319,8 @@ sub parse_action ($) {
                      state => $1,
                      index_offset => 1,
                      if => 'md-fragment', break => 1};
+    } elsif ($action =~ s/^If the stack of open marked sections is not empty, parse error\.//) {
+      push @action, {type => 'parse error', if => 'sections is not empty'};
     } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, abort these steps\.//) {
       push @action, {type => 'break', if => 'md-fragment'};
 
@@ -732,7 +734,7 @@ sub modify_actions (&) {
 
 ## Also in |xml-syntax.pl|.
 sub error_name ($$) {
-  my $name = shift;
+  my $name = my $name_orig = shift;
   my $cond = shift;
   $name =~ s/^.+ state - ((?:before |)text declaration in markup declaration state)/$1/;
   $name =~ s/ state$//;
@@ -741,7 +743,7 @@ sub error_name ($$) {
   $name =~ s/WS:[A-Z]+/WS/;
   $name = lc $name;
   $name =~ s/([^a-z0-9]+)/-/g;
-  $name = 'EOF' if $name =~ /-eof$/;
+  $name = 'EOF' if $name =~ /-eof$/ and not $name_orig =~ /before ATTLIST attribute default state/;
   $name = 'NULL' if $name =~ /-0000$/;
   return $name;
 } # error_name

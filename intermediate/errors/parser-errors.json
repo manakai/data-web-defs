@@ -2567,21 +2567,6 @@
             "after-mss-005d" : 1
          }
       },
-      "ms:unclosed" : {
-         "default_level" : "m",
-         "desc" : {
-            "en" : "\u003Cp>The conditional sections must be closed before the end of file or DTD.\u003C/p>",
-            "ja" : "\u003Cp>ファイルや DTD の末尾までに条件区間は閉じなければいけません。\u003C/p>"
-         },
-         "layer" : "tokenizer",
-         "message" : {
-            "en" : "There is an unclosed marked section",
-            "ja" : "閉じられていないマーク区間があります"
-         },
-         "modules" : {
-            "Web::XML::Parser::tokenizer" : 1
-         }
-      },
       "nestc" : {
          "default_level" : "m",
          "desc" : {
@@ -2859,6 +2844,7 @@
             "before-attlist-attribute-default-0025" : 1,
             "before-attlist-attribute-default-0027" : 1,
             "before-attlist-attribute-default-003e" : 1,
+            "before-attlist-attribute-default-eof" : 1,
             "before-attlist-attribute-default-ws" : 1
          },
          "parser_tests" : [
@@ -3194,6 +3180,11 @@
                "index" : 13,
                "input" : "\u003Cp x=\u0022aa&copy\u003C\u0022/>",
                "lang" : "XML"
+            },
+            {
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE x [\u003C!ENTITY %#>]>\u003Cx/>",
+               "lang" : "XML"
             }
          ]
       },
@@ -3409,11 +3400,6 @@
             {
                "index" : 22,
                "input" : "\u003C!DOCTYPE x [\u003C!ENTITY%\u003C>]>\u003Cx/>",
-               "lang" : "XML"
-            },
-            {
-               "index" : 23,
-               "input" : "\u003C!DOCTYPE x [\u003C!ENTITY %#>]>\u003Cx/>",
                "lang" : "XML"
             }
          ]
@@ -5419,6 +5405,7 @@
       "before-attlist-attribute-default-0027" : "no attr default",
       "before-attlist-attribute-default-003e" : "no attr default",
       "before-attlist-attribute-default-003e-md-fragment" : "mdc in pe in md",
+      "before-attlist-attribute-default-eof" : "no attr default",
       "before-attlist-attribute-default-ws" : "no attr default",
       "before-attlist-attribute-name-003e-md-fragment" : "mdc in pe in md",
       "before-attlist-name-003e" : "no md name",

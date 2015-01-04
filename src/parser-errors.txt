@@ -805,8 +805,6 @@ declaration parameters such as keywords, literals, and groups.
 <!DOCTYPE x [<!ENTITY%$$=>]><x/>
 !!!XML
 <!DOCTYPE x [<!ENTITY%$$<>]><x/>
-!!!XML
-<!DOCTYPE x [<!ENTITY %$$#>]><x/>
 
 * no DOCTYPE literal
 
@@ -2246,6 +2244,8 @@ There is no <code>;</code> at the end of a reference
 <p x="aa&copy$$%"/>
 !!!XML
 <p x="aa&copy$$<"/>
+!!!XML
+<!DOCTYPE x [<!ENTITY %$$#>]><x/>
 
 * invalid character reference
 
@@ -3703,21 +3703,6 @@ followed by a status keyword, followed by a <code>[</code>.
 <p>マーク区間は <code>&lt;![</code>、状態キーワード、 <code>[</code>
 で開かなければいけません。
 
-* ms:unclosed
-
-layer=tokenizer
-module=Web::XML::Parser::tokenizer
-
-@en
-There is an unclosed marked section
-@ja
-閉じられていないマーク区間があります
-
-@en
-<p>The conditional sections must be closed before the end of file or DTD.
-@ja
-<p>ファイルや DTD の末尾までに条件区間は閉じなければいけません。
-
 * unmatched mse
 
 name=after-msc-003e
@@ -4483,6 +4468,7 @@ name=after-after-allowed-token-list-003e
 name=before-attlist-attribute-default-0022
 name=before-attlist-attribute-default-0027
 name=before-attlist-attribute-default-003e
+name=before-attlist-attribute-default-eof
 
 @en
 There is no attribute default

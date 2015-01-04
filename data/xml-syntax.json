@@ -5294,6 +5294,11 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "if" : "sections is not empty",
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
                         "break" : 1,
                         "if" : "fragment",
                         "type" : "emit-eof"
@@ -22634,8 +22639,12 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
+                        "name" : "before-attlist-attribute-default-eof",
                         "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus markup declaration state",
+                        "type" : "switch"
                      },
                      {
                         "if" : "md-fragment",
