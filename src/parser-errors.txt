@@ -24,6 +24,7 @@ name=in-body-null
 name=in-foreign-content-null
 name=in-select-null
 name=in-table-text-null
+name=in-element-null
 
 @en
 The <code>NULL</code> character is ignored
@@ -109,6 +110,11 @@ name=in-table-body-end-tbody-tfoot-thead
 name=in-table-end-bc3ht6
 name=in-table-end-table
 name=in-template-end-else
+name=in-element-end-else-3
+name=in-element-end-else
+name=before-doctype-end-else
+name=before-root-element-end-else
+name=after-root-element-end-else
 value=tag_name
 
 @en
@@ -325,6 +331,9 @@ $$</table>
 !context=template
 <link>$$</template>
 !value=template
+!!!XML
+<p>$$</pq></p>
+!value=pq
 
 * not closed before ancestor end tag
 
@@ -346,6 +355,7 @@ name=in-foreign-content-end-script
 name=in-head-end-template-2
 name=-steps-close-a-p-element
 name=-steps-close-the-cell
+name=in-element-end-else-2
 text=current node.local_name
 value=tag_name
 
@@ -450,6 +460,10 @@ The <code><var>{text}</var></code> element is not closed before the
 <!DOCTYPE HTML><table><tr><td><span>$$<td>
 !value=td
 !text=span
+!!!XML
+<p><q>$$</p>
+!value=p
+!text=q
 
 * element not closed before implied ancestor end tag
 
@@ -616,6 +630,7 @@ descendant that cannot be closed by the end tag.
 * no DOCTYPE name
 
 name=before-doctype-name-003e
+name=before-doctype-name-005b
 
 @en
 There is no document type name
@@ -702,17 +717,13 @@ There is no space before a quoted string
 括られた文字列の前に空白がありません
 
 @en
-
 <p>There must be one or more white space characters between the
 keyword <code>PUBLIC</code> or <code>SYSTEM</code> and the quoted
 string, and between two quoted strings.
 
 @ja
-
-
-<p>キーワード <code>PUBLIC</code> や <code>SYSTEM</code>
-とその後の括られた文字列の間や、括られた文字列2つの間には、
-1つ以上空白文字が必要です。
+<p>マーク付け宣言の引数であるキーワードや引用符で括られた文字列、群の間は1文字以上の空
+白が必要です。
 
 !!!
 <!DOCTYPE html PUBLIC$$"abc">
@@ -732,12 +743,100 @@ string, and between two quoted strings.
 !!!
 <!DOCTYPE html PUBLIC "abc"$$'http'>
 
+* no space between params
+
+name=after-allowed-token-list-else
+name=attlist-attribute-type-0023
+name=attlist-attribute-default-0022
+name=attlist-attribute-default-0027
+name=after-attlist-default-value-else
+name=attlist-attribute-name-0028
+name=attlist-attribute-type-0022
+name=attlist-attribute-type-0027
+name=attlist-attribute-type-0028
+name=attlist-else
+name=after-notation-public-identifier-0027
+name=after-notation-public-identifier-0022
+name=notation-else
+name=element-else
+name=after-entity-system-identifier-else
+name=after-entity-public-identifier-0022
+name=after-entity-public-identifier-0027
+name=parameter-entity-declaration-or-reference-003e
+name=after-ndata-keyword-else
+name=parameter-entity-declaration-or-reference-003d
+name=parameter-entity-declaration-or-reference-003c
+name=parameter-entity-declaration-or-reference-0022
+name=parameter-entity-declaration-or-reference-0026
+name=parameter-entity-declaration-or-reference-0027
+name=parameter-entity-declaration-or-reference-0060
+name=parameter-entity-declaration-or-reference-0025
+name=parameter-entity-declaration-or-reference-ws
+name=after-entity-public-keyword-0022
+name=after-entity-public-keyword-0027
+name=after-entity-system-keyword-0022
+name=after-entity-system-keyword-0027
+name=entity-else
+name=entity-name-0022
+name=entity-name-0027
+name=element-name-0028
+name=after-notation-public-keyword-0022
+name=after-notation-public-keyword-0027
+name=after-notation-system-keyword-0022
+name=after-notation-system-keyword-0027
+name=after-notation-public-keyword-else
+name=after-notation-system-keyword-else
+
+@en
+There is no space between markup declaration parameters
+@ja
+マーク付け宣言の引数の間に空白がありません
+
+@en
+<p>There must be one or more white space characters between markup
+declaration parameters such as keywords, literals, and groups.
+
+@ja
+<p>マーク付け宣言の引数であるキーワードや引用符で括られた文字列、群の間は1文字以上の空白が必要です。
+
+!!!XML
+<!DOCTYPE x [<!ATTLIST a b (c)$$"d">]><x/>
+!!!XML
+<!DOCTYPE x [<!ENTITY%$$=>]><x/>
+!!!XML
+<!DOCTYPE x [<!ENTITY%$$<>]><x/>
+
 * no DOCTYPE literal
 
 name=after-doctype-public-keyword-003e
 name=after-doctype-system-keyword-003e
 name=before-doctype-public-identifier-003e
 name=before-doctype-system-identifier-003e
+name=after-notation-public-keyword-003e
+name=after-notation-system-keyword-003e
+name=before-notation-public-identifier-003e
+name=before-notation-system-identifier-003e
+name=before-notation-public-identifier-else
+name=before-entity-public-identifier-003e
+name=before-entity-system-identifier-003e
+name=before-entity-system-identifier-else
+name=after-entity-public-keyword-003e
+name=between-entity-public-and-system-identifiers-else
+name=after-entity-public-identifier-else
+name=after-entity-system-keyword-003e
+name=before-entity-public-identifier-else
+name=before-doctype-public-identifier-005b
+name=after-doctype-public-identifier-005b
+name=before-doctype-system-identifier-005b
+name=after-doctype-public-keyword-005b
+name=after-doctype-system-keyword-005b
+name=between-doctype-public-and-system-identifiers-005b
+name=after-doctype-public-identifier-003e
+name=between-doctype-public-and-system-identifiers-003e
+name=between-entity-public-and-system-identifiers-003e
+name=after-entity-public-identifier-003e
+name=after-entity-public-keyword-else
+name=after-entity-system-keyword-else
 
 @en
 There is no quoted string
@@ -773,6 +872,10 @@ name=doctype-public-identifier-double-quoted-003e
 name=doctype-public-identifier-single-quoted-003e
 name=doctype-system-identifier-double-quoted-003e
 name=doctype-system-identifier-single-quoted-003e
+name=entity-public-identifier-double-quoted-003e
+name=entity-public-identifier-single-quoted-003e
+name=notation-public-identifier-double-quoted-003e
+name=notation-public-identifier-single-quoted-003e
 
 @en
 The quoted string is not terminated before the declaration
@@ -809,6 +912,44 @@ character.
 <!DOCTYPE HTML SYSTEM '$$>'>
 !!!
 <!DOCTYPE HTML PUBLIC "" '$$>'>
+
+* string after PUBLIC literal
+
+name=between-notation-public-and-system-identifiers-else
+name=after-notation-public-identifier-else
+
+@en
+There is an unknown parameter after the public identifier
+@ja
+公開識別子の後に未知の引数があります
+
+@en
+<p>The public identifier cannot be followed by parameters other than
+the system identifier in a <code>NOTATION</code> declaration.
+@ja
+<p><code>NOTATION</code> 宣言では公開識別子の後にシステム識別子以外の引数は指定できません。
+
+!!!XML
+<!DOCTYPE a[<!NOTATION a PUBLIC "b"$$a]><a/>
+
+* string after SYSTEM literal
+
+name=after-notation-system-identifier-else
+name=before-ndata-keyword-else
+
+@en
+There is an unknown parameter after the system identifier
+@ja
+システム識別子の後に未知の引数があります
+
+@en
+<p>The system identifier cannot be followed by another parameter
+in a <code>NOTATION</code> declaration.
+@ja
+<p><code>NOTATION</code> 宣言ではシステム識別子の後に他の引数は指定できません。
+
+!!!XML
+<!DOCTYPE a[<!NOTATION a SYSTEM "b"$$a]><a/>
 
 * no DOCTYPE
 
@@ -853,6 +994,9 @@ name=in-head-doctype
 name=in-head-noscript-doctype
 name=in-select-doctype
 name=in-table-doctype
+name=before-root-element-doctype
+name=in-element-doctype
+name=after-root-element-doctype
 
 @en
 The DOCTYPE is not at the beginning of the document
@@ -1109,6 +1253,36 @@ attribute name and value.
 !!!
 <!DOCTYPE html><p $$=foo>
 
+* no attr value
+
+name=attribute-name-002f
+name=attribute-name-003e
+name=after-attribute-name-else
+name=after-attribute-name-upper
+name=after-attribute-name-002f
+name=after-attribute-name-003e
+
+@en
+There is no attribute value
+@ja
+属性値がありません
+
+@en
+<p>There must be attribute value in XML.
+@ja
+<p>XML では属性値は必須です。
+
+!!!XML
+<p foo$$/>
+!!!XML
+<p foo$$></p>
+!!!XML
+<p foo $$x=""/>
+!!!XML
+<p foo $$/>
+!!!XML
+<p foo $$>
+
 * bad attribute value
 
 name=attribute-value-unquoted-0022
@@ -1182,6 +1356,30 @@ example">&lt;foo&#x20;bar&#x20;baz=<mark>""</mark>></code>
 !!!
 <!DOCTYPE HTML><p foo= bar$$=>
 
+* lt in attr value
+
+name=attribute-value-double-quoted-003c
+name=attribute-value-single-quoted-003c
+name=default-attribute-value-double-quoted-003c
+name=default-attribute-value-single-quoted-003c
+
+@en
+There is <code>&lt;</code> in an attribute value
+@ja
+属性値に <code>&lt;</code> があります
+
+@en
+<p>The <code>&lt;</code> character is not allowed in an attribute
+value.  It must be escaped as <code>&amp;lt;</code>.
+@ja
+<p>属性値に <code>&lt;</code> を含めることはできません。 <code>&amp;lt;</code>
+とエスケープしなければいけません。
+
+!!!XML
+<p x="a$$<b"/>
+!!!XML
+<p x='a$$<b'/>
+
 * attr:no =
 
 name=after-attribute-name-0022
@@ -1211,6 +1409,31 @@ value.
 
 !!!
 <!DOCTYPE html><foo bar $$'></foo>
+
+* unquoted attr value
+
+name=before-attribute-value-else
+name=before-attribute-value-0026
+name=after-attlist-attribute-type-else
+name=after-after-allowed-token-list-else
+
+@en
+The attribute value is not quoted
+@ja
+属性値が引用符で括られていません
+
+@en
+<p>In XML, the attribute value must be quoted by <code>"</code>
+or <code>'</code>.
+@ja
+<p>XML では属性値は <code>"</code> か <code>'</code> で括らなければいけません。
+
+!!!XML
+<a b=$$c/>
+!!!XML
+<a b=$$&copy;/>
+!!!XML
+<!DOCTYPE a[<!ATTLIST a b CDATA $$foo>]><a/>
 
 * tag not closed
 
@@ -1284,6 +1507,7 @@ name=-start-tag-self-closing-flag
 text=tag_name
 layer=tree-construction
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 The self-closing syntax (<code>/></code>) is used
@@ -1361,6 +1585,7 @@ There is no space before an attribute
 
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 An attribute is specified for an end tag
@@ -1379,6 +1604,7 @@ An attribute is specified for an end tag
 
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 module=Temma::Parser
 
 @en
@@ -1445,6 +1671,9 @@ There is an empty end tag
 * bare stago
 
 name=tag-open-else
+name=tag-open-003e
+name=tag-open-ws
+name=doctype-tag-open-else
 module=Whatpm::WebVTT::Parser
 
 @en
@@ -1475,10 +1704,15 @@ The <code>&lt;</code> character is not followed by a tag name or a
 
 !!!
 <!DOCTYPE HTML><$$"
+!!!XML
+<p>$$<></p>
+!!!XML
+<!DOCTYPE a[$$<b>]><a/>
 
 * bare etago
 
 name=end-tag-open-else
+name=end-tag-open-ws
 
 @en
 The <code>&lt;/</code> is not followed by a tag name
@@ -1507,10 +1741,37 @@ class="charname">LESS-THAN SIGN</code>) の後に
 
 !!!
 <!DOCTYPE HTML></$$!?>
+!!!XML
+<!DOCTYPE HTML>$$</ >
+
+* bare pio
+
+name=pi-003f
+name=pi-ws
+
+@en
+There is no processing instruction target
+@ja
+処理指令の対象名がありません
+
+@en
+<p>After the <code>&lt;?</code> string, there must be a processing instruction's
+target name.  To represent a string <code>&lt;?</code>, the <code>&lt;</code>
+character must be escaped as <code>&amp;lt;</code>.
+@ja
+<p><code>&lt;?</code> の後には処理指令の対象名が必要です。文字列
+<code>&lt;?</code> を表したい時は <code>&lt;</code> を
+<code>&amp;lt;</code> とエスケープしないといけません。
+
+!!!XML
+<p>Aa$$<??>
+!!!XML
+<p>Aa$$<? ?>
 
 * bogus comment
 
 name=markup-declaration-open-else
+name=doctype-markup-declaration-open-else
 
 @en
 The <code>&lt;!</code> is not followed by <code>--</code>
@@ -1576,6 +1837,8 @@ The <code>&lt;!</code> is not followed by <code>--</code>
 <!DOCTYPE HTML><!$$HOGE>
 !!!
 <!DOCTYPE HTML><!DOCTYP$$O>
+!!!XML
+<!DOCTYPE x[<!$$z>]]>
 
 * pio
 
@@ -1676,6 +1939,85 @@ tag.
 !!!
 <!DOCTYPE html></head>$$<link>
 
+* bare ero
+
+module=Whatpm::WebVTT::Parser
+name=character-reference-ws
+name=character-reference-0022
+name=character-reference-0026
+name=character-reference-0027
+name=character-reference-003c
+name=character-reference-003d
+name=character-reference-0060
+name=character-reference-allowed-char
+
+@en
+There is an unescaped <code>&amp;</code> character
+@ja
+エスケープされていない <code>&amp;</code> があります
+
+@en
+    <p>An <code>&amp;</code> character which
+    is not part of any reference appears in the input stream.</p>
+
+    <p><em>Any <code>&amp;</code> character in URLs
+    must be escaped as <code class="example">&amp;amp;</code>.</em></p>
+
+    <p>The <code>&amp;</code> character must
+    be the first character of a reference:
+    </p>
+
+      <dl class="switch">
+      <dt>Named character reference (HTML / WebVTT)</dt>
+          <dd><pre class="html example"><code>&amp;<var>entity-name</var>;</code></pre>
+          where <var>entity-name</var> is the name of the
+          character to be referenced.</dd>
+      <dt>Numeric character reference (HTML only)</dt>
+          <dd><pre class="html example"><code>&amp;#<var>d</var>;</code></pre>
+          where <var>d</var> is the decimal representation of
+          the code position of the character to be referenced.</dd>
+      <dt>Hexadecimal character reference (HTML only)</dt>
+          <dd><pre class="html example"><code>&amp;#x<var>h</var>;</code></pre>
+          where <var>h</var> is the hexadecimal representation
+          of the code position of the character to be referenced.</dd>
+      </dl>
+
+    <p>To represent <code>&amp;</code> as a data character, use
+    named character reference:
+    </p>
+      <pre class="html example"><code>&amp;amp;</code></pre>
+
+@ja
+    <p>文字 <code>&amp;</code> が、文字参照の一部ではなく、
+    単独で現れました。</p>
+
+    <p><em>URL 中の <code>&amp;</code> 文字も
+    <code class="example">&amp;amp;</code> 
+    とエスケープしなければなりません。</em></p>
+
+    <p>文字 <code>&amp;</code> は参照の最初の1文字でなければなりません。
+    </p>
+
+      <dl class="switch">
+      <dt>名前付き文字参照 (HTML / WebVTT)</dt>
+          <dd><pre class="html example"><code>&amp;<var>実体名</var>;</code></pre>
+          の<var>実体名</var>が参照する文字の名前となります。</dd>
+      <dt>数値文字参照 (HTML のみ)</dt>
+          <dd><pre class="html example"><code>&amp;#<var>d</var>;</code></pre>
+          の <var>d</var> が参照する文字の符号位置の十進表現となります。</dd>
+      <dt>十六進数文字参照 (HTML のみ)</dt>
+          <dd><pre class="html example"><code>&amp;#x<var>h</var>;</code></pre>
+          の <var>h</var> が参照する文字の符号位置の十六進表現となります。</dd>
+      </dl>
+
+    <p>データ文字としての <code>&amp;</code> を表したい時は、
+    文字参照を使ってください。
+    </p>
+      <pre class="html example"><code>&amp;amp;</code></pre>
+
+!!!XML
+<p x=A$$&=>
+
 * bare nero
 
 name=character-reference-number-else
@@ -1743,12 +2085,136 @@ character must be escaped as <code>&amp;amp;</code>.
 !!!
 <!DOCTYPE HTML>&#X$$zza
 
+* uppercase hcro
+
+name=character-reference-number-0058
+
+@en
+The <code>x</code> character in the reference is in uppercase
+@ja
+文字参照の <code>x</code> が大文字になっています
+
+@en
+<p>In XML, the <code>x</code> character in <code>&amp;#<mark>x</mark><code>
+introducing a hexadecimal character reference must be in
+lowercase.
+@ja
+<p>XML では十六進数文字参照の最初の <code>&amp;#<mark>x</mark></code>
+の <code>x</code> は小文字でなければいけません。
+
+!!!XML
+<a>&#$$X21;</a>
+
 * no refc
 
 name=character-reference-decimal-number-else
 name=character-reference-hexadecimal-number-else
+name=character-reference-name-003d
+name=parameter-entity-name-in-markup-declaration-ws
+name=parameter-entity-name-in-entity-value-double-quoted-0022
+name=entity-value-double-quoted-state-character-reference-name-0022
+name=parameter-entity-name-in-dtd-0025
+name=parameter-entity-name-in-dtd-003c
+name=parameter-entity-name-in-dtd-ws
+name=character-reference-name-003c
+name=character-reference-name-0026
+name=character-reference-name-ws
+name=character-reference-003e
+name=character-reference-0025
+name=character-reference-name-0022
+name=character-reference-name-0025
+name=character-reference-name-0027
+name=character-reference-name-003e
+name=character-reference-name-0060
+name=character-reference-name-allowed-char
+name=entity-value-double-quoted-state-character-reference-name-003d
+name=entity-value-double-quoted-state-character-reference-name-0027
+name=entity-value-double-quoted-state-character-reference-name-003c
+name=entity-value-double-quoted-state-character-reference-name-0060
+name=entity-value-double-quoted-state-character-reference-name-0025
+name=entity-value-double-quoted-state-character-reference-name-ws
+name=entity-value-single-quoted-state-character-reference-name-003d
+name=entity-value-single-quoted-state-character-reference-name-0027
+name=entity-value-single-quoted-state-character-reference-name-003c
+name=entity-value-single-quoted-state-character-reference-name-0060
+name=entity-value-single-quoted-state-character-reference-name-0022
+name=entity-value-single-quoted-state-character-reference-name-0026
+name=entity-value-single-quoted-state-character-reference-name-0025
+name=entity-value-single-quoted-state-character-reference-name-ws
+name=entity-value-double-quoted-state-character-reference-name-0026
+name=entity-value-double-quoted-state-character-reference-name-0023
+name=entity-value-double-quoted-state-character-reference-name-003e
+name=entity-value-in-entity-state-character-reference-name-0022
+name=entity-value-in-entity-state-character-reference-name-0025
+name=entity-value-in-entity-state-character-reference-name-003e
+name=entity-value-in-entity-state-character-reference-name-003c
+name=entity-value-in-entity-state-character-reference-name-0060
+name=entity-value-in-entity-state-character-reference-name-0023
+name=entity-value-in-entity-state-character-reference-name-0026
+name=entity-value-in-entity-state-character-reference-name-0027
+name=entity-value-in-entity-state-character-reference-name-ws
+name=entity-value-single-quoted-state-character-reference-name-0023
+name=entity-value-single-quoted-state-character-reference-name-003e
+name=entity-value-in-entity-state-character-reference-name-003d
+name=character-reference-name-0023
+name=parameter-entity-name-in-dtd-0023
+name=parameter-entity-name-in-dtd-003e
+name=parameter-entity-name-in-dtd-0026
+name=parameter-entity-name-in-dtd-003d
+name=parameter-entity-name-in-dtd-0060
+name=parameter-entity-name-in-dtd-0027
+name=parameter-entity-name-in-dtd-0022
+name=parameter-entity-name-in-entity-value-double-quoted-0023
+name=parameter-entity-name-in-entity-value-double-quoted-ws
+name=parameter-entity-name-in-entity-value-double-quoted-003d
+name=parameter-entity-name-in-entity-value-double-quoted-003e
+name=parameter-entity-name-in-entity-value-double-quoted-003c
+name=parameter-entity-name-in-entity-value-double-quoted-0060
+name=parameter-entity-name-in-entity-value-double-quoted-0025
+name=parameter-entity-name-in-entity-value-double-quoted-0026
+name=parameter-entity-name-in-entity-value-double-quoted-0027
+name=parameter-entity-name-in-entity-value-single-quoted-0023
+name=parameter-entity-name-in-entity-value-single-quoted-ws
+name=parameter-entity-name-in-entity-value-single-quoted-003d
+name=parameter-entity-name-in-entity-value-single-quoted-003e
+name=parameter-entity-name-in-entity-value-single-quoted-003c
+name=parameter-entity-name-in-entity-value-single-quoted-0060
+name=parameter-entity-name-in-entity-value-single-quoted-0025
+name=parameter-entity-name-in-entity-value-single-quoted-0026
+name=parameter-entity-name-in-entity-value-single-quoted-0027
+name=parameter-entity-name-in-entity-value-single-quoted-0022
+name=parameter-entity-name-in-entity-value-in-entity-0023
+name=parameter-entity-name-in-entity-value-in-entity-0060
+name=parameter-entity-name-in-entity-value-in-entity-003d
+name=parameter-entity-name-in-entity-value-in-entity-003c
+name=parameter-entity-name-in-entity-value-in-entity-0025
+name=parameter-entity-name-in-entity-value-in-entity-0026
+name=parameter-entity-name-in-entity-value-in-entity-0027
+name=parameter-entity-name-in-entity-value-in-entity-0022
+name=parameter-entity-name-in-entity-value-in-entity-003e
+name=parameter-entity-name-in-entity-value-in-entity-ws
+name=parameter-entity-name-in-markup-declaration-0022
+name=parameter-entity-name-in-markup-declaration-0023
+name=parameter-entity-name-in-markup-declaration-003e
+name=parameter-entity-name-in-markup-declaration-0027
+name=parameter-entity-name-in-markup-declaration-0060
+name=parameter-entity-name-in-markup-declaration-0025
+name=parameter-entity-name-in-markup-declaration-0026
+name=parameter-entity-name-in-markup-declaration-003c
+name=parameter-entity-name-in-markup-declaration-003d
+name=parameter-entity-name-in-status-keyword-0022
+name=parameter-entity-name-in-status-keyword-0025
+name=parameter-entity-name-in-status-keyword-0026
+name=parameter-entity-name-in-status-keyword-003e
+name=parameter-entity-name-in-status-keyword-003d
+name=parameter-entity-name-in-status-keyword-003c
+name=parameter-entity-name-in-status-keyword-0060
+name=parameter-entity-name-in-status-keyword-0027
+name=parameter-entity-name-in-status-keyword-0023
+name=parameter-entity-name-in-status-keyword-ws
 layer=tokenizer
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 There is no <code>;</code> at the end of a reference
@@ -1772,11 +2238,20 @@ There is no <code>;</code> at the end of a reference
 <!DOCTYPE HTML>&amp$$**
 !!!
 <!DOCTYPE HTML><a href="&amp$$=aa">
+!!!XML
+<p x="aa&copy$$="/>
+!!!XML
+<p x="aa&copy$$%"/>
+!!!XML
+<p x="aa&copy$$<"/>
+!!!XML
+<!DOCTYPE x [<!ENTITY %$$#>]><x/>
 
 * invalid character reference
 
 layer=character-set
 module=Web::HTML::Parser::tokenizer
+module=Web::XML::Parser::tokenizer
 
 @en
 Special code point <code><var>{text}</var></code> is referenced
@@ -2006,6 +2481,8 @@ name=in-body-eof
 name=in-frameset-eof
 name=in-template-eof
 name=text-eof
+name=in-element-eof-2
+name=in-element-eof
 text=current node.local_name
 
 @en
@@ -2045,6 +2522,28 @@ explicitly closed by their end tags before the end of file.
 !!!
 <!DOCTYPE HTML><plaintext>a$$
 !text=plaintext
+!!!XML
+<p>xxx
+!text=p
+
+* no root element
+
+name=before-root-element-eof
+
+@en
+There is no root element
+@ja
+根要素がありません
+
+@en
+<p>There must be the root element's start tag in an XML document.
+@ja
+<p>XML 文書には根要素の開始タグが必要です。
+
+!!!XML
+$$
+!!!XML
+     $$
 
 * duplicate body/html tag
 
@@ -2819,6 +3318,33 @@ The character encoding declaration contains a character reference
 !!!
 <!DOCTYPE HTML><meta http-equiv=content-type $$content="text/html;&#x20;charset=utf-8">
 
+* text outside of root element
+
+name=before-doctype-char
+name=before-root-element-char
+name=after-root-element-char
+
+@en
+There is a character outside of the root element
+@ja
+根要素の外に文字があります
+
+@en
+<p>Characters other than white spaces must be included in an
+element or an attribute value.
+
+@ja
+<p>空白以外の文字は要素や属性値の中でしか使えません。
+
+!!!XML
+$$a<p/>
+!!!XML
+<!DOCTYPE p>$$a<p/>
+!!!XML
+<!---->  $$x<a/>
+!!!XML
+<a/>$$b
+
 * ref outside of root element
 
 layer=entity
@@ -2842,6 +3368,24 @@ $$&amp;
 !!!XML
 <a/>$$&hoge;
 !value=&hoge;
+
+* second root element
+
+name=after-root-element-start-else
+
+@en
+There is an element after the root element
+@ja
+根要素の後に別の要素があります
+
+@en
+<p>There must be only one root element.  No start tag is allowed
+after the end tag of the root element.
+@ja
+<p>根要素は1つだけです。根要素の終了タグの後に開始タグは使えません。
+
+!!!XML
+<p/>$$<p>
 
 * WFC:No Recursion
 
@@ -3041,6 +3585,8 @@ internal subset.
 
 * entref in attr has element
 
+name=attribute-value-in-entity-003c
+name=default-attribute-value-in-entity-003c
 layer=entity
 module=Web::XML::Parser::tokenizer
 
@@ -3095,20 +3641,87 @@ suppressed.
 ]><hoge/>
 !level=i
 
-* ms:unclosed
+* condsect in internal subset
 
-layer=tokenizer
-module=Web::XML::Parser::tokenizer
-
-@en
-There is an unclosed marked section
-@ja
-閉じられていないマーク区間があります
+name=doctype-markup-declaration-open-005b
 
 @en
-<p>The conditional sections must be closed before the end of file or DTD.
+There is a marked section in the internal subset
 @ja
-<p>ファイルや DTD の末尾までに条件区間は閉じなければいけません。
+内部部分集合にマーク区間があります
+
+@en
+<p>In the internal subset or a parameter entity referenced from the internal
+subset, no marked section is allowed.
+@ja
+<p>内部部分集合や内部部分集合から参照された引数実体では、
+マーク区間は使えません。
+
+!!!XML
+<!DOCTYPE x[$$<![INCLUDE[aa]]>]><x/>
+
+* ms:no status keyword
+
+name=after-mss-003c
+name=after-mss-005b
+name=after-mss-003e
+name=after-mss-005d
+
+@en
+There is no status keyword
+@ja
+状態キーワードがありません
+
+@en
+<p>There must be a status keyword (<code>INCLUDE</code> or <code>IGNORE</code>)
+as the parameter to the marked section.
+@ja
+<p>マーク区間の引数として状態キーワード (<code>INCLUDE</code> か
+<code>IGNORE</code>) が必要です。
+
+* ms:no dso
+
+name=after-include-keyword-003c
+name=after-ignore-keyword-003c
+name=after-ignore-keyword-005d
+name=after-ignore-keyword-003e
+name=after-include-keyword-005d
+name=after-include-keyword-003e
+name=after-ignore-keyword-else
+name=after-include-keyword-else
+name=after-mss-else
+
+@en
+The marked section is incompletly opened
+@ja
+マーク区間が完全には開いていません
+
+@en
+<p>A marked section must be opened by <code>&lt;![</code>,
+followed by a status keyword, followed by a <code>[</code>.
+@ja
+<p>マーク区間は <code>&lt;![</code>、状態キーワード、 <code>[</code>
+で開かなければいけません。
+
+* unmatched mse
+
+name=after-msc-003e
+
+@en
+There is an unmatched <code>]]></code>
+@ja
+対応していない <code>]]></code> があります
+
+@en
+<p>In XML, the <code>></code> character in <code>]]></code> must be
+escaped as <code>&amp;gt;</code> unless it is closing a <code>CDATA</code>
+section.
+@ja
+<p>XML では <code>]]></code> の <code>></code> は <code>CDATA</code>
+区間を閉じる場合を除き <code>&amp;gt;</code> とエスケープしないといけません。
+
+!!!XML
+<p>$$]]></p>
 
 * unclosed literal
 
@@ -3127,6 +3740,8 @@ There is an unclosed literal
 
 * unclosed cmgroup
 
+name=before-content-model-item-003e
+name=after-content-model-item-003e
 layer=tokenizer
 module=Web::XML::Parser::tokenizer
 
@@ -3265,26 +3880,143 @@ stricter syntax than normal tags.
 !!!XML
 <?xml version="1.0" $$foo="bar"?><a/>
 
+* tag in pe in markup declaration
+
+name=text-declaration-in-markup-declaration-003e-
+name=text-declaration-in-markup-declaration-eof-
+name=text-declaration-in-markup-declaration-003c
+name=text-declaration-in-markup-declaration-0021
+name=text-declaration-in-markup-declaration-0000
+name=text-declaration-in-markup-declaration-0000-
+name=text-declaration-in-markup-declaration-0025
+name=text-declaration-in-markup-declaration-0026
+name=text-declaration-in-markup-declaration-0026-
+
+@en
+There is a tag in a parameter entity referenced in a markup declaration
+@ja
+マーク付け宣言から参照されている引数実体にタグがあります
+
+@en
+<p>A parameter entity referenced from a markup declaration can't contain a tag,
+comment, declaration, section, or processing instruction.
+@ja
+<p>マーク付け宣言から参照されている引数実体にはタグ、注釈、宣言、区間、
+処理指令を含めることはできません。
+
 * string in internal subset
 
+name=dtd-else
+name=in-subset-char
+name=after-doctype-internal-subset-003e-fragment
+name=after-dtd-msc-else
+name=after-dtd-msc-005d
 layer=tokenizer
 module=Web::XML::Parser::tokenizer
 
 @en
-There is an unexpected string in the internal subset
+There is an unexpected string in DTD
 @ja
-内部部分集合に予期せぬ文字列があります
+DTD 中に予期せぬ文字列があります
 
 @en
 <p>Nothing ohter than declarations, comments, and processing
-instructions can be used in the internal subset.
+instructions can be used in the internal subset.  In external
+subset, sections are also allowed.
 @ja
 <p>内部部分集合では宣言、注釈、処理指令しか使えません。
+外部部分集合では区間も使えます。
 
 !!!XML
 <!DOCTYPE a[
 $$]]>
 ]><a/>
+!!!XML
+<!DOCTYPE a[ $$a]><a/>
+
+* string after internal subset
+
+name=after-doctype-internal-subset-else
+
+@en
+There is an unknown parameter after the internal subset
+@ja
+内部部分集合の後に未知の引数があります
+
+@en
+<p>Only the <code>></code> character is allowed after the internal subset.
+@ja
+<p>内部部分集合の後には <code>></code> しか書けません。
+
+!!!XML
+<!DOCTYPE x[]$$x><x/>
+
+* xml:dtd:no group item
+
+name=before-allowed-token-003e
+name=before-allowed-token-007c
+name=before-allowed-token-0029
+name=before-content-model-item-0029
+name=before-content-model-item-002a
+name=before-content-model-item-007c
+name=before-content-model-item-002c
+name=before-content-model-item-003f
+name=before-content-model-item-002b
+
+@en
+No group item is specified
+@ja
+群に項目が指定されていません
+
+@en
+<p>There must be an item after <code>(</code>, <code>|</code>, or <code>,</code>.
+@ja
+<p><code>(</code>, <code>|</code>, <code>,</code> の後に項目がありません。
+
+!!!XML
+<!DOCTYPE a[<!ATTLIST x y ( $$) "x">]><a/>
+!!!XML
+<!DOCTYPE a[<!ATTLIST x y ( $$>]><a/>
+!!!XML
+<!DOCTYPE a[<!ATTLIST x y ( $$) "x">]><a/>
+!!!XML
+<!DOCTYPE a[<!ATTLIST x y ( $$|a) "y">]><a/>
+
+* xml:dtd:no group delimiter
+
+name=allowed-token-003e
+name=after-allowed-token-else
+name=after-allowed-token-003e
+name=after-content-model-item-else
+name=after-content-model-item-002b
+name=after-content-model-item-0029
+name=after-content-model-item-003f
+name=after-content-model-group-else
+name=after-content-model-item-002a
+name=after-content-model-group-0028
+name=after-content-model-item-0028
+name=content-model-element-0028
+
+@en
+There is an unexpected character after a group item
+@ja
+群の項目の後に予期せぬ文字があります
+
+@en
+<p>There must be a delimiter (<code>|</code> or <code>,</code>) between group
+items.  There cannot be a space within an allowed token or element name.
+Nothing but <code>></code> is allowed after the outermost content model group.
+@ja
+<p>群の項目の間には区切子 (<code>|</code> か <code>,</code>) が必要です。
+認められる字句や要素名の中には空白を入れられません。
+最外内容モデル群の後には <code>></code> しか書けません。
+
+!!!XML
+<!DOCTYPE a[<!ATTLIST a b (ab $$cd) "X">]><a/>
+!!!XML
+<!DOCTYPE a[<!ATTLIST a b (ab $$>]><a/>
+!!!XML
+<!DOCTYPE a[<!ATTLIST a b (ab$$>]><a/>
 
 * unmatched mgc
 
@@ -3322,6 +4054,24 @@ DTD 中に処理指令があります
 <!DOCTYPE foo [$$<?hoge?>]><foo/>
 !level=w
 
+* no s after target
+
+name=pi-target-question-else
+
+@en
+There is no space between the processing instruction's target and data
+@ja
+処理指令の対象名とデータの間に空白がありません
+
+@en
+<p>There must be a white space character between the target and data of
+a processing instruction.
+@ja
+<p>処理指令の対象名とデータの間には空白が必要です。
+
+!!!XML
+<?hoge$$??>
+
 * xml:dtd:ext decl
 
 layer=tree-construction
@@ -3336,6 +4086,160 @@ There is a markup declaration in an external entity
 <p>Markup declarations in external entities are not interoperable.
 @ja
 <p>外部実体にあるマーク付け宣言は相互運用性が高くありません。
+
+* no md name
+
+name=attlist-003e
+name=before-attlist-name-003e
+name=notation-003e
+name=before-entity-name-003e
+name=entity-003e
+name=element-003e
+name=before-notation-name-003e
+name=before-element-name-003e
+
+@en
+The markup declaration has no name
+@ja
+マーク付け宣言の名前がありません
+
+@en
+<p>A markup declaration must contain a name as its first parameter.
+@ja
+<p>マーク付け宣言には名前を最初の引数として含めなければいけません。
+
+!!!XML
+<!DOCTYPE a[<!ATTLIST$$>]><a/>
+
+* no md def
+
+name=after-entity-name-003e
+name=notation-name-003e
+name=after-notation-name-003e
+name=entity-name-003e
+name=element-name-003e
+name=before-element-content-0029
+name=before-element-content-007c
+name=before-element-content-003f
+name=before-element-content-002c
+name=before-element-content-002a
+name=before-element-content-002b
+name=before-element-content-003e
+
+@en
+The markup declaration has no parameter
+@ja
+このマーク付け宣言には引数がありません
+
+@en
+<p>Markup declarations other than <code>ATTLIST</code> must contain
+parameters after the name:
+  <dl class=switch>
+  <dt><code>ENTITY</code> declaration
+  <dd>Either a system identifier and optional public identifier and notation name,
+  or an entity value.
+  <dt><code>NOTATION</code> declaration
+  <dd>Public and/or system identifiers.
+  <dt><code>ELEMENT</code> declaration
+  <dd>The content model.
+  </dl>
+@ja
+<p><code>ATTLIST</code> 以外のマーク付け宣言は名前の後に引数が必要です。
+  <dl class=switch>
+  <dt><code>ENTITY</code> 宣言
+  <dd>システム識別子と省略可能な公開識別子や記法名か、実体値かのいずれか。
+  <dt><code>NOTATION</code> 宣言
+  <dd>公開識別子とシステム識別子の一方または両方。
+  <dt><code>ELEMENT</code> 宣言
+  <dd>内容モデル。
+  </dl>
+
+* xml:dtd:string after name
+
+name=after-notation-name-else
+name=after-entity-name-else
+
+@en
+There is an unknown parameter after the name
+@ja
+名前の後に未知の引数があります
+
+@en
+<p>Markup declarations other than <code>ATTLIST</code> must contain
+parameters after the name:
+  <dl class=switch>
+  <dt><code>ENTITY</code> declaration
+  <dd>Either a system identifier and optional public identifier and notation name,
+  or an entity value.
+  <dt><code>NOTATION</code> declaration
+  <dd>Public and/or system identifiers.
+  <dt><code>ELEMENT</code> declaration
+  <dd>The content model.
+  </dl>
+@ja
+<p><code>ATTLIST</code> 以外のマーク付け宣言は名前の後に引数が必要です。
+  <dl class=switch>
+  <dt><code>ENTITY</code> 宣言
+  <dd>システム識別子と省略可能な公開識別子や記法名か、実体値かのいずれか。
+  <dt><code>NOTATION</code> 宣言
+  <dd>公開識別子とシステム識別子の一方または両方。
+  <dt><code>ELEMENT</code> 宣言
+  <dd>内容モデル。
+  </dl>
+
+!!!XML
+<!DOCTYPE x[<!NOTATION foo $$bar>]><x/>
+
+* string after md def
+
+name=after-element-content-else
+name=after-entity-parameter-else
+name=after-content-model-item-007c
+name=before-notation-system-identifier-else
+name=after-ignore-keyword-003c-md-fragment
+name=after-ignore-keyword-005b-md-fragment
+name=after-ignore-keyword-005d-md-fragment
+name=after-include-keyword-003c-md-fragment
+name=after-include-keyword-005b-md-fragment
+name=after-include-keyword-005d-md-fragment
+name=bogus-status-keyword-005b-md-fragment
+name=bogus-status-keyword-005d-md-fragment
+name=bogus-status-keyword-003c-md-fragment
+name=after-mss-003c-md-fragment
+name=after-mss-005d-md-fragment
+name=after-mss-005b-md-fragment
+name=bogus-status-keyword-0025-md-fragment
+
+@en
+There is an unknown parameter in the markup declaration
+@ja
+マーク付け宣言に未知の引数があります
+
+@en
+<p>The markup declaration cannot contain an unknown parameter.
+@ja
+<p>マーク付け宣言に未知の引数を含めることはできません。
+
+!!!XML
+<!DOCTYPE x[<!ELEMENT foo ANY $$bar>]><x/>
+
+* keyword-wrong-case
+
+name=keyword-wrong-case
+
+@en
+The keyword is not in uppercase
+@ja
+キーワードが大文字ではありません
+
+@en
+<p>The keywords must be in uppercase in XML.
+@ja
+<p>XML ではキーワードは大文字でなければいけません。
+
+!!!XML
+<!DOCTYPE hoge [<!$$ELEment foo EMPTY>]><a/>
+!value=ELEment
 
 * xml:dtd:unknown content keyword
 
@@ -3534,6 +4438,56 @@ An unknown default type keyword is specified
 ]><a/>
 !value=hog
 
+* no attr type
+
+name=attlist-attribute-name-003e
+name=after-attlist-attribute-name-003e
+
+@en
+There is no attribute type
+@ja
+属性型がありません
+
+@en
+<p>There must be the attribute type (a declared type or a group of
+allowed tokens) after the attribute name.
+@ja
+<p>属性名の後に属性型 (宣言型か認められる字句の群) が必要です。
+
+!!!XML
+<!DOCTYPE x[<!ATTLIST foo bar$$>]><x/>
+
+* no attr default
+
+name=before-attlist-attribute-default-ws
+name=attlist-attribute-type-003e
+name=after-attlist-attribute-type-003e
+name=before-attlist-attribute-default-0025
+name=after-allowed-token-list-003e
+name=after-after-allowed-token-list-003e
+name=before-attlist-attribute-default-0022
+name=before-attlist-attribute-default-0027
+name=before-attlist-attribute-default-003e
+name=before-attlist-attribute-default-eof
+
+@en
+There is no attribute default
+@ja
+属性の既定値がありません
+
+@en
+<p>There must be the default type keyword (<code>#IMPLIED</code>,
+<code>#REQUIRED</code>, or <code>#FIXED</code>) or the default value
+after the declared type.
+@ja
+<p>宣言型の後には既定型キーワード (<code>#IMPLIED</code>,
+<code>#REQUIRED</code>, <code>#FIXED</code>) か既定値が必要です。
+
+!!!XML
+<!DOCTYPE a[<!ATTLIST a b CDATA #$$ >]></a>
+!!!XML
+<!DOCTYPE a[<!ATTLIST a b CDATA$$>]></a>
+
 * duplicate attrdef
 
 layer=tree-construction
@@ -3558,6 +4512,24 @@ the first definition is ignored.
 ]><a/>
 !value=bb
 !level=w
+
+* no notation name
+
+name=before-ndata-identifier-003e
+name=after-ndata-keyword-003e
+
+@en
+There is no notation name
+@ja
+記法名がありません
+
+@en
+<p>There must be a notation name after the <code>NDATA</code> keyword
+@ja
+<p>キーワード <code>NDATA</code> の後に記法名がありません。
+
+!!!XML
+<!DOCTYPE x[<!ENTITY foo SYSTEM "aa" NDATA $$>]><x/>
 
 * xml:dtd:entity ignored
 
@@ -3676,3 +4648,81 @@ for the same name.
   <!NOTATION foo SYSTEM "x">$$<!NOTATION foo SYSTEM "a">
 ]><a/>
 !value=foo
+
+* mdc in pe in md
+
+name=before-notation-name-003e-md-fragment
+name=content-model-element-003e-md-fragment
+name=element-content-keyword-003e-md-fragment
+name=bogus-markup-declaration-003e-md-fragment
+name=between-entity-public-and-system-identifiers-003e-md-fragment
+name=entity-public-identifier-double-quoted-003e-md-fragment
+name=entity-public-identifier-single-quoted-003e-md-fragment
+name=before-entity-public-identifier-003e-md-fragment
+name=after-entity-name-003e-md-fragment
+name=before-entity-system-identifier-003e-md-fragment
+name=after-ndata-keyword-003e-md-fragment
+name=before-entity-name-003e-md-fragment
+name=entity-name-003e-md-fragment
+name=before-allowed-token-003e-md-fragment
+name=after-attlist-attribute-type-003e-md-fragment
+name=attlist-attribute-type-003e-md-fragment
+name=attlist-attribute-name-003e-md-fragment
+name=before-attlist-attribute-name-003e-md-fragment
+name=attlist-name-003e-md-fragment
+name=before-attlist-name-003e-md-fragment
+name=after-entity-parameter-003e-md-fragment
+name=after-allowed-token-list-003e-md-fragment
+name=after-after-allowed-token-list-003e-md-fragment
+name=after-allowed-token-003e-md-fragment
+name=attlist-attribute-default-003e-md-fragment
+name=after-attlist-attribute-name-003e-md-fragment
+name=after-attlist-attribute-default-003e-md-fragment
+name=after-attlist-default-value-003e-md-fragment
+name=after-content-model-item-003e-md-fragment
+name=after-content-model-group-003e-md-fragment
+name=after-element-content-003e-md-fragment
+name=before-content-model-item-003e-md-fragment
+name=before-element-content-003e-md-fragment
+name=before-element-name-003e-md-fragment
+name=element-name-003e-md-fragment
+name=after-entity-public-identifier-003e-md-fragment
+name=after-entity-public-keyword-003e-md-fragment
+name=after-entity-system-keyword-003e-md-fragment
+name=after-entity-system-identifier-003e-md-fragment
+name=entity-003e-md-fragment
+name=element-003e-md-fragment
+name=notation-003e-md-fragment
+name=attlist-003e-md-fragment
+name=ndata-identifier-003e-md-fragment
+name=notation-public-identifier-double-quoted-003e-md-fragment
+name=notation-public-identifier-single-quoted-003e-md-fragment
+name=notation-name-003e-md-fragment
+name=after-notation-public-identifier-003e-md-fragment
+name=between-notation-public-and-system-identifiers-003e-md-fragment
+name=after-notation-system-keyword-003e-md-fragment
+name=after-notation-public-keyword-003e-md-fragment
+name=before-notation-public-identifier-003e-md-fragment
+name=before-notation-system-identifier-003e-md-fragment
+name=after-notation-name-003e-md-fragment
+name=after-notation-system-identifier-003e-md-fragment
+name=before-ndata-identifier-003e-md-fragment
+name=before-ndata-keyword-003e-md-fragment
+name=allowed-token-003e-md-fragment
+name=before-attlist-attribute-default-003e-md-fragment
+name=after-ignore-keyword-003e-md-fragment
+name=after-include-keyword-003e-md-fragment
+name=after-mss-003e-md-fragment
+name=bogus-status-keyword-003e-md-fragment
+
+@en
+There is a <code>></code> in a parameter entity
+@ja
+引数実体内に <code>></code> があります
+
+@en
+<p>The markup declaration cannot be closed within a parameter
+entity referenced from the markup declaration.
+@ja
+<p>マーク付け宣言から参照されている引数実体でマーク付け宣言を閉じることはできません。
+

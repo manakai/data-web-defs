@@ -50,7 +50,8 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Parse error\.\s*// or
              $action =~ s/^Otherwise, this is a parse error\.\s*//) {
       push @action, {type => 'parse error'};
-    } elsif ($action =~ s/^Parse error \(offset=([0-9]+)\)\.$//) {
+    } elsif ($action =~ s/^Parse error \(offset=([0-9]+)\)\.$// or
+             $action =~ s/^Otherwise, this is a parse error \(offset=([0-9]+)\)\.\s*//) {
       push @action, {type => 'parse error', index_offset => $1};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
@@ -83,8 +84,13 @@ sub parse_action ($) {
                 push @action, {type => 'emit', token => 'short end tag token'};
               } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token\.\s*//) {
                 push @action, {type => 'emit-char'};
+              } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token \(offset=([0-9]+)\)\.\s*//) {
+                push @action, {type => 'emit-char', index_offset => $1};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|)\.\s*//) {
                 push @action, {type => 'emit-char', value => chr hex $1};
+              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|) \(offset=([0-9]+)\)\.\s*//) {
+                push @action, {type => 'emit-char', value => chr hex $1,
+                               index_offset => $2};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|\([^()]+\)) character token,?(?: and|) (a|the) /Emit $2 /) {
                 push @action, {type => 'emit-char', value => chr hex $1};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) \([^()]+\) character as character token and also //) { # xml5
@@ -125,9 +131,10 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Append a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+ character \([^()]+\)|\([^()]+\)),?(?: and|) ([^.]+ to the comment token's data\.)\s*/Append $2/) {
                 push @action, {type => 'append', field => 'data',
                                value => chr hex $1};
-              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|name|data|target|value|public identifier|system identifier|notation name|content keyword)\.\s*//) {
+              } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character (?:\([^()]+\) |)to the (?:current tag|current|comment) token's (tag name|name|data|target|value|public identifier|system identifier|notation name|content keyword)(?: \(offset=([0-9]+)\)|)\.\s*//) {
                 push @action, {type => 'append', field => $2,
                                value => chr hex $1};
+                $action[-1]->{index_offset} = $3 if defined $3;
               } elsif ($action =~ s/^Append the (?:current |)input character to the current attribute(?: definition|)'s (name|value|declared type|default type)(?:\.\s*| and then )//) {
                 push @action, {type => 'append-to-attr', field => $1};
               } elsif ($action =~ s/^Append the lowercase version of the current input character \(add 0x0020 to the character's code point\) to the current attribute's name\.\s*//) {
@@ -316,6 +323,8 @@ sub parse_action ($) {
                      state => $1,
                      index_offset => 1,
                      if => 'md-fragment', break => 1};
+    } elsif ($action =~ s/^If the stack of open marked sections is not empty, parse error\.//) {
+      push @action, {type => 'parse error', if => 'sections is not empty'};
     } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, abort these steps\.//) {
       push @action, {type => 'break', if => 'md-fragment'};
 
@@ -729,15 +738,16 @@ sub modify_actions (&) {
 
 ## Also in |xml-syntax.pl|.
 sub error_name ($$) {
-  my $name = shift;
+  my $name = my $name_orig = shift;
   my $cond = shift;
+  $name =~ s/^.+ state - ((?:before |)text declaration in markup declaration state)/$1/;
   $name =~ s/ state$//;
   $name .= '-' . $cond;
   $name =~ s/CHAR://;
   $name =~ s/WS:[A-Z]+/WS/;
   $name = lc $name;
   $name =~ s/([^a-z0-9]+)/-/g;
-  $name = 'EOF' if $name =~ /-eof$/;
+  $name = 'EOF' if $name =~ /-eof$/ and not $name_orig =~ /before ATTLIST attribute default state/;
   $name = 'NULL' if $name =~ /-0000$/;
   return $name;
 } # error_name
@@ -841,6 +851,7 @@ sub error_name ($$) {
                 my $chk = [{type => 'append-to-temp'},
                            {if => 'temp-wrong-case', type => 'parse error',
                             name => 'keyword-wrong-case',
+                            index_offset => (length $kwd) - 1,
                             expected_keyword => $kwd}];
                 $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord lc $c}->{actions} = [@$chk, @{$act->{value}}];
                 $Data->{states}->{$old_state}->{conds}->{sprintf 'CHAR:%04X', ord uc $c}->{actions} = [@$chk, @{$act->{value}}];

@@ -38,7 +38,7 @@ initially <i>null</i>.
 <dt>U+0020 SPACE
 <dt>U+003F QUESTION MARK (?)<!-- Not in XML5 -->
 <dd>
-  <p><span>Parse error</span>.
+  <p><span>Parse error</span> <ins>(offset=2)</ins>.
   <p>Switch to the <span>bogus comment state</span> with <i>initial
   data</i> "?".
 
@@ -175,7 +175,7 @@ initially <i>null</i>.
 
 <dt>Anything else
 <dd>
-  <p><span>Parse error</span>.
+  <p><span>Parse error</span> <ins>(offset=1)</ins>.
   <p>Set the current token's <i>data</i> to a U+003F QUESTION MARK (?)
   character.
   <p>Switch to the <span>PI data state</span>.
@@ -198,12 +198,12 @@ initially <i>null</i>.
 <dt>U+003F QUESTION MARK (?)
 <dd>
   <p>Append a U+003F QUESTION MARK character to the current
-  token's <i>data</i>.
+  token's <i>data</i> <ins>(offset=2)</ins>.
 
 <dt>Anything else
 <dd>
   <p>Append a U+003F QUESTION MARK character to the current
-  token's <i>data</i>.<!-- Not in XML5 -->
+  token's <i>data</i> <ins>(offset=2)</ins>.<!-- Not in XML5 -->
   <p>Switch to the <span>PI data state</span>.
   <p>Reconsume the <span>current input character</span>.
 
@@ -239,6 +239,8 @@ initially <i>null</i>.
 
 <dt>EOF
 <dd>
+  <p>If the <span>stack of open marked sections</span> is not
+  empty, <span>parse error</span>.
   <p>If the parser was originally created as part of the <span>XML
   fragment parsing algorithm</span>, emit an <span>end-of-file
   token</span> and abort these steps.
@@ -283,7 +285,7 @@ initially <i>null</i>.
 
 <dt>Anything else
 <dd>
-  <p><span>Parse error</span> <ins>(offset=1)</ins>.
+  <p><span>Parse error</span>.
   <p>If the parser was originally created as part of the <span>XML
   fragment parsing algorithm</span>, switch to the <span>DTD
   state</span> and abort these steps.
@@ -341,7 +343,7 @@ initially <i>null</i>.
 
 <dt>Anything else
 <dd>
-  <p><span>Parse error</span>.
+  <p><span>Parse error</span> <ins>(offset=1)</ins>.
   <p>Switch to the <span>DOCTYPE bogus comment state</span>.
 
 </dl>
@@ -356,10 +358,11 @@ initially <i>null</i>.
 <dd>
   <p>If the <i>DTD mode</i> of the parser is <em>not</em> <i>internal
   subset</i>, switch to the <span>after mss state</span>.
-  <p>Otherwise, this is a <span>parse error</span>.  Create a marked
-  section whose status is <i>IGNORE</i> and push it onto
-  the <span>stack of open marked sections</span>.  Switch to
-  the <span>ignored section state</span>.
+  <p>Otherwise, this is a <span>parse
+  error</span> <ins>(offset=2)</ins>.  Create a marked section whose
+  status is <i>IGNORE</i> and push it onto the <span>stack of open
+  marked sections</span>.  Switch to the <span>ignored section
+  state</span>.
 
 <dt>Anything else
 <dd>
@@ -440,7 +443,7 @@ initially <i>null</i>.
 
 <dt>U+003E (>)
 <dd>
-  <p><span>Parse error</span>.<!-- Not a parse error in XML5. -->
+  <p><span>Parse error</span> <ins>(offset=2)</ins>.<!-- Not a parse error in XML5. -->
   <p>Switch to the <span>data state</span>.
   <p>Emit the <span>current input character</span> as
   a <span>character token</span>.
@@ -484,6 +487,7 @@ initially <i>null</i>.
 <dt>U+0060 GRAVE ACCENT (`)
 <dt>U+0025 PERCENT SIGN (%)
 <dt>U+0023 NUMBER SIGN (#)
+<dt>EOF
 <dd>
   <p><span>Parse error</span>.
   <p><span>Flush the temporary buffer</span>.
@@ -527,6 +531,7 @@ initially <i>null</i>.
 <dt>U+0060 GRAVE ACCENT (`)
 <dt>U+0025 PERCENT SIGN (%)
 <dt>U+0023 NUMBER SIGN (#)
+<dt>EOF
 <dd>
   <p><span>Parse error</span>.
   <p><span>Flush the temporary buffer</span>.
@@ -570,6 +575,7 @@ initially <i>null</i>.
 <dt>U+0060 GRAVE ACCENT (`)
 <dt>U+0025 PERCENT SIGN (%)
 <dt>U+0023 NUMBER SIGN (#)
+<dt>EOF
 <dd>
   <p><span>Parse error</span>.
   <p><span>Flush the temporary buffer</span>.

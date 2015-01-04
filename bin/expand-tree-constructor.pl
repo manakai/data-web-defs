@@ -1095,7 +1095,8 @@ for my $im (keys %{$Data->{ims}}) {
       $Data->{ims}->{$im}->{conds}->{$cond}->{actions} = for_actions {
         my $acts = shift;
         for my $act (@$acts) {
-          if ($act->{type} eq 'parse error') {
+          if ($act->{type} eq 'parse error' or
+              $act->{type} eq 'parse error-and-switch') {
             unless (defined $act->{name}) {
               die "No parse error name in |$im| |$cond|";
             }
@@ -1107,9 +1108,7 @@ for my $im (keys %{$Data->{ims}}) {
               $act->{error_text} = $def->{text} if defined $def->{text};
               $act->{error_value} = $def->{value} if defined $def->{value};
             } else {
-              push @{$Data->{_errors} ||= []},
-                  sprintf 'Error type for parse error "%s" not defined',
-                      $act->{name};
+              $Data->{_errors_by_name}->{sprintf 'Error type for parse error "%s" not defined', $act->{name}} = 1;
             }
           }
         }

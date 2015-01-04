@@ -418,7 +418,9 @@ $Data->{tokenizer}->{tokens}->{'text token'}->{short_name} = 'TEXT';
     my $value = shift @value;
     next unless defined $value;
     if (ref $value eq 'HASH') {
-      if (defined $value->{type} and $value->{type} eq 'parse error') {
+      if (defined $value->{type} and
+          ($value->{type} eq 'parse error' or
+           $value->{type} eq 'parse error-and-switch')) {
         if (defined $value->{name}) {
           my $type = $json->{parser_error_name_to_error_type}->{$value->{name}};
           if (defined $type) {
@@ -427,9 +429,7 @@ $Data->{tokenizer}->{tokens}->{'text token'}->{short_name} = 'TEXT';
             $value->{error_text} = $def->{text} if defined $def->{text};
             $value->{error_value} = $def->{value} if defined $def->{value};
           } else {
-            push @{$Data->{_errors} ||= []},
-                sprintf 'Error type for parse error "%s" not defined',
-                    $value->{name};
+              $Data->{_errors_by_name}->{sprintf 'Error type for parse error "%s" not defined', $value->{name}} = 1;
           }
         }
       } else {

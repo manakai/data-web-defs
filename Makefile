@@ -478,7 +478,7 @@ local/xml-tree.json: bin/extract-html-tree.pl src/xml-tree-construction.html
 	$(PERL) bin/extract-html-tree.pl src/xml-tree-construction.html > $@
 
 intermediate/errors/parser-errors.json: bin/parser-errors.pl \
-    src/parser-errors.txt data/html-syntax.json
+    src/parser-errors.txt data/html-syntax.json data/xml-syntax.json
 	$(PERL) bin/parser-errors.pl src/parser-errors.txt > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt

@@ -13,7 +13,7 @@ EOF  -> error; DTD state or stop; reconsume
 WS   -> 
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state or stop; reconsume
->    -> error in pe; error; DTD state; reconsume
+>    -> error in pe; error; DTD state
 NULL -> error; set U+FFFD to name; NOTATION name state
 ELSE -> set to name; NOTATION name state
 
@@ -45,8 +45,8 @@ WS   -> before NOTATION public identifier state
 %    -> parameter entity name in markup declaration state (before NOTATION public identifier state)
 EOF  -> error; DTD state or stop; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> error; before NOTATION public identifier state
-'    -> error; before NOTATION public identifier state
+"    -> error; before NOTATION public identifier state; reconsume
+'    -> error; before NOTATION public identifier state; reconsume
 ELSE -> error; bogus markup declaration state
 
 * before NOTATION public identifier state
@@ -103,8 +103,8 @@ WS   -> before NOTATION system identifier state
 %    -> parameter entity name in markup declaration state (before NOTATION system identifier state)
 EOF  -> error; DTD state or stop; reconsume
 >    -> error in pe; error; DTD state; emit
-"    -> error; before NOTATION system identifier state
-'    -> error; before NOTATION system identifier state
+"    -> error; before NOTATION system identifier state; reconsume
+'    -> error; before NOTATION system identifier state; reconsume
 ELSE -> error; bogus markup declaration state
 
 * before NOTATION system identifier state

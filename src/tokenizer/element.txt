@@ -23,7 +23,7 @@ ELSE -> set to name; ELEMENT name state
 WS   -> before ELEMENT content state
 %    -> parameter entity name in markup declaration state (before ELEMENT content state)
 EOF  -> error; DTD state or stop; reconsume
->    -> error in pe; error; DTD state
+>    -> error in pe; error; DTD state; emit
 (    -> error; before ELEMENT content state; reconsume
 NULL -> append U+FFFD to name
 ELSE -> append to name
@@ -33,7 +33,7 @@ ELSE -> append to name
 WS   ->
 %    -> parameter entity name in markup declaration state
 EOF  -> error; DTD state or stop; reconsume
->    -> error in pe; error; DTD state
+>    -> error in pe; error; DTD state; emit
 (    -> cm group; set token's cm group; before content model item state
 )+*?|, -> error; bogus markup declaration state
 ELSE -> set to content keyword; ELEMENT content keyword state
