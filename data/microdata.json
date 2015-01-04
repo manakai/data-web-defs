@@ -1611,7 +1611,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Action" : {
-      "desc" : "An action performed by a direct agent and indirect     participants upon a direct object. Optionally happens at a location     with the help of an inanimate instrument. The execution of the action     may produce a result. Specific action sub-type documentation specifies     the exact expectation of each argument/role.",
+      "desc" : "An action performed by a direct agent and indirect     participants upon a direct object. Optionally happens at a location     with the help of an inanimate instrument. The execution of the action     may produce a result. Specific action sub-type documentation specifies     the exact expectation of each argument/role.\u000A      See also blog post\u000A      and Actions overview document.",
       "props" : {
          "actionStatus" : {
             "desc" : "Indicates the current disposition of the Action.",
@@ -1635,6 +1635,15 @@
          "endTime" : {
             "desc" : "The endTime of something. For a reserved event or service (e.g. FoodEstablishmentReservation), the time that it is expected to end. For actions that span a period of time, when the action was performed. e.g. John wrote a book from January to *December*.\u000A\u000ANote that Event uses startDate/endDate instead of startTime/endTime, even when describing dates with times. This situation may be clarified in future revisions.\u000A",
             "value" : "schema.org datetime"
+         },
+         "error" : {
+            "desc" : "For failed actions, more information on the cause of the failure.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
          },
          "instrument" : {
             "desc" : "The object that helped the agent perform the action. e.g. John wrote a book with *a pen*.",
@@ -1704,6 +1713,7 @@
       "superclass_of" : {
          "http://schema.org/AcceptAction" : 3,
          "http://schema.org/AchieveAction" : 1,
+         "http://schema.org/ActivateAction" : 2,
          "http://schema.org/AddAction" : 2,
          "http://schema.org/AgreeAction" : 3,
          "http://schema.org/AllocateAction" : 2,
@@ -1727,8 +1737,10 @@
          "http://schema.org/CommunicateAction" : 2,
          "http://schema.org/ConfirmAction" : 4,
          "http://schema.org/ConsumeAction" : 1,
+         "http://schema.org/ControlAction" : 1,
          "http://schema.org/CookAction" : 2,
          "http://schema.org/CreateAction" : 1,
+         "http://schema.org/DeactivateAction" : 2,
          "http://schema.org/DeleteAction" : 2,
          "http://schema.org/DepartAction" : 2,
          "http://schema.org/DisagreeAction" : 3,
@@ -1778,6 +1790,7 @@
          "http://schema.org/ReplaceAction" : 2,
          "http://schema.org/ReplyAction" : 3,
          "http://schema.org/ReserveAction" : 3,
+         "http://schema.org/ResumeAction" : 2,
          "http://schema.org/ReturnAction" : 2,
          "http://schema.org/ReviewAction" : 2,
          "http://schema.org/RsvpAction" : 4,
@@ -1787,6 +1800,7 @@
          "http://schema.org/SendAction" : 2,
          "http://schema.org/ShareAction" : 3,
          "http://schema.org/SubscribeAction" : 2,
+         "http://schema.org/SuspendAction" : 2,
          "http://schema.org/TakeAction" : 2,
          "http://schema.org/TieAction" : 2,
          "http://schema.org/TipAction" : 2,
@@ -1814,6 +1828,17 @@
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
          "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ActivateAction" : {
+      "desc" : "The act of starting or activating a device or application (e.g. starting a timer or turning on a flashlight).",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Action" : 2,
+         "http://schema.org/ControlAction" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -2348,7 +2373,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Article" : {
-      "desc" : "An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.",
+      "desc" : "An article, such as a news article or piece of investigative report. Newspapers and magazines have articles of many different types and this is intended to cover them all.\u000A\u000A      See also blog post",
       "props" : {
          "articleBody" : {
             "desc" : "The actual body of the article.",
@@ -2759,8 +2784,7 @@
             }
          },
          "blogPosts" : {
-            "desc" : "The postings that are part of this blog (legacy spelling; see singular form, blogPost).",
-            "discouraged" : 1,
+            "desc" : "The postings that are part of this blog.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -2884,6 +2908,17 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/BookSeries" : {
+      "desc" : "A series of books. Included books can be indicated with the hasPart property.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Series" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/BookStore" : {
       "desc" : "A bookstore.",
       "spec" : "SCHEMAORG",
@@ -2971,7 +3006,7 @@
       "desc" : "A brand is a name used by an organization or business person for labeling a product, product group, or similar.",
       "props" : {
          "logo" : {
-            "desc" : "A logo associated with an organization.",
+            "desc" : "An associated logo.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -2984,6 +3019,17 @@
       "subclass_of" : {
          "http://schema.org/Intangible" : 1,
          "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/BreadcrumbList" : {
+      "desc" : "\u000A      A BreadcrumbList is an ItemList consisting of a chain of linked Web pages, typically described using at least their URL and their name, ending with the current page.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/ItemList" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -3194,7 +3240,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/BusinessEntityType" : {
-      "desc" : "A business entity type is a conceptual entity representing the legal form, the size, the main line of business, the position in the value chain, or any combination thereof, of an organization or business person.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#Business\u000A    http://purl.org/goodrelations/v1#Enduser\u000A    http://purl.org/goodrelations/v1#PublicInstitution\u000A    http://purl.org/goodrelations/v1#Reseller\u000A\u000A    \u0009\u0009",
+      "desc" : "A business entity type is a conceptual entity representing the legal form, the size, the main line of business, the position in the value chain, or any combination thereof, of an organization or business person.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#Business\u000A    http://purl.org/goodrelations/v1#Enduser\u000A    http://purl.org/goodrelations/v1#PublicInstitution\u000A    http://purl.org/goodrelations/v1#Reseller\u000A\u000A        ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -3215,7 +3261,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/BusinessFunction" : {
-      "desc" : "The business function specifies the type of activity or access (i.e., the bundle of rights) offered by the organization or business person through the offer. Typical are sell, rental or lease, maintenance or repair, manufacture / produce, recycle / dispose, engineering / construction, or installation. Proprietary specifications of access rights are also instances of this class.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#ConstructionInstallation\u000A    http://purl.org/goodrelations/v1#Dispose\u000A    http://purl.org/goodrelations/v1#LeaseOut\u000A    http://purl.org/goodrelations/v1#Maintain\u000A    http://purl.org/goodrelations/v1#ProvideService\u000A    http://purl.org/goodrelations/v1#Repair\u000A    http://purl.org/goodrelations/v1#Sell\u000A    http://purl.org/goodrelations/v1#Buy\u000A    \u0009\u0009",
+      "desc" : "The business function specifies the type of activity or access (i.e., the bundle of rights) offered by the organization or business person through the offer. Typical are sell, rental or lease, maintenance or repair, manufacture / produce, recycle / dispose, engineering / construction, or installation. Proprietary specifications of access rights are also instances of this class.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#ConstructionInstallation\u000A    http://purl.org/goodrelations/v1#Dispose\u000A    http://purl.org/goodrelations/v1#LeaseOut\u000A    http://purl.org/goodrelations/v1#Maintain\u000A    http://purl.org/goodrelations/v1#ProvideService\u000A    http://purl.org/goodrelations/v1#Repair\u000A    http://purl.org/goodrelations/v1#Sell\u000A    http://purl.org/goodrelations/v1#Buy\u000A        ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -3560,9 +3606,45 @@
    "http://schema.org/Clip" : {
       "desc" : "A short TV or radio program or a segment/part of a program.",
       "props" : {
+         "actor" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "actors" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
          "clipNumber" : {
             "desc" : "Position of the clip within an ordered group of clips.",
             "value" : "text"
+         },
+         "director" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "directors" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
          },
          "partOfEpisode" : {
             "desc" : "The episode to which this clip belongs.",
@@ -3840,6 +3922,17 @@
    },
    "http://schema.org/ConsumeAction" : {
       "desc" : "The act of ingesting information/resources/food.",
+      "props" : {
+         "expectsAcceptanceOf" : {
+            "desc" : "An Offer which must be accepted before the user can perform the Action. For example, the user may need to buy a movie before being able to watch it.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Offer" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Action" : 1,
@@ -3966,6 +4059,22 @@
          "http://schema.org/Landform" : 1,
          "http://schema.org/Place" : 2,
          "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ControlAction" : {
+      "desc" : "An agent controls a device or application.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Action" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/ActivateAction" : 1,
+         "http://schema.org/DeactivateAction" : 1,
+         "http://schema.org/ResumeAction" : 1,
+         "http://schema.org/SuspendAction" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -4337,9 +4446,17 @@
             "value" : "text"
          },
          "awards" : {
-            "desc" : "Awards won by this person or for this creative work. (legacy spelling; see singular form, award)",
-            "discouraged" : 1,
+            "desc" : "Awards won by this person or for this creative work.",
             "value" : "text"
+         },
+         "character" : {
+            "desc" : "Fictional person connected with a creative work.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
          },
          "citation" : {
             "desc" : "A citation or reference to another creative work, such as another publication, web page, scholarly article, etc.",
@@ -4460,8 +4577,7 @@
             }
          },
          "encodings" : {
-            "desc" : "A media object that encodes this CreativeWork (legacy spelling; see singular form, encoding).",
-            "discouraged" : 1,
+            "desc" : "A media object that encodes this CreativeWork.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4479,7 +4595,7 @@
             }
          },
          "genre" : {
-            "desc" : "Genre of the creative work",
+            "desc" : "Genre of the creative work or group.",
             "value" : "text"
          },
          "hasPart" : {
@@ -4571,8 +4687,17 @@
             }
          },
          "position" : {
-            "desc" : "The position of the creative work within a series or other ordered collection of works.",
+            "desc" : "The position of an item in a series or sequence of items.",
             "value" : "text"
+         },
+         "producer" : {
+            "desc" : "The person or organization who produced the work (e.g. music album, movie, tv/radio series etc.).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
          },
          "provider" : {
             "desc" : "The service provider, service operator, or service performer; the goods producer. Another party (a seller) may offer those services or goods on behalf of the provider. A provider may also serve as the seller.",
@@ -4597,6 +4722,24 @@
             "desc" : "Link to page describing the editorial principles of the organization primarily responsible for the creation of the CreativeWork.",
             "is_url" : 1
          },
+         "recordedAt" : {
+            "desc" : "The Event where the CreativeWork was recorded. The CreativeWork may capture all or part of the event.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Event" : 1
+               }
+            }
+         },
+         "releasedEvent" : {
+            "desc" : "The place and time the release was issued, expressed as a PublicationEvent.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PublicationEvent" : 1
+               }
+            }
+         },
          "review" : {
             "desc" : "A review of the item.",
             "is_url" : 1,
@@ -4607,8 +4750,7 @@
             }
          },
          "reviews" : {
-            "desc" : "Review of the item (legacy spelling; see singular form, review).",
-            "discouraged" : 1,
+            "desc" : "Review of the item.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4636,6 +4778,16 @@
          "timeRequired" : {
             "desc" : "Approximate or typical time it takes to work with or through this learning resource for the typical intended target audience, e.g. 'P30M', 'P1H25M'.",
             "value" : "schema.org duration"
+         },
+         "translator" : {
+            "desc" : "Organization or person who adapts a creative work to different languages, regional differences and technical requirements of a target market.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
          },
          "typicalAgeRange" : {
             "desc" : "The typical expected age range, e.g. '7-9', '11-'.",
@@ -4677,6 +4829,7 @@
          "http://schema.org/Blog" : 1,
          "http://schema.org/BlogPosting" : 2,
          "http://schema.org/Book" : 1,
+         "http://schema.org/BookSeries" : 2,
          "http://schema.org/CheckoutPage" : 2,
          "http://schema.org/Clip" : 1,
          "http://schema.org/Code" : 1,
@@ -4690,9 +4843,9 @@
          "http://schema.org/EmailMessage" : 1,
          "http://schema.org/Episode" : 1,
          "http://schema.org/ExercisePlan" : 1,
+         "http://schema.org/Game" : 1,
          "http://schema.org/ImageGallery" : 3,
          "http://schema.org/ImageObject" : 2,
-         "http://schema.org/ItemList" : 1,
          "http://schema.org/ItemPage" : 2,
          "http://schema.org/Map" : 1,
          "http://schema.org/MediaObject" : 1,
@@ -4700,13 +4853,16 @@
          "http://schema.org/MedicalWebPage" : 2,
          "http://schema.org/MobileApplication" : 2,
          "http://schema.org/Movie" : 1,
+         "http://schema.org/MovieSeries" : 2,
          "http://schema.org/MusicAlbum" : 2,
+         "http://schema.org/MusicComposition" : 1,
          "http://schema.org/MusicPlaylist" : 1,
          "http://schema.org/MusicRecording" : 1,
+         "http://schema.org/MusicRelease" : 2,
          "http://schema.org/MusicVideoObject" : 2,
          "http://schema.org/NewsArticle" : 2,
          "http://schema.org/Painting" : 1,
-         "http://schema.org/Periodical" : 1,
+         "http://schema.org/Periodical" : 2,
          "http://schema.org/Photograph" : 1,
          "http://schema.org/ProfilePage" : 2,
          "http://schema.org/PublicationIssue" : 1,
@@ -4733,6 +4889,8 @@
          "http://schema.org/Table" : 2,
          "http://schema.org/TechArticle" : 2,
          "http://schema.org/VideoGallery" : 3,
+         "http://schema.org/VideoGame" : 2,
+         "http://schema.org/VideoGameSeries" : 2,
          "http://schema.org/VideoObject" : 2,
          "http://schema.org/WPAdBlock" : 2,
          "http://schema.org/WPFooter" : 2,
@@ -4747,7 +4905,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/CreditCard" : {
-      "desc" : "A credit or debit card type as a standardized procedure for transferring the monetary amount for a purchase.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#AmericanExpress\u000A    http://purl.org/goodrelations/v1#DinersClub\u000A    http://purl.org/goodrelations/v1#Discover\u000A    http://purl.org/goodrelations/v1#JCB\u000A    http://purl.org/goodrelations/v1#MasterCard\u000A    http://purl.org/goodrelations/v1#VISA\u000A    \u0009\u0009",
+      "desc" : "A credit or debit card type as a standardized procedure for transferring the monetary amount for a purchase.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#AmericanExpress\u000A    http://purl.org/goodrelations/v1#DinersClub\u000A    http://purl.org/goodrelations/v1#Discover\u000A    http://purl.org/goodrelations/v1#JCB\u000A    http://purl.org/goodrelations/v1#MasterCard\u000A    http://purl.org/goodrelations/v1#VISA\u000A        ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 2,
@@ -4933,8 +5091,37 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/DatedMoneySpecification" : {
+      "desc" : "A DatedMoneySpecification represents monetary values with optional start and end dates. For example, this could represent an employee's salary over a specific period of time.",
+      "props" : {
+         "amount" : {
+            "desc" : "The amount of money.",
+            "value" : "integer"
+         },
+         "currency" : {
+            "desc" : "The currency in which the monetary amount is expressed (in 3-letter ISO 4217 format).",
+            "value" : "text"
+         },
+         "endDate" : {
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         },
+         "startDate" : {
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/StructuredValue" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/DayOfWeek" : {
-      "desc" : "The day of the week, e.g. used to specify to which day the opening hours of an OpeningHoursSpecification refer.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#Monday\u000A    http://purl.org/goodrelations/v1#Tuesday\u000A    http://purl.org/goodrelations/v1#Wednesday\u000A    http://purl.org/goodrelations/v1#Thursday\u000A    http://purl.org/goodrelations/v1#Friday\u000A    http://purl.org/goodrelations/v1#Saturday\u000A    http://purl.org/goodrelations/v1#Sunday\u000A    http://purl.org/goodrelations/v1#PublicHolidays\u000A    \u0009\u0009",
+      "desc" : "The day of the week, e.g. used to specify to which day the opening hours of an OpeningHoursSpecification refer.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#Monday\u000A    http://purl.org/goodrelations/v1#Tuesday\u000A    http://purl.org/goodrelations/v1#Wednesday\u000A    http://purl.org/goodrelations/v1#Thursday\u000A    http://purl.org/goodrelations/v1#Friday\u000A    http://purl.org/goodrelations/v1#Saturday\u000A    http://purl.org/goodrelations/v1#Sunday\u000A    http://purl.org/goodrelations/v1#PublicHolidays\u000A        ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -4953,6 +5140,17 @@
          "http://schema.org/Organization" : 3,
          "http://schema.org/Place" : 3,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/DeactivateAction" : {
+      "desc" : "The act of stopping or deactivating a device or application (e.g. stopping a timer or turning off a flashlight).",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Action" : 2,
+         "http://schema.org/ControlAction" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -5047,7 +5245,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/DeliveryMethod" : {
-      "desc" : "A delivery method is a standardized procedure for transferring the product or service to the destination of fulfillment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#DeliveryModeDirectDownload\u000A    http://purl.org/goodrelations/v1#DeliveryModeFreight\u000A    http://purl.org/goodrelations/v1#DeliveryModeMail\u000A    http://purl.org/goodrelations/v1#DeliveryModeOwnFleet\u000A    http://purl.org/goodrelations/v1#DeliveryModePickUp\u000A    http://purl.org/goodrelations/v1#DHL\u000A    http://purl.org/goodrelations/v1#FederalExpress\u000A    http://purl.org/goodrelations/v1#UPS\u000A    \u0009\u0009",
+      "desc" : "A delivery method is a standardized procedure for transferring the product or service to the destination of fulfillment chosen by the customer. Delivery methods are characterized by the means of transportation used, and by the organization or group that is the contracting party for the sending organization or person.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#DeliveryModeDirectDownload\u000A    http://purl.org/goodrelations/v1#DeliveryModeFreight\u000A    http://purl.org/goodrelations/v1#DeliveryModeMail\u000A    http://purl.org/goodrelations/v1#DeliveryModeOwnFleet\u000A    http://purl.org/goodrelations/v1#DeliveryModePickUp\u000A    http://purl.org/goodrelations/v1#DHL\u000A    http://purl.org/goodrelations/v1#FederalExpress\u000A    http://purl.org/goodrelations/v1#UPS\u000A        ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -6128,6 +6326,34 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/EmployeeRole" : {
+      "desc" : "A subclass of OrganizationRole used to describe employee relationships.",
+      "props" : {
+         "baseSalary" : {
+            "desc" : "The base salary of the job or of an employee in an EmployeeRole.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PriceSpecification" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "salaryCurrency" : {
+            "desc" : "The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 ) used for the main salary information in this job posting or for this employee.",
+            "value" : "currency"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 3,
+         "http://schema.org/OrganizationRole" : 1,
+         "http://schema.org/Role" : 2,
+         "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/EmploymentAgency" : {
       "desc" : "An employment agency.",
       "spec" : "SCHEMAORG",
@@ -6253,8 +6479,11 @@
          "http://schema.org/DrugPregnancyCategory" : 1,
          "http://schema.org/DrugPrescriptionStatus" : 1,
          "http://schema.org/EventStatusType" : 1,
+         "http://schema.org/GamePlayMode" : 1,
+         "http://schema.org/GameServerStatus" : 1,
          "http://schema.org/InfectiousAgentClass" : 1,
          "http://schema.org/ItemAvailability" : 1,
+         "http://schema.org/ItemListOrderType" : 1,
          "http://schema.org/LockerDelivery" : 2,
          "http://schema.org/MapCategoryType" : 1,
          "http://schema.org/MedicalAudience" : 1,
@@ -6268,6 +6497,9 @@
          "http://schema.org/MedicalStudyStatus" : 1,
          "http://schema.org/MedicalTrialDesign" : 1,
          "http://schema.org/MedicineSystem" : 1,
+         "http://schema.org/MusicAlbumProductionType" : 1,
+         "http://schema.org/MusicAlbumReleaseType" : 1,
+         "http://schema.org/MusicReleaseFormatType" : 1,
          "http://schema.org/OfferItemCondition" : 1,
          "http://schema.org/OrderStatus" : 1,
          "http://schema.org/ParcelService" : 2,
@@ -6276,6 +6508,7 @@
          "http://schema.org/PhysicalExam" : 1,
          "http://schema.org/QualitativeValue" : 1,
          "http://schema.org/ReservationStatusType" : 1,
+         "http://schema.org/RsvpResponseType" : 1,
          "http://schema.org/Specialty" : 1,
          "http://schema.org/WarrantyScope" : 1
       },
@@ -6283,10 +6516,10 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Episode" : {
-      "desc" : "A TV or radio episode which can be part of a series or season.",
+      "desc" : "A media episode (e.g. TV, radio, video game) which can be part of a series or season.",
       "props" : {
          "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6295,8 +6528,7 @@
             }
          },
          "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6305,7 +6537,7 @@
             }
          },
          "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6314,8 +6546,7 @@
             }
          },
          "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6355,17 +6586,8 @@
                }
             }
          },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6383,7 +6605,7 @@
             }
          },
          "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6418,8 +6640,7 @@
             }
          },
          "attendees" : {
-            "desc" : "A person attending the event (legacy spelling; see singular form, attendee).",
-            "discouraged" : 1,
+            "desc" : "A person attending the event.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6437,7 +6658,7 @@
             "value" : "schema.org duration"
          },
          "endDate" : {
-            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "eventStatus" : {
@@ -6489,8 +6710,7 @@
             }
          },
          "performers" : {
-            "desc" : "The main performer or performers of the event—for example, a presenter, musician, or actor (legacy spelling; see singular form, performer).",
-            "discouraged" : 1,
+            "desc" : "The main performer or performers of the event—for example, a presenter, musician, or actor.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -6503,8 +6723,17 @@
             "desc" : "Used in conjunction with eventStatus for rescheduled or cancelled events. This property contains the previously scheduled start date. For rescheduled events, the startDate property should be used for the newly scheduled start date. In the (rare) case of an event that has been postponed and rescheduled multiple times, this field may be repeated.",
             "value" : "schema.org date"
          },
+         "recordedIn" : {
+            "desc" : "The CreativeWork that captured all or part of this Event.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
          "startDate" : {
-            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "subEvent" : {
@@ -6517,8 +6746,7 @@
             }
          },
          "subEvents" : {
-            "desc" : "Events that are a part of this event. For example, a conference event includes many presentations, each subEvents of the conference (legacy spelling; see singular form, subEvent).",
-            "discouraged" : 1,
+            "desc" : "Events that are a part of this event. For example, a conference event includes many presentations, each subEvents of the conference.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -7127,6 +7355,123 @@
          "http://schema.org/Place" : 3,
          "http://schema.org/Store" : 1,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/Game" : {
+      "desc" : "The Game type represents things which are games. These are typically rule-governed recreational activities, e.g. role-playing games in which players assume the role of characters in a fictional setting. See also open issues list.",
+      "props" : {
+         "characterAttribute" : {
+            "desc" : "A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "gameItem" : {
+            "desc" : "An item is an object within the game world that can be collected by a player or, occasionally, a non-player character.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "gameLocation" : {
+            "desc" : "Real or fictional location of the game (or part of game).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1,
+                  "http://schema.org/PostalAddress" : 1
+               }
+            }
+         },
+         "numberOfPlayers" : {
+            "desc" : "Indicate how many people can play this game (minimum, maximum, or range).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
+         },
+         "quest" : {
+            "desc" : "The task that a player-controlled character, or group of characters may complete in order to gain a reward.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/VideoGame" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/GamePlayMode" : {
+      "desc" : "Indicates whether this game is multi-player, co-op or single-player.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/GameServer" : {
+      "desc" : "Server that provides game interaction in a multiplayer game.",
+      "props" : {
+         "game" : {
+            "desc" : "Video game which is played on this server.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/VideoGame" : 1
+               }
+            }
+         },
+         "playersOnline" : {
+            "desc" : "Number of players on the server.",
+            "value" : "integer"
+         },
+         "serverStatus" : {
+            "desc" : "Status of a game server.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/GameServerStatus" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/GameServerStatus" : {
+      "desc" : "Status of a game server.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -7743,7 +8088,7 @@
       "desc" : "The act of notifying someone of information pertinent to them, with no expectation of a response.",
       "props" : {
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -7832,6 +8177,7 @@
          "http://schema.org/Audience" : 1,
          "http://schema.org/BookFormatType" : 2,
          "http://schema.org/Brand" : 1,
+         "http://schema.org/BreadcrumbList" : 2,
          "http://schema.org/BusReservation" : 2,
          "http://schema.org/BusTrip" : 1,
          "http://schema.org/BusinessAudience" : 2,
@@ -7841,6 +8187,7 @@
          "http://schema.org/ContactPoint" : 2,
          "http://schema.org/ContactPointOption" : 2,
          "http://schema.org/CreditCard" : 3,
+         "http://schema.org/DatedMoneySpecification" : 2,
          "http://schema.org/DayOfWeek" : 2,
          "http://schema.org/DeliveryChargeSpecification" : 3,
          "http://schema.org/DeliveryMethod" : 2,
@@ -7851,6 +8198,7 @@
          "http://schema.org/DrugPrescriptionStatus" : 2,
          "http://schema.org/Duration" : 2,
          "http://schema.org/EducationalAudience" : 2,
+         "http://schema.org/EmployeeRole" : 3,
          "http://schema.org/Energy" : 2,
          "http://schema.org/EntryPoint" : 1,
          "http://schema.org/Enumeration" : 1,
@@ -7859,14 +8207,20 @@
          "http://schema.org/Flight" : 1,
          "http://schema.org/FlightReservation" : 2,
          "http://schema.org/FoodEstablishmentReservation" : 2,
+         "http://schema.org/GamePlayMode" : 2,
+         "http://schema.org/GameServer" : 1,
+         "http://schema.org/GameServerStatus" : 2,
          "http://schema.org/GeoCoordinates" : 2,
          "http://schema.org/GeoShape" : 2,
          "http://schema.org/GovernmentPermit" : 2,
          "http://schema.org/GovernmentService" : 2,
          "http://schema.org/InfectiousAgentClass" : 2,
          "http://schema.org/ItemAvailability" : 2,
+         "http://schema.org/ItemList" : 1,
+         "http://schema.org/ItemListOrderType" : 2,
          "http://schema.org/JobPosting" : 1,
          "http://schema.org/Language" : 1,
+         "http://schema.org/ListItem" : 1,
          "http://schema.org/LockerDelivery" : 3,
          "http://schema.org/LodgingReservation" : 2,
          "http://schema.org/MapCategoryType" : 2,
@@ -7882,6 +8236,9 @@
          "http://schema.org/MedicalStudyStatus" : 2,
          "http://schema.org/MedicalTrialDesign" : 2,
          "http://schema.org/MedicineSystem" : 2,
+         "http://schema.org/MusicAlbumProductionType" : 2,
+         "http://schema.org/MusicAlbumReleaseType" : 2,
+         "http://schema.org/MusicReleaseFormatType" : 2,
          "http://schema.org/NutritionInformation" : 2,
          "http://schema.org/Offer" : 1,
          "http://schema.org/OfferItemCondition" : 2,
@@ -7914,6 +8271,7 @@
          "http://schema.org/ReservationPackage" : 2,
          "http://schema.org/ReservationStatusType" : 2,
          "http://schema.org/Role" : 1,
+         "http://schema.org/RsvpResponseType" : 2,
          "http://schema.org/Seat" : 1,
          "http://schema.org/Service" : 1,
          "http://schema.org/ServiceChannel" : 1,
@@ -7989,7 +8347,7 @@
       "desc" : "The act of asking someone to attend an event. Reciprocal of RsvpAction.",
       "props" : {
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -8023,18 +8381,49 @@
       "desc" : "A list of items of any sort—for example, Top 10 Movies About Weathermen, or Top 100 Party Songs. Not to be confused with HTML lists, which are often used only for formatting.",
       "props" : {
          "itemListElement" : {
-            "desc" : "A single list item.",
+            "desc" : "For itemListElement values, you can use simple strings (e.g. \u0022Peter\u0022, \u0022Paul, \u0022Mary\u0022), existing entities, or use ListItem.\u000A    \u000A    Text values are best if the elements in the list are plain strings. Existing entities are best for a simple, unordered list of existing things in your data. ListItem is used with ordered lists when you want to provide additional context about the element in that list or when the same item might be in different places in different lists.\u000A    \u000A    Note: The order of elements in your mark-up is not sufficient for indicating the order or elements.  Use ListItem with a 'position' property in such cases.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ListItem" : 1,
+                  "http://schema.org/Thing" : 1
+               }
+            },
             "value" : "text"
          },
          "itemListOrder" : {
             "desc" : "Type of ordering (e.g. Ascending, Descending, Unordered).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ItemListOrderType" : 1
+               }
+            },
             "value" : "text"
+         },
+         "numberOfItems" : {
+            "desc" : "The number of items in an ItemList. Note that some descriptions might not full describe all items in a list (e.g. multi-page pagination).",
+            "value" : "integer"
          }
       },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Intangible" : 1,
          "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/BreadcrumbList" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ItemListOrderType" : {
+      "desc" : "Enumerated for values for itemListOrder for indicating how an ordered ItemList is organized.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -8067,7 +8456,13 @@
       "desc" : "A listing that describes a job opening in a certain organization.",
       "props" : {
          "baseSalary" : {
-            "desc" : "The base salary of the job.",
+            "desc" : "The base salary of the job or of an employee in an EmployeeRole.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PriceSpecification" : 1
+               }
+            },
             "value" : "integer"
          },
          "benefits" : {
@@ -8129,7 +8524,7 @@
             "value" : "text"
          },
          "salaryCurrency" : {
-            "desc" : "The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 used for the main salary information in this job posting.",
+            "desc" : "The currency (coded using ISO 4217, http://en.wikipedia.org/wiki/ISO_4217 ) used for the main salary information in this job posting or for this employee.",
             "value" : "currency"
          },
          "skills" : {
@@ -8161,7 +8556,7 @@
       "desc" : "An agent joins an event/group with participants/friends at a location.",
       "props" : {
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -8264,7 +8659,7 @@
       "desc" : "An agent leaves an event / group with participants/friends at a location.",
       "props" : {
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -8376,6 +8771,49 @@
          "http://schema.org/Place" : 3,
          "http://schema.org/Store" : 1,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ListItem" : {
+      "desc" : "An list item, e.g. a step in a checklist or how-to description.",
+      "props" : {
+         "item" : {
+            "desc" : "An entity represented by an entry in a list (e.g. an 'artist' in a list of 'artists')’.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "nextItem" : {
+            "desc" : "A link to the ListItem that follows the current one.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ListItem" : 1
+               }
+            }
+         },
+         "position" : {
+            "desc" : "The position of an item in a series or sequence of items.",
+            "value" : "text"
+         },
+         "previousItem" : {
+            "desc" : "A link to the ListItem that preceeds the current one.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ListItem" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -8843,7 +9281,7 @@
             "value" : "schema.org date"
          },
          "height" : {
-            "desc" : "The height of the item.",
+            "desc" : "The height of the item or person.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -8852,25 +9290,12 @@
             },
             "value" : "schema.org distance"
          },
-         "interactionCount" : {
-            "desc" : "A count of a specific user interactions with this item—for example, 20 UserLikes, 5 UserComments, or 300 UserDownloads. The user interaction type should be one of the sub types of UserInteraction.",
-            "value" : "schema.org user interaction count"
-         },
-         "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, or give away tickets to an event.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Offer" : 1
-               }
-            }
-         },
          "playerType" : {
             "desc" : "Player type required—for example, Flash or Silverlight.",
             "value" : "text"
          },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -9272,10 +9697,6 @@
    "http://schema.org/MedicalEntity" : {
       "desc" : "The most generic type of entity related to health and the practice of medicine.",
       "props" : {
-         "alternateName" : {
-            "desc" : "An alias for the item.",
-            "value" : "text"
-         },
          "code" : {
             "desc" : "A medical code for the entity, taken from a controlled vocabulary or ontology such as ICD-9, DiseasesDB, MeSH, SNOMED-CT, RxNorm, etc.",
             "is_url" : 1,
@@ -10362,7 +10783,7 @@
       "desc" : "A movie.",
       "props" : {
          "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10371,8 +10792,7 @@
             }
          },
          "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10381,7 +10801,7 @@
             }
          },
          "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10390,8 +10810,7 @@
             }
          },
          "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10413,17 +10832,8 @@
                }
             }
          },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10432,7 +10842,7 @@
             }
          },
          "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10449,6 +10859,19 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/MovieGameSeries" : {
+      "props" : {
+         "trailer" : {
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/VideoObject" : 1
+               }
+            }
+         }
+      }
+   },
    "http://schema.org/MovieRentalStore" : {
       "desc" : "A movie rental store.",
       "spec" : "SCHEMAORG",
@@ -10458,6 +10881,64 @@
          "http://schema.org/Place" : 3,
          "http://schema.org/Store" : 1,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MovieSeries" : {
+      "desc" : "A series of movies. Included movies can be indicated with the hasPart property.",
+      "props" : {
+         "actor" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "actors" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "director" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "directors" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "productionCompany" : {
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Series" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -10569,6 +11050,33 @@
    "http://schema.org/MusicAlbum" : {
       "desc" : "A collection of music tracks.",
       "props" : {
+         "albumProductionType" : {
+            "desc" : "Classification of the album by it's type of content: soundtrack, live album, studio album, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicAlbumProductionType" : 1
+               }
+            }
+         },
+         "albumRelease" : {
+            "desc" : "A release of this album.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicRelease" : 1
+               }
+            }
+         },
+         "albumReleaseType" : {
+            "desc" : "The kind of release which this album is: single, EP or album.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicAlbumReleaseType" : 1
+               }
+            }
+         },
          "byArtist" : {
             "desc" : "The artist that performed this album or recording.",
             "is_url" : 1,
@@ -10584,6 +11092,107 @@
          "http://schema.org/CreativeWork" : 2,
          "http://schema.org/MusicPlaylist" : 1,
          "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MusicAlbumProductionType" : {
+      "desc" : "Classification of the album by it's type of content: soundtrack, live album, studio album, etc.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MusicAlbumReleaseType" : {
+      "desc" : "The kind of release which this album is: single, EP or album.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MusicComposition" : {
+      "desc" : "A musical composition.",
+      "props" : {
+         "composer" : {
+            "desc" : "The person or organization who wrote the composition.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "firstPerformance" : {
+            "desc" : "The date and place the work was first performed.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Event" : 1
+               }
+            }
+         },
+         "includedComposition" : {
+            "desc" : "Smaller compositions included in this work (e.g. a movement in a symphony).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicComposition" : 1
+               }
+            }
+         },
+         "iswcCode" : {
+            "desc" : "The International Standard Musical Work Code for the composition.",
+            "value" : "text"
+         },
+         "lyricist" : {
+            "desc" : "The person who wrote the words.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "musicArrangement" : {
+            "desc" : "An arrangement derived from the composition.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicComposition" : 1
+               }
+            }
+         },
+         "musicCompositionForm" : {
+            "desc" : "The type of composition (e.g. overture, sonata, symphony, etc.)",
+            "value" : "text"
+         },
+         "musicalKey" : {
+            "desc" : "The key, mode, or scale this composition uses.",
+            "value" : "text"
+         },
+         "recordedAs" : {
+            "desc" : "An audio recording of the work.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicRecording" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -10611,14 +11220,17 @@
             }
          },
          "albums" : {
-            "desc" : "A collection of music albums (legacy spelling; see singular form, album).",
-            "discouraged" : 1,
+            "desc" : "A collection of music albums.",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/MusicAlbum" : 1
                }
             }
+         },
+         "genre" : {
+            "desc" : "Genre of the creative work or group.",
+            "value" : "text"
          },
          "musicGroupMember" : {
             "desc" : "A member of a music group—for example, John, Paul, George, or Ringo.",
@@ -10630,17 +11242,17 @@
             }
          },
          "track" : {
-            "desc" : "A music recording (track)—usually a single song.",
+            "desc" : "A music recording (track)—usually a single song. If an ItemList is given, the list should contain items of type MusicRecording",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/ItemList" : 1,
                   "http://schema.org/MusicRecording" : 1
                }
             }
          },
          "tracks" : {
-            "desc" : "A music recording (track)—usually a single song (legacy spelling; see singular form, track).",
-            "discouraged" : 1,
+            "desc" : "A music recording (track)—usually a single song.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10666,17 +11278,17 @@
             "value" : "integer"
          },
          "track" : {
-            "desc" : "A music recording (track)—usually a single song.",
+            "desc" : "A music recording (track)—usually a single song. If an ItemList is given, the list should contain items of type MusicRecording",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/ItemList" : 1,
                   "http://schema.org/MusicRecording" : 1
                }
             }
          },
          "tracks" : {
-            "desc" : "A music recording (track)—usually a single song (legacy spelling; see singular form, track).",
-            "discouraged" : 1,
+            "desc" : "A music recording (track)—usually a single song.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -10691,7 +11303,8 @@
          "http://schema.org/Thing" : 2
       },
       "superclass_of" : {
-         "http://schema.org/MusicAlbum" : 1
+         "http://schema.org/MusicAlbum" : 1,
+         "http://schema.org/MusicRelease" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -10729,12 +11342,94 @@
                   "http://schema.org/MusicPlaylist" : 1
                }
             }
+         },
+         "isrcCode" : {
+            "desc" : "The International Standard Recording Code for the recording.",
+            "value" : "text"
+         },
+         "recordingOf" : {
+            "desc" : "The composition this track is a recording of.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicComposition" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
          "http://schema.org/Thing" : 2
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MusicRelease" : {
+      "desc" : "A MusicRelease is a specific release of a music album.",
+      "props" : {
+         "catalogNumber" : {
+            "desc" : "The catalog number for the release.",
+            "value" : "text"
+         },
+         "creditedTo" : {
+            "desc" : "The group the release is credited to if different than the byArtist. For example, Red and Blue is credited to \u0022Stefani Germanotta Band\u0022, but by Lady Gaga.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1,
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "duration" : {
+            "desc" : "The duration of the item (movie, audio recording, event, etc.) in ISO 8601 date format.",
+            "value" : "schema.org duration"
+         },
+         "musicReleaseFormat" : {
+            "desc" : "Format of this release (the type of recording media used, ie. compact disc, digital media, LP, etc.).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicReleaseFormatType" : 1
+               }
+            }
+         },
+         "recordLabel" : {
+            "desc" : "The label that issued the release.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1
+               }
+            }
+         },
+         "releaseOf" : {
+            "desc" : "The album this is a release of.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/MusicAlbum" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/MusicPlaylist" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/MusicReleaseFormatType" : {
+      "desc" : "Format of this release (the type of recording media used, ie. compact disc, digital media, LP, etc.).",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -10805,8 +11500,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/AnatomicalStructure" : 1,
-                  "http://schema.org/Nerve" : 1
+                  "http://schema.org/AnatomicalStructure" : 1
                }
             }
          },
@@ -11163,6 +11857,15 @@
                }
             }
          },
+         "ineligibleRegion" : {
+            "desc" : "The place(s) from which the offer cannot be obtained (e.g. a region where the transaction is not allowed).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
+         },
          "inventoryLevel" : {
             "desc" : "The current approximate inventory level for the item or items.",
             "is_url" : 1,
@@ -11225,8 +11928,7 @@
             }
          },
          "reviews" : {
-            "desc" : "Review of the item (legacy spelling; see singular form, review).",
-            "discouraged" : 1,
+            "desc" : "Review of the item.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11567,8 +12269,7 @@
             }
          },
          "contactPoints" : {
-            "desc" : "A contact point for a person or organization (legacy spelling; see singular form, contactPoint).",
-            "discouraged" : 1,
+            "desc" : "A contact point for a person or organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11607,8 +12308,7 @@
             }
          },
          "employees" : {
-            "desc" : "People working for this organization. (legacy spelling; see singular form, employee)",
-            "discouraged" : 1,
+            "desc" : "People working for this organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11617,7 +12317,7 @@
             }
          },
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11626,8 +12326,7 @@
             }
          },
          "events" : {
-            "desc" : "Upcoming or past events associated with this place or organization (legacy spelling; see singular form, event).",
-            "discouraged" : 1,
+            "desc" : "Upcoming or past events associated with this place or organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11649,8 +12348,7 @@
             }
          },
          "founders" : {
-            "desc" : "A person who founded this organization (legacy spelling; see singular form, founder).",
-            "discouraged" : 1,
+            "desc" : "A person who founded this organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11661,6 +12359,15 @@
          "foundingDate" : {
             "desc" : "The date that this organization was founded.",
             "value" : "schema.org date"
+         },
+         "foundingLocation" : {
+            "desc" : "The place where the Organization was founded.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
          },
          "globalLocationNumber" : {
             "desc" : "The Global Location Number (GLN, sometimes also referred to as International Location Number or ILN) of the respective organization, person, or place. The GLN is a 13-digit number used to identify parties and physical locations.",
@@ -11698,7 +12405,7 @@
             }
          },
          "logo" : {
-            "desc" : "A logo associated with an organization.",
+            "desc" : "An associated logo.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11736,8 +12443,7 @@
             }
          },
          "members" : {
-            "desc" : "A member of this organization (legacy spelling; see singular form, member).",
-            "discouraged" : 1,
+            "desc" : "A member of this organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11760,6 +12466,15 @@
                }
             }
          },
+         "producer" : {
+            "desc" : "The person or organization who produced the work (e.g. music album, movie, tv/radio series etc.).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
          "review" : {
             "desc" : "A review of the item.",
             "is_url" : 1,
@@ -11770,8 +12485,7 @@
             }
          },
          "reviews" : {
-            "desc" : "Review of the item (legacy spelling; see singular form, review).",
-            "discouraged" : 1,
+            "desc" : "Review of the item.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -11941,7 +12655,8 @@
          "http://schema.org/SportingGoodsStore" : 3,
          "http://schema.org/SportsActivityLocation" : 2,
          "http://schema.org/SportsClub" : 3,
-         "http://schema.org/SportsTeam" : 1,
+         "http://schema.org/SportsOrganization" : 1,
+         "http://schema.org/SportsTeam" : 2,
          "http://schema.org/StadiumOrArena" : 3,
          "http://schema.org/Store" : 2,
          "http://schema.org/TattooParlor" : 3,
@@ -11962,9 +12677,9 @@
    "http://schema.org/OrganizationRole" : {
       "desc" : "A subclass of Role used to describe roles within organizations.",
       "props" : {
-         "namedPosition" : {
-            "desc" : "A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.",
-            "value" : "text"
+         "numberedPosition" : {
+            "desc" : "A number associated with a role in an organization, for example, the number on an athlete's jersey.",
+            "value" : "integer"
          }
       },
       "spec" : "SCHEMAORG",
@@ -11972,6 +12687,9 @@
          "http://schema.org/Intangible" : 2,
          "http://schema.org/Role" : 1,
          "http://schema.org/Thing" : 3
+      },
+      "superclass_of" : {
+         "http://schema.org/EmployeeRole" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12187,7 +12905,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/ParcelService" : {
-      "desc" : "A private parcel service as the delivery mode available for a certain offer.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#DHL\u000A    http://purl.org/goodrelations/v1#FederalExpress\u000A    http://purl.org/goodrelations/v1#UPS\u000A    \u0009",
+      "desc" : "A private parcel service as the delivery mode available for a certain offer.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#DHL\u000A    http://purl.org/goodrelations/v1#FederalExpress\u000A    http://purl.org/goodrelations/v1#UPS\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/DeliveryMethod" : 1,
@@ -12339,7 +13057,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PaymentMethod" : {
-      "desc" : "A payment method is a standardized procedure for transferring the monetary amount for a purchase. Payment methods are characterized by the legal and technical structures used, and by the organization or group carrying out the transaction.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#ByBankTransferInAdvance\u000A    http://purl.org/goodrelations/v1#ByInvoice\u000A    http://purl.org/goodrelations/v1#Cash\u000A    http://purl.org/goodrelations/v1#CheckInAdvance\u000A    http://purl.org/goodrelations/v1#COD\u000A    http://purl.org/goodrelations/v1#DirectDebit\u000A    http://purl.org/goodrelations/v1#GoogleCheckout\u000A    http://purl.org/goodrelations/v1#PayPal\u000A    http://purl.org/goodrelations/v1#PaySwarm\u000A    \u0009\u0009",
+      "desc" : "A payment method is a standardized procedure for transferring the monetary amount for a purchase. Payment methods are characterized by the legal and technical structures used, and by the organization or group carrying out the transaction.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#ByBankTransferInAdvance\u000A    http://purl.org/goodrelations/v1#ByInvoice\u000A    http://purl.org/goodrelations/v1#Cash\u000A    http://purl.org/goodrelations/v1#CheckInAdvance\u000A    http://purl.org/goodrelations/v1#COD\u000A    http://purl.org/goodrelations/v1#DirectDebit\u000A    http://purl.org/goodrelations/v1#GoogleCheckout\u000A    http://purl.org/goodrelations/v1#PayPal\u000A    http://purl.org/goodrelations/v1#PaySwarm\u000A        ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -12468,7 +13186,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Periodical" : {
-      "desc" : "A publication in any medium issued in successive parts bearing numerical or chronological designations and intended, such as a magazine, scholarly journal, or newspaper to continue indefinitely.",
+      "desc" : "A publication in any medium issued in successive parts bearing numerical or chronological designations and intended, such as a magazine, scholarly journal, or newspaper to continue indefinitely.\u000A\u000A      See also blog post\u000A      ",
       "props" : {
          "issn" : {
             "desc" : "The International Standard Serial Number (ISSN) that identifies this periodical. You can repeat this property to (for example) identify different formats of this periodical.",
@@ -12477,8 +13195,9 @@
       },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/CreativeWork" : 1,
-         "http://schema.org/Thing" : 2
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Series" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -12585,13 +13304,21 @@
             "value" : "text"
          },
          "awards" : {
-            "desc" : "Awards won by this person or for this creative work. (legacy spelling; see singular form, award)",
-            "discouraged" : 1,
+            "desc" : "Awards won by this person or for this creative work.",
             "value" : "text"
          },
          "birthDate" : {
             "desc" : "Date of birth.",
             "value" : "schema.org date"
+         },
+         "birthPlace" : {
+            "desc" : "The place where the person was born.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
          },
          "brand" : {
             "desc" : "The brand(s) associated with a product or service, or the brand(s) maintained by an organization or business person.",
@@ -12622,8 +13349,7 @@
             }
          },
          "colleagues" : {
-            "desc" : "A colleague of the person (legacy spelling; see singular form, colleague).",
-            "discouraged" : 1,
+            "desc" : "A colleague of the person.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -12641,8 +13367,7 @@
             }
          },
          "contactPoints" : {
-            "desc" : "A contact point for a person or organization (legacy spelling; see singular form, contactPoint).",
-            "discouraged" : 1,
+            "desc" : "A contact point for a person or organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -12654,6 +13379,15 @@
             "desc" : "Date of death.",
             "value" : "schema.org date"
          },
+         "deathPlace" : {
+            "desc" : "The place where the person died.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
+         },
          "duns" : {
             "desc" : "The Dun & Bradstreet DUNS number for identifying an organization or business person.",
             "value" : "DUNS number"
@@ -12663,7 +13397,7 @@
             "value" : "text"
          },
          "familyName" : {
-            "desc" : "Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the Name property.",
+            "desc" : "Family name. In the U.S., the last name of an Person. This can be used along with givenName instead of the name property.",
             "value" : "text"
          },
          "faxNumber" : {
@@ -12684,7 +13418,7 @@
             "value" : "text"
          },
          "givenName" : {
-            "desc" : "Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the Name property.",
+            "desc" : "Given name. In the U.S., the first name of a Person. This can be used along with familyName instead of the name property.",
             "value" : "text"
          },
          "globalLocationNumber" : {
@@ -12699,6 +13433,16 @@
                   "http://schema.org/Place" : 1
                }
             }
+         },
+         "height" : {
+            "desc" : "The height of the item or person.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "schema.org distance"
          },
          "homeLocation" : {
             "desc" : "A contact location for a person's residence.",
@@ -12771,6 +13515,15 @@
                }
             }
          },
+         "netWorth" : {
+            "desc" : "The total financial value of the organization or person as calculated by subtracting assets from liabilities.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PriceSpecification" : 1
+               }
+            }
+         },
          "owns" : {
             "desc" : "Products owned by the organization or person.",
             "is_url" : 1,
@@ -12791,8 +13544,7 @@
             }
          },
          "parents" : {
-            "desc" : "A parents of the person (legacy spelling; see singular form, parent).",
-            "discouraged" : 1,
+            "desc" : "A parents of the person.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -12837,8 +13589,7 @@
             }
          },
          "siblings" : {
-            "desc" : "A sibling of the person (legacy spelling; see singular form, sibling).",
-            "discouraged" : 1,
+            "desc" : "A sibling of the person.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -12866,6 +13617,15 @@
          "vatID" : {
             "desc" : "The Value-added Tax ID of the organization or person.",
             "value" : "text"
+         },
+         "weight" : {
+            "desc" : "The weight of the product or person.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
          },
          "workLocation" : {
             "desc" : "A contact location for a person's place of work.",
@@ -13102,7 +13862,7 @@
             }
          },
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13111,8 +13871,7 @@
             }
          },
          "events" : {
-            "desc" : "Upcoming or past events associated with this place or organization (legacy spelling; see singular form, event).",
-            "discouraged" : 1,
+            "desc" : "Upcoming or past events associated with this place or organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13156,7 +13915,7 @@
             "value" : "ISIC"
          },
          "logo" : {
-            "desc" : "A logo associated with an organization.",
+            "desc" : "An associated logo.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13169,8 +13928,7 @@
             "is_url" : 1
          },
          "maps" : {
-            "desc" : "A URL to a map of the place (legacy spelling; see singular form, map).",
-            "discouraged" : 1,
+            "desc" : "A URL to a map of the place.",
             "is_url" : 1
          },
          "openingHoursSpecification" : {
@@ -13193,8 +13951,7 @@
             }
          },
          "photos" : {
-            "desc" : "Photographs of this place (legacy spelling; see singular form, photo).",
-            "discouraged" : 1,
+            "desc" : "Photographs of this place.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13213,8 +13970,7 @@
             }
          },
          "reviews" : {
-            "desc" : "Review of the item (legacy spelling; see singular form, review).",
-            "discouraged" : 1,
+            "desc" : "Review of the item.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13471,7 +14227,7 @@
             }
          },
          "event" : {
-            "desc" : "Upcoming or past event associated with this place or organization.",
+            "desc" : "Upcoming or past event associated with this place, organization, or action.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13756,7 +14512,7 @@
             "value" : "GTIN-8"
          },
          "height" : {
-            "desc" : "The height of the item.",
+            "desc" : "The height of the item or person.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13811,7 +14567,7 @@
             }
          },
          "logo" : {
-            "desc" : "A logo associated with an organization.",
+            "desc" : "An associated logo.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13869,8 +14625,7 @@
             }
          },
          "reviews" : {
-            "desc" : "Review of the item (legacy spelling; see singular form, review).",
-            "discouraged" : 1,
+            "desc" : "Review of the item.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -13883,7 +14638,7 @@
             "value" : "text"
          },
          "weight" : {
-            "desc" : "The weight of the product.",
+            "desc" : "The weight of the product or person.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -14013,8 +14768,7 @@
             }
          },
          "members" : {
-            "desc" : "A member of this organization (legacy spelling; see singular form, member).",
-            "discouraged" : 1,
+            "desc" : "A member of this organization.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -14204,7 +14958,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PublicationIssue" : {
-      "desc" : "A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.",
+      "desc" : "A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.\u000A\u000A      See also blog post\u000A      ",
       "props" : {
          "issueNumber" : {
             "desc" : "Identifies the issue of publication; for example, \u0022iii\u0022 or \u00222\u0022.",
@@ -14232,7 +14986,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PublicationVolume" : {
-      "desc" : "A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.",
+      "desc" : "A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.\u000A\u000A      See also blog post\u000A      ",
       "props" : {
          "pageEnd" : {
             "desc" : "The page on which the work ends; for example \u0022138\u0022 or \u0022xvi\u0022.",
@@ -18570,26 +19324,6 @@
    },
    "http://schema.org/RadioClip" : {
       "desc" : "A short radio program or a segment/part of a radio program.",
-      "props" : {
-         "partOfSeason" : {
-            "desc" : "The season to which this episode belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Season" : 1
-               }
-            }
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Clip" : 1,
@@ -18601,101 +19335,6 @@
    },
    "http://schema.org/RadioEpisode" : {
       "desc" : "A radio episode which can be part of a series or season.",
-      "props" : {
-         "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "musicBy" : {
-            "desc" : "The composer of the movie or TV/radio soundtrack.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/MusicGroup" : 1,
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "partOfSeason" : {
-            "desc" : "The season to which this episode belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Season" : 1
-               }
-            }
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Organization" : 1
-               }
-            }
-         },
-         "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/VideoObject" : 1
-               }
-            }
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
@@ -18707,49 +19346,6 @@
    },
    "http://schema.org/RadioSeason" : {
       "desc" : "Season dedicated to radio broadcast and associated online delivery.",
-      "props" : {
-         "episode" : {
-            "desc" : "An episode of a TV/radio series or season",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "episodes" : {
-            "desc" : "An episode of a TV/radio series or season (legacy spelling; see singular form, episode)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "numberOfEpisodes" : {
-            "desc" : "The number of episodes in this season or series.",
-            "value" : "integer"
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         },
-         "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/VideoObject" : 1
-               }
-            }
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
@@ -18763,7 +19359,7 @@
       "desc" : "Series dedicated to radio broadcast and associated online delivery.",
       "props" : {
          "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18772,8 +19368,7 @@
             }
          },
          "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18782,7 +19377,7 @@
             }
          },
          "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18791,8 +19386,7 @@
             }
          },
          "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18801,7 +19395,7 @@
             }
          },
          "episode" : {
-            "desc" : "An episode of a TV/radio series or season",
+            "desc" : "An episode of a tv, radio or game media within a series or season.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18810,8 +19404,7 @@
             }
          },
          "episodes" : {
-            "desc" : "An episode of a TV/radio series or season (legacy spelling; see singular form, episode)",
-            "discouraged" : 1,
+            "desc" : "An episode of a TV/radio series or season.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18833,17 +19426,12 @@
             "desc" : "The number of episodes in this season or series.",
             "value" : "integer"
          },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
+         "numberOfSeasons" : {
+            "desc" : "The number of seasons in this series.",
+            "value" : "integer"
          },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18852,7 +19440,7 @@
             }
          },
          "season" : {
-            "desc" : "A season in a tv/radio series.",
+            "desc" : "A season in a media series.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18861,8 +19449,7 @@
             }
          },
          "seasons" : {
-            "desc" : "A season in a tv/radio series. (legacy spelling; see singular form, season)",
-            "discouraged" : 1,
+            "desc" : "A season in a media series.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18871,7 +19458,7 @@
             }
          },
          "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -18902,7 +19489,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Rating" : {
-      "desc" : "The rating of the video.",
+      "desc" : "A rating is an evaluation on a numeric scale, such as 1 to 5 stars.",
       "props" : {
          "bestRating" : {
             "desc" : "The highest value allowed in this rating system. If bestRating is omitted, 5 is assumed.",
@@ -19393,12 +19980,6 @@
    },
    "http://schema.org/ReserveAction" : {
       "desc" : "Reserving a concrete object.",
-      "props" : {
-         "scheduledTime" : {
-            "desc" : "The time the object is scheduled to.",
-            "value" : "schema.org datetime"
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Action" : 3,
@@ -19445,6 +20026,17 @@
          "http://schema.org/Organization" : 3,
          "http://schema.org/Place" : 3,
          "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/ResumeAction" : {
+      "desc" : "The act of resuming a device or application which was formerly paused (e.g. resume music playback or resume a timer).",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Action" : 2,
+         "http://schema.org/ControlAction" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -19542,14 +20134,22 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Role" : {
-      "desc" : "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'.\u000A    ",
+      "desc" : "Represents additional information about a relationship or property. For example a Role can be used to say that a 'member' role linking some SportsTeam to a player occurred during a particular time period. Or that a Person's 'actor' role in a Movie was for some particular characterName. Such properties can be attached to a Role entity, which is then associated with the main entities using ordinary properties like 'member' or 'actor'.\u000A\u000A      See also blog post\u000A    ",
       "props" : {
          "endDate" : {
-            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
+         "namedPosition" : {
+            "desc" : "A position played, performed or filled by a person or organization, as part of an organization. For example, an athlete in a SportsTeam might play in the position named 'Quarterback'.",
+            "value" : "text"
+         },
+         "roleName" : {
+            "desc" : "A role played, performed or filled by a person or organization. For example, the team of creators for a comic book might fill the roles named 'inker', 'penciller', and 'letterer'; or an athlete in a SportsTeam might play in the position named 'Quarterback'.",
+            "value" : "text"
+         },
          "startDate" : {
-            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
          }
       },
@@ -19559,6 +20159,7 @@
          "http://schema.org/Thing" : 2
       },
       "superclass_of" : {
+         "http://schema.org/EmployeeRole" : 2,
          "http://schema.org/OrganizationRole" : 1,
          "http://schema.org/PerformanceRole" : 1
       },
@@ -19581,6 +20182,21 @@
    },
    "http://schema.org/RsvpAction" : {
       "desc" : "The act of notifying an event organizer as to whether you expect to attend the event.",
+      "props" : {
+         "additionalNumberOfGuests" : {
+            "desc" : "If responding yes, the number of guests who will attend in addition to the invitee.",
+            "value" : "integer"
+         },
+         "rsvpResponse" : {
+            "desc" : "The response (yes, no, maybe) to the RSVP.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/RsvpResponseType" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Action" : 4,
@@ -19588,6 +20204,17 @@
          "http://schema.org/InformAction" : 1,
          "http://schema.org/InteractAction" : 3,
          "http://schema.org/Thing" : 5
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/RsvpResponseType" : {
+      "desc" : "RsvpResponseType is an enumeration type whose instances represent responding to an RSVP request.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 1,
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -19695,14 +20322,14 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Season" : {
-      "desc" : "A TV or radio season.",
+      "desc" : "A media season e.g. tv, radio, video game etc.",
       "props" : {
          "endDate" : {
-            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "episode" : {
-            "desc" : "An episode of a TV/radio series or season",
+            "desc" : "An episode of a tv, radio or game media within a series or season.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19711,8 +20338,7 @@
             }
          },
          "episodes" : {
-            "desc" : "An episode of a TV/radio series or season (legacy spelling; see singular form, episode)",
-            "discouraged" : 1,
+            "desc" : "An episode of a TV/radio series or season.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19733,17 +20359,8 @@
                }
             }
          },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19756,11 +20373,11 @@
             "value" : "text"
          },
          "startDate" : {
-            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
          },
          "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -19892,136 +20509,15 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Series" : {
-      "desc" : "A TV or radio series.",
+      "desc" : "\u000A          A Series in schema.org is a group of related items, typically but not necessarily of the same kind.\u000A          Series are usually organized into some order, often chronological. Unlike ItemList which\u000A          is a general purpose data structure for lists of things, the emphasis with Series\u000A          is on published materials (written e.g. books and periodicals, or media such as\u000A          tv, radio and games).\u000A\u000A          \u000A\u000A          Specific subtypes are available for describing TVSeries, RadioSeries,\u000A          MovieSeries,\u000A          BookSeries,\u000A          Periodical\u000A          and VideoGameSeries. In each case,\u000A          the hasPart / isPartOf properties\u000A          can be used to relate the Series to its parts. The general Series type serves largely\u000A          just to organize these more specific and practical subtypes.\u000A\u000A          \u000A\u000A          It is common for properties applicable to an item from the series to be usefully applied to the containing group.\u000A          Schema.org attempts to anticipate some of these cases, but publishers should be free to apply\u000A          properties of the series parts to the series as a whole wherever they seem appropriate.\u000A          ",
       "props" : {
-         "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
          "endDate" : {
-            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
-         },
-         "episode" : {
-            "desc" : "An episode of a TV/radio series or season",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "episodes" : {
-            "desc" : "An episode of a TV/radio series or season (legacy spelling; see singular form, episode)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "musicBy" : {
-            "desc" : "The composer of the movie or TV/radio soundtrack.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/MusicGroup" : 1,
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "numberOfEpisodes" : {
-            "desc" : "The number of episodes in this season or series.",
-            "value" : "integer"
-         },
-         "numberOfSeasons" : {
-            "desc" : "The number of seasons in this series.",
-            "value" : "integer"
-         },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Organization" : 1
-               }
-            }
-         },
-         "season" : {
-            "desc" : "A season in a tv/radio series.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Season" : 1
-               }
-            }
-         },
-         "seasons" : {
-            "desc" : "A season in a tv/radio series. (legacy spelling; see singular form, season)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Season" : 1
-               }
-            }
          },
          "startDate" : {
-            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
             "value" : "schema.org date"
-         },
-         "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/VideoObject" : 1
-               }
-            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -20030,8 +20526,12 @@
          "http://schema.org/Thing" : 2
       },
       "superclass_of" : {
+         "http://schema.org/BookSeries" : 1,
+         "http://schema.org/MovieSeries" : 1,
+         "http://schema.org/Periodical" : 1,
          "http://schema.org/RadioSeries" : 1,
-         "http://schema.org/TVSeries" : 1
+         "http://schema.org/TVSeries" : 1,
+         "http://schema.org/VideoGameSeries" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -20338,6 +20838,24 @@
                }
             }
          },
+         "softwareAddOn" : {
+            "desc" : "Additional content for a software application.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/SoftwareApplication" : 1
+               }
+            }
+         },
+         "softwareHelp" : {
+            "desc" : "Software application help.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
          "softwareVersion" : {
             "desc" : "Version of the software instance.",
             "value" : "text"
@@ -20354,6 +20872,7 @@
       },
       "superclass_of" : {
          "http://schema.org/MobileApplication" : 1,
+         "http://schema.org/VideoGame" : 1,
          "http://schema.org/WebApplication" : 1
       },
       "use_itemid" : 1,
@@ -20445,6 +20964,38 @@
    },
    "http://schema.org/SportsEvent" : {
       "desc" : "Event type: Sports event.",
+      "props" : {
+         "awayTeam" : {
+            "desc" : "The away team in a sports event.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1,
+                  "http://schema.org/SportsTeam" : 1
+               }
+            }
+         },
+         "competitor" : {
+            "desc" : "A competitor in a sports event.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1,
+                  "http://schema.org/SportsTeam" : 1
+               }
+            }
+         },
+         "homeTeam" : {
+            "desc" : "The home team in a sports event.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1,
+                  "http://schema.org/SportsTeam" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 1,
@@ -20453,12 +21004,52 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
-   "http://schema.org/SportsTeam" : {
-      "desc" : "Organization: Sports team.",
+   "http://schema.org/SportsOrganization" : {
+      "desc" : "Represents the collection of all sports organizations, including sports teams, governing bodies, and sports associations.",
+      "props" : {
+         "sport" : {
+            "desc" : "A type of sport (e.g. Baseball).",
+            "value" : "text"
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Organization" : 1,
          "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/SportsTeam" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/SportsTeam" : {
+      "desc" : "Organization: Sports team.",
+      "props" : {
+         "athlete" : {
+            "desc" : "A person that acts as performing member of a sports team; a player as opposed to a coach",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "coach" : {
+            "desc" : "A person that acts in a coaching role for a sports team.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Organization" : 2,
+         "http://schema.org/SportsOrganization" : 1,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -20541,6 +21132,7 @@
       },
       "superclass_of" : {
          "http://schema.org/ContactPoint" : 1,
+         "http://schema.org/DatedMoneySpecification" : 1,
          "http://schema.org/DeliveryChargeSpecification" : 2,
          "http://schema.org/GeoCoordinates" : 1,
          "http://schema.org/GeoShape" : 1,
@@ -20628,6 +21220,17 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/SuspendAction" : {
+      "desc" : "The act of momentarily pausing a device or application (e.g. pause music playback or pause a timer).",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Action" : 2,
+         "http://schema.org/ControlAction" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Synagogue" : {
       "desc" : "A synagogue.",
       "spec" : "SCHEMAORG",
@@ -20643,24 +21246,6 @@
    "http://schema.org/TVClip" : {
       "desc" : "A short TV program or a segment/part of a TV program.",
       "props" : {
-         "partOfSeason" : {
-            "desc" : "The season to which this episode belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Season" : 1
-               }
-            }
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         },
          "partOfTVSeries" : {
             "desc" : "The TV series to which this episode or season belongs. (legacy form; partOfSeries is preferred)",
             "is_url" : 1,
@@ -20683,105 +21268,12 @@
    "http://schema.org/TVEpisode" : {
       "desc" : "A TV episode which can be part of a series or season.",
       "props" : {
-         "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "musicBy" : {
-            "desc" : "The composer of the movie or TV/radio soundtrack.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/MusicGroup" : 1,
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "partOfSeason" : {
-            "desc" : "The season to which this episode belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Season" : 1
-               }
-            }
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         },
          "partOfTVSeries" : {
             "desc" : "The TV series to which this episode or season belongs. (legacy form; partOfSeries is preferred)",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/TVSeries" : 1
-               }
-            }
-         },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Organization" : 1
-               }
-            }
-         },
-         "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/VideoObject" : 1
                }
             }
          }
@@ -20798,65 +21290,12 @@
    "http://schema.org/TVSeason" : {
       "desc" : "Season dedicated to TV broadcast and associated online delivery.",
       "props" : {
-         "endDate" : {
-            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
-         "episode" : {
-            "desc" : "An episode of a TV/radio series or season",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "episodes" : {
-            "desc" : "An episode of a TV/radio series or season (legacy spelling; see singular form, episode)",
-            "discouraged" : 1,
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "numberOfEpisodes" : {
-            "desc" : "The number of episodes in this season or series.",
-            "value" : "integer"
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         },
          "partOfTVSeries" : {
             "desc" : "The TV series to which this episode or season belongs. (legacy form; partOfSeries is preferred)",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/TVSeries" : 1
-               }
-            }
-         },
-         "seasonNumber" : {
-            "desc" : "Position of the season within an ordered group of seasons.",
-            "value" : "text"
-         },
-         "startDate" : {
-            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
-         "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/VideoObject" : 1
                }
             }
          }
@@ -20874,7 +21313,7 @@
       "desc" : "Series dedicated to TV broadcast and associated online delivery.",
       "props" : {
          "actor" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video.",
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20883,8 +21322,7 @@
             }
          },
          "actors" : {
-            "desc" : "A cast member of the movie, tv/radio series, season, episode, or video. (legacy spelling; see singular form, actor)",
-            "discouraged" : 1,
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20893,7 +21331,7 @@
             }
          },
          "director" : {
-            "desc" : "The director of the movie, tv/radio episode or series.",
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20902,8 +21340,7 @@
             }
          },
          "directors" : {
-            "desc" : "The director of the movie, tv/radio episode or series. (legacy spelling; see singular form, director)",
-            "discouraged" : 1,
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20911,12 +21348,8 @@
                }
             }
          },
-         "endDate" : {
-            "desc" : "The end date and time of the role, event or item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
          "episode" : {
-            "desc" : "An episode of a TV/radio series or season",
+            "desc" : "An episode of a tv, radio or game media within a series or season.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20925,8 +21358,7 @@
             }
          },
          "episodes" : {
-            "desc" : "An episode of a TV/radio series or season (legacy spelling; see singular form, episode)",
-            "discouraged" : 1,
+            "desc" : "An episode of a TV/radio series or season.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20948,17 +21380,12 @@
             "desc" : "The number of episodes in this season or series.",
             "value" : "integer"
          },
-         "producer" : {
-            "desc" : "The producer of the movie, tv/radio series, season, or episode, or video.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
+         "numberOfSeasons" : {
+            "desc" : "The number of seasons in this series.",
+            "value" : "integer"
          },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20967,7 +21394,7 @@
             }
          },
          "season" : {
-            "desc" : "A season in a tv/radio series.",
+            "desc" : "A season in a media series.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20976,8 +21403,7 @@
             }
          },
          "seasons" : {
-            "desc" : "A season in a tv/radio series. (legacy spelling; see singular form, season)",
-            "discouraged" : 1,
+            "desc" : "A season in a media series.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -20985,12 +21411,8 @@
                }
             }
          },
-         "startDate" : {
-            "desc" : "The start date and time of the event, role or item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
          "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, or episode.",
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -21250,6 +21672,7 @@
          "http://schema.org/AchieveAction" : 2,
          "http://schema.org/Action" : 1,
          "http://schema.org/ActionStatusType" : 3,
+         "http://schema.org/ActivateAction" : 3,
          "http://schema.org/AddAction" : 3,
          "http://schema.org/AdministrativeArea" : 2,
          "http://schema.org/AdultEntertainment" : 4,
@@ -21304,12 +21727,14 @@
          "http://schema.org/Bone" : 3,
          "http://schema.org/Book" : 2,
          "http://schema.org/BookFormatType" : 3,
+         "http://schema.org/BookSeries" : 3,
          "http://schema.org/BookStore" : 4,
          "http://schema.org/BookmarkAction" : 3,
          "http://schema.org/BorrowAction" : 3,
          "http://schema.org/BowlingAlley" : 4,
          "http://schema.org/BrainStructure" : 3,
          "http://schema.org/Brand" : 2,
+         "http://schema.org/BreadcrumbList" : 3,
          "http://schema.org/Brewery" : 4,
          "http://schema.org/BroadcastEvent" : 3,
          "http://schema.org/BroadcastService" : 1,
@@ -21360,6 +21785,7 @@
          "http://schema.org/ContactPoint" : 3,
          "http://schema.org/ContactPointOption" : 3,
          "http://schema.org/Continent" : 3,
+         "http://schema.org/ControlAction" : 2,
          "http://schema.org/ConvenienceStore" : 4,
          "http://schema.org/CookAction" : 3,
          "http://schema.org/Corporation" : 2,
@@ -21375,8 +21801,10 @@
          "http://schema.org/DataCatalog" : 2,
          "http://schema.org/DataDownload" : 3,
          "http://schema.org/Dataset" : 2,
+         "http://schema.org/DatedMoneySpecification" : 3,
          "http://schema.org/DayOfWeek" : 3,
          "http://schema.org/DaySpa" : 4,
+         "http://schema.org/DeactivateAction" : 3,
          "http://schema.org/DefenceEstablishment" : 4,
          "http://schema.org/DeleteAction" : 3,
          "http://schema.org/DeliveryChargeSpecification" : 4,
@@ -21419,6 +21847,7 @@
          "http://schema.org/EmailMessage" : 2,
          "http://schema.org/Embassy" : 4,
          "http://schema.org/EmergencyService" : 3,
+         "http://schema.org/EmployeeRole" : 4,
          "http://schema.org/EmploymentAgency" : 3,
          "http://schema.org/EndorseAction" : 4,
          "http://schema.org/Energy" : 3,
@@ -21447,6 +21876,10 @@
          "http://schema.org/FoodEstablishmentReservation" : 3,
          "http://schema.org/FoodEvent" : 2,
          "http://schema.org/FurnitureStore" : 4,
+         "http://schema.org/Game" : 2,
+         "http://schema.org/GamePlayMode" : 3,
+         "http://schema.org/GameServer" : 2,
+         "http://schema.org/GameServerStatus" : 3,
          "http://schema.org/GardenStore" : 4,
          "http://schema.org/GasStation" : 4,
          "http://schema.org/GatedResidenceCommunity" : 3,
@@ -21493,6 +21926,7 @@
          "http://schema.org/InviteAction" : 4,
          "http://schema.org/ItemAvailability" : 3,
          "http://schema.org/ItemList" : 2,
+         "http://schema.org/ItemListOrderType" : 3,
          "http://schema.org/ItemPage" : 3,
          "http://schema.org/JewelryStore" : 4,
          "http://schema.org/JobPosting" : 2,
@@ -21510,6 +21944,7 @@
          "http://schema.org/Ligament" : 3,
          "http://schema.org/LikeAction" : 4,
          "http://schema.org/LiquorStore" : 4,
+         "http://schema.org/ListItem" : 2,
          "http://schema.org/ListenAction" : 3,
          "http://schema.org/LiteraryEvent" : 2,
          "http://schema.org/LocalBusiness" : 2,
@@ -21578,15 +22013,21 @@
          "http://schema.org/MoveAction" : 2,
          "http://schema.org/Movie" : 2,
          "http://schema.org/MovieRentalStore" : 4,
+         "http://schema.org/MovieSeries" : 3,
          "http://schema.org/MovieTheater" : 3,
          "http://schema.org/MovingCompany" : 4,
          "http://schema.org/Muscle" : 3,
          "http://schema.org/Museum" : 3,
          "http://schema.org/MusicAlbum" : 3,
+         "http://schema.org/MusicAlbumProductionType" : 3,
+         "http://schema.org/MusicAlbumReleaseType" : 3,
+         "http://schema.org/MusicComposition" : 2,
          "http://schema.org/MusicEvent" : 2,
          "http://schema.org/MusicGroup" : 3,
          "http://schema.org/MusicPlaylist" : 2,
          "http://schema.org/MusicRecording" : 2,
+         "http://schema.org/MusicRelease" : 3,
+         "http://schema.org/MusicReleaseFormatType" : 3,
          "http://schema.org/MusicStore" : 4,
          "http://schema.org/MusicVenue" : 3,
          "http://schema.org/MusicVideoObject" : 3,
@@ -21630,7 +22071,7 @@
          "http://schema.org/PerformanceRole" : 3,
          "http://schema.org/PerformingArtsTheater" : 3,
          "http://schema.org/PerformingGroup" : 2,
-         "http://schema.org/Periodical" : 2,
+         "http://schema.org/Periodical" : 3,
          "http://schema.org/Permit" : 2,
          "http://schema.org/Person" : 1,
          "http://schema.org/PetStore" : 4,
@@ -21703,6 +22144,7 @@
          "http://schema.org/Reservoir" : 4,
          "http://schema.org/Residence" : 2,
          "http://schema.org/Restaurant" : 4,
+         "http://schema.org/ResumeAction" : 3,
          "http://schema.org/ReturnAction" : 3,
          "http://schema.org/Review" : 2,
          "http://schema.org/ReviewAction" : 3,
@@ -21710,6 +22152,7 @@
          "http://schema.org/Role" : 2,
          "http://schema.org/RoofingContractor" : 4,
          "http://schema.org/RsvpAction" : 5,
+         "http://schema.org/RsvpResponseType" : 3,
          "http://schema.org/SaleEvent" : 2,
          "http://schema.org/ScheduleAction" : 4,
          "http://schema.org/ScholarlyArticle" : 3,
@@ -21740,7 +22183,8 @@
          "http://schema.org/SportsActivityLocation" : 3,
          "http://schema.org/SportsClub" : 4,
          "http://schema.org/SportsEvent" : 2,
-         "http://schema.org/SportsTeam" : 2,
+         "http://schema.org/SportsOrganization" : 2,
+         "http://schema.org/SportsTeam" : 3,
          "http://schema.org/StadiumOrArena" : 3,
          "http://schema.org/State" : 3,
          "http://schema.org/Store" : 3,
@@ -21748,6 +22192,7 @@
          "http://schema.org/SubscribeAction" : 3,
          "http://schema.org/SubwayStation" : 3,
          "http://schema.org/SuperficialAnatomy" : 2,
+         "http://schema.org/SuspendAction" : 3,
          "http://schema.org/Synagogue" : 4,
          "http://schema.org/TVClip" : 3,
          "http://schema.org/TVEpisode" : 3,
@@ -21801,6 +22246,8 @@
          "http://schema.org/Vessel" : 3,
          "http://schema.org/VeterinaryCare" : 4,
          "http://schema.org/VideoGallery" : 4,
+         "http://schema.org/VideoGame" : 3,
+         "http://schema.org/VideoGameSeries" : 3,
          "http://schema.org/VideoObject" : 3,
          "http://schema.org/ViewAction" : 3,
          "http://schema.org/VisualArtsEvent" : 2,
@@ -30763,19 +31210,326 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
-   "http://schema.org/VideoObject" : {
-      "desc" : "A video file.",
+   "http://schema.org/VideoGame" : {
+      "desc" : "A video game is an electronic game that involves human interaction with a user interface to generate visual feedback on a video device.",
       "props" : {
-         "caption" : {
-            "desc" : "The caption for this object.",
+         "actor" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "actors" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "cheatCode" : {
+            "desc" : "Cheat codes to the game.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
+         "director" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "directors" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "gamePlatform" : {
+            "desc" : "The electronic systems used to play video games.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            },
             "value" : "text"
          },
+         "gameServer" : {
+            "desc" : "The server on which  it is possible to play the game.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/GameServer" : 1
+               }
+            }
+         },
+         "gameTip" : {
+            "desc" : "Links to tips, tactics, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
+         "playMode" : {
+            "desc" : "Indicates whether this game is multi-player, co-op or single-player.  The game can be marked as multi-player, co-op and single-player at the same time.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/GamePlayMode" : 1
+               }
+            }
+         },
+         "trailer" : {
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/VideoObject" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Game" : 1,
+         "http://schema.org/SoftwareApplication" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/VideoGameSeries" : {
+      "desc" : "A video game series.",
+      "props" : {
+         "actor" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "actors" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "characterAttribute" : {
+            "desc" : "A piece of data that represents a particular aspect of a fictional character (skill, power, character points, advantage, disadvantage).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "cheatCode" : {
+            "desc" : "Cheat codes to the game.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWork" : 1
+               }
+            }
+         },
+         "director" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "directors" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "episode" : {
+            "desc" : "An episode of a tv, radio or game media within a series or season.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Episode" : 1
+               }
+            }
+         },
+         "episodes" : {
+            "desc" : "An episode of a TV/radio series or season.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Episode" : 1
+               }
+            }
+         },
+         "gameItem" : {
+            "desc" : "An item is an object within the game world that can be collected by a player or, occasionally, a non-player character.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "gamePlatform" : {
+            "desc" : "The electronic systems used to play video games.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "numberOfEpisodes" : {
+            "desc" : "The number of episodes in this season or series.",
+            "value" : "integer"
+         },
+         "numberOfPlayers" : {
+            "desc" : "Indicate how many people can play this game (minimum, maximum, or range).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
+         },
+         "numberOfSeasons" : {
+            "desc" : "The number of seasons in this series.",
+            "value" : "integer"
+         },
+         "playMode" : {
+            "desc" : "Indicates whether this game is multi-player, co-op or single-player.  The game can be marked as multi-player, co-op and single-player at the same time.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/GamePlayMode" : 1
+               }
+            }
+         },
          "productionCompany" : {
-            "desc" : "The production company or studio that made the movie, tv/radio series, season, or episode, or media object.",
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/Organization" : 1
+               }
+            }
+         },
+         "quest" : {
+            "desc" : "The task that a player-controlled character, or group of characters may complete in order to gain a reward.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
+         "season" : {
+            "desc" : "A season in a media series.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Season" : 1
+               }
+            }
+         },
+         "seasons" : {
+            "desc" : "A season in a media series.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Season" : 1
+               }
+            }
+         },
+         "trailer" : {
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/VideoObject" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Series" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/VideoObject" : {
+      "desc" : "A video file.",
+      "props" : {
+         "actor" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "actors" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "caption" : {
+            "desc" : "The caption for this object.",
+            "value" : "text"
+         },
+         "director" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "directors" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
                }
             }
          },
@@ -30953,7 +31707,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/WarrantyScope" : {
-      "desc" : "A range of of services that will be provided to a customer free of charge in case of a defect or malfunction of a product.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#Labor-BringIn\u000A    http://purl.org/goodrelations/v1#PartsAndLabor-BringIn\u000A    http://purl.org/goodrelations/v1#PartsAndLabor-PickUp\u000A    \u0009",
+      "desc" : "A range of of services that will be provided to a customer free of charge in case of a defect or malfunction of a product.\u000A\u000A    Commonly used values:\u000A\u000A    http://purl.org/goodrelations/v1#Labor-BringIn\u000A    http://purl.org/goodrelations/v1#PartsAndLabor-BringIn\u000A    http://purl.org/goodrelations/v1#PartsAndLabor-PickUp\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Enumeration" : 1,
@@ -31020,6 +31774,12 @@
       "props" : {
          "breadcrumb" : {
             "desc" : "A set of links that can help a user understand and navigate a website hierarchy.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/BreadcrumbList" : 1
+               }
+            },
             "value" : "text"
          },
          "lastReviewed" : {
@@ -31063,8 +31823,7 @@
             "is_url" : 1
          },
          "significantLinks" : {
-            "desc" : "The most significant URLs on the page. Typically, these are the non-navigation links that are clicked on the most (legacy spelling; see singular form, significantLink).",
-            "discouraged" : 1,
+            "desc" : "The most significant URLs on the page. Typically, these are the non-navigation links that are clicked on the most.",
             "is_url" : 1
          },
          "specialty" : {
