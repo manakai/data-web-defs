@@ -222,6 +222,203 @@ The files |data/sets.json| and |data/maps.json| in the data-chars
 repository <https://github.com/manakai/data-chars> contain character
 classes and mapping tables related to HTML parsing.
 
+* Parser instructions
+
+The following is an incomplete illustration of instructions used to
+describe HTML and XML tokenization and tree construction steps:
+
+$pattern
+  {ns => 'HTML', name => $name}
+  {ns => 'HTML', name => [$name, $name]}
+  {ns => 'HTML', same_tag_name_as_token => 1}
+  {ns => 'SVG'}
+  {category => 'special'}
+  {category => 'special', except => [$name, ...]}
+  {"MathML text integration point" => 1}
+  {"HTML integration point" => 1}
+  ['or', $pattern, ...]
+  {tag_name => 1}
+  $pattern_string
+$pattern_string
+  HTML:hoge SVG:foo,MathML:abc ...
+  HTML:hoge
+  HTML:*
+  HTML-same-tag-name
+$node
+  node
+  oe[0]
+  oe[1]
+  oe[i-1]
+  oe[-2]
+  oe[-1]
+  adjusted current node
+  adjusted insertion location parent
+  head element pointer
+  form element pointer
+  document
+  doctype
+$im
+  in ...
+  ['original']
+  ['current']
+$list
+  oe
+  afe
+  stack of template insertion modes
+$scope
+  all
+  scope
+  table
+  ...
+  marker
+$conds
+  ['and', $conds, ...]
+  ['or', $conds, ...]
+  [$list, 'in scope', $scope, $pattern]
+  [$list, 'in scope not', $scope, $pattern]
+  [$list, 'not in scope', $scope, $pattern]
+  [$list, 'not in scope', $scope, $node]
+  [$list, 'is empty']
+  [$list, '> 1']
+  [$list, 'is not empty']
+  [$node, 'is', $pattern]
+  [$node, 'is not', $pattern]
+  [$node, 'is', $node]
+  [$node, 'lc is', $pattern]
+  [$node, 'lc is not', $pattern]
+  [$node, 'is null']
+  ['token', 'is a', $token_type]
+  ['token', 'is a', 'START:NOT:'.$tag_names]
+  ['token', 'has', $field]
+  ['token', 'non-empty', $field]
+  ['token', 'has attr', $string]
+  ['token', 'has attr', [$string, $string]]
+  ['token tag_name', 'is', $string]
+  ['token tag_name', 'is not', [$string, $string]]
+  ['token target', 'is', $string]
+  ['token[type]', 'lc is not', $string]
+  ['DOCTYPE system identifier', 'non-empty']
+  ['legacy doctype']
+  ['quirks']
+  ['not iframe srcdoc document']
+  ['fragment']
+  ['not fragment']
+  ['pending table character tokens list', 'has non-space']
+  ['im', 'is', [$im, $im, ...]]
+  ['form element pointer', 'is not null']
+  ['frameset-ok flag', 'is', 'not ok']
+type => parse error
+type => pop-oe
+type => pop-oe, until => $node
+type => pop-oe, until => $pattern
+type => pop-oe, while_not => $pattern
+type => pop-oe, while_not => $pattern, except => $pattern
+type => pop-oe, while => $pattern
+type => pop-oe, while => $pattern, except => $pattern
+type => push-oe
+type => push-oe, item => $node
+type => pop-template-ims
+type => push-template-ims, im => $im
+type => remove-oe, item => $node
+type => remove-tree, item => $node
+type => set-form-element-pointer
+type => set-head-element-pointer
+type => set-appropriate-place, target => $field_name
+type => set-node-flag, target => $field_name
+type => unset-node-flag, target => $field_name
+type => set-compat-mode, value => $compat_mode
+type => set-form-attr, attr => $name
+type => set-false, target => $field_name
+type => set-null, target => $field_name
+type => set-empty, target => $field_name
+type => set-node, value => $node
+type => set-current-im, target => $field_name
+type => append-to-document
+type => append-to-document, item => DocumentType
+type => append-to-adjusted-insertion-location
+type => append-to-pending-table-character-tokens-list
+type => append-marker-to-afe
+type => adoption agency algorithm
+type => adoption agency algorithm, tag_name => $name
+type => adoption agency algorithm, tag_name => $name, remove_from_afe_and_oe => 1
+type => insert a comment
+type => insert a comment, position => $node
+type => insert a character
+type => insert a character, value => $string
+type => insert a character, value => ['prompt-string']
+type => insert a character, value => [$field]
+type => insert-chars
+type => insert-chars, foster_parenting => 1
+type => insert-chars, value => ['prompt-string']
+type => insert-chars, value => [$field]
+type => insert an HTML element
+type => insert an HTML element, foster_parenting => 1
+type => insert an HTML element, with_script_flags => 1
+type => insert an HTML element, foster_parenting => 1, with_script_flags => 1
+type => insert an HTML element, tag_name => $name, attrs => none
+type => insert an HTML element, tag_name => $name, attrs => isindex
+  , possible_tag_names => {associate_form_owner => boolean}
+type => insert a foreign element, ns => SVG
+type => insert a foreign element, ns => MathML
+type => insert a foreign element, ns => SVG, foster_parenting => 1
+type => insert a foreign element, ns => MathML, foster_parenting => 1
+type => insert a foreign element, ns => inherit
+type => create an HTML element
+  , possible_tag_names => {associate_form_owner => boolean}
+type => create an HTML element, local_name => $name, attrs => none
+type => create an HTML element, intended_parent => $node
+type => generate implied end tags
+type => generate implied end tags, except => $pattern
+type => generate all implied end tags thoroughly
+type => set-attrs-if-missing, node => $node
+type => fixup-svg-tag-name
+type => if, cond => $conds, actions => $actions
+type => if, cond => $conds, actions => $actions, false_actions => $actions
+type => doctype-switch
+type => change-the-encoding-if-appropriate
+type => appcache-processing
+type => appcache-processing, can_have_manifest => 1
+type => script-processing-1
+type => script-processing-2
+type => ignore-next-lf
+
+type => switch the tokenizer, state => $state
+type => close a p element
+type => clear the stack back to a table context
+type => clear the stack back to a table body context
+type => clear the stack back to a table row context
+type => close the cell
+type => reconstruct the active formatting elements
+type => push onto the list of active formatting elements
+type => clear the list of active formatting elements up to the last marker
+type => acknowledge the token's self-closing flag
+type => acknowledge the token's self-closing flag, foreign => 1
+type => reset the insertion mode appropriately
+type => generic raw text element parsing algorithm
+type => generic RCDATA element parsing algorithm
+type => change the token's tag name, tag_name => $name
+type => adjust SVG attributes
+type => adjust MathML attributes
+type => adjust foreign attributes
+type => take a deep breath
+type => stop parsing
+type => for-each-reverse-oe-as-node, actions => $actions, between_actions => $actions
+type => USING-THE-RULES-FOR, im => $im
+type => USING-THE-RULES-FOR, im => $im, foster_parenting => 1
+
+type => reprocess the token
+type => reprocess pending table character tokens list, FIELD => ..., im => $im
+type => process-using-current-im
+type => process-using-in-body-im
+
+
+type => text-with-optional-ws-prefix, ws_actions => $actions, actons => $actions
+type => process-chars,
+    [null_char_actions => $actions], [null_seq_actions => $actions],
+    [ws_char_actions => $actions], [ws_seq_actions => $actions],
+    [char_actions => $actions], actions => $actions,
+    [pending_table_character_tokens => 1]
+
 * Source
 
 HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
