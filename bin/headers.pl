@@ -10,6 +10,7 @@ my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http
 my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-auth-schemes.json')->slurp;
 my $IANAIMData = json_bytes2perl $src_path->parent->child ('local/iana/http-ims.json')->slurp;
 my $IANASIPData = json_bytes2perl $src_path->parent->child ('local/iana/sip.json')->slurp;
+my $IANAFCASTData = json_bytes2perl $src_path->parent->child ('local/iana/fcast.json')->slurp;
 
 {
   my $json = json_bytes2perl $src_path->parent->child ('local/iana/headers.json')->slurp;
@@ -71,7 +72,17 @@ my $IANASIPData = json_bytes2perl $src_path->parent->child ('local/iana/sip.json
   }
 }
 
+{
+  for my $record (@{$IANAFCASTData->{registries}->{'types'}->{records}}) {
+    my $name = $record->{value};
+    my $key = lc $name;
+    $Data->{headers}->{$key}->{name} ||= $name;
+    $Data->{headers}->{$key}->{fcast}->{iana} = 1;
+  }
+}
+
 for (
+  ['fcast-headers.txt', 'fcast'],
   ['icap-headers.txt', 'icap'],
   ['shttp-headers.txt', 's-http'],
   ['ssdp-headers.txt', 'ssdp'],
@@ -137,7 +148,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata)\s*$}) {
     my $key = $1;
     $key =~ s/-/_/g;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;

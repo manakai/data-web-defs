@@ -233,6 +233,9 @@ local/iana/http-digests.xml:
 local/iana/headers.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/message-headers/message-headers.xml
+local/iana/fcast.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ http://www.iana.org/assignments/fcast/fcast.xml
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
@@ -266,7 +269,8 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/shttp-headers.txt src/http-ext-decls.txt \
     src/ssdp-headers.txt local/iana/rtsp.json \
     local/iana/http-ims.json src/http-ims.txt \
-    src/http-p3p.txt local/iana/headers.json
+    src/http-p3p.txt local/iana/headers.json \
+    src/fcast-headers.txt local/iana/fcast.json
 	$(PERL) bin/headers.pl > $@
 data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt

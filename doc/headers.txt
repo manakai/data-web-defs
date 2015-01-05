@@ -242,6 +242,7 @@ The file contains a JSON object with following name/value pairs:
     values are their descriptions.  Values are JSON objects with
     following name/value pairs:
 
+      fcast [object?]
       http [object?]
       icap [object?]
       mail [object?]
@@ -252,11 +253,12 @@ The file contains a JSON object with following name/value pairs:
       sip [object?]
       ssdp [object?]
 
-        Descriptions for the header, when used in the protocol (|http|
-        -> HTTP, |icap| -> ICAP, |mail| -> RFC 822 e-mail messages,
-        |mime| -> MIME, |netnews| -> USENET news articles, |rtsp| ->
-        RTSP, |s-http| -> S-HTTP, |sip| -> SIP, |ssdp| -> SSDP).  The
-        value is a JSON object with following name/value pairs:
+        Descriptions for the header, when used in the protocol
+        (|fcast| -> FCAST, |http| -> HTTP, |icap| -> ICAP, |mail| ->
+        RFC 822 e-mail messages, |mime| -> MIME, |netnews| -> USENET
+        news articles, |rtsp| -> RTSP, |s-http| -> S-HTTP, |sip| ->
+        SIP, |ssdp| -> SSDP).  The value is a JSON object with
+        following name/value pairs:
 
           206_representation_metadata [string?]
 
@@ -342,6 +344,16 @@ The file contains a JSON object with following name/value pairs:
           deprecated [boolean]
 
             Whether the header is deprecated or not.
+
+          fcast_cid_metadata [object]
+
+            Whether the header is a FCAST CID metadata type
+            <https://tools.ietf.org/html/rfc6968#section-2.2> or not.
+
+          fcast_metadata [object]
+
+            Whether the header is a FCAST metadata type
+            <https://tools.ietf.org/html/rfc6968#section-3.3> or not.
 
           fingerprinting [boolean]
 
@@ -808,6 +820,10 @@ RFC 5861, HTTP Cache-Control Extensions for Stale Content
 
 RFC 6265, HTTP State Management Mechanism
 <http://tools.ietf.org/html/rfc6265>.
+
+RFC 6968, FCAST: Object Delivery for the Asynchronous Layered Coding
+(ALC) and NACK-Oriented Reliable Multicast (NORM) Protocols
+<https://tools.ietf.org/html/rfc6968>.
 
 RFC 7168, The Hyper Text Coffee Pot Control Protocol for Tea Efflux
 Appliances (HTCPCP-TEA), <http://tools.ietf.org/html/rfc7168>.
