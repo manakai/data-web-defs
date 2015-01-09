@@ -1545,6 +1545,40 @@ MathML の要素でのみ意味があります。 HTML の void 要素
 <!DOCTYPE HTML><p>$$</p/>
 !text=p
 
+* xml:empty element tag:non-EMPTY
+
+layer=dtd
+module=Web::XML::Parser::tokenizer
+
+@en
+A non-<code>EMPTY</code> element is using the empty-element tag syntax
+@ja
+<code>EMPTY</code> でない要素が空要素タグ構文を使っています
+
+@en
+<p>An element that is not declared with the <code>EMPTY</code> keyword
+should not use the empty-element tag syntax (i.e. <code>/></code>).
+@ja
+<p><code>EMPTY</code> キーワード無しで宣言された要素は空要素タグ構文
+(<code>/></code>) を使うべきではありません。
+
+* xml:start tag:EMPTY
+
+layer=dtd
+module=Web::XML::Parser::tokenizer
+
+@en
+An <code>EMPTY</code> element does not use the empty-element tag syntax
+@ja
+<code>EMPTY</code> 要素が空要素タグ構文を使っていません
+
+@en
+<p>An element that is declared with the <code>EMPTY</code> keyword
+should use the empty-element tag syntax (i.e. <code>/></code>).
+@ja
+<p><code>EMPTY</code> キーワードが指定された要素は空要素タグ構文
+(<code>/></code>) を使うべきです。
+
 * no space before attr name
 
 name=after-attribute-value-quoted-else
@@ -3290,10 +3324,28 @@ namespace (i.e. the <code>xmlns:xlink</code> attribute) must be
 <!DOCTYPE HTML><svg $$xmlns:xlink="foo">
 !value=foo
 
+* VC:Element Valid:charref in element content
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+An element-content element contains a character reference
+@ja
+要素内容として宣言された要素が文字参照を含んでいます
+
+@en
+<p>An element whose type is declared with an element content
+(i.e. a content model group with no <code>#PCDATA</code>
+keyword) cannot contain character references.
+@ja
+<p>要素内容 (<code>#PCDATA</code> 無しの内容モデル群) 
+が宣言された要素型の要素は文字参照を含むことができません。
+
 * charref in charset
 
 layer=entity
-module=Web::HTML::Parser
+module=Web::HTML::Parser::tokenizer
 
 @en
 The character encoding declaration contains a character reference
@@ -3722,6 +3774,27 @@ section.
 
 !!!XML
 <p>$$]]></p>
+
+* xml:CDATA section not allowed by cm
+
+layer=dtd
+module=Web::XML::Parser::tokenizer
+
+@en
+An <code>EMPTY</code> or element-content element contains a <code>CDATA</code>
+section
+@ja
+<code>EMPTY</code> または要素内容を持つ要素が <code>CDATA</code>
+区間を含んでいます
+
+@en
+<p>An element whose type is declared with the <code>EMPTY</code> keyword
+or an element content (i.e. a content model group with no <code>#PCDATA</code>
+keyword) cannot contain <code>CDATA</code> sections.
+@ja
+<p><code>EMPTY</code> キーワードまたは要素内容 (<code>#PCDATA</code>
+キーワード無しの内容モデル群) を指定して宣言された要素型の要素では、
+<code>CDATA</code> 区間は使えません。
 
 * unclosed literal
 
