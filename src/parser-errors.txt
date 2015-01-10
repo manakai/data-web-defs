@@ -3618,10 +3618,54 @@ An unparsed entity is referenced
 !value=&xy;
 !level=w
 
+* external entref not expanded
+
+layer=entity
+module=Web::XML::Parser::tokenizer
+
+@en
+The external entity reference is not expanded
+@ja
+この外部実体参照は展開されませんでした
+
+@en
+<p>The external entity reference or the <code>DOCTYPE</code>
+declaration's external subset is not expanded as the parser
+is not configured to expand external entities or it can't
+retrieve the referenced file.  Note that XML parsers are not
+required to expand any external entity.  Use of external
+entities is not interoperable.
+@ja
+<p>外部実体参照や <code>DOCTYPE</code> 宣言の外部部分集合が、
+構文解析器の設定のため、あるいは参照されているファイルを取得できなかったため、
+展開されませんでした。なお XML 構文解析器は外部実体を展開する義務はありませんから、
+外部実体は相互運用性が高くありません。
+
+!!!XML
+<?xml version="1.0" standalone="yes"?><!DOCTYPE a[
+  <!ENTITY ext SYSTEM "ext">
+]><a>$$&ext;</a>
+!value=&ext;
+!level=w
+
 * external entref
 
 layer=entity
 module=Web::XML::Parser::tokenizer
+
+@en
+An external entity is referenced
+@ja
+外部実体が参照されています
+
+@en
+<p>XML parsers are not required to expand external entity references or
+the <code>DOCTYPE</code> declaration's external subset.  Use of external
+entities is not interoperable.
+@ja
+<p>XML 構文解析器は外部実体参照や <code>DOCTYPE</code> 
+宣言の外部部分集合を展開する義務はありません。
+外部実体は相互運用性が高くありません。
 
 !!!XML
 <?xml version="1.0" standalone="yes"?><!DOCTYPE a[

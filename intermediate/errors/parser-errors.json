@@ -1627,9 +1627,13 @@
       "external entref" : {
          "default_level" : "m",
          "desc" : {
+            "en" : "\u003Cp>XML parsers are not required to expand external entity references or\u000Athe \u003Ccode>DOCTYPE\u003C/code> declaration's external subset.  Use of external\u000Aentities is not interoperable.\u003C/p>",
+            "ja" : "\u003Cp>XML 構文解析器は外部実体参照や \u003Ccode>DOCTYPE\u003C/code> \u000A宣言の外部部分集合を展開する義務はありません。\u000A外部実体は相互運用性が高くありません。\u003C/p>"
          },
          "layer" : "entity",
          "message" : {
+            "en" : "An external entity is referenced",
+            "ja" : "外部実体が参照されています"
          },
          "modules" : {
             "Web::XML::Parser::tokenizer" : 1
@@ -1640,6 +1644,30 @@
                "input" : "\u003C?xml version=\u00221.0\u0022 standalone=\u0022yes\u0022?>\u003C!DOCTYPE a[\u000A  \u003C!ENTITY ext SYSTEM \u0022ext\u0022>\u000A]>\u003Ca>&ext;\u003C/a>",
                "lang" : "XML",
                "level" : "i",
+               "value" : "&ext;"
+            }
+         ]
+      },
+      "external entref not expanded" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The external entity reference or the \u003Ccode>DOCTYPE\u003C/code>\u000Adeclaration's external subset is not expanded as the parser\u000Ais not configured to expand external entities or it can't\u000Aretrieve the referenced file.  Note that XML parsers are not\u000Arequired to expand any external entity.  Use of external\u000Aentities is not interoperable.\u003C/p>",
+            "ja" : "\u003Cp>外部実体参照や \u003Ccode>DOCTYPE\u003C/code> 宣言の外部部分集合が、\u000A構文解析器の設定のため、あるいは参照されているファイルを取得できなかったため、\u000A展開されませんでした。なお XML 構文解析器は外部実体を展開する義務はありませんから、\u000A外部実体は相互運用性が高くありません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The external entity reference is not expanded",
+            "ja" : "この外部実体参照は展開されませんでした"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         },
+         "parser_tests" : [
+            {
+               "index" : 85,
+               "input" : "\u003C?xml version=\u00221.0\u0022 standalone=\u0022yes\u0022?>\u003C!DOCTYPE a[\u000A  \u003C!ENTITY ext SYSTEM \u0022ext\u0022>\u000A]>\u003Ca>&ext;\u003C/a>",
+               "lang" : "XML",
+               "level" : "w",
                "value" : "&ext;"
             }
          ]
