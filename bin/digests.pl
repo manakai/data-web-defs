@@ -73,6 +73,8 @@ my $root_path = path (__FILE__)->parent->parent;
   }
 }
 
+$Data->{algorithms}->{'sha-256'}->{ni}->{required} = 1;
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
