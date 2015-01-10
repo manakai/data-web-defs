@@ -3844,6 +3844,84 @@ There is an unclosed content model group
 @ja
 <p>内容モデル群は <code>)</code> で閉じなければいけません。
 
+* xml:dtd:cm:bad mixed repetition
+
+layer=dtd
+module=Web::XML::Parser::tree_constructor
+
+@en
+The repetition operator is not <code>*</code>
+@ja
+反復演算子が <code>*</code> ではありません
+
+@en
+<p>The repetition operator of a mixed content must be <code>*</code>.
+It can be omitted only when the only content is <code>#PCDATA</code>.
+Operators <code>+</code> and <code>?</code> are not allowed.
+@ja
+<p>混合内容では反復演算子として <code>*</code> を使わなければいけません。
+省略できるのは <code>#PCDATA</code> のみを含んでいる時です。
+<code>+</code> と <code>?</code> は使えません。
+
+* xml:dtd:cm:bad mixed separator
+
+layer=dtd
+module=Web::XML::Parser::tree_constructor
+
+@en
+The separator is not <code>|</code>
+@ja
+分離子が <code>|</code> ではありません
+
+@en
+<p>The separator in a mixed content must be <code>|</code>.  It can't be
+<code>,</code>.
+@ja
+<p>混合内容の分離子は <code>|</code> でなければいけません。 <code>,</code>
+は使えません。
+
+* xml:dtd:cm:nested mixed group
+
+layer=dtd
+module=Web::XML::Parser::tree_constructor
+
+@en
+There is a nested group in a mixed content
+@ja
+混合内容に入れ子の群があります
+
+@en
+<p>A mixed content cannot contain nested groups.
+@ja
+<p>混合内容に入れ子に群を含めることはできません。
+
+* xml:dtd:cm:mixed element with repetition
+
+layer=dtd
+module=Web::XML::Parser::tree_constructor
+
+@en
+A repetition operator is specified within a mixed content
+@ja
+混合内容で反復演算子が指定されています
+
+@en
+<p>In a mixed content, repetition operators are not allowed.
+@ja
+<p>混合内容では反復演算子は使えません。
+
+* xml:dtd:cm:bad element separator
+
+layer=dtd
+module=Web::XML::Parser::tree_constructor
+
+@en
+Different separators <code><var>{text}</var></code> and
+<code><var>{value}</var></code> are used within a group
+@ja
+同じ群で <code><var>{text}</var></code> と
+<code><var>{value}</var></code> の異なる分離子が使われています。
+
 * no XML decl
 
 layer=tokenizer
