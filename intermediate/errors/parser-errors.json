@@ -5013,8 +5013,8 @@
          },
          "layer" : "dtd",
          "message" : {
-            "en" : "Different separators \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> and\u000A\u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> are used within a group",
-            "ja" : "同じ群で \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> と\u000A\u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> の異なる分離子が使われています。"
+            "en" : "Different connectors \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> and\u000A\u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> are used within a group",
+            "ja" : "同じ群で \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> と\u000A\u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> の異なる接続子が使われています。"
          },
          "modules" : {
             "Web::XML::Parser::tree_constructor" : 1
@@ -5038,16 +5038,61 @@
       "xml:dtd:cm:bad mixed separator" : {
          "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>The separator in a mixed content must be \u003Ccode>|\u003C/code>.  It can't be\u000A\u003Ccode>,\u003C/code>.\u003C/p>",
-            "ja" : "\u003Cp>混合内容の分離子は \u003Ccode>|\u003C/code> でなければいけません。 \u003Ccode>,\u003C/code>\u000Aは使えません。\u003C/p>"
+            "en" : "\u003Cp>The connector in a mixed content must be \u003Ccode>|\u003C/code>.  It can't be\u000A\u003Ccode>,\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>混合内容の接続子は \u003Ccode>|\u003C/code> でなければいけません。 \u003Ccode>,\u003C/code>\u000Aは使えません。\u003C/p>"
          },
          "layer" : "dtd",
          "message" : {
-            "en" : "The separator is not \u003Ccode>|\u003C/code>",
-            "ja" : "分離子が \u003Ccode>|\u003C/code> ではありません"
+            "en" : "The connector is not \u003Ccode>|\u003C/code>",
+            "ja" : "接続子が \u003Ccode>|\u003C/code> ではありません"
          },
          "modules" : {
             "Web::XML::Parser::tree_constructor" : 1
+         }
+      },
+      "xml:dtd:cm:empty entity" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Parameter entities referenced within a content model group should\u000Anot be empty.\u003C/p>",
+            "ja" : "\u003Cp>内容モデル群で参照されている引数実体は空であるべきではありません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The parameter entity is empty",
+            "ja" : "この引数実体は空です"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "xml:dtd:cm:entity begins with connector" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The first non-space string in parameter entities referenced within\u000Aa content model group should not be a connector (\u003Ccode>|\u003C/code> or \u003Ccode>,\u003C/code>).\u003C/p>",
+            "ja" : "\u003Cp>内容モデル群内で参照されている引数実体の最初の空白以外の文字は、\u000A接続子 (\u003Ccode>|\u003C/code> や \u003Ccode>,\u003C/code>) とするべきではありません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The first non-space string in the parameter entity is a connector",
+            "ja" : "引数実体の最初の空白でない文字列が接続子です"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "xml:dtd:cm:entity ends with connector" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The last non-space string in parameter entities referenced within\u000Aa content model group should not be a connector (\u003Ccode>|\u003C/code> or \u003Ccode>,\u003C/code>).\u003C/p>",
+            "ja" : "\u003Cp>内容モデル群内で参照されている引数実体の最後の空白以外の文字は、\u000A接続子 (\u003Ccode>|\u003C/code> や \u003Ccode>,\u003C/code>) とするべきではありません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The last non-space string in the parameter entity is a connector",
+            "ja" : "引数実体の最後の空白でない文字列が接続子です"
+         },
+         "modules" : {
+            "Web::XML::Parser::tokenizer" : 1
          }
       },
       "xml:dtd:cm:mixed element with repetition" : {
