@@ -5,12 +5,14 @@ The file contains list of digest algorithms.
 
 * Structure
 
-The file contains a JSON object with following name/value pair:
+The file contains a JSON object with following name/value pairs:
 
   algorihtms [object]
 
-    Keys are algorithm names in lowercase and values are JSON objects
-    which contains name/value pairs whose name is |HTTP| and values
+    Keys are algorithm names (in lowercase for HTTP values; as is for
+    |ni:| values) and values are JSON objects which contains
+    name/value pairs whose name is |HTTP| (HTTP |Digest:| and
+    |Want-Digest:| headers) or |ni| (|ni:| and |nih:| URLs) and values
     are their descriptions as [protocol-object], with following
     additional name/value pairs:
 
@@ -23,6 +25,16 @@ The file contains a JSON object with following name/value pair:
 
         The canonical name of the algorithm, as used in relevant
         specifications.
+
+      suite_id [number?]
+
+        The Suite ID of the algorithm, as used in |ni:| and |nih:|
+        URLs.
+
+      value_length [number?]
+
+        The length of the value encoded by the algorithm, if known, in
+        bits.
 
       value_syntax [string?]
 
@@ -38,6 +50,16 @@ The file contains a JSON object with following name/value pair:
         Whether the algorithm name can be specified in the HTTP
         |Want-Digest:| header or not.
 
+  ni_suite_ids [object]
+
+    Names are Suite IDs used or reserved in |ni:| URLs and values are
+    their descriptions, as [protocol-object], with following
+    name/value pair:
+
+      name [string?]
+
+        The name of the algorithm, if assigned.
+
 * Sources
 
 RFC 3230, Instance Digests in HTTP
@@ -46,8 +68,14 @@ RFC 3230, Instance Digests in HTTP
 RFC 5843, Additional Hash Algorithms for HTTP Instance Digests
 <http://tools.ietf.org/html/rfc5843>.
 
+RFC 6920, Naming Things with Hashes
+<http://tools.ietf.org/html/rfc6920>.
+
 Hypertext Transfer Protocol (HTTP) Digest Algorithm Values
 <http://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml>.
+
+Named Information
+<http://www.iana.org/assignments/named-information/named-information.xhtml>.
 
 * License
 
