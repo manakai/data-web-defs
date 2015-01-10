@@ -1159,6 +1159,39 @@ can simply write <code>&lt;!DOCTYPE&#x20;HTML></code>.
 !!!
 $$<!DOCTYPE HTML SYSTEM "about:legacy-compat">
 
+* xml:pubid:bad char
+
+layer=entity
+module=Web::XML::Parser::checker
+
+@en
+The public identifier contains an invalid character
+@ja
+公開識別子に認められない文字が含まれています
+
+@en
+<p>A public identifier can contain only limited set of characters.
+@ja
+<p>公開識別子には限られた文字しか含めることができません。
+
+* xml:pubid:not normalized
+
+layer=entity
+module=Web::XML::Parser::checker
+
+@en
+The public identifier contains non-normalized spaces
+@ja
+公開識別子に正規化されていない空白が含まれています
+
+@en
+<p>Leading, trailing, or consecutive spaces, as well as newline
+characters, are expected to be normalized by parser.  However, this is not
+an interoperable behavior.
+@ja
+<p>先頭、末尾、連続の空白や改行は構文解析器により正規化されることが期待されています。
+しかしこれは相互運用性が高くありません。
+
 * after-after-body-else
 
 name=after-after-body-else
@@ -4987,3 +5020,59 @@ entity referenced from the markup declaration.
 @ja
 <p>マーク付け宣言から参照されている引数実体でマーク付け宣言を閉じることはできません。
 
+* xml:space:bad type
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The declared type of <code>xml:space</code> attribute is
+not <code>(default|preserve)</code>
+@ja
+<code>xml:space</code> 属性の宣言型が <code>(default|preserve)</code>
+ではありません
+
+@en
+<p>The declared type of the <code>xml:space</code> attribute
+must be <code>(default | preserve)</code>, <code>(default)</code>,
+or <code>(preserve)</code>.
+@ja
+<p><code>xml:space</code> 属性の宣言型は
+<code>(default | preserve)</code>, <code>(default)</code>,
+<code>(preserve)</code> のいずれかでなければいけません。
+
+* VC:Element Valid:element children:text
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+An element-content element contains a non-space character
+@ja
+要素内容の要素に空白以外の文字が含まれています
+
+@en
+<p>An element whose type is declared with a element content
+(i.e. a content model group without <code>#PCDATA</code>)
+cannot contain characters other than white spaces.
+@ja
+<p>要素内容 (<code>#PCDATA</code> 無しの内容モデル群)
+で宣言された要素型の要素は、空白以外の文字を含むことができません。
+
+* VC:Standalone Document Declaration:ws
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+An element-content element contains a space character
+@ja
+要素内容の要素に空白が含まれています
+
+@en
+<p>In a standalone document, an element whose type is declared
+with a element content (i.e. a content model group without
+<code>#PCDATA</code>) cannot contain white spaces.
+@ja
+<p>単独文書では、要素内容 (<code>#PCDATA</code> 無しの内容モデル群)
+で宣言された要素型の要素は空白を含むことができません。

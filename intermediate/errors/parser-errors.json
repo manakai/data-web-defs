@@ -165,6 +165,21 @@
             "Web::XML::Parser::tokenizer" : 1
          }
       },
+      "VC:Element Valid:element children:text" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An element whose type is declared with a element content\u000A(i.e. a content model group without \u003Ccode>#PCDATA\u003C/code>)\u000Acannot contain characters other than white spaces.\u003C/p>",
+            "ja" : "\u003Cp>要素内容 (\u003Ccode>#PCDATA\u003C/code> 無しの内容モデル群)\u000Aで宣言された要素型の要素は、空白以外の文字を含むことができません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "An element-content element contains a non-space character",
+            "ja" : "要素内容の要素に空白以外の文字が含まれています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "VC:Standalone Document Declaration:attr" : {
          "default_level" : "m",
          "desc" : {
@@ -202,6 +217,21 @@
                "value" : "&copy;"
             }
          ]
+      },
+      "VC:Standalone Document Declaration:ws" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In a standalone document, an element whose type is declared\u000Awith a element content (i.e. a content model group without\u000A\u003Ccode>#PCDATA\u003C/code>) cannot contain white spaces.\u003C/p>",
+            "ja" : "\u003Cp>単独文書では、要素内容 (\u003Ccode>#PCDATA\u003C/code> 無しの内容モデル群)\u000Aで宣言された要素型の要素は空白を含むことができません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "An element-content element contains a space character",
+            "ja" : "要素内容の要素に空白が含まれています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
       },
       "WFC:No External Entity References" : {
          "default_level" : "m",
@@ -5417,6 +5447,51 @@
          },
          "modules" : {
             "Web::XML::Parser::tokenizer" : 1
+         }
+      },
+      "xml:pubid:bad char" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A public identifier can contain only limited set of characters.\u003C/p>",
+            "ja" : "\u003Cp>公開識別子には限られた文字しか含めることができません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The public identifier contains an invalid character",
+            "ja" : "公開識別子に認められない文字が含まれています"
+         },
+         "modules" : {
+            "Web::XML::Parser::checker" : 1
+         }
+      },
+      "xml:pubid:not normalized" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Leading, trailing, or consecutive spaces, as well as newline\u000Acharacters, are expected to be normalized by parser.  However, this is not\u000Aan interoperable behavior.\u003C/p>",
+            "ja" : "\u003Cp>先頭、末尾、連続の空白や改行は構文解析器により正規化されることが期待されています。\u000Aしかしこれは相互運用性が高くありません。\u003C/p>"
+         },
+         "layer" : "entity",
+         "message" : {
+            "en" : "The public identifier contains non-normalized spaces",
+            "ja" : "公開識別子に正規化されていない空白が含まれています"
+         },
+         "modules" : {
+            "Web::XML::Parser::checker" : 1
+         }
+      },
+      "xml:space:bad type" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The declared type of the \u003Ccode>xml:space\u003C/code> attribute\u000Amust be \u003Ccode>(default | preserve)\u003C/code>, \u003Ccode>(default)\u003C/code>,\u000Aor \u003Ccode>(preserve)\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>xml:space\u003C/code> 属性の宣言型は\u000A\u003Ccode>(default | preserve)\u003C/code>, \u003Ccode>(default)\u003C/code>,\u000A\u003Ccode>(preserve)\u003C/code> のいずれかでなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The declared type of \u003Ccode>xml:space\u003C/code> attribute is\u000Anot \u003Ccode>(default|preserve)\u003C/code>",
+            "ja" : "\u003Ccode>xml:space\u003C/code> 属性の宣言型が \u003Ccode>(default|preserve)\u003C/code>\u000Aではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
          }
       },
       "xml:start tag:EMPTY" : {
