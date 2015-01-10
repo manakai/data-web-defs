@@ -52,6 +52,27 @@ my $root_path = path (__FILE__)->parent->parent;
   }
 }
 
+{
+  my $json = json_bytes2perl $root_path->child ('local/iana/ni.json')->slurp;
+  for my $record (@{$json->{registries}->{'hash-alg'}->{records}}) {
+    my $name = $record->{name};
+    if ($name eq 'Reserved') {
+      $Data->{ni_suite_ids}->{$record->{value}}->{reserved} = 1;
+    } elsif ($name eq 'Unassigned') {
+      #
+    } else {
+      my $key = $name;
+      $Data->{algorithms}->{$key}->{ni}->{name} = $name;
+      $Data->{algorithms}->{$key}->{ni}->{iana} = 1;
+      $Data->{algorithms}->{$key}->{ni}->{suite_id} = $record->{value};
+      $Data->{ni_suite_ids}->{$record->{value}}->{name} = $name;
+      if ($record->{length} =~ /^([0-9]+) bits$/) {
+        $Data->{algorithms}->{$key}->{ni}->{value_length} = 0+$1;
+      }
+    }
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
