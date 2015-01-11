@@ -383,6 +383,7 @@ my $template = q{
 * @@ - before text declaration in markup declaration state
 
 <    -> set to temp; @@ - text declaration in markup declaration state
+EOF  -> set empty to temp; temp as text declaration; @@; reconsume
 ELSE -> set to temp; temp as text declaration; @@; reconsume
 
 * @@ - text declaration in markup declaration state
