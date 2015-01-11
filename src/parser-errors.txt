@@ -1048,9 +1048,11 @@ layer=tree-construction
 module=Web::HTML::Parser::tokenizer
 
 @en
-The DOCTYPE name is not the root element name
+The DOCTYPE name <code><var>{value}</var></code> is not the
+root element name <code><var>{text}</var></code>
 @ja
-DOCTYPE の名前が根要素の名前と違います
+DOCTYPE の名前 <code><var>{value}</var></code> が根要素の名前
+<code><var>{text}</var></code> と違います
 
 @en
 
@@ -1064,9 +1066,11 @@ HTML 文書では <code>html</code> でなければいけません。
 
 !!!
 $$<!DOCTYPE foo>
+!text=html
 !value=foo
 !!!
 $$<!DOCTYPE html4>
+!text=html
 !value=html4
 
 * obsolete DOCTYPE
@@ -4366,6 +4370,23 @@ a processing instruction.
 !!!XML
 <?hoge$$??>
 
+* xml:pi:target not declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The target is not declared
+@ja
+対象が宣言されていません
+
+@en
+<p>The target of the processing instruction can be declared by
+a <code>NOTATION</code> declaration whose name is the target.
+@ja
+<p>処理指令の対象は、名前が対象と同じ <code>NOTATION</code>
+宣言により宣言することができます。
+
 * xml:dtd:ext decl
 
 layer=tree-construction
@@ -4556,6 +4577,39 @@ must be <code>EMPTY</code> or <code>ANY</code>.
 <!DOCTYPE a[$$<!ELEMENT a foo>]><a/>
 !value=foo
 
+* Deterministic Content Models
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The content model is ambiguous
+@ja
+内容モデルが曖昧です
+
+@en
+<p>A content model has to be deterministic or unambiguous.
+That is, it is not allowed for an element to be able to match
+with multiple items in the content model.
+@ja
+<p>内容モデルは決定的で曖昧無いものでなければいけません。
+すなわち、ある要素が内容モデルの複数の項目に一致する可能性があってはいけません。
+
+* xml:dtd:element:no content model
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element has no content model
+@ja
+要素の内容モデルがありません
+
+@en
+<p>To be valid, an element must be declared with its content model.
+@ja
+<p>妥当であるためには要素は内容モデルと共に宣言される必要があります。
+
 * duplicate element decl
 
 layer=tree-construction
@@ -4646,6 +4700,23 @@ at least one attribute definition.
 !value=fa
 !level=w
 
+* xml:dtd:attlist element declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element is not declared
+@ja
+要素が宣言されていません
+
+@en
+<p>The element used by the <code>ATTLIST</code> declaration
+should be declared by an <code>ELEMENT</code> declaration.
+@ja
+<p><code>ATTLIST</code> 宣言で指定された要素は <code>ELEMENT</code>
+宣言で宣言するべきです。
+
 * unknown declared type
 
 layer=tree-construction
@@ -4666,6 +4737,37 @@ An unknown declared type keyword is specified
   <!ATTLIST  f  $$abc hoge "">
 ]><a/>
 !value=hoge
+
+* VC:No Duplicate Tokens
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The token is already specified
+@ja
+この字句は既に指定されています
+
+@en
+<p>Allowed tokens cannot contain duplication.
+@ja
+<p>認められる字句は異なるものでなければいけません。
+
+* xml:dtd:duplicate nmtoken in element
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The token is also used by another attribute
+@ja
+この字句は他の属性で既に利用されています
+
+@en
+<p>Allowed tokens should not contain token allowed for another
+attribute of the same element type.
+@ja
+<p>認められる字句には同じ要素型の他の属性で認められる字句を含めるべきではありません。
 
 * default value not allowed
 
@@ -4943,6 +5045,40 @@ for the same name.
 ]><a/>
 !value=foo
 
+* VC:Notation Attributes:declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The notation is not declared
+@ja
+記法が宣言されていません
+
+@en
+<p>The notation allowed for a notation attribute must be declared
+by a <code>NOTATION</code> declaration.
+@ja
+<p>記法宣言で認められる記法は <code>NOTATION</code> 
+宣言で宣言されていなければいけません。
+
+* VC:Notation Declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The notation is not declared
+@ja
+記法が宣言されていません
+
+@en
+<p>The notation specified with the <code>NDATA</code> keyword
+must be declared with a <code>NOTATION</code> declaration.
+@ja
+<p><code>NDATA</code> キーワードと共に指定された記法名は
+<code>NOTATION</code> 宣言で宣言しなければいけません。
+
 * mdc in pe in md
 
 name=before-notation-name-003e-md-fragment
@@ -5076,3 +5212,491 @@ with a element content (i.e. a content model group without
 @ja
 <p>単独文書では、要素内容 (<code>#PCDATA</code> 無しの内容モデル群)
 で宣言された要素型の要素は空白を含むことができません。
+
+* xml:name syntax
+
+layer=tokenizer
+module=Web::XML::DTDValidator
+
+@en
+This is not an XML <code>Name</code>
+@ja
+XML <code>Name</code> ではありません
+
+@en
+<p>XML element, attribute, entity, and notation names, as well as
+processing instruction target and <code>ID</code>s, must be an
+XML <code>Name</code>.  It must be a string of one or more XML
+name characters.  Its first character must be an XML name start
+character.
+@ja
+<p>XML の要素、属性、実体、記法の名前や、処理指令の対象名、
+<code>ID</code> は XML <code>Name</code> でなければいけません。
+XML 名前文字のみで構成される1文字以上の文字列で、
+最初の文字は XML 名前開始文字でなければいけません。
+
+* xml:names syntax
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+This is not a space-separated list of XML <code>Name</code>s
+@ja
+XML <code>Name</code> の空白区切りのリストではありません
+
+@en
+<p>Attribute values whose type is <code>IDREFS</code> or <code>ENTITIES</code>
+must be one or more XML <code>Name</code>s separated by
+a U+0020 <code class=charname>SPACE</code> character.
+The list cannot be empty.
+@ja
+<p>宣言型が <code>IDREFS</code> や <code>ENTITIES</code>
+の属性の値は、 U+0020 <code class=charname>SPACE</code>
+区切りの1つ以上の XML <code>Name</code> のリストでなければいけません。
+空にはできません。
+
+* xml:ncname syntax
+
+layer=tokenizer
+module=Web::XML::DTDValidator
+
+@en
+The <code>:</code> is not allowed
+@ja
+<code>:</code> を使うことはできません
+
+@en
+<p>XML entity and notation names, as well as
+processing instruction target and <code>ID</code>s, must
+not contain a <code>:</code> character.
+@ja
+<p>XML の実体や記法の名前や、処理指令の対象名、
+<code>ID</code> は <code>:</code> を含めることができません。
+
+* xml:qname syntax
+
+layer=tokenizer
+module=Web::XML::DTDValidator
+
+@en
+This is not an XML <code>QName</code>
+@ja
+XML <code>QName</code> ではありません
+
+@en
+<p>XML element and attribute names must be an XML <code>QName</code>, i.e.
+a local name or a prefix followed by <code>:</code> and a local name.
+<p>A prefix or local name must be a string of one or more XML
+name characters.  Their first character must be an XML name start
+character.  They cannot contain a <code>:</code> character.
+@ja
+<p>XML の要素や属性の名前は XML <code>QName</code> でなければいけません。
+すなわち、局所名か、接頭辞と <code>:</code> と局所名のいずれかでなければいけません。
+<p>接頭辞や局所名は、XML 名前文字のみで構成される1文字以上の文字列で、
+最初の文字は XML 名前開始文字でなければいけません。また <code>:</code>
+を含めてはいけません。
+
+* xml:nmtoken syntax
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The value is not a string of name characters
+@ja
+名前文字の文字列ではありません
+
+@en
+<p>The value of an attribute whose type is <code>NMTOKEN</code>
+can only contain XML name characters.  It cannot be the empty string.
+@ja
+<p>宣言型が <code>NMTOKEN</code> の属性の値は XML 名前文字しか含めることができません。
+属性値は空にはできません。
+
+* xml:nmtokens syntax
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The value is not a list of one or more strings of name characters
+@ja
+名前文字の文字列のリストではありません
+
+@en
+<p>The value of an attribute whose type is <code>NMTOKENS</code> must be
+a list of one or more substrings that only contain XML name characters,
+separated by a U+0020 <code class=charname>SPACE</code> character.
+It cannot be the empty string.
+@ja
+<p>宣言型が <code>NMTOKENS</code> の属性の値は、1つ以上の XML 
+名前文字のみの文字列の U+0020 <code class=charname>SPACE</code>
+文字のリストでなければいけません。
+属性値は空にはできません。
+
+* VC:No Duplicate Types
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element type is already specified
+@ja
+この要素型は既に指定されています
+
+@en
+<p>In a group, there must not be the same element type more than
+once.
+@ja
+<p>群内に同じ要素型を二度指定することはできません。
+
+* VC:Element Valid:declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element type is not declared
+@ja
+要素型が宣言されていません
+
+@en
+<p>The element type must be declared by an <code>ELEMENT</code> declaration.
+@ja
+<p>要素型は <code>ELEMENT</code> 宣言で宣言しなければいけません。
+
+* xml:dtd:cm:element not declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element type is not declared
+@ja
+要素型が宣言されていません
+
+@en
+<p>The content model contains an element type that is not declared.
+@ja
+<p>内容モデルに宣言されていない要素型が含まれています。
+
+* xml:dtd:non-id ID
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The <code>ID</code> attribute has name other than <code>id</code>
+@ja
+<code>ID</code> 属性の名前が <code>id</code> ではありません
+
+@en
+<p>For compatibility with DOM, the <code>ID</code>-typed attribute
+should have the name <code>id</code>.
+@ja
+<p>DOM との互換性のため、 <code>ID</code> 型の属性の名前は
+<code>id</code> とするべきです。
+
+* xml:dtd:id non-ID
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The <code>id</code> attribute has a declared type other than <code>ID</code>
+@ja
+<code>id</code> 属性の宣言型が <code>ID</code> ではありません
+
+@en
+<p>For compatibility with DOM, the <code>id</code> attribute should
+have the declared type <code>ID</code>.
+@ja
+<p>DOM との互換性のため、 <code>id</code> 属性の宣言型は
+<code>ID</code> とするべきです。
+
+* VC:ID Attribute Default
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+An <code>ID</code> attribute cannot contain a default value
+@ja
+<code>ID</code> 属性の既定値は指定できません
+
+@en
+<p>An <code>ID</code>-typed attribute cannot have any default value.
+@ja
+<p><code>ID</code> 型の属性は既定値を持てません。
+
+* VC:ID:unique
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+There is anothor <code>ID</code> attribute with same value
+@ja
+他にも同じ値の <code>ID</code> 属性があります
+
+@en
+<p>The <code>ID</code> must be unique in the document
+@ja
+<p><code>ID</code> は文書内で固有の値でなければいけません。
+
+* VC:IDREF:referenced element
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The specified element is not found
+@ja
+指定された要素がありません
+
+@en
+<p>A value of an attribute whose type is <code>IDREF</code> or 
+<code>IDREFS</code> must be an <code>ID</code> of an element in the document.
+@ja
+<p>宣言型が <code>IDREF</code> や <code>IDREFS</code> の属性の値は、
+文書中の要素の <code>ID</code> でなければいけません。
+
+* VC:One ID per Element Type
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+There are multiple <code>ID</code> attributes
+@ja
+<code>ID</code> 属性が複数あります。
+
+@en
+<p>There can be at most one <code>ID</code>-typed attribute.
+@ja
+<p><code>ID</code> 型の属性は高々1つしかあってはいけません。
+
+* VC:One Notation per Element Type
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+There are multiple <code>NOTATION</code> attributes
+@ja
+<code>NOTATION</code> 属性が複数あります。
+
+@en
+<p>There can be at most one <code>NOTATION</code>-typed attribute.
+@ja
+<p><code>NOTATION</code> 型の属性は高々1つしかあってはいけません。
+
+* VC:No Notation on Empty Element
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+A <code>NOTATION</code> attribute is declared on an <code>EMPTY</code> element
+@ja
+<code>NOTATION</code> 属性が <code>EMPTY</code> 要素に宣言されています
+
+@en
+<p>An element type whose content is <code>EMPTY</code> cannot have
+a <code>NOTATION</code>-typed attribute.
+@ja
+<p>内容が <code>EMPTY</code> の要素型は <code>NOTATION</code>
+型の属性を持つことができません。
+
+* VC:Enumeration
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The value is not one of allowed tokens
+@ja
+この値は認められている字句ではありません
+
+@en
+<p>The value of an attribute whose type is a list of enumerated values
+must be one of those values.
+@ja
+<p>列挙型の属性の値はそのいずれかでなければいけません。
+
+* VC:Attribute Default Value Syntactically Correct:enumeration
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The value is not one of allowed tokens
+@ja
+この値は認められている字句ではありません
+
+@en
+<p>The value of an attribute whose type is a list of enumerated values
+must be one of those values.
+@ja
+<p>列挙型の属性の値はそのいずれかでなければいけません。
+
+* VC:Notation Attributes:enumeration
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The value is not one of allowed tokens
+@ja
+この値は認められている字句ではありません
+
+@en
+<p>The value of an attribute whose type is a list of enumerated values
+must be one of those values.
+@ja
+<p>列挙型の属性の値はそのいずれかでなければいけません。
+
+* VC:Entity Name:declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The entity is not declared
+@ja
+この実体は宣言されていません
+
+@en
+<p>The value specified by an <code>ENTITY</code> or <code>ENTITIES</code>
+typed attribute must be a general entity name.
+@ja
+<p><code>ENTITY</code> 型や <code>ENTITIES</code> 型の属性で指定された値は、
+一般実体名でなければいけません。
+
+* VC:Entity Name:unparsed
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The entity is not an unparsed entity
+@ja
+この実体は非解析対象実体ではありません
+
+@en
+<p>The entity specified by an <code>ENTITY</code> or <code>ENTITIES</code>
+typed attribute must be an unparsed entity.
+@ja
+<p><code>ENTITY</code> 型や <code>ENTITIES</code> 型の属性で指定された実体は、
+非解析対象実体でなければいけません。
+
+* VC:Fixed Attribute Default
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The value is different from the fixed default value
+@ja
+この値は固定既定値と異なります
+
+@en
+<p>If an attribute has the fixed default value, its value
+must be equal to the default value.
+@ja
+<p>属性が固定既定値を持つなら、属性値と既定値は等しくなければいけません。
+
+* VC:Attribute Value Type:declared
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The attribute is not declared
+@ja
+属性が宣言されていません
+
+@en
+<p>The attribute must be declared by an <code>ATTLIST</code> declaration.
+@ja
+<p>属性は <code>ATTLIST</code> 宣言で宣言しなければいけません。
+
+* VC:Required Attribute
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The <code><var>{text}</var></code> attribute is not specified
+@ja
+<code><var>{text}</var></code> 属性が指定されていません
+
+@en
+<p>The required attribute must be specified.
+@ja
+<p>必須の属性は指定しなければいけません。
+
+* VC:Element Valid:EMPTY
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element is not empty
+@ja
+要素が空ではありません
+
+@en
+<p>The element whose content is <code>EMPTY</code> cannot contain
+any child.
+@ja
+<p>内容が <code>EMPTY</code> の要素は子供を含めることができません。
+
+* VC:Element Valid:mixed child
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element is not allowed by the content model
+@ja
+内容モデルでこの要素は認められていません
+
+@en
+<p>The element declared with a mixed content can only contain
+the listed elements as child.
+@ja
+<p>混合内容が宣言された要素の子供には指定された要素しか含められません。
+
+* VC:Element Valid:element child:element
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+The element is not one of allowed elements (<code><var>{text}</var></code>)
+@ja
+この要素は認められていません (<code><var>{text}</var></code>)
+
+@en
+<p>The element declared with an element content can only contain
+the elements matching to the content model.
+@ja
+<p>要素内容と宣言された要素の内容としては内容モデルに合致する要素のみ使えます。
+
+* VC:Element Valid:element child:required element
+
+layer=dtd
+module=Web::XML::DTDValidator
+
+@en
+There is no required element (<code><var>{text}</var></code>)
+@ja
+必須の要素がありません (<code><var>{text}</var></code>)
+
+@en
+<p>The element declared with an element content must contain
+its required child elements.
+@ja
+<p>要素内容と宣言された要素の子供として内容モデルで要求された要素が必要です。
