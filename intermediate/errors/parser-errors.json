@@ -131,6 +131,21 @@
             "tag name"
          ]
       },
+      "Deterministic Content Models" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A content model has to be deterministic or unambiguous.\u000AThat is, it is not allowed for an element to be able to match\u000Awith multiple items in the content model.\u003C/p>",
+            "ja" : "\u003Cp>内容モデルは決定的で曖昧無いものでなければいけません。\u000Aすなわち、ある要素が内容モデルの複数の項目に一致する可能性があってはいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The content model is ambiguous",
+            "ja" : "内容モデルが曖昧です"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "NULL" : {
          "default_level" : "m",
          "desc" : {
@@ -150,6 +165,51 @@
             "NULL" : 1
          }
       },
+      "VC:Attribute Default Value Syntactically Correct:enumeration" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The value of an attribute whose type is a list of enumerated values\u000Amust be one of those values.\u003C/p>",
+            "ja" : "\u003Cp>列挙型の属性の値はそのいずれかでなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The value is not one of allowed tokens",
+            "ja" : "この値は認められている字句ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Attribute Value Type:declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The attribute must be declared by an \u003Ccode>ATTLIST\u003C/code> declaration.\u003C/p>",
+            "ja" : "\u003Cp>属性は \u003Ccode>ATTLIST\u003C/code> 宣言で宣言しなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The attribute is not declared",
+            "ja" : "属性が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Element Valid:EMPTY" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The element whose content is \u003Ccode>EMPTY\u003C/code> cannot contain\u000Aany child.\u003C/p>",
+            "ja" : "\u003Cp>内容が \u003Ccode>EMPTY\u003C/code> の要素は子供を含めることができません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element is not empty",
+            "ja" : "要素が空ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "VC:Element Valid:charref in element content" : {
          "default_level" : "m",
          "desc" : {
@@ -165,6 +225,51 @@
             "Web::XML::Parser::tokenizer" : 1
          }
       },
+      "VC:Element Valid:declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The element type must be declared by an \u003Ccode>ELEMENT\u003C/code> declaration.\u003C/p>",
+            "ja" : "\u003Cp>要素型は \u003Ccode>ELEMENT\u003C/code> 宣言で宣言しなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element type is not declared",
+            "ja" : "要素型が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Element Valid:element child:element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The element declared with an element content can only contain\u000Athe elements matching to the content model.\u003C/p>",
+            "ja" : "\u003Cp>要素内容と宣言された要素の内容としては内容モデルに合致する要素のみ使えます。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element is not one of allowed elements (\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>)",
+            "ja" : "この要素は認められていません (\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>)"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Element Valid:element child:required element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The element declared with an element content must contain\u000Aits required child elements.\u003C/p>",
+            "ja" : "\u003Cp>要素内容と宣言された要素の子供として内容モデルで要求された要素が必要です。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "There is no required element (\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>)",
+            "ja" : "必須の要素がありません (\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>)"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "VC:Element Valid:element children:text" : {
          "default_level" : "m",
          "desc" : {
@@ -175,6 +280,261 @@
          "message" : {
             "en" : "An element-content element contains a non-space character",
             "ja" : "要素内容の要素に空白以外の文字が含まれています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Element Valid:mixed child" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The element declared with a mixed content can only contain\u000Athe listed elements as child.\u003C/p>",
+            "ja" : "\u003Cp>混合内容が宣言された要素の子供には指定された要素しか含められません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element is not allowed by the content model",
+            "ja" : "内容モデルでこの要素は認められていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Entity Name:declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The value specified by an \u003Ccode>ENTITY\u003C/code> or \u003Ccode>ENTITIES\u003C/code>\u000Atyped attribute must be a general entity name.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ENTITY\u003C/code> 型や \u003Ccode>ENTITIES\u003C/code> 型の属性で指定された値は、\u000A一般実体名でなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The entity is not declared",
+            "ja" : "この実体は宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Entity Name:unparsed" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The entity specified by an \u003Ccode>ENTITY\u003C/code> or \u003Ccode>ENTITIES\u003C/code>\u000Atyped attribute must be an unparsed entity.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ENTITY\u003C/code> 型や \u003Ccode>ENTITIES\u003C/code> 型の属性で指定された実体は、\u000A非解析対象実体でなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The entity is not an unparsed entity",
+            "ja" : "この実体は非解析対象実体ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Enumeration" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The value of an attribute whose type is a list of enumerated values\u000Amust be one of those values.\u003C/p>",
+            "ja" : "\u003Cp>列挙型の属性の値はそのいずれかでなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The value is not one of allowed tokens",
+            "ja" : "この値は認められている字句ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Fixed Attribute Default" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>If an attribute has the fixed default value, its value\u000Amust be equal to the default value.\u003C/p>",
+            "ja" : "\u003Cp>属性が固定既定値を持つなら、属性値と既定値は等しくなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The value is different from the fixed default value",
+            "ja" : "この値は固定既定値と異なります"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:ID Attribute Default" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An \u003Ccode>ID\u003C/code>-typed attribute cannot have any default value.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ID\u003C/code> 型の属性は既定値を持てません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "An \u003Ccode>ID\u003C/code> attribute cannot contain a default value",
+            "ja" : "\u003Ccode>ID\u003C/code> 属性の既定値は指定できません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:ID:unique" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The \u003Ccode>ID\u003C/code> must be unique in the document\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ID\u003C/code> は文書内で固有の値でなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "There is anothor \u003Ccode>ID\u003C/code> attribute with same value",
+            "ja" : "他にも同じ値の \u003Ccode>ID\u003C/code> 属性があります"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:IDREF:referenced element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>A value of an attribute whose type is \u003Ccode>IDREF\u003C/code> or \u000A\u003Ccode>IDREFS\u003C/code> must be an \u003Ccode>ID\u003C/code> of an element in the document.\u003C/p>",
+            "ja" : "\u003Cp>宣言型が \u003Ccode>IDREF\u003C/code> や \u003Ccode>IDREFS\u003C/code> の属性の値は、\u000A文書中の要素の \u003Ccode>ID\u003C/code> でなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The specified element is not found",
+            "ja" : "指定された要素がありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:No Duplicate Tokens" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Allowed tokens cannot contain duplication.\u003C/p>",
+            "ja" : "\u003Cp>認められる字句は異なるものでなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The token is already specified",
+            "ja" : "この字句は既に指定されています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:No Duplicate Types" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>In a group, there must not be the same element type more than\u000Aonce.\u003C/p>",
+            "ja" : "\u003Cp>群内に同じ要素型を二度指定することはできません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element type is already specified",
+            "ja" : "この要素型は既に指定されています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:No Notation on Empty Element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>An element type whose content is \u003Ccode>EMPTY\u003C/code> cannot have\u000Aa \u003Ccode>NOTATION\u003C/code>-typed attribute.\u003C/p>",
+            "ja" : "\u003Cp>内容が \u003Ccode>EMPTY\u003C/code> の要素型は \u003Ccode>NOTATION\u003C/code>\u000A型の属性を持つことができません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "A \u003Ccode>NOTATION\u003C/code> attribute is declared on an \u003Ccode>EMPTY\u003C/code> element",
+            "ja" : "\u003Ccode>NOTATION\u003C/code> 属性が \u003Ccode>EMPTY\u003C/code> 要素に宣言されています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Notation Attributes:declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The notation allowed for a notation attribute must be declared\u000Aby a \u003Ccode>NOTATION\u003C/code> declaration.\u003C/p>",
+            "ja" : "\u003Cp>記法宣言で認められる記法は \u003Ccode>NOTATION\u003C/code> \u000A宣言で宣言されていなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The notation is not declared",
+            "ja" : "記法が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Notation Attributes:enumeration" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The value of an attribute whose type is a list of enumerated values\u000Amust be one of those values.\u003C/p>",
+            "ja" : "\u003Cp>列挙型の属性の値はそのいずれかでなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The value is not one of allowed tokens",
+            "ja" : "この値は認められている字句ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Notation Declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The notation specified with the \u003Ccode>NDATA\u003C/code> keyword\u000Amust be declared with a \u003Ccode>NOTATION\u003C/code> declaration.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>NDATA\u003C/code> キーワードと共に指定された記法名は\u000A\u003Ccode>NOTATION\u003C/code> 宣言で宣言しなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The notation is not declared",
+            "ja" : "記法が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:One ID per Element Type" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There can be at most one \u003Ccode>ID\u003C/code>-typed attribute.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ID\u003C/code> 型の属性は高々1つしかあってはいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "There are multiple \u003Ccode>ID\u003C/code> attributes",
+            "ja" : "\u003Ccode>ID\u003C/code> 属性が複数あります。"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:One Notation per Element Type" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>There can be at most one \u003Ccode>NOTATION\u003C/code>-typed attribute.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>NOTATION\u003C/code> 型の属性は高々1つしかあってはいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "There are multiple \u003Ccode>NOTATION\u003C/code> attributes",
+            "ja" : "\u003Ccode>NOTATION\u003C/code> 属性が複数あります。"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "VC:Required Attribute" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The required attribute must be specified.\u003C/p>",
+            "ja" : "\u003Cp>必須の属性は指定しなければいけません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> attribute is not specified",
+            "ja" : "\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> 属性が指定されていません"
          },
          "modules" : {
             "Web::XML::DTDValidator" : 1
@@ -498,8 +858,8 @@
          },
          "layer" : "tree-construction",
          "message" : {
-            "en" : "The DOCTYPE name is not the root element name",
-            "ja" : "DOCTYPE の名前が根要素の名前と違います"
+            "en" : "The DOCTYPE name \u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> is not the\u000Aroot element name \u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code>",
+            "ja" : "DOCTYPE の名前 \u003Ccode>\u003Cvar>{value}\u003C/var>\u003C/code> が根要素の名前\u000A\u003Ccode>\u003Cvar>{text}\u003C/var>\u003C/code> と違います"
          },
          "modules" : {
             "Web::HTML::Parser::tokenizer" : 1
@@ -509,12 +869,14 @@
                "index" : 0,
                "input" : "\u003C!DOCTYPE foo>",
                "lang" : "HTML",
+               "text" : "html",
                "value" : "foo"
             },
             {
                "index" : 0,
                "input" : "\u003C!DOCTYPE html4>",
                "lang" : "HTML",
+               "text" : "html",
                "value" : "html4"
             }
          ]
@@ -5042,6 +5404,21 @@
             "Web::XML::Parser::tokenizer" : 1
          }
       },
+      "xml:dtd:attlist element declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The element used by the \u003Ccode>ATTLIST\u003C/code> declaration\u000Ashould be declared by an \u003Ccode>ELEMENT\u003C/code> declaration.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>ATTLIST\u003C/code> 宣言で指定された要素は \u003Ccode>ELEMENT\u003C/code>\u000A宣言で宣言するべきです。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element is not declared",
+            "ja" : "要素が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "xml:dtd:attlist ignored" : {
          "default_level" : "m",
          "desc" : {
@@ -5106,6 +5483,21 @@
          },
          "modules" : {
             "Web::XML::Parser::tree_constructor" : 1
+         }
+      },
+      "xml:dtd:cm:element not declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The content model contains an element type that is not declared.\u003C/p>",
+            "ja" : "\u003Cp>内容モデルに宣言されていない要素型が含まれています。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element type is not declared",
+            "ja" : "要素型が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
          }
       },
       "xml:dtd:cm:empty entity" : {
@@ -5183,6 +5575,36 @@
             "Web::XML::Parser::tree_constructor" : 1
          }
       },
+      "xml:dtd:duplicate nmtoken in element" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Allowed tokens should not contain token allowed for another\u000Aattribute of the same element type.\u003C/p>",
+            "ja" : "\u003Cp>認められる字句には同じ要素型の他の属性で認められる字句を含めるべきではありません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The token is also used by another attribute",
+            "ja" : "この字句は他の属性で既に利用されています"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "xml:dtd:element:no content model" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>To be valid, an element must be declared with its content model.\u003C/p>",
+            "ja" : "\u003Cp>妥当であるためには要素は内容モデルと共に宣言される必要があります。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The element has no content model",
+            "ja" : "要素の内容モデルがありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "xml:dtd:entity ignored" : {
          "default_level" : "m",
          "desc" : {
@@ -5243,6 +5665,21 @@
          },
          "modules" : {
             "Web::XML::Parser::tree_constructor" : 1
+         }
+      },
+      "xml:dtd:id non-ID" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>For compatibility with DOM, the \u003Ccode>id\u003C/code> attribute should\u000Ahave the declared type \u003Ccode>ID\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>DOM との互換性のため、 \u003Ccode>id\u003C/code> 属性の宣言型は\u000A\u003Ccode>ID\u003C/code> とするべきです。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The \u003Ccode>id\u003C/code> attribute has a declared type other than \u003Ccode>ID\u003C/code>",
+            "ja" : "\u003Ccode>id\u003C/code> 属性の宣言型が \u003Ccode>ID\u003C/code> ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
          }
       },
       "xml:dtd:no group delimiter" : {
@@ -5338,6 +5775,21 @@
                "lang" : "XML"
             }
          ]
+      },
+      "xml:dtd:non-id ID" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>For compatibility with DOM, the \u003Ccode>ID\u003C/code>-typed attribute\u000Ashould have the name \u003Ccode>id\u003C/code>.\u003C/p>",
+            "ja" : "\u003Cp>DOM との互換性のため、 \u003Ccode>ID\u003C/code> 型の属性の名前は\u000A\u003Ccode>id\u003C/code> とするべきです。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The \u003Ccode>ID\u003C/code> attribute has name other than \u003Ccode>id\u003C/code>",
+            "ja" : "\u003Ccode>ID\u003C/code> 属性の名前が \u003Ccode>id\u003C/code> ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
       },
       "xml:dtd:param entity with ndata" : {
          "default_level" : "m",
@@ -5449,6 +5901,96 @@
             "Web::XML::Parser::tokenizer" : 1
          }
       },
+      "xml:name syntax" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>XML element, attribute, entity, and notation names, as well as\u000Aprocessing instruction target and \u003Ccode>ID\u003C/code>s, must be an\u000AXML \u003Ccode>Name\u003C/code>.  It must be a string of one or more XML\u000Aname characters.  Its first character must be an XML name start\u000Acharacter.\u003C/p>",
+            "ja" : "\u003Cp>XML の要素、属性、実体、記法の名前や、処理指令の対象名、\u000A\u003Ccode>ID\u003C/code> は XML \u003Ccode>Name\u003C/code> でなければいけません。\u000AXML 名前文字のみで構成される1文字以上の文字列で、\u000A最初の文字は XML 名前開始文字でなければいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "This is not an XML \u003Ccode>Name\u003C/code>",
+            "ja" : "XML \u003Ccode>Name\u003C/code> ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "xml:names syntax" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>Attribute values whose type is \u003Ccode>IDREFS\u003C/code> or \u003Ccode>ENTITIES\u003C/code>\u000Amust be one or more XML \u003Ccode>Name\u003C/code>s separated by\u000Aa U\u002B0020 \u003Ccode class=\u0022charname\u0022>SPACE\u003C/code> character.\u000AThe list cannot be empty.\u003C/p>",
+            "ja" : "\u003Cp>宣言型が \u003Ccode>IDREFS\u003C/code> や \u003Ccode>ENTITIES\u003C/code>\u000Aの属性の値は、 U\u002B0020 \u003Ccode class=\u0022charname\u0022>SPACE\u003C/code>\u000A区切りの1つ以上の XML \u003Ccode>Name\u003C/code> のリストでなければいけません。\u000A空にはできません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "This is not a space-separated list of XML \u003Ccode>Name\u003C/code>s",
+            "ja" : "XML \u003Ccode>Name\u003C/code> の空白区切りのリストではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "xml:ncname syntax" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>XML entity and notation names, as well as\u000Aprocessing instruction target and \u003Ccode>ID\u003C/code>s, must\u000Anot contain a \u003Ccode>:\u003C/code> character.\u003C/p>",
+            "ja" : "\u003Cp>XML の実体や記法の名前や、処理指令の対象名、\u000A\u003Ccode>ID\u003C/code> は \u003Ccode>:\u003C/code> を含めることができません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "The \u003Ccode>:\u003C/code> is not allowed",
+            "ja" : "\u003Ccode>:\u003C/code> を使うことはできません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "xml:nmtoken syntax" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The value of an attribute whose type is \u003Ccode>NMTOKEN\u003C/code>\u000Acan only contain XML name characters.  It cannot be the empty string.\u003C/p>",
+            "ja" : "\u003Cp>宣言型が \u003Ccode>NMTOKEN\u003C/code> の属性の値は XML 名前文字しか含めることができません。\u000A属性値は空にはできません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The value is not a string of name characters",
+            "ja" : "名前文字の文字列ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "xml:nmtokens syntax" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The value of an attribute whose type is \u003Ccode>NMTOKENS\u003C/code> must be\u000Aa list of one or more substrings that only contain XML name characters,\u000Aseparated by a U\u002B0020 \u003Ccode class=\u0022charname\u0022>SPACE\u003C/code> character.\u000AIt cannot be the empty string.\u003C/p>",
+            "ja" : "\u003Cp>宣言型が \u003Ccode>NMTOKENS\u003C/code> の属性の値は、1つ以上の XML \u000A名前文字のみの文字列の U\u002B0020 \u003Ccode class=\u0022charname\u0022>SPACE\u003C/code>\u000A文字のリストでなければいけません。\u000A属性値は空にはできません。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The value is not a list of one or more strings of name characters",
+            "ja" : "名前文字の文字列のリストではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
+      "xml:pi:target not declared" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>The target of the processing instruction can be declared by\u000Aa \u003Ccode>NOTATION\u003C/code> declaration whose name is the target.\u003C/p>",
+            "ja" : "\u003Cp>処理指令の対象は、名前が対象と同じ \u003Ccode>NOTATION\u003C/code>\u000A宣言により宣言することができます。\u003C/p>"
+         },
+         "layer" : "dtd",
+         "message" : {
+            "en" : "The target is not declared",
+            "ja" : "対象が宣言されていません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
+         }
+      },
       "xml:pubid:bad char" : {
          "default_level" : "m",
          "desc" : {
@@ -5477,6 +6019,21 @@
          },
          "modules" : {
             "Web::XML::Parser::checker" : 1
+         }
+      },
+      "xml:qname syntax" : {
+         "default_level" : "m",
+         "desc" : {
+            "en" : "\u003Cp>XML element and attribute names must be an XML \u003Ccode>QName\u003C/code>, i.e.\u000Aa local name or a prefix followed by \u003Ccode>:\u003C/code> and a local name.\u000A\u003C/p>\u003Cp>A prefix or local name must be a string of one or more XML\u000Aname characters.  Their first character must be an XML name start\u000Acharacter.  They cannot contain a \u003Ccode>:\u003C/code> character.\u003C/p>",
+            "ja" : "\u003Cp>XML の要素や属性の名前は XML \u003Ccode>QName\u003C/code> でなければいけません。\u000Aすなわち、局所名か、接頭辞と \u003Ccode>:\u003C/code> と局所名のいずれかでなければいけません。\u000A\u003C/p>\u003Cp>接頭辞や局所名は、XML 名前文字のみで構成される1文字以上の文字列で、\u000A最初の文字は XML 名前開始文字でなければいけません。また \u003Ccode>:\u003C/code>\u000Aを含めてはいけません。\u003C/p>"
+         },
+         "layer" : "tokenizer",
+         "message" : {
+            "en" : "This is not an XML \u003Ccode>QName\u003C/code>",
+            "ja" : "XML \u003Ccode>QName\u003C/code> ではありません"
+         },
+         "modules" : {
+            "Web::XML::DTDValidator" : 1
          }
       },
       "xml:space:bad type" : {
