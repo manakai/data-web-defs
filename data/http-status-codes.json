@@ -269,6 +269,12 @@
       },
       "reason" : "Break"
    },
+   "220" : {
+      "protocols" : {
+         "HTTP" : "Uses Protocol Extensions"
+      },
+      "reason" : "Uses Protocol Extensions"
+   },
    "226" : {
       "http" : {
          "cacheable" : 1,
@@ -1073,13 +1079,15 @@
       "reason" : "First Hop Lacks Outbound Support"
    },
    "440" : {
+      "conflict" : 1,
       "iana" : {
          "SIP" : 1
       },
       "protocols" : {
+         "HTTP" : "Login Timeout",
          "SIP" : "Max-Breadth Exceeded"
       },
-      "reason" : "Max-Breadth Exceeded"
+      "reason" : "Login Timeout"
    },
    "444" : {
       "protocols" : {
@@ -1383,11 +1391,18 @@
       },
       "reason" : "HTTP to HTTPS"
    },
-   "499" : {
+   "498" : {
       "protocols" : {
-         "HTTP" : "Client Closed Request"
+         "HTTP" : "Token expired/invalid"
       },
-      "reason" : "Client Closed Request"
+      "reason" : "Token expired/invalid"
+   },
+   "499" : {
+      "conflict" : 1,
+      "protocols" : {
+         "HTTP" : "Token required"
+      },
+      "reason" : "Token required"
    },
    "500" : {
       "conflict" : 1,
@@ -1600,8 +1615,37 @@
       },
       "reason" : "Message Too Large"
    },
+   "520" : {
+      "conflict" : 1,
+      "protocols" : {
+         "HTTP" : "Protocol Extension Error"
+      },
+      "reason" : "Protocol Extension Error"
+   },
+   "521" : {
+      "protocols" : {
+         "HTTP" : "Protocol Extension Not Implemented"
+      },
+      "reason" : "Protocol Extension Not Implemented"
+   },
    "522" : {
-      "reason" : "HTTP"
+      "conflict" : 1,
+      "protocols" : {
+         "HTTP" : "Protocol Extension Parameters Not Acceptable"
+      },
+      "reason" : "Protocol Extension Parameters Not Acceptable"
+   },
+   "523" : {
+      "protocols" : {
+         "HTTP" : ""
+      },
+      "reason" : ""
+   },
+   "524" : {
+      "protocols" : {
+         "HTTP" : "Origin Time-out"
+      },
+      "reason" : "Origin Time-out"
    },
    "551" : {
       "iana" : {
