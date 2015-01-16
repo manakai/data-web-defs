@@ -40,6 +40,11 @@ for my $doc (parse 'sw-mime-types-xml-*') {
         : $type =~ m{\A\*/\*\+[^/*]+\z} ? 'suffix'
         : $type =~ m{\*} ? 'pattern'
         : 'subtype';
+    if ($Data->{$type}->{type} eq 'suffix' and
+        defined $cells->[2] and
+        $cells->[2]->text_content =~ m{^\s*([0-9A-Za-z_+.-]+/[0-9A-Za-z_+.-]+)\s*$}) {
+      $Data->{$type}->{structured_syntax_type} = lc $1;
+    }
   }
 }
 
