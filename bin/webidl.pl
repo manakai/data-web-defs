@@ -166,7 +166,6 @@ my $XAttrAllowed = {
   enum => {},
   callback => {
     TreatNonObjectAsNull => 1,
-    TreatNonCallableAsNull => 1,
   },
   typedef => {},
   implements => {},
@@ -192,7 +191,6 @@ my $XAttrArgs = {
   Replaceable => {no => 1},
   SameObject => {no => 1},
   TreatNonObjectAsNull => {no => 1}, # No MUST in spec
-  TreatNonCallableAsNull => {no => 1}, # No longer in spec
   TreatNullAs => {id => 1},
   Unforgeable => {no => 1},
   Global => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
