@@ -274,7 +274,8 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/ssdp-headers.txt local/iana/rtsp.json \
     local/iana/http-ims.json src/http-ims.txt \
     src/http-p3p.txt local/iana/headers.json \
-    src/fcast-headers.txt local/iana/fcast.json
+    src/fcast-headers.txt local/iana/fcast.json \
+    src/http-equiv.txt
 	$(PERL) bin/headers.pl > $@
 data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt \

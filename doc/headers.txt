@@ -244,6 +244,7 @@ The file contains a JSON object with following name/value pairs:
 
       fcast [object?]
       http [object?]
+      http_equiv [object?]
       icap [object?]
       mail [object?]
       mime [object?]
@@ -254,11 +255,12 @@ The file contains a JSON object with following name/value pairs:
       ssdp [object?]
 
         Descriptions for the header, when used in the protocol
-        (|fcast| -> FCAST, |http| -> HTTP, |icap| -> ICAP, |mail| ->
-        RFC 822 e-mail messages, |mime| -> MIME, |netnews| -> USENET
-        news articles, |rtsp| -> RTSP, |s-http| -> S-HTTP, |sip| ->
-        SIP, |ssdp| -> SSDP).  The value is a JSON object with
-        following name/value pairs:
+        (|fcast| -> FCAST, |http| -> HTTP, |http_equiv| -> HTML |meta|
+        element's pragma directive (the |http-equiv| attribute),
+        |icap| -> ICAP, |mail| -> RFC 822 e-mail messages, |mime| ->
+        MIME, |netnews| -> USENET news articles, |rtsp| -> RTSP,
+        |s-http| -> S-HTTP, |sip| -> SIP, |ssdp| -> SSDP).  The value
+        is a JSON object with following name/value pairs:
 
           206_representation_metadata [string?]
 
@@ -320,6 +322,12 @@ The file contains a JSON object with following name/value pairs:
             conditional headers
             <http://tools.ietf.org/html/rfc4918#section-12.1>.
 
+          conforming [boolean]
+
+            If true, use of the header is conforming.  Otherwise,
+            conformance is unknown.  (For |http_equiv|, use of the
+            value is non-conforming if false.)
+
           connection_option [boolean]
 
             Whether the header name is used as a |connection-option|
@@ -344,6 +352,12 @@ The file contains a JSON object with following name/value pairs:
           deprecated [boolean]
 
             Whether the header is deprecated or not.
+
+          enumerated_attr_state_name [string?]
+
+            The state name of the HTML |http-equiv| attribute as an
+            enumerated attribute, if any, in its canonical form
+            (including the " state" suffix).
 
           fcast_cid_metadata [object]
 
@@ -384,6 +398,11 @@ The file contains a JSON object with following name/value pairs:
             specified in HTTP.  Otherwise, the header cannot be
             specified multiple times.
 
+          name [string?]
+
+            The header name in the canonical form used in the relevant
+            specification of the protocol.
+
           not_for_http10 [boolean]
 
             Whether the header is allowed in HTTP/1.0 or not.
@@ -396,7 +415,8 @@ The file contains a JSON object with following name/value pairs:
 
           obsolete [boolean]
 
-            Whether the header is obsolete or not.
+            Whether the header is obsolete or not.  Note that an
+            obsolete header might still be conforming.
 
           origin_server [boolean]
 
@@ -543,6 +563,11 @@ The file contains a JSON object with following name/value pairs:
             The type of the header value, if known and representable
             as a value type.  If the header value is defined as a
             list, this filed has the type of its items.
+
+          whatwg_wiki_status [string?]
+
+            Status of the value in the WHATWG Wiki's registry page, if
+            any.  |allowed| or |proposed|.
 
       name [string]
 
@@ -868,6 +893,11 @@ Hypertext Transfer Protocol (HTTP) Upgrade Token Registry
 
 Content Disposition Values and Parameters
 <http://www.iana.org/assignments/cont-disp/cont-disp.xml>.
+
+HTML Standard <https://html.spec.whatwg.org/>.
+
+WHATWG Wiki PragmaExtensions
+<https://wiki.whatwg.org/wiki/PragmaExtensions>.
 
 SuikaWiki:protocol <http://wiki.suikawiki.org/n/protocol$22089>.
 
