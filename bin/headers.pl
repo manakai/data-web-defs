@@ -527,6 +527,49 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
   }
 }
 
+{
+  my $data;
+  for (split /\x0D?\x0A/, $src_path->child ('http-equiv.txt')->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^\*\s*(\S+)\s*$/) {
+      my $name = lc $1;
+      $data = $Data->{headers}->{$name}->{http_equiv} ||= {};
+      $data->{name} ||= $1;
+      $Data->{headers}->{$name}->{name} ||= $1;
+      next;
+    } elsif (/\S/) {
+      die "Header not defined at first line" unless defined $data;
+    }
+
+    if (/^spec\s+(\S+)\s*$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://tools.ietf.org/html/rfc(\d+)#(.+)$}) {
+        $data->{spec} = "RFC$1";
+        $data->{id} = $2;
+      } elsif ($url =~ m{^https?://html.spec.whatwg.org/#(.+)$}) {
+        $data->{spec} = 'HTML';
+        $data->{id} = $1;
+      } else {
+        $data->{url} = $url;
+      }
+    } elsif (/^value (language tag|non-empty text)$/) {
+      $data->{value_type} = $1;
+    } elsif (/^(conforming|obsolete)$/) {
+      $data->{$1} = 1;
+    } elsif (/^(non-conforming)$/) {
+      delete $data->{conforming};
+    } elsif (/^WHATWG Wiki (allowed|proposed)$/) {
+      $data->{whatwg_wiki_status} = $1;
+      $data->{conforming} = 1;
+    } elsif (/(.+ state)/) {
+      $data->{enumerated_attr_state_name} = $1;
+    } elsif (/\S/) {
+      die "Broken line |$_|";
+    }
+  }
+}
+
 sub add_data ($) {
   my $x = shift;
   my $registry = $IANAData;
