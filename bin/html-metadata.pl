@@ -108,28 +108,34 @@ sub _html ($) {
     } elsif (/^<(.+)>$/) {
       $src_url = $1;
       next;
-    } elsif (/^(\S+)$/) {
+    } elsif (/^(\S+(?> \S+)*)$/) {
       my $name = $1;
       $key = $name;
       $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
       $data = $Data->{metadata_names}->{$key} ||= {};
       $data->{name} ||= $name;
-      $data->{url} ||= $src_url;
+      $data->{url} ||= $src_url if defined $src_url;
       next;
     }
 
-    if (/^  value (text|set of comma-separated tokens)$/) {
+    if (/^  value (text|set of comma-separated tokens|color)$/) {
       #warn "Duplicate value type for |$key|" if defined $data->{value_type};
       $data->{value_type} ||= $1;
     } elsif (/^  item (text)$/) {
       warn "Duplicate item value type for |$key|" if defined $data->{item_type};
       $data->{item_type} = $1;
+    } elsif (/^  enum (.+)$/) {
+      $data->{allowed_values}->{$1} = 1;
     } elsif (/^  (unique|conforming)$/) {
       $data->{$1} = 1;
     } elsif (/^  unique per lang$/) {
       $data->{unique_per_lang} = 1;
+    } elsif (/^  (non-conforming) -> (.+)$/) {
+      $data->{preferred} = {type => 'meta', name => $2};
+      delete $data->{conforming};
     } elsif (/^  spec (.+)$/) {
-      $data->{url} = $1 if $data->{url} eq $src_url;
+      $data->{url} = $1 if defined $src_url and $data->{url} eq $src_url;
+      $data->{url} ||= $1;
     } elsif (/\S/) {
       die "Bad line: |$_|";
     }
@@ -242,9 +248,10 @@ sub _html ($) {
     if (/^  (conforming)$/) {
       $data->{$1} = 1;
     } elsif (/^  (non-conforming)$/) {
-      #
+      delete $data->{conforming};
     } elsif (/^  (non-conforming) -> (.+)$/) {
-      $data->{preferred} = {type => 'rel', name => $1};
+      $data->{preferred} = {type => 'rel', name => $2};
+      delete $data->{conforming};
     } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
       $data->{"html_$1"} = $2;
     } elsif (/^  spec (.+)$/) {
@@ -254,6 +261,8 @@ sub _html ($) {
     }
   }
 }
+
+$Data->{link_types}->{made}->{preferred} = {type => 'rel', name => 'author'};
 
 for (values %{$Data->{metadata_names}}, values %{$Data->{link_types}}) {
   if (defined $_->{url}) {
