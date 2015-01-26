@@ -318,7 +318,8 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-tree-constructor-expanded.json \
     data/html-tree-constructor-expanded-no-isindex.json \
     data/xml-tree-constructor-expanded.json \
-    intermediate/errors/parser-errors.json data/errors.json
+    intermediate/errors/parser-errors.json data/errors.json \
+    data/html-metadata.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -326,6 +327,7 @@ clean-dom:
 	rm -fr local/xml5-spec.html local/schemaorg*
 	rm -fr local/dom.html local/domparsing.html
 	rm -fr local/html.spec.whatwg.org local/webidl.html
+	rm -fr local/MetaExtensions.html
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \
@@ -490,6 +492,13 @@ local/xml-tree.json: bin/extract-html-tree.pl src/xml-tree-construction.html
 intermediate/errors/parser-errors.json: bin/parser-errors.pl \
     src/parser-errors.txt data/html-syntax.json data/xml-syntax.json
 	$(PERL) bin/parser-errors.pl src/parser-errors.txt > $@
+
+local/MetaExtensions.html:
+	$(WGET) -O $@ https://wiki.whatwg.org/wiki/MetaExtensions
+local/MetaExtensions.json: local/MetaExtensions.html bin/parse-wiki-tables.pl
+	$(PERL) bin/parse-wiki-tables.pl $< > $@
+data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl
+	$(PERL) bin/html-metadata.pl > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
 	$(PERL) bin/browsers.pl > $@
