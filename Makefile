@@ -496,8 +496,13 @@ intermediate/errors/parser-errors.json: bin/parser-errors.pl \
 local/MetaExtensions.html:
 	$(WGET) -O $@ https://wiki.whatwg.org/wiki/MetaExtensions
 local/MetaExtensions.json: local/MetaExtensions.html bin/parse-wiki-tables.pl
-	$(PERL) bin/parse-wiki-tables.pl $< > $@
-data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl
+	$(PERL) bin/parse-wiki-tables.pl table.wikitable 1 $< > $@
+local/RelExtensions.html:
+	$(WGET) -O $@ http://microformats.org/wiki/existing-rel-values
+local/RelExtensions.json: local/RelExtensions.html bin/parse-wiki-tables.pl
+	$(PERL) bin/parse-wiki-tables.pl "a[name=\"HTML5_link_type_extensions\"] ~ table" 0 $< > $@
+data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl \
+    local/RelExtensions.json
 	$(PERL) bin/html-metadata.pl > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt

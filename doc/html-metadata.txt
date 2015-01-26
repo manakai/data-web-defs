@@ -5,7 +5,61 @@ The file contains data on metadata in HTML documents.
 
 * Structure
 
-The file contains a JSON object with following name/value pair:
+The file contains a JSON object with following name/value pairs:
+
+  link_types [object]
+
+    Names are link types as used in e.g. |rel| attributes, in
+    lowercase, and values are their descriptions, as [protocol-object]
+    with following additional name/value pairs:
+
+      desc [string?]
+
+        A short description of the link type in English.
+
+      html_a [link-type-effect?]
+
+        The effect of the link created by an HTML |a| or |area|
+        element using the link type, if known.
+
+      html_link [link-type-effect?]
+
+        The effect of the link created by an HTML |link| element using
+        the link type, if known.
+
+      microformats_wiki_desc_html [string?]
+
+        The description cell data for the link type, as shown in the
+        microformats wiki link type table, if its content is not a
+        simple string.
+
+      microformats_wiki_spec_link_html [string?]
+
+        The link to specification cell data for the link type, as
+        shown in the microformats wiki link type table.  This
+        name/value pair is omitted if it only contains a link to the
+        specification.
+
+      microformats_wiki_spec_link_label [string?]
+
+        The label of the link to the specification in the microformats
+        wiki link type table, if any.
+
+      microformats_wiki_status [string?]
+
+        The status of the link type, as shown in the microformats wiki
+        link type table, if any.  At the time of writing, the value
+        can be |proposed|.
+
+      microformats_wiki_synonyms_html [string?]
+
+        The "Synonyms" cell data for the link type, as shown in
+        microformats wiki link type table, if any.
+
+      name [string]
+
+        The canonical form of the link type, as used in relevant
+        specification or registry.
 
   metadata_names [object]
 
@@ -25,10 +79,6 @@ The file contains a JSON object with following name/value pair:
 
         The canonical form of the metadata name, as used in relevant
         specification or registry.
-
-      url [string?]
-
-        The URL of the specification for the metadata, if any.
 
       whatwg_wiki_desc_html [string?]
 
@@ -59,10 +109,25 @@ The file contains a JSON object with following name/value pair:
         The "Synonyms" cell data for the metadata, as shown in WHATWG
         Wiki MetaExtensions page, if any.
 
+* Data type
+
+The data type |link-type-effect| represents the effect of a link
+created by the link type.  It is one of the following strings:
+
+  |hyperlink|            Create a hyperlink <https://html.spec.whatwg.org/#hyperlink>.
+  |external resource|    Create an external resource link
+                         <https://html.spec.whatwg.org/#external-resource-link>.
+  |hyperlink annotation| An annotation
+                         <https://html.spec.whatwg.org/#hyperlink-annotation>.
+  |not allowed|          Not allowed in the context.
+
 * Sources
 
 WHATWG Wiki MetaExtensions
 <https://wiki.whatwg.org/wiki/MetaExtensions>.
+
+Microformats Wiki - existing rel values
+<http://microformats.org/wiki/existing-rel-values>.
 
 * License
 
@@ -73,3 +138,9 @@ The JSON file contains data from WHATWG Wiki, where "Content is
 available under a CC0 Universal Public Domain Declaration, with some
 restrictions <https://wiki.whatwg.org/wiki/WHATWG_Wiki:Copyrights>
 unless otherwise noted".
+
+The JSON file contains data from a Microformats Wiki page, where "All
+text of this page is available under the terms of the Creative Commons
+Public Domain License
+<http://creativecommons.org/licenses/publicdomain/>. (See Copyrights
+<http://microformats.org/wiki/Microformats:Copyrights> for details.)"

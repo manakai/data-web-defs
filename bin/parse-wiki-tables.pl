@@ -6,6 +6,8 @@ use JSON::PS;
 use Web::DOM::Document;
 use Web::HTML::Parser;
 
+my $selectors = shift;
+my $all = shift;
 my $input_path = path (shift);
 my $doc = new Web::DOM::Document;
 my $parser = new Web::HTML::Parser;
@@ -13,7 +15,8 @@ $parser->parse_byte_string ('utf-8', $input_path->slurp => $doc);
 
 my $Data = {rows => []};
 
-for my $table_el ($doc->query_selector_all ('table.wikitable')->to_list) {
+for my $table_el ($all ? $doc->query_selector_all ($selectors)->to_list
+                       : $doc->query_selector ($selectors)) {
   my @row = $table_el->rows->to_list;
   next unless @row;
   my @header;
