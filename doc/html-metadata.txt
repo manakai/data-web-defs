@@ -13,6 +13,10 @@ The file contains a JSON object with following name/value pairs:
     lowercase, and values are their descriptions, as [protocol-object]
     with following additional name/value pairs:
 
+      conforming [boolean]
+
+        Whether use of the link type is conforming or not.
+
       desc [string?]
 
         A short description of the link type in English.
@@ -26,6 +30,12 @@ The file contains a JSON object with following name/value pairs:
 
         The effect of the link created by an HTML |link| element using
         the link type, if known.
+
+      html_rev [link-type-effect?]
+
+        The effect of the link created by an HTML element using the
+        link type in the |rev| attribute, if known.  Note that the
+        |rev| attribute is obsolete.
 
       microformats_wiki_desc_html [string?]
 
@@ -60,6 +70,10 @@ The file contains a JSON object with following name/value pairs:
 
         The canonical form of the link type, as used in relevant
         specification or registry.
+
+      preferred [preferred?]
+
+        The "preferred" object for the link type, if any.
 
   metadata_names [object]
 
@@ -117,11 +131,13 @@ created by the link type.  It is one of the following strings:
   |hyperlink|            Create a hyperlink <https://html.spec.whatwg.org/#hyperlink>.
   |external resource|    Create an external resource link
                          <https://html.spec.whatwg.org/#external-resource-link>.
-  |hyperlink annotation| An annotation
+  |annotation|           A hyperlink annotation
                          <https://html.spec.whatwg.org/#hyperlink-annotation>.
   |not allowed|          Not allowed in the context.
 
 * Sources
+
+HTML Standard <https://html.spec.whatwg.org/>.
 
 WHATWG Wiki MetaExtensions
 <https://wiki.whatwg.org/wiki/MetaExtensions>.
@@ -133,6 +149,11 @@ Microformats Wiki - existing rel values
 
 You are granted a license to use, reproduce, and create derivative
 works of the JSON file.
+
+The JSON file contains data extracted from HTML Standard.  "©
+Copyright 2004-2011 Apple Computer, Inc., Mozilla Foundation, and
+Opera Software ASA.  You are granted a license to use, reproduce and
+create derivative works of this document."
 
 The JSON file contains data from WHATWG Wiki, where "Content is
 available under a CC0 Universal Public Domain Declaration, with some

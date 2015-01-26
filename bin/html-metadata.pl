@@ -98,6 +98,45 @@ sub _html ($) {
 }
 
 {
+  my $path = path (__FILE__)->parent->parent->child ('src/html-meta-names.txt');
+  my $src_url;
+  my $key;
+  my $data;
+  for (split /\x0D?\x0A/, $path->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^<(.+)>$/) {
+      $src_url = $1;
+      next;
+    } elsif (/^(\S+)$/) {
+      my $name = $1;
+      $key = $name;
+      $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
+      $data = $Data->{metadata_names}->{$key} ||= {};
+      $data->{name} ||= $name;
+      $data->{url} ||= $src_url;
+      next;
+    }
+
+    if (/^  value (text|set of comma-separated tokens)$/) {
+      #warn "Duplicate value type for |$key|" if defined $data->{value_type};
+      $data->{value_type} ||= $1;
+    } elsif (/^  item (text)$/) {
+      warn "Duplicate item value type for |$key|" if defined $data->{item_type};
+      $data->{item_type} = $1;
+    } elsif (/^  (unique|conforming)$/) {
+      $data->{$1} = 1;
+    } elsif (/^  unique per lang$/) {
+      $data->{unique_per_lang} = 1;
+    } elsif (/^  spec (.+)$/) {
+      $data->{url} = $1 if $data->{url} eq $src_url;
+    } elsif (/\S/) {
+      die "Bad line: |$_|";
+    }
+  }
+}
+
+{
   $doc->manakai_set_url ('http://microformats.org/wiki/existing-rel-values');
   my $path = path (__FILE__)->parent->parent->child ('local/RelExtensions.json');
   my $table = json_bytes2perl $path->slurp;
@@ -130,10 +169,12 @@ sub _html ($) {
 
     my $a = lc _t ($row->{'Effect on a, area'} // '');
     if (length $a) {
-      if ($a =~ /\A(not allowed|external resource|hyperlink)\z/) {
+      if ($a =~ /\A(not allowed|external resource|hyperlink|annotation)\z/) {
         $data->{html_a} = $a;
-      } elsif ($a eq 'img pop-up' or $a eq 'contextual external resource') {
+      } elsif ($a eq 'img pop-up') {
         $data->{html_a} = 'hyperlink';
+      } elsif ($a eq 'contextual external resource') {
+        $data->{html_a} = 'external resource';
       } else {
         warn "Unknown effect |$a|";
       }
@@ -141,7 +182,7 @@ sub _html ($) {
 
     my $li = lc _t ($row->{'Effect on link'} // '');
     if (length $li) {
-      if ($li =~ /\A(not allowed|external resource|hyperlink)\z/) {
+      if ($li =~ /\A(not allowed|external resource|hyperlink|annotation)\z/) {
         $data->{html_link} = $li;
       } else {
         warn "Unknown effect |$li|";
@@ -163,6 +204,7 @@ sub _html ($) {
     my $status = lc _t $div->text_content;
     if ($status =~ /\A(proposed)\z/) {
       $data->{microformats_wiki_status} = $1;
+      $data->{conforming} = 1;
     } else {
       warn "Unknown status |$status|";
     }
@@ -171,6 +213,54 @@ sub _html ($) {
     if (length $synonyms) {
       $div->inner_html ($synonyms);
       $data->{microformats_wiki_synonyms_html} = _html $div;
+    }
+  }
+}
+
+{
+  my $path = path (__FILE__)->parent->parent->child ('src/html-link-types.txt');
+  my $src_url;
+  my $key;
+  my $data;
+  for (split /\x0D?\x0A/, $path->slurp_utf8) {
+    if (/^\s*#/) {
+      next;
+    } elsif (/^<(.+)>$/) {
+      $src_url = $1;
+      next;
+    } elsif (/^(\S+)$/) {
+      my $name = $1;
+      $key = $name;
+      $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
+      $data = $Data->{link_types}->{$key} ||= {};
+      $data->{name} ||= $name;
+      $data->{url} ||= $src_url;
+      $data->{url} = $src_url if $src_url =~ /spec.whatwg.org/;
+      next;
+    }
+
+    if (/^  (conforming)$/) {
+      $data->{$1} = 1;
+    } elsif (/^  (non-conforming)$/) {
+      #
+    } elsif (/^  (non-conforming) -> (.+)$/) {
+      $data->{preferred} = {type => 'rel', name => $1};
+    } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
+      $data->{"html_$1"} = $2;
+    } elsif (/^  spec (.+)$/) {
+      $data->{url} = $1 if $data->{url} eq $src_url;
+    } elsif (/\S/) {
+      die "Bad line: |$_|";
+    }
+  }
+}
+
+for (values %{$Data->{metadata_names}}, values %{$Data->{link_types}}) {
+  if (defined $_->{url}) {
+    if ($_->{url} =~ m{^https://html.spec.whatwg.org/#(.+)$}) {
+      $_->{spec} = 'HTML';
+      $_->{id} = $1;
+      delete $_->{url};
     }
   }
 }
