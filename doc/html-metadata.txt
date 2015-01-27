@@ -13,6 +13,14 @@ The file contains a JSON object with following name/value pairs:
     lowercase, and values are their descriptions, as [protocol-object]
     with following additional name/value pairs:
 
+      atom [link-type-effect?]
+
+        Whether the link type is used in Atom 1.0 or not.
+
+      atom03 [link-type-effect?]
+
+        Whether the link type is allowed in Atom 0.3 or not.
+
       conforming [boolean]
 
         Whether use of the link type is conforming or not.
@@ -20,6 +28,10 @@ The file contains a JSON object with following name/value pairs:
       desc [string?]
 
         A short description of the link type in English.
+
+      hal [link-type-effect?]
+
+        Whether the link relation is used in HAL or not.
 
       html_a [link-type-effect?]
 
@@ -140,11 +152,19 @@ created by the link type.  It is one of the following strings:
                          <https://html.spec.whatwg.org/#external-resource-link>.
   |annotation|           A hyperlink annotation
                          <https://html.spec.whatwg.org/#hyperlink-annotation>.
-  |not allowed|          Not allowed in the context.
+  |1|                    Specified or used in this context.
+  |not allowed|          Not allowed in this context.
+
+Note that even when the value is not |not allowed|, use of the link
+type might be non-conforming because of other factors.
 
 * Sources
 
 HTML Standard <https://html.spec.whatwg.org/>.
+
+HTML Standard Tracker <https://html5.org/r/5924>.
+
+HTML Standard Tracker <https://html5.org/r/5925>.
 
 WHATWG Wiki MetaExtensions
 <https://wiki.whatwg.org/wiki/MetaExtensions>.
@@ -157,6 +177,9 @@ Content Security Policy
 
 The 'theme-color' meta extension
 <https://github.com/whatwg/meta-brand-color>.
+
+The Atom API
+<http://bitworking.org/projects/atom/draft-gregorio-09.html>.
 
 * License
 
