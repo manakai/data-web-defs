@@ -501,8 +501,11 @@ local/RelExtensions.html:
 	$(WGET) -O $@ http://microformats.org/wiki/existing-rel-values
 local/RelExtensions.json: local/RelExtensions.html bin/parse-wiki-tables.pl
 	$(PERL) bin/parse-wiki-tables.pl "a[name=\"HTML5_link_type_extensions\"] ~ table" 0 $< > $@
+local/iana/link-relations.xml:
+	$(WGET) -O $@ http://www.iana.org/assignments/link-relations/link-relations.xml
 data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl \
-    local/RelExtensions.json src/html-meta-names.txt src/html-link-types.txt
+    local/RelExtensions.json src/html-meta-names.txt src/html-link-types.txt \
+    local/iana/link-relations.json
 	$(PERL) bin/html-metadata.pl > $@
 
 data/browsers.json: bin/browsers.pl src/task-sources.txt
