@@ -240,8 +240,10 @@ sub _html ($) {
       $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
       $data = $Data->{link_types}->{$key} ||= {};
       $data->{name} ||= $name;
-      $data->{url} ||= $src_url;
-      $data->{url} = $src_url if $src_url =~ /spec.whatwg.org/;
+      if (defined $src_url) {
+        $data->{url} ||= $src_url;
+        $data->{url} = $src_url if $src_url =~ /spec.whatwg.org/;
+      }
       next;
     }
 
@@ -254,8 +256,16 @@ sub _html ($) {
       delete $data->{conforming};
     } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
       $data->{"html_$1"} = $2;
+    } elsif (/^  (atom03|atom|hal)$/) {
+      $data->{$1} = 1;
+    } elsif (/^  (link|a)$/) {
+      $data->{"html_$1"} ||= 1;
+    } elsif (/^  (html)$/) {
+      $data->{html_a} ||= 1;
+      $data->{html_link} ||= 1;
     } elsif (/^  spec (.+)$/) {
-      $data->{url} = $1 if $data->{url} eq $src_url;
+      $data->{url} = $1 if defined $src_url and $data->{url} eq $src_url;
+      $data->{url} ||= $1;
     } elsif (/\S/) {
       die "Bad line: |$_|";
     }
