@@ -259,8 +259,10 @@ sub _html ($) {
     } elsif (/^  (non-conforming)$/) {
       delete $data->{conforming};
     } elsif (/^  (non-conforming) -> (.+)$/) {
-      $data->{preferred} = {type => 'rel', name => $2};
+      $data->{preferred} ||= {type => 'rel', name => $2};
       delete $data->{conforming};
+    } elsif (/^  (whatwg wiki accepted)$/) {
+      $data->{conforming} = 1;
     } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
       $data->{"html_$1"} = $2;
     } elsif (/^  (atom)$/) {
