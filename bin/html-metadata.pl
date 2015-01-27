@@ -227,12 +227,17 @@ sub _html ($) {
   my $path = path (__FILE__)->parent->parent->child ('src/html-link-types.txt');
   my $src_url;
   my $key;
+  my $long_name;
+  my $long_src_url;
   my $data;
   for (split /\x0D?\x0A/, $path->slurp_utf8) {
     if (/^\s*#/) {
       next;
     } elsif (/^<(.+)>$/) {
       $src_url = $1;
+      undef $key;
+      undef $long_name;
+      undef $long_src_url;
       next;
     } elsif (/^(\S+)$/) {
       my $name = $1;
@@ -244,6 +249,8 @@ sub _html ($) {
         $data->{url} ||= $src_url;
         $data->{url} = $src_url if $src_url =~ /spec.whatwg.org/;
       }
+      undef $long_name;
+      undef $long_src_url;
       next;
     }
 
@@ -256,8 +263,19 @@ sub _html ($) {
       delete $data->{conforming};
     } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
       $data->{"html_$1"} = $2;
-    } elsif (/^  (atom03|atom|hal)$/) {
-      $data->{$1} = 1;
+    } elsif (/^  (atom)$/) {
+      $data->{atom} = 1;
+      unless ($key =~ /:/) {
+        $long_name = q<http://www.iana.org/assignments/relation/> . $key;
+        $Data->{link_types}->{$long_name}->{name} ||= $long_name;
+        $Data->{link_types}->{$long_name}->{atom} ||= 1;
+        $Data->{link_types}->{$long_name}->{url} ||= $long_src_url || $src_url if defined $long_src_url or defined $src_url;
+        $Data->{link_types}->{$long_name}->{preferred} ||= {type => 'rel', name => $key};
+      }
+    } elsif (/^  (atom03|hal|http link|opensearch|maze|collection\+json|xml2rfc|core|xrd)$/) {
+      my $k = $1;
+      $k =~ tr/ +/__/;
+      $data->{$k} = 1;
     } elsif (/^  (link|a)$/) {
       $data->{"html_$1"} ||= 1;
     } elsif (/^  (html)$/) {
@@ -266,19 +284,60 @@ sub _html ($) {
     } elsif (/^  spec (.+)$/) {
       $data->{url} = $1 if defined $src_url and $data->{url} eq $src_url;
       $data->{url} ||= $1;
+      $long_src_url = $1 || $src_url;
+      $Data->{link_types}->{$long_name}->{url} = $long_src_url if defined $long_name;
     } elsif (/\S/) {
       die "Bad line: |$_|";
     }
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/iana/link-relations.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $record (@{$json->{registries}->{'link-relations-1'}->{records}}) {
+    my $value = $record->{value};
+    $value =~ tr/A-Z/a-z/;
+    my $data = $Data->{link_types}->{$value} ||= {};
+    $data->{name} ||= $record->{value};
+
+    $data->{iana} = 1;
+    my $spec = $record->{spec} // '';
+    if ($spec =~ /^\[RFC([0-9]+)\]$/) {
+      $data->{url} ||= qq<http://tools.ietf.org/html/rfc$1>;
+    } elsif ($spec =~ /^\[(http:.+)\]$/) {
+      $data->{url} ||= $1;
+    }
+  }
+}
+
 $Data->{link_types}->{made}->{preferred} = {type => 'rel', name => 'author'};
+
+for (values %{$Data->{link_types}}) {
+  if (not $_->{html_a} and not $_->{html_link} and not $_->{atom03} and not $_->{opensearch} and
+      ($_->{atom} or $_->{http_link} or $_->{hal} or $_->{collection_json} or $_->{xml2rfc} or $_->{core} or $_->{xrd})) {
+    $_->{conforming} ||= 1 if $_->{iana};
+    $_->{conforming} ||= 1 if $_->{name} =~ /:/;
+  }
+
+  if ($_->{conforming}) {
+    $_->{html_a} ||= 'not allowed';
+    $_->{html_link} ||= 'not allowed';
+  }
+}
 
 for (values %{$Data->{metadata_names}}, values %{$Data->{link_types}}) {
   if (defined $_->{url}) {
     if ($_->{url} =~ m{^https://html.spec.whatwg.org/#(.+)$}) {
       $_->{spec} = 'HTML';
       $_->{id} = $1;
+      delete $_->{url};
+    } elsif ($_->{url} =~ m{^https?://tools.ietf.org/html/rfc([0-9]+)$}) {
+      $_->{spec} = 'RFC' . $1;
+      delete $_->{url};
+    } elsif ($_->{url} =~ m{^https?://tools.ietf.org/html/rfc([0-9]+)#(.+)$}) {
+      $_->{spec} = 'RFC' . $1;
+      $_->{id} = $2;
       delete $_->{url};
     }
   }

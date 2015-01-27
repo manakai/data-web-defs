@@ -24,7 +24,8 @@ sub _tc ($) {
       if ($node->local_name eq 'xref') {
         my $value = $node->text_content;
         unless (length $value) {
-          $value = uc $node->get_attribute ('data');
+          $value = $node->get_attribute ('data');
+          $value = uc $value unless $value =~ /^(?:http:|draft-)/;
         }
         $r .= '[' . $value . ']';
       } else {
