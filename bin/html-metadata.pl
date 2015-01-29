@@ -133,6 +133,10 @@ sub _html ($) {
     } elsif (/^  (non-conforming) -> (.+)$/) {
       $data->{preferred} = {type => 'meta', name => $2};
       delete $data->{conforming};
+    } elsif (/^  -> <(\S+)>$/) {
+      $data->{preferred} = {type => 'html_element', name => $1};
+    } elsif (/^  -> rel=(\S+)$/) {
+      $data->{preferred} = {type => 'rel', name => $1};
     } elsif (/^  spec (.+)$/) {
       $data->{url} = $1 if defined $src_url and $data->{url} eq $src_url;
       $data->{url} ||= $1;
