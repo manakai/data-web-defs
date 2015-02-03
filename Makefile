@@ -319,7 +319,7 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-tree-constructor-expanded-no-isindex.json \
     data/xml-tree-constructor-expanded.json \
     intermediate/errors/parser-errors.json data/errors.json \
-    data/html-metadata.json
+    data/html-metadata.json data/temma-syntax.json data/temma-tokenizer-expanded.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -400,8 +400,21 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/xml-tokenizer-replace.json \
     local/xml-tokenizer-only.json \
     local/xml-tokenizer-only2.json \
+    local/tokenizer-pi.json \
     local/xml-tree.json
 	$(PERL) bin/xml-syntax.pl > $@
+	!(grep '"misc"' $@ > /dev/null)
+	!(grep '"UNPARSED"' $@ > /dev/null)
+	!(grep '"COND"' $@ > /dev/null)
+	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@ > /dev/null)
+data/temma-syntax.json: bin/temma-syntax.pl \
+    local/html-tokenizer.json \
+    local/html-tokenizer-charrefs.json \
+    local/html-tokenizer-charrefs-jump.json \
+    local/temma-tokenizer-delta.json \
+    local/temma-tokenizer-replace.json \
+    local/tokenizer-pi.json
+	$(PERL) bin/temma-syntax.pl > $@
 	!(grep '"misc"' $@ > /dev/null)
 	!(grep '"UNPARSED"' $@ > /dev/null)
 	!(grep '"COND"' $@ > /dev/null)
@@ -414,6 +427,10 @@ data/html-tokenizer-expanded.json: data/html-syntax.json \
 data/xml-tokenizer-expanded.json: data/xml-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/xml-syntax.json > $@
+	!(grep reconsume $@ > /dev/null)
+data/temma-tokenizer-expanded.json: data/temma-syntax.json \
+    bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
+	$(PERL) bin/tokenizer-variants.pl < data/temma-syntax.json > $@
 	!(grep reconsume $@ > /dev/null)
 
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
@@ -466,6 +483,16 @@ local/xml-tokenizer-replace.json: bin/extract-html-tokenizer.pl \
 local/xml-tokenizer-only.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/xml-only.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/xml-only.html > $@
+local/tokenizer-pi.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/pi.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/pi.html > $@
+
+local/temma-tokenizer-delta.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/temma-delta.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/temma-delta.html > $@
+local/temma-tokenizer-replace.json: bin/extract-html-tokenizer.pl \
+    src/tokenizer/temma-replace.html
+	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/temma-replace.html > $@
 
 local/xml-tokenizer.html: src/tokenizer/*.txt \
     bin/tokenizer-text-to-html.pl
