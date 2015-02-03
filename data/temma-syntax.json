@@ -140,7 +140,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -188,7 +187,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -241,7 +239,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -555,7 +552,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -725,296 +721,6 @@
             },
             "initial_token_types" : {
                "DOCTYPE token" : 1
-            }
-         },
-         "PI data state" : {
-            "conds" : {
-               "CHAR:0000" : {
-                  "actions" : [
-                     {
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "CHAR:003F" : {
-                  "actions" : [
-                     {
-                        "state" : "in pic state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
-            }
-         },
-         "PI state" : {
-            "conds" : {
-               "CHAR:0000" : {
-                  "actions" : [
-                     {
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "token" : "processing instruction token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "target",
-                        "type" : "set",
-                        "value" : "�"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : "1",
-                        "type" : "set-empty"
-                     },
-                     {
-                        "state" : "PI target state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:003F" : {
-                  "actions" : [
-                     {
-                        "index_offset" : "2",
-                        "name" : "pi-003f",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "token" : "processing instruction token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "target",
-                        "type" : "set"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : "1",
-                        "type" : "set-empty"
-                     },
-                     {
-                        "state" : "PI target state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "WS:HTML" : {
-                  "actions" : [
-                     {
-                        "index_offset" : "2",
-                        "name" : "pi-ws",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
-            }
-         },
-         "PI target question state" : {
-            "conds" : {
-               "CHAR:003E" : {
-                  "actions" : [
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "processing instruction token" : 1
-                        },
-                        "type" : "emit"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "index_offset" : "1",
-                        "name" : "pi-target-question-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
-            }
-         },
-         "PI target state" : {
-            "conds" : {
-               "CHAR:0000" : {
-                  "actions" : [
-                     {
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "target",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "CHAR:003F" : {
-                  "actions" : [
-                     {
-                        "state" : "PI target question state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "field" : "target",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "WS:HTML" : {
-                  "actions" : [
-                     {
-                        "state" : "after PI target state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-to-temp"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
             }
          },
          "PLAINTEXT state" : {
@@ -3007,31 +2713,6 @@
                "DOCTYPE token" : 1
             }
          },
-         "after PI target state" : {
-            "conds" : {
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "WS:HTML" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
-            }
-         },
          "after attribute name state" : {
             "conds" : {
                "CHAR:0000" : {
@@ -4906,7 +4587,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -5695,7 +5375,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6249,7 +5928,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6287,7 +5965,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6338,7 +6015,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6389,7 +6065,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6471,7 +6146,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6531,7 +6205,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6598,7 +6271,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6706,56 +6378,7 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
-            }
-         },
-         "in pic state" : {
-            "conds" : {
-               "CHAR:003E" : {
-                  "actions" : [
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "processing instruction token" : 1
-                        },
-                        "type" : "emit"
-                     }
-                  ]
-               },
-               "CHAR:003F" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
             }
          },
          "markup declaration open state" : {
@@ -6834,7 +6457,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6901,7 +6523,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -6974,7 +6595,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7047,7 +6667,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7120,7 +6739,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7193,7 +6811,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7266,7 +6883,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7333,7 +6949,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7395,7 +7010,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7457,7 +7071,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7519,7 +7132,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7581,7 +7193,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7643,7 +7254,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -7707,7 +7317,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -9101,8 +8710,23 @@
                "CHAR:003F" : {
                   "actions" : [
                      {
-                        "state" : "PI state",
+                        "name" : "tag-open-003f",
+                        "type" : "parse error"
+                     },
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9162,7 +8786,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          }
@@ -9203,10 +8826,6 @@
             "short_name" : "EOF"
          },
          "processing instruction token" : {
-            "fields" : {
-               "data" : 1,
-               "target" : 1
-            },
             "short_name" : "PI"
          },
          "start tag token" : {

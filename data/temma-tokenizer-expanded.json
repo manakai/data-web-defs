@@ -243,7 +243,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -307,7 +306,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -377,7 +375,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -1104,7 +1101,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -1538,557 +1534,6 @@
                      }
                   ]
                }
-            }
-         },
-         "PI data state" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ],
-                  "repeat" : 1
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "PI data state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "state" : "in pic state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
-            }
-         },
-         "PI data state after 000D" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "000A" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "PI data state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "state" : "in pic state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            }
-         },
-         "PI state" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "token" : "processing instruction token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "target",
-                        "type" : "set",
-                        "value" : "�"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : "1",
-                        "type" : "set-empty"
-                     },
-                     {
-                        "state" : "PI target state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "0009,000C,0020 000A" : {
-                  "actions" : [
-                     {
-                        "error_type" : "bare pio",
-                        "index_offset" : "2",
-                        "name" : "pi-ws",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "error_type" : "bare pio",
-                        "index_offset" : "2",
-                        "name" : "pi-ws",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "bogus comment state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "token" : "processing instruction token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "target",
-                        "type" : "set"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : "1",
-                        "type" : "set-empty"
-                     },
-                     {
-                        "state" : "PI target state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "error_type" : "bare pio",
-                        "index_offset" : "2",
-                        "name" : "pi-003f",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "token" : "comment token",
-                        "type" : "create"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "comment token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
-            }
-         },
-         "PI target question state" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "error_type" : "no s after target",
-                        "index_offset" : "1",
-                        "name" : "pi-target-question-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "error_type" : "no s after target",
-                        "index_offset" : "1",
-                        "name" : "pi-target-question-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "error_type" : "no s after target",
-                        "index_offset" : "1",
-                        "name" : "pi-target-question-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "PI data state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "003E" : {
-                  "actions" : [
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "processing instruction token" : 1
-                        },
-                        "type" : "emit"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "error_type" : "no s after target",
-                        "index_offset" : "1",
-                        "name" : "pi-target-question-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "in pic state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "no s after target",
-                        "index_offset" : "1",
-                        "name" : "pi-target-question-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "set",
-                        "value" : "?"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
-            }
-         },
-         "PI target state" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "target",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020 000A" : {
-                  "actions" : [
-                     {
-                        "state" : "after PI target state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "set-to-temp"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "index_offset" : 0,
-                        "type" : "set-to-temp",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "after PI target state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "field" : "target",
-                        "type" : "append"
-                     }
-                  ],
-                  "repeat" : 1
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "state" : "PI target question state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
             }
          },
          "PLAINTEXT state" : {
@@ -5718,180 +5163,6 @@
             },
             "initial_token_types" : {
                "DOCTYPE token" : 1
-            }
-         },
-         "after PI target state" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020 000A" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ],
-                  "repeat" : 1
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "index_offset" : 0,
-                        "type" : "append-to-temp",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "after PI target state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "state" : "in pic state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
-            }
-         },
-         "after PI target state after 000D" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020" : {
-                  "actions" : [
-                     {
-                        "state" : "after PI target state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "append-to-temp"
-                     }
-                  ]
-               },
-               "000A" : {
-                  "actions" : [
-                     {
-                        "state" : "after PI target state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "index_offset" : 0,
-                        "type" : "append-to-temp",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "after PI target state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "state" : "in pic state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
             }
          },
          "after attribute name state" : {
@@ -11397,7 +10668,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -15150,7 +14420,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -15937,7 +15206,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -16072,7 +15340,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -16236,7 +15503,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -16400,7 +15666,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -16571,7 +15836,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -16728,7 +15992,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -16866,7 +16129,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -17251,124 +16513,7 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
-            }
-         },
-         "in pic state" : {
-            "conds" : {
-               "0000" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "�"
-                     }
-                  ]
-               },
-               "0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     },
-                     {
-                        "state" : "PI data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     },
-                     {
-                        "field" : "data",
-                        "index_offset" : 0,
-                        "type" : "append",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "PI data state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "003E" : {
-                  "actions" : [
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "possible_token_types" : {
-                           "processing instruction token" : 1
-                        },
-                        "type" : "emit"
-                     }
-                  ]
-               },
-               "003F" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "index_offset" : "2",
-                        "type" : "append",
-                        "value" : "?"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "processing instruction token" : 1
             }
          },
          "markup declaration open state" : {
@@ -17576,7 +16721,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -17786,7 +16930,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -18002,7 +17145,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -18218,7 +17360,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -18434,7 +17575,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -18650,7 +17790,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -18866,7 +18005,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -19076,7 +18214,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -19281,7 +18418,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -19486,7 +18622,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -19691,7 +18826,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -19896,7 +19030,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -20101,7 +19234,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -20309,7 +19441,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          },
@@ -24397,8 +23528,25 @@
                "003F" : {
                   "actions" : [
                      {
-                        "state" : "PI state",
+                        "error_type" : "pio",
+                        "name" : "tag-open-003f",
+                        "type" : "parse error"
+                     },
+                     {
+                        "token" : "comment token",
+                        "type" : "create"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "set-empty"
+                     },
+                     {
+                        "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "data",
+                        "type" : "append"
                      }
                   ]
                },
@@ -24459,7 +23607,6 @@
             },
             "initial_token_types" : {
                "end tag token" : -1,
-               "processing instruction token" : -1,
                "start tag token" : -1
             }
          }
@@ -24494,10 +23641,6 @@
             "short_name" : "EOF"
          },
          "processing instruction token" : {
-            "fields" : {
-               "data" : 1,
-               "target" : 1
-            },
             "short_name" : "PI"
          },
          "start tag token" : {

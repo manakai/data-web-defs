@@ -45,7 +45,8 @@ sub for_actions (&$) {
   for ('local/html-tokenizer.json',
        'local/html-tokenizer-charrefs-jump.json',
        'local/temma-tokenizer-replace.json',
-       'local/tokenizer-pi.json') {
+       #'local/tokenizer-pi.json',
+      ) {
     my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ($_)->slurp;
     for (keys %{$tokenizer->{char_sets} or {}}) {
       $Data->{tokenizer}->{char_sets}->{$_} = $tokenizer->{char_sets}->{$_};
