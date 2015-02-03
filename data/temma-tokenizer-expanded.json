@@ -19393,12 +19393,6 @@
                "005B" : {
                   "actions" : [
                      {
-                        "error_type" : "bogus comment",
-                        "if" : "OE is empty",
-                        "name" : "markup-declaration-open-else",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "CDATA section state",
                         "type" : "switch"
                      }
@@ -23137,6 +23131,730 @@
                            "comment token" : 1
                         },
                         "type" : "emit"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)([^\u005C\u000D\u005C]])([^\u005C\u000D\u005C]]*)" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])([^\u005C\u000D\u005C]])([^\u005C\u000D\u005C]]*)" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 10,
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)([^\u005C\u000D\u005C>\u005C]])([^\u005C\u000D\u005C]]*)" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 10,
+                        "index_offset" : 2,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 11,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 12,
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)(\u005C])(\u005C]*)" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 10,
+                        "index_offset" : 2,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 11,
+                        "index_offset" : 2,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 12,
+                        "index_offset" : 2,
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)\u005C\u000D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 10,
+                        "index_offset" : 2,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)\u005C>" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]]",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 10,
+                        "index_offset" : 2,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])\u005C\u000D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "CDATA section state -- ]",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-temp"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C\u000D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
                      }
                   ]
                },

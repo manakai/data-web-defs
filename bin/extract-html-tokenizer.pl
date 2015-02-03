@@ -442,6 +442,13 @@ sub parse_action ($) {
               if => 'in-foreign', break => 1},
              {type => 'SAME-AS-ELSE'},
            ]};
+    } elsif ($action =~ s/^Otherwise, if the next seven characters are a case-sensitive match for the string "\[CDATA\[" \([^()]+\), then consume those characters and switch to the CDATA section state\.//) {
+      push @action,
+          {type => 'IF-KEYWORD',
+           keyword => '[CDATA[',
+           value => [
+             {type => 'switch', state => 'CDATA section state'},
+           ]};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are an? (?:exact|case-sensitive) match for the (?:string |word |)"\[CDATA\["(?: \([^()]+\)|), then: if the stack of open elements is empty, parse error; consume those characters; and switch to the (.+? state)\.//) {
       push @action,
           {type => 'IF-KEYWORD',
