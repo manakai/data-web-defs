@@ -212,7 +212,7 @@ sub _html ($) {
 
     $div->inner_html ($row->{Status} // '');
     my $status = lc _t $div->text_content;
-    if ($status =~ /\A(proposed)\z/) {
+    if ($status =~ /\A(proposed|ratified)\z/) {
       $data->{microformats_wiki_status} = $1;
       $data->{conforming} = 1;
     } else {
