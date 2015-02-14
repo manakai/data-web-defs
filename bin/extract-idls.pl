@@ -20,6 +20,10 @@ my $local_path = path (__FILE__)->parent->parent->child ('local');
 $Data->{DOM} = parse $local_path->child ('dom.html');
 $Data->{DOMPARSING} = parse $local_path->child ('domparsing.html');
 $Data->{XHR} = parse $local_path->child ('xhr.html');
+$Data->{FETCH} = parse $local_path->child ('fetch.html');
+$Data->{FULLSCREEN} = parse $local_path->child ('fullscreen.html');
+$Data->{NOTIFICATIONS} = parse $local_path->child ('notifications.html');
+$Data->{ENCODING} = parse $local_path->child ('encoding.html');
 
 print perl2json_bytes_for_record $Data;
 
