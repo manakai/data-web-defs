@@ -512,7 +512,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
     } elsif (/^value (delta-seconds|non-negative integer)$/) {
       $Data->{preferences}->{$name}->{value_optionality} = 'MUST';
       $Data->{preferences}->{$name}->{value_type} = $1;
-    } elsif (/^value=(\w+)$/) {
+    } elsif (/^value=([\w-]+)$/) {
       $Data->{preferences}->{$name}->{value_optionality} = 'MUST';
       $Data->{preferences}->{$name}->{enumerated}->{$1} ||= {};
     } elsif (/^value$/) {
