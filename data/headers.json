@@ -120,6 +120,44 @@
          },
          "url" : "https://docs.tutum.co/v2/api/#authentication"
       },
+      "atom" : {
+         "challenge" : {
+            "auth_params" : {
+               "algorithm" : {
+                  "id" : "section-3.2.1",
+                  "name" : "algorithm",
+                  "spec" : "RFC2617"
+               },
+               "nonce" : {
+                  "id" : "section-3.2.1",
+                  "name" : "nonce",
+                  "spec" : "RFC2617"
+               },
+               "qop" : {
+                  "id" : "section-3.2.1",
+                  "name" : "qop",
+                  "spec" : "RFC2617"
+               },
+               "realm" : {
+                  "id" : "section-3.2.1",
+                  "name" : "realm",
+                  "spec" : "RFC2617"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "syntax" : "auth-param"
+         },
+         "name" : "Atom",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://web.archive.org/web/20101213023745/http://bitworking.org/news/New_AtomAPI_Implementation_Release2"
+      },
       "authsub" : {
          "challenge" : {
             "auth_params" : {
@@ -269,6 +307,7 @@
             "HTTP" : "MAY",
             "RTSP" : "MAY"
          },
+         "proxy" : 1,
          "spec" : "RFC6750"
       },
       "chap-password" : {
@@ -724,7 +763,6 @@
             },
             "syntax" : "auth-param"
          },
-         "iana" : 1,
          "name" : "HOBA",
          "origin_server" : 1,
          "protocols" : {
@@ -2568,6 +2606,7 @@
             "request" : {
                "*" : ""
             },
+            "simple" : 1,
             "spec" : "RFC7231",
             "value_is_list" : "*"
          },
@@ -2597,6 +2636,7 @@
             "accept_" : 1,
             "content_negotiation" : 1,
             "fingerprinting" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.3.3",
             "multiple" : "#",
@@ -2624,6 +2664,7 @@
          "http" : {
             "content_negotiation" : 1,
             "fingerprinting" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.3.4",
             "multiple" : "#",
@@ -2666,6 +2707,7 @@
             "request" : {
                "*" : ""
             },
+            "simple" : 1,
             "spec" : "RFC7231",
             "value_is_list" : "\u002B"
          },
@@ -2803,6 +2845,7 @@
       },
       "access-control-request-headers" : {
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "multiple" : "#",
             "request" : {
@@ -2816,6 +2859,7 @@
       },
       "access-control-request-method" : {
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "request" : {
                "*" : ""
@@ -3225,6 +3269,7 @@
             "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
             "control" : 1,
+            "cors_included" : 1,
             "iana" : 1,
             "id" : "section-5.2",
             "multiple" : "#",
@@ -3349,6 +3394,7 @@
       },
       "connection" : {
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-6.1",
             "multiple" : "#",
@@ -3509,6 +3555,7 @@
       "content-language" : {
          "http" : {
             "206_representation_metadata" : "SHOULD NOT",
+            "cors_included" : 1,
             "iana" : 1,
             "id" : "section-3.1.3.2",
             "multiple" : "#",
@@ -3522,6 +3569,7 @@
                "304" : "SHOULD NOT",
                "xxx" : ""
             },
+            "simple" : 1,
             "spec" : "RFC7231",
             "value_is_list" : "\u002B",
             "value_type" : "language tag"
@@ -3552,6 +3600,7 @@
             "spec" : "RFC6968"
          },
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-3.3.2",
             "message_framing" : 1,
@@ -3730,6 +3779,7 @@
          "http" : {
             "206_representation_metadata" : "SHOULD NOT",
             "byteranges" : "SHOULD",
+            "cors_included" : 1,
             "iana" : 1,
             "id" : "section-3.1.1.5",
             "not_for_trailer" : 1,
@@ -3742,6 +3792,7 @@
                "304" : "SHOULD NOT",
                "xxx" : ""
             },
+            "simple" : "contextual",
             "spec" : "RFC7231",
             "value_type" : "MIME type"
          },
@@ -3807,6 +3858,7 @@
             "authentication" : 1,
             "cookie" : 1,
             "fingerprinting" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-4.2",
             "response" : {
@@ -3821,6 +3873,7 @@
          "http" : {
             "authentication" : 1,
             "cookie" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "page-13",
             "obsolete" : 1,
@@ -3904,6 +3957,7 @@
          "http" : {
             "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-7.1.1.2",
             "not_for_trailer" : 1,
@@ -4150,7 +4204,8 @@
       },
       "dnt" : {
          "http" : {
-            "fingerprinting" : 1
+            "fingerprinting" : 1,
+            "forbidden" : 1
          },
          "name" : "DNT"
       },
@@ -4388,6 +4443,7 @@
       "expect" : {
          "http" : {
             "control" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.1.1",
             "not_for_trailer" : 1,
@@ -4403,6 +4459,7 @@
          "http" : {
             "206_representation_metadata" : "MUST",
             "304_representation_metadata" : "MUST",
+            "cors_included" : 1,
             "iana" : 1,
             "id" : "section-5.3",
             "not_for_trailer" : 1,
@@ -4680,6 +4737,7 @@
       "host" : {
          "http" : {
             "control" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.4",
             "not_for_trailer" : 1,
@@ -4938,6 +4996,7 @@
       "keep-alive" : {
          "http" : {
             "connection_option" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-19.7.1",
             "multiple" : "#",
@@ -5003,6 +5062,7 @@
          "http" : {
             "206_representation_metadata" : "SHOULD NOT",
             "304_representation_metadata" : "MAY",
+            "cors_included" : 1,
             "iana" : 1,
             "id" : "section-2.2",
             "response" : {
@@ -5662,6 +5722,7 @@
       "origin" : {
          "http" : {
             "fingerprinting" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "request" : {
                "*" : ""
@@ -5997,6 +6058,7 @@
          "http" : {
             "304_representation_metadata" : "MAY",
             "control" : 1,
+            "cors_included" : 1,
             "iana" : 1,
             "id" : "section-5.4",
             "multiple" : "#",
@@ -6428,6 +6490,7 @@
       "referer" : {
          "http" : {
             "fingerprinting" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.5.2",
             "request" : {
@@ -6937,6 +7000,7 @@
          "http" : {
             "authentication" : 1,
             "cookie" : 1,
+            "forbidden_response" : 1,
             "iana" : 1,
             "id" : "section-4.1",
             "response" : {
@@ -6958,6 +7022,7 @@
          "http" : {
             "authentication" : 1,
             "cookie" : 1,
+            "forbidden_response" : 1,
             "iana" : 1,
             "id" : "page-5",
             "obsolete" : 1,
@@ -7331,6 +7396,7 @@
          "http" : {
             "connection_option" : 1,
             "control" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-4.3",
             "multiple" : "#",
@@ -7408,6 +7474,7 @@
       },
       "trailer" : {
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-4.4",
             "multiple" : "#",
@@ -7455,6 +7522,7 @@
       },
       "transfer-encoding" : {
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-3.3.1",
             "message_framing" : 1,
@@ -7582,6 +7650,7 @@
       "upgrade" : {
          "http" : {
             "connection_option" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-6.7",
             "multiple" : "#",
@@ -7627,6 +7696,7 @@
       "user-agent" : {
          "http" : {
             "fingerprinting" : 1,
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.5.3",
             "request" : {
@@ -7722,6 +7792,7 @@
       },
       "via" : {
          "http" : {
+            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.7.1",
             "multiple" : "#",

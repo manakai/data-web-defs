@@ -9,6 +9,7 @@ response
 204 MUST NOT
 message-framing
 payload
+forbidden
 
 * Content-Length
 
@@ -20,6 +21,7 @@ response
 204 MUST NOT
 message-framing
 payload
+forbidden
 
 * TE
 
@@ -29,6 +31,7 @@ connection-option
 request
 response
 control
+forbidden
 
 * Trailer
 
@@ -38,6 +41,7 @@ request
 response
 payload
 payload-processing
+forbidden
 
 * Trailers
 
@@ -51,6 +55,7 @@ request
 ??? MUST
 routing
 control
+forbidden
 
 * Via
 
@@ -59,6 +64,7 @@ value 1#
 request
 response
 proxy
+forbidden
 
 ## Implied by section title in spec
 routing
@@ -70,6 +76,7 @@ value 1#connection-option
 request
 response
 408 SHOULD
+forbidden
 
 * close
 
@@ -86,6 +93,7 @@ connection-option
 101 MUST
 426 MUST
 HTTP/1.1
+forbidden
 
 * Content-Type
 
@@ -96,6 +104,8 @@ representation-metadata
 request
 response
 byteranges SHOULD
+simple contextual
+CORS included
 
 * Content-Encoding
 
@@ -113,6 +123,8 @@ value 1#language-tag
 representation-metadata
 request
 response
+simple
+CORS included
 
 * Content-Location
 
@@ -127,6 +139,7 @@ response
 spec https://tools.ietf.org/html/rfc7231#section-5.1.1
 request
 control
+forbidden
 
 * Max-Forwards
 
@@ -147,6 +160,7 @@ value #
 request
 content-negotiation
 accept-
+simple
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -158,6 +172,7 @@ value 1#
 request
 content-negotiation
 accept-
+forbidden
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -168,6 +183,7 @@ spec https://tools.ietf.org/html/rfc7231#section-5.3.4
 value #
 request
 content-negotiation
+forbidden
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -179,6 +195,7 @@ value 1#
 request
 content-negotiation
 accept-
+simple
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -199,6 +216,7 @@ fingerprinting
 spec https://tools.ietf.org/html/rfc7231#section-5.5.2
 request
 request-context
+forbidden
 
 ## <http://trac.webkit.org/wiki/Fingerprinting#RefererHeader>
 fingerprinting
@@ -208,6 +226,7 @@ fingerprinting
 spec https://tools.ietf.org/html/rfc7231#section-5.5.3
 request
 request-context
+forbidden
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -218,6 +237,7 @@ spec https://tools.ietf.org/html/rfc7231#section-7.1.1.2
 value HTTP-date
 control-data
 304-representation-metadata
+forbidden
 
 request
 x MAY
@@ -312,6 +332,7 @@ value HTTP-date
 validator
 response
 304-representation-metadata MAY
+CORS included
 
 * ETag
 
@@ -413,6 +434,7 @@ control-data
 request
 response
 304-representation-metadata
+CORS included
 
 * Expires
 
@@ -421,6 +443,7 @@ value HTTP-date
 control-data
 response
 304-representation-metadata
+CORS included
 
 * Pragma
 
@@ -429,6 +452,7 @@ value 1#
 request
 response
 control
+CORS included
 
 ## Not explicitly in spec
 304-representation-metadata MAY
@@ -556,6 +580,7 @@ spec http://tools.ietf.org/html/rfc6265#section-4.1
 cookie
 response
 multiple
+forbidden response
 
 * Cookie
 
@@ -563,6 +588,7 @@ spec http://tools.ietf.org/html/rfc6265#section-4.2
 cookie
 response
 fingerprinting
+forbidden
 
 * Set-Cookie2
 
@@ -570,6 +596,7 @@ spec http://tools.ietf.org/html/rfc2965#page-5
 request
 cookie
 obsolete
+forbidden response
 
 * Cookie2
 
@@ -577,6 +604,7 @@ spec http://tools.ietf.org/html/rfc2965#page-13
 response
 cookie
 obsolete
+forbidden
 
 * Content-Base
 
@@ -614,6 +642,7 @@ value #
 request
 response
 connection-option
+forbidden
 
 * Proxy-Connection
 
@@ -917,6 +946,7 @@ response
 * DNT
 
 fingerprinting
+forbidden
 
 * X-ICAP*
 
@@ -1332,12 +1362,14 @@ obsolete
 spec https://fetch.spec.whatwg.org/#http-access-control-request-method
 request
 value request-method
+forbidden
 
 * Access-Control-Request-Headers
 
 spec https://fetch.spec.whatwg.org/#http-access-control-request-headers
 request
 value #field-name
+forbidden
 
 * Access-Control-Allow-Origin
 
@@ -1377,6 +1409,7 @@ value #field-name
 
 spec https://fetch.spec.whatwg.org/#origin-header
 request
+forbidden
 
 ## <http://trac.webkit.org/wiki/Fingerprinting#RefererHeader>
 fingerprinting

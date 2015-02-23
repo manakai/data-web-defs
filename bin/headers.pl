@@ -35,6 +35,8 @@ my $IANAFCASTData = json_bytes2perl $src_path->parent->child ('local/iana/fcast.
         #
       } elsif ($record->{status} eq 'reserved') {
         #
+      } elsif ($record->{status} eq 'experimental') {
+        #
       } else {
         warn "Unknown status: $record->{status}";
       }
@@ -148,9 +150,9 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata)\s*$}) {
-    my $key = $1;
-    $key =~ s/-/_/g;
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata|forbidden response|forbidden|simple|CORS included)\s*$}) {
+    my $key = lc $1;
+    $key =~ tr/ -/__/;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
     $Data->{headers}->{$header_name}->{$proto}->{$key} = 1;
   } elsif (m{^(304-representation-metadata)(?:\s+(MAY)|)$}) {
@@ -161,6 +163,8 @@ for (
   } elsif (/^(wildcard|multiple)$/) {
     $Data->{headers}->{$header_name}->{$1} = 1;
   } elsif (/^(multiple) (#SHOULD NOT)$/) {
+    $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
+  } elsif (/^(simple) (contextual)$/) {
     $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
