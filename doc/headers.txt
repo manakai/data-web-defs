@@ -349,6 +349,12 @@ The file contains a JSON object with following name/value pairs:
 
             Whether the header contains cookie data or not.
 
+          cors_included [boolean]
+
+            Whether the header is not excluded by default in a CORS
+            filtered response
+            <https://fetch.spec.whatwg.org/#concept-filtered-response-cors>.
+
           deprecated [boolean]
 
             Whether the header is deprecated or not.
@@ -375,6 +381,21 @@ The file contains a JSON object with following name/value pairs:
             fingerprinting vector
             <http://www.whatwg.org/specs/web-apps/current-work/#fingerprinting-vector>
             <https://tools.ietf.org/html/rfc7231#section-9.7> or not.
+
+          forbidden [boolean]
+
+            Whether the header name is one of forbidden header names
+            <https://fetch.spec.whatwg.org/#forbidden-header-name> or
+            not.  Note that header names whose prefix is |Proxy-| or
+            |Sec-| are not marked with this flag even though they are
+            also forbidden header names.
+
+          forbidden_response [boolean]
+
+            Whether the header name is one of forbidden response
+            header names
+            <https://fetch.spec.whatwg.org/#forbidden-response-header-name>
+            or not.
 
           id [id-in-spec?]
 
@@ -524,6 +545,14 @@ The file contains a JSON object with following name/value pairs:
             Whether the header is used for routing according to
             <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
             not.
+
+          simple [string?]
+
+            Whether the header is a simple header
+            <https://fetch.spec.whatwg.org/#simple-header> or not.  If
+            |1|, it is a simple header.  If |contextual|, it can be a
+            simple header depending on the value.  Otherwise, it is
+            not a simple header.
 
           spec [spec?]
 
@@ -895,6 +924,8 @@ Content Disposition Values and Parameters
 <http://www.iana.org/assignments/cont-disp/cont-disp.xml>.
 
 HTML Standard <https://html.spec.whatwg.org/>.
+
+Fetch Standard <https://fetch.spec.whatwg.org/>.
 
 WHATWG Wiki PragmaExtensions
 <https://wiki.whatwg.org/wiki/PragmaExtensions>.
