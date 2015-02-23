@@ -65,7 +65,8 @@ $Methods->{$_}->{case_insensitive} = 1
 ## <http://fetch.spec.whatwg.org/#concept-forbidden-methods>
 $Methods->{$_}->{xhr_insecure} = 1 for qw(CONNECT TRACE TRACK);
 
-## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>
+## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>,
+## <https://fetch.spec.whatwg.org/#dom-request>
 $Methods->{$_}->{xhr_no_request_body} = 1 for qw(GET HEAD);
 
 ## <https://tools.ietf.org/html/rfc7231#section-4.2.3>
