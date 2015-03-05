@@ -278,7 +278,7 @@ sub _html ($) {
         $Data->{link_types}->{$long_name}->{url} ||= $long_src_url || $src_url if defined $long_src_url or defined $src_url;
         $Data->{link_types}->{$long_name}->{preferred} ||= {type => 'rel', name => $key};
       }
-    } elsif (/^  (atom03|hal|http link|opensearch|maze|collection\+json|xml2rfc|core|xrd)$/) {
+    } elsif (/^  (atom03|hal|http link|opensearch|maze|collection\+json|xml2rfc|core|xrd|webfinger)$/) {
       my $k = $1;
       $k =~ tr/ +/__/;
       $data->{$k} = 1;
