@@ -1118,7 +1118,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_t
 
 ## <http://wiki.suikawiki.org/n/the%20stack%20of%20open%20elements#anchor-9>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_popped_action} = 1
-    for qw(style object video audio applet);
+    for qw(style object video audio applet textarea);
 
 {
   my $f = file (__FILE__)->dir->parent->file ('data', 'aria.json');
