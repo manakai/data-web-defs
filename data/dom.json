@@ -219,7 +219,7 @@
       {
          "di" : 243,
          "fragment" : "partial interface [*id=\u0022service-worker-global-scope-interface\u0022*]ServiceWorkerGlobalScope {\u000A  attribu",
-         "index" : 1039,
+         "index" : 1013,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -228,7 +228,7 @@
       {
          "di" : 243,
          "fragment" : "partial interface [*id=\u0022service-worker-registration-interface\u0022*]ServiceWorkerRegistration {\u000A  Promis",
-         "index" : 291,
+         "index" : 117,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -273,7 +273,7 @@
       {
          "di" : 243,
          "fragment" : "[[*id=\u0022concept-event-constructor\u0022*]Constructor(DOMString type, optional NotificationEventInit eventI",
-         "index" : 531,
+         "index" : 505,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -282,7 +282,7 @@
       {
          "di" : 243,
          "fragment" : "dictionary [*id=\u0022notificationeventinit\u0022*]NotificationEventInit : [*id=\u0022extendable-event-init-diction",
-         "index" : 869,
+         "index" : 843,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -377,14 +377,6 @@
          "spec" : "XHR",
          "type" : "webidl:bad optionality",
          "value" : "options"
-      },
-      {
-         "di" : 246,
-         "fragment" : "[*spec=XHR*][[*id=\u0022concept-event-constructor\u0022*]Constructor(DOMString type, optional ProgressEventIni",
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "ServiceWorker"
       },
       {
          "di" : 246,
@@ -10133,10 +10125,10 @@
             }
          }
       ],
-      "GetNotificationOptions" : [
+      "GetNotificationsOptions" : [
          "dictionary",
          {
-            "id" : "getnotificationoptions",
+            "id" : "getnotificationsoptions",
             "members" : {
                "tag" : [
                   "dictionary_member",
@@ -25912,59 +25904,6 @@
                      ]
                   }
                ],
-               "get" : [
-                  "static_operation",
-                  {
-                     "Exposed" : {
-                     },
-                     "id" : "dom-notification-get",
-                     "overload_set" : {
-                        "" : {
-                           "args" : [
-                           ],
-                           "type" : [
-                              "Promise",
-                              [
-                                 "sequence",
-                                 [
-                                    "ref_interface",
-                                    "Notification"
-                                 ]
-                              ]
-                           ]
-                        },
-                        "ref[GetNotificationOptions]" : {
-                           "args" : [
-                              {
-                                 "name" : "filter",
-                                 "optionality" : "optional",
-                                 "spec" : "NOTIFICATIONS",
-                                 "type" : [
-                                    "ref_dictionary",
-                                    "GetNotificationOptions"
-                                 ],
-                                 "value" : [
-                                    "dictionary_value",
-                                    {
-                                    }
-                                 ]
-                              }
-                           ],
-                           "type" : [
-                              "Promise",
-                              [
-                                 "sequence",
-                                 [
-                                    "ref_interface",
-                                    "Notification"
-                                 ]
-                              ]
-                           ]
-                        }
-                     },
-                     "spec" : "NOTIFICATIONS"
-                  }
-               ],
                "icon" : [
                   "attribute",
                   {
@@ -29025,6 +28964,57 @@
                "Window" : 1
             },
             "members" : {
+               "getNotifications" : [
+                  "operation",
+                  {
+                     "id" : "dom-serviceworkerregistration-getnotifications",
+                     "overload_set" : {
+                        "" : {
+                           "args" : [
+                           ],
+                           "type" : [
+                              "Promise",
+                              [
+                                 "sequence",
+                                 [
+                                    "ref_interface",
+                                    "Notification"
+                                 ]
+                              ]
+                           ]
+                        },
+                        "ref[GetNotificationsOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "filter",
+                                 "optionality" : "optional",
+                                 "spec" : "NOTIFICATIONS",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "GetNotificationsOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
+                           ],
+                           "type" : [
+                              "Promise",
+                              [
+                                 "sequence",
+                                 [
+                                    "ref_interface",
+                                    "Notification"
+                                 ]
+                              ]
+                           ]
+                        }
+                     },
+                     "spec" : "NOTIFICATIONS"
+                  }
+               ],
                "showNotification" : [
                   "operation",
                   {
