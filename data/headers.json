@@ -92,6 +92,40 @@
       }
    },
    "auth_schemes" : {
+      "adobeauth" : {
+         "challenge" : {
+            "auth_params" : {
+               "apikey" : {
+                  "name" : "apikey",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "data" : {
+                  "name" : "data",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "sessionid" : {
+                  "name" : "sessionid",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "sig" : {
+                  "name" : "sig",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "ticket" : {
+                  "name" : "ticket"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "AdobeAuth",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+      },
       "anon" : {
          "challenge" : {
             "syntax" : "token68"
@@ -268,6 +302,10 @@
       "bearer" : {
          "challenge" : {
             "auth_params" : {
+               "authorization-uri" : {
+                  "name" : "authorization-uri",
+                  "url" : "https://msdn.microsoft.com/en-us/library/azure/dn645539.aspx"
+               },
                "error" : {
                   "id" : "section-3",
                   "name" : "error",
@@ -287,6 +325,10 @@
                   "id" : "section-2.2",
                   "name" : "realm",
                   "spec" : "RFC7235"
+               },
+               "resource-id" : {
+                  "name" : "resource-id",
+                  "url" : "https://msdn.microsoft.com/en-us/library/azure/dn645539.aspx"
                },
                "scope" : {
                   "id" : "section-3",
@@ -436,6 +478,25 @@
             "RTSP" : "MAY"
          },
          "url" : "http://technet.microsoft.com/en-us/library/ee922649(v=ws.10).aspx"
+      },
+      "delegatedtoken" : {
+         "credentials" : {
+            "auth_params" : {
+               "dt" : {
+                  "name" : "dt",
+                  "url" : "http://web.archive.org/web/20091227114943/http://msdn.microsoft.com/en-us/library/bb447721.aspx"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "DelegatedToken",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://web.archive.org/web/20091227114943/http://msdn.microsoft.com/en-us/library/bb447721.aspx"
       },
       "digest" : {
          "challenge" : {
@@ -763,7 +824,6 @@
             },
             "syntax" : "auth-param"
          },
-         "iana" : 1,
          "name" : "HOBA",
          "origin_server" : 1,
          "protocols" : {
@@ -1109,6 +1169,10 @@
          },
          "credentials" : {
             "auth_params" : {
+               "oauth_body_hash" : {
+                  "name" : "oauth_body_hash",
+                  "url" : "http://oauth.googlecode.com/svn&l=52/spec/ext/body_hash/1.0/oauth-bodyhash.html"
+               },
                "oauth_consumer_key" : {
                   "id" : "section-3.1",
                   "name" : "oauth_consumer_key",
@@ -1116,12 +1180,22 @@
                },
                "oauth_error_in_response_body" : {
                   "name" : "oauth_error_in_response_body",
+                  "obsolete" : 1,
                   "url" : "http://wiki.oauth.net/w/page/12238543/ProblemReporting"
                },
                "oauth_nonce" : {
                   "id" : "section-3.1",
                   "name" : "oauth_nonce",
                   "spec" : "RFC5849"
+               },
+               "oauth_scope" : {
+                  "name" : "oauth_scope",
+                  "obsolete" : 1,
+                  "url" : "http://wiki.oauth.net/w/page/12238549/ScalableOAuth#NewOAuthParameters"
+               },
+               "oauth_session_handle" : {
+                  "name" : "oauth_session_handle",
+                  "url" : "http://oauth.googlecode.com/svn/spec/ext/session/1.0/drafts/1/spec.html"
                },
                "oauth_signature_method" : {
                   "id" : "section-3.1",
@@ -1137,6 +1211,11 @@
                   "id" : "section-3.1",
                   "name" : "oauth_token",
                   "spec" : "RFC5849"
+               },
+               "oauth_token_attributes" : {
+                  "name" : "oauth_token_attributes",
+                  "obsolete" : 1,
+                  "url" : "http://wiki.oauth.net/w/page/12238557/TokenAttributes"
                },
                "oauth_version" : {
                   "id" : "section-3.1",
@@ -1544,6 +1623,28 @@
          "name" : "user",
          "obsolete" : 1,
          "url" : "http://www.w3.org/Protocols/HTTP/HTRQ_Headers.html#z9"
+      },
+      "wrap" : {
+         "challenge" : {
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "access-token" : {
+                  "name" : "access-token",
+                  "url" : "http://tools.ietf.org/html/draft-hardt-oauth-01#section-4.3"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "WRAP",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://tools.ietf.org/html/draft-hardt-oauth-01"
       },
       "wsse" : {
          "challenge" : {
@@ -2129,6 +2230,12 @@
             "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "compress"
+         }
+      },
+      "x_uuencode" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1
          }
       }
    },
@@ -8990,6 +9097,11 @@
          "spec" : "RFC7240",
          "value_optionality" : "MUST"
       },
+      "https" : {
+         "name" : "https",
+         "url" : "https://w3c.github.io/webappsec/specs/upgrade/#preference",
+         "value_optionality" : "MUST NOT"
+      },
       "odata.allow-entityreferences" : {
          "name" : "odata.allow-entityreferences",
          "url" : "http://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part1-protocol.html#_Toc393958684",
@@ -9151,6 +9263,12 @@
          "need_version" : 1
       },
       "TLS/1.0" : {
+         "upgrade" : 1
+      },
+      "TLS/1.1" : {
+         "upgrade" : 1
+      },
+      "TLS/1.2" : {
          "upgrade" : 1
       },
       "WebSocket" : {
