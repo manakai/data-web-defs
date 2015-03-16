@@ -92,6 +92,40 @@
       }
    },
    "auth_schemes" : {
+      "adobeauth" : {
+         "challenge" : {
+            "auth_params" : {
+               "apikey" : {
+                  "name" : "apikey",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "data" : {
+                  "name" : "data",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "sessionid" : {
+                  "name" : "sessionid",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "sig" : {
+                  "name" : "sig",
+                  "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+               },
+               "ticket" : {
+                  "name" : "ticket"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "AdobeAuth",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://web.archive.org/web/20071012021614/http://labs.adobe.com/wiki/index.php/Share:API"
+      },
       "anon" : {
          "challenge" : {
             "syntax" : "token68"
@@ -790,7 +824,6 @@
             },
             "syntax" : "auth-param"
          },
-         "iana" : 1,
          "name" : "HOBA",
          "origin_server" : 1,
          "protocols" : {
@@ -1591,6 +1624,28 @@
          "obsolete" : 1,
          "url" : "http://www.w3.org/Protocols/HTTP/HTRQ_Headers.html#z9"
       },
+      "wrap" : {
+         "challenge" : {
+            "syntax" : "auth-param"
+         },
+         "credentials" : {
+            "auth_params" : {
+               "access-token" : {
+                  "name" : "access-token",
+                  "url" : "http://tools.ietf.org/html/draft-hardt-oauth-01#section-4.3"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "WRAP",
+         "obsolete" : 1,
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "http://tools.ietf.org/html/draft-hardt-oauth-01"
+      },
       "wsse" : {
          "challenge" : {
             "auth_params" : {
@@ -2175,6 +2230,12 @@
             "compression" : 1,
             "deprecated" : 1,
             "preferred_name" : "compress"
+         }
+      },
+      "x_uuencode" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1
          }
       }
    },
@@ -9035,6 +9096,11 @@
          "name" : "handling",
          "spec" : "RFC7240",
          "value_optionality" : "MUST"
+      },
+      "https" : {
+         "name" : "https",
+         "url" : "https://w3c.github.io/webappsec/specs/upgrade/#preference",
+         "value_optionality" : "MUST NOT"
       },
       "odata.allow-entityreferences" : {
          "name" : "odata.allow-entityreferences",
