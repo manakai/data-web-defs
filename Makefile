@@ -576,7 +576,7 @@ local/idl-extracted.json: local/dom.html local/domparsing.html \
 all-microdata: data/microdata.json data/ogp.json
 clean-microdata:
 	#rm -fr local/data-vocabulary/files
-	rm -fr local/schemaorg.html
+	rm -fr local/schemaorg.*
 
 src/microdata-dv.json: bin/microdata-dv.pl local/data-vocabulary/files
 	$(PERL) bin/microdata-dv.pl > $@
@@ -595,10 +595,9 @@ local/data-vocabulary/files:
 	done
 	touch $@
 
-local/schemaorg.html:
-	$(WGET) -O $@ http://schema.org/docs/full_md.html
 local/schemaorg.rdfa:
-	$(WGET) -O $@ http://schema.org/docs/schema_org_rdfa.html
+	$(WGET) -O $@ https://raw.githubusercontent.com/schemaorg/schemaorg/sdo-gozer/data/schema.rdfa
+	#http://schema.org/docs/schema_org_rdfa.html
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
 

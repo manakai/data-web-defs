@@ -525,6 +525,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
       $Data->{preferences}->{$name}->{params}->{$param_name}->{optionality} = $1;
     } elsif (defined $param_name and /^  value (URL|non-negative integer)$/) {
       $Data->{preferences}->{$name}->{params}->{$param_name}->{value_type} = $1;
+    } elsif (/^(obsolete)$/) {
+      $Data->{preferences}->{$name}->{$1} = 1;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
