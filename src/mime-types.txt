@@ -47,6 +47,10 @@ application/demox750
   plugin
 application/futuresplash
   plugin
+application/x-gopher-query
+  form_data
+application/gopher-ask-block
+  form_data
 application/vnd.heroku+json
   version=""
   url:https://devcenter.heroku.com/articles/platform-api-reference#clients
@@ -396,6 +400,7 @@ application/octet-stream
   browser
   scripting_language:no
   dnd
+  no_plugin
 application/ogg
   audiovideo
 application/pdf
@@ -436,11 +441,26 @@ application/pgp
 application/pgp-signature
   preferred_cte:quoted-printable
   text
+application/pkix-cert
+  version=""
+    #obsolete
+  der
+  preferred_cte:base64
+  url:http://tools.ietf.org/html/rfc2585#section-4.1
+  ext@cer
+application/pkix-crl
+  version=""
+    #obsolete
+  der
+  preferred_cte:base64
+  url:http://tools.ietf.org/html/rfc2585#section-4.2
+  ext@crl
 application/pkix-pkipath
   version=""
   ext@pkipath
   der
   preferred_cte:base64
+  url:http://tools.ietf.org/html/rfc6066#section-10.1
 application/x-python
   scripting_language:yes
 application/qsig
@@ -473,6 +493,11 @@ application/sgml
   preferred_cte:quoted-printable
   sgml-bctf=""
   sgml-boot=""
+application/sgml-form-urlencoded
+  text
+  preferred_cte:quoted-printable
+  form_data
+  obsolete
 application/x-silverlight
   plugin
   ext@scr
@@ -549,6 +574,20 @@ application/x-www-form-urlencoded
   text
   charset=""
   blacklisted
+  form_data
+  browser
+application/x-www-form+xml
+  text
+  form_data
+  obsolete
+application/vnd.wap.multipart.form-data
+  form_data
+application/vnd.wap.wml.form.urlencode
+  form_data
+application/x-w3-isindex
+  form_data
+application/x-www-form-data
+  form_data
 application/yaml
   text
   ext@yaml
@@ -889,6 +928,9 @@ multipart/byteranges
   http
 multipart/x-byteranges
   http
+multipart/form-data
+  browser
+  form_data
 multipart/x-mixed-replace
   blacklisted
   http
@@ -958,6 +1000,8 @@ text/x-ecmascript
   scripting_language:javascript
 text/enriched
   charset=""
+text/goml
+  script_data_block
 text/html
   charset=""
   level=""
@@ -1065,8 +1109,11 @@ text/plain
   scripting_language:no
   dnd
   clipboard
+  no_plugin
+  form_data
 text/python
   scripting_language:yes
+  script_data_block
 text/richtext
   charset=""
 text/rtf
