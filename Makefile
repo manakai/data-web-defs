@@ -126,14 +126,12 @@ local/sw-url-schemes.txt: local/sw-url-schemes.xml \
     bin/extract-sw-url-schemes.pl
 	$(PERL) bin/extract-sw-url-schemes.pl < $< > $@
 
-local/iana-url-schemes.xml:
+local/iana/url-schemes.xml:
+	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/uri-schemes/uri-schemes.xml
-local/iana-url-schemes.txt: local/iana-url-schemes.xml \
-    bin/extract-iana-url-schemes.pl
-	$(PERL) bin/extract-iana-url-schemes.pl < $< > $@
 
 data/url-schemes.json: bin/url-schemes.pl \
-    src/url-schemes.txt local/sw-url-schemes.txt local/iana-url-schemes.txt \
+    src/url-schemes.txt local/sw-url-schemes.txt local/iana/url-schemes.json \
     src/url-schemes-iphone.txt src/url-schemes-iphone-args.txt \
     src/url-schemes-windowsphone.txt
 	$(PERL) bin/url-schemes.pl
