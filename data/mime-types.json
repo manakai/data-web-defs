@@ -899,6 +899,10 @@
       },
       "type" : "subtype"
    },
+   "application/gopher-ask-block" : {
+      "form_data" : 1,
+      "type" : "subtype"
+   },
    "application/gpx\u002Bxml" : {
       "extensions" : {
          "gpx" : 1
@@ -1785,6 +1789,7 @@
          "zoo" : 1
       },
       "iana" : "permanent",
+      "no_plugin" : 1,
       "params" : {
          "conversions" : {
          },
@@ -2017,19 +2022,35 @@
       "type" : "subtype"
    },
    "application/pkix-cert" : {
+      "der" : 1,
       "extensions" : {
          "cer" : 1,
          "crt" : 1
       },
       "iana" : "permanent",
-      "type" : "subtype"
+      "params" : {
+         "version" : {
+            "#obsolete" : 1
+         }
+      },
+      "preferred_cte" : "base64",
+      "type" : "subtype",
+      "url" : "http://tools.ietf.org/html/rfc2585#section-4.1"
    },
    "application/pkix-crl" : {
+      "der" : 1,
       "extensions" : {
          "crl" : 1
       },
       "iana" : "permanent",
-      "type" : "subtype"
+      "params" : {
+         "version" : {
+            "#obsolete" : 1
+         }
+      },
+      "preferred_cte" : "base64",
+      "type" : "subtype",
+      "url" : "http://tools.ietf.org/html/rfc2585#section-4.2"
    },
    "application/pkix-pkipath" : {
       "der" : 1,
@@ -2042,7 +2063,8 @@
          }
       },
       "preferred_cte" : "base64",
-      "type" : "subtype"
+      "type" : "subtype",
+      "url" : "http://tools.ietf.org/html/rfc6066#section-10.1"
    },
    "application/pkixcmp" : {
       "extensions" : {
@@ -2429,6 +2451,10 @@
       "type" : "subtype"
    },
    "application/sgml-form-urlencoded" : {
+      "form_data" : 1,
+      "obsolete" : 1,
+      "preferred_cte" : "quoted-printable",
+      "text" : 1,
       "type" : "subtype"
    },
    "application/sgml-open-catalog" : {
@@ -4917,6 +4943,10 @@
       "iana" : "permanent",
       "type" : "subtype"
    },
+   "application/vnd.microsoft.portable-executable" : {
+      "iana" : "permanent",
+      "type" : "subtype"
+   },
    "application/vnd.miele\u002Bjson" : {
       "iana" : "permanent",
       "type" : "subtype"
@@ -7191,6 +7221,7 @@
       "type" : "subtype"
    },
    "application/vnd.wap.multipart.form-data" : {
+      "form_data" : 1,
       "type" : "subtype"
    },
    "application/vnd.wap.multipart.mixed" : {
@@ -7209,6 +7240,10 @@
          "wbxml" : 1
       },
       "iana" : "permanent",
+      "type" : "subtype"
+   },
+   "application/vnd.wap.wml.form.urlencode" : {
+      "form_data" : 1,
       "type" : "subtype"
    },
    "application/vnd.wap.wmlc" : {
@@ -8326,6 +8361,10 @@
    },
    "application/x-google-vlc-plugin" : {
       "plugin" : 1,
+      "type" : "subtype"
+   },
+   "application/x-gopher-query" : {
+      "form_data" : 1,
       "type" : "subtype"
    },
    "application/x-gps" : {
@@ -10037,6 +10076,7 @@
       "type" : "subtype"
    },
    "application/x-w3-isindex" : {
+      "form_data" : 1,
       "type" : "subtype"
    },
    "application/x-wais-source" : {
@@ -10125,6 +10165,14 @@
       "type" : "subtype"
    },
    "application/x-www-form\u002Bxml" : {
+      "form_data" : 1,
+      "obsolete" : 1,
+      "preferred_cte" : "quoted-printable",
+      "text" : 1,
+      "type" : "subtype"
+   },
+   "application/x-www-form-data" : {
+      "form_data" : 1,
       "type" : "subtype"
    },
    "application/x-www-form-encoded" : {
@@ -10132,6 +10180,8 @@
    },
    "application/x-www-form-urlencoded" : {
       "blacklisted" : 1,
+      "browser" : 1,
+      "form_data" : 1,
       "iana" : "permanent",
       "params" : {
          "charset" : {
@@ -11090,6 +11140,7 @@
       "type" : "subtype"
    },
    "audio/opus" : {
+      "iana" : "permanent",
       "type" : "subtype"
    },
    "audio/parityfec" : {
@@ -13912,6 +13963,8 @@
       "type" : "subtype"
    },
    "multipart/form-data" : {
+      "browser" : 1,
+      "form_data" : 1,
       "iana" : "permanent",
       "type" : "subtype"
    },
@@ -14316,6 +14369,7 @@
       "type" : "subtype"
    },
    "text/goml" : {
+      "script_data_block" : 1,
       "type" : "subtype"
    },
    "text/grammar-ref-list" : {
@@ -14627,10 +14681,12 @@
          "text" : 1,
          "txt" : 1
       },
+      "form_data" : 1,
       "iana" : "permanent",
       "mac_types" : {
          "TEXT" : 1
       },
+      "no_plugin" : 1,
       "params" : {
          "charset" : {
          },
@@ -14661,6 +14717,7 @@
       "type" : "subtype"
    },
    "text/python" : {
+      "script_data_block" : 1,
       "scripting_language" : "yes",
       "type" : "subtype"
    },
