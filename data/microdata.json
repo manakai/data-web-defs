@@ -3067,7 +3067,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/BreadcrumbList" : {
-      "desc" : "\u000A      A BreadcrumbList is an ItemList consisting of a chain of linked Web pages, typically described using at least their URL and their name, ending with the current page.",
+      "desc" : "\u000A      A BreadcrumbList is an ItemList consisting of a chain of linked Web pages, typically described using at least their URL and their name, and typically ending with the current page.\u000A      \u000A      \u000A      The 'position' property is used to reconstruct the order of the items in a BreadcrumbList.\u000A      The convention is that a breadcrumb list has an itemListOrder of ItemListOrderAscending (lower values listed first), and that the\u000A      first items in this list correspond to the \u0022top\u0022 or beginning of the breadcrumb trail, e.g. with a site or section homepage.\u000A      The specific values of 'position' are not assigned meaning for a BreadcrumbList, but they should be integers, e.g. beginning\u000A      with '1' for the first item in the list.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Intangible" : 2,
@@ -3337,7 +3337,7 @@
       "desc" : "A set of characteristics belonging to businesses, e.g. who compose an item's target audience.",
       "props" : {
          "numberOfEmployees" : {
-            "desc" : "The size of business by number of employees.",
+            "desc" : "The number of employees in an organization e.g. business.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -5609,6 +5609,10 @@
                   "http://schema.org/PriceSpecification" : 1
                }
             }
+         },
+         "gtin12" : {
+            "desc" : "The GTIN-12 code of the product, or the product to which the offer refers. The GTIN-12 is the 12-digit GS1 Identification Key composed of a U.P.C. Company Prefix, Item Reference, and Check Digit used to identify trade items. See GS1 GTIN Summary for more details.",
+            "value" : "text"
          },
          "gtin13" : {
             "desc" : "The GTIN-13 code of the product, or the product to which the offer refers. This is equivalent to 13-digit ISBN codes and EAN UCC-13. Former 12-digit UPC codes can be converted into a GTIN-13 code by simply adding a preceeding zero. See GS1 GTIN Summary for more details.",
@@ -12413,6 +12417,10 @@
                }
             }
          },
+         "gtin12" : {
+            "desc" : "The GTIN-12 code of the product, or the product to which the offer refers. The GTIN-12 is the 12-digit GS1 Identification Key composed of a U.P.C. Company Prefix, Item Reference, and Check Digit used to identify trade items. See GS1 GTIN Summary for more details.",
+            "value" : "text"
+         },
          "gtin13" : {
             "desc" : "The GTIN-13 code of the product, or the product to which the offer refers. This is equivalent to 13-digit ISBN codes and EAN UCC-13. Former 12-digit UPC codes can be converted into a GTIN-13 code by simply adding a preceeding zero. See GS1 GTIN Summary for more details.",
             "value" : "GTIN-13"
@@ -13120,6 +13128,15 @@
          "naics" : {
             "desc" : "The North American Industry Classification System (NAICS) code for a particular organization or business person.",
             "value" : "NAICS"
+         },
+         "numberOfEmployees" : {
+            "desc" : "The number of employees in an organization e.g. business.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
          },
          "owns" : {
             "desc" : "Products owned by the organization or person.",
@@ -15180,6 +15197,10 @@
                }
             },
             "value" : "schema.org distance"
+         },
+         "gtin12" : {
+            "desc" : "The GTIN-12 code of the product, or the product to which the offer refers. The GTIN-12 is the 12-digit GS1 Identification Key composed of a U.P.C. Company Prefix, Item Reference, and Check Digit used to identify trade items. See GS1 GTIN Summary for more details.",
+            "value" : "text"
          },
          "gtin13" : {
             "desc" : "The GTIN-13 code of the product, or the product to which the offer refers. This is equivalent to 13-digit ISBN codes and EAN UCC-13. Former 12-digit UPC codes can be converted into a GTIN-13 code by simply adding a preceeding zero. See GS1 GTIN Summary for more details.",
@@ -26106,7 +26127,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/StructuredValue" : {
-      "desc" : "Structured values are strings—for example, addresses—that have certain constraints on their structure.",
+      "desc" : "Structured values are used when the value of a property has more complex structure than simply being a textual value or a reference to another thing.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Intangible" : 1,
@@ -26653,7 +26674,7 @@
             }
          },
          "mainEntityOfPage" : {
-            "desc" : "Indicates a page (or other CreativeWork) for which this thing is the main entity being described.",
+            "desc" : "Indicates a page (or other CreativeWork) for which this thing is the main entity being described.\u000A      \u000A      Many (but not all) pages have a fairly clear primary topic, some entity or thing that the page describes. For\u000A      example a restaurant's home page might be primarily about that Restaurant, or an event listing page might\u000A      represent a single event. The mainEntity and mainEntityOfPage properties allow you to explicitly express the relationship\u000A      between the page and the primary entity.\u000A      \u000A\u000A      Related properties include sameAs, about, and url.\u000A      \u000A\u000A      The sameAs and url properties are both similar to mainEntityOfPage. The url property should be reserved to refer to more\u000A      official or authoritative web pages, such as the item’s official website. The sameAs property also relates a thing\u000A      to a page that indirectly identifies it. Whereas sameAs emphasises well known pages, the mainEntityOfPage property\u000A      serves more to clarify which of several entities is the main one for that page.\u000A      \u000A\u000A      mainEntityOfPage can be used for any page, including those not recognized as authoritative for that entity. For example,\u000A      for a product, sameAs might refer to a page on the manufacturer’s official site with specs for the product, while\u000A      mainEntityOfPage might be used on pages within various retailers’ sites giving details for the same product.\u000A      \u000A\u000A      about is similar to mainEntity, with two key differences. First, about can refer to multiple entities/topics,\u000A      while mainEntity should be used for only the primary one. Second, some pages have a primary entity that itself\u000A      describes some other entity. For example, one web page may display a news article about a particular person.\u000A      Another page may display a product review for a particular product. In these cases, mainEntity for the pages\u000A      should refer to the news article or review, respectively, while about would more properly refer to the person or product.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
