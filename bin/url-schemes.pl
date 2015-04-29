@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Path::Class;
+use Path::Tiny;
 use Encode;
 use JSON::PS;
 
@@ -38,7 +38,7 @@ while (<$file>) {
   }
 }
 
-for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
+for my $file_name (qw(local/sw-url-schemes.txt)) {
   my $scheme;
   open my $file, '<', $file_name or die "$0: $file_name: $!";
   while (<$file>) {
@@ -58,8 +58,18 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'url-schemes-iphone.txt');
-  for (($f->slurp)) {
+  my $path = path (__FILE__)->parent->parent->child ('local/iana/url-schemes.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $record (@{$json->{registries}->{'uri-schemes-1'}->{records}}) {
+    my $scheme = $record->{value};
+    $scheme =~ tr/A-Z/a-z/;
+    $Data->{$scheme}->{iana} = lc $record->{status};
+  }
+}
+
+{
+  my $path = path (__FILE__)->parent->parent->child ('src/url-schemes-iphone.txt');
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^([0-9A-Za-z._+-]+)$/) {
       my $scheme = lc $1;
       $Data->{$scheme}->{application}->{ios} = 1;
@@ -69,8 +79,8 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
   }
 }
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'url-schemes-iphone-args.txt');
-  for (($f->slurp)) {
+  my $path = path (__FILE__)->parent->parent->child ('src/url-schemes-iphone-args.txt');
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^([0-9A-Za-z._+-]+)$/) {
       my $scheme = lc $1;
       $Data->{$scheme}->{application}->{ios} = 1;
@@ -81,8 +91,8 @@ for my $file_name (qw(local/sw-url-schemes.txt local/iana-url-schemes.txt)) {
   }
 }
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'url-schemes-windowsphone.txt');
-  for (($f->slurp)) {
+  my $path = path (__FILE__)->parent->parent->child ('src/url-schemes-windowsphone.txt');
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^([0-9A-Za-z._+-]+)\s*$/) {
       my $scheme = lc $1;
       $Data->{$scheme}->{application}->{windowsphone} = 1;
