@@ -2243,7 +2243,7 @@
       "desc" : "An answer offered to a question; perhaps correct, perhaps opinionated or wrong.",
       "props" : {
          "downvoteCount" : {
-            "desc" : "The number of downvotes this question has received from the community.",
+            "desc" : "The number of downvotes this question, answer or comment has received from the community.",
             "value" : "integer"
          },
          "parentItem" : {
@@ -2256,7 +2256,7 @@
             }
          },
          "upvoteCount" : {
-            "desc" : "The number of upvotes this question has received from the community.",
+            "desc" : "The number of upvotes this question, answer or comment has received from the community.",
             "value" : "integer"
          }
       },
@@ -2968,15 +2968,6 @@
          "http://schema.org/Action" : 2,
          "http://schema.org/OrganizeAction" : 1,
          "http://schema.org/Thing" : 3
-      },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
-   "http://schema.org/Boolean" : {
-      "desc" : "Boolean: True or False.",
-      "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DataType" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -4000,7 +3991,7 @@
       "desc" : "A comment on an item - for example, a comment on a blog post. The comment's content is expressed via the \u0022text\u0022 property, and its topic via \u0022about\u0022, properties shared with all CreativeWorks.",
       "props" : {
          "downvoteCount" : {
-            "desc" : "The number of downvotes this question has received from the community.",
+            "desc" : "The number of downvotes this question, answer or comment has received from the community.",
             "value" : "integer"
          },
          "parentItem" : {
@@ -4013,7 +4004,7 @@
             }
          },
          "upvoteCount" : {
-            "desc" : "The number of upvotes this question has received from the community.",
+            "desc" : "The number of upvotes this question, answer or comment has received from the community.",
             "value" : "integer"
          }
       },
@@ -5234,16 +5225,8 @@
    "http://schema.org/DataType" : {
       "desc" : "The basic data types such as Integers, Strings, etc.",
       "spec" : "SCHEMAORG",
-      "superclass_of" : {
-         "http://schema.org/Boolean" : 1,
-         "http://schema.org/Date" : 1,
-         "http://schema.org/DateTime" : 1,
-         "http://schema.org/Float" : 2,
-         "http://schema.org/Integer" : 2,
-         "http://schema.org/Number" : 1,
-         "http://schema.org/Text" : 1,
-         "http://schema.org/Time" : 1,
-         "http://schema.org/URL" : 2
+      "subclass_of" : {
+         "http://www.w3.org/2000/01/rdf-schema#Class" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -5291,21 +5274,9 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
-   "http://schema.org/Date" : {
-      "desc" : "A date value in ISO 8601 date format.",
-      "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DataType" : 1
-      },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
    "http://schema.org/DateTime" : {
       "desc" : "A combination of date and time of day in the form [-]CCYY-MM-DDThh:mm:ss[Z|(\u002B|-)hh:mm] (see Chapter 5.4 of ISO 8601).",
       "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DataType" : 1
-      },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
@@ -7620,7 +7591,6 @@
       "desc" : "Data type: Floating number.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/DataType" : 2,
          "http://schema.org/Number" : 1
       },
       "use_itemid" : 1,
@@ -7946,10 +7916,10 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/GeoShape" : {
-      "desc" : "The geographic shape of a place.",
+      "desc" : "The geographic shape of a place. A GeoShape can be described using several properties whose values are based on latitude/longitude pairs. Either whitespace or commas can be used to separate latitude and longitude; whitespace should be used when writing a list of several such points.",
       "props" : {
          "box" : {
-            "desc" : "A polygon is the area enclosed by a point-to-point path for which the starting and ending points are the same. A polygon is expressed as a series of four or more space delimited points where the first and final points are identical.",
+            "desc" : "A box is the area enclosed by the rectangle formed by two points. The first point is the lower corner, the second point is the upper corner. A box is expressed as two points separated by a space character.",
             "value" : "text"
          },
          "circle" : {
@@ -8704,7 +8674,6 @@
       "desc" : "Data type: Integer.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/DataType" : 2,
          "http://schema.org/Number" : 1
       },
       "use_itemid" : 1,
@@ -12181,19 +12150,6 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
-   "http://schema.org/Number" : {
-      "desc" : "Data type: Number.",
-      "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DataType" : 1
-      },
-      "superclass_of" : {
-         "http://schema.org/Float" : 1,
-         "http://schema.org/Integer" : 1
-      },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
    "http://schema.org/NutritionInformation" : {
       "desc" : "Nutritional information about the recipe.",
       "props" : {
@@ -15183,6 +15139,17 @@
                   "http://schema.org/Organization" : 1
                }
             }
+         },
+         "category" : {
+            "desc" : "A category for the item. Greater signs or slashes can be used to informally indicate a category hierarchy.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/PhysicalActivityCategory" : 1,
+                  "http://schema.org/Thing" : 1
+               }
+            },
+            "value" : "text"
          },
          "color" : {
             "desc" : "The color of the product.",
@@ -24158,7 +24125,7 @@
             "value" : "integer"
          },
          "downvoteCount" : {
-            "desc" : "The number of downvotes this question has received from the community.",
+            "desc" : "The number of downvotes this question, answer or comment has received from the community.",
             "value" : "integer"
          },
          "suggestedAnswer" : {
@@ -24171,7 +24138,7 @@
             }
          },
          "upvoteCount" : {
-            "desc" : "The number of upvotes this question has received from the community.",
+            "desc" : "The number of upvotes this question, answer or comment has received from the community.",
             "value" : "integer"
          }
       },
@@ -26127,7 +26094,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/StructuredValue" : {
-      "desc" : "Structured values are used when the value of a property has more complex structure than simply being a textual value or a reference to another thing.",
+      "desc" : "Structured values are used when the value of a property has a more complex structure than simply being a textual value or a reference to another thing.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Intangible" : 1,
@@ -26600,18 +26567,6 @@
          "http://schema.org/Place" : 3,
          "http://schema.org/SportsActivityLocation" : 1,
          "http://schema.org/Thing" : 4
-      },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
-   "http://schema.org/Text" : {
-      "desc" : "Data type: Text.",
-      "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DataType" : 1
-      },
-      "superclass_of" : {
-         "http://schema.org/URL" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -27409,15 +27364,6 @@
          "http://schema.org/AchieveAction" : 1,
          "http://schema.org/Action" : 2,
          "http://schema.org/Thing" : 3
-      },
-      "use_itemid" : 1,
-      "vocab" : "http://schema.org/"
-   },
-   "http://schema.org/Time" : {
-      "desc" : "A point in time recurring on multiple days in the form hh:mm:ss[Z|(\u002B|-)hh:mm] (see XML schema for details).",
-      "spec" : "SCHEMAORG",
-      "subclass_of" : {
-         "http://schema.org/DataType" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -31855,7 +31801,6 @@
       "desc" : "Data type: URL.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/DataType" : 2,
          "http://schema.org/Text" : 1
       },
       "use_itemid" : 1,
