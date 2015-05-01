@@ -2241,29 +2241,11 @@
    },
    "http://schema.org/Answer" : {
       "desc" : "An answer offered to a question; perhaps correct, perhaps opinionated or wrong.",
-      "props" : {
-         "downvoteCount" : {
-            "desc" : "The number of downvotes this question, answer or comment has received from the community.",
-            "value" : "integer"
-         },
-         "parentItem" : {
-            "desc" : "The parent of a question, answer or item in general.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Question" : 1
-               }
-            }
-         },
-         "upvoteCount" : {
-            "desc" : "The number of upvotes this question, answer or comment has received from the community.",
-            "value" : "integer"
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/CreativeWork" : 1,
-         "http://schema.org/Thing" : 2
+         "http://schema.org/Comment" : 1,
+         "http://schema.org/CreativeWork" : 2,
+         "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -2439,7 +2421,12 @@
       "props" : {
          "question" : {
             "desc" : "A sub property of object. A question.",
-            "value" : "text"
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Question" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -4013,11 +4000,25 @@
          "http://schema.org/CreativeWork" : 1,
          "http://schema.org/Thing" : 2
       },
+      "superclass_of" : {
+         "http://schema.org/Answer" : 1
+      },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/CommentAction" : {
       "desc" : "The act of generating a comment about a subject.",
+      "props" : {
+         "resultComment" : {
+            "desc" : "A sub property of result. The Comment created or sent as a result of this action.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Comment" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Action" : 3,
@@ -4039,6 +4040,16 @@
                   "http://schema.org/Thing" : 1
                }
             }
+         },
+         "inLanguage" : {
+            "desc" : "The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Language" : 1
+               }
+            },
+            "value" : "text"
          },
          "language" : {
             "desc" : "A sub property of instrument. The language used on this action.",
@@ -4661,8 +4672,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Comment" : 1,
-                  "http://schema.org/UserComments" : 1
+                  "http://schema.org/Comment" : 1
                }
             }
          },
@@ -4708,7 +4718,7 @@
             "value" : "integer"
          },
          "creator" : {
-            "desc" : "The creator/author of this CreativeWork or UserComments. This is the same as the Author property for CreativeWork.",
+            "desc" : "The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -4800,7 +4810,7 @@
             "value" : "text"
          },
          "inLanguage" : {
-            "desc" : "The language of the content or performance. Please use one of the language codes from the IETF BCP 47 standard.",
+            "desc" : "The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -5031,7 +5041,7 @@
       "superclass_of" : {
          "http://schema.org/APIReference" : 3,
          "http://schema.org/AboutPage" : 2,
-         "http://schema.org/Answer" : 1,
+         "http://schema.org/Answer" : 2,
          "http://schema.org/Article" : 1,
          "http://schema.org/AudioObject" : 2,
          "http://schema.org/Blog" : 1,
@@ -6990,7 +7000,7 @@
             }
          },
          "inLanguage" : {
-            "desc" : "The language of the content or performance. Please use one of the language codes from the IETF BCP 47 standard.",
+            "desc" : "The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -24680,6 +24690,17 @@
    },
    "http://schema.org/ReplyAction" : {
       "desc" : "The act of responding to a question/message asked/sent by the object. Related to AskAction..",
+      "props" : {
+         "resultComment" : {
+            "desc" : "A sub property of result. The Comment created or sent as a result of this action.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Comment" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Action" : 3,
@@ -25074,8 +25095,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Comment" : 1,
-                  "http://schema.org/UserComments" : 1
+                  "http://schema.org/Comment" : 1
                }
             }
          },
@@ -26683,7 +26703,7 @@
          "http://schema.org/AnatomicalStructure" : 2,
          "http://schema.org/AnatomicalSystem" : 2,
          "http://schema.org/AnimalShelter" : 3,
-         "http://schema.org/Answer" : 2,
+         "http://schema.org/Answer" : 3,
          "http://schema.org/ApartmentComplex" : 3,
          "http://schema.org/AppendAction" : 5,
          "http://schema.org/ApplyAction" : 3,
@@ -36015,7 +36035,7 @@
             "value" : "schema.org date"
          },
          "creator" : {
-            "desc" : "The creator/author of this CreativeWork or UserComments. This is the same as the Author property for CreativeWork.",
+            "desc" : "The creator/author of this CreativeWork. This is the same as the Author property for CreativeWork.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -37350,6 +37370,16 @@
    "http://schema.org/WriteAction" : {
       "desc" : "The act of authoring written creative content.",
       "props" : {
+         "inLanguage" : {
+            "desc" : "The language of the content or performance or used in an action. Please use one of the language codes from the IETF BCP 47 standard.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Language" : 1
+               }
+            },
+            "value" : "text"
+         },
          "language" : {
             "desc" : "A sub property of instrument. The language used on this action.",
             "is_url" : 1,
