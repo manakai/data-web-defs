@@ -1539,6 +1539,10 @@
             "desc" : "Associated product/technology version. e.g., .NET Framework 4.5.",
             "value" : "text"
          },
+         "executableLibraryName" : {
+            "desc" : "Library file name e.g., mscorlib.dll, system.web.dll.",
+            "value" : "text"
+         },
          "programmingModel" : {
             "desc" : "Indicates whether API is managed or unmanaged.",
             "value" : "text"
@@ -2929,7 +2933,7 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
-         "http://schema.org/Series" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -3152,6 +3156,10 @@
             "desc" : "The name displayed in the channel guide. For many US affiliates, it is the network name.",
             "value" : "text"
          },
+         "broadcastTimezone" : {
+            "desc" : "The timezone in ISO 8601 formatfor which the service bases its broadcasts.",
+            "value" : "text"
+         },
          "broadcaster" : {
             "desc" : "The organization owning or operating the broadcast service.",
             "is_url" : 1,
@@ -3169,10 +3177,6 @@
                   "http://schema.org/BroadcastService" : 1
                }
             }
-         },
-         "timezone" : {
-            "desc" : "The timezone in ISO 8601 formatfor which the service bases its broadcasts.",
-            "value" : "text"
          }
       },
       "spec" : "SCHEMAORG",
@@ -3576,6 +3580,16 @@
    "http://schema.org/ChooseAction" : {
       "desc" : "The act of expressing a preference from a set of options or a large or unbounded set of choices/options.",
       "props" : {
+         "actionOption" : {
+            "desc" : "A sub property of object. The options subject to this action.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            },
+            "value" : "text"
+         },
          "option" : {
             "desc" : "A sub property of object. The options subject to this action.",
             "is_url" : 1,
@@ -3780,7 +3794,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -3789,7 +3803,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Series" : 1
+                  "http://schema.org/CreativeWorkSeries" : 1
                }
             }
          },
@@ -3832,38 +3846,6 @@
    },
    "http://schema.org/Code" : {
       "desc" : "Computer programming source code. Example: Full (compile ready) solutions, code snippet samples, scripts, templates.",
-      "props" : {
-         "codeRepository" : {
-            "desc" : "Link to the repository where the un-compiled, human readable code and related code is located (SVN, github, CodePlex).",
-            "is_url" : 1
-         },
-         "programmingLanguage" : {
-            "desc" : "The computer programming language.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Language" : 1
-               }
-            }
-         },
-         "runtime" : {
-            "desc" : "Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).",
-            "value" : "text"
-         },
-         "sampleType" : {
-            "desc" : "Full (compile ready) solution, code snippet, inline code, scripts, template.",
-            "value" : "text"
-         },
-         "targetProduct" : {
-            "desc" : "Target Operating System / Product to which the code applies.  If applies to several versions, just the product name can be used.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/SoftwareApplication" : 1
-               }
-            }
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
@@ -5001,6 +4983,8 @@
          "http://schema.org/CollectionPage" : 2,
          "http://schema.org/Comment" : 1,
          "http://schema.org/ContactPage" : 2,
+         "http://schema.org/CreativeWorkSeason" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/DataCatalog" : 1,
          "http://schema.org/DataDownload" : 2,
          "http://schema.org/Dataset" : 1,
@@ -5048,6 +5032,7 @@
          "http://schema.org/Series" : 1,
          "http://schema.org/SiteNavigationElement" : 2,
          "http://schema.org/SoftwareApplication" : 1,
+         "http://schema.org/SoftwareSourceCode" : 1,
          "http://schema.org/TVClip" : 2,
          "http://schema.org/TVEpisode" : 2,
          "http://schema.org/TVSeason" : 1,
@@ -5068,6 +5053,129 @@
          "http://schema.org/WebPage" : 1,
          "http://schema.org/WebPageElement" : 1,
          "http://schema.org/WebSite" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/CreativeWorkSeason" : {
+      "desc" : "A media season e.g. tv, radio, video game etc.",
+      "props" : {
+         "actor" : {
+            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "director" : {
+            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "endDate" : {
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         },
+         "episode" : {
+            "desc" : "An episode of a tv, radio or game media within a series or season.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Episode" : 1
+               }
+            }
+         },
+         "episodes" : {
+            "desc" : "An episode of a TV/radio series or season.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Episode" : 1
+               }
+            }
+         },
+         "numberOfEpisodes" : {
+            "desc" : "The number of episodes in this season or series.",
+            "value" : "integer"
+         },
+         "partOfSeries" : {
+            "desc" : "The series to which this episode or season belongs.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWorkSeries" : 1
+               }
+            }
+         },
+         "productionCompany" : {
+            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1
+               }
+            }
+         },
+         "seasonNumber" : {
+            "desc" : "Position of the season within an ordered group of seasons.",
+            "value" : "text"
+         },
+         "startDate" : {
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         },
+         "trailer" : {
+            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/VideoObject" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/RadioSeason" : 1,
+         "http://schema.org/TVSeason" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/CreativeWorkSeries" : {
+      "desc" : "\u000A          A CreativeWorkSeries in schema.org is a group of related items, typically but not necessarily of the same kind.\u000A          CreativeWorkSeries are usually organized into some order, often chronological. Unlike ItemList which\u000A          is a general purpose data structure for lists of things, the emphasis with\u000A          CreativeWorkSeries is on published materials (written e.g. books and periodicals,\u000A          or media such as tv, radio and games).\u000A\u000A          \u000A\u000A          Specific subtypes are available for describing TVSeries, RadioSeries,\u000A          MovieSeries,\u000A          BookSeries,\u000A          Periodical\u000A          and VideoGameSeries. In each case,\u000A          the hasPart / isPartOf properties\u000A          can be used to relate the CreativeWorkSeries to its parts. The general CreativeWorkSeries type serves largely\u000A          just to organize these more specific and practical subtypes.\u000A\u000A          \u000A\u000A          It is common for properties applicable to an item from the series to be usefully applied to the containing group.\u000A          Schema.org attempts to anticipate some of these cases, but publishers should be free to apply\u000A          properties of the series parts to the series as a whole wherever they seem appropriate.",
+      "props" : {
+         "endDate" : {
+            "desc" : "The end date and time of the item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         },
+         "startDate" : {
+            "desc" : "The start date and time of the item (in ISO 8601 date format).",
+            "value" : "schema.org date"
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/BookSeries" : 1,
+         "http://schema.org/MovieSeries" : 1,
+         "http://schema.org/Periodical" : 1,
+         "http://schema.org/RadioSeries" : 1,
+         "http://schema.org/TVSeries" : 1,
+         "http://schema.org/VideoGameSeries" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -5200,12 +5308,25 @@
                }
             }
          },
+         "datasetTimeInterval" : {
+            "desc" : "The range of temporal applicability of a dataset, e.g. for a 2011 census dataset, the year 2011 (in ISO 8601 time interval format).",
+            "value" : "schema.org datetime"
+         },
          "distribution" : {
             "desc" : "A downloadable form of this dataset, at a specific location, in a specific format.",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/DataDownload" : 1
+               }
+            }
+         },
+         "includedDataCatalog" : {
+            "desc" : "A data catalog contained in the dataset.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/DataCatalog" : 1
                }
             }
          },
@@ -6603,6 +6724,15 @@
    "http://schema.org/EntryPoint" : {
       "desc" : "An entry point, within some Web-based protocol.",
       "props" : {
+         "actionApplication" : {
+            "desc" : "An application that can complete the request.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/SoftwareApplication" : 1
+               }
+            }
+         },
          "application" : {
             "desc" : "An application that can complete the request.",
             "is_url" : 1,
@@ -6765,7 +6895,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -6774,7 +6904,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Series" : 1
+                  "http://schema.org/CreativeWorkSeries" : 1
                }
             }
          },
@@ -7093,12 +7223,30 @@
             "desc" : "The distance travelled, e.g. exercising or travelling.",
             "value" : "schema.org distance"
          },
+         "exerciseCourse" : {
+            "desc" : "A sub property of location. The course where this action was taken.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Place" : 1
+               }
+            }
+         },
          "exercisePlan" : {
             "desc" : "A sub property of instrument. The exercise plan used on this action.",
             "is_url" : 1,
             "item" : {
                "types" : {
                   "http://schema.org/ExercisePlan" : 1
+               }
+            }
+         },
+         "exerciseRelatedDiet" : {
+            "desc" : "A sub property of instrument. The diet used in this action.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Diet" : 1
                }
             }
          },
@@ -8536,6 +8684,7 @@
          "http://schema.org/StructuredValue" : 1,
          "http://schema.org/Taxi" : 2,
          "http://schema.org/TaxiReservation" : 2,
+         "http://schema.org/TaxiService" : 2,
          "http://schema.org/TelevisionChannel" : 2,
          "http://schema.org/Ticket" : 1,
          "http://schema.org/TrainReservation" : 2,
@@ -8868,12 +9017,20 @@
                }
             }
          },
+         "incentiveCompensation" : {
+            "desc" : "Description of bonus and commission compensation aspects of the job.",
+            "value" : "text"
+         },
          "incentives" : {
             "desc" : "Description of bonus and commission compensation aspects of the job.",
             "value" : "text"
          },
          "industry" : {
             "desc" : "The industry associated with the job position.",
+            "value" : "text"
+         },
+         "jobBenefits" : {
+            "desc" : "Description of benefits associated with the job.",
             "value" : "text"
          },
          "jobLocation" : {
@@ -9232,6 +9389,15 @@
          "openingHours" : {
             "desc" : "The opening hours for a business. Opening hours can be specified as a weekly time range, starting with days, then times per day. Multiple days can be listed with commas ',' separating each day. Day or time ranges are specified using a hyphen '-'.- Days are specified using the following two-letter combinations: Mo, Tu, We, Th, Fr, Sa, Su.- Times are specified using 24:00 time. For example, 3pm is specified as 15:00. - Here is an example: \u003Ctime itemprop=\u0022openingHours\u0022 datetime=\u0022Tu,Th 16:00-20:00\u0022>Tuesdays and Thursdays 4-8pm\u003C/time>. - If a business is open 7 days a week, then it can be specified as \u003Ctime itemprop=\u0022openingHours\u0022 datetime=\u0022Mo-Su\u0022>Monday through Sunday, all day\u003C/time>.",
             "value" : "weekly time range"
+         },
+         "parentOrganization" : {
+            "desc" : "The larger organization that this local business is a branch of, if any.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Organization" : 1
+               }
+            }
          },
          "paymentAccepted" : {
             "desc" : "Cash, credit card, etc.",
@@ -11336,7 +11502,7 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
-         "http://schema.org/Series" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -13681,7 +13847,7 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
-         "http://schema.org/Series" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -19610,6 +19776,10 @@
             "desc" : "A flag to signal that the publication is accessible for free.",
             "is_url" : 1
          },
+         "isAcccessibleForFree" : {
+            "desc" : "A flag to signal that the publication is accessible for free.",
+            "is_url" : 1
+         },
          "publishedOn" : {
             "desc" : "A broadcast service associated with the publication event.",
             "is_url" : 1,
@@ -24069,14 +24239,14 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
-         "http://schema.org/Season" : 1,
+         "http://schema.org/CreativeWorkSeason" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/RadioSeries" : {
-      "desc" : "Series dedicated to radio broadcast and associated online delivery.",
+      "desc" : "CreativeWorkSeries dedicated to radio broadcast and associated online delivery.",
       "props" : {
          "actor" : {
             "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
@@ -24093,6 +24263,15 @@
             "item" : {
                "types" : {
                   "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "containsSeason" : {
+            "desc" : "A season that is part of the media series.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -24164,7 +24343,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -24173,7 +24352,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -24190,7 +24369,7 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
-         "http://schema.org/Series" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -25102,95 +25281,10 @@
    },
    "http://schema.org/Season" : {
       "desc" : "A media season e.g. tv, radio, video game etc.",
-      "props" : {
-         "actor" : {
-            "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "director" : {
-            "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Person" : 1
-               }
-            }
-         },
-         "endDate" : {
-            "desc" : "The end date and time of the item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
-         "episode" : {
-            "desc" : "An episode of a tv, radio or game media within a series or season.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "episodes" : {
-            "desc" : "An episode of a TV/radio series or season.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Episode" : 1
-               }
-            }
-         },
-         "numberOfEpisodes" : {
-            "desc" : "The number of episodes in this season or series.",
-            "value" : "integer"
-         },
-         "partOfSeries" : {
-            "desc" : "The series to which this episode or season belongs.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Series" : 1
-               }
-            }
-         },
-         "productionCompany" : {
-            "desc" : "The production company or studio responsible for the item e.g. series, video game, episode etc.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/Organization" : 1
-               }
-            }
-         },
-         "seasonNumber" : {
-            "desc" : "Position of the season within an ordered group of seasons.",
-            "value" : "text"
-         },
-         "startDate" : {
-            "desc" : "The start date and time of the item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
-         "trailer" : {
-            "desc" : "The trailer of a movie or tv/radio series, season, episode, etc.",
-            "is_url" : 1,
-            "item" : {
-               "types" : {
-                  "http://schema.org/VideoObject" : 1
-               }
-            }
-         }
-      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
          "http://schema.org/Thing" : 2
-      },
-      "superclass_of" : {
-         "http://schema.org/RadioSeason" : 1,
-         "http://schema.org/TVSeason" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -25306,29 +25400,11 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Series" : {
-      "desc" : "\u000A          A Series in schema.org is a group of related items, typically but not necessarily of the same kind.\u000A          Series are usually organized into some order, often chronological. Unlike ItemList which\u000A          is a general purpose data structure for lists of things, the emphasis with Series\u000A          is on published materials (written e.g. books and periodicals, or media such as\u000A          tv, radio and games).\u000A\u000A          \u000A\u000A          Specific subtypes are available for describing TVSeries, RadioSeries,\u000A          MovieSeries,\u000A          BookSeries,\u000A          Periodical\u000A          and VideoGameSeries. In each case,\u000A          the hasPart / isPartOf properties\u000A          can be used to relate the Series to its parts. The general Series type serves largely\u000A          just to organize these more specific and practical subtypes.\u000A\u000A          \u000A\u000A          It is common for properties applicable to an item from the series to be usefully applied to the containing group.\u000A          Schema.org attempts to anticipate some of these cases, but publishers should be free to apply\u000A          properties of the series parts to the series as a whole wherever they seem appropriate.",
-      "props" : {
-         "endDate" : {
-            "desc" : "The end date and time of the item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         },
-         "startDate" : {
-            "desc" : "The start date and time of the item (in ISO 8601 date format).",
-            "value" : "schema.org date"
-         }
-      },
+      "desc" : "\u000A          A Series in schema.org is a group of related items, typically but not necessarily of the same kind. ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
          "http://schema.org/Thing" : 2
-      },
-      "superclass_of" : {
-         "http://schema.org/BookSeries" : 1,
-         "http://schema.org/MovieSeries" : 1,
-         "http://schema.org/Periodical" : 1,
-         "http://schema.org/RadioSeries" : 1,
-         "http://schema.org/TVSeries" : 1,
-         "http://schema.org/VideoGameSeries" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -25400,6 +25476,15 @@
                }
             }
          },
+         "serviceOutput" : {
+            "desc" : "The tangible thing generated by the service, e.g. a passport, permit, etc.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
+         },
          "serviceType" : {
             "desc" : "The type of service being offered, e.g. veterans' benefits, emergency relief, etc.",
             "value" : "text"
@@ -25413,7 +25498,8 @@
       "superclass_of" : {
          "http://schema.org/CableOrSatelliteService" : 1,
          "http://schema.org/GovernmentService" : 1,
-         "http://schema.org/Taxi" : 1
+         "http://schema.org/Taxi" : 1,
+         "http://schema.org/TaxiService" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -25589,6 +25675,10 @@
             "desc" : "The name of the application suite to which the application belongs (e.g. Excel belongs to Office).",
             "value" : "text"
          },
+         "availableOnDevice" : {
+            "desc" : "Device required to run the application. Used in cases where a specific make/model is required to run the application.",
+            "value" : "text"
+         },
          "countriesNotSupported" : {
             "desc" : "Countries for which the application is not supported. You can also provide the two-letter ISO 3166-1 alpha-2 country code.",
             "value" : "text"
@@ -25672,6 +25762,10 @@
                }
             }
          },
+         "softwareRequirements" : {
+            "desc" : "Component dependency requirements for application. This includes runtime environments and shared libraries that are not included in the application distribution package, but required to run the application (Examples: DirectX, Java or .NET runtime).",
+            "value" : "text"
+         },
          "softwareVersion" : {
             "desc" : "Version of the software instance.",
             "value" : "text"
@@ -25690,6 +25784,56 @@
          "http://schema.org/MobileApplication" : 1,
          "http://schema.org/VideoGame" : 1,
          "http://schema.org/WebApplication" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/SoftwareSourceCode" : {
+      "desc" : "Computer programming source code. Example: Full (compile ready) solutions, code snippet samples, scripts, templates.",
+      "props" : {
+         "codeRepository" : {
+            "desc" : "Link to the repository where the un-compiled, human readable code and related code is located (SVN, github, CodePlex).",
+            "is_url" : 1
+         },
+         "codeSampleType" : {
+            "desc" : "Full (compile ready) solution, code snippet, inline code, scripts, template.",
+            "value" : "text"
+         },
+         "programmingLanguage" : {
+            "desc" : "The computer programming language.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Language" : 1
+               }
+            }
+         },
+         "runtime" : {
+            "desc" : "Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).",
+            "value" : "text"
+         },
+         "runtimePlatform" : {
+            "desc" : "Runtime platform or script interpreter dependencies (Example - Java v1, Python2.3, .Net Framework 3.0).",
+            "value" : "text"
+         },
+         "sampleType" : {
+            "desc" : "Full (compile ready) solution, code snippet, inline code, scripts, template.",
+            "value" : "text"
+         },
+         "targetProduct" : {
+            "desc" : "Target Operating System / Product to which the code applies.  If applies to several versions, just the product name can be used.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/SoftwareApplication" : 1
+               }
+            }
+         }
+      },
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -26130,14 +26274,14 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
-         "http://schema.org/Season" : 1,
+         "http://schema.org/CreativeWorkSeason" : 1,
          "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/TVSeries" : {
-      "desc" : "Series dedicated to TV broadcast and associated online delivery.",
+      "desc" : "CreativeWorkSeries dedicated to TV broadcast and associated online delivery.",
       "props" : {
          "actor" : {
             "desc" : "An actor, e.g. in tv, radio, movie, video games etc. Actors can be associated with individual items or with a series, episode, clip.",
@@ -26154,6 +26298,15 @@
             "item" : {
                "types" : {
                   "http://schema.org/Person" : 1
+               }
+            }
+         },
+         "containsSeason" : {
+            "desc" : "A season that is part of the media series.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -26225,7 +26378,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -26234,7 +26387,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -26251,7 +26404,7 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 1,
-         "http://schema.org/Series" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/Thing" : 2
       },
       "use_itemid" : 1,
@@ -26334,6 +26487,17 @@
       "subclass_of" : {
          "http://schema.org/Intangible" : 2,
          "http://schema.org/Reservation" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
+   "http://schema.org/TaxiService" : {
+      "desc" : "A service for a vehicle for hire with a driver for local travel. Fares are usually calculated based on distance traveled.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/Service" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -26637,6 +26801,8 @@
          "http://schema.org/Courthouse" : 4,
          "http://schema.org/CreateAction" : 2,
          "http://schema.org/CreativeWork" : 1,
+         "http://schema.org/CreativeWorkSeason" : 2,
+         "http://schema.org/CreativeWorkSeries" : 2,
          "http://schema.org/CreditCard" : 4,
          "http://schema.org/Crematorium" : 3,
          "http://schema.org/DDxElement" : 3,
@@ -27027,6 +27193,7 @@
          "http://schema.org/SkiResort" : 4,
          "http://schema.org/SocialEvent" : 2,
          "http://schema.org/SoftwareApplication" : 2,
+         "http://schema.org/SoftwareSourceCode" : 2,
          "http://schema.org/SomeProducts" : 2,
          "http://schema.org/Specialty" : 3,
          "http://schema.org/SportingGoodsStore" : 4,
@@ -27053,6 +27220,7 @@
          "http://schema.org/TattooParlor" : 4,
          "http://schema.org/Taxi" : 3,
          "http://schema.org/TaxiReservation" : 3,
+         "http://schema.org/TaxiService" : 3,
          "http://schema.org/TaxiStand" : 3,
          "http://schema.org/TechArticle" : 3,
          "http://schema.org/TelevisionChannel" : 3,
@@ -35787,6 +35955,15 @@
                   "http://schema.org/Thing" : 1
                }
             }
+         },
+         "targetCollection" : {
+            "desc" : "A sub property of object. The collection target of the action.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/Thing" : 1
+               }
+            }
          }
       },
       "spec" : "SCHEMAORG",
@@ -36233,6 +36410,15 @@
                }
             }
          },
+         "containsSeason" : {
+            "desc" : "A season that is part of the media series.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/CreativeWorkSeason" : 1
+               }
+            }
+         },
          "director" : {
             "desc" : "A director of e.g. tv, radio, movie, video games etc. content. Directors can be associated with individual items or with a series, episode, clip.",
             "is_url" : 1,
@@ -36357,7 +36543,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -36366,7 +36552,7 @@
             "is_url" : 1,
             "item" : {
                "types" : {
-                  "http://schema.org/Season" : 1
+                  "http://schema.org/CreativeWorkSeason" : 1
                }
             }
          },
@@ -36383,7 +36569,7 @@
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/CreativeWork" : 2,
-         "http://schema.org/Series" : 1,
+         "http://schema.org/CreativeWorkSeries" : 1,
          "http://schema.org/Thing" : 3
       },
       "use_itemid" : 1,
@@ -36501,8 +36687,16 @@
             "desc" : "The number of copies when multiple copies of a piece of artwork are produced - e.g. for a limited edition of 20 prints, 'artEdition' refers to the total number of copies (in this example \u002220\u0022).",
             "value" : "text"
          },
+         "artMedium" : {
+            "desc" : "The material used. (e.g. Oil, Watercolour, Acrylic, Linoprint, Marble, Cyanotype, Digital, Lithograph, DryPoint, Intaglio, Pastel, Woodcut, Pencil, Mixed Media, etc.)",
+            "value" : "text"
+         },
          "artform" : {
             "desc" : "e.g. Painting, Drawing, Sculpture, Print, Photograph, Assemblage, Collage, etc.",
+            "value" : "text"
+         },
+         "artworkSurface" : {
+            "desc" : "The supporting materials for the artwork, e.g. Canvas, Paper, Wood, Board, etc.",
             "value" : "text"
          },
          "depth" : {
