@@ -3157,7 +3157,7 @@
             "value" : "text"
          },
          "broadcastTimezone" : {
-            "desc" : "The timezone in ISO 8601 formatfor which the service bases its broadcasts.",
+            "desc" : "The timezone in ISO 8601 format for which the service bases its broadcasts.",
             "value" : "text"
          },
          "broadcaster" : {
@@ -4738,10 +4738,6 @@
                }
             },
             "value" : "text"
-         },
-         "interactionCount" : {
-            "desc" : "A count of a specific user interactions with this item—for example, 20 UserLikes, 5 UserComments, or 300 UserDownloads. The user interaction type should be one of the sub types of UserInteraction.",
-            "value" : "schema.org user interaction count"
          },
          "interactivityType" : {
             "desc" : "The predominant mode of learning supported by the learning resource. Acceptable values are 'active', 'expositive', or 'mixed'.",
@@ -6700,6 +6696,17 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/EngineSpecification" : {
+      "desc" : "Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Intangible" : 2,
+         "http://schema.org/StructuredValue" : 1,
+         "http://schema.org/Thing" : 3
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/EntertainmentBusiness" : {
       "desc" : "A business providing entertainment.",
       "spec" : "SCHEMAORG",
@@ -8592,6 +8599,7 @@
          "http://schema.org/EducationalAudience" : 2,
          "http://schema.org/EmployeeRole" : 3,
          "http://schema.org/Energy" : 2,
+         "http://schema.org/EngineSpecification" : 2,
          "http://schema.org/EntryPoint" : 1,
          "http://schema.org/Enumeration" : 1,
          "http://schema.org/EventReservation" : 2,
@@ -13015,10 +13023,6 @@
                }
             }
          },
-         "interactionCount" : {
-            "desc" : "A count of a specific user interactions with this item—for example, 20 UserLikes, 5 UserComments, or 300 UserDownloads. The user interaction type should be one of the sub types of UserInteraction.",
-            "value" : "schema.org user interaction count"
-         },
          "isicV4" : {
             "desc" : "The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.",
             "value" : "ISIC"
@@ -14095,10 +14099,6 @@
             "desc" : "An honorific suffix preceding a Person's name such as M.D. /PhD/MSCSW.",
             "value" : "text"
          },
-         "interactionCount" : {
-            "desc" : "A count of a specific user interactions with this item—for example, 20 UserLikes, 5 UserComments, or 300 UserDownloads. The user interaction type should be one of the sub types of UserInteraction.",
-            "value" : "schema.org user interaction count"
-         },
          "isicV4" : {
             "desc" : "The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.",
             "value" : "ISIC"
@@ -14547,10 +14547,6 @@
                   "http://schema.org/Map" : 1
                }
             }
-         },
-         "interactionCount" : {
-            "desc" : "A count of a specific user interactions with this item—for example, 20 UserLikes, 5 UserComments, or 300 UserDownloads. The user interaction type should be one of the sub types of UserInteraction.",
-            "value" : "schema.org user interaction count"
          },
          "isicV4" : {
             "desc" : "The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.",
@@ -15519,7 +15515,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PropertyValue" : {
-      "desc" : "A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property",
+      "desc" : "A property-value pair, e.g. representing a feature of a product or place. Use the 'name' property for the name of the property. If there is an additional human-readable version of the value, put that into the 'description' property.\u000A        \u000A        Always use specific schema.org properties when a) they exist and b) you can populate them. Using PropertyValue as a substitute will typically not trigger the same effect as using the original, specific property.\u000A    ",
       "props" : {
          "maxValue" : {
             "desc" : "The upper value of some characteristic or property.",
@@ -26076,6 +26072,7 @@
          "http://schema.org/ContactPoint" : 1,
          "http://schema.org/DatedMoneySpecification" : 1,
          "http://schema.org/DeliveryChargeSpecification" : 2,
+         "http://schema.org/EngineSpecification" : 1,
          "http://schema.org/GeoCoordinates" : 1,
          "http://schema.org/GeoShape" : 1,
          "http://schema.org/NutritionInformation" : 1,
@@ -26843,6 +26840,7 @@
          "http://schema.org/EmploymentAgency" : 3,
          "http://schema.org/EndorseAction" : 4,
          "http://schema.org/Energy" : 3,
+         "http://schema.org/EngineSpecification" : 3,
          "http://schema.org/EntertainmentBusiness" : 3,
          "http://schema.org/EntryPoint" : 2,
          "http://schema.org/Enumeration" : 2,
@@ -35979,7 +35977,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserBlocks" : {
-      "desc" : "User interaction: Block this content.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -35990,7 +35988,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserCheckins" : {
-      "desc" : "User interaction: Check-in at a place.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36001,7 +35999,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserComments" : {
-      "desc" : "The UserInteraction event in which a user comments on an item.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "props" : {
          "commentText" : {
             "desc" : "The text of the UserComment.",
@@ -36045,7 +36043,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserDownloads" : {
-      "desc" : "User interaction: Download of an item.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36056,7 +36054,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserInteraction" : {
-      "desc" : "A user interacting with a page.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 1,
@@ -36077,7 +36075,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserLikes" : {
-      "desc" : "User interaction: Like an item.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36088,7 +36086,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserPageVisits" : {
-      "desc" : "User interaction: Visit to a web page.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36099,7 +36097,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserPlays" : {
-      "desc" : "User interaction: Play count of an item, for example a video or a song.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36110,7 +36108,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserPlusOnes" : {
-      "desc" : "User interaction: \u002B1.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36121,7 +36119,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/UserTweets" : {
-      "desc" : "User interaction: Tweets.",
+      "desc" : "UserInteraction and its subtypes is an old way of talking about users interacting with pages. It is generally better to use\u000A          Action-based vocabulary, alongside types such as Comment.\u000A      ",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Event" : 2,
@@ -36133,6 +36131,59 @@
    },
    "http://schema.org/Vehicle" : {
       "desc" : "A vehicle is a device that is designed or used to transport people or cargo over land, water, air, or through space.",
+      "props" : {
+         "fuelConsumption" : {
+            "desc" : "The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle (e.g. liters per 100 km).\u000ANote 1: There are unfortunately no standard unit codes for liters per 100 km.\u000AUse unitText to indicate the unit of measurement, e.g. L/100 km.\u000ANote 2: There are two ways of indicating the fuel consumption, fuelConsumption (e.g. 8 liters per 100 km) and fuelEfficiency (e.g. 30 miles per gallon). They are reciprocal.\u000ANote 3: Often, the absolute value is useful only when related to driving speed (\u0022at 80 km/h\u0022) or usage pattern (\u0022city traffic\u0022). You can use valueReference to link the value for the fuel consumption to another value.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
+         },
+         "fuelEfficiency" : {
+            "desc" : "The distance traveled per unit of fuel used; most commonly miles per gallon (mpg) or kilometers per liter (km/L).\u000ANote 1: There are unfortunately no standard unit codes for miles per gallon or kilometers per liter.\u000AUse unitText to indicate the unit of measurement, e.g. mpg or km/L.\u000ANote 2: There are two ways of indicating the fuel consumption, fuelConsumption (e.g. 8 liters per 100 km) and fuelEfficiency (e.g. 30 miles per gallon). They are reciprocal.\u000ANote 3: Often, the absolute value is useful only when related to driving speed (\u0022at 80 km/h\u0022) or usage pattern (\u0022city traffic\u0022). You can use valueReference to link the value for the fuel economy to another value.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
+         },
+         "numberOfAirbags" : {
+            "desc" : "The number or type of airbags in the vehicle.",
+            "value" : "text"
+         },
+         "numberOfAxles" : {
+            "desc" : "The number of axles.\u000ATypical unit code(s): C62",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "numberOfForwardGears" : {
+            "desc" : "The total number of forward gears available for the transmission system of the vehicle.\u000ATypical unit code(s): C62",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "vehicleEngine" : {
+            "desc" : "Information about the engine or engines of the vehicle.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/EngineSpecification" : 1
+               }
+            }
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Product" : 1,
