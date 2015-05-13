@@ -3473,6 +3473,18 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/CarUsageType" : {
+      "desc" : "A value indicating a special usage of a car, e.g. commercial rental, driving school, or as a taxi.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 2,
+         "http://schema.org/Intangible" : 3,
+         "http://schema.org/QualitativeValue" : 1,
+         "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Casino" : {
       "desc" : "A casino.",
       "spec" : "SCHEMAORG",
@@ -4898,7 +4910,7 @@
             }
          },
          "schemaVersion" : {
-            "desc" : "Indicates (by URL or string) a particular version of a schema used in some CreativeWork. For example, a document could declare a schemaVersion using an URL such as http://schema.org/docs/releases.html#v1.91 if precise indication of schema version was required by some application. ",
+            "desc" : "Indicates (by URL or string) a particular version of a schema used in some CreativeWork. For example, a document could declare a schemaVersion using an URL such as http://schema.org/version/2.0/ if precise indication of schema version was required by some application. ",
             "value" : "text"
          },
          "sourceOrganization" : {
@@ -6116,6 +6128,18 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/DriveWheelConfigurationValue" : {
+      "desc" : "A value indicating which roadwheels will receive torque.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 2,
+         "http://schema.org/Intangible" : 3,
+         "http://schema.org/QualitativeValue" : 1,
+         "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Drug" : {
       "desc" : "A chemical or biologic substance, used as a medical therapy, that has a physiological effect on an organism.",
       "props" : {
@@ -6698,6 +6722,18 @@
    },
    "http://schema.org/EngineSpecification" : {
       "desc" : "Information about the engine of the vehicle. A vehicle can have multiple engines represented by multiple engine specification entities.",
+      "props" : {
+         "fuelType" : {
+            "desc" : "The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QualitativeValue" : 1
+               }
+            },
+            "value" : "text"
+         }
+      },
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Intangible" : 2,
@@ -6800,10 +6836,12 @@
          "http://schema.org/BookFormatType" : 1,
          "http://schema.org/BusinessEntityType" : 1,
          "http://schema.org/BusinessFunction" : 1,
+         "http://schema.org/CarUsageType" : 2,
          "http://schema.org/ContactPointOption" : 1,
          "http://schema.org/CreditCard" : 2,
          "http://schema.org/DayOfWeek" : 1,
          "http://schema.org/DeliveryMethod" : 1,
+         "http://schema.org/DriveWheelConfigurationValue" : 2,
          "http://schema.org/DrugCostCategory" : 1,
          "http://schema.org/DrugPregnancyCategory" : 1,
          "http://schema.org/DrugPrescriptionStatus" : 1,
@@ -6839,6 +6877,7 @@
          "http://schema.org/ReservationStatusType" : 1,
          "http://schema.org/RsvpResponseType" : 1,
          "http://schema.org/Specialty" : 1,
+         "http://schema.org/SteeringPositionValue" : 2,
          "http://schema.org/WarrantyScope" : 1
       },
       "use_itemid" : 1,
@@ -8582,6 +8621,7 @@
          "http://schema.org/BusinessEntityType" : 2,
          "http://schema.org/BusinessFunction" : 2,
          "http://schema.org/CableOrSatelliteService" : 2,
+         "http://schema.org/CarUsageType" : 3,
          "http://schema.org/Class" : 1,
          "http://schema.org/ContactPoint" : 2,
          "http://schema.org/ContactPointOption" : 2,
@@ -8592,6 +8632,7 @@
          "http://schema.org/DeliveryMethod" : 2,
          "http://schema.org/Demand" : 1,
          "http://schema.org/Distance" : 2,
+         "http://schema.org/DriveWheelConfigurationValue" : 3,
          "http://schema.org/DrugCostCategory" : 2,
          "http://schema.org/DrugPregnancyCategory" : 2,
          "http://schema.org/DrugPrescriptionStatus" : 2,
@@ -8680,6 +8721,7 @@
          "http://schema.org/Service" : 1,
          "http://schema.org/ServiceChannel" : 1,
          "http://schema.org/Specialty" : 2,
+         "http://schema.org/SteeringPositionValue" : 3,
          "http://schema.org/StructuredValue" : 1,
          "http://schema.org/Taxi" : 2,
          "http://schema.org/TaxiReservation" : 2,
@@ -15281,6 +15323,14 @@
             "desc" : "The product identifier, such as ISBN. For example: \u003Cmeta itemprop='productID' content='isbn:123-456-789'/>.",
             "value" : "text"
          },
+         "productionDate" : {
+            "desc" : "The date of production of the item, e.g. vehicle.",
+            "value" : "schema.org date"
+         },
+         "purchaseDate" : {
+            "desc" : "The date the item e.g. vehicle was purchased by the current owner.",
+            "value" : "schema.org date"
+         },
          "releaseDate" : {
             "desc" : "The release date of a product or product model. This can be used to distinguish the exact variant of a product.",
             "value" : "schema.org date"
@@ -19932,6 +19982,11 @@
          "http://schema.org/Enumeration" : 1,
          "http://schema.org/Intangible" : 2,
          "http://schema.org/Thing" : 3
+      },
+      "superclass_of" : {
+         "http://schema.org/CarUsageType" : 1,
+         "http://schema.org/DriveWheelConfigurationValue" : 1,
+         "http://schema.org/SteeringPositionValue" : 1
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -26017,6 +26072,18 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/SteeringPositionValue" : {
+      "desc" : "A value indicating a steering position.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/Enumeration" : 2,
+         "http://schema.org/Intangible" : 3,
+         "http://schema.org/QualitativeValue" : 1,
+         "http://schema.org/Thing" : 4
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/Store" : {
       "desc" : "A retail good store.",
       "spec" : "SCHEMAORG",
@@ -26740,6 +26807,7 @@
          "http://schema.org/Canal" : 4,
          "http://schema.org/CancelAction" : 4,
          "http://schema.org/Car" : 3,
+         "http://schema.org/CarUsageType" : 4,
          "http://schema.org/Casino" : 4,
          "http://schema.org/CatholicChurch" : 4,
          "http://schema.org/Cemetery" : 3,
@@ -26816,6 +26884,7 @@
          "http://schema.org/DownloadAction" : 3,
          "http://schema.org/DrawAction" : 3,
          "http://schema.org/DrinkAction" : 3,
+         "http://schema.org/DriveWheelConfigurationValue" : 4,
          "http://schema.org/Drug" : 3,
          "http://schema.org/DrugClass" : 3,
          "http://schema.org/DrugCost" : 3,
@@ -27184,6 +27253,7 @@
          "http://schema.org/SportsTeam" : 3,
          "http://schema.org/StadiumOrArena" : 3,
          "http://schema.org/State" : 3,
+         "http://schema.org/SteeringPositionValue" : 4,
          "http://schema.org/Store" : 3,
          "http://schema.org/StructuredValue" : 2,
          "http://schema.org/SubscribeAction" : 3,
@@ -36132,6 +36202,29 @@
    "http://schema.org/Vehicle" : {
       "desc" : "A vehicle is a device that is designed or used to transport people or cargo over land, water, air, or through space.",
       "props" : {
+         "cargoVolume" : {
+            "desc" : "The available volume for cargo or luggage. For automobiles, this is usually the trunk volume.\u000ATypical unit code(s): LTR for liters, FTQ for cubic foot/feet\u000A\u000ANote: You can use minValue and maxValue to indicate ranges.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
+         },
+         "dateVehicleFirstRegistered" : {
+            "desc" : "The date of the first registration of the vehicle with the respective public authorities.",
+            "value" : "schema.org date"
+         },
+         "driveWheelConfiguration" : {
+            "desc" : "The drive wheel configuration, i.e. which roadwheels will receive torque from the vehicle's engine via the drivetrain.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/DriveWheelConfigurationValue" : 1
+               }
+            },
+            "value" : "text"
+         },
          "fuelConsumption" : {
             "desc" : "The amount of fuel consumed for traveling a particular distance or temporal duration with the given vehicle (e.g. liters per 100 km).\u000ANote 1: There are unfortunately no standard unit codes for liters per 100 km.\u000AUse unitText to indicate the unit of measurement, e.g. L/100 km.\u000ANote 2: There are two ways of indicating the fuel consumption, fuelConsumption (e.g. 8 liters per 100 km) and fuelEfficiency (e.g. 30 miles per gallon). They are reciprocal.\u000ANote 3: Often, the absolute value is useful only when related to driving speed (\u0022at 80 km/h\u0022) or usage pattern (\u0022city traffic\u0022). You can use valueReference to link the value for the fuel consumption to another value.",
             "is_url" : 1,
@@ -36143,6 +36236,29 @@
          },
          "fuelEfficiency" : {
             "desc" : "The distance traveled per unit of fuel used; most commonly miles per gallon (mpg) or kilometers per liter (km/L).\u000ANote 1: There are unfortunately no standard unit codes for miles per gallon or kilometers per liter.\u000AUse unitText to indicate the unit of measurement, e.g. mpg or km/L.\u000ANote 2: There are two ways of indicating the fuel consumption, fuelConsumption (e.g. 8 liters per 100 km) and fuelEfficiency (e.g. 30 miles per gallon). They are reciprocal.\u000ANote 3: Often, the absolute value is useful only when related to driving speed (\u0022at 80 km/h\u0022) or usage pattern (\u0022city traffic\u0022). You can use valueReference to link the value for the fuel economy to another value.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            }
+         },
+         "fuelType" : {
+            "desc" : "The type of fuel suitable for the engine or engines of the vehicle. If the vehicle has only one engine, this property can be attached directly to the vehicle.",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QualitativeValue" : 1
+               }
+            },
+            "value" : "text"
+         },
+         "knownVehicleDamages" : {
+            "desc" : "A textual description of known damages, both repaired and unrepaired.",
+            "value" : "text"
+         },
+         "mileageFromOdometer" : {
+            "desc" : "The total distance travelled by the particular vehicle since its initial production, as read from its odometer.\u000ATypical unit code(s): KMT for kilometers, SMI for statute miles",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -36164,6 +36280,16 @@
             },
             "value" : "integer"
          },
+         "numberOfDoors" : {
+            "desc" : "The number of doors.\u000ATypical unit code(s): C62",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
          "numberOfForwardGears" : {
             "desc" : "The total number of forward gears available for the transmission system of the vehicle.\u000ATypical unit code(s): C62",
             "is_url" : 1,
@@ -36174,6 +36300,37 @@
             },
             "value" : "integer"
          },
+         "numberOfPreviousOwners" : {
+            "desc" : "The number of owners of the vehicle, including the current one.\u000ATypical unit code(s): C62",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "productionDate" : {
+            "desc" : "The date of production of the item, e.g. vehicle.",
+            "value" : "schema.org date"
+         },
+         "purchaseDate" : {
+            "desc" : "The date the item e.g. vehicle was purchased by the current owner.",
+            "value" : "schema.org date"
+         },
+         "steeringPosition" : {
+            "desc" : "The position of the steering wheel or similar device (mostly for cars).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/SteeringPositionValue" : 1
+               }
+            }
+         },
+         "vehicleConfiguration" : {
+            "desc" : "A short text indicating the configuration of the vehicle, e.g. '5dr hatchback ST 2.5 MT 225 hp' or 'limited edition'.",
+            "value" : "text"
+         },
          "vehicleEngine" : {
             "desc" : "Information about the engine or engines of the vehicle.",
             "is_url" : 1,
@@ -36182,6 +36339,42 @@
                   "http://schema.org/EngineSpecification" : 1
                }
             }
+         },
+         "vehicleIdentificationNumber" : {
+            "desc" : "The Vehicle Identification Number (VIN) is a unique serial number used by the automotive industry to identify individual motor vehicles.",
+            "value" : "text"
+         },
+         "vehicleInteriorColor" : {
+            "desc" : "The color or color combination of the interior of the vehicle.",
+            "value" : "text"
+         },
+         "vehicleInteriorType" : {
+            "desc" : "The type or material of the interior of the vehicle (e.g. synthetic fabric, leather, wood, etc.). While most interior types are characterized by the material used, an interior type can also be based on vehicle usage or target audience.",
+            "value" : "text"
+         },
+         "vehicleModelDate" : {
+            "desc" : "The release date of a vehicle model (often used to differentiate versions of the same make and model).",
+            "value" : "schema.org date"
+         },
+         "vehicleSeatingCapacity" : {
+            "desc" : "The number of passengers that can be seated in the vehicle, both in terms of the physical space available, and in terms of limitations set by law.\u000ATypical unit code(s): C62 for persons ",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QuantitativeValue" : 1
+               }
+            },
+            "value" : "integer"
+         },
+         "vehicleTransmission" : {
+            "desc" : "The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component(s) (\u0022gearbox\u0022 for cars).",
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/QualitativeValue" : 1
+               }
+            },
+            "value" : "text"
          }
       },
       "spec" : "SCHEMAORG",
