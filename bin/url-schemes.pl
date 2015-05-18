@@ -27,7 +27,7 @@ while (<$file>) {
     } else {
       $Data->{$scheme}->{$1} = 1;
     }
-  } elsif (/^\s+([\w-]+)=(\S+)\s*$/) {
+  } elsif (/^\s+([\w-]+)=(\S+|MUST NOT)\s*$/) {
     if ($1 eq 'application') {
       $Data->{$scheme}->{$1}->{$2} = 1;
     } else {
