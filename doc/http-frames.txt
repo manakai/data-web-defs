@@ -1,0 +1,191 @@
+data/http-frames.json
+~~~~~~~~~~~~~~~~~~~~~
+
+The file contains data on HTTP/2 and WebSocket protocols.
+
+* Structure
+
+The file contains a JSON object with following name/value pairs:
+
+  hpack [object]
+
+    A JSON object containing following name/value pairs:
+
+      huffman
+
+        The static Huffman code table used in HPACK.  A JSON array
+        whose item indexes are Huffman code table's index values
+        (0-256) and items are following name/value pairs:
+
+          bits [string]
+
+            A string representing the bit representation of the code,
+            MSB first.
+
+          hex [string]
+
+            A string representing the uppercase hexadecimal
+            representation of the code as an unsigned 32-bit integer.
+            The most significant bits of the integer with length of
+            the |length| field is the code.
+
+          length [integer]
+
+            The number of the bits of the code.
+
+      static
+
+        The static table used in HPACK.  A JSON array whose indexes
+        are indexes in the table and values are JSON arrays, whose
+        first item is the header name and second item is the header
+        value.  Note that there is no item with index 0.
+
+  http2 [object]
+
+    A JSON object containing following name/value pairs:
+
+      error_codes [object]
+
+        Names are known HTTP/2 error codes (in decimal with no leading
+        zero) and values are their descriptions as [protocol-object],
+        with following additional name/value pairs:
+
+          code [integer]
+
+            The error code.
+
+          connection_error [boolean]
+
+            Whether the error code is known to be used to represent a
+            connection error.
+
+          name [string]
+
+            The error code name.
+
+          stream_error [boolean]
+
+            Whether the error code is known to be used to represent a
+            stream error.
+
+      settings [object]
+
+        Names are known HTTP/2 setting identifiers (in decimal with no
+        leading zero) and values are their descriptions as
+        [protocol-object], with following additional name/value pairs:
+
+          code [integer]
+
+            The identifier.
+
+          initial_infinity [boolean]
+
+            Whether the initial value is "unlimited" or not.
+
+          initial_integer [integer]
+
+            The initial value, as an integer.
+
+          name [string?]
+
+            The setting name, if assigned.
+
+  ws [object]
+
+    A JSON object containing following name/value pairs:
+
+      extensions [object]
+
+        Names are known WebSocket extension names and values are their
+        descriptions as [protocol-object], with following additional
+        name/value pair:
+
+          name [string]
+
+            The extension name.
+
+      protocols [object]
+
+        Names are known WebSocket subprotocol names and values are
+        their descriptions as [protocol-object], with following
+        additional name/value pair:
+
+          name [string]
+
+            The subprotocol name.
+
+      status_codes [object]
+
+        Names are known WebSocket status codes (in decimal with no
+        leading zero) and values are their descriptions as
+        [protocol-object], with following additional name/value pairs:
+
+          close [boolean]
+
+            Whether the status code can be specified (i.e. is
+            conforming to specify) in a WebSocket Protocol Close
+            frame.
+
+          code [integer]
+
+            The WebSocket status code.
+
+* Sources
+
+RFC 6455, The WebSocket Protocol <http://tools.ietf.org/html/rfc6455>.
+
+RFC 7540, Hypertext Transfer Protocol Version 2 (HTTP/2)
+<http://tools.ietf.org/html/rfc7540>.
+
+RFC 7541, HPACK: Header Compression for HTTP/2
+<https://tools.ietf.org/html/rfc7541>.
+
+Hypertext Transfer Protocol version 2 (HTTP/2) Parameters
+<https://www.iana.org/assignments/http2-parameters/http2-parameters.xml>.
+
+WebSocket Protocol Registries
+<https://www.iana.org/assignments/websocket/websocket.xml>.
+
+chromium / chromium/src / master / . / net / spdy / hpack_constants.cc
+<https://chromium.googlesource.com/chromium/src/+/master/net/spdy/hpack_constants.cc>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of the JSON file and this document.
+
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of the JSON file and this
+document has waived all copyright and related or neighboring rights to
+the JSON file and this document.
+
+The HPACK tables in the JSON file are extracted from the Chromium
+source code.
+
+// Copyright 2014 The Chromium Authors. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are
+// met:
+//
+//    * Redistributions of source code must retain the above copyright
+// notice, this list of conditions and the following disclaimer.
+//    * Redistributions in binary form must reproduce the above
+// copyright notice, this list of conditions and the following disclaimer
+// in the documentation and/or other materials provided with the
+// distribution.
+//    * Neither the name of Google Inc. nor the names of its
+// contributors may be used to endorse or promote products derived from
+// this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

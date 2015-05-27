@@ -174,7 +174,7 @@ data/langtags.json: bin/langtags.pl \
 ## ------ HTTP ------
 
 all-http: data/http-status-codes.json data/http-methods.json \
-    data/headers.json data/digests.json
+    data/headers.json data/digests.json data/http-frames.json
 
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
@@ -237,6 +237,12 @@ local/iana/fcast.xml:
 local/iana/ni.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ http://www.iana.org/assignments/named-information/named-information.xml
+local/iana/http2.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ https://www.iana.org/assignments/http2-parameters/http2-parameters.xml
+local/iana/ws.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ https://www.iana.org/assignments/websocket/websocket.xml
 
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
@@ -279,6 +285,10 @@ data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt \
     local/iana/ni.json
 	$(PERL) bin/digests.pl > $@
+
+data/http-frames.json: bin/http-frames.pl \
+    local/iana/ws.json local/iana/http2.json bin/http-frames-hpack.pl
+	$(PERL) bin/http-frames.pl > $@
 
 ## ------ Encodings ------
 
