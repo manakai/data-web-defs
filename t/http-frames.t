@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..13"
+echo "1..15"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
