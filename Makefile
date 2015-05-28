@@ -247,6 +247,9 @@ local/iana/ws.xml:
 local/iana/tls.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/tls-parameters/tls-parameters.xml
+local/iana/tls-exts.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xml
 
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
@@ -299,7 +302,8 @@ local/mozilla-ciphers.html:
 local/mozilla-ciphers.json: local/mozilla-ciphers.html bin/mozilla-ciphers.pl
 	$(PERL) bin/mozilla-ciphers.pl < $< > $@
 
-data/tls.json: bin/tls.pl local/iana/tls.json local/mozilla-ciphers.json
+data/tls.json: bin/tls.pl local/iana/tls.json local/mozilla-ciphers.json \
+    local/iana/tls-exts.json
 	$(PERL) bin/tls.pl > $@
 
 ## ------ Encodings ------

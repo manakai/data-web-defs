@@ -5,7 +5,21 @@ TLS (SSL) data.
 
 * Structure
 
-The file contains a JSON object with following name/value pair:
+The file contains a JSON object with following name/value pairs:
+
+  alpn_ids [object]
+
+    Names are known ALPN protocol IDs (in uppercase Base16) and values
+    are their descriptions as [protocol-object], with following
+    additional name/value pairs:
+
+      hex [string]
+
+        The uppercase Base16 representation of the protocol ID.
+
+      string [string]
+
+        The ASCII string representation of the protocol ID.
 
   cipher_suites [object]
 
@@ -57,11 +71,17 @@ The file contains a JSON object with following name/value pair:
 RFC 5246, The Transport Layer Security (TLS) Protocol Version 1.2
 <https://tools.ietf.org/html/rfc5246>.
 
+RFC 7301, Transport Layer Security (TLS) Application-Layer Protocol
+Negotiation Extension <https://tools.ietf.org/html/rfc7301>.
+
 RFC 7540, Hypertext Transfer Protocol Version 2 (HTTP/2)
 <http://tools.ietf.org/html/rfc7540>.
 
 Transport Layer Security (TLS) Parameters
 <http://www.iana.org/assignments/tls-parameters/tls-parameters.xml>.
+
+Transport Layer Security (TLS) Extensions
+<http://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xml>.
 
 Security/Server Side TLS - MozillaWiki
 <https://wiki.mozilla.org/Security/Server_Side_TLS>.

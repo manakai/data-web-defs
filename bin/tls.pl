@@ -96,6 +96,35 @@ for (
   }
 }
 
+sub b16 ($) {
+  return join '', map { sprintf '%02X', ord $_ } split //, $_[0];
+} # b16
+
+{
+  my $path = $root_path->child ('local/iana/tls-exts.json');
+  my $json = json_bytes2perl $path->slurp;
+
+  for my $record (@{$json->{registries}->{"alpn-protocol-ids"}->{records}}) {
+    if ($record->{description} =~ /^(0x[0-9A-Fa-f]+(?:\s+0x[0-9A-Fa-f]+)+)/) {
+      my $id = [map { hex $_ } split /\s+/, $1];
+      my $id_hex = join '', map { sprintf '%02X', $_ } @$id;
+      my $id_str = join '', map { chr $_ } @$id;
+      $Data->{alpn_ids}->{$id_hex}->{hex} = $id_hex;
+      $Data->{alpn_ids}->{$id_hex}->{string} = $id_str;
+      $Data->{alpn_ids}->{$id_hex}->{iana} = 1;
+    }
+  }
+
+  $Data->{alpn_ids}->{b16 $_}->{hex} ||= b16 $_,
+  $Data->{alpn_ids}->{b16 $_}->{string} ||= $_,
+  $Data->{alpn_ids}->{b16 $_}->{obsolete} = 1 for qw(
+    spdy/1 spdy/2 spdy/3 spdy/3.1 h2-11 h2-12 h2-13 h2-14 h2-15
+  );
+  $Data->{alpn_ids}->{b16 $_}->{hex} ||= b16 $_,
+  $Data->{alpn_ids}->{b16 $_}->{string} ||= $_,
+  $Data->{alpn_ids}->{b16 $_}->{reserved} = 1 for qw(h2c);
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
