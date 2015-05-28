@@ -174,13 +174,14 @@ data/langtags.json: bin/langtags.pl \
 ## ------ HTTP ------
 
 all-http: data/http-status-codes.json data/http-methods.json \
-    data/headers.json data/digests.json data/http-frames.json
+    data/headers.json data/digests.json data/http-frames.json \
+    data/tls.json
 
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
 	rm -fr local/iana-http-statuses.xml
 	rm -fr local/iana/rtsp.xml local/iana/sip.xml
-	rm -fr local/iana/http*.xml
+	rm -fr local/iana/http*.xml local/mozilla-ciphers.html
 
 local/sw-http-statuses.xml:
 	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20status%20codes?format=xml"
@@ -236,13 +237,16 @@ local/iana/fcast.xml:
 	$(SAVEURL) $@ http://www.iana.org/assignments/fcast/fcast.xml
 local/iana/ni.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/named-information/named-information.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/named-information/named-information.xml
 local/iana/http2.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/http2-parameters/http2-parameters.xml
 local/iana/ws.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/websocket/websocket.xml
+local/iana/tls.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ https://www.iana.org/assignments/tls-parameters/tls-parameters.xml
 
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
@@ -289,6 +293,14 @@ data/digests.json: bin/digests.pl \
 data/http-frames.json: bin/http-frames.pl \
     local/iana/ws.json local/iana/http2.json bin/http-frames-hpack.pl
 	$(PERL) bin/http-frames.pl > $@
+
+local/mozilla-ciphers.html:
+	$(SAVEURL) $@ https://wiki.mozilla.org/Security/Server_Side_TLS
+local/mozilla-ciphers.json: local/mozilla-ciphers.html bin/mozilla-ciphers.pl
+	$(PERL) bin/mozilla-ciphers.pl < $< > $@
+
+data/tls.json: bin/tls.pl local/iana/tls.json local/mozilla-ciphers.json
+	$(PERL) bin/tls.pl > $@
 
 ## ------ Encodings ------
 

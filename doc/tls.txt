@@ -1,0 +1,80 @@
+data/tls.json
+~~~~~~~~~~~~~
+
+TLS (SSL) data.
+
+* Structure
+
+The file contains a JSON object with following name/value pair:
+
+  cipher_suites [object]
+
+    Names are known cipher suite codes (in decimal with no leading
+    zero) and values are their descriptions as [protocol-object], with
+    following additional name/value pairs:
+
+      code [integer]
+
+        The cipher suite code.
+
+      dtls [boolean]
+
+        Whether the cipher suite can be used in DTLS or not.
+
+      gnutls [string?]
+
+        The cipher suite name used in GnuTLS.
+
+      h2_blacklist [boolean]
+
+        Whether the cipher suite is part of the HTTP/2 cipher suite
+        black list or not.
+
+      h2_required [boolean]
+
+        Whether support for the cipher suite is required by HTTP/2 or
+        not.
+
+      name [string?]
+
+        The cipher suite name, as registered with IANA.
+
+      nss [string?]
+
+        The cipher suite name used in NSS.
+
+      openssl [string?]
+
+        The cipher suite name used in OpenSSL.
+
+      tls12_required [boolean]
+
+        Whether support for the cipher suite is required by TLS 1.2 or
+        not.
+
+* Sources
+
+RFC 5246, The Transport Layer Security (TLS) Protocol Version 1.2
+<https://tools.ietf.org/html/rfc5246>.
+
+RFC 7540, Hypertext Transfer Protocol Version 2 (HTTP/2)
+<http://tools.ietf.org/html/rfc7540>.
+
+Transport Layer Security (TLS) Parameters
+<http://www.iana.org/assignments/tls-parameters/tls-parameters.xml>.
+
+Security/Server Side TLS - MozillaWiki
+<https://wiki.mozilla.org/Security/Server_Side_TLS>.
+
+ciphers - SSL cipher display and cipher list tool.
+<https://www.openssl.org/docs/apps/ciphers.html>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of the JSON file and this document.
+
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of the JSON file and this
+document has waived all copyright and related or neighboring rights to
+the JSON file and this document.
