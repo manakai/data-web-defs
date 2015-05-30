@@ -11,6 +11,11 @@ my $lists = {};
 {
   $lists->{tls12_required}->{$_} = 1
       for qw(TLS_RSA_WITH_AES_128_CBC_SHA);
+  $lists->{tls12_recommended}->{$_} = 1
+      for qw(TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+             TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+             TLS_DHE_RSA_WITH_AES_256_GCM_SHA384
+             TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384); # RFC 7525
   $lists->{h2_required}->{$_} = 1
       for qw(TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256);
 
