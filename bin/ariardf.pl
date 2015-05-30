@@ -29,12 +29,39 @@ my $Triples = [];
   $rdfparser->convert_document ($doc);
 }
 
+my $subClassOf = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
+
+## <http://w3c.github.io/aria/aria/aria.html#text>
+push @$Triples, ['text', $subClassOf, 'structure'];
+
+## <http://w3c.github.io/aria/aria/aria.html#searchbox>
+push @$Triples, ['searchbox', $subClassOf, 'textbox'];
+
+## <http://w3c.github.io/aria/aria/aria.html#switch>
+push @$Triples, ['switch', $subClassOf, 'checkbox'];
+
+## <https://github.com/w3c/aria/commit/ad45423151fb13accd8776c1a04d911e6ee81623>
+@$Triples = grep {
+  not ($_->[0] =~ /#(?:section|alert|grid|landmark|list|log|status|tabpanel|article)$/ and
+       $_->[1] eq $subClassOf);
+} @$Triples;
+push @$Triples, ['section', $subClassOf, 'structure'];
+push @$Triples, ['alert', $subClassOf, 'section'];
+push @$Triples, ['grid', $subClassOf, 'composite'];
+push @$Triples, ['grid', $subClassOf, 'section'];
+push @$Triples, ['landmark', $subClassOf, 'section'];
+push @$Triples, ['list', $subClassOf, 'section'];
+push @$Triples, ['log', $subClassOf, 'section'];
+push @$Triples, ['status', $subClassOf, 'section'];
+push @$Triples, ['tabpanel', $subClassOf, 'section'];
+push @$Triples, ['article', $subClassOf, 'document'];
+
 $Data->{roles}->{roletype} = {};
 while (1) {
   my $new;
   for my $triple (@$Triples) {
     my $super;
-    if ($triple->[1] eq "http://www.w3.org/2000/01/rdf-schema#subClassOf" and
+    if ($triple->[1] eq $subClassOf and
         do {
           $super = $triple->[2];
           $super =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
@@ -96,6 +123,9 @@ $Data->{roles}->{radio}->{attrs}->{'aria-setsize'} ||= {};
 $Data->{roles}->{tab}->{attrs}->{'aria-posinset'} ||= {};
 $Data->{roles}->{tab}->{attrs}->{'aria-setsize'} ||= {};
 
+## <http://w3c.github.io/aria/aria/aria.html#aria-modal>
+$Data->{roles}->{window}->{attrs}->{'aria-modal'} ||= {};
+
 for my $role (keys %{$Data->{roles}}) {
   for my $super (keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
     unless ($super eq 'roletype') { # global
@@ -149,6 +179,8 @@ $Data->{roles}->{spinbutton}->{preferred} = {type => 'input', name => 'number'};
 $Data->{roles}->{textbox}->{preferred} = {type => 'textbox'};
 $Data->{roles}->{toolbar}->{preferred} = {type => 'html_element', name => 'menu'};
 $Data->{roles}->{tooltip}->{preferred} = {type => 'title'};
+$Data->{roles}->{text}->{preferred} = {type => 'html_element', name => 'pre'};
+$Data->{roles}->{searchbox}->{preferred} = {type => 'input', name => 'search'};
 
 for my $sub_role (keys %{$Data->{roles}}) {
   for my $super_role (keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
@@ -189,6 +221,10 @@ $Data->{attrs}->{$_}->{is_state} = 1
     for qw(aria-busy aria-checked aria-disabled aria-expanded
            aria-grabbed aria-hidden aria-invalid aria-pressed aria-selected);
 
+## <http://w3c.github.io/aria/aria/aria.html#aria-current>
+$Data->{attrs}->{$_}->{is_state} = 1
+    for qw(aria-current);
+
 {
   my @type = qw(
     role token_list
@@ -228,6 +264,9 @@ $Data->{attrs}->{$_}->{is_state} = 1
     aria-valuenow number
     aria-valuetext string
     aria-describedat URI
+
+    aria-modal true/false
+    aria-current token
   );
   while (@type) {
     my $name = shift @type;
@@ -283,11 +322,19 @@ $Data->{attrs}->{'aria-sort'}->{tokens}->{$_} = {}
     for qw(ascending descending none other);
 $Data->{attrs}->{'aria-sort'}->{default} = 'none';
 
+## <http://w3c.github.io/aria/aria/aria.html#aria-current>
+$Data->{attrs}->{'aria-current'}->{tokens}->{$_} = {}
+    for qw(page step location date time true false);
+$Data->{attrs}->{'aria-current'}->{default} = 'false';
+
 ## <http://rawgit.com/w3c/aria/master/spec/aria.html#aria-orientation>
 #$Data->{attrs}->{'aria-orientation'}->{default} = 'horizontal'; # 1.0
 $Data->{attrs}->{'aria-orientation'}->{default} = 'undefined'; # 1.1
 
 $Data->{attrs}->{'aria-describedat'}->{preferred} = {type => 'html_element', name => 'a'};
+
+## <http://w3c.github.io/aria/aria/aria.html#aria-modal>
+$Data->{attrs}->{'aria-modal'}->{preferred} = {type => 'html_element', name => 'dialog'};
 
 ## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
 $Data->{roles}->{none} = $Data->{roles}->{presentation};
