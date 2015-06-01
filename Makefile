@@ -370,9 +370,10 @@ local/dom-extracted.json: local/dom.html bin/extract-dom-standard.pl
 	$(PERL) bin/extract-dom-standard.pl > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
-    local/html-extracted.json src/elements.txt local/html-status.xml \
+    local/html-extracted.json src/elements.txt \
     src/attr-types.txt local/obsvocab.html data/aria.json \
     local/element-aria.json src/html-obsolete.txt
+	#local/html-status.xml
 	$(PERL) bin/elements.pl > $@
 
 ## Not invoked by all and all-dom
@@ -384,8 +385,8 @@ local/html:
 	touch $@
 local/html-extracted.json: local/html bin/extract-html-standard.pl
 	$(PERL) bin/extract-html-standard.pl > $@
-local/html-status.xml:
-	$(SAVEURL) $@ https://html.spec.whatwg.org/status.cgi?action=get-all-annotations
+#local/html-status.xml:
+#	$(SAVEURL) $@ https://html.spec.whatwg.org/status.cgi?action=get-all-annotations
 local/obsvocab.html:
 	$(SAVEURL) $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
 
