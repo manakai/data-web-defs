@@ -223,7 +223,8 @@ $Data->{attrs}->{$_}->{is_state} = 1
            aria-grabbed aria-hidden aria-invalid aria-pressed aria-selected);
 
 ## <http://w3c.github.io/aria/aria/aria.html#aria-current>
-$Data->{attrs}->{$_}->{is_state} = 1
+$Data->{attrs}->{$_}->{is_state} = 1,
+$Data->{roles}->{roletype}->{attrs}->{$_} ||= {},
     for qw(aria-current);
 
 {
