@@ -20,7 +20,7 @@ for (
 for (qw(
   callback interface partial dictionary enum typedef implements const
   null true false -Infinity Infinity NaN serializer getter stringifier
-  static attribute inherit readonly setter creator deleter
+  static attribute inherit readonly setter deleter
   legacycaller legacyiterable iterable optional ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
@@ -44,7 +44,7 @@ for (qw(
 
 ## <http://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
-  attribute callback const creator deleter dictionary enum
+  attribute callback const deleter dictionary enum
   getter implements inherit interface iterable legacycaller
   legacyiterable maplike partial serializer setlike setter static
   stringifier typedef unrestricted required
