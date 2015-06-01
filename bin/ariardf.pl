@@ -181,6 +181,7 @@ $Data->{roles}->{toolbar}->{preferred} = {type => 'html_element', name => 'menu'
 $Data->{roles}->{tooltip}->{preferred} = {type => 'title'};
 $Data->{roles}->{text}->{preferred} = {type => 'html_element', name => 'pre'};
 $Data->{roles}->{searchbox}->{preferred} = {type => 'input', name => 'search'};
+$Data->{roles}->{switch}->{preferred} = {type => 'input', name => 'checkbox'};
 
 for my $sub_role (keys %{$Data->{roles}}) {
   for my $super_role (keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
