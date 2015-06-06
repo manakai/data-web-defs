@@ -610,6 +610,20 @@ The file contains a JSON object with following name/value pairs:
         properties of one or more headers sharing same header name
         pattern.
 
+  hsts_directives [object]
+
+    Names are directive names used in the HSTS header and values are
+    their descriptions, as [protocol-object], with following
+    additional name/value pair:
+
+      value_optionality [conformance?]
+
+        Whether the value is allowed or disallowed, if known.
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
   keep_alive_params [object]
 
     Names are parameter names (in lowercase) and values are their
@@ -689,6 +703,25 @@ The file contains a JSON object with following name/value pairs:
     Names are directive names used in |P3P:| header and values are
     their descriptions, as [protocol-object], with following
     additional name/value pair:
+
+      value_type [value-type?]
+
+        The type of the value, if known.
+
+  pkp_directives [object]
+
+    Names are directive names used in PKP and PKP-RO headers and
+    values are their descriptions, as [protocol-object], with
+    following additional name/value pair:
+
+      multiple [boolean]
+
+        Whether multiple directives can be specified within a header
+        or not.
+
+      value_optionality [conformance?]
+
+        Whether the value is allowed or disallowed, if known.
 
       value_type [value-type?]
 
@@ -875,6 +908,9 @@ RFC 5861, HTTP Cache-Control Extensions for Stale Content
 RFC 6265, HTTP State Management Mechanism
 <http://tools.ietf.org/html/rfc6265>.
 
+RFC 6797, HTTP Strict Transport Security (HSTS)
+<http://tools.ietf.org/html/rfc6797>.
+
 RFC 6968, FCAST: Object Delivery for the Asynchronous Layered Coding
 (ALC) and NACK-Oriented Reliable Multicast (NORM) Protocols
 <https://tools.ietf.org/html/rfc6968>.
@@ -905,6 +941,9 @@ RFC 7239, Forwarded HTTP Extension
 
 RFC 7240, Prefer Header for HTTP <http://tools.ietf.org/html/rfc7240>.
 
+RFC 7469, Public Key Pinning Extension for HTTP
+<https://tools.ietf.org/html/rfc7469>.
+
 Message Headers
 <http://www.iana.org/assignments/message-headers/message-headers.xhtml>.
 
@@ -930,9 +969,16 @@ Fetch Standard <https://fetch.spec.whatwg.org/>.
 WHATWG Wiki PragmaExtensions
 <https://wiki.whatwg.org/wiki/PragmaExtensions>.
 
+HSTS Preload Submission <https://hstspreload.appspot.com/>.
+
 SuikaWiki:protocol <http://wiki.suikawiki.org/n/protocol$22089>.
 
 * License
 
 You are granted a license to use, reproduce, and create derivative
 works of the JSON file.
+
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of the JSON file and this
+document has waived all copyright and related or neighboring rights to
+the JSON file and this document.

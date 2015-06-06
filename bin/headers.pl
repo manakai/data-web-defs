@@ -647,7 +647,7 @@ sub add_data ($) {
       $Data->{$x->{key}}->{$name}->{protocols}->{$1} = 1;
     } elsif (/^(rfc2068_warn_code)\s+(\S+)$/) {
       $Data->{$x->{key}}->{$name}->{$1} = $2;
-    } elsif (/^(obsolete)$/) {
+    } elsif (/^(obsolete|multiple)$/) {
       $Data->{$x->{key}}->{$name}->{$1} = 1;
     } elsif (/^(SHOULD NOT) -> (\S+)$/) {
       $Data->{$x->{key}}->{$name}->{deprecated} = 'SHOULD NOT';
@@ -716,6 +716,10 @@ add_data +{key => 'extension_declarations',
            src_file_name => 'http-ext-decls.txt'};
 add_data +{key => 'p3p_directives',
            src_file_name => 'http-p3p.txt'};
+add_data +{key => 'hsts_directives',
+           src_file_name => 'http-hsts.txt'};
+add_data +{key => 'pkp_directives',
+           src_file_name => 'http-pkp.txt'};
 
 print perl2json_bytes_for_record $Data;
 
