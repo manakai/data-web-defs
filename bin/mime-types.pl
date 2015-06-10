@@ -1,24 +1,25 @@
 use strict;
 use warnings;
 use Encode;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib');
+use Path::Tiny;
+use lib glob path (__FILE__)->parent->child ('modules', '*', 'lib');
 use JSON::PS;
 use Web::XML::Parser;
 use Web::DOM::Document;
 
 sub parse ($) {
   my @doc;
-  for (glob file (__FILE__)->dir->parent->subdir ('local')->file ($_[0])) {
-    my $f = file ($_);
+  for (glob path (__FILE__)->parent->parent->child ('local', $_[0])) {
+    my $path = path ($_);
+    warn "$path...\n";
     my $doc = Web::DOM::Document->new;
     local $/ = undef;
     if ($_[0] =~ /html/) {
       $doc->manakai_is_html (1);
-      $doc->inner_html (decode 'utf-8', scalar $f->slurp);
+      $doc->inner_html (decode 'utf-8', $path->slurp);
     } else {
       Web::XML::Parser->new->parse_char_string
-          ((decode 'utf-8', scalar $f->slurp) => $doc);
+          ((decode 'utf-8', $path->slurp) => $doc);
     }
     push @doc, $doc;
   }
@@ -48,30 +49,25 @@ for my $doc (parse 'sw-mime-types-xml-*') {
   }
 }
 
-for my $doc (parse 'iana-mime-types.xml') {
-  for my $el (@{$doc->document_element->children}) {
-    next unless $el->local_name eq 'registry';
-    my $type = ($el->query_selector ('title') or next)->text_content;
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/iana/mime-types.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $t (keys %{$json->{registries}}) {
+    my $type = $t;
     $type =~ tr/A-Z/a-z/;
     $Data->{"$type/*"}->{type} = 'type';
     $Data->{"$type/*"}->{iana} = 'permanent';
-    for my $el (@{$el->children}) {
-      next unless $el->local_name eq 'record';
-      my $subtype = ($el->query_selector ('name') or next)->text_content;
+    for my $record (@{$json->{registries}->{$t}->{records}}) {
+      my $subtype = $record->{name};
       my $info = '';
       if ($subtype =~ s/ - (.+)$//) {
         $info = $1;
       }
       $subtype =~ tr/A-Z/a-z/;
-      my $dep_el = $el->query_selector ('deprecated');
-      my $obs_el = $el->query_selector ('obsolete');
-      
       $Data->{"$type/$subtype"}->{type} = 'subtype';
       $Data->{"$type/$subtype"}->{iana} = 'permanent';
-      $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated' if $dep_el;
       $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated'
           if $info =~ /^DEPRECATED/;
-      $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete' if $obs_el;
       $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete'
           if $info =~ /^OBSOLETE/;
       if ($info =~ m{in favor of (\S+/\S+)}) {
@@ -83,13 +79,27 @@ for my $doc (parse 'iana-mime-types.xml') {
   }
 }
 
-for my $doc (parse 'iana-mime-type-provisional.xml') {
-  for (@{$doc->query_selector_all ('record > name')}) {
-    my $type = $_->text_content;
+{
+  my $path = path (__FILE__)->parent->parent->child
+      ('local/iana/mime-type-provisional.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $record (@{$json->{registries}->{'provisional-standard-types'}->{records}}) {
+    my $type = $record->{name};
     $type =~ m{\A[0-9A-Za-z_.+/-]+\z} or next;
     $type =~ tr/A-Z/a-z/;
     $Data->{$type}->{type} = 'subtype';
     $Data->{$type}->{iana} ||= 'provisional';
+  }
+}
+
+{
+  my $path = path (__FILE__)->parent->parent->child
+      ('intermediate/mime-type-provisional.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $type (keys %{$json->{mime_types}}) {
+    $type =~ m{\A[0-9A-Za-z_.+/-]+\z} or next;
+    $type =~ tr/A-Z/a-z/;
+    $Data->{$type}->{type} = 'subtype';
   }
 }
 
@@ -103,7 +113,7 @@ for my $doc (parse 'iana-mime-type-suffixes.xml') {
   }
 }
 
-for (file (__FILE__)->dir->parent->subdir ('local')->file ('apache-mime-types')->slurp) {
+for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('local/apache-mime-types')->slurp) {
   if (m{\A(?:\# )?([0-9A-Za-z_+.-]+/[0-9A-Za-z_+.-]+)\s*([0-9A-Za-z_-][0-9A-Za-z_\s-]*)?\z}) {
     my $type = $1;
     my $exts = [split /\s+/, lc ($2 // '')];
@@ -114,7 +124,7 @@ for (file (__FILE__)->dir->parent->subdir ('local')->file ('apache-mime-types')-
 
 my $type;
 my $attr;
-for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slurp) {
+for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.txt')->slurp) {
   if (m{^([0-9A-Za-z_+./*\#-]+)$}) {
     $type = $1;
     $type =~ tr/A-Z/a-z/;
@@ -164,7 +174,7 @@ for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime-types.txt')->slur
   }
 }
 
-for (file (__FILE__)->dir->parent->subdir ('src')->file ('mime.types')->slurp) {
+for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types')->slurp) {
   if (/^(\S+)\s+(\S.*)/) {
     my $type = lc $1;
     my $exts = [split /\s+/, lc $2];
