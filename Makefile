@@ -94,22 +94,34 @@ local/sw-mime-types-xml:
 	$(WGET) -O $@-windows "http://suika.suikawiki.org/~wakaba/wiki/sw/n/windows+%2A?format=xml"
 	$(WGET) -O $@-xworld "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-world+%2A?format=xml"
 	$(WGET) -O $@-xgi "http://suika.suikawiki.org/~wakaba/wiki/sw/n/xgi+%2A?format=xml"
+	$(WGET) -O $@-fitness "http://wiki.suikawiki.org/n/vnd.google.fitness.data_type%2F%2A?format=xml"
+	$(WGET) -O $@-cursor "http://wiki.suikawiki.org/n/vnd.android.cursor.dir%2F%2A?format=xml"
 	touch $@
 
-local/iana-mime-types.xml:
+local/iana/mime-types.xml:
+	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/media-types/media-types.xml
-local/iana-mime-type-suffixes.xml:
+local/iana/mime-type-suffixes.xml:
+	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xml
-local/iana-mime-type-provisional.xml:
+local/iana/mime-type-provisional.xml:
+	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/provisional-standard-media-types/provisional-standard-media-types.xml
+
+intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
+    local/iana/mime-type-provisional.json
+	$(PERL) bin/mime-type-provisional.pl > $@
 
 local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+local/jshttp-mime-types.json:
+	$(WGET) -O $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
 
 data/mime-types.json: bin/mime-types.pl \
-    local/sw-mime-types-xml local/iana-mime-types.xml \
-    local/iana-mime-type-suffixes.xml local/apache-mime-types \
-    src/mime-types.txt local/iana-mime-type-provisional.xml src/mime.types
+    local/sw-mime-types-xml local/iana/mime-types.json \
+    local/iana/mime-type-suffixes.json local/apache-mime-types \
+    src/mime-types.txt local/iana/mime-type-provisional.json src/mime.types \
+    intermediate/mime-type-provisional.json local/jshttp-mime-types.json
 	$(PERL) bin/mime-types.pl > $@
 	!(grep ' - ' $@ > /dev/null)
 
