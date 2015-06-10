@@ -114,12 +114,14 @@ intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
 
 local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+local/jshttp-mime-types.json:
+	$(WGET) -O $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
 
 data/mime-types.json: bin/mime-types.pl \
     local/sw-mime-types-xml local/iana/mime-types.json \
     local/iana/mime-type-suffixes.json local/apache-mime-types \
     src/mime-types.txt local/iana/mime-type-provisional.json src/mime.types \
-    intermediate/mime-type-provisional.json
+    intermediate/mime-type-provisional.json local/jshttp-mime-types.json
 	$(PERL) bin/mime-types.pl > $@
 	!(grep ' - ' $@ > /dev/null)
 

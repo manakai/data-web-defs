@@ -113,6 +113,19 @@ for my $doc (parse 'iana-mime-type-suffixes.xml') {
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child
+      ('local/jshttp-mime-types.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $type (keys %$json) {
+    $type =~ tr/A-Z/a-z/;
+    $Data->{$type}->{type} ||= 'subtype';
+    $Data->{$type}->{extensions}->{$_} = 1 for @{$json->{$type}->{extensions} or []};
+    $Data->{$type}->{compressible} = $json->{$type}->{compressible}
+        if defined $json->{$type}->{compressible};
+  }
+}
+
 for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('local/apache-mime-types')->slurp) {
   if (m{\A(?:\# )?([0-9A-Za-z_+.-]+/[0-9A-Za-z_+.-]+)\s*([0-9A-Za-z_-][0-9A-Za-z_\s-]*)?\z}) {
     my $type = $1;
