@@ -185,6 +185,15 @@ for (keys %$Data) {
   $Data->{$_}->{preferred_cte} ||= 'quoted-printable' if $Data->{$_}->{text};
 }
 
+{
+  my @type = keys %$Data;
+  for (@type) {
+    if (m{^([^/]+)/}) {
+      $Data->{"$1/*"} ||= {type => 'type'};
+    }
+  }
+}
+
 for my $type (keys %$Data) {
   $Data->{$type}->{any_xml} = 1 if $Data->{$type}->{xml};
   $Data->{$type}->{text} = 1 if $Data->{$type}->{any_xml};
