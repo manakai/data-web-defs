@@ -103,9 +103,12 @@ for my $doc (parse 'sw-mime-types-xml-*') {
   }
 }
 
-for my $doc (parse 'iana-mime-type-suffixes.xml') {
-  for (@{$doc->query_selector_all ('registry > registry > record > suffix')}) {
-    my $suffix = $_->text_content;
+{
+  my $path = path (__FILE__)->parent->parent->child
+      ('local/iana/mime-type-suffixes.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $record (@{$json->{registries}->{'structured-syntax-suffix'}->{records}}) {
+    my $suffix = $record->{suffix};
     $suffix =~ /\A\+[0-9A-Za-z_.-]+\z/ or next;
     $suffix =~ tr/A-Z/a-z/;
     $Data->{"*/*$suffix"}->{type} = 'suffix';
