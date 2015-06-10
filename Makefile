@@ -94,6 +94,8 @@ local/sw-mime-types-xml:
 	$(WGET) -O $@-windows "http://suika.suikawiki.org/~wakaba/wiki/sw/n/windows+%2A?format=xml"
 	$(WGET) -O $@-xworld "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-world+%2A?format=xml"
 	$(WGET) -O $@-xgi "http://suika.suikawiki.org/~wakaba/wiki/sw/n/xgi+%2A?format=xml"
+	$(WGET) -O $@-fitness "http://wiki.suikawiki.org/n/vnd.google.fitness.data_type%2F%2A?format=xml"
+	$(WGET) -O $@-cursor "http://wiki.suikawiki.org/n/vnd.android.cursor.dir%2F%2A?format=xml"
 	touch $@
 
 local/iana-mime-types.xml:
