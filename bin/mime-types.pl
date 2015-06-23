@@ -191,19 +191,25 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.
 }
 
 for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types')->slurp) {
-  if (/^(\S+)\s+(\S.*)/) {
+  if (/^([^\s;]+)\s+(\S.*)/) {
     my $type = lc $1;
     my $exts = [split /\s+/, lc $2];
     $Data->{$type}->{type} = 'subtype';
     $Data->{$type}->{extensions}->{$_} = 1 for @$exts;
-  } elsif (/^(\S+)\s*$/) {
+  } elsif (/^([^\s;]+)\s*$/) {
     $Data->{lc $1}->{type} = 'subtype';
+  } elsif (/^([^\s;]+); ([^=]+)=(.*?)\s*$/) {
+    $Data->{lc $1}->{type} = 'subtype';
+    $Data->{lc $1}->{params}->{lc $2}->{values}->{$3} ||= {};
   } elsif (/\S/) {
     die "Broken line |$_|";
   }
 }
 
+$Data->{'/'}->{type} = 'type_only';
 $Data->{'*/*'}->{type} = 'subtype';
+$Data->{'drawing/x-dwf (old)'}->{type} = 'subtype';
+$Data->{'drawing/x-dwf (old)'}->{extensions}->{dwf} = 1;
 for (keys %$Data) {
   if ($Data->{$_}->{params} and $Data->{$_}->{params}->{charset}) {
     $Data->{$_}->{text} = 1 unless m{^(?:text|message/multipart)/};
