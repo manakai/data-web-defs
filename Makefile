@@ -142,10 +142,13 @@ local/iana/url-schemes.xml:
 	mkdir -p local/iana
 	$(WGET) -O $@ http://www.iana.org/assignments/uri-schemes/uri-schemes.xml
 
+src/url-schemes-ihasapp.json:
+	$(WGET) -O $@ https://raw.githubusercontent.com/danielamitay/iHasApp/master/iHasApp/schemeApps.json
+
 data/url-schemes.json: bin/url-schemes.pl \
     src/url-schemes.txt local/sw-url-schemes.txt local/iana/url-schemes.json \
     src/url-schemes-iphone.txt src/url-schemes-iphone-args.txt \
-    src/url-schemes-windowsphone.txt
+    src/url-schemes-windowsphone.txt src/url-schemes-ihasapp.json
 	$(PERL) bin/url-schemes.pl
 
 ## ------ Language tags ------

@@ -508,7 +508,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
       } else {
         $Data->{preferences}->{$name}->{params}->{$param_name}->{url} = $url;
       }
-    } elsif (/^(\w+)=""$/) {
+    } elsif (/^([\w-]+)=""$/) {
       $param_name = $1;
       $Data->{preferences}->{$name}->{params}->{$param_name} ||= {};
     } elsif (/^value none$/) {
