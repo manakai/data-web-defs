@@ -91,6 +91,15 @@ for my $file_name (qw(local/sw-url-schemes.txt)) {
   }
 }
 {
+  my $path = path (__FILE__)->parent->parent->child ('src/url-schemes-ihasapp.json');
+  my $json = json_bytes2perl $path->slurp;
+  for (keys %$json) {
+    my $scheme = lc $_;
+    $Data->{$scheme}->{application}->{ios} = 1;
+    $Data->{$scheme}->{itunes_ids}->{$_} = 1 for @{$json->{$_}};
+  }
+}
+{
   my $path = path (__FILE__)->parent->parent->child ('src/url-schemes-windowsphone.txt');
   for (split /\x0D?\x0A/, $path->slurp) {
     if (/^([0-9A-Za-z._+-]+)\s*$/) {
@@ -107,6 +116,9 @@ for my $scheme (keys %{$Data}) {
       if defined $Data->{$scheme}->{'default-port'};
   if (defined $Data->{$scheme}->{'no-tls'}) {
     $Data->{$scheme}->{secure} = 1;
+  }
+  if ($Data->{$scheme}->{'x-callback-url'}) {
+    $Data->{$scheme}->{query} ||= 'nv';
   }
 } # $scheme
 
