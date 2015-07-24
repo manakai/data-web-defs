@@ -56,6 +56,7 @@ authority [string]
     host+           Same as |host| but other options are also available.
     id              Some kind of local object ID, including package names.
     network         Some kind of network object ID.
+    none            Never used.
     recursive       URL or an encoded URL.
     resourceless_jid resource-less JID.
     reverse-domain  Reverse domain name.
@@ -82,7 +83,8 @@ default-port [number?]
 fragment [string?]
 
   If |MUST NOT|, the fragment identifier is not allowed for the URL
-  scheme.
+  scheme.  Otherwise, if |data|, the fragment component is considered
+  as part of the scheme data.
 
 http-variant [boolean]
 
@@ -166,6 +168,7 @@ query [string?]
 
     |any|             Any value.  Interpreted by the author (e.g. server).
     |comma-separated| Comma-separated values.
+    |data|            Considered as part of the scheme data.
     |none|            Not used.
     |nv|              Zero or more name, |=|, and value separated by |&|.
     |semicolon-nv|    Zero or more name, |=|, and value separated by |;|.

@@ -127,7 +127,7 @@ data/mime-types.json: bin/mime-types.pl \
 
 ## ------ URLs ------
 
-all-urls: data/url-schemes.json
+all-urls: data/url-schemes.json data/tlds.json
 clean-urls:
 	rm -fr local/sw-url-schemes.*
 	rm -fr local/iana-url-schemes.*
@@ -150,6 +150,12 @@ data/url-schemes.json: bin/url-schemes.pl \
     src/url-schemes-iphone.txt src/url-schemes-iphone-args.txt \
     src/url-schemes-windowsphone.txt src/url-schemes-ihasapp.json
 	$(PERL) bin/url-schemes.pl
+
+local/iana-tlds.txt:
+	$(WGET) -O $@ https://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
+data/tlds.json: local/iana-tlds.txt src/tld-additional.txt bin/tlds.pl
+	$(PERL) bin/tlds.pl > $@
 
 ## ------ Language tags ------
 
