@@ -108,6 +108,8 @@ for (
       $StatusCodes->{$method_name}->{$proto}->{redirect} = 'true';
     } elsif (/^no redirect$/) {
       $StatusCodes->{$method_name}->{$proto}->{redirect} = 'false';
+    } elsif (/^null body$/) {
+      $StatusCodes->{$method_name}->{$proto}->{null_body} = 1;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
