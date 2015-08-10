@@ -123,7 +123,7 @@ sub b16 ($) {
   $Data->{alpn_ids}->{b16 $_}->{hex} ||= b16 $_,
   $Data->{alpn_ids}->{b16 $_}->{string} ||= $_,
   $Data->{alpn_ids}->{b16 $_}->{obsolete} = 1 for qw(
-    spdy/1 spdy/2 spdy/3 spdy/3.1 h2-11 h2-12 h2-13 h2-14 h2-15
+    spdy/1 spdy/2 spdy/3 spdy/3.1 h2-11 h2-12 h2-13 h2-14 h2-15 h2-16
   );
   $Data->{alpn_ids}->{b16 $_}->{hex} ||= b16 $_,
   $Data->{alpn_ids}->{b16 $_}->{string} ||= $_,
