@@ -1472,6 +1472,24 @@
          },
          "url" : "http://www.w3.org/TR/WD-session-id.html"
       },
+      "sfly" : {
+         "credentials" : {
+            "auth_params" : {
+               "user-auth" : {
+                  "name" : "user-auth",
+                  "url" : "https://www.shutterfly.com/documentation/AuthAuth.sfly"
+               }
+            },
+            "syntax" : "auth-param"
+         },
+         "name" : "SFLY",
+         "origin_server" : 1,
+         "protocols" : {
+            "HTTP" : "MAY",
+            "RTSP" : "MAY"
+         },
+         "url" : "https://www.shutterfly.com/documentation/AuthAuth.sfly"
+      },
       "sharedaccesssignature" : {
          "credentials" : {
             "syntax" : "non-standard"
@@ -1957,6 +1975,13 @@
             "value_type" : "field-name"
          }
       },
+      "proxy-public" : {
+         "name" : "proxy-public",
+         "response" : {
+            "value_optionality" : "MUST NOT"
+         },
+         "url" : "https://msdn.microsoft.com/en-us/library/cc251239.aspx"
+      },
       "proxy-revalidate" : {
          "iana" : 1,
          "name" : "proxy-revalidate",
@@ -2021,11 +2046,46 @@
             "value_type" : "delta-seconds"
          }
       },
+      "user-public" : {
+         "name" : "user-public",
+         "response" : {
+            "value_optionality" : "MUST NOT"
+         },
+         "url" : "https://msdn.microsoft.com/en-us/library/cc251266.aspx"
+      },
       "x-gzip-ok" : {
          "name" : "x-gzip-ok",
          "response" : {
             "value_optionality" : "MUST"
          }
+      },
+      "x-wms-content-size" : {
+         "name" : "x-wms-content-size",
+         "response" : {
+            "value_type" : "non-negative integer"
+         },
+         "url" : "https://msdn.microsoft.com/en-us/library/cc251275.aspx"
+      },
+      "x-wms-event-subscription" : {
+         "name" : "x-wms-event-subscription",
+         "response" : {
+            "value_optionality" : "MUST"
+         },
+         "url" : "https://msdn.microsoft.com/en-us/library/cc251276.aspx"
+      },
+      "x-wms-proxy-split" : {
+         "name" : "x-wms-proxy-split",
+         "response" : {
+            "value_optionality" : "MUST NOT"
+         },
+         "url" : "https://msdn.microsoft.com/en-us/library/cc251277.aspx"
+      },
+      "x-wms-stream-type" : {
+         "name" : "x-wms-stream-type",
+         "response" : {
+            "value_optionality" : "MUST"
+         },
+         "url" : "https://msdn.microsoft.com/en-us/library/cc251278.aspx"
       }
    },
    "codings" : {
@@ -2192,12 +2252,26 @@
             "obsolete" : 1
          }
       },
+      "lzma" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1,
+            "compression" : 1
+         }
+      },
       "pack200-gzip" : {
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
             "compression" : 1,
             "iana" : 1
+         }
+      },
+      "peerdist" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1,
+            "url" : "https://msdn.microsoft.com/en-us/library/dd304322.aspx"
          }
       },
       "quoted-printable" : {
@@ -2329,6 +2403,13 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1
+         }
+      },
+      "xz" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1,
+            "compression" : 1
          }
       }
    },
@@ -7974,7 +8055,6 @@
       "user-agent" : {
          "http" : {
             "fingerprinting" : 1,
-            "forbidden" : 1,
             "iana" : 1,
             "id" : "section-5.5.3",
             "request" : {
