@@ -31481,18 +31481,6 @@
                      "spec" : "FETCH"
                   }
                ],
-               "context" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-request-context",
-                     "spec" : "FETCH",
-                     "type" : [
-                        "ref_enum",
-                        "RequestContext"
-                     ]
-                  }
-               ],
                "credentials" : [
                   "attribute",
                   {
@@ -31502,6 +31490,18 @@
                      "type" : [
                         "ref_enum",
                         "RequestCredentials"
+                     ]
+                  }
+               ],
+               "destination" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-request-destination",
+                     "spec" : "FETCH",
+                     "type" : [
+                        "ref_enum",
+                        "RequestDestination"
                      ]
                   }
                ],
@@ -31581,6 +31581,18 @@
                      ]
                   }
                ],
+               "type" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-request-type",
+                     "spec" : "FETCH",
+                     "type" : [
+                        "ref_enum",
+                        "RequestType"
+                     ]
+                  }
+               ],
                "url" : [
                   "attribute",
                   {
@@ -31624,129 +31636,6 @@
             ]
          }
       ],
-      "RequestContext" : [
-         "enum",
-         {
-            "id" : "requestcontext",
-            "spec" : "FETCH",
-            "value" : [
-               "stringset",
-               {
-                  "" : {
-                     "spec" : "FETCH"
-                  },
-                  "applet" : {
-                     "spec" : "FETCH"
-                  },
-                  "audio" : {
-                     "spec" : "FETCH"
-                  },
-                  "beacon" : {
-                     "spec" : "FETCH"
-                  },
-                  "cspreport" : {
-                     "spec" : "FETCH"
-                  },
-                  "download" : {
-                     "spec" : "FETCH"
-                  },
-                  "embed" : {
-                     "spec" : "FETCH"
-                  },
-                  "eventsource" : {
-                     "spec" : "FETCH"
-                  },
-                  "favicon" : {
-                     "spec" : "FETCH"
-                  },
-                  "fetch" : {
-                     "spec" : "FETCH"
-                  },
-                  "font" : {
-                     "spec" : "FETCH"
-                  },
-                  "form" : {
-                     "spec" : "FETCH"
-                  },
-                  "frame" : {
-                     "spec" : "FETCH"
-                  },
-                  "hyperlink" : {
-                     "spec" : "FETCH"
-                  },
-                  "iframe" : {
-                     "spec" : "FETCH"
-                  },
-                  "image" : {
-                     "spec" : "FETCH"
-                  },
-                  "imageset" : {
-                     "spec" : "FETCH"
-                  },
-                  "import" : {
-                     "spec" : "FETCH"
-                  },
-                  "internal" : {
-                     "spec" : "FETCH"
-                  },
-                  "location" : {
-                     "spec" : "FETCH"
-                  },
-                  "manifest" : {
-                     "spec" : "FETCH"
-                  },
-                  "metarefresh" : {
-                     "spec" : "FETCH"
-                  },
-                  "object" : {
-                     "spec" : "FETCH"
-                  },
-                  "ping" : {
-                     "spec" : "FETCH"
-                  },
-                  "plugin" : {
-                     "spec" : "FETCH"
-                  },
-                  "prefetch" : {
-                     "spec" : "FETCH"
-                  },
-                  "preload" : {
-                     "spec" : "FETCH"
-                  },
-                  "prerender" : {
-                     "spec" : "FETCH"
-                  },
-                  "script" : {
-                     "spec" : "FETCH"
-                  },
-                  "sharedworker" : {
-                     "spec" : "FETCH"
-                  },
-                  "style" : {
-                     "spec" : "FETCH"
-                  },
-                  "subresource" : {
-                     "spec" : "FETCH"
-                  },
-                  "track" : {
-                     "spec" : "FETCH"
-                  },
-                  "video" : {
-                     "spec" : "FETCH"
-                  },
-                  "worker" : {
-                     "spec" : "FETCH"
-                  },
-                  "xmlhttprequest" : {
-                     "spec" : "FETCH"
-                  },
-                  "xslt" : {
-                     "spec" : "FETCH"
-                  }
-               }
-            ]
-         }
-      ],
       "RequestCredentials" : [
          "enum",
          {
@@ -31762,6 +31651,36 @@
                      "spec" : "FETCH"
                   },
                   "same-origin" : {
+                     "spec" : "FETCH"
+                  }
+               }
+            ]
+         }
+      ],
+      "RequestDestination" : [
+         "enum",
+         {
+            "id" : "requestdestination",
+            "spec" : "FETCH",
+            "value" : [
+               "stringset",
+               {
+                  "" : {
+                     "spec" : "FETCH"
+                  },
+                  "document" : {
+                     "spec" : "FETCH"
+                  },
+                  "sharedworker" : {
+                     "spec" : "FETCH"
+                  },
+                  "subresource" : {
+                     "spec" : "FETCH"
+                  },
+                  "unknown" : {
+                     "spec" : "FETCH"
+                  },
+                  "worker" : {
                      "spec" : "FETCH"
                   }
                }
@@ -31937,6 +31856,42 @@
                      "spec" : "FETCH"
                   },
                   "manual" : {
+                     "spec" : "FETCH"
+                  }
+               }
+            ]
+         }
+      ],
+      "RequestType" : [
+         "enum",
+         {
+            "id" : "requesttype",
+            "spec" : "FETCH",
+            "value" : [
+               "stringset",
+               {
+                  "" : {
+                     "spec" : "FETCH"
+                  },
+                  "audio" : {
+                     "spec" : "FETCH"
+                  },
+                  "font" : {
+                     "spec" : "FETCH"
+                  },
+                  "image" : {
+                     "spec" : "FETCH"
+                  },
+                  "script" : {
+                     "spec" : "FETCH"
+                  },
+                  "style" : {
+                     "spec" : "FETCH"
+                  },
+                  "track" : {
+                     "spec" : "FETCH"
+                  },
+                  "video" : {
                      "spec" : "FETCH"
                   }
                }
