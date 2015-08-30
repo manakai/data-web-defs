@@ -67,7 +67,7 @@ my $lists = {};
   my $path = $root_path->child ('local/mozilla-ciphers.json');
   my $json = json_bytes2perl $path->slurp;
   for (@{$json->{ciphers}}) {
-    if ($_->{"hex value"} =~ /^0x([0-9A-Fa-f]+),0x([0-9A-Fa-f]+)$/) {
+    if ($_->{Hex} =~ /^0x([0-9A-Fa-f]+),0x([0-9A-Fa-f]+)$/) {
       my $code = (hex $1) * 0x100 + (hex $2);
       $Data->{cipher_suites}->{$code}->{nss} = $_->{NSS}
           if length $_->{NSS};
