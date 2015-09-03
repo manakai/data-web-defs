@@ -87,7 +87,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_NULL_WITH_NULL_NULL",
-         "nss" : "SSL_NULL_WITH_NULL_NULL"
+         "nss" : "TLS_NULL_WITH_NULL_NULL"
       },
       "1" : {
          "code" : 1,
@@ -96,8 +96,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_NULL_MD5",
-         "nss" : "SSL_RSA_WITH_NULL_MD5",
-         "openssl" : "NULL-MD5"
+         "nss" : "TLS_RSA_WITH_NULL_MD5"
       },
       "10" : {
          "code" : 10,
@@ -106,7 +105,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_3DES_EDE_CBC_SHA",
-         "openssl" : "DES-CBC3-SHA"
+         "nss" : "TLS_RSA_WITH_3DES_EDE_CBC_SHA"
       },
       "100" : {
          "code" : 100,
@@ -141,14 +140,16 @@
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_AES_256_CBC_SHA256"
+         "name" : "TLS_DH_DSS_WITH_AES_256_CBC_SHA256",
+         "openssl" : "DH-DSS-AES256-SHA256"
       },
       "105" : {
          "code" : 105,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_AES_256_CBC_SHA256"
+         "name" : "TLS_DH_RSA_WITH_AES_256_CBC_SHA256",
+         "openssl" : "DH-RSA-AES256-SHA256"
       },
       "106" : {
          "code" : 106,
@@ -157,6 +158,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_AES_256_CBC_SHA256",
+         "nss" : "TLS_DHE_DSS_WITH_AES_256_CBC_SHA256",
          "openssl" : "DHE-DSS-AES256-SHA256"
       },
       "107" : {
@@ -192,21 +194,24 @@
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_EXPORT_WITH_DES40_CBC_SHA"
+         "name" : "TLS_DH_DSS_EXPORT_WITH_DES40_CBC_SHA",
+         "nss" : "TLS_DH_DSS_EXPORT_WITH_DES40_CBC_SHA"
       },
       "12" : {
          "code" : 12,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_DES_CBC_SHA"
+         "name" : "TLS_DH_DSS_WITH_DES_CBC_SHA",
+         "nss" : "TLS_DH_DSS_WITH_DES_CBC_SHA"
       },
       "13" : {
          "code" : 13,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_DH_DSS_WITH_3DES_EDE_CBC_SHA",
+         "nss" : "TLS_DH_DSS_WITH_3DES_EDE_CBC_SHA"
       },
       "132" : {
          "code" : 132,
@@ -224,7 +229,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA",
-         "nss" : "TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA"
+         "nss" : "TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA",
+         "openssl" : "DH-DSS-CAMELLIA256-SHA"
       },
       "134" : {
          "code" : 134,
@@ -232,7 +238,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA",
-         "nss" : "TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA"
+         "nss" : "TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA",
+         "openssl" : "DH-RSA-CAMELLIA256-SHA"
       },
       "135" : {
          "code" : 135,
@@ -261,12 +268,12 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA",
-         "nss" : "TLS_DH_ANON_WITH_CAMELLIA_256_CBC_SHA",
+         "nss" : "TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA",
          "openssl" : "ADH-CAMELLIA256-SHA"
       },
       "138" : {
          "code" : 138,
-         "gnutls" : "TLS_PSK_SHA_ARCFOUR_SHA1",
+         "gnutls" : "TLS_PSK_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_PSK_WITH_RC4_128_SHA",
@@ -276,7 +283,7 @@
       "139" : {
          "code" : 139,
          "dtls" : 1,
-         "gnutls" : "TLS_PSK_SHA_3DES_EDE_CBC_SHA1",
+         "gnutls" : "TLS_PSK_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_PSK_WITH_3DES_EDE_CBC_SHA",
@@ -287,12 +294,13 @@
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_EXPORT_WITH_DES40_CBC_SHA"
+         "name" : "TLS_DH_RSA_EXPORT_WITH_DES40_CBC_SHA",
+         "nss" : "TLS_DH_RSA_EXPORT_WITH_DES40_CBC_SHA"
       },
       "140" : {
          "code" : 140,
          "dtls" : 1,
-         "gnutls" : "TLS_PSK_SHA_AES_128_CBC_SHA1",
+         "gnutls" : "TLS_PSK_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_PSK_WITH_AES_128_CBC_SHA",
@@ -301,7 +309,7 @@
       "141" : {
          "code" : 141,
          "dtls" : 1,
-         "gnutls" : "TLS_PSK_SHA_AES_256_CBC_SHA1",
+         "gnutls" : "TLS_PSK_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_PSK_WITH_AES_256_CBC_SHA",
@@ -309,70 +317,83 @@
       },
       "142" : {
          "code" : 142,
-         "gnutls" : "TLS_DHE_PSK_SHA_ARCFOUR_SHA1",
+         "gnutls" : "TLS_DHE_PSK_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_PSK_WITH_RC4_128_SHA",
-         "obsolete" : 1
+         "obsolete" : 1,
+         "openssl" : "DHE-PSK-RC4-SHA"
       },
       "143" : {
          "code" : 143,
          "dtls" : 1,
-         "gnutls" : "TLS_DHE_PSK_SHA_3DES_EDE_CBC_SHA1",
+         "gnutls" : "TLS_DHE_PSK_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_DHE_PSK_WITH_3DES_EDE_CBC_SHA",
+         "openssl" : "DHE-PSK-3DES-EDE-CBC-SHA"
       },
       "144" : {
          "code" : 144,
          "dtls" : 1,
-         "gnutls" : "TLS_DHE_PSK_SHA_AES_128_CBC_SHA1",
+         "gnutls" : "TLS_DHE_PSK_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_128_CBC_SHA"
+         "name" : "TLS_DHE_PSK_WITH_AES_128_CBC_SHA",
+         "openssl" : "DHE-PSK-AES128-CBC-SHA"
       },
       "145" : {
          "code" : 145,
          "dtls" : 1,
-         "gnutls" : "TLS_DHE_PSK_SHA_AES_256_CBC_SHA1",
+         "gnutls" : "TLS_DHE_PSK_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_256_CBC_SHA"
+         "name" : "TLS_DHE_PSK_WITH_AES_256_CBC_SHA",
+         "openssl" : "DHE-PSK-AES256-CBC-SHA"
       },
       "146" : {
          "code" : 146,
+         "gnutls" : "TLS_RSA_PSK_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_PSK_WITH_RC4_128_SHA",
-         "obsolete" : 1
+         "obsolete" : 1,
+         "openssl" : "RSA-PSK-RC4-SHA"
       },
       "147" : {
          "code" : 147,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_RSA_PSK_WITH_3DES_EDE_CBC_SHA",
+         "openssl" : "RSA-PSK-3DES-EDE-CBC-SHA"
       },
       "148" : {
          "code" : 148,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_AES_128_CBC_SHA"
+         "name" : "TLS_RSA_PSK_WITH_AES_128_CBC_SHA",
+         "openssl" : "RSA-PSK-AES128-CBC-SHA"
       },
       "149" : {
          "code" : 149,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_AES_256_CBC_SHA"
+         "name" : "TLS_RSA_PSK_WITH_AES_256_CBC_SHA",
+         "openssl" : "RSA-PSK-AES256-CBC-SHA"
       },
       "15" : {
          "code" : 15,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_DES_CBC_SHA"
+         "name" : "TLS_DH_RSA_WITH_DES_CBC_SHA",
+         "nss" : "TLS_DH_RSA_WITH_DES_CBC_SHA"
       },
       "150" : {
          "code" : 150,
@@ -388,14 +409,16 @@
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_SEED_CBC_SHA"
+         "name" : "TLS_DH_DSS_WITH_SEED_CBC_SHA",
+         "openssl" : "DH-DSS-SEED-SHA"
       },
       "152" : {
          "code" : 152,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_SEED_CBC_SHA"
+         "name" : "TLS_DH_RSA_WITH_SEED_CBC_SHA",
+         "openssl" : "DH-RSA-SEED-SHA"
       },
       "153" : {
          "code" : 153,
@@ -434,6 +457,7 @@
       "157" : {
          "code" : 157,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_AES_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_AES_256_GCM_SHA384",
@@ -452,6 +476,7 @@
       "159" : {
          "code" : 159,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_AES_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_DHE_RSA_WITH_AES_256_GCM_SHA384",
          "openssl" : "DHE-RSA-AES256-GCM-SHA384",
@@ -463,21 +488,23 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA",
-         "nss" : "SSL_DH_RSA_WITH_3DES_EDE_CBC_SHA"
+         "nss" : "TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA"
       },
       "160" : {
          "code" : 160,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_AES_128_GCM_SHA256"
+         "name" : "TLS_DH_RSA_WITH_AES_128_GCM_SHA256",
+         "openssl" : "DH-RSA-AES128-GCM-SHA256"
       },
       "161" : {
          "code" : 161,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_AES_256_GCM_SHA384"
+         "name" : "TLS_DH_RSA_WITH_AES_256_GCM_SHA384",
+         "openssl" : "DH-RSA-AES256-GCM-SHA384"
       },
       "162" : {
          "code" : 162,
@@ -491,6 +518,7 @@
       "163" : {
          "code" : 163,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_DSS_AES_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_AES_256_GCM_SHA384",
          "openssl" : "DHE-DSS-AES256-GCM-SHA384"
@@ -500,14 +528,16 @@
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_AES_128_GCM_SHA256"
+         "name" : "TLS_DH_DSS_WITH_AES_128_GCM_SHA256",
+         "openssl" : "DH-DSS-AES128-GCM-SHA256"
       },
       "165" : {
          "code" : 165,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_AES_256_GCM_SHA384"
+         "name" : "TLS_DH_DSS_WITH_AES_256_GCM_SHA384",
+         "openssl" : "DH-DSS-AES256-GCM-SHA384"
       },
       "166" : {
          "code" : 166,
@@ -521,6 +551,7 @@
       "167" : {
          "code" : 167,
          "dtls" : 1,
+         "gnutls" : "TLS_DH_ANON_AES_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_AES_256_GCM_SHA384",
@@ -532,15 +563,17 @@
          "gnutls" : "TLS_PSK_AES_128_GCM_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_128_GCM_SHA256"
+         "name" : "TLS_PSK_WITH_AES_128_GCM_SHA256",
+         "openssl" : "PSK-AES128-GCM-SHA256"
       },
       "169" : {
          "code" : 169,
          "dtls" : 1,
-         "gnutls" : "TLS_PSK_WITH_AES_256_GCM_SHA384",
+         "gnutls" : "TLS_PSK_AES_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_256_GCM_SHA384"
+         "name" : "TLS_PSK_WITH_AES_256_GCM_SHA384",
+         "openssl" : "PSK-AES256-GCM-SHA384"
       },
       "17" : {
          "code" : 17,
@@ -548,36 +581,41 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA",
-         "nss" : "SSL_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA",
-         "openssl" : "EXP-EDH-DSS-DES-CBC-SHA"
+         "nss" : "TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA"
       },
       "170" : {
          "code" : 170,
          "dtls" : 1,
          "gnutls" : "TLS_DHE_PSK_AES_128_GCM_SHA256",
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_128_GCM_SHA256"
+         "name" : "TLS_DHE_PSK_WITH_AES_128_GCM_SHA256",
+         "openssl" : "DHE-PSK-AES128-GCM-SHA256"
       },
       "171" : {
          "code" : 171,
          "dtls" : 1,
-         "gnutls" : "TLS_DHE_PSK_WITH_AES_256_GCM_SHA384",
+         "gnutls" : "TLS_DHE_PSK_AES_256_GCM_SHA384",
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_256_GCM_SHA384"
+         "name" : "TLS_DHE_PSK_WITH_AES_256_GCM_SHA384",
+         "openssl" : "DHE-PSK-AES256-GCM-SHA384"
       },
       "172" : {
          "code" : 172,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_AES_128_GCM_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_AES_128_GCM_SHA256"
+         "name" : "TLS_RSA_PSK_WITH_AES_128_GCM_SHA256",
+         "openssl" : "RSA-PSK-AES128-GCM-SHA256"
       },
       "173" : {
          "code" : 173,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_AES_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_AES_256_GCM_SHA384"
+         "name" : "TLS_RSA_PSK_WITH_AES_256_GCM_SHA384",
+         "openssl" : "RSA-PSK-AES256-GCM-SHA384"
       },
       "174" : {
          "code" : 174,
@@ -585,14 +623,17 @@
          "gnutls" : "TLS_PSK_AES_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_128_CBC_SHA256"
+         "name" : "TLS_PSK_WITH_AES_128_CBC_SHA256",
+         "openssl" : "PSK-AES128-CBC-SHA256"
       },
       "175" : {
          "code" : 175,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_AES_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_256_CBC_SHA384"
+         "name" : "TLS_PSK_WITH_AES_256_CBC_SHA384",
+         "openssl" : "PSK-AES256-CBC-SHA384"
       },
       "176" : {
          "code" : 176,
@@ -600,14 +641,17 @@
          "gnutls" : "TLS_PSK_NULL_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_NULL_SHA256"
+         "name" : "TLS_PSK_WITH_NULL_SHA256",
+         "openssl" : "PSK-NULL-SHA256"
       },
       "177" : {
          "code" : 177,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_NULL_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_NULL_SHA384"
+         "name" : "TLS_PSK_WITH_NULL_SHA384",
+         "openssl" : "PSK-NULL-SHA384"
       },
       "178" : {
          "code" : 178,
@@ -615,14 +659,17 @@
          "gnutls" : "TLS_DHE_PSK_AES_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_128_CBC_SHA256"
+         "name" : "TLS_DHE_PSK_WITH_AES_128_CBC_SHA256",
+         "openssl" : "DHE-PSK-AES128-CBC-SHA256"
       },
       "179" : {
          "code" : 179,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_AES_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_256_CBC_SHA384"
+         "name" : "TLS_DHE_PSK_WITH_AES_256_CBC_SHA384",
+         "openssl" : "DHE-PSK-AES256-CBC-SHA384"
       },
       "18" : {
          "code" : 18,
@@ -630,8 +677,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_DES_CBC_SHA",
-         "nss" : "SSL_DHE_DSS_WITH_DES_CBC_SHA",
-         "openssl" : "EDH-DSS-DES-CBC-SHA"
+         "nss" : "TLS_DHE_DSS_WITH_DES_CBC_SHA"
       },
       "180" : {
          "code" : 180,
@@ -639,70 +685,87 @@
          "gnutls" : "TLS_DHE_PSK_NULL_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_NULL_SHA256"
+         "name" : "TLS_DHE_PSK_WITH_NULL_SHA256",
+         "openssl" : "DHE-PSK-NULL-SHA256"
       },
       "181" : {
          "code" : 181,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_NULL_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_NULL_SHA384"
+         "name" : "TLS_DHE_PSK_WITH_NULL_SHA384",
+         "openssl" : "DHE-PSK-NULL-SHA384"
       },
       "182" : {
          "code" : 182,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_AES_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_AES_128_CBC_SHA256"
+         "name" : "TLS_RSA_PSK_WITH_AES_128_CBC_SHA256",
+         "openssl" : "RSA-PSK-AES128-CBC-SHA256"
       },
       "183" : {
          "code" : 183,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_AES_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_AES_256_CBC_SHA384"
+         "name" : "TLS_RSA_PSK_WITH_AES_256_CBC_SHA384",
+         "openssl" : "RSA-PSK-AES256-CBC-SHA384"
       },
       "184" : {
          "code" : 184,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_NULL_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_NULL_SHA256"
+         "name" : "TLS_RSA_PSK_WITH_NULL_SHA256",
+         "openssl" : "RSA-PSK-NULL-SHA256"
       },
       "185" : {
          "code" : 185,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_NULL_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_NULL_SHA384"
+         "name" : "TLS_RSA_PSK_WITH_NULL_SHA384",
+         "openssl" : "RSA-PSK-NULL-SHA384"
       },
       "186" : {
          "code" : 186,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_RSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "CAMELLIA128-SHA256"
       },
       "187" : {
          "code" : 187,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "DH-DSS-CAMELLIA128-SHA256"
       },
       "188" : {
          "code" : 188,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "DH-RSA-CAMELLIA128-SHA256"
       },
       "189" : {
          "code" : 189,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_DSS_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_DHE_DSS_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "DHE-DSS-CAMELLIA128-SHA256"
       },
       "19" : {
          "code" : 19,
@@ -711,65 +774,77 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
-         "nss" : "SSL_DHE_DSS_WITH_3DES_EDE_CBC_SHA",
-         "openssl" : "EDH-DSS-DES-CBC3-SHA"
+         "nss" : "TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA"
       },
       "190" : {
          "code" : 190,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "DHE-RSA-CAMELLIA128-SHA256"
       },
       "191" : {
          "code" : 191,
          "dtls" : 1,
+         "gnutls" : "TLS_DH_ANON_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "ADH-CAMELLIA128-SHA256"
       },
       "192" : {
          "code" : 192,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_CAMELLIA_256_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_CAMELLIA_256_CBC_SHA256",
-         "openssl" : "DES-CBC3-MD5"
+         "openssl" : "CAMELLIA256-SHA256"
       },
       "193" : {
          "code" : 193,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA256"
+         "name" : "TLS_DH_DSS_WITH_CAMELLIA_256_CBC_SHA256",
+         "openssl" : "DH-DSS-CAMELLIA256-SHA256"
       },
       "194" : {
          "code" : 194,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256"
+         "name" : "TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256",
+         "openssl" : "DH-RSA-CAMELLIA256-SHA256"
       },
       "195" : {
          "code" : 195,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_DSS_CAMELLIA_256_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA256"
+         "name" : "TLS_DHE_DSS_WITH_CAMELLIA_256_CBC_SHA256",
+         "openssl" : "DHE-DSS-CAMELLIA256-SHA256"
       },
       "196" : {
          "code" : 196,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_CAMELLIA_256_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256"
+         "name" : "TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA256",
+         "openssl" : "DHE-RSA-CAMELLIA256-SHA256"
       },
       "197" : {
          "code" : 197,
          "dtls" : 1,
+         "gnutls" : "TLS_DH_ANON_CAMELLIA_256_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA256"
+         "name" : "TLS_DH_anon_WITH_CAMELLIA_256_CBC_SHA256",
+         "openssl" : "ADH-CAMELLIA256-SHA256"
       },
       "2" : {
          "code" : 2,
@@ -778,8 +853,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_NULL_SHA",
-         "nss" : "SSL_RSA_WITH_NULL_SHA",
-         "openssl" : "NULL-SHA"
+         "nss" : "TLS_RSA_WITH_NULL_SHA"
       },
       "20" : {
          "code" : 20,
@@ -787,8 +861,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA",
-         "nss" : "SSL_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA",
-         "openssl" : "EXP-EDH-RSA-DES-CBC-SHA"
+         "nss" : "TLS_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA"
       },
       "21" : {
          "code" : 21,
@@ -796,8 +869,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_RSA_WITH_DES_CBC_SHA",
-         "nss" : "SSL_DHE_RSA_WITH_DES_CBC_SHA",
-         "openssl" : "EDH-RSA-DES-CBC-SHA"
+         "nss" : "TLS_DHE_RSA_WITH_DES_CBC_SHA"
       },
       "22" : {
          "code" : 22,
@@ -806,33 +878,31 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA",
-         "nss" : "SSL_DHE_RSA_WITH_3DES_EDE_CBC_SHA",
-         "openssl" : "EDH-RSA-DES-CBC3-SHA"
+         "nss" : "TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA"
       },
       "22016" : {
          "code" : 22016,
          "dtls" : 1,
          "iana" : 1,
-         "name" : "TLS_FALLBACK_SCSV"
+         "name" : "TLS_FALLBACK_SCSV",
+         "nss" : "TLS_FALLBACK_SCSV"
       },
       "23" : {
          "code" : 23,
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_EXPORT_WITH_RC4_40_MD5",
-         "nss" : "SSL_DH_ANON_EXPORT_WITH_RC4_40_MD5",
-         "obsolete" : 1,
-         "openssl" : "EXP-ADH-RC4-MD5"
+         "nss" : "TLS_DH_anon_EXPORT_WITH_RC4_40_MD5",
+         "obsolete" : 1
       },
       "24" : {
          "code" : 24,
-         "gnutls" : "TLS_DH_ANON_ARCFOUR_MD5",
+         "gnutls" : "TLS_DH_ANON_ARCFOUR_128_MD5",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_RC4_128_MD5",
-         "nss" : "SSL_DH_ANON_WITH_RC4_128_MD5",
-         "obsolete" : 1,
-         "openssl" : "ADH-RC4-MD5"
+         "nss" : "TLS_DH_anon_WITH_RC4_128_MD5",
+         "obsolete" : 1
       },
       "25" : {
          "code" : 25,
@@ -840,8 +910,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA",
-         "nss" : "SSL_DH_ANON_EXPORT_WITH_DES40_CBC_SHA",
-         "openssl" : "EXP-ADH-DES-CBC-SHA"
+         "nss" : "TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA"
       },
       "255" : {
          "code" : 255,
@@ -857,7 +926,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_DES_CBC_SHA",
-         "openssl" : "ADH-DES-CBC-SHA"
+         "nss" : "TLS_DH_anon_WITH_DES_CBC_SHA"
       },
       "27" : {
          "code" : 27,
@@ -866,7 +935,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_3DES_EDE_CBC_SHA",
-         "openssl" : "ADH-DES-CBC3-SHA"
+         "nss" : "TLS_DH_anon_WITH_3DES_EDE_CBC_SHA"
       },
       "28" : {
          "code" : 28,
@@ -882,156 +951,145 @@
       },
       "3" : {
          "code" : 3,
-         "gnutls" : "TLS_RSA_EXPORT_ARCFOUR_40_MD5",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_EXPORT_WITH_RC4_40_MD5",
-         "nss" : "SSL_RSA_EXPORT_WITH_RC4_40_MD5",
-         "obsolete" : 1,
-         "openssl" : "EXP-RC4-MD5"
+         "nss" : "TLS_RSA_EXPORT_WITH_RC4_40_MD5",
+         "obsolete" : 1
       },
       "30" : {
          "code" : 30,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_WITH_DES_CBC_SHA",
-         "openssl" : "KRB5-DES-CBC-SHA"
+         "name" : "TLS_KRB5_WITH_DES_CBC_SHA"
       },
       "31" : {
          "code" : 31,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_WITH_3DES_EDE_CBC_SHA",
-         "openssl" : "KRB5-DES-CBC3-SHA"
+         "name" : "TLS_KRB5_WITH_3DES_EDE_CBC_SHA"
       },
       "32" : {
          "code" : 32,
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_KRB5_WITH_RC4_128_SHA",
-         "obsolete" : 1,
-         "openssl" : "KRB5-RC4-SHA"
+         "obsolete" : 1
       },
       "33" : {
          "code" : 33,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_WITH_IDEA_CBC_SHA",
-         "openssl" : "KRB5-IDEA-CBC-SHA"
+         "name" : "TLS_KRB5_WITH_IDEA_CBC_SHA"
       },
       "34" : {
          "code" : 34,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_WITH_DES_CBC_MD5",
-         "openssl" : "KRB5-DES-CBC-MD5"
+         "name" : "TLS_KRB5_WITH_DES_CBC_MD5"
       },
       "35" : {
          "code" : 35,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_WITH_3DES_EDE_CBC_MD5",
-         "openssl" : "KRB5-DES-CBC3-MD5"
+         "name" : "TLS_KRB5_WITH_3DES_EDE_CBC_MD5"
       },
       "36" : {
          "code" : 36,
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_KRB5_WITH_RC4_128_MD5",
-         "obsolete" : 1,
-         "openssl" : "KRB5-RC4-MD5"
+         "obsolete" : 1
       },
       "37" : {
          "code" : 37,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_WITH_IDEA_CBC_MD5",
-         "openssl" : "KRB5-IDEA-CBC-MD5"
+         "name" : "TLS_KRB5_WITH_IDEA_CBC_MD5"
       },
       "38" : {
          "code" : 38,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA",
-         "openssl" : "EXP-KRB5-DES-CBC-SHA"
+         "name" : "TLS_KRB5_EXPORT_WITH_DES_CBC_40_SHA"
       },
       "39" : {
          "code" : 39,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_EXPORT_WITH_RC2_CBC_40_SHA",
-         "openssl" : "EXP-KRB5-RC2-CBC-SHA"
+         "name" : "TLS_KRB5_EXPORT_WITH_RC2_CBC_40_SHA"
       },
       "4" : {
          "code" : 4,
-         "gnutls" : "TLS_RSA_ARCFOUR_MD5",
+         "gnutls" : "TLS_RSA_ARCFOUR_128_MD5",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_RC4_128_MD5",
-         "nss" : "SSL_RSA_WITH_RC4_128_MD5",
-         "obsolete" : 1,
-         "openssl" : "RC4-MD5"
+         "nss" : "TLS_RSA_WITH_RC4_128_MD5",
+         "obsolete" : 1
       },
       "40" : {
          "code" : 40,
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_KRB5_EXPORT_WITH_RC4_40_SHA",
-         "obsolete" : 1,
-         "openssl" : "EXP-KRB5-RC4-SHA"
+         "obsolete" : 1
       },
       "41" : {
          "code" : 41,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5",
-         "openssl" : "EXP-KRB5-DES-CBC-MD5"
+         "name" : "TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5"
       },
       "42" : {
          "code" : 42,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_KRB5_EXPORT_WITH_RC2_CBC_40_MD5",
-         "openssl" : "EXP-KRB5-RC2-CBC-MD5"
+         "name" : "TLS_KRB5_EXPORT_WITH_RC2_CBC_40_MD5"
       },
       "43" : {
          "code" : 43,
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_KRB5_EXPORT_WITH_RC4_40_MD5",
-         "obsolete" : 1,
-         "openssl" : "EXP-KRB5-RC4-MD5"
+         "obsolete" : 1
       },
       "44" : {
          "code" : 44,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_NULL_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_NULL_SHA"
+         "name" : "TLS_PSK_WITH_NULL_SHA",
+         "openssl" : "PSK-NULL-SHA"
       },
       "45" : {
          "code" : 45,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_NULL_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_NULL_SHA"
+         "name" : "TLS_DHE_PSK_WITH_NULL_SHA",
+         "openssl" : "DHE-PSK-NULL-SHA"
       },
       "46" : {
          "code" : 46,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_NULL_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_NULL_SHA"
+         "name" : "TLS_RSA_PSK_WITH_NULL_SHA",
+         "openssl" : "RSA-PSK-NULL-SHA"
       },
       "47" : {
          "code" : 47,
@@ -1050,7 +1108,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_DSS_WITH_AES_128_CBC_SHA",
-         "nss" : "TLS_DH_DSS_WITH_AES_128_CBC_SHA"
+         "nss" : "TLS_DH_DSS_WITH_AES_128_CBC_SHA",
+         "openssl" : "DH-DSS-AES128-SHA"
       },
       "49" : {
          "code" : 49,
@@ -1058,7 +1117,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_RSA_WITH_AES_128_CBC_SHA",
-         "nss" : "TLS_DH_RSA_WITH_AES_128_CBC_SHA"
+         "nss" : "TLS_DH_RSA_WITH_AES_128_CBC_SHA",
+         "openssl" : "DH-RSA-AES128-SHA"
       },
       "49153" : {
          "code" : 49153,
@@ -1116,6 +1176,7 @@
       },
       "49159" : {
          "code" : 49159,
+         "gnutls" : "TLS_ECDHE_ECDSA_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_ECDHE_ECDSA_WITH_RC4_128_SHA",
@@ -1208,6 +1269,7 @@
       },
       "49169" : {
          "code" : 49169,
+         "gnutls" : "TLS_ECDHE_RSA_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_ECDHE_RSA_WITH_RC4_128_SHA",
@@ -1256,6 +1318,7 @@
       },
       "49174" : {
          "code" : 49174,
+         "gnutls" : "TLS_ECDH_ANON_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_ECDH_anon_WITH_RC4_128_SHA",
@@ -1295,65 +1358,83 @@
       "49178" : {
          "code" : 49178,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_SRP_SHA_WITH_3DES_EDE_CBC_SHA",
+         "openssl" : "SRP-3DES-EDE-CBC-SHA"
       },
       "49179" : {
          "code" : 49179,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_RSA_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_RSA_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_SRP_SHA_RSA_WITH_3DES_EDE_CBC_SHA",
+         "openssl" : "SRP-RSA-3DES-EDE-CBC-SHA"
       },
       "49180" : {
          "code" : 49180,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_DSS_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_DSS_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_SRP_SHA_DSS_WITH_3DES_EDE_CBC_SHA",
+         "openssl" : "SRP-DSS-3DES-EDE-CBC-SHA"
       },
       "49181" : {
          "code" : 49181,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_WITH_AES_128_CBC_SHA"
+         "name" : "TLS_SRP_SHA_WITH_AES_128_CBC_SHA",
+         "openssl" : "SRP-AES-128-CBC-SHA"
       },
       "49182" : {
          "code" : 49182,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_RSA_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_RSA_WITH_AES_128_CBC_SHA"
+         "name" : "TLS_SRP_SHA_RSA_WITH_AES_128_CBC_SHA",
+         "openssl" : "SRP-RSA-AES-128-CBC-SHA"
       },
       "49183" : {
          "code" : 49183,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_DSS_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_DSS_WITH_AES_128_CBC_SHA"
+         "name" : "TLS_SRP_SHA_DSS_WITH_AES_128_CBC_SHA",
+         "openssl" : "SRP-DSS-AES-128-CBC-SHA"
       },
       "49184" : {
          "code" : 49184,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_WITH_AES_256_CBC_SHA"
+         "name" : "TLS_SRP_SHA_WITH_AES_256_CBC_SHA",
+         "openssl" : "SRP-AES-256-CBC-SHA"
       },
       "49185" : {
          "code" : 49185,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_RSA_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_RSA_WITH_AES_256_CBC_SHA"
+         "name" : "TLS_SRP_SHA_RSA_WITH_AES_256_CBC_SHA",
+         "openssl" : "SRP-RSA-AES-256-CBC-SHA"
       },
       "49186" : {
          "code" : 49186,
          "dtls" : 1,
+         "gnutls" : "TLS_SRP_SHA_DSS_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_SRP_SHA_DSS_WITH_AES_256_CBC_SHA"
+         "name" : "TLS_SRP_SHA_DSS_WITH_AES_256_CBC_SHA",
+         "openssl" : "SRP-DSS-AES-256-CBC-SHA"
       },
       "49187" : {
          "code" : 49187,
@@ -1403,6 +1484,7 @@
       "49192" : {
          "code" : 49192,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_RSA_AES_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384",
@@ -1497,9 +1579,11 @@
       },
       "49203" : {
          "code" : 49203,
+         "gnutls" : "TLS_ECDHE_PSK_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_RC4_128_SHA"
+         "name" : "TLS_ECDHE_PSK_WITH_RC4_128_SHA",
+         "openssl" : "ECDHE-PSK-RC4-SHA"
       },
       "49204" : {
          "code" : 49204,
@@ -1507,7 +1591,8 @@
          "gnutls" : "TLS_ECDHE_PSK_3DES_EDE_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA"
+         "name" : "TLS_ECDHE_PSK_WITH_3DES_EDE_CBC_SHA",
+         "openssl" : "ECDHE-PSK-3DES-EDE-CBC-SHA"
       },
       "49205" : {
          "code" : 49205,
@@ -1515,7 +1600,8 @@
          "gnutls" : "TLS_ECDHE_PSK_AES_128_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA"
+         "name" : "TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA",
+         "openssl" : "ECDHE-PSK-AES128-CBC-SHA"
       },
       "49206" : {
          "code" : 49206,
@@ -1523,7 +1609,8 @@
          "gnutls" : "TLS_ECDHE_PSK_AES_256_CBC_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA"
+         "name" : "TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA",
+         "openssl" : "ECDHE-PSK-AES256-CBC-SHA"
       },
       "49207" : {
          "code" : 49207,
@@ -1531,7 +1618,8 @@
          "gnutls" : "TLS_ECDHE_PSK_AES_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256"
+         "name" : "TLS_ECDHE_PSK_WITH_AES_128_CBC_SHA256",
+         "openssl" : "ECDHE-PSK-AES128-CBC-SHA256"
       },
       "49208" : {
          "code" : 49208,
@@ -1539,14 +1627,17 @@
          "gnutls" : "TLS_ECDHE_PSK_AES_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA384"
+         "name" : "TLS_ECDHE_PSK_WITH_AES_256_CBC_SHA384",
+         "openssl" : "ECDHE-PSK-AES256-CBC-SHA384"
       },
       "49209" : {
          "code" : 49209,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_PSK_NULL_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_NULL_SHA"
+         "name" : "TLS_ECDHE_PSK_WITH_NULL_SHA",
+         "openssl" : "ECDHE-PSK-NULL-SHA"
       },
       "49210" : {
          "code" : 49210,
@@ -1554,7 +1645,8 @@
          "gnutls" : "TLS_ECDHE_PSK_NULL_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_NULL_SHA256"
+         "name" : "TLS_ECDHE_PSK_WITH_NULL_SHA256",
+         "openssl" : "ECDHE-PSK-NULL-SHA256"
       },
       "49211" : {
          "code" : 49211,
@@ -1562,7 +1654,8 @@
          "gnutls" : "TLS_ECDHE_PSK_NULL_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_NULL_SHA384"
+         "name" : "TLS_ECDHE_PSK_WITH_NULL_SHA384",
+         "openssl" : "ECDHE-PSK-NULL-SHA384"
       },
       "49212" : {
          "code" : 49212,
@@ -1935,62 +2028,75 @@
       "49266" : {
          "code" : 49266,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_ECDSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_ECDHE_ECDSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "ECDHE-ECDSA-CAMELLIA128-SHA256"
       },
       "49267" : {
          "code" : 49267,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_CAMELLIA_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_ECDSA_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_ECDHE_ECDSA_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "ECDHE-ECDSA-CAMELLIA256-SHA384"
       },
       "49268" : {
          "code" : 49268,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDH_ECDSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_ECDH_ECDSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "ECDH-ECDSA-CAMELLIA128-SHA256"
       },
       "49269" : {
          "code" : 49269,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDH_ECDSA_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_ECDH_ECDSA_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "ECDH-ECDSA-CAMELLIA256-SHA384"
       },
       "49270" : {
          "code" : 49270,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_RSA_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_RSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_ECDHE_RSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "ECDHE-RSA-CAMELLIA128-SHA256"
       },
       "49271" : {
          "code" : 49271,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_RSA_CAMELLIA_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_RSA_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_ECDHE_RSA_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "ECDHE-RSA-CAMELLIA256-SHA384"
       },
       "49272" : {
          "code" : 49272,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDH_RSA_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_ECDH_RSA_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "ECDH-RSA-CAMELLIA128-SHA256"
       },
       "49273" : {
          "code" : 49273,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDH_RSA_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_ECDH_RSA_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "ECDH-RSA-CAMELLIA256-SHA384"
       },
       "49274" : {
          "code" : 49274,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_CAMELLIA_128_GCM_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_CAMELLIA_128_GCM_SHA256"
@@ -1998,6 +2104,7 @@
       "49275" : {
          "code" : 49275,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_CAMELLIA_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_CAMELLIA_256_GCM_SHA384"
@@ -2005,12 +2112,14 @@
       "49276" : {
          "code" : 49276,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_CAMELLIA_128_GCM_SHA256",
          "iana" : 1,
          "name" : "TLS_DHE_RSA_WITH_CAMELLIA_128_GCM_SHA256"
       },
       "49277" : {
          "code" : 49277,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_CAMELLIA_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_DHE_RSA_WITH_CAMELLIA_256_GCM_SHA384"
       },
@@ -2031,12 +2140,14 @@
       "49280" : {
          "code" : 49280,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_DSS_CAMELLIA_128_GCM_SHA256",
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_CAMELLIA_128_GCM_SHA256"
       },
       "49281" : {
          "code" : 49281,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_DSS_CAMELLIA_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_CAMELLIA_256_GCM_SHA384"
       },
@@ -2057,6 +2168,7 @@
       "49284" : {
          "code" : 49284,
          "dtls" : 1,
+         "gnutls" : "TLS_DH_ANON_CAMELLIA_128_GCM_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_CAMELLIA_128_GCM_SHA256"
@@ -2064,6 +2176,7 @@
       "49285" : {
          "code" : 49285,
          "dtls" : 1,
+         "gnutls" : "TLS_DH_ANON_CAMELLIA_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_CAMELLIA_256_GCM_SHA384"
@@ -2071,12 +2184,14 @@
       "49286" : {
          "code" : 49286,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_CAMELLIA_128_GCM_SHA256",
          "iana" : 1,
          "name" : "TLS_ECDHE_ECDSA_WITH_CAMELLIA_128_GCM_SHA256"
       },
       "49287" : {
          "code" : 49287,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_CAMELLIA_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_ECDHE_ECDSA_WITH_CAMELLIA_256_GCM_SHA384"
       },
@@ -2097,12 +2212,14 @@
       "49290" : {
          "code" : 49290,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_RSA_CAMELLIA_128_GCM_SHA256",
          "iana" : 1,
          "name" : "TLS_ECDHE_RSA_WITH_CAMELLIA_128_GCM_SHA256"
       },
       "49291" : {
          "code" : 49291,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_RSA_CAMELLIA_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_ECDHE_RSA_WITH_CAMELLIA_256_GCM_SHA384"
       },
@@ -2123,6 +2240,7 @@
       "49294" : {
          "code" : 49294,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_CAMELLIA_128_GCM_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_PSK_WITH_CAMELLIA_128_GCM_SHA256"
@@ -2130,6 +2248,7 @@
       "49295" : {
          "code" : 49295,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_CAMELLIA_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_PSK_WITH_CAMELLIA_256_GCM_SHA384"
@@ -2137,18 +2256,21 @@
       "49296" : {
          "code" : 49296,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_CAMELLIA_128_GCM_SHA256",
          "iana" : 1,
          "name" : "TLS_DHE_PSK_WITH_CAMELLIA_128_GCM_SHA256"
       },
       "49297" : {
          "code" : 49297,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_CAMELLIA_256_GCM_SHA384",
          "iana" : 1,
          "name" : "TLS_DHE_PSK_WITH_CAMELLIA_256_GCM_SHA384"
       },
       "49298" : {
          "code" : 49298,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_CAMELLIA_128_GCM_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_PSK_WITH_CAMELLIA_128_GCM_SHA256"
@@ -2156,6 +2278,7 @@
       "49299" : {
          "code" : 49299,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_CAMELLIA_256_GCM_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_PSK_WITH_CAMELLIA_256_GCM_SHA384"
@@ -2163,196 +2286,251 @@
       "49300" : {
          "code" : 49300,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_PSK_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "PSK-CAMELLIA128-SHA256"
       },
       "49301" : {
          "code" : 49301,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_CAMELLIA_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_PSK_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "PSK-CAMELLIA256-SHA384"
       },
       "49302" : {
          "code" : 49302,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_DHE_PSK_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "DHE-PSK-CAMELLIA128-SHA256"
       },
       "49303" : {
          "code" : 49303,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_CAMELLIA_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_DHE_PSK_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "DHE-PSK-CAMELLIA256-SHA384"
       },
       "49304" : {
          "code" : 49304,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_RSA_PSK_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "RSA-PSK-CAMELLIA128-SHA256"
       },
       "49305" : {
          "code" : 49305,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_PSK_CAMELLIA_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_PSK_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_RSA_PSK_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "RSA-PSK-CAMELLIA256-SHA384"
       },
       "49306" : {
          "code" : 49306,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_PSK_CAMELLIA_128_CBC_SHA256",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_CAMELLIA_128_CBC_SHA256"
+         "name" : "TLS_ECDHE_PSK_WITH_CAMELLIA_128_CBC_SHA256",
+         "openssl" : "ECDHE-PSK-CAMELLIA128-SHA256"
       },
       "49307" : {
          "code" : 49307,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_PSK_CAMELLIA_256_CBC_SHA384",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_ECDHE_PSK_WITH_CAMELLIA_256_CBC_SHA384"
+         "name" : "TLS_ECDHE_PSK_WITH_CAMELLIA_256_CBC_SHA384",
+         "openssl" : "ECDHE-PSK-CAMELLIA256-SHA384"
       },
       "49308" : {
          "code" : 49308,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_AES_128_CCM",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_WITH_AES_128_CCM"
+         "name" : "TLS_RSA_WITH_AES_128_CCM",
+         "openssl" : "AES128-CCM"
       },
       "49309" : {
          "code" : 49309,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_AES_256_CCM",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_WITH_AES_256_CCM"
+         "name" : "TLS_RSA_WITH_AES_256_CCM",
+         "openssl" : "AES256-CCM"
       },
       "49310" : {
          "code" : 49310,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_AES_128_CCM",
          "iana" : 1,
-         "name" : "TLS_DHE_RSA_WITH_AES_128_CCM"
+         "name" : "TLS_DHE_RSA_WITH_AES_128_CCM",
+         "openssl" : "DHE-RSA-AES128-CCM"
       },
       "49311" : {
          "code" : 49311,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_AES_256_CCM",
          "iana" : 1,
-         "name" : "TLS_DHE_RSA_WITH_AES_256_CCM"
+         "name" : "TLS_DHE_RSA_WITH_AES_256_CCM",
+         "openssl" : "DHE-RSA-AES256-CCM"
       },
       "49312" : {
          "code" : 49312,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_AES_128_CCM_8",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_WITH_AES_128_CCM_8"
+         "name" : "TLS_RSA_WITH_AES_128_CCM_8",
+         "openssl" : "AES128-CCM8"
       },
       "49313" : {
          "code" : 49313,
          "dtls" : 1,
+         "gnutls" : "TLS_RSA_AES_256_CCM_8",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_RSA_WITH_AES_256_CCM_8"
+         "name" : "TLS_RSA_WITH_AES_256_CCM_8",
+         "openssl" : "AES256-CCM8"
       },
       "49314" : {
          "code" : 49314,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_AES_128_CCM_8",
          "iana" : 1,
-         "name" : "TLS_DHE_RSA_WITH_AES_128_CCM_8"
+         "name" : "TLS_DHE_RSA_WITH_AES_128_CCM_8",
+         "openssl" : "DHE-RSA-AES128-CCM8"
       },
       "49315" : {
          "code" : 49315,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_RSA_AES_256_CCM_8",
          "iana" : 1,
-         "name" : "TLS_DHE_RSA_WITH_AES_256_CCM_8"
+         "name" : "TLS_DHE_RSA_WITH_AES_256_CCM_8",
+         "openssl" : "DHE-RSA-AES256-CCM8"
       },
       "49316" : {
          "code" : 49316,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_AES_128_CCM",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_128_CCM"
+         "name" : "TLS_PSK_WITH_AES_128_CCM",
+         "openssl" : "PSK-AES128-CCM"
       },
       "49317" : {
          "code" : 49317,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_AES_256_CCM",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_256_CCM"
+         "name" : "TLS_PSK_WITH_AES_256_CCM",
+         "openssl" : "PSK-AES256-CCM"
       },
       "49318" : {
          "code" : 49318,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_AES_128_CCM",
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_128_CCM"
+         "name" : "TLS_DHE_PSK_WITH_AES_128_CCM",
+         "openssl" : "DHE-PSK-AES128-CCM"
       },
       "49319" : {
          "code" : 49319,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_AES_256_CCM",
          "iana" : 1,
-         "name" : "TLS_DHE_PSK_WITH_AES_256_CCM"
+         "name" : "TLS_DHE_PSK_WITH_AES_256_CCM",
+         "openssl" : "DHE-PSK-AES256-CCM"
       },
       "49320" : {
          "code" : 49320,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_AES_128_CCM_8",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_128_CCM_8"
+         "name" : "TLS_PSK_WITH_AES_128_CCM_8",
+         "openssl" : "PSK-AES128-CCM8"
       },
       "49321" : {
          "code" : 49321,
          "dtls" : 1,
+         "gnutls" : "TLS_PSK_AES_256_CCM_8",
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_PSK_WITH_AES_256_CCM_8"
+         "name" : "TLS_PSK_WITH_AES_256_CCM_8",
+         "openssl" : "PSK-AES256-CCM8"
       },
       "49322" : {
          "code" : 49322,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_AES_128_CCM_8",
          "iana" : 1,
-         "name" : "TLS_PSK_DHE_WITH_AES_128_CCM_8"
+         "name" : "TLS_PSK_DHE_WITH_AES_128_CCM_8",
+         "openssl" : "DHE-PSK-AES128-CCM8"
       },
       "49323" : {
          "code" : 49323,
          "dtls" : 1,
+         "gnutls" : "TLS_DHE_PSK_AES_256_CCM_8",
          "iana" : 1,
-         "name" : "TLS_PSK_DHE_WITH_AES_256_CCM_8"
+         "name" : "TLS_PSK_DHE_WITH_AES_256_CCM_8",
+         "openssl" : "DHE-PSK-AES256-CCM8"
       },
       "49324" : {
          "code" : 49324,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_AES_128_CCM",
          "iana" : 1,
-         "name" : "TLS_ECDHE_ECDSA_WITH_AES_128_CCM"
+         "name" : "TLS_ECDHE_ECDSA_WITH_AES_128_CCM",
+         "openssl" : "ECDHE-ECDSA-AES128-CCM"
       },
       "49325" : {
          "code" : 49325,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_AES_256_CCM",
          "iana" : 1,
-         "name" : "TLS_ECDHE_ECDSA_WITH_AES_256_CCM"
+         "name" : "TLS_ECDHE_ECDSA_WITH_AES_256_CCM",
+         "openssl" : "ECDHE-ECDSA-AES256-CCM"
       },
       "49326" : {
          "code" : 49326,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_AES_128_CCM_8",
          "iana" : 1,
-         "name" : "TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8"
+         "name" : "TLS_ECDHE_ECDSA_WITH_AES_128_CCM_8",
+         "openssl" : "ECDHE-ECDSA-AES128-CCM8"
       },
       "49327" : {
          "code" : 49327,
          "dtls" : 1,
+         "gnutls" : "TLS_ECDHE_ECDSA_AES_256_CCM_8",
          "iana" : 1,
-         "name" : "TLS_ECDHE_ECDSA_WITH_AES_256_CCM_8"
+         "name" : "TLS_ECDHE_ECDSA_WITH_AES_256_CCM_8",
+         "openssl" : "ECDHE-ECDSA-AES256-CCM8"
       },
       "5" : {
          "code" : 5,
-         "gnutls" : "TLS_RSA_ARCFOUR_SHA1",
+         "gnutls" : "TLS_RSA_ARCFOUR_128_SHA1",
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_RC4_128_SHA",
-         "nss" : "SSL_RSA_WITH_RC4_128_SHA",
-         "obsolete" : 1,
-         "openssl" : "RC4-SHA"
+         "nss" : "TLS_RSA_WITH_RC4_128_SHA",
+         "obsolete" : 1
       },
       "50" : {
          "code" : 50,
@@ -2381,7 +2559,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_AES_128_CBC_SHA",
-         "nss" : "TLS_DH_ANON_WITH_AES_128_CBC_SHA",
+         "nss" : "TLS_DH_anon_WITH_AES_128_CBC_SHA",
          "openssl" : "ADH-AES128-SHA"
       },
       "53" : {
@@ -2400,7 +2578,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_DSS_WITH_AES_256_CBC_SHA",
-         "nss" : "TLS_DH_DSS_WITH_AES_256_CBC_SHA"
+         "nss" : "TLS_DH_DSS_WITH_AES_256_CBC_SHA",
+         "openssl" : "DH-DSS-AES256-SHA"
       },
       "55" : {
          "code" : 55,
@@ -2408,7 +2587,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_RSA_WITH_AES_256_CBC_SHA",
-         "nss" : "TLS_DH_RSA_WITH_AES_256_CBC_SHA"
+         "nss" : "TLS_DH_RSA_WITH_AES_256_CBC_SHA",
+         "openssl" : "DH-RSA-AES256-SHA"
       },
       "56" : {
          "code" : 56,
@@ -2437,7 +2617,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_AES_256_CBC_SHA",
-         "nss" : "TLS_DH_ANON_WITH_AES_256_CBC_SHA",
+         "nss" : "TLS_DH_anon_WITH_AES_256_CBC_SHA",
          "openssl" : "ADH-AES256-SHA"
       },
       "59" : {
@@ -2456,8 +2636,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_EXPORT_WITH_RC2_CBC_40_MD5",
-         "nss" : "SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5",
-         "openssl" : "EXP-RC2-CBC-MD5"
+         "nss" : "TLS_RSA_EXPORT_WITH_RC2_CBC_40_MD5"
       },
       "60" : {
          "code" : 60,
@@ -2484,14 +2663,16 @@
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_DSS_WITH_AES_128_CBC_SHA256"
+         "name" : "TLS_DH_DSS_WITH_AES_128_CBC_SHA256",
+         "openssl" : "DH-DSS-AES128-SHA256"
       },
       "63" : {
          "code" : 63,
          "dtls" : 1,
          "h2_blacklist" : 1,
          "iana" : 1,
-         "name" : "TLS_DH_RSA_WITH_AES_128_CBC_SHA256"
+         "name" : "TLS_DH_RSA_WITH_AES_128_CBC_SHA256",
+         "openssl" : "DH-RSA-AES128-SHA256"
       },
       "64" : {
          "code" : 64,
@@ -2500,7 +2681,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DHE_DSS_WITH_AES_128_CBC_SHA256",
-         "openssl" : "DHE-DSS-AES128-SHA256 DES-CBC-MD5"
+         "nss" : "TLS_DHE_DSS_WITH_AES_128_CBC_SHA256",
+         "openssl" : "DHE-DSS-AES128-SHA256"
       },
       "65" : {
          "code" : 65,
@@ -3810,7 +3992,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA",
-         "nss" : "TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA"
+         "nss" : "TLS_DH_DSS_WITH_CAMELLIA_128_CBC_SHA",
+         "openssl" : "DH-DSS-CAMELLIA128-SHA"
       },
       "67" : {
          "code" : 67,
@@ -3818,7 +4001,8 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA",
-         "nss" : "TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA"
+         "nss" : "TLS_DH_RSA_WITH_CAMELLIA_128_CBC_SHA",
+         "openssl" : "DH-RSA-CAMELLIA128-SHA"
       },
       "68" : {
          "code" : 68,
@@ -3846,8 +4030,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_IDEA_CBC_SHA",
-         "nss" : "SSL_RSA_WITH_IDEA_CBC_SHA",
-         "openssl" : "IDEA-CBC-SHA"
+         "nss" : "TLS_RSA_WITH_IDEA_CBC_SHA"
       },
       "70" : {
          "code" : 70,
@@ -3856,7 +4039,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA",
-         "nss" : "TLS_DH_ANON_WITH_CAMELLIA_128_CBC_SHA",
+         "nss" : "TLS_DH_anon_WITH_CAMELLIA_128_CBC_SHA",
          "openssl" : "ADH-CAMELLIA128-SHA"
       },
       "71" : {
@@ -3919,8 +4102,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_EXPORT_WITH_DES40_CBC_SHA",
-         "nss" : "SSL_RSA_EXPORT_WITH_DES40_CBC_SHA",
-         "openssl" : "EXP-DES-CBC-SHA"
+         "nss" : "TLS_RSA_EXPORT_WITH_DES40_CBC_SHA"
       },
       "80" : {
          "code" : 80,
@@ -3988,8 +4170,7 @@
          "h2_blacklist" : 1,
          "iana" : 1,
          "name" : "TLS_RSA_WITH_DES_CBC_SHA",
-         "nss" : "SSL_RSA_WITH_DES_CBC_SHA",
-         "openssl" : "DES-CBC-SHA"
+         "nss" : "TLS_RSA_WITH_DES_CBC_SHA"
       },
       "90" : {
          "code" : 90,
