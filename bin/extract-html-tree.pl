@@ -1103,7 +1103,7 @@ sub parse_cond ($) {
     $cond = ['token[type]', 'lc is not', 'hidden'];
   } elsif ($COND =~ /^the token has an attribute called "action"$/) {
     $cond = ['token', 'has attr', 'action'];
-  } elsif ($COND =~ /^the element has a charset attribute, and getting an encoding from its value results in a supported ASCII-compatible character encoding or a UTF-16 encoding, and the confidence is currently tentative$/) {
+  } elsif ($COND =~ /^the element has a charset attribute, and getting an encoding from its value results in an encoding, and the confidence is currently tentative$/) {
     $cond = ['can change the encoding'];
   } elsif ($COND =~ /^the token's tag name is one of the ones in the first column of the following table$/) {
     $cond = ['TAG-NAME-IN-NEXT-TABLE'];
