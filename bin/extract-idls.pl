@@ -24,6 +24,7 @@ $Data->{FETCH} = parse $local_path->child ('fetch.html');
 $Data->{FULLSCREEN} = parse $local_path->child ('fullscreen.html');
 $Data->{NOTIFICATIONS} = parse $local_path->child ('notifications.html');
 $Data->{ENCODING} = parse $local_path->child ('encoding.html');
+$Data->{COMPAT} = parse $local_path->child ('compat.html');
 
 print perl2json_bytes_for_record $Data;
 
