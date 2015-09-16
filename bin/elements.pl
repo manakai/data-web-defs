@@ -19,6 +19,7 @@ my $Data = {};
   my $f = file (__FILE__)->dir->parent->file ('local', 'html-extracted.json');
   my $json = file2perl $f;
   for my $el_name (keys %{$json->{elements}}) {
+    next if $el_name eq 'svg' or $el_name eq 'math';
     my $in = $json->{elements}->{$el_name};
     my $prop = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} ||= {};
     $prop->{conforming} = 1;
