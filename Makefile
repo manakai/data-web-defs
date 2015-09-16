@@ -131,6 +131,7 @@ all-urls: data/url-schemes.json data/tlds.json
 clean-urls:
 	rm -fr local/sw-url-schemes.*
 	rm -fr local/iana-url-schemes.*
+	rm -fr local/mozilla-prefs.js
 
 local/sw-url-schemes.xml:
 	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20URL%20schemes?format=xml"
@@ -154,7 +155,17 @@ data/url-schemes.json: bin/url-schemes.pl \
 local/iana-tlds.txt:
 	$(WGET) -O $@ https://data.iana.org/TLD/tlds-alpha-by-domain.txt
 
-data/tlds.json: local/iana-tlds.txt src/tld-additional.txt bin/tlds.pl
+local/mozilla-prefs.js:
+	$(WGET) -O $@ https://raw.githubusercontent.com/mozilla/gecko-dev/master/modules/libpref/init/all.js
+local/mozilla-idn-whitelist.txt: local/mozilla-prefs.js
+	perl -e 'while (<>) { #\
+	  if (m{pref\("network.IDN.whitelist.([0-9a-zA-Z-]+)", true\)}) { #\
+	    print lc $$1, "\n"; #\
+	  } #\
+	}' $< > $@
+
+data/tlds.json: local/iana-tlds.txt src/tld-additional.txt bin/tlds.pl \
+    local/mozilla-idn-whitelist.txt
 	$(PERL) bin/tlds.pl > $@
 
 ## ------ Language tags ------

@@ -11,11 +11,17 @@ pair:
   tld [object]
 
     Names are TLDs in lowercase, values are their descriptions as
-    [protocol-object] with following additional name/value pair:
+    [protocol-object] with following additional name/value pairs:
 
       iana [boolean]
 
         Whether the TLD has officially endorsed by ICANN or not.
+
+      mozilla_idn_whitelist [boolean]
+
+        Whether the TLD is in the Gecko's "network.IDN.whitelist.*"
+        whitelist ("IDN-enabled TLDs" list) or not.  Note that this
+        preference is obsolete.
 
 * Sources
 
@@ -34,6 +40,11 @@ RFC 6761 - Special-Use Domain Names
 
 RFC 6762 - Multicast DNS
 <https://tools.ietf.org/html/rfc6762#appendix-G>.
+
+IDN-enabled TLDs — Mozilla
+<https://www.mozilla.org/en-US/about/governance/policies/security-group/tld-idn/>.
+
+<https://github.com/mozilla/gecko-dev/blob/master/modules/libpref/init/all.js>.
 
 * License
 
