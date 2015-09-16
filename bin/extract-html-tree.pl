@@ -57,7 +57,7 @@ my $VERB = '(?:' . (join '|', map { quotemeta $_ } qw(
   unmark
   unset
 )) . ')';
-my $SENTENCE = qr/[A-Za-z0-9"'()+ -]+(?:, (?:relative|including|converted) [A-Za-z0-9"'()+ -]+(?:, is [A-Za-z0-9"'()+ -]+|)|)(?:, if any|)/;
+my $SENTENCE = qr/[A-Za-z0-9"'()+ -]+(?:, (?:relative|including|converted|except for) [A-Za-z0-9"'()+ -]+(?:, is [A-Za-z0-9"'()+ -]+|)|)(?:, if any|)/;
 
 sub parse_step ($);
 sub parse_step ($) {
@@ -966,7 +966,7 @@ sub parse_cond ($) {
     $cond = ['oe[-1]', 'is', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is not now an? ([\w-]+) element or an? ([\w-]+) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => [$1, $2]}];
-  } elsif ($COND =~ /^the current node is not (?:then |)an? ([\w-]+) element$/) {
+  } elsif ($COND =~ /^the current node is not (?:then |now |)an? ([\w-]+) element$/) {
     $cond = ['oe[-1]', 'is not', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the current node is the root (html) element$/ or
            $COND =~ /^the stack of open elements has only one node on it$/) {
