@@ -35,6 +35,19 @@ my $Data = {};
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/mozilla-idn-whitelist.txt');
+  for (split /\x0A/, $path->slurp) {
+    if (/^([A-Za-z0-9-]+)$/) {
+      my $domain = $1;
+      $domain =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
+      $Data->{tlds}->{$domain}->{mozilla_idn_whitelist} = 1;
+    } elsif (/\S/) {
+      warn "Broken line: $_";
+    }
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
