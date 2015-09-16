@@ -1350,8 +1350,10 @@
                                     "optgroup",
                                     "option",
                                     "p",
+                                    "rb",
                                     "rp",
                                     "rt",
+                                    "rtc",
                                     "tbody",
                                     "td",
                                     "tfoot",
@@ -1708,8 +1710,10 @@
                                     "optgroup",
                                     "option",
                                     "p",
+                                    "rb",
                                     "rp",
                                     "rt",
+                                    "rtc",
                                     "tbody",
                                     "td",
                                     "tfoot",
@@ -1944,8 +1948,10 @@
                                     "optgroup",
                                     "option",
                                     "p",
+                                    "rb",
                                     "rp",
                                     "rt",
+                                    "rtc",
                                     "tbody",
                                     "td",
                                     "tfoot",
@@ -3130,29 +3136,12 @@
                   }
                ]
             },
-            "START:rp rt" : {
+            "START:rb rtc" : {
                "actions" : [
                   {
                      "actions" : [
                         {
                            "type" : "generate implied end tags"
-                        },
-                        {
-                           "actions" : [
-                              {
-                                 "name" : "in-body-start-rp-rt",
-                                 "type" : "parse error"
-                              }
-                           ],
-                           "cond" : [
-                              "oe[-1]",
-                              "is not",
-                              {
-                                 "name" : "ruby",
-                                 "ns" : "HTML"
-                              }
-                           ],
-                           "type" : "if"
                         }
                      ],
                      "cond" : [
@@ -3161,6 +3150,71 @@
                         "scope",
                         {
                            "name" : "ruby",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "name" : "in-body-start-rb-rtc",
+                           "type" : "parse error"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is not",
+                        {
+                           "name" : "ruby",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:rp rt" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "except" : {
+                              "name" : "rtc",
+                              "ns" : "HTML"
+                           },
+                           "type" : "generate implied end tags"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "scope",
+                        {
+                           "name" : "ruby",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "name" : "in-body-start-rp-rt",
+                           "type" : "parse error"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is not",
+                        {
+                           "name" : [
+                              "rtc",
+                              "ruby"
+                           ],
                            "ns" : "HTML"
                         }
                      ],
@@ -16244,11 +16298,13 @@
                      "dd",
                      "dt",
                      "li",
-                     "option",
                      "optgroup",
+                     "option",
                      "p",
+                     "rb",
                      "rp",
                      "rt",
+                     "rtc",
                      "tbody",
                      "td",
                      "tfoot",
@@ -16270,11 +16326,13 @@
                      "dd",
                      "dt",
                      "li",
-                     "option",
                      "optgroup",
+                     "option",
                      "p",
+                     "rb",
                      "rp",
-                     "rt"
+                     "rt",
+                     "rtc"
                   ],
                   "ns" : "HTML"
                }
