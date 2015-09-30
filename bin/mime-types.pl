@@ -231,6 +231,9 @@ for (keys %$Data) {
 for my $type (keys %$Data) {
   $Data->{$type}->{any_xml} = 1 if $Data->{$type}->{xml};
   $Data->{$type}->{text} = 1 if $Data->{$type}->{any_xml};
+  $Data->{$type}->{text} = 1 if $Data->{$type}->{json};
+  $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{json};
+  $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{javascript};
 }
 
 print perl2json_bytes_for_record $Data;
