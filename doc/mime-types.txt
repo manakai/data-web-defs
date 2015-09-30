@@ -103,6 +103,11 @@ fragment [string?]
 
     |xpointer:rfc7303|   XPointer, as specified in RFC 7303.
 
+html [boolean]
+
+  Whether the MIME type is an HTML MIME type
+  <https://html.spec.whatwg.org/#html-mime-type> or not.
+
 http [boolean]
 
   Whether the MIME type is used as part of HTTP protocol or not.
@@ -127,6 +132,12 @@ image [boolean]
   <http://mimesniff.spec.whatwg.org/#image-type>.  This flag is not
   set for subtypes in the |image| type.
 
+json [boolean]
+
+  Whether the MIME type is a JSON MIME type
+  <https://html.spec.whatwg.org/#json-mime-type> or not.  This flag is
+  not set for MIME types with the |+json| structured syntax suffix.
+
 mac_creators [object?]
 
   Containing pairs of typical Macintosh creator identifiers for the
@@ -136,6 +147,13 @@ mac_types [object?]
 
   Containing pairs of typical Macintosh file types for the MIME type
   and boolean true values.
+
+navigate_text [boolean]
+
+  Whether the "navigate" algorithm handles the MIME type as a plain
+  text type or not.  This flag is not set for MIME types with the
+  |+json| structured syntax suffix.  Note that this flag does not take
+  explicitly supported JSON types into account.
 
 no_plugin [boolean]
 
