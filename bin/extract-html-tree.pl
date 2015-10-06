@@ -97,6 +97,11 @@ sub parse_step ($) {
       $_;
     } elsif ($_->{DESC} eq 'otherwise:') {
       {type => 'ELSE', RUN_NEXT_ALL => 1};
+    } elsif ($_->{DESC} =~ /^otherwise, run these substeps:$/) {
+      $_->{type} = 'ELSE';
+      $_->{RUN_NEXT} = 1;
+      delete $_->{DESC};
+      $_;
     } elsif ($_->{DESC} =~ s/^(otherwise, |)if ($SENTENCE), then: //o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
@@ -124,7 +129,7 @@ sub parse_step ($) {
       $_->{actions} = [(parse_step $3), (parse_step $f), (parse_step $i)];
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), then(?: run these (?:sub|)steps|)(?: instead|):$/o) {
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE),(?: then|)(?: run these (?:sub|)steps|)(?: instead|):$/o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
       $_->{RUN_NEXT} = 1;
@@ -2151,6 +2156,22 @@ for my $def (
 }
 
 for my $def (
+  (($Data->{ims}->{'before html'} or {})->{conds}->{'START:html'} or {}),
+) {
+  my $acts = $def->{actions} or next;
+  my $new_acts = [];
+  my $prev_was_script;
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'if' and $act->{cond}->[0] eq 'navigate') {
+      push @$new_acts, {type => 'appcache-processing', can_have_manifest => 1};
+    } else {
+      push @$new_acts, $act;
+    }
+  }
+  $def->{actions} = $new_acts;
+}
+for my $def (
   (($Data->{ims}->{'in head'} or {})->{conds}->{'START:meta'} or {}),
 ) {
   my $acts = $def->{actions} or next;
@@ -2368,3 +2389,6 @@ $Data->{steps} = $Data->{ims}->{_steps}->{conds};
 delete $Data->{ims}->{_steps};
 
 print perl2json_bytes_for_record $Data;
+
+## License: Public Domain.
+
