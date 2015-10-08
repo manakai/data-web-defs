@@ -3222,7 +3222,14 @@
       },
       "alpn" : {
          "http" : {
-            "iana" : 1
+            "iana" : 1,
+            "multiple" : "#",
+            "request" : {
+               "*" : "",
+               "CONNECT" : "MAY"
+            },
+            "url" : "https://tools.ietf.org/html/rfc7639",
+            "value_is_list" : "\u002B"
          },
          "name" : "ALPN"
       },
@@ -3347,14 +3354,15 @@
       "authentication-info" : {
          "http" : {
             "iana" : 1,
-            "id" : "section-3.2.3",
+            "id" : "section-3",
             "multiple" : "#",
             "response" : {
                "xxx" : ""
             },
-            "spec" : "RFC2617",
+            "spec" : "RFC7615",
             "trailer" : 1,
-            "value_is_list" : "\u002B"
+            "value_is_list" : "*",
+            "value_type" : "auth-param"
          },
          "name" : "Authentication-Info",
          "sip" : {
@@ -4019,10 +4027,11 @@
          "http_equiv" : {
             "conforming" : 1,
             "enumerated_attr_state_name" : "Content security policy state",
-            "name" : "content-security-policy",
-            "url" : "https://w3c.github.io/webappsec/specs/content-security-policy/#delivery-html-meta-element"
+            "id" : "attr-meta-http-equiv-content-security-policy",
+            "name" : "Content-Security-Policy",
+            "spec" : "HTML"
          },
-         "name" : "content-security-policy"
+         "name" : "Content-Security-Policy"
       },
       "content-style-type" : {
          "http" : {
@@ -4654,6 +4663,12 @@
             "iana" : 1
          },
          "name" : "EDIINT-Features"
+      },
+      "eesst-version" : {
+         "mail" : {
+            "iana" : 1
+         },
+         "name" : "Eesst-Version"
       },
       "encapsulated" : {
          "icap" : {
@@ -6009,6 +6024,9 @@
          "name" : "Ordering-Type"
       },
       "organization" : {
+         "mail" : {
+            "iana" : 1
+         },
          "name" : "Organization",
          "netnews" : {
             "iana" : 1
@@ -6560,7 +6578,16 @@
       },
       "proxy-authentication-info" : {
          "http" : {
-            "iana" : 1
+            "iana" : 1,
+            "id" : "section-4",
+            "multiple" : "#",
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC7615",
+            "trailer" : 1,
+            "value_is_list" : "*",
+            "value_type" : "auth-param"
          },
          "name" : "Proxy-Authentication-Info"
       },
