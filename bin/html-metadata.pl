@@ -185,8 +185,10 @@ sub _html ($) {
         $data->{html_a} = 'hyperlink';
       } elsif ($a eq 'contextual external resource') {
         $data->{html_a} = 'external resource';
+      } elsif ($a eq 'hyperlink annotation') {
+        $data->{html_a} = 'annotation';
       } else {
-        warn "Unknown effect |$a|";
+        warn "Unknown effect |$a| ($kwd)";
       }
     }
 
@@ -195,7 +197,7 @@ sub _html ($) {
       if ($li =~ /\A(not allowed|external resource|hyperlink|annotation)\z/) {
         $data->{html_link} = $li;
       } else {
-        warn "Unknown effect |$li|";
+        warn "Unknown effect |$li| ($kwd)";
       }
     }
 
@@ -216,7 +218,7 @@ sub _html ($) {
       $data->{microformats_wiki_status} = $1;
       $data->{conforming} = 1;
     } else {
-      warn "Unknown status |$status|";
+      warn "Unknown status |$status| ($kwd)";
     }
 
     my $synonyms = _t ($row->{Synonyms} // '');
