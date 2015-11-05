@@ -127,7 +127,7 @@ for my $doc (parse 'sw-mime-types-xml-*') {
   for my $type (keys %$json) {
     $type =~ tr/A-Z/a-z/;
     $Data->{$type}->{type} ||= 'subtype';
-    $Data->{$type}->{extensions}->{$_} = 1 for @{$json->{$type}->{extensions} or []};
+    $Data->{$type}->{extensions}->{lc $_} = 1 for @{$json->{$type}->{extensions} or []};
     $Data->{$type}->{compressible} = $json->{$type}->{compressible}
         if defined $json->{$type}->{compressible};
   }
@@ -173,6 +173,7 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.
       $prop = 'mac_creator';
     } elsif ($prop eq 'ext') {
       $prop = 'extensions';
+      $values = [map { lc $_ } @$values];
     }
     $Data->{$type}->{$prop}->{$_} = 1 for @$values;
   } elsif (m{^  ->\s*(\S+)\s*\((SHOULD)\)$}) {
@@ -212,6 +213,18 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
   }
 }
 
+for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-type-related.txt')->slurp) {
+  my ($t1, $t2) = split /\s+/, $_;
+  next unless defined $t2;
+  next unless length $t1;
+  $t1 = lc $t1;
+  $t2 = lc $t2;
+  $Data->{$t1} ||= {type => 'subtype'};
+  $Data->{$t2} ||= {type => 'subtype'};
+  $Data->{$t1}->{related}->{$t2} ||= {};
+  $Data->{$t2}->{related}->{$t1} ||= {};
+}
+
 $Data->{'/'}->{type} = 'type_only';
 $Data->{'*/*'}->{type} = 'subtype';
 $Data->{'drawing/x-dwf (old)'}->{type} = 'subtype';
@@ -229,6 +242,9 @@ for (keys %$Data) {
     if (m{^([^/]+)/}) {
       $Data->{"$1/*"} ||= {type => 'type'};
     }
+    if (m{\+([^/+]+)$}) {
+      $Data->{"*/*+$1"} ||= {type => 'suffix'};
+    }
   }
 }
 
@@ -240,6 +256,68 @@ for my $type (keys %$Data) {
   $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{javascript};
 }
 
-print perl2json_bytes_for_record $Data;
+my $ExtsData = {};
+for my $type (keys %$Data) {
+  my $def = $Data->{$type};
+  next unless $def->{type} eq 'subtype';
+  for (keys %{$def->{extensions} or {}}) {
+    $ExtsData->{$_}->{mime_types}->{$type} = 1;
+  }
+}
+my $ExtToGenericMIMETypes = {qw(
+  htm text/html
+  html text/html
+  txt text/plain
+  text text/plain
+  dat application/octet-stream
+  xml text/xml
+  _ application/xml
+  json application/json
+)};
+my $GenericMIMETypes = {reverse %$ExtToGenericMIMETypes};
+delete $ExtToGenericMIMETypes->{_};
+for my $ext (keys %$ExtsData) {
+  my $mimes = $ExtsData->{$ext}->{mime_types};
+  next unless keys %$mimes;
+  $ExtsData->{$ext}->{mime_type} = [sort {
+    my $at = $Data->{$a};
+    my $bt = $Data->{$b};
+    ($GenericMIMETypes->{$a} || '') cmp ($GenericMIMETypes->{$b} || '') ||
+    ($bt->{browser} || 0) <=> ($at->{browser} || 0) ||
+    ($bt->{iana} || '') cmp ($at->{iana} || '') ||
+    (length $a) <=> (length $b) ||
+    $b cmp $a;
+  } keys %$mimes]->[0];
+}
+for (keys %$ExtToGenericMIMETypes) {
+  $ExtsData->{$_}->{mime_type} = $ExtToGenericMIMETypes->{$_};
+}
+my $ExtToMIMETypes = {qw(
+  ogg application/ogg
+  xht application/xhtml+xml
+  xhtml application/xhtml+xml
+  mp3 audio/mpeg
+)};
+for (keys %$ExtToMIMETypes) {
+  $ExtsData->{$_}->{mime_type} = $ExtToMIMETypes->{$_};
+  $ExtsData->{$_}->{mime_types}->{$ExtToMIMETypes->{$_}} = 1;
+}
+for (values %$ExtsData) {
+  my @t = keys %{$_->{mime_types} or {}};
+  for my $t1 (@t) {
+    for my $t2 (@t) {
+      $Data->{$t1}->{related}->{$t2} ||= {};
+      $Data->{$t2}->{related}->{$t1} ||= {};
+    }
+  }
+}
+for (keys %$Data) {
+  delete $Data->{$_}->{related}->{$_} if $Data->{$_}->{related};
+}
+
+path (__FILE__)->parent->parent->child ('data/mime-types.json')->spew
+    (perl2json_bytes_for_record $Data);
+path (__FILE__)->parent->parent->child ('data/file-name-extensions.json')->spew
+    (perl2json_bytes_for_record $ExtsData);
 
 ## License: Public Domain.

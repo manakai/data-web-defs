@@ -65,7 +65,7 @@ data/specs.json: bin/specs.pl src/specs.txt src/spec-*.txt
 
 ## ------ MIME types ------
 
-all-mime: data/mime-types.json
+all-mime: data/mime-types.json data/file-name-extensions.json
 clean-mime: 
 	rm -fr local/sw-mime-types-xml*
 	rm -fr local/iana-mime-type* local/apache-mime-types
@@ -110,7 +110,7 @@ local/iana/mime-type-provisional.xml:
 
 intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
     local/iana/mime-type-provisional.json
-	$(PERL) bin/mime-type-provisional.pl > $@
+	$(PERL) bin/mime-type-provisional.pl
 
 local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
@@ -121,9 +121,12 @@ data/mime-types.json: bin/mime-types.pl \
     local/sw-mime-types-xml local/iana/mime-types.json \
     local/iana/mime-type-suffixes.json local/apache-mime-types \
     src/mime-types.txt local/iana/mime-type-provisional.json src/mime.types \
-    intermediate/mime-type-provisional.json local/jshttp-mime-types.json
-	$(PERL) bin/mime-types.pl > $@
+    intermediate/mime-type-provisional.json local/jshttp-mime-types.json \
+    src/mime-type-related.txt
+	$(PERL) bin/mime-types.pl
 	!(grep ' - ' $@ > /dev/null)
+
+data/file-name-extensions.json: data/mime-types.json
 
 ## ------ URLs ------
 

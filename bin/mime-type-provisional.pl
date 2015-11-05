@@ -15,6 +15,6 @@ my $Data = json_bytes2perl $DataPath->slurp;
   }
 }
 
-print perl2json_bytes_for_record $Data;
+$DataPath->spew (perl2json_bytes_for_record $Data);
 
 ## License: Public Domain.
