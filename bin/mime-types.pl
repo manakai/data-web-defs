@@ -213,6 +213,18 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
   }
 }
 
+for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-type-related.txt')->slurp) {
+  my ($t1, $t2) = split /\s+/, $_;
+  next unless defined $t2;
+  next unless length $t1;
+  $t1 = lc $t1;
+  $t2 = lc $t2;
+  $Data->{$t1} ||= {type => 'subtype'};
+  $Data->{$t2} ||= {type => 'subtype'};
+  $Data->{$t1}->{related}->{$t2} ||= {};
+  $Data->{$t2}->{related}->{$t1} ||= {};
+}
+
 $Data->{'/'}->{type} = 'type_only';
 $Data->{'*/*'}->{type} = 'subtype';
 $Data->{'drawing/x-dwf (old)'}->{type} = 'subtype';
@@ -229,6 +241,9 @@ for (keys %$Data) {
   for (@type) {
     if (m{^([^/]+)/}) {
       $Data->{"$1/*"} ||= {type => 'type'};
+    }
+    if (m{\+([^/+]+)$}) {
+      $Data->{"*/*+$1"} ||= {type => 'suffix'};
     }
   }
 }
@@ -286,6 +301,18 @@ my $ExtToMIMETypes = {qw(
 for (keys %$ExtToMIMETypes) {
   $ExtsData->{$_}->{mime_type} = $ExtToMIMETypes->{$_};
   $ExtsData->{$_}->{mime_types}->{$ExtToMIMETypes->{$_}} = 1;
+}
+for (values %$ExtsData) {
+  my @t = keys %{$_->{mime_types} or {}};
+  for my $t1 (@t) {
+    for my $t2 (@t) {
+      $Data->{$t1}->{related}->{$t2} ||= {};
+      $Data->{$t2}->{related}->{$t1} ||= {};
+    }
+  }
+}
+for (keys %$Data) {
+  delete $Data->{$_}->{related}->{$_} if $Data->{$_}->{related};
 }
 
 path (__FILE__)->parent->parent->child ('data/mime-types.json')->spew

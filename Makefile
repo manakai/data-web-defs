@@ -121,7 +121,8 @@ data/mime-types.json: bin/mime-types.pl \
     local/sw-mime-types-xml local/iana/mime-types.json \
     local/iana/mime-type-suffixes.json local/apache-mime-types \
     src/mime-types.txt local/iana/mime-type-provisional.json src/mime.types \
-    intermediate/mime-type-provisional.json local/jshttp-mime-types.json
+    intermediate/mime-type-provisional.json local/jshttp-mime-types.json \
+    src/mime-type-related.txt
 	$(PERL) bin/mime-types.pl
 	!(grep ' - ' $@ > /dev/null)
 
