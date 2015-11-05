@@ -453,6 +453,20 @@ daytime:
   protocol
 dc:
 dcp.tcp.pft:
+decomailer:
+  url=http://decomailer.azione.co.jp/faq/scheme/
+  authority=id
+  application
+dchttp:
+  authority=host
+  application
+  url=http://decomailer.azione.co.jp/faq/scheme/
+  http-variant
+dcmailto:
+  application
+  url=http://decomailer.azione.co.jp/faq/scheme/
+  query=nv
+  #mailto-variant
 define:
   application
   authority=fake
@@ -1271,7 +1285,12 @@ oftp:
   application
   authority=host
 ohajiki:
-  authority=host
+  authority=host+
+  application
+  x-callback-url
+  url=http://ohajiki.ios-web.com/url-scheme.html
+ohajikid:
+  authority=host+
   application
   x-callback-url
   url=http://ohajiki.ios-web.com/url-scheme.html
@@ -1280,11 +1299,25 @@ oohttp:
   application
   url=http://ohajiki.ios-web.com/url-scheme.html
   with-tls=oohttps
+  http-variant
+oodhttp:
+  authority=host
+  application
+  url=http://ohajiki.ios-web.com/url-scheme.html
+  with-tls=oodhttps
+  http-variant
 oohttps:
   authority=host
   application
   url=http://ohajiki.ios-web.com/url-scheme.html
   no-tls=oohttp
+  https-variant
+oodhttps:
+  authority=host
+  application
+  url=http://ohajiki.ios-web.com/url-scheme.html
+  no-tls=oodhttp
+   https-variant
 ohttp:
   application
   authority=host
@@ -1292,6 +1325,10 @@ ohttps:
   application
   authority=host
 onepassword3:
+onewriter:
+  x-callback-url
+  application
+  url=http://1writerapp.com/docs/urlscheme
 opaquelocktoken:
   nsurl
   url=http://tools.ietf.org/html/rfc4918#appendix-C
@@ -1708,6 +1745,11 @@ textforce:
   authority=fake
   query=nv
   url=https://domoapps.wordpress.com/2010/10/06/textforce/
+textwell:
+  application
+  url=http://sociomedia.com/textwell/urlschemes/
+  x-callback-url
+  query=nv
 tftp:
   protocol
 tgz:
@@ -1749,6 +1791,10 @@ tomtomhome:
   application
 topic:
 trash:
+trello:
+  url=https://trello.com/c/cJfzOdDm/188-automate-with-url-scheme
+  x-callback-url
+  application
 hrn:
 tp:
   authority=host
@@ -1786,6 +1832,11 @@ tweetings:
   application
 tweetingslite:
   application
+tweetlogix:
+  application
+  authority=empty
+  query=nv
+  url=http://www.onloft.com/tweetlogix/url-scheme/
 twit:
   application
 twitbird:

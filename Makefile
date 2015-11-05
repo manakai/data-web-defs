@@ -110,7 +110,7 @@ local/iana/mime-type-provisional.xml:
 
 intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
     local/iana/mime-type-provisional.json
-	$(PERL) bin/mime-type-provisional.pl > $@
+	$(PERL) bin/mime-type-provisional.pl
 
 local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
