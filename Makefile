@@ -118,7 +118,7 @@ local/jshttp-mime-types.json:
 	$(WGET) -O $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
 
 local/wpa-mime-types.json: intermediate/wpa-mime-types.json \
-    bin/wpa-mime-types.pl
+    bin/wpa-mime-types.pl src/mime-type-iana-template.txt
 	$(PERL) bin/wpa-mime-types.pl $< > $@
 
 data/mime-types.json: bin/mime-types.pl \
