@@ -213,6 +213,22 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/wpa-mime-types.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $key (keys %$json) {
+    my $type = $key;
+    $type =~ tr/A-Z/a-z/;
+    next unless $Data->{$type};
+    next if $json->{$key}->{parse_error};
+    my $ext = $json->{$key}->{exts};
+    if (defined $ext) {
+      $ext =~ tr/A-Z/a-z/;
+      $Data->{$type}->{extensions}->{$ext} = 1;
+    }
+  }
+}
+
 for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-type-related.txt')->slurp) {
   my ($t1, $t2) = split /\s+/, $_;
   next unless defined $t2;
