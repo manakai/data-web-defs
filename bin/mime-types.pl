@@ -213,6 +213,28 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/wpa-mime-types.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $key (keys %$json) {
+    my $type = $key;
+    $type =~ tr/A-Z/a-z/;
+    next unless $Data->{$type};
+    next if $json->{$key}->{parse_error};
+    my $ext = $json->{$key}->{exts};
+    if (defined $ext) {
+      $ext =~ tr/A-Z/a-z/;
+      $Data->{$type}->{extensions}->{$ext} = 1;
+    }
+    if (defined $json->{$key}->{intended_usage}) {
+      $Data->{$type}->{iana_intended_usage} = $json->{$key}->{intended_usage};
+      if ($json->{$key}->{intended_usage} eq 'obsolete') {
+        $Data->{$type}->{obsolete} = 1;
+      }
+    }
+  }
+}
+
 for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-type-related.txt')->slurp) {
   my ($t1, $t2) = split /\s+/, $_;
   next unless defined $t2;
@@ -254,7 +276,11 @@ for my $type (keys %$Data) {
   $Data->{$type}->{text} = 1 if $Data->{$type}->{json};
   $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{json};
   $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{javascript};
+  $Data->{$type}->{obsolete} = 1
+      if ($Data->{$type}->{deprecated} // '') eq 'obsolete';
 }
+delete $Data->{$_}->{deprecated},
+delete $Data->{$_}->{obsolete} for qw(text/javascript);
 
 my $ExtsData = {};
 for my $type (keys %$Data) {

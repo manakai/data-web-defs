@@ -117,12 +117,16 @@ local/apache-mime-types:
 local/jshttp-mime-types.json:
 	$(WGET) -O $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
 
+local/wpa-mime-types.json: intermediate/wpa-mime-types.json \
+    bin/wpa-mime-types.pl
+	$(PERL) bin/wpa-mime-types.pl $< > $@
+
 data/mime-types.json: bin/mime-types.pl \
     local/sw-mime-types-xml local/iana/mime-types.json \
     local/iana/mime-type-suffixes.json local/apache-mime-types \
     src/mime-types.txt local/iana/mime-type-provisional.json src/mime.types \
     intermediate/mime-type-provisional.json local/jshttp-mime-types.json \
-    src/mime-type-related.txt
+    src/mime-type-related.txt local/wpa-mime-types.json
 	$(PERL) bin/mime-types.pl
 	!(grep ' - ' $@ > /dev/null)
 

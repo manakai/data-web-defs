@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..7"
+echo "1..10"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -14,3 +14,6 @@ test 4 '.["application/smil"].iana == "permanent"'
 test 5 '.["application/*"].iana == "permanent"'
 test 6 '.["www/*"].type == "type"'
 test 7 '.["*/*"].type == "subtype"'
+test 8 '.["text/javascript"].obsolete | not'
+test 9 '.["text/javascript"].deprecated | not'
+test 10 '.["application/javascript"].obsolete | not | not'
