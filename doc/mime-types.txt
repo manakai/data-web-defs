@@ -71,6 +71,10 @@ deprecated [string?]
   |obsolete| is set.  Otherwise, if the MIME type is marked as
   deprecated, the value |deprecated| is set.
 
+  See also |obsolete| field, which should be used to determine whether
+  the MIME type is obsolete or not.  That field reflects more sources
+  than this field on obsoleteness.
+
 der [boolean]
 
   Whether it is a DER (Distinguished Encoding Rules) type or not.
@@ -126,10 +130,20 @@ iana [string?]
     |permanent|     Registered in the main registry.
     |provisional|   Registered in the provisional registry.
 
+iana_intended_usage [string?]
+
+  The "intended usage" as described in the IANA Media Type
+  registration template.  The value, if specified, is one of the
+  following values:
+
+    |common|        Common.
+    |limited use|   Limited use.
+    |obsolete|      Obsolete.
+
 image [boolean]
 
   Whether it is an image type or not
-  <http://mimesniff.spec.whatwg.org/#image-type>.  This flag is not
+  <https://mimesniff.spec.whatwg.org/#image-type>.  This flag is not
   set for subtypes in the |image| type.
 
 json [boolean]
@@ -159,6 +173,10 @@ no_plugin [boolean]
 
   Whether the MIME type is disallowed to register a plugin or not
   <https://html.spec.whatwg.org/#plugin>.
+
+obsolete [boolean]
+
+  Whether the MIME type is obsolete or not.
 
 params [object?]
 
