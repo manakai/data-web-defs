@@ -232,6 +232,7 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
         $Data->{$type}->{obsolete} = 1;
       }
     }
+    $Data->{$type}->{iana_template_url} = $json->{$key}->{url};
   }
 }
 
