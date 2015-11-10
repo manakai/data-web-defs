@@ -35,7 +35,7 @@ for my $type (keys %$Data) {
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)=""$}) {
       die "Bad $1 - $type" if defined $data->{$1 eq 'req' ? 'required_params' : 'optional_params'} and not ref $data->{$1 eq 'req' ? 'required_params' : 'optional_params'};
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {};
-    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (RFC 3023 application/xml|XML character encoding, default UTF-8|UTF-8 uppercase|RFC 3023 application/xml utf-8 \| utf-16)$}) {
+    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (RFC 3023 application/xml|XML character encoding, default UTF-8|UTF-8 uppercase|RFC 3023 application/xml utf-8 \| utf-16|RFC 2327|RFC 3267|RFC 4566)$}) {
       die "Bad $1 - $type" if defined $data->{$1 eq 'req' ? 'required_params' : 'optional_params'} and not ref $data->{$1 eq 'req' ? 'required_params' : 'optional_params'};
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = $3;
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (\w+)$}) {
@@ -64,6 +64,8 @@ for my $type (keys %$Data) {
       $data->{multipart_signed_protocol} = 1;
     } elsif (m{^  plugin$}) {
       $data->{plugin} = 1;
+    } elsif (m{^  RTP$}) {
+      $data->{RTP} = 1;
     } elsif (/\S/) {
       die "Bad line |$_|";
     }
