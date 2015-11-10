@@ -70,6 +70,8 @@ for my $doc (parse 'sw-mime-types-xml-*') {
       $subtype =~ tr/A-Z/a-z/;
       $Data->{"$type/$subtype"}->{type} = 'subtype';
       $Data->{"$type/$subtype"}->{iana} = 'permanent';
+      $Data->{"$type/$subtype"}->{iana_template_url} = "https://www.iana.org/assignments/media-types/" . $record->{file}
+          if length $record->{file};
       $Data->{"$type/$subtype"}->{deprecated} ||= 'deprecated'
           if $info =~ /^DEPRECATED/;
       $Data->{"$type/$subtype"}->{deprecated} ||= 'obsolete'
@@ -223,8 +225,10 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
     next if $json->{$key}->{parse_error};
     my $ext = $json->{$key}->{exts};
     if (defined $ext) {
-      $ext =~ tr/A-Z/a-z/;
-      $Data->{$type}->{extensions}->{$ext} = 1;
+      for my $ext (ref $ext ? keys %$ext : $ext) {
+        $ext =~ tr/A-Z/a-z/;
+        $Data->{$type}->{extensions}->{$ext} = 1;
+      }
     }
     if (defined $json->{$key}->{intended_usage}) {
       $Data->{$type}->{iana_intended_usage} = $json->{$key}->{intended_usage};
