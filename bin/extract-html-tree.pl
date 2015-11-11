@@ -82,6 +82,10 @@ sub parse_step ($) {
     push @action, {type => 'UNPARSED', DESC => "$1, and if $2"};
   }
 
+  if ($tc =~ s{^(If the stack of open elements [A-Za-z0-9_\s-]+, then generate implied end tags(?:, [A-Za-z0-9_\s-]+|))\.\s+If (the current node is not now [A-Za-z0-9_\s-]+, [A-Za-z0-9_\s-]+)\.\s*}{}o) {
+    push @action, {type => 'UNPARSED', DESC => "$1, and if $2"};
+  }
+
   while ($tc =~ s/^((?>[^.()]+|\.e\.|\([^()]+\))+)\.\s*(\([^()]+\)\s*|)//) {
     push @action, {type => 'UNPARSED', DESC => $1};
   }
@@ -135,12 +139,13 @@ sub parse_step ($) {
       $_->{RUN_NEXT} = 1;
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ /^if ($SENTENCE), then ($SENTENCE), and if ($SENTENCE), ($SENTENCE); otherwise, if ($SENTENCE(?:, or $SENTENCE)*), ($SENTENCE)$/o) {
+    } elsif ($_->{DESC} =~ /^if ($SENTENCE), then ($SENTENCE), and if ($SENTENCE), ($SENTENCE)$/o) {
       $_->{type} = 'IF';
-      my @a = ($3, $4, $5, $6);
+      $_->{COND} = $1;
+      my @a = ($3, $4);
       $_->{actions} = [(parse_step $2), {type => 'IF', COND => $a[0], actions => [parse_step $a[1]]}];
       delete $_->{DESC};
-      ($_, {type => 'ELSIF', COND => $a[2], actions => [parse_step $a[3]]});
+      ($_);
     } elsif ($_->{DESC} =~ /^(otherwise, |)if ([A-Za-z0-9" -]+? is one of [A-Za-z0-9" -]+(?:, (?:or |)[A-Za-z0-9" -]+)+), then ($SENTENCE); ($SENTENCE)$/o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;

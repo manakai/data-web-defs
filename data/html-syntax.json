@@ -3142,29 +3142,29 @@
                      "actions" : [
                         {
                            "type" : "generate implied end tags"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-rb-rtc",
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              {
+                                 "name" : "ruby",
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "cond" : [
                         "oe",
                         "in scope",
                         "scope",
-                        {
-                           "name" : "ruby",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "name" : "in-body-start-rb-rtc",
-                           "type" : "parse error"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is not",
                         {
                            "name" : "ruby",
                            "ns" : "HTML"
@@ -3187,6 +3187,26 @@
                               "ns" : "HTML"
                            },
                            "type" : "generate implied end tags"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-rp-rt",
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is not",
+                              {
+                                 "name" : [
+                                    "rtc",
+                                    "ruby"
+                                 ],
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "cond" : [
@@ -3195,26 +3215,6 @@
                         "scope",
                         {
                            "name" : "ruby",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "name" : "in-body-start-rp-rt",
-                           "type" : "parse error"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is not",
-                        {
-                           "name" : [
-                              "rtc",
-                              "ruby"
-                           ],
                            "ns" : "HTML"
                         }
                      ],
