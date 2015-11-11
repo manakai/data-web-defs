@@ -35,7 +35,7 @@ for my $type (keys %$Data) {
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)=""$}) {
       die "Bad $1 - $type" if defined $data->{$1 eq 'req' ? 'required_params' : 'optional_params'} and not ref $data->{$1 eq 'req' ? 'required_params' : 'optional_params'};
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {};
-    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (RFC 3023 application/xml|XML character encoding, default UTF-8|UTF-8 uppercase|RFC 3023 application/xml utf-8 \| utf-16|RFC [0-9]{4}|filename)$}) {
+    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (RFC 3023 application/xml|RFC 3023 text/xml|XML character encoding, default UTF-8|UTF-8|utf-8|UTF-8 uppercase|RFC 3023 application/xml utf-8 \| utf-16|RFC [0-9]{4}|filename|MIME type with no parameters)$}) {
       die "Bad $1 - $type" if defined $data->{$1 eq 'req' ? 'required_params' : 'optional_params'} and not ref $data->{$1 eq 'req' ? 'required_params' : 'optional_params'};
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = $3;
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (\w+)$}) {
@@ -48,20 +48,22 @@ for my $type (keys %$Data) {
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {SHOULD => 1};
     } elsif (m{^  fragment -$}) {
       $data->{fragment} = 'none';
-    } elsif (m{^  fragment (RFC XXX)$}) {
+    } elsif (m{^  fragment (X3D|multipart/x-mixed-replace|text/vnd-a|RFC [0-9]{4}|RFC XXX)$}) {
       $data->{fragment} = $1;
     } elsif (m{^  COMMON$}) {
       $data->{intended_usage} = 'common';
     } elsif (m{^  LIMITED USE$}) {
       $data->{intended_usage} = 'limited use';
+    } elsif (m{^  OBSOLETE$}) {
+      $data->{intended_usage} = 'obsolete';
     } elsif (m{^  CTE (base64|quoted-printable)$}) {
       $data->{preferred_cte} = $1;
     } elsif (m{^  \.([A-Za-z0-9_-]+)$}) {
       $data->{exts}->{$1} = 1;
     } elsif (m{^  Mac creator (\S...)$}) {
-      $data->{mac_creator} = $1;
+      $data->{mac_creators}->{$1} = 1;
     } elsif (m{^  Mac type (\S...)$}) {
-      $data->{mac_type} = $1;
+      $data->{mac_types}->{$1} = 1;
     } elsif (m{^  multipart/encrypted protocol$}) {
       $data->{multipart_encrypted_protocol} = 1;
     } elsif (m{^  multipart/signed protocol$}) {
