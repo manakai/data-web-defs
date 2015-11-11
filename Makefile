@@ -427,7 +427,7 @@ local/html-extracted.json: local/html bin/extract-html-standard.pl
 #local/html-status.xml:
 #	$(SAVEURL) $@ https://html.spec.whatwg.org/status.cgi?action=get-all-annotations
 local/obsvocab.html:
-	$(SAVEURL) $@ http://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab
+	$(SAVEURL) $@ https://manakai.github.io/spec-obsvocab/
 
 local/aria.rdf:
 	$(SAVEURL) $@ http://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
