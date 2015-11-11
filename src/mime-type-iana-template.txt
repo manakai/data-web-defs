@@ -40,7 +40,7 @@ https://www.iana.org/assignments/media-types/application/alto-networkmapfilter+j
   COMMON
 https://www.iana.org/assignments/media-types/application/applefile
   CTE base64
-  opt name=""
+  opt name="" filename
   opt type="" text
 https://www.iana.org/assignments/media-types/application/cbor
   req -
@@ -99,7 +99,7 @@ https://www.iana.org/assignments/media-types/application/lostsync+xml
   LIMITED USE
 https://www.iana.org/assignments/media-types/application/mac-binhex40
   req -
-  opt name=""
+  opt name="" filename
 https://www.iana.org/assignments/media-types/application/macwriteii
   req -
   opt -
@@ -158,7 +158,7 @@ https://www.iana.org/assignments/media-types/application/octet-stream
   opt type="" text
   opt padding=""
   opt conversions="" [obsolete]
-  opt name="" [obsolete]
+  opt name="" filename [obsolete]
 https://www.iana.org/assignments/media-types/application/ODA
   CTE base64
   # should
@@ -522,4 +522,219 @@ https://www.iana.org/assignments/media-types/audio/G719
   opt maxptime="" RFC 4566
   RTP
   COMMON
-
+https://www.iana.org/assignments/media-types/audio/iLBC
+  RTP
+  opt maxptime=""
+  opt mode=""
+  opt ptime=""
+  CTE base64
+  .lbc
+  .LBC
+  COMMON
+https://www.iana.org/assignments/media-types/audio/SMV
+  req -
+  opt ptime="" RFC 2327
+  opt maxptime=""
+  opt maxinterleave=""
+  RTP
+  .smv
+  .SMV
+  COMMON
+https://www.iana.org/assignments/media-types/audio/SMV-QCP
+  req -
+  opt -
+  .qcp
+  .QCP
+  COMMON
+https://www.iana.org/assignments/media-types/audio/SMV0
+  req -
+  opt -
+  COMMON
+https://www.iana.org/assignments/media-types/audio/VMR-WB
+  req -
+  opt mode-set=""
+  opt channels=""
+  opt octet-align=""
+  opt maxptime="" RFC 3267
+  opt interleaving=""
+  opt ptime="" RFC 2327
+  opt dtx=""
+  RTP
+  COMMON
+https://www.iana.org/assignments/media-types/audio/vnd.nokia.mobile-xmf
+  req -
+  opt prl=""
+  opt minimum-pr=""
+  opt total-pr=""
+  .mxmf
+  Mac type mxmf
+  LIMITED USE
+https://www.iana.org/assignments/media-types/audio/vorbis
+  req rate="" RFC 3531
+  req channel="" RFC 3531
+  req configuration=""
+  COMMON
+  RTP
+https://www.iana.org/assignments/media-types/image/cgm
+  req version=""
+  req ProfileId=""
+  opt -
+  CTE base64
+https://www.iana.org/assignments/media-types/image/g3fax
+https://www.iana.org/assignments/media-types/image/prs.btif
+  req -
+  opt -
+  .btif
+  .btf
+  plugin
+  COMMON
+https://www.iana.org/assignments/media-types/image/vnd-svf
+  req -
+  opt -
+https://www.iana.org/assignments/media-types/image/vnd.dwg
+  req -
+  opt -
+  .DWG
+https://www.iana.org/assignments/media-types/image/vnd.dxf
+  req -
+  opt -
+  .DXF
+https://www.iana.org/assignments/media-types/image/vnd.xiff
+  req -
+  opt -
+  .xif
+  COMMON
+https://www.iana.org/assignments/media-types/message/delivery-status
+  opt -
+https://www.iana.org/assignments/media-types/message/disposition-notification
+  opt -
+https://www.iana.org/assignments/media-types/message/tracking-status
+  opt -
+https://www.iana.org/assignments/media-types/model/iges
+  req -
+  opt -
+https://www.iana.org/assignments/media-types/multipart/appledouble
+https://www.iana.org/assignments/media-types/multipart/encrypted
+  req boundary=""
+  req protocol=""
+  opt -
+https://www.iana.org/assignments/media-types/multipart/signed
+  req boundary=""
+  req protocol=""
+  req micalg=""
+  opt -
+https://www.iana.org/assignments/media-types/text/markdown
+  req charset=""
+  opt variant=""
+  #any
+  fragment RFC XXX
+  .md
+  .markdown
+  COMMON
+https://www.iana.org/assignments/media-types/text/tab-separated-values
+https://www.iana.org/assignments/media-types/text/vnd.latex-z
+  plugin
+  req -
+  opt -
+https://www.iana.org/assignments/media-types/video/3gpp-tt
+  req rate="" RFC 4396
+  req sver=""
+  opt tx=""
+  opt ty=""
+  opt layer=""
+  opt tx3g=""
+  opt width=""
+  opt height=""
+  opt max-w=""
+  opt max-h=""
+  RTP
+  COMMON
+https://www.iana.org/assignments/media-types/video/H264
+  req -
+  opt profile-level-id=""
+  opt max-recv-level=""
+  opt max-mbps=""
+  opt max-smbps=""
+  opt max-fs=""
+  opt max-cpb=""
+  opt max-dpb=""
+  opt max-br=""
+  opt redundant-pic-cap=""
+  opt sprop-parameter-sets=""
+  opt sprop-level-parameter-sets=""
+  opt use-level-src-parameter-sets=""
+  opt in-band-parameter-sets=""
+  opt level-asymmetry-allowed=""
+  opt packetization-mode=""
+  opt sprop-interleaving-depth=""
+  opt sprop-deint-buf-req=""
+  opt deint-buf-cap=""
+  opt sprop-init-buf-time=""
+  opt sprop-max-don-diff=""
+  opt max-rcmd-nalu-size=""
+  opt sar-understood=""
+  opt sar-supported=""
+  RTP
+  COMMON
+https://www.iana.org/assignments/media-types/video/H264-SVC
+  req -
+  opt profile-level-id=""
+  opt max-recv-level=""
+  opt max-recv-base-level=""
+  opt max-mbps="" RFC 6184
+  opt max-fs="" RFC 6184
+  opt max-cpb=""
+  opt max-dpb="" RFC 6184
+  opt max-br=""
+  opt redundant-pic-cap="" RFC 6184
+  opt sprop-parameter-sets=""
+  opt sprop-level-parameter-sets=""
+  opt in-band-parameter-sets=""
+  opt packetization-mode=""
+  opt sprop-interleaving-depth="" RFC 6184
+  opt sprop-deint-buf-req="" RFC 6184
+  opt deint-buf-cap="" RFC 6184
+  opt sprop-init-buf-time="" RFC 6184
+  opt sprop-max-don-diff="" RFC 6184
+  opt max-rcmd-nalu-size="" RFC 6184
+  opt mst-mode=""
+  opt sprop-msg-csdon-always-present=""
+  opt sprop-mst-remux-buf-size=""
+  opt sprop-remux-buf-req=""
+  opt remux-buf-cap=""
+  opt sprop-remux-init-buf-time=""
+  opt sprop-mst-max-don-diff=""
+  opt sprop-scalability-info=""
+  opt scalable-layer-id=""
+  opt sprop-operation-point-info=""
+  opt sprop-no-NAL-reordering-required=""
+  opt sprop-avc-ready=""
+  RTP
+  COMMON
+https://www.iana.org/assignments/media-types/video/mpeg4-generic
+  req streamType=""
+  req profile-level-id=""
+  req config=""
+  req mode=""
+  opt objectType=""
+  opt constantSize=""
+  opt constantDuration=""
+  opt maxDisplacement=""
+  opt de-interleaveBufferSize=""
+  opt sizeLength=""
+  opt indexLength=""
+  opt indexDeltaLength=""
+  opt CTSDeltaLength=""
+  opt DTSDeltaLength=""
+  opt randomAccessIndication=""
+  opt streamStateIndication=""
+  opt auxiliaryDataSizeLength=""
+  COMMON
+https://www.iana.org/assignments/media-types/video/vnd.objectvideo
+  req -
+  opt rate="" RFC 3016
+  opt profile-level-id="" RFC 3016
+  opt config="" RFC 3016
+  opt revision=""
+  .mp4
+  COMMON

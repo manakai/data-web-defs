@@ -35,17 +35,21 @@ for my $type (keys %$Data) {
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)=""$}) {
       die "Bad $1 - $type" if defined $data->{$1 eq 'req' ? 'required_params' : 'optional_params'} and not ref $data->{$1 eq 'req' ? 'required_params' : 'optional_params'};
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {};
-    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (RFC 3023 application/xml|XML character encoding, default UTF-8|UTF-8 uppercase|RFC 3023 application/xml utf-8 \| utf-16|RFC 2327|RFC 3267|RFC 4566)$}) {
+    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (RFC 3023 application/xml|XML character encoding, default UTF-8|UTF-8 uppercase|RFC 3023 application/xml utf-8 \| utf-16|RFC [0-9]{4}|filename)$}) {
       die "Bad $1 - $type" if defined $data->{$1 eq 'req' ? 'required_params' : 'optional_params'} and not ref $data->{$1 eq 'req' ? 'required_params' : 'optional_params'};
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = $3;
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (\w+)$}) {
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {type => $2};
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" \[obsolete\]$}) {
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {obsolete => 1};
+    } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" (filename) \[obsolete\]$}) {
+      $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {type => $3, obsolete => 1};
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" \[SHOULD\]$}) {
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {SHOULD => 1};
     } elsif (m{^  fragment -$}) {
       $data->{fragment} = 'none';
+    } elsif (m{^  fragment (RFC XXX)$}) {
+      $data->{fragment} = $1;
     } elsif (m{^  COMMON$}) {
       $data->{intended_usage} = 'common';
     } elsif (m{^  LIMITED USE$}) {
