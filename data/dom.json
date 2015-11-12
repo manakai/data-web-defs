@@ -354,7 +354,7 @@
       {
          "di" : 39,
          "fragment" : "interface DOMSettableTokenList : DOMTokenList {\u000A            attribute DOMString [*id=\u0022dom-domsettabl",
-         "index" : 35168,
+         "index" : 35365,
          "level" : "m",
          "spec" : "DOM",
          "type" : "webidl:duplicate",
@@ -479,12 +479,21 @@
       },
       {
          "di" : 243,
-         "fragment" : "attribute DOMMatrix [*id=\u0022dom-context-2d-currenttransform\u0022*]currentTransform;\u000A  void [*id=\u0022dom-conte",
-         "index" : 1678,
+         "fragment" : "[NewObject] DOMMatrix [*id=\u0022dom-context-2d-gettransform\u0022*]getTransform();\u000A  void [*id=\u0022dom-context-2",
+         "index" : 2126,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "DOMMatrix"
+      },
+      {
+         "di" : 243,
+         "fragment" : "optional DOMMatrixInit matrix);\u000A  void [*id=\u0022dom-context-2d-resettransform\u0022*]resetTransform();\u000A\u000A  //",
+         "index" : 2455,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "DOMMatrixInit"
       },
       {
          "di" : 146,
@@ -6581,19 +6590,6 @@
                      "spec" : "HTML"
                   }
                ],
-               "currentTransform" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-context-2d-currenttransform",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref",
-                        "DOMMatrix"
-                     ]
-                  }
-               ],
                "drawFocusIfNeeded" : [
                   "operation",
                   {
@@ -7018,6 +7014,24 @@
                            "type" : [
                               "ref_interface",
                               "ImageData"
+                           ]
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "getTransform" : [
+                  "operation",
+                  {
+                     "id" : "dom-context-2d-gettransform",
+                     "overload_set" : {
+                        "" : {
+                           "NewObject" : 1,
+                           "args" : [
+                           ],
+                           "type" : [
+                              "ref",
+                              "DOMMatrix"
                            ]
                         }
                      },
@@ -7511,8 +7525,27 @@
                "setTransform" : [
                   "operation",
                   {
-                     "id" : "dom-context-2d-settransform",
+                     "id" : "dom-context-2d-settransform-2",
                      "overload_set" : {
+                        "" : {
+                           "args" : [
+                           ],
+                           "type" : "void"
+                        },
+                        "ref[DOMMatrixInit]" : {
+                           "args" : [
+                              {
+                                 "name" : "matrix",
+                                 "optionality" : "optional",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref",
+                                    "DOMMatrixInit"
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        },
                         "unrestricted double,unrestricted double,unrestricted double,unrestricted double,unrestricted double,unrestricted double" : {
                            "args" : [
                               {
@@ -8897,6 +8930,34 @@
                                  "id" : "dom-domtokenlist-remove-tokens-tokens",
                                  "name" : "tokens",
                                  "optionality" : "variadic",
+                                 "spec" : "DOM",
+                                 "type" : "DOMString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "DOM"
+                  }
+               ],
+               "replace" : [
+                  "operation",
+                  {
+                     "id" : "dom-domtokenlist-replace",
+                     "overload_set" : {
+                        "DOMString,DOMString" : {
+                           "args" : [
+                              {
+                                 "id" : "dom-domtokenlist-replace-token-newtoken-token",
+                                 "name" : "token",
+                                 "optionality" : "required",
+                                 "spec" : "DOM",
+                                 "type" : "DOMString"
+                              },
+                              {
+                                 "id" : "dom-domtokenlist-replace-token-newtoken-newtoken",
+                                 "name" : "newToken",
+                                 "optionality" : "required",
                                  "spec" : "DOM",
                                  "type" : "DOMString"
                               }
