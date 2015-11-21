@@ -239,6 +239,45 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime.types'
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/mime-types-data.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $data (@$json) {
+    my $type = $data->{'content-type'};
+    $type =~ tr/A-Z/a-z/;
+    $Data->{$type} ||= {type => 'subtype'};
+    $Data->{$type}->{preferred_cte} ||= $data->{encoding}
+        if defined $data->{encoding} and
+           ($data->{encoding} eq 'base64' or
+            $data->{encoding} eq 'quoted-printable');
+    if (defined $data->{encoding} and
+        not $data->{encoding} eq 'base64' and
+        not $data->{encoding} eq 'quoted-printable' and
+        not $data->{encoding} eq '7bit' and
+        not $data->{encoding} eq '8bit') {
+      warn "Unknown encoding: ", $data->{encoding};
+    }
+    for my $ext (@{$data->{extensions} or []}) {
+      $ext =~ tr/A-Z/a-z/;
+      $Data->{$type}->{extensions}->{$ext} = 1;
+    }
+    if (defined $data->{friendly}->{en} and
+        length $data->{friendly}->{en}) {
+      $Data->{$type}->{label} = $data->{friendly}->{en};
+    }
+    for (grep { not $_ eq 'en' } keys %{$data->{friendly} or {}}) {
+      warn "Unknown |friendly| language |$_|";
+    }
+    if (defined $data->{'use-instead'}) {
+      my $preferred = $data->{'use-instead'};
+      $preferred =~ tr/A-Z/a-z/;
+      $Data->{$type}->{preferred_type} ||= $preferred;
+      $Data->{$preferred} ||= {type => 'subtype'};
+    }
+    $Data->{$type}->{obsolete} = 1 if $data->{obsolete};
+  }
+}
+
 for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-type-related.txt')->slurp) {
   my ($t1, $t2) = split /\s+/, $_;
   next unless defined $t2;

@@ -273,17 +273,29 @@ sub _html ($) {
       $data->{"html_$1"} = $2;
     } elsif (/^  (atom)$/) {
       $data->{atom} = 1;
+      $data->{atom_feed} = 1;
+      $data->{atom_entry} = 1;
       unless ($key =~ /:/) {
         $long_name = q<http://www.iana.org/assignments/relation/> . $key;
         $Data->{link_types}->{$long_name}->{name} ||= $long_name;
         $Data->{link_types}->{$long_name}->{atom} ||= 1;
+        $Data->{link_types}->{$long_name}->{atom_feed} ||= 1;
+        $Data->{link_types}->{$long_name}->{atom_entry} ||= 1;
         $Data->{link_types}->{$long_name}->{url} ||= $long_src_url || $src_url if defined $long_src_url or defined $src_url;
         $Data->{link_types}->{$long_name}->{preferred} ||= {type => 'rel', name => $key};
       }
-    } elsif (/^  (atom03|hal|http link|opensearch|maze|collection\+json|xml2rfc|core|xrd|webfinger|rdap)$/) {
+    } elsif (/^  (atom03|hal|http link|opensearch|maze|collection\+json|xml2rfc|core|xrd|webfinger|rdap|atom feed|atom entry)$/) {
       my $k = $1;
       $k =~ tr/ +/__/;
       $data->{$k} = 1;
+      if (($k eq 'atom_feed' or $k eq 'atom_entry') and not $key =~ /:/) {
+        $long_name = q<http://www.iana.org/assignments/relation/> . $key;
+        $Data->{link_types}->{$long_name}->{name} ||= $long_name;
+        $Data->{link_types}->{$long_name}->{atom_feed} ||= 1;
+        $Data->{link_types}->{$long_name}->{atom_entry} ||= 1;
+        $Data->{link_types}->{$long_name}->{url} ||= $long_src_url || $src_url if defined $long_src_url or defined $src_url;
+        $Data->{link_types}->{$long_name}->{preferred} ||= {type => 'rel', name => $key};
+      }
     } elsif (/^  (link|a)$/) {
       $data->{"html_$1"} ||= 1;
     } elsif (/^  (html)$/) {

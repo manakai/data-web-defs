@@ -116,6 +116,8 @@ local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 local/jshttp-mime-types.json:
 	$(WGET) -O $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
+local/mime-types-data.json:
+	$(WGET) -O $@ https://raw.githubusercontent.com/mime-types/mime-types-data/master/data/mime-types.json
 
 local/wpa-mime-types.json: intermediate/wpa-mime-types.json \
     bin/wpa-mime-types.pl src/mime-type-iana-template.txt
@@ -126,9 +128,9 @@ data/mime-types.json: bin/mime-types.pl \
     local/iana/mime-type-suffixes.json local/apache-mime-types \
     src/mime-types.txt local/iana/mime-type-provisional.json src/mime.types \
     intermediate/mime-type-provisional.json local/jshttp-mime-types.json \
-    src/mime-type-related.txt local/wpa-mime-types.json
+    src/mime-type-related.txt local/wpa-mime-types.json \
+    local/mime-types-data.json
 	$(PERL) bin/mime-types.pl
-	!(grep ' - ' $@ > /dev/null)
 
 data/file-name-extensions.json: data/mime-types.json
 
