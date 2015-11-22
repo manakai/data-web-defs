@@ -109,13 +109,15 @@ for (
 
 my $XAttrAllowed = {
   interface => {
-    ArrayClass => 1, Constructor => 1, Exposed => 1, Global => 1,
+    ArrayClass => 1, LegacyArrayClass => 1,
+    Constructor => 1, Exposed => 1, Global => 1,
     ImplicitThis => 1, NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
   },
   callback_interface => {
-    ArrayClass => 1, Exposed => 1, Global => 1,
+    ArrayClass => 1, LegacyArrayClass => 1,
+    Exposed => 1, Global => 1,
     ImplicitThis => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
@@ -179,6 +181,7 @@ for my $key (keys %$XAttrAllowed) {
 
 my $XAttrArgs = {
   ArrayClass => {no => 1},
+  LegacyArrayClass => {no => 1},
   Clamp => {no => 1},
   Constructor => {no => 1, args => 1},
   EnforceRange => {no => 1},
