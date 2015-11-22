@@ -21,7 +21,7 @@ for (qw(
   callback interface partial dictionary enum typedef implements const
   null true false -Infinity Infinity NaN serializer getter stringifier
   static attribute inherit readonly setter deleter
-  legacycaller legacyiterable iterable optional ByteString Date
+  legacycaller iterable optional ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
   Promise Error DOMException ArrayBuffer Int8Array Int16Array
@@ -47,7 +47,7 @@ for (qw(
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const deleter dictionary enum
   getter implements inherit interface iterable legacycaller
-  legacyiterable maplike partial serializer setlike setter static
+  maplike partial serializer setlike setter static
   stringifier typedef unrestricted required
 
   class extends
@@ -85,7 +85,6 @@ for (
   [static_operation => undef, 'static operation'],
   [serializer => 'serializer', 'serializer'],
   [iterable => 'iterable', 'iterable declaration'],
-  [legacyiterable => 'legacyiterable', 'legacyiterable declaration'],
   [maplike => 'maplike', 'maplike declaration'],
   [setlike => 'setlike', 'setlike declaration'],
 ) {
@@ -152,9 +151,6 @@ my $XAttrAllowed = {
   },
   serializer => {},
   iterable => {
-    Exposed => 1,
-  },
-  legacyiterable => {
     Exposed => 1,
   },
   maplike => {},
