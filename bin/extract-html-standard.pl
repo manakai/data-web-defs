@@ -315,7 +315,11 @@ if ($xml_doc) {
 
     my $dtd_f = file (__FILE__)->dir->parent->file ('data', 'xhtml-charrefs.dtd');
     print { $dtd_f->openw } $data;
+  } else {
+    warn "WARNING! XHTML DTD not found";
   }
+} else {
+  warn "WARNING! XHTML spec not found";
 }
 
 ## License: Public Domain.
