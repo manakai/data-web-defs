@@ -696,7 +696,8 @@ data/ogp.json: bin/ogp.pl src/ogp.txt
 
 ## ------ CSS ------
 
-all-css: data/css.json data/css-colors.json data/css-fonts.json
+all-css: data/css.json data/css-colors.json data/css-fonts.json \
+    data/selectors.json
 clean-css:
 
 data/css.json: bin/css.pl src/css-at-rules.txt
@@ -707,6 +708,9 @@ data/css-colors.json: bin/css-colors.pl
 
 data/css-fonts.json: bin/css-fonts.pl
 	$(PERL) bin/css-fonts.pl > $@
+
+data/selectors.json: bin/selectors.pl
+	$(PERL) bin/selectors.pl > $@
 
 ## ------ Validation ------
 
