@@ -71,31 +71,31 @@ clean-mime:
 	rm -fr local/iana-mime-type* local/apache-mime-types
 
 local/sw-mime-types-xml:
-	$(WGET) -O $@-top "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20MIME%20types?format=xml"
-	$(WGET) -O $@-suffix "http://suika.suikawiki.org/~wakaba/wiki/sw/n/structured%20syntax%20suffix?format=xml"
-	$(WGET) -O $@-xapplication "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-application+%2A?format=xml"
-	$(WGET) -O $@-application "http://suika.suikawiki.org/~wakaba/wiki/sw/n/application+%2A?format=xml"
-	$(WGET) -O $@-audio "http://suika.suikawiki.org/~wakaba/wiki/sw/n/audio+%2A?format=xml"
-	$(WGET) -O $@-chemical "http://suika.suikawiki.org/~wakaba/wiki/sw/n/chemical+%2A?format=xml"
-	$(WGET) -O $@-xferrumhead "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-ferrum-head+%2A?format=xml"
-	$(WGET) -O $@-xferrummenu "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-ferrum-menu+%2A?format=xml"
-	$(WGET) -O $@-font "http://suika.suikawiki.org/~wakaba/wiki/sw/n/font+%2A?format=xml"
-	$(WGET) -O $@-image "http://suika.suikawiki.org/~wakaba/wiki/sw/n/image+%2A?format=xml"
-	$(WGET) -O $@-inode "http://suika.suikawiki.org/~wakaba/wiki/sw/n/inode+%2A?format=xml"
-	$(WGET) -O $@-math "http://suika.suikawiki.org/~wakaba/wiki/sw/n/math+%2A?format=xml"
-	$(WGET) -O $@-message "http://suika.suikawiki.org/~wakaba/wiki/sw/n/message+%2A?format=xml"
-	$(WGET) -O $@-model "http://suika.suikawiki.org/~wakaba/wiki/sw/n/model+%2A?format=xml"
-	$(WGET) -O $@-multipart "http://suika.suikawiki.org/~wakaba/wiki/sw/n/multipart+%2A?format=xml"
-	$(WGET) -O $@-plugin "http://suika.suikawiki.org/~wakaba/wiki/sw/n/plugin+%2A?format=xml"
-	$(WGET) -O $@-xpostpet "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-postpet+%2A?format=xml"
-	$(WGET) -O $@-text "http://suika.suikawiki.org/~wakaba/wiki/sw/n/text+%2A?format=xml"
-	$(WGET) -O $@-vector "http://suika.suikawiki.org/~wakaba/wiki/sw/n/vector+%2A?format=xml"
-	$(WGET) -O $@-video "http://suika.suikawiki.org/~wakaba/wiki/sw/n/video+%2A?format=xml"
-	$(WGET) -O $@-windows "http://suika.suikawiki.org/~wakaba/wiki/sw/n/windows+%2A?format=xml"
-	$(WGET) -O $@-xworld "http://suika.suikawiki.org/~wakaba/wiki/sw/n/x-world+%2A?format=xml"
-	$(WGET) -O $@-xgi "http://suika.suikawiki.org/~wakaba/wiki/sw/n/xgi+%2A?format=xml"
-	$(WGET) -O $@-fitness "http://wiki.suikawiki.org/n/vnd.google.fitness.data_type%2F%2A?format=xml"
-	$(WGET) -O $@-cursor "http://wiki.suikawiki.org/n/vnd.android.cursor.dir%2F%2A?format=xml"
+	$(WGET) -O $@-top "https://wiki.suikawiki.org/n/List%20of%20MIME%20types?format=xml"
+	$(WGET) -O $@-suffix "https://wiki.suikawiki.org/n/structured%20syntax%20suffix?format=xml"
+	$(WGET) -O $@-xapplication "https://wiki.suikawiki.org/n/x-application%2F%2A?format=xml"
+	$(WGET) -O $@-application "https://wiki.suikawiki.org/n/application%2F%2A?format=xml"
+	$(WGET) -O $@-audio "https://wiki.suikawiki.org/n/audio%2F%2A?format=xml"
+	$(WGET) -O $@-chemical "https://wiki.suikawiki.org/n/chemical%2F%2A?format=xml"
+	$(WGET) -O $@-xferrumhead "https://wiki.suikawiki.org/n/x-ferrum-head%2F%2A?format=xml"
+	$(WGET) -O $@-xferrummenu "https://wiki.suikawiki.org/n/x-ferrum-menu%2F%2A?format=xml"
+	$(WGET) -O $@-font "https://wiki.suikawiki.org/n/font%2F%2A?format=xml"
+	$(WGET) -O $@-image "https://wiki.suikawiki.org/n/image%2F%2A?format=xml"
+	$(WGET) -O $@-inode "https://wiki.suikawiki.org/n/inode%2F%2A?format=xml"
+	$(WGET) -O $@-math "https://wiki.suikawiki.org/n/math%2F%2A?format=xml"
+	$(WGET) -O $@-message "https://wiki.suikawiki.org/n/message%2F%2A?format=xml"
+	$(WGET) -O $@-model "https://wiki.suikawiki.org/n/model%2F%2A?format=xml"
+	$(WGET) -O $@-multipart "https://wiki.suikawiki.org/n/multipart%2F%2A?format=xml"
+	$(WGET) -O $@-plugin "https://wiki.suikawiki.org/n/plugin%2F%2A?format=xml"
+	$(WGET) -O $@-xpostpet "https://wiki.suikawiki.org/n/x-postpet%2F%2A?format=xml"
+	$(WGET) -O $@-text "https://wiki.suikawiki.org/n/text%2F%2A?format=xml"
+	$(WGET) -O $@-vector "https://wiki.suikawiki.org/n/vector%2F%2A?format=xml"
+	$(WGET) -O $@-video "https://wiki.suikawiki.org/n/video%2F%2A?format=xml"
+	$(WGET) -O $@-windows "https://wiki.suikawiki.org/n/windows%2F%2A?format=xml"
+	$(WGET) -O $@-xworld "https://wiki.suikawiki.org/n/x-world%2F%2A?format=xml"
+	$(WGET) -O $@-xgi "https://wiki.suikawiki.org/n/xgi%2F%2A?format=xml"
+	$(WGET) -O $@-fitness "https://wiki.suikawiki.org/n/vnd.google.fitness.data_type%2F%2A?format=xml"
+	$(WGET) -O $@-cursor "https://wiki.suikawiki.org/n/vnd.android.cursor.dir%2F%2A?format=xml"
 	touch $@
 
 local/iana/mime-types.xml:
@@ -143,7 +143,7 @@ clean-urls:
 	rm -fr local/mozilla-prefs.js
 
 local/sw-url-schemes.xml:
-	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20URL%20schemes?format=xml"
+	$(WGET) -O $@ "https://wiki.suikawiki.org/n/List%20of%20URL%20schemes?format=xml"
 local/sw-url-schemes.txt: local/sw-url-schemes.xml \
     bin/extract-sw-url-schemes.pl
 	$(PERL) bin/extract-sw-url-schemes.pl < $< > $@
@@ -225,9 +225,9 @@ clean-http:
 	rm -fr local/iana/http*.xml local/mozilla-ciphers.html
 
 local/sw-http-statuses.xml:
-	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20status%20codes?format=xml"
+	$(WGET) -O $@ "https://wiki.suikawiki.org/n/List%20of%20HTTP%20status%20codes?format=xml"
 local/sw-http-methods.xml:
-	$(WGET) -O $@ "http://suika.suikawiki.org/~wakaba/wiki/sw/n/List%20of%20HTTP%20methods?format=xml"
+	$(WGET) -O $@ "https://wiki.suikawiki.org/n/List%20of%20HTTP%20methods?format=xml"
 local/iana-http-statuses.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/http-status-codes/http-status-codes.xml
 local/iana/rtsp.xml:
