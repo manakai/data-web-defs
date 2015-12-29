@@ -52,7 +52,7 @@ local/perl-latest/pm/lib/perl5/JSON/PS.pm:
 
 local/bin/jq:
 	mkdir -p local/bin
-	$(WGET) -O $@ http://stedolan.github.io/jq/download/linux64/jq
+	$(WGET) -O $@ https://stedolan.github.io/jq/download/linux64/jq
 	chmod u+x $@
 
 ## ------ Metadata ------

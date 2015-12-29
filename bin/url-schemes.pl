@@ -21,6 +21,8 @@ while (<$file>) {
       die "Duplicate URL scheme: |$scheme|\n";
     }
     $Data->{$scheme} = {};
+  } elsif (/^\s+(tcp|udp|tls)$/) {
+    $Data->{$scheme}->{transport}->{$1} = 1;
   } elsif (/^\s+([\w-]+)\s*$/) {
     if ($1 eq 'application') {
       $Data->{$scheme}->{$1} = {};
