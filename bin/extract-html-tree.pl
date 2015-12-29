@@ -1107,7 +1107,7 @@ sub parse_cond ($) {
     $cond = ['oe', 'is empty'];
   } elsif ($COND =~ /^the stack of open elements is not empty$/) {
     $cond = ['oe', 'is not empty'];
-  } elsif ($COND =~ /^the stack of script settings objects is empty$/) {
+  } elsif ($COND =~ /^the JavaScript execution context stack is empty$/) {
     $cond = ['stack of script settings objects', 'is empty'];
   } elsif ($COND =~ /^the token does not have an attribute with the name "type", or if it does, but that attribute's value is not an ASCII case-insensitive match for the string "hidden"$/) {
     $cond = ['token[type]', 'lc is not', 'hidden'];
