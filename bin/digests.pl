@@ -53,6 +53,19 @@ my $root_path = path (__FILE__)->parent->parent;
 }
 
 {
+  my $json = json_bytes2perl $root_path->child ('local/iana/http-digests.json')->slurp;
+  for my $record (@{$json->{registries}->{'hash-alg'}->{records}}) {
+    my $name = $record->{value};
+    my $key = lc $name;
+    $Data->{algorithms}->{$key}->{Digest}->{name} = $name;
+    $Data->{algorithms}->{$key}->{Digest}->{name_sess} = "$name-sess";
+    $Data->{algorithms}->{$key}->{Digest}->{iana} = 1;
+  }
+  $Data->{algorithms}->{'sha-256'}->{Digest}->{required} = 1;
+  $Data->{algorithms}->{md5}->{Digest}->{deprecated} = 1;
+}
+
+{
   my $json = json_bytes2perl $root_path->child ('local/iana/ni.json')->slurp;
   for my $record (@{$json->{registries}->{'hash-alg'}->{records}}) {
     my $name = $record->{name};

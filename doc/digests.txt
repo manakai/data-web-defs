@@ -12,9 +12,9 @@ The file contains a JSON object with following name/value pairs:
     Keys are algorithm names (in lowercase for HTTP values; as is for
     |ni:| values) and values are JSON objects which contains
     name/value pairs whose name is |HTTP| (HTTP |Digest:| and
-    |Want-Digest:| headers) or |ni| (|ni:| and |nih:| URLs) and values
-    are their descriptions as [protocol-object], with following
-    additional name/value pairs:
+    |Want-Digest:| headers), |Digest| (HTTP |Digest| authentication),
+    or |ni| (|ni:| and |nih:| URLs) and values are their descriptions
+    as [protocol-object], with following additional name/value pairs:
 
       Digest [boolean]
 
@@ -24,7 +24,12 @@ The file contains a JSON object with following name/value pairs:
       name [string]
 
         The canonical name of the algorithm, as used in relevant
-        specifications.
+        specifications or registries.
+
+      name_sess [string]
+
+        The canonical name of the algorithm with "-sess" suffix, used
+        in HTTP Digest authentication's |algorithm| parameter, if any.
 
       required [boolean]
 
@@ -67,21 +72,29 @@ The file contains a JSON object with following name/value pairs:
 * Sources
 
 RFC 3230, Instance Digests in HTTP
-<http://tools.ietf.org/html/rfc3230>.
+<https://tools.ietf.org/html/rfc3230>.
 
 RFC 5843, Additional Hash Algorithms for HTTP Instance Digests
-<http://tools.ietf.org/html/rfc5843>.
+<https://tools.ietf.org/html/rfc5843>.
 
 RFC 6920, Naming Things with Hashes
-<http://tools.ietf.org/html/rfc6920>.
+<https://tools.ietf.org/html/rfc6920>.
+
+RFC 7616, HTTP Digest Access Authentication
+<https://tools.ietf.org/html/rfc7616>.
 
 Hypertext Transfer Protocol (HTTP) Digest Algorithm Values
-<http://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml>.
+<https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xhtml>.
 
 Named Information
-<http://www.iana.org/assignments/named-information/named-information.xhtml>.
+<https://www.iana.org/assignments/named-information/named-information.xhtml>.
 
 * License
 
 You are granted a license to use, reproduce, and create derivative
 works of the JSON file.
+
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of the JSON file and this
+document has waived all copyright and related or neighboring rights to
+the JSON file and this document.

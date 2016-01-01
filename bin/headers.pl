@@ -454,7 +454,7 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
       $Data->{auth_schemes}->{$name}->{$param_type}->{auth_params}->{$param_name}->{$1} = 1;
     } elsif (/^(challenge|credentials) (auth-param|token68|non-standard)$/) {
       $Data->{auth_schemes}->{$name}->{$1}->{syntax} = $2;
-    } elsif (/^(challenge|credentials) (\S+)=""$/) {
+    } elsif (/^(challenge|credentials|info) (\S+)=""$/) {
       $param_type = $1;
       $param_name = lc $2;
       $Data->{auth_schemes}->{$name}->{$1}->{auth_params}->{$param_name}->{name} = $2;
