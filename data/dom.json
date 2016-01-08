@@ -118,6 +118,15 @@
          "value" : "id"
       },
       {
+         "di" : 246,
+         "fragment" : ");\u000A  void [*id=\u0022dom-formdata-append\u0022*]set(USVString name, Blob value, optional USVString filename);\u000A",
+         "index" : 729,
+         "level" : "m",
+         "spec" : "XHR",
+         "text" : "?, ",
+         "type" : "webidl:parse error"
+      },
+      {
          "di" : 48,
          "fragment" : "typedef (Blob or BufferSource or FormData or URLSearchParams or USVString) [*id=\u0022bodyinit\u0022*]BodyInit",
          "index" : 45,
@@ -170,6 +179,15 @@
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "File"
+      },
+      {
+         "di" : 48,
+         "fragment" : "typedef (Blob or BufferSource or FormData or URLSearchParams or USVString) [*id=\u0022bodyinit\u0022*]BodyInit",
+         "index" : 45,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "FormData"
       },
       {
          "di" : 74,
@@ -1203,47 +1221,6 @@
          {
             "Exposed" : {
                "Window" : 1
-            }
-         }
-      ],
-      "FormData" : [
-         "operation",
-         {
-            "Exposed" : {
-               "DedicatedWorkerGlobalScope" : 1,
-               "SharedWorkerGlobalScope" : 1,
-               "Window" : 1
-            },
-            "overload_set" : {
-               "" : {
-                  "args" : [
-                  ],
-                  "id" : "dom-formdata",
-                  "spec" : "XHR",
-                  "type" : [
-                     "ref_interface",
-                     "FormData"
-                  ]
-               },
-               "ref[HTMLFormElement]" : {
-                  "args" : [
-                     {
-                        "name" : "form",
-                        "optionality" : "optional",
-                        "spec" : "XHR",
-                        "type" : [
-                           "ref_interface",
-                           "HTMLFormElement"
-                        ]
-                     }
-                  ],
-                  "id" : "dom-formdata",
-                  "spec" : "XHR",
-                  "type" : [
-                     "ref_interface",
-                     "FormData"
-                  ]
-               }
             }
          }
       ],
@@ -4829,7 +4806,7 @@
                            "type" : [
                               "Promise",
                               [
-                                 "ref_interface",
+                                 "ref",
                                  "FormData"
                               ]
                            ]
@@ -4899,7 +4876,7 @@
                         "BufferSource"
                      ],
                      [
-                        "ref_interface",
+                        "ref",
                         "FormData"
                      ],
                      [
@@ -4914,8 +4891,8 @@
                         "ref",
                         "Blob"
                      ],
-                     "ref_interface[FormData]" : [
-                        "ref_interface",
+                     "ref[FormData]" : [
+                        "ref",
                         "FormData"
                      ],
                      "ref_interface[URLSearchParams]" : [
@@ -12887,250 +12864,6 @@
             "spec" : "HTML"
          }
       ],
-      "FormData" : [
-         "interface",
-         {
-            "Exposed" : {
-               "DedicatedWorkerGlobalScope" : 1,
-               "SharedWorkerGlobalScope" : 1,
-               "Window" : 1
-            },
-            "id" : "formdata",
-            "iterable" : [
-               "iterable",
-               {
-                  "keys_type" : "USVString",
-                  "spec" : "XHR",
-                  "values_type" : [
-                     "ref_typedef",
-                     "FormDataEntryValue"
-                  ]
-               }
-            ],
-            "members" : {
-               "append" : [
-                  "operation",
-                  {
-                     "id" : "dom-formdata-append",
-                     "overload_set" : {
-                        "USVString,USVString" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              },
-                              {
-                                 "name" : "value",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              }
-                           ],
-                           "type" : "void"
-                        },
-                        "USVString,ref[Blob]" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              },
-                              {
-                                 "name" : "value",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : [
-                                    "ref",
-                                    "Blob"
-                                 ]
-                              }
-                           ],
-                           "type" : "void"
-                        },
-                        "USVString,ref[Blob],USVString" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              },
-                              {
-                                 "name" : "value",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : [
-                                    "ref",
-                                    "Blob"
-                                 ]
-                              },
-                              {
-                                 "name" : "filename",
-                                 "optionality" : "optional",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              }
-                           ],
-                           "type" : "void"
-                        }
-                     },
-                     "spec" : "XHR"
-                  }
-               ],
-               "delete" : [
-                  "operation",
-                  {
-                     "id" : "dom-formdata-delete",
-                     "overload_set" : {
-                        "USVString" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              }
-                           ],
-                           "type" : "void"
-                        }
-                     },
-                     "spec" : "XHR"
-                  }
-               ],
-               "get" : [
-                  "operation",
-                  {
-                     "id" : "dom-formdata-get",
-                     "overload_set" : {
-                        "USVString" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              }
-                           ],
-                           "type" : [
-                              "nullable",
-                              [
-                                 "ref_typedef",
-                                 "FormDataEntryValue"
-                              ]
-                           ]
-                        }
-                     },
-                     "spec" : "XHR"
-                  }
-               ],
-               "getAll" : [
-                  "operation",
-                  {
-                     "id" : "dom-formdata-getall",
-                     "overload_set" : {
-                        "USVString" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              }
-                           ],
-                           "type" : [
-                              "sequence",
-                              [
-                                 "ref_typedef",
-                                 "FormDataEntryValue"
-                              ]
-                           ]
-                        }
-                     },
-                     "spec" : "XHR"
-                  }
-               ],
-               "has" : [
-                  "operation",
-                  {
-                     "id" : "dom-formdata-has",
-                     "overload_set" : {
-                        "USVString" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              }
-                           ],
-                           "type" : "boolean"
-                        }
-                     },
-                     "spec" : "XHR"
-                  }
-               ],
-               "set" : [
-                  "operation",
-                  {
-                     "id" : "dom-formdata-append",
-                     "overload_set" : {
-                        "USVString,ref[FormDataEntryValue]" : {
-                           "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : "USVString"
-                              },
-                              {
-                                 "name" : "value",
-                                 "optionality" : "required",
-                                 "spec" : "XHR",
-                                 "type" : [
-                                    "ref_typedef",
-                                    "FormDataEntryValue"
-                                 ]
-                              }
-                           ],
-                           "type" : "void"
-                        }
-                     },
-                     "spec" : "XHR"
-                  }
-               ]
-            },
-            "spec" : "XHR"
-         }
-      ],
-      "FormDataEntryValue" : [
-         "typedef",
-         {
-            "id" : "formdataentryvalue",
-            "spec" : "XHR",
-            "type" : [
-               "union",
-               {
-                  "def" : [
-                     [
-                        "ref",
-                        "Blob"
-                     ],
-                     "USVString"
-                  ],
-                  "flattened" : {
-                     "USVString" : "USVString",
-                     "ref[Blob]" : [
-                        "ref",
-                        "Blob"
-                     ]
-                  }
-               }
-            ]
-         }
-      ],
       "FrameRequestCallback" : [
          "callback",
          {
@@ -16966,7 +16699,7 @@
                      "spec" : "HTML",
                      "type" : [
                         "ref_interface",
-                        "HTMLFormControlsCollection"
+                        "HTMLCollection"
                      ]
                   }
                ],
