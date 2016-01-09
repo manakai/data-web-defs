@@ -112,6 +112,10 @@ for (
       $StatusCodes->{$method_name}->{$proto}->{null_body} = 1;
     } elsif (/^redirect status$/) {
       $StatusCodes->{$method_name}->{$proto}->{redirect_status} = 1;
+    } elsif (/^(response|multistatus) (MUST NOT|SHOULD NOT)$/) {
+      $StatusCodes->{$method_name}->{$proto}->{$1} = $1;
+    } elsif (/^(response|multistatus)$/) {
+      $StatusCodes->{$method_name}->{$proto}->{$1} = 'MAY';
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
