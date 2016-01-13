@@ -118,15 +118,6 @@
          "value" : "id"
       },
       {
-         "di" : 246,
-         "fragment" : ");\u000A  void [*id=\u0022dom-formdata-append\u0022*]set(USVString name, Blob value, optional USVString filename);\u000A",
-         "index" : 729,
-         "level" : "m",
-         "spec" : "XHR",
-         "text" : "?, ",
-         "type" : "webidl:parse error"
-      },
-      {
          "di" : 48,
          "fragment" : "typedef (Blob or BufferSource or FormData or URLSearchParams or USVString) [*id=\u0022bodyinit\u0022*]BodyInit",
          "index" : 45,
@@ -179,15 +170,6 @@
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "File"
-      },
-      {
-         "di" : 48,
-         "fragment" : "typedef (Blob or BufferSource or FormData or URLSearchParams or USVString) [*id=\u0022bodyinit\u0022*]BodyInit",
-         "index" : 45,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "FormData"
       },
       {
          "di" : 74,
@@ -264,7 +246,7 @@
       {
          "di" : 242,
          "fragment" : "partial interface ServiceWorkerGlobalScope {\u000A  attribute EventHandler [*id=\u0022dom-serviceworkerglobals",
-         "index" : 1633,
+         "index" : 1624,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -327,7 +309,7 @@
       {
          "di" : 242,
          "fragment" : "dictionary [*id=\u0022dictdef-notificationeventinit\u0022*]NotificationEventInit : ExtendableEventInit {\u000A  req",
-         "index" : 1383,
+         "index" : 1374,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -409,6 +391,15 @@
          "di" : 100,
          "fragment" : "Constructor(DOMString type, PromiseRejectionEventInit eventInitDict), Exposed=(Window,Worker)]\u000Ainter",
          "index" : 14,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:bad optionality",
+         "value" : "eventInitDict"
+      },
+      {
+         "di" : 242,
+         "fragment" : "[*id=\u0022dom-notificationevent-notificationevent\u0022*]Constructor(DOMString [*id=\u0022dom-notificationevent-no",
+         "index" : 800,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:bad optionality",
@@ -1221,6 +1212,47 @@
          {
             "Exposed" : {
                "Window" : 1
+            }
+         }
+      ],
+      "FormData" : [
+         "operation",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "id" : "dom-formdata",
+                  "spec" : "XHR",
+                  "type" : [
+                     "ref_interface",
+                     "FormData"
+                  ]
+               },
+               "ref[HTMLFormElement]" : {
+                  "args" : [
+                     {
+                        "name" : "form",
+                        "optionality" : "optional",
+                        "spec" : "XHR",
+                        "type" : [
+                           "ref_interface",
+                           "HTMLFormElement"
+                        ]
+                     }
+                  ],
+                  "id" : "dom-formdata",
+                  "spec" : "XHR",
+                  "type" : [
+                     "ref_interface",
+                     "FormData"
+                  ]
+               }
             }
          }
       ],
@@ -2333,23 +2365,6 @@
             "Exposed" : {
             },
             "overload_set" : {
-               "DOMString" : {
-                  "args" : [
-                     {
-                        "id" : "dom-notificationevent-notificationevent-type-eventinitdict-type",
-                        "name" : "type",
-                        "optionality" : "required",
-                        "spec" : "NOTIFICATIONS",
-                        "type" : "DOMString"
-                     }
-                  ],
-                  "id" : "dom-notificationevent-notificationevent",
-                  "spec" : "NOTIFICATIONS",
-                  "type" : [
-                     "ref_interface",
-                     "NotificationEvent"
-                  ]
-               },
                "DOMString,ref[NotificationEventInit]" : {
                   "args" : [
                      {
@@ -2362,7 +2377,7 @@
                      {
                         "id" : "dom-notificationevent-notificationevent-type-eventinitdict-eventinitdict",
                         "name" : "eventInitDict",
-                        "optionality" : "optional",
+                        "optionality" : "required",
                         "spec" : "NOTIFICATIONS",
                         "type" : [
                            "ref_dictionary",
@@ -4806,7 +4821,7 @@
                            "type" : [
                               "Promise",
                               [
-                                 "ref",
+                                 "ref_interface",
                                  "FormData"
                               ]
                            ]
@@ -4876,7 +4891,7 @@
                         "BufferSource"
                      ],
                      [
-                        "ref",
+                        "ref_interface",
                         "FormData"
                      ],
                      [
@@ -4891,8 +4906,8 @@
                         "ref",
                         "Blob"
                      ],
-                     "ref[FormData]" : [
-                        "ref",
+                     "ref_interface[FormData]" : [
+                        "ref_interface",
                         "FormData"
                      ],
                      "ref_interface[URLSearchParams]" : [
@@ -12864,6 +12879,293 @@
             "spec" : "HTML"
          }
       ],
+      "FormData" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "id" : "formdata",
+            "iterable" : [
+               "iterable",
+               {
+                  "keys_type" : "USVString",
+                  "spec" : "XHR",
+                  "values_type" : [
+                     "ref_typedef",
+                     "FormDataEntryValue"
+                  ]
+               }
+            ],
+            "members" : {
+               "append" : [
+                  "operation",
+                  {
+                     "id" : "dom-formdata-append",
+                     "overload_set" : {
+                        "USVString,USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              },
+                              {
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : "void"
+                        },
+                        "USVString,ref[Blob]" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              },
+                              {
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : [
+                                    "ref",
+                                    "Blob"
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        },
+                        "USVString,ref[Blob],USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              },
+                              {
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : [
+                                    "ref",
+                                    "Blob"
+                                 ]
+                              },
+                              {
+                                 "name" : "filename",
+                                 "optionality" : "optional",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "XHR"
+                  }
+               ],
+               "delete" : [
+                  "operation",
+                  {
+                     "id" : "dom-formdata-delete",
+                     "overload_set" : {
+                        "USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "XHR"
+                  }
+               ],
+               "get" : [
+                  "operation",
+                  {
+                     "id" : "dom-formdata-get",
+                     "overload_set" : {
+                        "USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : [
+                              "nullable",
+                              [
+                                 "ref_typedef",
+                                 "FormDataEntryValue"
+                              ]
+                           ]
+                        }
+                     },
+                     "spec" : "XHR"
+                  }
+               ],
+               "getAll" : [
+                  "operation",
+                  {
+                     "id" : "dom-formdata-getall",
+                     "overload_set" : {
+                        "USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : [
+                              "sequence",
+                              [
+                                 "ref_typedef",
+                                 "FormDataEntryValue"
+                              ]
+                           ]
+                        }
+                     },
+                     "spec" : "XHR"
+                  }
+               ],
+               "has" : [
+                  "operation",
+                  {
+                     "id" : "dom-formdata-has",
+                     "overload_set" : {
+                        "USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : "boolean"
+                        }
+                     },
+                     "spec" : "XHR"
+                  }
+               ],
+               "set" : [
+                  "operation",
+                  {
+                     "id" : "dom-formdata-append",
+                     "overload_set" : {
+                        "USVString,USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              },
+                              {
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : "void"
+                        },
+                        "USVString,ref[Blob]" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              },
+                              {
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : [
+                                    "ref",
+                                    "Blob"
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        },
+                        "USVString,ref[Blob],USVString" : {
+                           "args" : [
+                              {
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              },
+                              {
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "XHR",
+                                 "type" : [
+                                    "ref",
+                                    "Blob"
+                                 ]
+                              },
+                              {
+                                 "name" : "filename",
+                                 "optionality" : "optional",
+                                 "spec" : "XHR",
+                                 "type" : "USVString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "XHR"
+                  }
+               ]
+            },
+            "spec" : "XHR"
+         }
+      ],
+      "FormDataEntryValue" : [
+         "typedef",
+         {
+            "id" : "formdataentryvalue",
+            "spec" : "XHR",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref",
+                        "Blob"
+                     ],
+                     "USVString"
+                  ],
+                  "flattened" : {
+                     "USVString" : "USVString",
+                     "ref[Blob]" : [
+                        "ref",
+                        "Blob"
+                     ]
+                  }
+               }
+            ]
+         }
+      ],
       "FrameRequestCallback" : [
          "callback",
          {
@@ -17153,7 +17455,7 @@
                      "getter" : 1,
                      "id" : "dom-form-length",
                      "spec" : "HTML",
-                     "type" : "long"
+                     "type" : "unsigned long"
                   }
                ],
                "method" : [
