@@ -30,22 +30,22 @@ sub _html ($) {
   my $path = path (__FILE__)->parent->parent->child ('local/MetaExtensions.json');
   my $table = json_bytes2perl $path->slurp;
   for my $row (@{$table->{rows}}) {
-
-    $div->inner_html ($row->{Status} // '');
-    my $status = lc _t $div->text_content;
-    if ($status =~ /\A(proposal|incomplete proposal|unendorsed)\z/) {
-      #
-    } elsif ($status eq "doesn't belong in this registry") {
-      next;
-    } else {
-      warn "Unknown status |$status|";
-      $status = undef;
-    }
-
     my $kwd = $row->{Keyword} // '';
     $div->inner_html ($kwd);
     $kwd = _t $div->text_content;
     die "Broken data: ", perl2json_bytes_for_record $row unless defined $kwd;
+
+    $div->inner_html ($row->{Status} // '');
+    my $status = lc _t $div->text_content;
+    if ($status =~ /\A(proposal|incomplete proposal|proposed|unendorsed)\z/) {
+      #
+    } elsif ($status eq "doesn't belong in this registry") {
+      next;
+    } else {
+      push @{$Data->{_errors} ||= []}, "Unknown status |$status| (meta $kwd)";
+      $status = undef;
+    }
+
     my $key = $kwd;
     $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
 
@@ -54,7 +54,7 @@ sub _html ($) {
     $data->{name} = $kwd;
 
     $data->{whatwg_wiki_status} = $status;
-    $data->{conforming} = 1 if $status eq 'proposal';
+    $data->{conforming} = 1 if defined $status and $status eq 'proposal';
 
     my $desc = _t ($row->{'Brief description'} // '');
     if (length $desc) {
@@ -112,7 +112,11 @@ sub _html ($) {
       my $name = $1;
       $key = $name;
       $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
-      $data = $Data->{metadata_names}->{$key} ||= {};
+      if (defined $src_url and $src_url =~ m{^https://html.spec.whatwg.org/}) {
+        $data = $Data->{metadata_names}->{$key} = {};
+      } else {
+        $data = $Data->{metadata_names}->{$key} ||= {};
+      }
       $data->{name} ||= $name;
       $data->{url} ||= $src_url if defined $src_url;
       next;
@@ -218,7 +222,7 @@ sub _html ($) {
       $data->{microformats_wiki_status} = $1;
       $data->{conforming} = 1;
     } else {
-      warn "Unknown status |$status| ($kwd)";
+      push @{$Data->{_errors} ||= []}, "Unknown status |$status| (rel $kwd)";
     }
 
     my $synonyms = _t ($row->{Synonyms} // '');
@@ -249,7 +253,11 @@ sub _html ($) {
       my $name = $1;
       $key = $name;
       $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
-      $data = $Data->{link_types}->{$key} ||= {};
+      if (defined $src_url and $src_url =~ m{^https://html.spec.whatwg.org/}) {
+        $data = $Data->{link_types}->{$key} = {};
+      } else {
+        $data = $Data->{link_types}->{$key} ||= {};
+      }
       $data->{name} ||= $name;
       if (defined $src_url) {
         $data->{url} ||= $src_url;
