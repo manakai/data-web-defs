@@ -197,8 +197,6 @@ $Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
     ->{categories}->{'interactive content'} = 1;
 $Data->{elements}->{(HTML_NS)}->{object}->{states}->{'usemap-attr'}
     ->{categories}->{'interactive content'} = 1;
-$Data->{elements}->{(HTML_NS)}->{th}->{states}->{'sorting-interface'}
-    ->{categories}->{'interactive content'} = 1;
 $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
     ->{categories}->{'interactive content'} = 1;
 
@@ -251,8 +249,6 @@ $Data->{elements}->{(HTML_NS)}->{select}->{states}->{'listbox'}
 $Data->{elements}->{(HTML_NS)}->{option}->{states}->{'in-select-listbox'}
     ->{supported_canvas_fallback} = 1;
 $Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
-    ->{canvas_fallback} = 1;
-$Data->{elements}->{(HTML_NS)}->{th}->{states}->{'sorting-interface'}
     ->{canvas_fallback} = 1;
 $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
     ->{canvas_fallback} = 1;
@@ -565,7 +561,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{picture}->{complex_content
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{canvas}->{content_model} = 'transparent';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_additional_content_constraints} = 1
     for qw(head title style dl figure ruby iframe video audio table
-           colgroup th label datalist option menu script noscript template
+           colgroup label datalist option menu script noscript template
            canvas summary picture
            frameset noframes noembed);
 
