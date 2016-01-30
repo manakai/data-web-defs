@@ -234,6 +234,11 @@ $Data->{elements}->{(HTML_NS)}->{button}->{button} = 1;
 $Data->{elements}->{(HTML_NS)}->{button}->{states}->{'submit-button'}
     ->{submit_button} = 1;
 
+$Data->{elements}->{(HTML_NS)}->{a}->{states}->{'href-attr'}
+    ->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}
+    ->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{a} = 1;
+
 ## <http://www.whatwg.org/specs/web-apps/current-work/#the-canvas-element>
 ## <http://www.whatwg.org/specs/web-apps/current-work/#supported-interactive-canvas-fallback-element>
 $Data->{elements}->{(HTML_NS)}->{$_}->{canvas_fallback} = 1
