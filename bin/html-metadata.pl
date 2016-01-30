@@ -279,6 +279,8 @@ sub _html ($) {
       $data->{conforming} = 1;
     } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
       $data->{"html_$1"} = $2;
+    } elsif (/^  (a|link) can support$/) {
+      $data->{"html_${1}_supportable"} = 1;
     } elsif (/^  (atom)$/) {
       $data->{atom} = 1;
       $data->{atom_feed} = 1;

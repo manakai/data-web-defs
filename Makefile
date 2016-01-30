@@ -1,4 +1,6 @@
-all: all-langtags all-urls all-http all-mime all-dom all-css \
+all: data
+
+data: all-langtags all-urls all-http all-mime all-dom all-css \
     all-encodings all-meta all-microdata all-js
 
 clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
