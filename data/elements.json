@@ -284,11 +284,11 @@
          },
          "elements_with_exceptions" : {
             "http://www.w3.org/1999/xhtml" : {
+               "a" : 1,
                "audio" : 1,
                "img" : 1,
                "input" : 1,
                "object" : 1,
-               "th" : 1,
                "video" : 1
             }
          },
@@ -3217,13 +3217,6 @@
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
-                  "onsort" : {
-                     "conforming" : 1,
-                     "desc" : "sort event handler",
-                     "id" : "handler-onsort",
-                     "spec" : "HTML",
-                     "value_type" : "event handler"
-                  },
                   "onstalled" : {
                      "conforming" : 1,
                      "desc" : "stalled event handler",
@@ -4034,7 +4027,7 @@
                         "type" : "html_attr"
                      },
                      "spec" : "OBSVOCAB",
-                     "value_type" : "list of integers"
+                     "value_type" : "list of floating-point numbers"
                   },
                   "cryptopts" : {
                      "preferred" : {
@@ -4488,6 +4481,11 @@
             "disallowed_descendants" : {
                "categories" : {
                   "interactive content" : 1
+               },
+               "elements" : {
+                  "http://www.w3.org/1999/xhtml" : {
+                     "a" : 1
+                  }
                }
             },
             "id" : "the-a-element",
@@ -4495,6 +4493,11 @@
             "parser_category" : "formatting",
             "spec" : "HTML",
             "states" : {
+               "href-attr" : {
+                  "categories" : {
+                     "interactive content" : 1
+                  }
+               },
                "hyperlink-noimage" : {
                   "supported_canvas_fallback" : 1
                }
@@ -17485,11 +17488,9 @@
                      }
                   },
                   "sortable" : {
-                     "conforming" : 1,
-                     "desc" : "Enables a sorting interface for the table",
-                     "id" : "attr-table-sortable",
-                     "spec" : "HTML",
-                     "value_type" : "boolean"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "summary" : {
                      "id" : "attr-table-summary",
@@ -18744,26 +18745,13 @@
          },
          "th" : {
             "aria" : {
-               "not-sort-1" : {
+               "" : {
                   "allowed_roles" : {
                      "columnheader" : 1,
                      "presentation" : 1,
                      "rowheader" : 1
                   },
                   "default_role" : "gridcell"
-               },
-               "sort-1" : {
-                  "allowed_roles" : {
-                     "presentation" : 1
-                  },
-                  "attrs" : {
-                     "aria-sort" : {
-                        "strong" : 1,
-                        "value_type" : "sort-direction"
-                     }
-                  },
-                  "default_role" : "columnheader",
-                  "strong_role" : 1
                }
             },
             "attrs" : {
@@ -18979,11 +18967,9 @@
                      "value_type" : "enumerated"
                   },
                   "sorted" : {
-                     "conforming" : 1,
-                     "desc" : "Column sort direction and ordinality",
-                     "id" : "attr-th-sorted",
-                     "spec" : "HTML",
-                     "value_type" : "set of space-separated tokens"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "transparency" : {
                      "preferred" : {
@@ -19043,7 +19029,6 @@
                }
             },
             "end_tag" : "optional",
-            "has_additional_content_constraints" : 1,
             "id" : "the-th-element",
             "interface" : "HTMLTableHeaderCellElement",
             "parser_button_scoping" : 1,
@@ -19053,14 +19038,6 @@
             "parser_li_scoping" : 1,
             "parser_scoping" : 1,
             "spec" : "HTML",
-            "states" : {
-               "sorting-interface" : {
-                  "canvas_fallback" : 1,
-                  "categories" : {
-                     "interactive content" : 1
-                  }
-               }
-            },
             "supported_canvas_fallback" : 1
          },
          "thead" : {
