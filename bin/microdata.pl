@@ -24,7 +24,9 @@ sub n ($) {
   my $subkey;
   my $subsubkey;
   for (split /\x0D?\x0A/, $path->slurp_utf8) {
-    if (/^\*\s*(\S+)$/) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^\*\s*(\S+)$/) {
       $itemtype = $1;
       $Data->{$itemtype} ||= {};
       $Data->{$itemtype}->{vocab} = 'http://data-vocabulary.org/';
