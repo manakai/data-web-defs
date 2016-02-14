@@ -1,5 +1,5 @@
-encodings.json
-~~~~~~~~~~~~~~
+data/encodings.json
+~~~~~~~~~~~~~~~~~~~
 
 This file contains data on character encodings for the Web.
 
@@ -9,27 +9,31 @@ The file contains a JSON object with following name/value pairs:
 
   encodings [object]
 
-    Names are the names of the encodings and values are their
+    Names are the keys of the encodings and values are their
     descriptions, as [protocol-object] with following additional
     name/value pairs:
 
       compat_name [string]
 
         The name of the encoding returned by |characterSet| and
-        |inputEncoding| attributes of the |Document| interface
-        (i.e. the compatibility name of the encoding, if any, or the
-        name of the encoding).
+        |inputEncoding| attributes of the |Document| interface.  It is
+        same value as the |name| field.
 
       html_decl_mapped [string?]
 
-        The mapped encoding name used in HTML character encoding
+        The key of the mapped encoding used in HTML character encoding
         declaration, if any.  If a string is set, when the encoding is
         specified by an HTML character encoding declaration, it is
         interpreted as the encoding identified by the string instead
         by the prescan algorithm
-        <http://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
+        <https://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
         and the change the encoding algorithm
-        <http://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
+        <https://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
+
+      key [string]
+
+        A short string identifying the encoding.  It is same as |name|
+        but lowercased.
 
       labels [object]
 
@@ -42,36 +46,39 @@ The file contains a JSON object with following name/value pairs:
 
   html_decl_map [object]
 
-    A JSON object whose names and values are encoding names (not
-    encoding labels!).  When interpreting an HTML character encoding
-    declaration, an encoding name that is one of names must be
-    replaced by the encoding name in the corresponding value,
-    according to the prescan algorithm
-    <http://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
+    A JSON object whose names and values are encoding keys (not
+    encoding names or labels!).  When interpreting an HTML character
+    encoding declaration, an encoding that is one of names must be
+    replaced by the encoding in the corresponding value, according to
+    the prescan algorithm
+    <https://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
     and the change the encoding algorithm
-    <http://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
+    <https://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
 
   locale_default [object]
 
     Locale-dependent default encoding as suggested by
-    <http://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>.
+    <https://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>.
     The names represent locales, identified by BCP 47 language tags,
     in lowercase.  The values represent the corresponding encoding
-    labels in the Encoding Standard, in lowercase.  The name "*"
-    represents the fallback, i.e. the default encoding used when the
-    current locale is not otherwise listed.
+    keys.  The name "*" represents the fallback, i.e. the default
+    encoding used when the current locale is not otherwise listed.
 
   supported_labels [object]
 
     List of all supported encoding labels for the Web platform, as
     specified by the Encoding Standard.  The object contains
-    name/value pairs where names are encoding labels (in lowercase non
-    white space surrounded canonical form) and values are encoding
-    names of the corresponding labels.  Note that the encoding name
-    might not be a valid label (at the time of writing, the only such
-    encoding is "replacement").  According to the Encoding Standard,
-    only the "utf-8" label is conforming.  This list does not (and
-    will not) contain labels not in the Encoding Standard.
+    name/value pairs where names are encoding labels (in lowercase
+    with no surrounding white space characters) and values are
+    encoding keys of the corresponding labels.  Note that the encoding
+    key might not be a valid label (at the time of writing, the only
+    such encoding is "replacement").
+
+    Note that, according to the Encoding Standard, only the "utf-8"
+    label is conforming.
+
+    This list does not (and will not) contain labels not in the
+    Encoding Standard.
 
 * Sources
 
@@ -86,6 +93,11 @@ DOM Standard <https://dom.spec.whatwg.org/>.
 You are granted a license to use, reproduce, and create derivative
 works of this JSON file.
 
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of the JSON file and this
+document has waived all copyright and related or neighboring rights to
+the JSON file and this document.
+
 This JSON file partially derived from the Encoding Standard: "This
 standard is written by Anne van Kesteren (Mozilla,
 annevk@annevk.nl). The API chapter was initially written by Joshua
@@ -99,11 +111,3 @@ Ian Hickson (Google, ian@hixie.ch) - Parts © Copyright 2004-2014 Apple
 Inc., Mozilla Foundation, and Opera Software ASA; You are granted a
 license to use, reproduce and create derivative works of this
 document."
-
-This JSON file partially derived from the DOM Standard: "This standard
-is written by Anne van Kesteren (Mozilla, annevk@annevk.nl) with
-substantial contributions from Aryeh Gregor (Mozilla, ayg@aryeh.name)
-and Ms2ger (Mozilla, ms2ger@gmail.com).  Per CC0
-<https://creativecommons.org/publicdomain/zero/1.0/>, to the extent
-possible under law, the editors have waived all copyright and related
-or neighboring rights to this work."
