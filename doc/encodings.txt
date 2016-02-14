@@ -13,19 +13,36 @@ The file contains a JSON object with following name/value pairs:
     descriptions, as [protocol-object] with following additional
     name/value pairs:
 
+      ascii_compat [boolean]
+
+        Whether the encoding is an ASCII-compatible encoding
+        <https://html.spec.whatwg.org/#ascii-compatible-encoding> or
+        not.
+
       compat_name [string]
 
         The name of the encoding returned by |characterSet| and
         |inputEncoding| attributes of the |Document| interface.  It is
         same value as the |name| field.
 
-      html_decl_mapped [string?]
+      conforming [boolean]
+
+        Whether the encoding is conforming for authors or not.
+
+      html_conformance [string]
+
+        The conformance of the encoding for HTML authors.  One of
+        following values:
+
+          good        The encoding that SHOULD be used.
+          avoid       The encoding that is not a "SHOULD be used" encoding.
+          bad         The encoding SHOULD NOT be used.
+          broken      The encoding cannot be used by definition.
+
+      html_decl_mapped [string]
 
         The key of the mapped encoding used in HTML character encoding
-        declaration, if any.  If a string is set, when the encoding is
-        specified by an HTML character encoding declaration, it is
-        interpreted as the encoding identified by the string instead
-        by the prescan algorithm
+        declaration, as used by the prescan algorithm
         <https://www.whatwg.org/specs/web-apps/current-work/#prescan-a-byte-stream-to-determine-its-encoding>
         and the change the encoding algorithm
         <https://www.whatwg.org/specs/web-apps/current-work/#change-the-encoding>.
@@ -38,11 +55,27 @@ The file contains a JSON object with following name/value pairs:
       labels [object]
 
         Names are the labels of the encoding, in lowercase, and values
-        are boolean true values.
+        are JSON objects with following name/value pair:
+
+          conforming [boolean]
+
+            Whether the label is conforming for authors or not.
 
       name [object]
 
         The name of the encoding.
+
+      output [string]
+
+        The key of the encoding that would be returned by applying the
+        "get an output encoding" steps
+        <https://encoding.spec.whatwg.org/#get-an-output-encoding> to
+        the encoding.
+
+      utf16 [boolean]
+
+        Whether the encoding is a UTF-16 encoding
+        <https://html.spec.whatwg.org/#utf-16-encoding> or not.
 
   html_decl_map [object]
 

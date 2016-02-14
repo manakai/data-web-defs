@@ -19,7 +19,7 @@ my $Data = {};
       $Data->{encodings}->{$key}->{compat_name} = $name;
       for (@{$_->{labels}}) {
         $Data->{supported_labels}->{$_} = $key;
-        $Data->{encodings}->{$key}->{labels}->{$_} = 1;
+        $Data->{encodings}->{$key}->{labels}->{$_} ||= {};
       }
     }
   }
@@ -42,14 +42,43 @@ sub _key ($) {
   }
 }
 
-$Data->{html_decl_map}->{_key 'utf-16be'} = _key 'utf-8';
-$Data->{html_decl_map}->{_key 'utf-16le'} = _key 'utf-8';
-$Data->{html_decl_map}->{_key 'x-user-defined'} = _key 'windows-1252';
-for (keys %{$Data->{html_decl_map}}) {
-  my $key = $_;
-  $key =~ tr/A-Z/a-z/;
-  $Data->{encodings}->{$key}->{html_decl_mapped} = $Data->{html_decl_map}->{$_};
+for my $key (keys %{$Data->{encodings}}) {
+  $Data->{encodings}->{$key}->{output} = $key;
 }
+$Data->{encodings}->{_key 'replacement'}->{output} = _key 'utf-8';
+$Data->{encodings}->{_key 'utf-16be'}->{output} = _key 'utf-8';
+$Data->{encodings}->{_key 'utf-16le'}->{output} = _key 'utf-8';
+
+for my $key (keys %{$Data->{encodings}}) {
+  $Data->{encodings}->{$key}->{html_decl_mapped}
+      = $Data->{encodings}->{$key}->{output};
+}
+$Data->{encodings}->{_key 'x-user-defined'}->{html_decl_mapped}
+    = _key 'windows-1252';
+
+for my $key (keys %{$Data->{encodings}}) {
+  unless ($Data->{encodings}->{$key}->{html_decl_mapped} eq $key) {
+    $Data->{html_decl_map}->{$key}
+        = $Data->{encodings}->{$key}->{html_decl_mapped};
+  }
+}
+
+$Data->{encodings}->{_key 'utf-16be'}->{utf16} = 1;
+$Data->{encodings}->{_key 'utf-16le'}->{utf16} = 1;
+for my $key (keys %{$Data->{encodings}}) {
+  $Data->{encodings}->{$key}->{ascii_compat}
+      = not $Data->{encodings}->{$key}->{utf16};
+}
+
+$Data->{encodings}->{_key 'utf-8'}->{conforming} = 1;
+$Data->{encodings}->{_key 'utf-8'}->{labels}->{'utf-8'}->{conforming} = 1;
+
+for my $key (keys %{$Data->{encodings}}) {
+  $Data->{encodings}->{$key}->{html_conformance} = 'avoid';
+}
+$Data->{encodings}->{_key 'utf-8'}->{html_conformance} = 'good';
+$Data->{encodings}->{_key 'iso-2022-jp'}->{html_conformance} = 'bad';
+$Data->{encodings}->{_key 'replacement'}->{html_conformance} = 'broken';
 
 print perl2json_bytes_for_record $Data;
 
