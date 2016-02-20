@@ -101,7 +101,7 @@ for my $f (($d->children)) {
           if ($text eq 'Global attributes' or
               $text eq 'Any other attribute that has no namespace (see prose).') {
             #
-          } elsif ($text =~ /^If the element is a child of an ol element: value \x{2014}/) {
+          } elsif ($text =~ /^If the element is not a child of an? ul or menu element: value \x{2014}/) {
             $props->{attrs}->{value}->{id} = 'attr-li-value';
             $props->{attrs}->{value}->{desc} = [split /\x{2014}\s*/, $text, 2]->[1];
           #} elsif ($text =~ /^Also, /) {
