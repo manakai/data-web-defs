@@ -406,7 +406,7 @@ data/errors.json: bin/errors.pl local/webidl.json \
 	$(PERL) bin/errors.pl > $@
 
 local/webidl.html:
-	$(SAVEURL) $@ http://heycam.github.io/webidl/
+	$(SAVEURL) $@ https://heycam.github.io/webidl/
 local/webidl.json: local/webidl.html bin/extract-webidl.pl
 	$(PERL) bin/extract-webidl.pl > $@
 local/dom-extracted.json: local/dom.html bin/extract-dom-standard.pl
