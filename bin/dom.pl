@@ -27,7 +27,7 @@ sub read_text ($$) {
 
 read_text 'dom-nodes.txt' => 'node_types';
 
-## <http://dom.spec.whatwg.org/#dom-document-createevent>
+## <https://dom.spec.whatwg.org/#dom-document-createevent>
 $Data->{create_event}->{$_->[0]} = $_->[1]
     for
         [customevent => 'CustomEvent'],

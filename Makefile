@@ -386,7 +386,9 @@ all-dom: data/dom.json data/elements.json data/aria.json data/dom-perl.json \
     data/html-tree-constructor-expanded-no-isindex.json \
     data/xml-tree-constructor-expanded.json \
     intermediate/errors/parser-errors.json data/errors.json \
-    data/html-metadata.json data/temma-syntax.json data/temma-tokenizer-expanded.json
+    data/html-metadata.json \
+    data/temma-syntax.json data/temma-tokenizer-expanded.json \
+    data/dom-events.json
 clean-dom:
 	rm -fr local/html local/html-extracted.json local/html-status.xml
 	rm -fr local/obsvocab.html local/aria.rdf
@@ -411,6 +413,9 @@ local/webidl.json: local/webidl.html bin/extract-webidl.pl
 	$(PERL) bin/extract-webidl.pl > $@
 local/dom-extracted.json: local/dom.html bin/extract-dom-standard.pl
 	$(PERL) bin/extract-dom-standard.pl > $@
+
+data/dom-events.json: bin/dom-events.pl
+	$(PERL) $< > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt \
