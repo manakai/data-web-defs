@@ -78,7 +78,9 @@ sub parse_file ($) {
       my ($n, $v) = ($1, $2);
       $v =~ tr/-_/  /;
       $Data->{errors}->{$error_type}->{$n} = ['token', $v];
-    } elsif (defined $error_type and /^(layer|default_level)=(\S+)$/) {
+    } elsif (defined $error_type and /^(layer)=(character-set|tokenization|tree-construction|entity|dtd|namespaces)$/) {
+      $Data->{errors}->{$error_type}->{$1} = $2;
+    } elsif (defined $error_type and /^(default_level)=(m|s|w)$/) {
       $Data->{errors}->{$error_type}->{$1} = $2;
     } elsif (defined $error_type and /^(module)=(\S+)$/) {
       $Data->{errors}->{$error_type}->{$1.'s'}->{$2} = 1;
