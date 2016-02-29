@@ -283,8 +283,15 @@ if ($index_doc) {
         $value = 'if-not-multiple';
       } elsif ($value eq 'Yes**') {
         $value = 'if-multiple';
-      } elsif ($value =~ /^([\x20-\x7E]+)$/) {
+      } elsif ($value eq "Yes\x{2020}") {
+        $value = 'if-text-field';
+      } elsif ($value eq 'default' or
+               $value eq 'default/on' or
+               $value eq 'value' or
+               $value eq 'filename') {
         #
+      } elsif ($value =~ /^([\x20-\x7E]+)$/) {
+        push @{$Data->{_errors} ||= []}, "Unparsable |input| cell: |$value|";
       } else {
         undef $value;
       }
