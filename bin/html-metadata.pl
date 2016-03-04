@@ -311,6 +311,8 @@ sub _html ($) {
     } elsif (/^  (html)$/) {
       $data->{html_a} ||= 1;
       $data->{html_link} ||= 1;
+    } elsif (/^  body-ok$/) {
+      $data->{body_ok} = 1;
     } elsif (/^  spec (.+)$/) {
       $data->{url} = $1 if defined $src_url and $data->{url} eq $src_url;
       $data->{url} ||= $1;
