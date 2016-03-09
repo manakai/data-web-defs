@@ -43,7 +43,7 @@ for (qw(
   }
 }
 
-## <http://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
+## <https://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const deleter dictionary enum
   getter implements inherit interface iterable legacycaller
@@ -57,7 +57,7 @@ $Data->{keyword_tokens}->{$_}->{attribute_name} = 1 for qw(
 );
 
 ## "class" and "extends" are not in spec but extended at:
-## <http://dom.spec.whatwg.org/#elements>,
+## <https://dom.spec.whatwg.org/#elements>,
 ## <https://www.w3.org/Bugs/Public/show_bug.cgi?id=23225>.
 
 for (
@@ -113,7 +113,7 @@ my $XAttrAllowed = {
     Constructor => 1, Exposed => 1, Global => 1,
     ImplicitThis => 1, NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
-    Unforgeable => 1,
+    Unforgeable => 1, LegacyUnenumerableNamedProperties => 1,
   },
   callback_interface => {
     ArrayClass => 1, LegacyArrayClass => 1,
@@ -198,6 +198,7 @@ my $XAttrArgs = {
   Exposed => {id => 1, id_list => 1},
   NamedConstructor => {id => 1, named_args => 1},
   Unscopeable => {no => 1},
+  LegacyUnenumerableNamedProperties => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
@@ -227,7 +228,7 @@ for (@$XAttrDisallowedCombinations) {
   $Data->{extended_attributes}->{$_->[1]}->{disallowed_extended_attributes}->{$_->[0]} = 1;
 }
 
-## <http://heycam.github.io/webidl/#dfn-reserved-identifier>
+## <https://heycam.github.io/webidl/#dfn-reserved-identifier>
 my $ReservedIdentifiers = {
   constructor => 1, iterator => 1, toString => 1, toJSON => 1,
 };
