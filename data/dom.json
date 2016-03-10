@@ -37,6 +37,15 @@
          "type" : "webidl:parse error"
       },
       {
+         "di" : 118,
+         "fragment" : "optional DOMString nameOrIndex);\u000A};",
+         "index" : 415,
+         "level" : "m",
+         "spec" : "HTML",
+         "type" : "webidl:bad optionality:special",
+         "value" : "nameOrIndex"
+      },
+      {
          "di" : 124,
          "fragment" : "] [*id=\u0022dom-navigator-languages\u0022*]languages;\u000A};",
          "index" : 218,
@@ -3649,13 +3658,13 @@
                "Window" : 1
             },
             "overload_set" : {
-               "DOMString" : {
+               "USVString" : {
                   "args" : [
                      {
                         "name" : "url",
                         "optionality" : "required",
                         "spec" : "HTML",
-                        "type" : "DOMString"
+                        "type" : "USVString"
                      }
                   ],
                   "id" : "dom-websocket",
@@ -3665,13 +3674,13 @@
                      "WebSocket"
                   ]
                },
-               "DOMString,union[DOMString,sequence[DOMString]]" : {
+               "USVString,union[DOMString,sequence[DOMString]]" : {
                   "args" : [
                      {
                         "name" : "url",
                         "optionality" : "required",
                         "spec" : "HTML",
-                        "type" : "DOMString"
+                        "type" : "USVString"
                      },
                      {
                         "name" : "protocols",
@@ -3695,6 +3704,11 @@
                                  ]
                               }
                            }
+                        ],
+                        "value" : [
+                           "sequence_value",
+                           [
+                           ]
                         ]
                      }
                   ],
@@ -14269,7 +14283,6 @@
             "indexed_getter" : [
                "operation",
                {
-                  "id" : "dom-htmlallcollection-item",
                   "overload_set" : {
                      "unsigned long" : {
                         "args" : [
@@ -14295,13 +14308,45 @@
             "legacycaller" : [
                "operation",
                {
-                  "id" : "dom-htmlallcollection-nameditem",
+                  "id" : "dom-htmlallcollection-item",
                   "overload_set" : {
+                     "" : {
+                        "args" : [
+                        ],
+                        "type" : [
+                           "nullable",
+                           [
+                              "union",
+                              {
+                                 "def" : [
+                                    [
+                                       "ref_interface",
+                                       "HTMLCollection"
+                                    ],
+                                    [
+                                       "ref_interface",
+                                       "Element"
+                                    ]
+                                 ],
+                                 "flattened" : {
+                                    "ref_interface[Element]" : [
+                                       "ref_interface",
+                                       "Element"
+                                    ],
+                                    "ref_interface[HTMLCollection]" : [
+                                       "ref_interface",
+                                       "HTMLCollection"
+                                    ]
+                                 }
+                              }
+                           ]
+                        ]
+                     },
                      "DOMString" : {
                         "args" : [
                            {
-                              "name" : "name",
-                              "optionality" : "required",
+                              "name" : "nameOrIndex",
+                              "optionality" : "optional",
                               "spec" : "HTML",
                               "type" : "DOMString"
                            }
@@ -14345,14 +14390,8 @@
                   {
                      "id" : "dom-htmlallcollection-item",
                      "overload_set" : {
-                        "DOMString" : {
+                        "" : {
                            "args" : [
-                              {
-                                 "name" : "name",
-                                 "optionality" : "required",
-                                 "spec" : "HTML",
-                                 "type" : "DOMString"
-                              }
                            ],
                            "type" : [
                               "nullable",
@@ -14383,20 +14422,41 @@
                               ]
                            ]
                         },
-                        "unsigned long" : {
+                        "DOMString" : {
                            "args" : [
                               {
-                                 "name" : "index",
-                                 "optionality" : "required",
+                                 "name" : "nameOrIndex",
+                                 "optionality" : "optional",
                                  "spec" : "HTML",
-                                 "type" : "unsigned long"
+                                 "type" : "DOMString"
                               }
                            ],
                            "type" : [
                               "nullable",
                               [
-                                 "ref_interface",
-                                 "Element"
+                                 "union",
+                                 {
+                                    "def" : [
+                                       [
+                                          "ref_interface",
+                                          "HTMLCollection"
+                                       ],
+                                       [
+                                          "ref_interface",
+                                          "Element"
+                                       ]
+                                    ],
+                                    "flattened" : {
+                                       "ref_interface[Element]" : [
+                                          "ref_interface",
+                                          "Element"
+                                       ],
+                                       "ref_interface[HTMLCollection]" : [
+                                          "ref_interface",
+                                          "HTMLCollection"
+                                       ]
+                                    }
+                                 }
                               ]
                            ]
                         }
@@ -35444,7 +35504,7 @@
                      "getter" : 1,
                      "id" : "dom-websocket-url",
                      "spec" : "HTML",
-                     "type" : "DOMString"
+                     "type" : "USVString"
                   }
                ]
             },
