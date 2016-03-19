@@ -202,6 +202,9 @@ $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
 
 $Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
     ->{categories}->{'palpable content'} = 1;
+$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
+    ->{categories}->{'feed significant content'} = 1;
+
 $Data->{elements}->{(HTML_NS)}->{dl}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
 $Data->{elements}->{(HTML_NS)}->{menu}->{states}->{'toolbar'}
@@ -268,11 +271,26 @@ $Data->{input}->{states}->{$_}->{supported_canvas_fallback} = 1
 for (grep { $_ ne 'hidden' } @$input_states) {
   $Data->{input}->{states}->{$_}->{categories}->{'interactive content'} = 1;
   $Data->{input}->{states}->{$_}->{categories}->{'category-label'} = 1;
+
   $Data->{input}->{states}->{$_}->{categories}->{'palpable content'} = 1;
+  $Data->{input}->{states}->{$_}->{categories}->{'feed significant content'} = 1;
 }
 $Data->{elements}->{(HTML_NS)}->{input}->{categories}->{$_} = 1
     for 'category-listed', 'category-submit', 'category-reset',
         'category-form-attr', 'form-associated element';
+
+$Data->{categories}->{'feed significant content'}->{url} = 'https://wiki.suikawiki.org/n/Feed%20Parsing';
+$Data->{categories}->{'feed significant content'}->{label} = 'feed significant content';
+$Data->{categories}->{'feed significant content'}->{text} = 1;
+for my $ns (keys %{$Data->{elements}}) {
+  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+    my $data = $Data->{elements}->{$ns}->{$ln};
+    if (($data->{categories} || {})->{'palpable content'} and
+        ($data->{categories} || {})->{'embedded content'}) {
+      $data->{categories}->{'feed significant content'} = 1;
+    }
+  }
+}
 
 use Encode;
 use Web::DOM::Document;
