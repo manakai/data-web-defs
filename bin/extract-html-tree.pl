@@ -275,10 +275,16 @@ sub parse_step ($) {
 
 sub parse_pattern ($) {
   my $pattern = shift;
-  if ($pattern =~ /^An? ([\w-]+) element in the (\w+) namespace$/) {
+  if ($pattern =~ /^([\w-]+)$/) {
+    return {ns => 'HTML', name => $1};
+  } elsif ($pattern =~ /^(?:An? |)(MathML|SVG) ([\w-]+)(?: element|)$/) {
+    return {ns => $1, name => $2};
+  } elsif ($pattern =~ /^An? ([\w-]+) element in the (\w+) namespace$/) {
     return {ns => $2, name => $1};
   } elsif ($pattern =~ /^([\w-]+) in the (\w+) namespace$/) {
     return {ns => $2, name => $1};
+  } elsif ($pattern =~ /^An? (\w+) ([\w-]+) element whose start tag token had an attribute with the name "([^"]+)" whose value was an ASCII case-insensitive match for the string "([^"]+)"$/) {
+    return {ns => $1, name => $2, attrs => [{name => $3, lc_value => lc $4}]};
   } elsif ($pattern =~ /^An? ([\w-]+) element in the (\w+) namespace whose start tag token had an attribute with the name "([^"]+)" whose value was an ASCII case-insensitive match for the string "([^"]+)"$/) {
     return {ns => $2, name => $1, attrs => [{name => $3, lc_value => lc $4}]};
   } elsif ($pattern =~ /^All the element types listed above for the (.+?) algorithm\.$/) {
@@ -384,8 +390,9 @@ while (@node) {
               my @s;
               push @s, $1 while $s =~ /"([^"]+)"/g;
               $cond .= ':' . join ' ', sort { $a cmp $b } @s;
-            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]+)", if (the current node is a script element in the SVG namespace|the scripting flag is disabled|the scripting flag is enabled)$/) {
+            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is "([^"]+)", if (the current node is an SVG script element|the current node is a script element in the SVG namespace|the scripting flag is disabled|the scripting flag is enabled)$/) {
               $cond = {
+                'the current node is an SVG script element' => 'SVGSCRIPT',
                 'the current node is a script element in the SVG namespace' => 'SVGSCRIPT',
                 'the scripting flag is disabled' => 'NOSCRIPT',
                 'the scripting flag is enabled' => 'SCRIPT',
@@ -506,14 +513,18 @@ while (@node) {
           } elsif ($ln eq 'dd' and defined $category_name) {
             my $tc = _n $el->text_content;
             $tc =~ s/^[^:]+: //;
-            while ($tc =~ s/^(\w+)'s ([\w-]+(?:, (?:and |)[\w-]+)+)(?:; (?:and |)|\.)//) {
-              my $name = $1;
-              my $els = [split /, (?:and |)/, $2];
-              $list->{$name}->{$_} = 1 for @$els;
-            }
-            if ($tc =~ s/^([\w-]+(?:, (?:and |)[\w-]+)+)//) {
-              my $els = [split /, (?:and |)/, $1];
-              $list->{HTML}->{$_} = 1 for @$els;
+            $tc =~ s/^HTML's //;
+            $tc =~ s/\.$//;
+            unless ($tc eq 'All other elements found while parsing an HTML document') {
+              for (split /[,;] (?:and |)/, $tc) {
+                if (/^(\w+) ([\w-]+)$/) {
+                  $list->{$1}->{$2} = 1;
+                } elsif (/^([\w-]+)$/) {
+                  $list->{HTML}->{$1} = 1;
+                } else {
+                  die "Bad category member |$_|";
+                }
+              }
             }
             $Data->{patterns}->{$category_name . ' category'} = [map { {ns => $_, name => [sort { $a cmp $b } keys %{$list->{$_}}]} } sort { $a cmp $b } keys %$list];
             delete $Data->{patterns}->{$category_name . ' category'}
@@ -865,6 +876,7 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
     ['run the application cache selection algorithm with no manifest' => 'application cache selection algorithm'],
     ['run the application cache selection algorithm with no manifest, passing it the Document object' => 'application cache selection algorithm'],
     ['stop these steps' => 'abort these steps'],
+    ['process the SVG script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
     ['process the script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
     ['change the encoding to the resulting encoding' => 'change the encoding'],
 
@@ -995,6 +1007,8 @@ sub parse_cond ($) {
     $cond = ['oe[-1]', 'is', {ns => 'SVG'}];
   } elsif ($COND =~ /^the adjusted current node is an element in the (HTML|SVG|MathML) namespace$/) {
     $cond = ['adjusted current node', 'is', {ns => $1}];
+  } elsif ($COND =~ /^the adjusted current node is an? (\w+) ([\w-]+) element$/) {
+    $cond = ['adjusted current node', 'is', {ns => $1, name => $2}];
   } elsif ($COND =~ /^the adjusted current node is an? ([\w-]+) element in the (\w+) namespace$/) {
     $cond = ['adjusted current node', 'is', {ns => $2, name => $1}];
   } elsif ($COND =~ /^the adjusted current node is an? (.+? integration point)$/) {
