@@ -28,15 +28,6 @@
          "type" : "webidl:parse error"
       },
       {
-         "di" : 107,
-         "fragment" : "]? [*id=\u0022dom-messageevent-ports\u0022*]ports;\u000A\u000A  void [*id=\u0022dom-messageevent-initmessageevent\u0022*]initMessa",
-         "index" : 524,
-         "level" : "m",
-         "spec" : "HTML",
-         "text" : "other, *",
-         "type" : "webidl:parse error"
-      },
-      {
          "di" : 121,
          "fragment" : "optional DOMString nameOrIndex);\u000A};",
          "index" : 559,
@@ -44,15 +35,6 @@
          "spec" : "HTML",
          "type" : "webidl:bad optionality:special",
          "value" : "nameOrIndex"
-      },
-      {
-         "di" : 128,
-         "fragment" : "] [*id=\u0022dom-navigator-languages\u0022*]languages;\u000A};",
-         "index" : 217,
-         "level" : "m",
-         "spec" : "HTML",
-         "text" : "other, *",
-         "type" : "webidl:parse error"
       },
       {
          "di" : 157,
@@ -138,7 +120,7 @@
       {
          "di" : 241,
          "fragment" : "[NewObject] DOMMatrix [*id=\u0022dom-context-2d-gettransform\u0022*]getTransform();\u000A  void [*id=\u0022dom-context-2",
-         "index" : 2783,
+         "index" : 2930,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -147,7 +129,7 @@
       {
          "di" : 241,
          "fragment" : "optional [*id=\u0022dictdef-dommatrixinit\u0022*]DOMMatrixInit matrix);\u000A  void [*id=\u0022dom-context-2d-resettrans",
-         "index" : 3108,
+         "index" : 3255,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -244,6 +226,24 @@
          "value" : "ReadableStream"
       },
       {
+         "di" : 241,
+         "fragment" : "typedef (HTMLImageElement or\u000A         [*id=\u0022InterfaceSVGImageElement\u0022*]SVGImageElement) [*id=\u0022htmlor",
+         "index" : 13,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "SVGImageElement"
+      },
+      {
+         "di" : 149,
+         "fragment" : "typedef (HTMLScriptElement or [*id=\u0022InterfaceSVGScriptElement\u0022*]SVGScriptElement) [*id=\u0022htmlorsvgscr",
+         "index" : 106,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "SVGScriptElement"
+      },
+      {
          "di" : 243,
          "fragment" : "partial interface ServiceWorkerGlobalScope {\u000A  attribute EventHandler [*id=\u0022dom-serviceworkerglobals",
          "index" : 1624,
@@ -307,15 +307,6 @@
          "value" : "ExtendableEventInit"
       },
       {
-         "di" : 117,
-         "fragment" : "WorkerNavigator implements NavigatorLanguage;\u000AWorkerNavigator implements NavigatorOnLine;\u000AWorkerNavi",
-         "index" : 124,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "NavigatorLanguage"
-      },
-      {
          "di" : 187,
          "fragment" : "HTMLLinkElement implements [*id=\u0022the-linkstyle-interface\u0022*]LinkStyle;",
          "index" : 725,
@@ -332,15 +323,6 @@
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "LinkStyle"
-      },
-      {
-         "di" : 227,
-         "fragment" : "Navigator implements NavigatorLanguage;\u000ANavigator implements NavigatorOnLine;\u000ANavigator implements N",
-         "index" : 173,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "NavigatorLanguage"
       },
       {
          "di" : 13,
@@ -2133,6 +2115,62 @@
                   "type" : [
                      "ref_interface",
                      "MessageChannel"
+                  ]
+               }
+            }
+         }
+      ],
+      "MessageEvent" : [
+         "operation",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "overload_set" : {
+               "DOMString" : {
+                  "args" : [
+                     {
+                        "name" : "type",
+                        "optionality" : "required",
+                        "spec" : "HTML",
+                        "type" : "DOMString"
+                     }
+                  ],
+                  "spec" : "HTML",
+                  "type" : [
+                     "ref_interface",
+                     "MessageEvent"
+                  ]
+               },
+               "DOMString,ref[MessageEventInit]" : {
+                  "args" : [
+                     {
+                        "name" : "type",
+                        "optionality" : "required",
+                        "spec" : "HTML",
+                        "type" : "DOMString"
+                     },
+                     {
+                        "name" : "eventInitDict",
+                        "optionality" : "optional",
+                        "spec" : "HTML",
+                        "type" : [
+                           "ref_dictionary",
+                           "MessageEventInit"
+                        ],
+                        "value" : [
+                           "dictionary_value",
+                           {
+                           }
+                        ]
+                     }
+                  ],
+                  "spec" : "HTML",
+                  "type" : [
+                     "ref_interface",
+                     "MessageEvent"
                   ]
                }
             }
@@ -6218,8 +6256,8 @@
                {
                   "def" : [
                      [
-                        "ref_interface",
-                        "HTMLImageElement"
+                        "ref_typedef",
+                        "HTMLOrSVGImageElement"
                      ],
                      [
                         "ref_interface",
@@ -6247,10 +6285,6 @@
                         "ref_interface",
                         "HTMLCanvasElement"
                      ],
-                     "ref_interface[HTMLImageElement]" : [
-                        "ref_interface",
-                        "HTMLImageElement"
-                     ],
                      "ref_interface[HTMLVideoElement]" : [
                         "ref_interface",
                         "HTMLVideoElement"
@@ -6258,6 +6292,10 @@
                      "ref_interface[ImageBitmap]" : [
                         "ref_interface",
                         "ImageBitmap"
+                     ],
+                     "ref_typedef[HTMLOrSVGImageElement]" : [
+                        "ref_typedef",
+                        "HTMLOrSVGImageElement"
                      ]
                   }
                }
@@ -10124,8 +10162,8 @@
                      "type" : [
                         "nullable",
                         [
-                           "ref_interface",
-                           "HTMLScriptElement"
+                           "ref_typedef",
+                           "HTMLOrSVGScriptElement"
                         ]
                      ]
                   }
@@ -22431,6 +22469,70 @@
             "spec" : "HTML"
          }
       ],
+      "HTMLOrSVGImageElement" : [
+         "typedef",
+         {
+            "id" : "htmlorsvgimageelement",
+            "spec" : "HTML",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref_interface",
+                        "HTMLImageElement"
+                     ],
+                     [
+                        "ref",
+                        "SVGImageElement"
+                     ]
+                  ],
+                  "flattened" : {
+                     "ref[SVGImageElement]" : [
+                        "ref",
+                        "SVGImageElement"
+                     ],
+                     "ref_interface[HTMLImageElement]" : [
+                        "ref_interface",
+                        "HTMLImageElement"
+                     ]
+                  }
+               }
+            ]
+         }
+      ],
+      "HTMLOrSVGScriptElement" : [
+         "typedef",
+         {
+            "id" : "htmlorsvgscriptelement",
+            "spec" : "HTML",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref_interface",
+                        "HTMLScriptElement"
+                     ],
+                     [
+                        "ref",
+                        "SVGScriptElement"
+                     ]
+                  ],
+                  "flattened" : {
+                     "ref[SVGScriptElement]" : [
+                        "ref",
+                        "SVGScriptElement"
+                     ],
+                     "ref_interface[HTMLScriptElement]" : [
+                        "ref_interface",
+                        "HTMLScriptElement"
+                     ]
+                  }
+               }
+            ]
+         }
+      ],
       "HTMLOutputElement" : [
          "interface",
          {
@@ -26264,8 +26366,8 @@
                {
                   "def" : [
                      [
-                        "ref_interface",
-                        "HTMLImageElement"
+                        "ref_typedef",
+                        "HTMLOrSVGImageElement"
                      ],
                      [
                         "ref_interface",
@@ -26305,10 +26407,6 @@
                         "ref_interface",
                         "HTMLCanvasElement"
                      ],
-                     "ref_interface[HTMLImageElement]" : [
-                        "ref_interface",
-                        "HTMLImageElement"
-                     ],
                      "ref_interface[HTMLVideoElement]" : [
                         "ref_interface",
                         "HTMLVideoElement"
@@ -26320,6 +26418,10 @@
                      "ref_interface[ImageData]" : [
                         "ref_interface",
                         "ImageData"
+                     ],
+                     "ref_typedef[HTMLOrSVGImageElement]" : [
+                        "ref_typedef",
+                        "HTMLOrSVGImageElement"
                      ]
                   }
                }
@@ -27135,6 +27237,300 @@
                         "ref_interface",
                         "MessagePort"
                      ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
+      "MessageEvent" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "id" : "messageevent",
+            "implements" : {
+               "Event" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+               "data" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-messageevent-data",
+                     "spec" : "HTML",
+                     "type" : "any"
+                  }
+               ],
+               "initMessageEvent" : [
+                  "operation",
+                  {
+                     "id" : "dom-messageevent-initmessageevent",
+                     "overload_set" : {
+                        "DOMString,boolean,boolean,any,DOMString,DOMString,nullable[union[ref[WindowProxy],ref[MessagePort]]],nullable[sequence[ref[MessagePort]]]" : {
+                           "args" : [
+                              {
+                                 "name" : "type",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              },
+                              {
+                                 "name" : "bubbles",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "boolean"
+                              },
+                              {
+                                 "name" : "cancelable",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "boolean"
+                              },
+                              {
+                                 "name" : "data",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "any"
+                              },
+                              {
+                                 "name" : "origin",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              },
+                              {
+                                 "name" : "lastEventId",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              },
+                              {
+                                 "name" : "source",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "nullable",
+                                    [
+                                       "union",
+                                       {
+                                          "def" : [
+                                             [
+                                                "ref_interface",
+                                                "WindowProxy"
+                                             ],
+                                             [
+                                                "ref_interface",
+                                                "MessagePort"
+                                             ]
+                                          ],
+                                          "flattened" : {
+                                             "ref_interface[MessagePort]" : [
+                                                "ref_interface",
+                                                "MessagePort"
+                                             ],
+                                             "ref_interface[WindowProxy]" : [
+                                                "ref_interface",
+                                                "WindowProxy"
+                                             ]
+                                          }
+                                       }
+                                    ]
+                                 ]
+                              },
+                              {
+                                 "name" : "ports",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "nullable",
+                                    [
+                                       "sequence",
+                                       [
+                                          "ref_interface",
+                                          "MessagePort"
+                                       ]
+                                    ]
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "lastEventId" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-messageevent-lasteventid",
+                     "spec" : "HTML",
+                     "type" : "DOMString"
+                  }
+               ],
+               "origin" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-messageevent-origin",
+                     "spec" : "HTML",
+                     "type" : "USVString"
+                  }
+               ],
+               "ports" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-messageevent-ports",
+                     "spec" : "HTML",
+                     "type" : [
+                        "nullable",
+                        [
+                           "FrozenArray",
+                           [
+                              "ref_interface",
+                              "MessagePort"
+                           ]
+                        ]
+                     ]
+                  }
+               ],
+               "source" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-messageevent-source",
+                     "spec" : "HTML",
+                     "type" : [
+                        "nullable",
+                        [
+                           "union",
+                           {
+                              "def" : [
+                                 [
+                                    "ref_interface",
+                                    "WindowProxy"
+                                 ],
+                                 [
+                                    "ref_interface",
+                                    "MessagePort"
+                                 ]
+                              ],
+                              "flattened" : {
+                                 "ref_interface[MessagePort]" : [
+                                    "ref_interface",
+                                    "MessagePort"
+                                 ],
+                                 "ref_interface[WindowProxy]" : [
+                                    "ref_interface",
+                                    "WindowProxy"
+                                 ]
+                              }
+                           }
+                        ]
+                     ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
+      "MessageEventInit" : [
+         "dictionary",
+         {
+            "id" : "messageeventinit",
+            "implements" : {
+               "EventInit" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+               "data" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "any",
+                     "value" : "null"
+                  }
+               ],
+               "lastEventId" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "DOMString",
+                     "value" : [
+                        "string",
+                        ""
+                     ]
+                  }
+               ],
+               "origin" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "USVString",
+                     "value" : [
+                        "string",
+                        ""
+                     ]
+                  }
+               ],
+               "ports" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : [
+                        "nullable",
+                        [
+                           "sequence",
+                           [
+                              "ref_interface",
+                              "MessagePort"
+                           ]
+                        ]
+                     ],
+                     "value" : "null"
+                  }
+               ],
+               "source" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : [
+                        "nullable",
+                        [
+                           "union",
+                           {
+                              "def" : [
+                                 [
+                                    "ref_interface",
+                                    "WindowProxy"
+                                 ],
+                                 [
+                                    "ref_interface",
+                                    "MessagePort"
+                                 ]
+                              ],
+                              "flattened" : {
+                                 "ref_interface[MessagePort]" : [
+                                    "ref_interface",
+                                    "MessagePort"
+                                 ],
+                                 "ref_interface[WindowProxy]" : [
+                                    "ref_interface",
+                                    "WindowProxy"
+                                 ]
+                              }
+                           }
+                        ]
+                     ],
+                     "value" : "null"
                   }
                ]
             },
@@ -28094,6 +28490,11 @@
                   "depth" : 1,
                   "supplemental" : 1
                },
+               "NavigatorLanguage" : {
+                  "consequential" : 1,
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
                "NavigatorOnLine" : {
                   "consequential" : 1,
                   "depth" : 1,
@@ -28479,6 +28880,42 @@
                      "id" : "dom-navigator-vendorsub",
                      "spec" : "HTML",
                      "type" : "DOMString"
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
+      "NavigatorLanguage" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "NoInterfaceObject" : 1,
+            "id" : "navigatorlanguage",
+            "members" : {
+               "language" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-navigator-language",
+                     "spec" : "HTML",
+                     "type" : "DOMString"
+                  }
+               ],
+               "languages" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-navigator-languages",
+                     "spec" : "HTML",
+                     "type" : [
+                        "FrozenArray",
+                        "DOMString"
+                     ]
                   }
                ]
             },
@@ -38333,6 +38770,11 @@
                   "supplemental" : 1
                },
                "NavigatorID" : {
+                  "consequential" : 1,
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
+               "NavigatorLanguage" : {
                   "consequential" : 1,
                   "depth" : 1,
                   "supplemental" : 1
