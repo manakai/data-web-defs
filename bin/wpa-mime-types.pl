@@ -46,6 +46,8 @@ for my $type (keys %$Data) {
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {type => $3, obsolete => 1};
     } elsif (m{^  (req|opt) ([A-Za-z0-9_-]+)="" \[SHOULD\]$}) {
       $data->{$1 eq 'req' ? 'required_params' : 'optional_params'}->{$2} = {SHOULD => 1};
+    } elsif (m{^  opt any$}) {
+      $data->{allow_any_param} = 1;
     } elsif (m{^  fragment -$}) {
       $data->{fragment} = 'none';
     } elsif (m{^  fragment (X3D|multipart/x-mixed-replace|text/vnd-a|RFC [0-9]{4}|RFC XXX)$}) {
