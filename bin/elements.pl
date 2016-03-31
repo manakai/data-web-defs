@@ -1033,6 +1033,14 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{all_named} = 1
     for split /\s*,\s*/, q(a, applet, button, embed, form, frame, frameset, iframe, img, input, map, meta, object, select, textarea);
     ## |keygen| is commented out in spec
 
+## <https://html.spec.whatwg.org/#dom-window-nameditem>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{window_named} = 1
+    for qw(a applet area embed form frameset img object);
+
+## <https://html.spec.whatwg.org/#dom-document-nameditem-filter>
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{document_named} = 1
+    for qw(applet embed form iframe img object);
+
 ## <http://www.whatwg.org/specs/web-apps/current-work/#the-stack-of-open-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
     = 'special' for grep { length } split /\s*,\s*|\s+/, q{
