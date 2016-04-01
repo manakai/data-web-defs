@@ -128,7 +128,7 @@
       },
       {
          "di" : 240,
-         "fragment" : "optional [*id=\u0022dictdef-dommatrixinit\u0022*]DOMMatrixInit matrix);\u000A  void [*id=\u0022dom-context-2d-resettrans",
+         "fragment" : "optional [*id=\u0022dictdef-dommatrixinit\u0022*]DOMMatrixInit transform);\u000A  void [*id=\u0022dom-context-2d-resettr",
          "index" : 3255,
          "level" : "m",
          "spec" : "XHR",
@@ -6951,15 +6951,20 @@
                   {
                      "id" : "dom-canvaspattern-settransform",
                      "overload_set" : {
-                        "ref[DOMMatrix]" : {
+                        "" : {
+                           "args" : [
+                           ],
+                           "type" : "void"
+                        },
+                        "ref[DOMMatrixInit]" : {
                            "args" : [
                               {
                                  "name" : "transform",
-                                 "optionality" : "required",
+                                 "optionality" : "optional",
                                  "spec" : "HTML",
                                  "type" : [
                                     "ref",
-                                    "DOMMatrix"
+                                    "DOMMatrixInit"
                                  ]
                               }
                            ],
@@ -7726,7 +7731,7 @@
                         "ref[DOMMatrixInit]" : {
                            "args" : [
                               {
-                                 "name" : "matrix",
+                                 "name" : "transform",
                                  "optionality" : "optional",
                                  "spec" : "HTML",
                                  "type" : [
@@ -26320,10 +26325,6 @@
                      ],
                      [
                         "ref_interface",
-                        "CanvasRenderingContext2D"
-                     ],
-                     [
-                        "ref_interface",
                         "ImageBitmap"
                      ]
                   ],
@@ -26331,10 +26332,6 @@
                      "ref[Blob]" : [
                         "ref",
                         "Blob"
-                     ],
-                     "ref_interface[CanvasRenderingContext2D]" : [
-                        "ref_interface",
-                        "CanvasRenderingContext2D"
                      ],
                      "ref_interface[HTMLCanvasElement]" : [
                         "ref_interface",
@@ -31477,7 +31474,7 @@
                            ],
                            "type" : "void"
                         },
-                        "ref[Path2D],nullable[ref[DOMMatrix]]" : {
+                        "ref[Path2D],ref[DOMMatrixInit]" : {
                            "args" : [
                               {
                                  "name" : "path",
@@ -31489,17 +31486,13 @@
                                  ]
                               },
                               {
-                                 "name" : "transformation",
+                                 "name" : "transform",
                                  "optionality" : "optional",
                                  "spec" : "HTML",
                                  "type" : [
-                                    "nullable",
-                                    [
-                                       "ref",
-                                       "DOMMatrix"
-                                    ]
-                                 ],
-                                 "value" : "null"
+                                    "ref",
+                                    "DOMMatrixInit"
+                                 ]
                               }
                            ],
                            "type" : "void"
