@@ -8,6 +8,7 @@ $Data->{system_fonts}->{$_}->{conforming} = 1
     for qw(caption icon menu message-box small-caption status-bar);
 
 $Data->{system_fonts}->{$_} ||= {} for qw(
+system-ui -apple-system
 -moz-window -moz-document -moz-desktop -moz-info -moz-dialog
 -moz-button -moz-pull-down-menu -moz-list -moz-field
 -moz-workspace
