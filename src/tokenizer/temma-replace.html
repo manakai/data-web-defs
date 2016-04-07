@@ -18,6 +18,7 @@ uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character
 before and after), then consume those characters and switch to
 the <span>CDATA section state</span>.
 
-<p>Otherwise, this is a <span>parse error</span>. Switch to
-the <span>bogus comment state</span>. The next character that is
-consumed, if any, is the first character that will be in the comment.
+<p>Otherwise, this is a <span>parse error</span>.  Create
+a <span>comment token</span> whose data is the empty string. Switch to
+the <span>bogus comment state</span> (don't consume anything in the
+current state).

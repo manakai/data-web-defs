@@ -37,10 +37,25 @@ $Data->{char_sets}->{'HEXDIGIT'}->{$_} = 1
 my $state_name;
 my $PreserveStateBeforeSwitching = {};
 
+my $LoopCount = {};
+sub check_loop ($) {
+  my $key = $_[0];
+  $LoopCount->{$key}++;
+  if ($LoopCount->{$key} > 100000) {
+    require Carp;
+    die "check_loop: $key > 100000", Carp::longmess ();
+  }
+  if ($LoopCount->{$key} > 100000-10) {
+    require Carp;
+    warn "check_loop: $key > 100000", Carp::longmess ();
+  }
+} # check_loop
+
 sub parse_action ($) {
   my $action = shift;
   my @action;
   while (1) {
+    check_loop 'parse_action';
     $action =~ s/^\s+//;
     if ($action =~ s/^Otherwise, this is a parse error. Switch to the ((?:DOCTYPE |)bogus comment state). The next character that is consumed, if any, is the first character that will be in the comment\.//) {
       push @action,
@@ -55,6 +70,10 @@ sub parse_action ($) {
       push @action, {type => 'parse error', index_offset => $1};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
+    } elsif ($action =~ s/^\QSwitch to the bogus comment state (don't consume anything in the current state).\E//) {
+      push @action,
+          {type => 'switch', state => 'bogus comment state'},
+          {type => 'reconsume'};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state) with initial data "([^"]+)"(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1, INITIAL_DATA => $2};
     } elsif ($action =~ s/^\QSwitch to the character reference in attribute value state, with the additional allowed character being U+0022 QUOTATION MARK (").\E//) {
@@ -190,6 +209,14 @@ sub parse_action ($) {
                 push @action, {type => 'insert-INCLUDE'};
               } elsif ($action =~ s/^Create a marked section whose status is IGNORE and push it onto the stack of open marked sections\.//) {
                 push @action, {type => 'insert-IGNORE'};
+              } elsif ($action =~ s/^Create a comment token whose data is the empty string.//) {
+                push @action,
+                    {type => 'create', token => 'comment token'},
+                    {type => 'set-empty', field => 'data'};
+              } elsif ($action =~ s/^Create a comment token whose (data) is "(\?)".//) {
+                push @action,
+                    {type => 'create', token => 'comment token', index_offset => 1},
+                    {type => 'set', field => $1, value => $2};
               } elsif ($action =~ s/^Pop the current marked section off the stack of open marked sections and reset the state\.//) {
                 push @action, {type => 'pop-section'};
               } elsif ($action =~ s/^[Ss]et (?:its|the (?:current |)token's) (tag name|name|target|data|notation name|content keyword) to the (?:current |)input character(?:\.\s*|, then )//) {
@@ -559,7 +586,7 @@ sub parse_action ($) {
       push @act, {type => 'set-attr'};
     }
     if ($_->{type} eq 'switch' and
-        ($_->{state} eq 'bogus comment state' or
+        (#$_->{state} eq 'bogus comment state' or
          $_->{state} eq 'DOCTYPE bogus comment state')) {
       my @a;
       if (@act and $act[-1]->{type} eq 'append-temp') {
@@ -671,6 +698,7 @@ sub parse_switch ($) {
 
 my @node = @{$doc->body->child_nodes};
 while (@node) {
+  check_loop 'document.body';
   my $node = shift @node;
   if ($node->node_type == $node->ELEMENT_NODE) {
     my $ln = $node->local_name;
@@ -839,6 +867,7 @@ sub error_name ($$) {
     my ($acts => $new_acts, $state, $cond) = @_;
     if ($cond eq 'ELSE') {
       while (@$acts and $acts->[0]->{type} eq 'IF-KEYWORD') {
+        check_loop 'IF-KEYWORD';
         my $act = shift @$acts;
         my $old_state = $state;
         my $new_state = $state . ' -- ';
@@ -981,6 +1010,17 @@ sub error_name ($$) {
       } else {
         push @$new_acts, {%$_};
       }
+    }
+  };
+
+  modify_actions {
+    my ($acts => $new_acts, $state) = @_;
+    if (@$acts >= 2 and
+        $acts->[-2]->{type} eq 'reconsume' and
+        $acts->[-1]->{type} eq 'emit') { ## HTML spec seems buggy...
+      @$new_acts = @$acts[0..($#$acts-2), ($#$acts), ($#$acts-1)];
+    } else {
+      @$new_acts = @$acts;
     }
   };
 }

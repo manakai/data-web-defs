@@ -15,15 +15,18 @@
 <dt>U+003F QUESTION MARK (?)<!-- Not in XML5 -->
 <dd>
   <p><span>Parse error</span> <ins>(offset=2)</ins>.
-  <p>Switch to the <span>bogus comment state</span> with <i>initial
-  data</i> "?".
+
+  <p>Create a <span>comment token</span> whose data is "?".
+  <p>Append the <span>current input character</span> to the current
+  token's <i>data</i>.
+  <p>Switch to the <span>bogus comment state</span>.
 
 <dt>EOF
 <dd>
   <p><span>Parse error</span>.
-  <p>Switch to the <span>bogus comment state</span> with <i>initial
-  data</i> "?".
-  <!--<p>Reconsume the <span>current input character</span>.-->
+  <p>Create a <span>comment token</span> whose data is "?".
+  <p>Switch to the <span>bogus comment state</span>.
+  <p>Reconsume the <span>current input character</span>.
 
 <!-- Not in XML5 -->
 <dt>U+0000 NULL

@@ -73,7 +73,9 @@
 <dd>
   <p><span>Parse error</span> <ins>(offset=2)</ins>.
   <!-- different from XML5 for compat with HTML -->
+  <p>Create a <span>comment token</span> whose data is the empty string.
   <p>Switch to the <span>bogus comment state</span>.
+  <p>Reconsume the <span>current input character</span>.
 
 <dt>U+003E GREATER-THAN SIGN (>)
 <dd>
@@ -126,9 +128,10 @@ before and after), then: if the <span>stack of open elements</span> is
 empty, <span>parse error</span>; consume those characters; and switch
 to the <span>CDATA section state</span>.
 
-<p>Otherwise, this is a <span>parse error</span>. Switch to
-the <span>bogus comment state</span>. The next character that is
-consumed, if any, is the first character that will be in the comment.
+<p>Otherwise, this is a <span>parse error</span>.  Create
+a <span>comment token</span> whose data is the empty string. Switch to
+the <span>bogus comment state</span> (don't consume anything in the
+current state).
 
 <h1><span>DOCTYPE name state</span></h1>
 <!-- DOCTYPE root name state in XML5 -->
