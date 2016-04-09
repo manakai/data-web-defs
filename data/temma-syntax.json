@@ -37,6 +37,60 @@
             "98" : 1,
             "99" : 1
          },
+         "LETTER" : {
+            "100" : 1,
+            "101" : 1,
+            "102" : 1,
+            "103" : 1,
+            "104" : 1,
+            "105" : 1,
+            "106" : 1,
+            "107" : 1,
+            "108" : 1,
+            "109" : 1,
+            "110" : 1,
+            "111" : 1,
+            "112" : 1,
+            "113" : 1,
+            "114" : 1,
+            "115" : 1,
+            "116" : 1,
+            "117" : 1,
+            "118" : 1,
+            "119" : 1,
+            "120" : 1,
+            "121" : 1,
+            "122" : 1,
+            "65" : 1,
+            "66" : 1,
+            "67" : 1,
+            "68" : 1,
+            "69" : 1,
+            "70" : 1,
+            "71" : 1,
+            "72" : 1,
+            "73" : 1,
+            "74" : 1,
+            "75" : 1,
+            "76" : 1,
+            "77" : 1,
+            "78" : 1,
+            "79" : 1,
+            "80" : 1,
+            "81" : 1,
+            "82" : 1,
+            "83" : 1,
+            "84" : 1,
+            "85" : 1,
+            "86" : 1,
+            "87" : 1,
+            "88" : 1,
+            "89" : 1,
+            "90" : 1,
+            "97" : 1,
+            "98" : 1,
+            "99" : 1
+         },
          "LOWER" : {
             "100" : 1,
             "101" : 1,
@@ -106,15 +160,12 @@
          }
       },
       "states" : {
-         "CDATA section state" : {
+         "CDATA section bracket state" : {
             "conds" : {
                "CHAR:005D" : {
                   "actions" : [
                      {
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
+                        "state" : "CDATA section end state",
                         "type" : "switch"
                      }
                   ]
@@ -122,58 +173,9 @@
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "end tag token" : -1,
-               "start tag token" : -1
-            }
-         },
-         "CDATA section state -- ]" : {
-            "conds" : {
-               "CHAR:005D" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]]",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "]"
                      },
                      {
                         "state" : "CDATA section state",
@@ -190,7 +192,7 @@
                "start tag token" : -1
             }
          },
-         "CDATA section state -- ]]" : {
+         "CDATA section end state" : {
             "conds" : {
                "CHAR:003E" : {
                   "actions" : [
@@ -203,20 +205,46 @@
                "CHAR:005D" : {
                   "actions" : [
                      {
-                        "index_offset" : 2,
-                        "type" : "emit-char"
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "]"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "type" : "emit-temp"
+                        "index_offset" : 2,
+                        "type" : "emit-char",
+                        "value" : "]]"
                      },
                      {
                         "state" : "CDATA section state",
                         "type" : "switch"
                      },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "end tag token" : -1,
+               "start tag token" : -1
+            }
+         },
+         "CDATA section state" : {
+            "conds" : {
+               "CHAR:005D" : {
+                  "actions" : [
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "ELSE" : {
+                  "actions" : [
                      {
                         "type" : "emit-char"
                      }
@@ -225,10 +253,11 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "type" : "emit-temp"
+                        "name" : "EOF",
+                        "type" : "parse error"
                      },
                      {
-                        "state" : "CDATA section state",
+                        "state" : "data state",
                         "type" : "switch"
                      },
                      {
@@ -900,7 +929,7 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "token" : "end tag token",
@@ -908,34 +937,14 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "RAWTEXT end tag name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "token" : "end tag token",
-                        "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "RAWTEXT end tag name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -1166,7 +1175,7 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "token" : "end tag token",
@@ -1174,34 +1183,14 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "RCDATA end tag name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "token" : "end tag token",
-                        "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "RCDATA end tag name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -2715,103 +2704,10 @@
          },
          "after attribute name state" : {
             "conds" : {
-               "CHAR:0000" : {
-                  "actions" : [
-                     {
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr",
-                        "value" : "�"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0022" : {
-                  "actions" : [
-                     {
-                        "name" : "after-attribute-name-0022",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0027" : {
-                  "actions" : [
-                     {
-                        "name" : "after-attribute-name-0027",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "CHAR:002F" : {
                   "actions" : [
                      {
                         "state" : "self-closing start tag state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "name" : "after-attribute-name-003c",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
                         "type" : "switch"
                      }
                   ]
@@ -2847,7 +2743,7 @@
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -2856,6 +2752,9 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -2871,26 +2770,6 @@
                      },
                      {
                         "type" : "reconsume"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
                      }
                   ]
                },
@@ -3019,8 +2898,11 @@
                         "type" : "set-attr"
                      },
                      {
-                        "state" : "self-closing start tag state",
+                        "state" : "after attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -3053,16 +2935,11 @@
                         "type" : "set-attr"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "after attribute name state",
                         "type" : "switch"
                      },
                      {
-                        "check_end_tag_token" : 1,
-                        "possible_token_types" : {
-                           "end tag token" : 1,
-                           "start tag token" : 1
-                        },
-                        "type" : "emit"
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -3077,14 +2954,10 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "set-attr"
                      },
                      {
-                        "state" : "data state",
+                        "state" : "after attribute name state",
                         "type" : "switch"
                      },
                      {
@@ -3109,6 +2982,9 @@
                      {
                         "state" : "after attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -4788,104 +4664,14 @@
          },
          "before attribute name state" : {
             "conds" : {
-               "CHAR:0000" : {
-                  "actions" : [
-                     {
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr",
-                        "value" : "�"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0022" : {
-                  "actions" : [
-                     {
-                        "name" : "before-attribute-name-0022",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0027" : {
-                  "actions" : [
-                     {
-                        "name" : "before-attribute-name-0027",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "CHAR:002F" : {
                   "actions" : [
                      {
-                        "state" : "self-closing start tag state",
+                        "state" : "after attribute name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "name" : "before-attribute-name-003c",
-                        "type" : "parse error"
                      },
                      {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -4915,16 +4701,11 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "state" : "data state",
+                        "state" : "after attribute name state",
                         "type" : "switch"
                      },
                      {
-                        "check_end_tag_token" : 1,
-                        "possible_token_types" : {
-                           "end tag token" : 1,
-                           "start tag token" : 1
-                        },
-                        "type" : "emit"
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -4935,7 +4716,7 @@
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -4943,18 +4724,6 @@
                      },
                      {
                         "state" : "attribute name state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
                         "type" : "switch"
                      },
                      {
@@ -4962,23 +4731,14 @@
                      }
                   ]
                },
-               "UPPER" : {
+               "EOF" : {
                   "actions" : [
                      {
-                        "type" : "create-attr"
-                     },
-                     {
-                        "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "set-empty-to-attr"
-                     },
-                     {
-                        "state" : "attribute name state",
+                        "state" : "after attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -4994,39 +4754,11 @@
          },
          "before attribute value state" : {
             "conds" : {
-               "CHAR:0000" : {
-                  "actions" : [
-                     {
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "append-to-attr",
-                        "value" : "�"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "CHAR:0022" : {
                   "actions" : [
                      {
                         "state" : "attribute value (double-quoted) state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:0026" : {
-                  "actions" : [
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
                      }
                   ]
                },
@@ -5038,38 +4770,6 @@
                      }
                   ]
                },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "name" : "before-attribute-value-003c",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:003D" : {
-                  "actions" : [
-                     {
-                        "name" : "before-attribute-value-003d",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "CHAR:003E" : {
                   "actions" : [
                      {
@@ -5077,55 +4777,18 @@
                         "type" : "parse error"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "check_end_tag_token" : 1,
-                        "possible_token_types" : {
-                           "end tag token" : 1,
-                           "start tag token" : 1
-                        },
-                        "type" : "emit"
-                     }
-                  ]
-               },
-               "CHAR:0060" : {
-                  "actions" : [
-                     {
-                        "name" : "before-attribute-value-0060",
-                        "type" : "parse error"
-                     },
-                     {
-                        "field" : "value",
-                        "type" : "append-to-attr"
-                     },
-                     {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
                "ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-to-attr"
-                     },
-                     {
                         "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
                         "type" : "switch"
                      },
                      {
@@ -6342,7 +6005,7 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "token" : "end tag token",
@@ -6350,28 +6013,14 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "token" : "end tag token",
-                        "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "state" : "tag name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -7803,7 +7452,7 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "token" : "end tag token",
@@ -7811,34 +7460,14 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "script data end tag name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "token" : "end tag token",
-                        "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "script data end tag name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -8206,42 +7835,18 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "token" : "end tag token",
                         "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
                         "state" : "script data escaped end tag name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "token" : "end tag token",
-                        "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "script data escaped end tag name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -8279,13 +7884,10 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "type" : "append-to-temp"
                      },
                      {
                         "state" : "script data double escape start state",
@@ -8297,30 +7899,7 @@
                         "value" : "\u003C"
                      },
                      {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "offset" : 32,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "script data double escape start state",
-                        "type" : "switch"
-                     },
-                     {
-                        "index_offset" : 1,
-                        "type" : "emit-char",
-                        "value" : "\u003C"
-                     },
-                     {
-                        "type" : "emit-char"
+                        "type" : "reconsume"
                      }
                   ]
                }
@@ -8689,7 +8268,7 @@
                      }
                   ]
                },
-               "LOWER" : {
+               "LETTER" : {
                   "actions" : [
                      {
                         "token" : "start tag token",
@@ -8697,28 +8276,14 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
-                     }
-                  ]
-               },
-               "UPPER" : {
-                  "actions" : [
-                     {
-                        "token" : "start tag token",
-                        "type" : "create"
                      },
                      {
-                        "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "state" : "tag name state",
-                        "type" : "switch"
+                        "type" : "reconsume"
                      }
                   ]
                }

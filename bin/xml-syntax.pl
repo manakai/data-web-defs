@@ -90,11 +90,14 @@ sub for_actions (&$) {
     ['after attribute name state', 'CHAR:002F'], # /
     ['after attribute name state', 'CHAR:003E'], # >
     ['after attribute name state', 'ELSE'],
-    ['before attribute value state', 'CHAR:0026'], # &
+    #['before attribute value state', 'CHAR:0026'], # &
     ['before attribute value state', 'ELSE'],
   ) {
     my ($state, $cond) = @$_;
     my $acts = $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}->{actions};
+    unless (defined $acts) {
+      die "$state / $cond is not defined";
+    }
     unless (@$acts and $acts->[0]->{type} eq 'parse error') {
       unshift @$acts, {type => 'parse error',
                        name => error_name $state, $cond};

@@ -195,6 +195,157 @@
          }
       },
       "states" : {
+         "CDATA section bracket state" : {
+            "conds" : {
+               "0000 0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "000D" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     },
+                     {
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "005D" : {
+                  "actions" : [
+                     {
+                        "state" : "CDATA section end state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     },
+                     {
+                        "error_type" : "parser:EOF",
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "end tag token" : -1,
+               "start tag token" : -1
+            }
+         },
+         "CDATA section end state" : {
+            "conds" : {
+               "0000 0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 2,
+                        "type" : "emit-char",
+                        "value" : "]]"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "000D" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 2,
+                        "type" : "emit-char",
+                        "value" : "]]"
+                     },
+                     {
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "005D" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "index_offset" : 2,
+                        "type" : "emit-char",
+                        "value" : "]]"
+                     },
+                     {
+                        "error_type" : "parser:EOF",
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "emit-eof"
+                     }
+                  ]
+               }
+            },
+            "initial_token_types" : {
+               "end tag token" : -1,
+               "start tag token" : -1
+            }
+         },
          "CDATA section state" : {
             "conds" : {
                "0000 0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
@@ -221,10 +372,7 @@
                "005D" : {
                   "actions" : [
                      {
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
+                        "state" : "CDATA section bracket state",
                         "type" : "switch"
                      }
                   ]
@@ -232,136 +380,9 @@
                "EOF" : {
                   "actions" : [
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "end tag token" : -1,
-               "start tag token" : -1
-            }
-         },
-         "CDATA section state -- ]" : {
-            "conds" : {
-               "0000 0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "index_offset" : 0,
-                        "type" : "emit-char",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "CDATA section state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "005D" : {
-                  "actions" : [
-                     {
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]]",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-eof"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "end tag token" : -1,
-               "start tag token" : -1
-            }
-         },
-         "CDATA section state -- ]]" : {
-            "conds" : {
-               "0000 0009,000C,0020 000A 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "000D" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "index_offset" : 0,
-                        "type" : "emit-char",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "CDATA section state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "003E" : {
-                  "actions" : [
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "005D" : {
-                  "actions" : [
-                     {
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     }
-                  ],
-                  "repeat" : 1
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "type" : "emit-temp"
+                        "error_type" : "parser:EOF",
+                        "name" : "EOF",
+                        "type" : "parse error"
                      },
                      {
                         "state" : "data state",
@@ -415,16 +436,18 @@
                "005D" : {
                   "actions" : [
                      {
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
+                        "state" : "CDATA section bracket state",
                         "type" : "switch"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
+                     {
+                        "error_type" : "parser:EOF",
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "data state",
                         "type" : "switch"
@@ -1944,15 +1967,19 @@
                      },
                      {
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "RAWTEXT end tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      }
                   ]
                },
@@ -1964,14 +1991,18 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "RAWTEXT end tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      }
                   ]
                },
@@ -2556,15 +2587,19 @@
                      },
                      {
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "RCDATA end tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      }
                   ]
                },
@@ -2576,14 +2611,18 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "RCDATA end tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      }
                   ]
                },
@@ -5170,17 +5209,11 @@
                "0000" : {
                   "actions" : [
                      {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr",
-                        "value" : "�"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5189,6 +5222,16 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -5204,7 +5247,7 @@
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5213,22 +5256,21 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
                "0022" : {
                   "actions" : [
                      {
-                        "error_type" : "attr:no =",
-                        "name" : "after-attribute-name-0022",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5237,22 +5279,26 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
                "0027" : {
                   "actions" : [
                      {
-                        "error_type" : "attr:no =",
-                        "name" : "after-attribute-name-0027",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5261,6 +5307,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5275,16 +5330,11 @@
                "003C" : {
                   "actions" : [
                      {
-                        "error_type" : "tag not closed",
-                        "name" : "after-attribute-name-003c",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5293,6 +5343,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "tag not closed",
+                        "name" : "attribute-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5327,8 +5386,7 @@
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5337,6 +5395,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5372,17 +5435,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr",
-                        "value" : "�"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5391,6 +5448,16 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -5414,7 +5481,7 @@
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5423,6 +5490,10 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5434,16 +5505,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "bad attribute name",
-                        "name" : "before-attribute-name-0022",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5452,6 +5518,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5463,16 +5538,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "bad attribute name",
-                        "name" : "before-attribute-name-0027",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5481,6 +5551,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5500,16 +5579,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "tag not closed",
-                        "name" : "before-attribute-name-003c",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5518,6 +5592,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "tag not closed",
+                        "name" : "attribute-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5578,8 +5661,7 @@
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -5588,6 +5670,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -5741,12 +5828,12 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "type" : "set-attr"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-attr"
                      },
                      {
                         "state" : "data state",
@@ -10883,10 +10970,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -10895,6 +10980,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -10912,10 +11003,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 3,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -10924,6 +11013,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 4,
@@ -10938,10 +11033,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -10950,6 +11043,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -10967,9 +11066,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 3,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -10978,6 +11076,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 4,
@@ -10992,10 +11095,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11004,6 +11105,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11045,10 +11152,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11057,6 +11162,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11075,13 +11186,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -11100,10 +11211,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11112,6 +11221,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11130,13 +11245,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -11163,10 +11278,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11175,6 +11288,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11217,10 +11336,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11229,6 +11346,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11287,10 +11410,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11299,6 +11420,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11349,10 +11476,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11361,6 +11486,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11403,10 +11534,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11415,6 +11544,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11473,10 +11608,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11485,6 +11618,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11535,10 +11674,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11547,6 +11684,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11580,10 +11723,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11594,12 +11735,22 @@
                         "type" : "switch"
                      },
                      {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
+                     },
+                     {
                         "capture_index" : 2,
                         "field" : "name",
                         "type" : "append-to-attr"
                      },
                      {
                         "type" : "set-attr"
+                     },
+                     {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
                      },
                      {
                         "state" : "self-closing start tag state",
@@ -11629,10 +11780,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11641,6 +11790,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11655,13 +11810,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -11680,10 +11835,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11692,6 +11845,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11706,13 +11865,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -11739,10 +11898,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11751,6 +11908,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11789,10 +11952,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11801,6 +11962,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11855,10 +12022,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11867,6 +12032,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11913,10 +12084,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11925,6 +12094,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -11963,10 +12138,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -11975,6 +12148,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12029,10 +12208,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12041,6 +12218,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12087,10 +12270,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12101,12 +12282,22 @@
                         "type" : "switch"
                      },
                      {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
+                     },
+                     {
                         "capture_index" : 2,
                         "field" : "name",
                         "type" : "append-to-attr"
                      },
                      {
                         "type" : "set-attr"
+                     },
+                     {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -12128,9 +12319,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12139,6 +12329,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12156,10 +12351,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 3,
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12168,6 +12361,12 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 4,
@@ -12182,9 +12381,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12193,6 +12391,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12210,9 +12413,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 3,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12221,6 +12423,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 4,
@@ -12235,9 +12442,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12246,6 +12452,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12287,9 +12498,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12298,6 +12508,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12316,13 +12531,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -12341,9 +12556,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12352,6 +12566,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12370,13 +12589,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -12403,9 +12622,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12414,6 +12632,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12456,9 +12679,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12467,6 +12689,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12525,9 +12752,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12536,6 +12762,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12586,9 +12817,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12597,6 +12827,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12639,9 +12874,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12650,6 +12884,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12708,9 +12947,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12719,6 +12957,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12769,9 +13012,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12780,6 +13022,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12813,9 +13060,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12826,12 +13072,21 @@
                         "type" : "switch"
                      },
                      {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
+                     },
+                     {
                         "capture_index" : 2,
                         "field" : "name",
                         "type" : "append-to-attr"
                      },
                      {
                         "type" : "set-attr"
+                     },
+                     {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
                      },
                      {
                         "state" : "self-closing start tag state",
@@ -12861,9 +13116,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12872,6 +13126,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12886,13 +13145,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -12911,9 +13170,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12922,6 +13180,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -12936,13 +13199,13 @@
                         "type" : "switch"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "capture_index" : 3,
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      },
                      {
                         "capture_index" : 4,
@@ -12969,9 +13232,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -12980,6 +13242,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -13018,9 +13285,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13029,6 +13295,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -13083,9 +13354,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13094,6 +13364,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -13140,9 +13415,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13151,6 +13425,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -13189,9 +13468,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13200,6 +13478,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -13254,9 +13537,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13265,6 +13547,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      },
                      {
                         "capture_index" : 2,
@@ -13311,9 +13598,8 @@
                         "type" : "create-attr"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13324,12 +13610,21 @@
                         "type" : "switch"
                      },
                      {
+                        "capture_index" : 1,
+                        "field" : "name",
+                        "type" : "append-to-attr"
+                     },
+                     {
                         "capture_index" : 2,
                         "field" : "name",
                         "type" : "append-to-attr"
                      },
                      {
                         "type" : "set-attr"
+                     },
+                     {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
                      },
                      {
                         "state" : "data state",
@@ -13347,6 +13642,10 @@
                },
                "\u005C/\u005C>" : {
                   "actions" : [
+                     {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
+                     },
                      {
                         "state" : "self-closing start tag state",
                         "type" : "switch"
@@ -13372,6 +13671,10 @@
                "\u005C>" : {
                   "actions" : [
                      {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
+                     },
+                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -13390,17 +13693,11 @@
                "0000" : {
                   "actions" : [
                      {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr",
-                        "value" : "�"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13409,6 +13706,16 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -13424,7 +13731,7 @@
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13433,22 +13740,21 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
                "0022" : {
                   "actions" : [
                      {
-                        "error_type" : "bad attribute name",
-                        "name" : "before-attribute-name-0022",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13457,22 +13763,26 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
                "0027" : {
                   "actions" : [
                      {
-                        "error_type" : "bad attribute name",
-                        "name" : "before-attribute-name-0027",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13481,6 +13791,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -13495,16 +13814,11 @@
                "003C" : {
                   "actions" : [
                      {
-                        "error_type" : "tag not closed",
-                        "name" : "before-attribute-name-003c",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13513,6 +13827,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "tag not closed",
+                        "name" : "attribute-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -13563,8 +13886,7 @@
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -13573,6 +13895,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -13603,6 +13930,10 @@
                "0000" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "NULL",
                         "name" : "NULL",
                         "type" : "parse error"
@@ -13611,10 +13942,6 @@
                         "field" : "value",
                         "type" : "append-to-attr",
                         "value" : "�"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      }
                   ]
                },
@@ -13626,12 +13953,12 @@
                "0021 0023 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
-                        "field" : "value",
-                        "type" : "append-to-attr"
-                     },
-                     {
                         "state" : "attribute value (unquoted) state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "value",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -13667,34 +13994,34 @@
                "003C" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "tag not closed",
-                        "name" : "before-attribute-value-003c",
+                        "name" : "attribute-value-unquoted-003c",
                         "type" : "parse error"
                      },
                      {
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      }
                   ]
                },
                "003D" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "bad attribute value",
-                        "name" : "before-attribute-value-003d",
+                        "name" : "attribute-value-unquoted-003d",
                         "type" : "parse error"
                      },
                      {
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      }
                   ]
                },
@@ -13722,17 +14049,17 @@
                "0060" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "bad attribute value",
-                        "name" : "before-attribute-value-0060",
+                        "name" : "attribute-value-unquoted-0060",
                         "type" : "parse error"
                      },
                      {
                         "field" : "value",
                         "type" : "append-to-attr"
-                     },
-                     {
-                        "state" : "attribute value (unquoted) state",
-                        "type" : "switch"
                      }
                   ]
                },
@@ -16464,12 +16791,16 @@
                      },
                      {
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      }
                   ]
                },
@@ -16481,11 +16812,15 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
                      }
                   ]
                },
@@ -20520,15 +20855,19 @@
                      },
                      {
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "script data end tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      }
                   ]
                },
@@ -20540,14 +20879,18 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
-                     },
-                     {
-                        "type" : "append-to-temp"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "script data end tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      }
                   ]
                },
@@ -21255,16 +21598,16 @@
                         "type" : "create"
                      },
                      {
+                        "state" : "script data escaped end tag name state",
+                        "type" : "switch"
+                     },
+                     {
                         "field" : "tag name",
                         "offset" : 32,
-                        "type" : "set"
+                        "type" : "append"
                      },
                      {
                         "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "script data escaped end tag name state",
-                        "type" : "switch"
                      }
                   ]
                },
@@ -21275,15 +21618,15 @@
                         "type" : "create"
                      },
                      {
+                        "state" : "script data escaped end tag name state",
+                        "type" : "switch"
+                     },
+                     {
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "append"
                      },
                      {
                         "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "script data escaped end tag name state",
-                        "type" : "switch"
                      }
                   ]
                },
@@ -21420,10 +21763,6 @@
                         "type" : "set-empty-to-temp"
                      },
                      {
-                        "offset" : 32,
-                        "type" : "append-to-temp"
-                     },
-                     {
                         "state" : "script data double escape start state",
                         "type" : "switch"
                      },
@@ -21431,6 +21770,10 @@
                         "index_offset" : 1,
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "offset" : 32,
+                        "type" : "append-to-temp"
                      },
                      {
                         "type" : "emit-char"
@@ -21443,9 +21786,6 @@
                         "type" : "set-empty-to-temp"
                      },
                      {
-                        "type" : "append-to-temp"
-                     },
-                     {
                         "state" : "script data double escape start state",
                         "type" : "switch"
                      },
@@ -21453,6 +21793,9 @@
                         "index_offset" : 1,
                         "type" : "emit-char",
                         "value" : "\u003C"
+                     },
+                     {
+                        "type" : "append-to-temp"
                      },
                      {
                         "type" : "emit-char"
@@ -21912,17 +22255,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "NULL",
-                        "name" : "NULL",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr",
-                        "value" : "�"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -21931,6 +22268,16 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr",
+                        "value" : "�"
                      }
                   ]
                },
@@ -21959,7 +22306,7 @@
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -21968,6 +22315,10 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -21979,16 +22330,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "bad attribute name",
-                        "name" : "before-attribute-name-0022",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -21997,6 +22343,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0022",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -22008,16 +22363,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "bad attribute name",
-                        "name" : "before-attribute-name-0027",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -22026,6 +22376,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "bad attribute name",
+                        "name" : "attribute-name-0027",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -22050,16 +22409,11 @@
                         "type" : "parse error"
                      },
                      {
-                        "error_type" : "tag not closed",
-                        "name" : "before-attribute-name-003c",
-                        "type" : "parse error"
-                     },
-                     {
                         "type" : "create-attr"
                      },
                      {
                         "field" : "name",
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -22068,6 +22422,15 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "error_type" : "tag not closed",
+                        "name" : "attribute-name-003c",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "name",
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -22132,8 +22495,7 @@
                      },
                      {
                         "field" : "name",
-                        "offset" : 32,
-                        "type" : "set-to-attr"
+                        "type" : "set-empty-to-attr"
                      },
                      {
                         "field" : "value",
@@ -22142,6 +22504,11 @@
                      {
                         "state" : "attribute name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "name",
+                        "offset" : 32,
+                        "type" : "append-to-attr"
                      }
                   ]
                },
@@ -22265,14 +22632,18 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -22292,14 +22663,18 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -22335,14 +22710,18 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -22370,13 +22749,17 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -22396,13 +22779,17 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -22438,13 +22825,17 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -22877,578 +23268,6 @@
                      }
                   ]
                },
-               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])([^\u005C\u000D\u005C]])([^\u005C\u000D\u005C]]*)" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 1,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 2,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 3,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 4,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 5,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 6,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 7,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 8,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 9,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 10,
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)([^\u005C\u000D\u005C>\u005C]])([^\u005C\u000D\u005C]]*)" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 1,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 2,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 3,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 4,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 5,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 6,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 7,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 8,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 9,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 10,
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 11,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 12,
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)(\u005C])(\u005C]*)" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 1,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 2,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 3,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 4,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 5,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 6,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 7,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 8,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 9,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 10,
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 11,
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 12,
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     }
-                  ]
-               },
-               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)\u005C\u000D" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 1,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 2,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 3,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 4,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 5,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 6,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 7,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 8,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 9,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 10,
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "capture_index" : null,
-                        "index_offset" : 0,
-                        "type" : "emit-char",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "CDATA section state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])(\u005C])(\u005C]*)\u005C>" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 1,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 2,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 3,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 4,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 5,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 6,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 7,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 8,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 9,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]]",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 10,
-                        "index_offset" : 2,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)(\u005C])\u005C\u000D" : {
-                  "actions" : [
-                     {
-                        "type" : "set-empty-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 1,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 2,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [C",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 3,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CD",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 4,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDA",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 5,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDAT",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 6,
-                        "type" : "append-to-temp"
-                     },
-                     {
-                        "state" : "markup declaration open state -- [CDATA",
-                        "type" : "switch"
-                     },
-                     {
-                        "state" : "CDATA section state",
-                        "type" : "switch"
-                     },
-                     {
-                        "capture_index" : 7,
-                        "type" : "emit-char"
-                     },
-                     {
-                        "capture_index" : 8,
-                        "type" : "set-to-temp"
-                     },
-                     {
-                        "state" : "CDATA section state -- ]",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-temp"
-                     },
-                     {
-                        "capture_index" : null,
-                        "index_offset" : 0,
-                        "type" : "emit-char",
-                        "value" : "\u000A"
-                     },
-                     {
-                        "state" : "CDATA section state after 000D",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C\u000D" : {
                   "actions" : [
                      {
@@ -23526,6 +23345,542 @@
                      }
                   ]
                },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C]([^\u005C\u000D\u005C]])([^\u005C\u000D\u005C]]*)" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C]\u005C\u000D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C]\u005C]([^\u005C\u000D\u005C>\u005C]])([^\u005C\u000D\u005C]]*)" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section end state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "index_offset" : 2,
+                        "type" : "emit-char",
+                        "value" : "]]"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 8,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "capture_index" : 9,
+                        "type" : "emit-char"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C]\u005C]\u005C\u000D" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section end state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 2,
+                        "type" : "emit-char",
+                        "value" : "]]"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "\u000A"
+                     },
+                     {
+                        "state" : "CDATA section state after 000D",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C]\u005C]\u005C>" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section end state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "\u005C!(\u005C[)(C)(D)(A)(T)(A)\u005C[([^\u005C\u000D\u005C]]*)\u005C]\u005C]\u005C]" : {
+                  "actions" : [
+                     {
+                        "type" : "set-empty-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "type" : "set-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 2,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [C",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 3,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CD",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 4,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDA",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 5,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDAT",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 6,
+                        "type" : "append-to-temp"
+                     },
+                     {
+                        "state" : "markup declaration open state -- [CDATA",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 7,
+                        "type" : "emit-char"
+                     },
+                     {
+                        "state" : "CDATA section bracket state",
+                        "type" : "switch"
+                     },
+                     {
+                        "state" : "CDATA section end state",
+                        "type" : "switch"
+                     },
+                     {
+                        "capture_index" : null,
+                        "index_offset" : 0,
+                        "type" : "emit-char",
+                        "value" : "]"
+                     }
+                  ]
+               },
                "\u005C/([A-Z])([^\u005C\u0000\u005C\u0009\u005C\u000A\u005C\u000C\u005C\u000D\u005C \u005C/\u005C>A-Z]*)[\u005C\u0009\u005C\u000A\u005C\u000C\u005C\u000D\u005C ][\u005C\u0009\u005C\u000A\u005C\u000C\u005C\u000D\u005C ]*" : {
                   "actions" : [
                      {
@@ -23537,14 +23892,18 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -23568,14 +23927,18 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -23615,14 +23978,18 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -23654,13 +24021,17 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -23684,13 +24055,17 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -23730,13 +24105,17 @@
                         "type" : "create"
                      },
                      {
-                        "capture_index" : 1,
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "capture_index" : 1,
+                        "field" : "tag name",
+                        "type" : "append"
                      },
                      {
                         "capture_index" : 2,
@@ -23944,12 +24323,16 @@
                      },
                      {
                         "field" : "tag name",
-                        "offset" : 32,
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "offset" : 32,
+                        "type" : "append"
                      }
                   ]
                },
@@ -23961,11 +24344,15 @@
                      },
                      {
                         "field" : "tag name",
-                        "type" : "set"
+                        "type" : "set-empty"
                      },
                      {
                         "state" : "tag name state",
                         "type" : "switch"
+                     },
+                     {
+                        "field" : "tag name",
+                        "type" : "append"
                      }
                   ]
                },

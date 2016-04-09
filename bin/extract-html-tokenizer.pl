@@ -25,8 +25,10 @@ $Data->{char_sets}->{'WS:HTML'}->{$_} = 1
     for 0x0009, 0x000A, 0x000C, 0x0020;
 $Data->{char_sets}->{'WS:XML'}->{$_} = 1
     for 0x0009, 0x000A, 0x0020;
+$Data->{char_sets}->{'LETTER'}->{$_} = 1,
 $Data->{char_sets}->{'UPPER'}->{$_} = 1
     for (ord 'A')..(ord 'Z');
+$Data->{char_sets}->{'LETTER'}->{$_} = 1,
 $Data->{char_sets}->{'LOWER'}->{$_} = 1
     for (ord 'a')..(ord 'z');
 $Data->{char_sets}->{'DIGIT'}->{$_} = 1
@@ -114,7 +116,7 @@ sub parse_action ($) {
                 push @action, {type => 'emit-char', value => chr hex $1};
               } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) \([^()]+\) character as character token and also //) { # xml5
                 push @action, {type => 'emit-char', value => chr hex $1};
-              } elsif ($action =~ s/^Emit two U\+([0-9A-F]+) \([^()]+\) characters as character tokens and also //) { # xml5
+              } elsif ($action =~ s/^Emit two U\+([0-9A-F]+) (?:\([^()]+\)|[A-Z0-9 ]+) character(?:s as character|) tokens(?: and also |\.)//) {
                 push @action, {type => 'emit-char', value => (chr hex $1) . (chr hex $1)};
               } elsif ($action =~ s/^Emit a character token for each of the characters in the temporary buffer \(in the order they were added to the buffer\)\.\s*//) {
                 push @action, {type => 'emit-temp'};
@@ -234,6 +236,12 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Set (?:the DOCTYPE token's|its) (public identifier|system identifier|tag name|name|target|data) to the empty string(?: \(offset=([0-9]+)\)|)(?: \(not missing\), then |\.)//) {
                 push @action, {type => 'set-empty', field => $1};
                 $action[-1]->{index_offset} = $2 if defined $2;
+              } elsif ($action =~ s/^[Ss]et its (tag name) to the empty string\.//) {
+                push @action, {type => 'set-empty', field => $1};
+              } elsif ($action =~ s/^Set that attribute name and value to the empty string\.//) {
+                push @action,
+                    {type => 'set-empty-to-attr', field => 'name'},
+                    {type => 'set-empty-to-attr', field => 'value'};
               } elsif ($action =~ s/^Set that attribute's name to the current input character,? and its value to the empty string(?:\.\s*| and then )//) {
                 push @action, {type => 'set-to-attr', field => 'name'};
                 push @action, {type => 'set-empty-to-attr', field => 'value'};
@@ -627,11 +635,15 @@ sub parse_switch ($) {
         $cond = 'UPPER';
       } elsif ($cond eq 'Lowercase ASCII letter') {
         $cond = 'LOWER';
+      } elsif ($cond eq 'ASCII letter') {
+        $cond = 'LETTER';
       } elsif ($cond eq 'ASCII digit') {
         $cond = 'DIGIT';
       } elsif ($cond eq 'ASCII hex digit') {
         $cond = 'HEXDIGIT';
       } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+(?:\((?:[^()\s]+|[()])\)|)$/) {
+        $cond = sprintf 'CHAR:%04X', hex $1;
+      } elsif ($cond =~ /^U\+([0-9A-F]+)\s+[0-9A-Z-\s]+ character$/) {
         $cond = sprintf 'CHAR:%04X', hex $1;
       } elsif ($cond =~ /^u?U\+([0-9A-F]+)(?:\s+\([^()+]\)|):?\s*$/) { # xml5
         $cond = 'CHAR:' . $1;
@@ -1017,7 +1029,8 @@ sub error_name ($$) {
     my ($acts => $new_acts, $state) = @_;
     if (@$acts >= 2 and
         $acts->[-2]->{type} eq 'reconsume' and
-        $acts->[-1]->{type} eq 'emit') { ## HTML spec seems buggy...
+        {'emit' => 1,
+         'emit-char' => 1}->{$acts->[-1]->{type}}) { ## HTML spec seems buggy...
       @$new_acts = @$acts[0..($#$acts-2), ($#$acts), ($#$acts-1)];
     } else {
       @$new_acts = @$acts;
