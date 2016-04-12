@@ -336,7 +336,8 @@ A "protocol item object", identified as |protocol-object|, is an
     Whether the target in question is deprecated or not.  If |SHOULD
     NOT|, the target SHOULD NOT be used.  If |1|, the target is
     deprecated.  Otherwise, the target is not deprecated (or not known
-    to be deprecated).
+    to be deprecated).  The exact semantics of the status "deprecated"
+    depends on the context.
 
   iana [boolean]
 
@@ -353,13 +354,26 @@ A "protocol item object", identified as |protocol-object|, is an
     The canonical name of the target in question, used in the relevant
     specification, if available.
 
+  obsolete [boolean]
+          
+    Whether the target in question is obsolete or not.  The exact
+    semantics of the status "obsolete" depends on the context.
+
   reserved [boolean]
 
-    Whether the target in question is reserved or not.
+    Whether the target in question is reserved or not.  The exact
+    semantics of the status "reserved" depends on the context.
 
   spec [spec?]
 
     The relevant specification for the target in question, if any.
+
+  suikawiki [string?]
+
+    The SuikaWiki page name for the target in question, if any.  If a
+    value is specified, the URL of the SuikaWiki page is
+    <https://wiki.suikawiki.org/n/{value}>, where {value} is the
+    percent-encoded value.
 
   url [string?]
 
@@ -399,7 +413,13 @@ RFC 7234, Hypertext Transfer Protocol (HTTP/1.1): Caching
 <https://tools.ietf.org/html/rfc7234>.
 
 RFC 7235, Hypertext Transfer Protocol (HTTP/1.1): Authentication
-<http://tools.ietf.org/html/rfc7231>.
+<https://tools.ietf.org/html/rfc7231>.
 
 RFC 7239, Forwarded HTTP Extension
-<http://tools.ietf.org/html/rfc7239>.
+<https://tools.ietf.org/html/rfc7239>.
+
+* License
+
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of this document has waived all
+copyright and related or neighboring rights to this document.

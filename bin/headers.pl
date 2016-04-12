@@ -166,6 +166,8 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
   } elsif (/^(simple) (contextual)$/) {
     $Data->{headers}->{$header_name}->{$proto}->{$1} = $2;
+  } elsif (/^sw (\S.*)$/) {
+    $Data->{headers}->{$header_name}->{$proto}->{suikawiki} = $1;
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
@@ -360,6 +362,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
     delete $Data->{codings}->{$coding_name}->{content}->{'Accept-Encoding'};
   } elsif (/^Accept-Encoding only$/) {
     delete $Data->{codings}->{$coding_name}->{content}->{'Content-Encoding'};
+  } elsif (/^sw (\S.*)$/) {
+    $Data->{codings}->{$coding_name}->{content}->{suikawiki} = $1;
   } elsif (/\S/) {
     die "Bad line: |$_|\n";
   }
