@@ -122,6 +122,7 @@ my $XAttrAllowed = {
     ImplicitThis => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1,
+    SecureContext => 1,
   },
   partial_interface => {
     Exposed => 1, Global => 1, OverrideBuiltins => 1,
