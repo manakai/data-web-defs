@@ -114,6 +114,7 @@ my $XAttrAllowed = {
     ImplicitThis => 1, NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1, LegacyUnenumerableNamedProperties => 1,
+    SecureContext => 1,
   },
   callback_interface => {
     ArrayClass => 1, LegacyArrayClass => 1,
@@ -125,38 +126,52 @@ my $XAttrAllowed = {
   partial_interface => {
     Exposed => 1, Global => 1, OverrideBuiltins => 1,
     PrimaryGlobal => 1, Unforgeable => 1,
+    SecureContext => 1,
   },
   const => {
     Exposed => 1,
+    SecureContext => 1,
   },
   attribute => {
     Clamp => 1, EnforceRange => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1,
     Unforgeable => 1, Unscopable => 1,
+    SecureContext => 1,
   },
   static_attribute => {
     Clamp => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
+    SecureContext => 1,
   },
   operation => {
     Exposed => 1, NewObject => 1, TreatNullAs => 1, Unforgeable => 1,
     Unscopable => 1,
+    SecureContext => 1,
   },
   static_operation => {
     Exposed => 1, NewObject => 1, TreatNullAs => 1,
+    SecureContext => 1,
   },
   argument => {
     Clamp => 1, EnforceRange => 1, TreatNullAs => 1,
   },
-  serializer => {},
+  serializer => {
+    SecureContext => 1,
+  },
   iterable => {
     Exposed => 1,
+    SecureContext => 1,
   },
-  maplike => {},
-  setlike => {},
+  maplike => {
+    SecureContext => 1,
+  },
+  setlike => {
+    SecureContext => 1,
+  },
   dictionary => {
     Constructor => 1, Exposed => 1,
+    SecureContext => 1, # if [Constructor]
   },
   partial_dictionary => {},
   dictionary_member => {
@@ -199,6 +214,7 @@ my $XAttrArgs = {
   NamedConstructor => {id => 1, named_args => 1},
   Unscopable => {no => 1},
   LegacyUnenumerableNamedProperties => {no => 1},
+  SecureContext => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
