@@ -541,6 +541,31 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
       $acts = $new_acts;
     }
 
+    {
+      my $new_acts = [];
+      my $sets = {};
+      for my $act (reverse @$acts) {
+        if (($act->{type} eq 'set-to-attr' and 3 == keys %$act and
+             defined $act->{field} and defined $act->{capture_index} and
+             not defined $sets->{$act->{field}}) or
+            ($act->{type} eq 'set-to-attr' and 2 == keys %$act and
+             defined $act->{field} and
+             not defined $sets->{$act->{field}})) {
+          $sets->{$act->{field}} = $act;
+        } elsif (($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
+                  defined $act->{field} and
+                  not defined $sets->{$act->{field}})) {
+          unshift @$new_acts, $act;
+        } else {
+          for (sort { $a cmp $b } keys %$sets) {
+            unshift @$new_acts, delete $sets->{$_};
+          }
+          unshift @$new_acts, $act;
+        }
+      }
+      $acts = $new_acts;
+    }
+
     $_->{actions} = $acts;
   }
 }
