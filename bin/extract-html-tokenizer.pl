@@ -1033,7 +1033,10 @@ sub error_name ($$) {
            $_->{type} eq 'emit-char-if-nothing' or
            $_->{type} eq 'append-to-attr-if-nothing') and
           defined $_->{value}) {
-        if ($cond =~ /^CHAR:([0-9A-F]+)$/ and
+        if ($state eq 'CDATA section end state' and
+            $cond eq 'CHAR:005D') {
+          $_->{index_offset} ||= 2;
+        } elsif ($cond =~ /^CHAR:([0-9A-F]+)$/ and
             (substr $_->{value}, -1) eq chr hex $1) {
           $_->{index_offset} ||= (length $_->{value}) - 1;
         } elsif ($cond eq 'CHAR:0000' and
