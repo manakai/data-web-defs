@@ -552,7 +552,9 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
              defined $act->{field} and
              not defined $sets->{$act->{field}})) {
           $sets->{$act->{field}} = $act;
-        } elsif (($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
+        } elsif (($act->{type} eq 'switch' and 2 == keys %$act and
+                  defined $act->{state}) or
+                 ($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
                   defined $act->{field} and
                   not defined $sets->{$act->{field}})) {
           unshift @$new_acts, $act;
