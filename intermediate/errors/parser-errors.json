@@ -852,8 +852,8 @@
       "bad attribute name" : {
          "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>An attribute name cannot contain a \u003Ccode>\u0022\u003C/code> or \u003Ccode>'\u003C/code>\u000Acharacter, as it is used as a quotation mark of an attribute value.\u003C/p>",
-            "ja" : "\u003Cp>\u003Ccode>\u0022\u003C/code> や \u003Ccode>'\u003C/code> は属性値の引用符として使われるので、\u000A属性名に含めることはできません。\u003C/p>"
+            "en" : "\u003Cp>There must be a \u003Ccode>=\u003C/code> character between an attribute name\u000Aand an attribute value.  Characters \u003Ccode>\u0022\u003C/code> and \u003Ccode>'\u003C/code>\u000Acannot be used as part of an attribute name or an unquoted attribute\u000Avalue.\u003C/p>",
+            "ja" : "\u003Cp>属性名と属性値の間には文字 \u003Ccode>=\u003C/code> \u000Aが必要です。また、文字 \u003Ccode>\u0022\u003C/code> や文字 \u003Ccode>'\u003C/code>\u000Aを属性名や括られていない属性値に使うことはできません。\u003C/p>"
          },
          "layer" : "tokenization",
          "message" : {
@@ -879,6 +879,16 @@
             {
                "index" : 21,
                "input" : "\u003C!DOCTYPE html>\u003Cp foo'aa>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>\u003C/foo>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 24,
+               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar '>\u003C/foo>",
                "lang" : "HTML"
             }
          ]
@@ -3308,8 +3318,8 @@
       "no attr value" : {
          "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>There must be a \u003Ccode>=\u003C/code> character between an attribute name\u000Aand an attribute value.  Characters \u003Ccode>\u0022\u003C/code> and \u003Ccode>'\u003C/code>\u000Acannot be used as part of an attribute name or an unquoted attribute\u000Avalue.\u000A\u003C/p>\u003Cp>There must be attribute value in XML.\u003C/p>",
-            "ja" : "\u003Cp>属性名と属性値の間には文字 \u003Ccode>=\u003C/code> \u000Aが必要です。また、文字 \u003Ccode>\u0022\u003C/code> や文字 \u003Ccode>'\u003C/code>\u000Aを属性名や括られていない属性値に使うことはできません。\u000A\u003C/p>\u003Cp>XML では属性値は必須です。\u003C/p>"
+            "en" : "\u003Cp>There must be attribute value in XML.\u003C/p>",
+            "ja" : "\u003Cp>XML では属性値は必須です。\u003C/p>"
          },
          "layer" : "tokenization",
          "message" : {
@@ -3352,16 +3362,6 @@
                "index" : 7,
                "input" : "\u003Cp foo >",
                "lang" : "XML"
-            },
-            {
-               "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar \u0022>\u003C/foo>",
-               "lang" : "HTML"
-            },
-            {
-               "index" : 24,
-               "input" : "\u003C!DOCTYPE html>\u003Cfoo bar '>\u003C/foo>",
-               "lang" : "HTML"
             }
          ]
       },

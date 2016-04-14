@@ -1259,19 +1259,24 @@ The attribute name contains a <code>"</code> or <code>'</code>
 属性名に <code>"</code> や <code>'</code> が含まれています
 
 @en
-
-<p>An attribute name cannot contain a <code>"</code> or <code>'</code>
-character, as it is used as a quotation mark of an attribute value.
+<p>There must be a <code>=</code> character between an attribute name
+and an attribute value.  Characters <code>"</code> and <code>'</code>
+cannot be used as part of an attribute name or an unquoted attribute
+value.
 
 @ja
-
-<p><code>"</code> や <code>'</code> は属性値の引用符として使われるので、
-属性名に含めることはできません。
+<p>属性名と属性値の間には文字 <code>=</code> 
+が必要です。また、文字 <code>"</code> や文字 <code>'</code>
+を属性名や括られていない属性値に使うことはできません。
 
 !!!
 <!DOCTYPE html><p foo$$"aa>
 !!!
 <!DOCTYPE html><p foo$$'aa>
+!!!
+<!DOCTYPE html><foo bar $$"></foo>
+!!!
+<!DOCTYPE html><foo bar $$'></foo>
 
 * parser:no attr name
 
@@ -1304,8 +1309,6 @@ name=after-attribute-name-else
 name=after-attribute-name-upper
 name=after-attribute-name-002f
 name=after-attribute-name-003e
-#name=after-attribute-name-0022
-#name=after-attribute-name-0027
 
 @en
 There is no attribute value
@@ -1313,15 +1316,8 @@ There is no attribute value
 属性値がありません
 
 @en
-<p>There must be a <code>=</code> character between an attribute name
-and an attribute value.  Characters <code>"</code> and <code>'</code>
-cannot be used as part of an attribute name or an unquoted attribute
-value.
 <p>There must be attribute value in XML.
 @ja
-<p>属性名と属性値の間には文字 <code>=</code> 
-が必要です。また、文字 <code>"</code> や文字 <code>'</code>
-を属性名や括られていない属性値に使うことはできません。
 <p>XML では属性値は必須です。
 
 !!!XML
@@ -1334,10 +1330,6 @@ value.
 <p foo $$/>
 !!!XML
 <p foo $$>
-!!!
-<!DOCTYPE html><foo bar $$"></foo>
-!!!
-<!DOCTYPE html><foo bar $$'></foo>
 
 * bad attribute value
 
