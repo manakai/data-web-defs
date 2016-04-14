@@ -312,7 +312,10 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
 ## Creating |compound_conds|
 
 #my @path = (map { [{$_ => 1}, $_] } keys %{$Data->{tokenizer}->{states}});
-my @path = (map { [{$_ => 1}, $_] } 'tag open state', 'before attribute name state');
+my @path = (map { [{$_ => 1}, $_] }
+            'tag open state',
+            'before attribute name state',
+            'attribute name state');
 my @found;
 while (@path) {
   my $path = shift @path;
@@ -327,7 +330,8 @@ while (@path) {
     }
     if (defined $c->{next_state}) {
       if ($c->{next_state} eq 'data state' or
-          $c->{next_state} eq 'before attribute name state') {
+          $c->{next_state} eq 'before attribute name state' or
+          $c->{next_state} eq 'attribute name state') {
         push @found, [@$path, $cond, $c->{next_state}];
       } elsif ($c->{next_state} eq 'DOCTYPE state' or
                $c->{next_state} eq 'PI target state' or
