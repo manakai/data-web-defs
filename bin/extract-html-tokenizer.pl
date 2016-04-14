@@ -909,7 +909,7 @@ sub error_name ($$) {
           } else {
             $_;
           }
-        } @$acts];
+        } @$else_acts];
         push @$eof_acts, {type => 'reconsume'} unless $has_reconsume;
         while (length $act->{keyword}) {
           my $c = substr $act->{keyword}, 0, 1;
