@@ -441,6 +441,111 @@ $Data->{tokenizer}->{tokens}->{'text token'}->{short_name} = 'TEXT';
   }
 }
 
+## Optimizations
+for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  for (values %{$Data->{tokenizer}->{states}->{$state}->{conds}},
+       values %{$Data->{tokenizer}->{states}->{$state}->{compound_conds} || {}}) {
+    my $acts = $_->{actions};
+
+    {
+      my $new_acts = [];
+      my $has_switch = 0;
+      for (reverse @$acts) {
+        my $act = {%$_};
+        if ($act->{type} eq 'switch' and 2 == keys %$act) {
+          unless ($has_switch) {
+            unshift @$new_acts, $act;
+            $has_switch = 1;
+          }
+        } else {
+          unshift @$new_acts, $act;
+          if (($act->{type} eq 'append' and 3 == keys %$act and
+               defined $act->{field} and defined $act->{capture_index}) or
+              ($act->{type} eq 'append' and 2 == keys %$act and
+               defined $act->{field}) or
+              ($act->{type} eq 'append-to-attr' and 3 == keys %$act and
+               defined $act->{field} and defined $act->{capture_index}) or
+              ($act->{type} eq 'append-to-attr' and 2 == keys %$act and
+               defined $act->{field}) or
+              ($act->{type} eq 'set-attr' and 1 == keys %$act)) {
+            #
+          } else {
+            $has_switch = 0;
+          }
+        }
+      }
+      $acts = $new_acts;
+    }
+
+    {
+      my $new_acts = [];
+      my $appends = {};
+      my $append_attrs = {};
+      for my $act (reverse @$acts) {
+        if (($act->{type} eq 'append-to-attr' and 4 == keys %$act and
+             defined $act->{field} and defined $act->{offset} and
+             defined $act->{capture_index}) or
+            ($act->{type} eq 'append-to-attr' and 3 == keys %$act and
+             defined $act->{field} and defined $act->{capture_index}) or
+            ($act->{type} eq 'append-to-attr' and 3 == keys %$act and
+             defined $act->{field} and defined $act->{offset}) or
+            ($act->{type} eq 'append-to-attr' and 3 == keys %$act and
+             defined $act->{field} and defined $act->{value}) or
+            ($act->{type} eq 'append-to-attr' and 2 == keys %$act and
+             defined $act->{field})) {
+          $append_attrs->{$act->{field}} = $act;
+          unshift @$new_acts, $act;
+        } elsif (($act->{type} eq 'append' and 4 == keys %$act and
+                  defined $act->{field} and defined $act->{offset} and
+                  defined $act->{capture_index}) or
+                 ($act->{type} eq 'append' and 3 == keys %$act and
+                  defined $act->{field} and defined $act->{capture_index}) or
+                 ($act->{type} eq 'append' and 4 == keys %$act and
+                  defined $act->{field} and defined $act->{index_offset} and
+                  defined $act->{value}) or
+                 ($act->{type} eq 'append' and 3 == keys %$act and
+                  defined $act->{field} and defined $act->{offset}) or
+                 ($act->{type} eq 'append' and 3 == keys %$act and
+                  defined $act->{field} and defined $act->{value}) or
+                 ($act->{type} eq 'append' and 2 == keys %$act and
+                  defined $act->{field})) {
+          $appends->{$act->{field}} = $act;
+          unshift @$new_acts, $act;
+        } elsif ($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
+                 defined $act->{field}) {
+          if (defined $append_attrs->{$act->{field}}) {
+            $append_attrs->{$act->{field}}->{type} = 'set-to-attr';
+            delete $append_attrs->{$act->{field}};
+          } else {
+            unshift @$new_acts, $act;
+          }
+        } elsif ($act->{type} eq 'set-empty' and 2 == keys %$act and
+                 defined $act->{field}) {
+          if (defined $appends->{$act->{field}}) {
+            $appends->{$act->{field}}->{type} = 'set';
+            delete $appends->{$act->{field}};
+          } else {
+            unshift @$new_acts, $act;
+          }
+        } elsif (($act->{type} eq 'switch' and 2 == keys %$act and
+                  defined $act->{state}) or
+                 ($act->{type} eq 'parse error' and 3 == keys %$act and
+                  defined $act->{name} and defined $act->{error_type})) {
+          unshift @$new_acts, $act;
+        } else {
+          $appends = {};
+          $append_attrs = {};
+          unshift @$new_acts, $act;
+        }
+      }
+      $acts = $new_acts;
+    }
+
+    $_->{actions} = $acts;
+  }
+}
+
+
 ## Cleanup
 for my $state (keys %{$Data->{tokenizer}->{states}}) {
   for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
