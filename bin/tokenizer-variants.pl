@@ -548,11 +548,25 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
         if (($act->{type} eq 'set-to-attr' and 3 == keys %$act and
              defined $act->{field} and defined $act->{capture_index} and
              not defined $sets->{$act->{field}}) or
+            ($act->{type} eq 'set-to-attr' and 4 == keys %$act and
+             defined $act->{field} and defined $act->{capture_index} and
+             defined $act->{offset} and
+             not defined $sets->{$act->{field}}) or
+            ($act->{type} eq 'set-to-attr' and 3 == keys %$act and
+             defined $act->{field} and defined $act->{value} and
+             not defined $sets->{$act->{field}}) or
+            ($act->{type} eq 'set-to-attr' and 3 == keys %$act and
+             defined $act->{field} and defined $act->{offset} and
+             not defined $sets->{$act->{field}}) or
             ($act->{type} eq 'set-to-attr' and 2 == keys %$act and
              defined $act->{field} and
              not defined $sets->{$act->{field}})) {
           $sets->{$act->{field}} = $act;
-        } elsif (($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
+        } elsif (($act->{type} eq 'switch' and 2 == keys %$act and
+                  defined $act->{state}) or
+                 ($act->{type} eq 'parse error' and 3 == keys %$act and
+                  defined $act->{name} and defined $act->{error_type}) or
+                 ($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
                   defined $act->{field} and
                   not defined $sets->{$act->{field}})) {
           unshift @$new_acts, $act;
