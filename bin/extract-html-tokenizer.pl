@@ -887,6 +887,14 @@ sub error_name ($$) {
         my $save = {type => 'append-to-temp'};
         my $suffix = defined $act->{if} ? ':' . $act->{if} : '';
         my $kwd = $act->{keyword};
+        my $else_value = $act->{else_value} || [];
+        my $else_acts = [map {
+          if ($_->{type} eq 'set-empty') {
+            ($_, {type => 'append-temp', field => $_->{field}});
+          } else {
+            $_;
+          }
+        } @$acts];
         while (length $act->{keyword}) {
           my $c = substr $act->{keyword}, 0, 1;
           $cs .= $c;
@@ -924,10 +932,10 @@ sub error_name ($$) {
             }
             $Data->{states}->{$new_state}->{conds}->{ELSE}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
-            } @{$act->{else_value} || []}, {type => 'switch', state => $state}, @$acts];
+            } @$else_value, {type => 'switch', state => $state}, @$else_acts];
             $Data->{states}->{$new_state}->{conds}->{EOF}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
-            } @{$act->{else_value} || []}, {type => 'switch', state => $state}, {type => 'reconsume'}];
+            } @$else_value, {type => 'switch', state => $state}, {type => 'reconsume'}];
             if ($act->{not_anchored} and $cs eq $c . $c) { # ]]>
               my $slide = {type => 'emit-char', index_offset => 2};
               $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = [$slide];
