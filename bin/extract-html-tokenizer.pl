@@ -888,13 +888,29 @@ sub error_name ($$) {
         my $suffix = defined $act->{if} ? ':' . $act->{if} : '';
         my $kwd = $act->{keyword};
         my $else_value = $act->{else_value} || [];
+        my $has_reconsume = 0;
         my $else_acts = [map {
           if ($_->{type} eq 'set-empty') {
             ($_, {type => 'append-temp', field => $_->{field}});
+          } elsif ($_->{type} eq 'reconsume') {
+            $has_reconsume = 1;
+            $_;
           } else {
             $_;
           }
         } @$acts];
+        my $eof_acts = [map {
+          if ($_->{type} eq 'parse error') {
+            +{
+              "error_type" => "parser:EOF",
+              "name" => "EOF",
+              "type" => "parse error",
+            };
+          } else {
+            $_;
+          }
+        } @$acts];
+        push @$eof_acts, {type => 'reconsume'} unless $has_reconsume;
         while (length $act->{keyword}) {
           my $c = substr $act->{keyword}, 0, 1;
           $cs .= $c;
@@ -935,7 +951,7 @@ sub error_name ($$) {
             } @$else_value, {type => 'switch', state => $state}, @$else_acts];
             $Data->{states}->{$new_state}->{conds}->{EOF}->{actions} = [grep {
               not $_->{type} eq 'IF-KEYWORD' or $_->{keyword} =~ /^\Q$cs\E/;
-            } @$else_value, {type => 'switch', state => $state}, {type => 'reconsume'}];
+            } @$else_value, {type => 'switch', state => $state}, @$eof_acts];
             if ($act->{not_anchored} and $cs eq $c . $c) { # ]]>
               my $slide = {type => 'emit-char', index_offset => 2};
               $Data->{states}->{$new_state}->{conds}->{sprintf 'CHAR:%04X', ord $c}->{actions} = [$slide];
