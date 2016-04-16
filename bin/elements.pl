@@ -1059,10 +1059,10 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
 a, b, big, code, em, font, i, nobr, s, small, strike, strong, tt, u
 };
 
-## <http://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
+## <https://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'void' for grep { length } split /\s*,\s*|\s+/, q{
-area, base, br, col, embed, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
+area, base, br, col, embed, hr, img, input, keygen, link, meta, param, source, track, wbr
 };
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'raw text' for grep { length } split /\s*,\s*|\s+/, q{
@@ -1076,7 +1076,7 @@ textarea, title
 ## <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     ||= 'obsolete void' for grep { length } split /\s*,\s*|\s+/, q{
-area, base, basefont, bgsound, br, col, embed, frame, hr, img, input, keygen, link, menuitem, meta, param, source, track, wbr
+area, base, basefont, bgsound, br, col, embed, frame, hr, img, input, keygen, link, meta, param, source, track, wbr
 };
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     ||= 'obsolete void macro' for grep { length } split /\s*,\s*|\s+/, q{
