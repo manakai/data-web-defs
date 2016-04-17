@@ -72,6 +72,8 @@ sub parse_action ($) {
       push @action, {type => 'parse error', index_offset => $1};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
+    } elsif ($action =~ s/^Reconsume in the ([A-Za-z0-9 ._()-]+? state)\s*\.//) {
+      push @action, {type => 'switch', state => $1}, {type => 'reconsume'};
     } elsif ($action =~ s/^\QSwitch to the bogus comment state (don't consume anything in the current state).\E//) {
       push @action,
           {type => 'switch', state => 'bogus comment state'},
@@ -96,6 +98,7 @@ sub parse_action ($) {
                      script_state => $1};
     } elsif ($action =~ s/^Emit the token\.\s*// or
              $action =~ s/^Emit the current token\.\s*// or
+             $action =~ s/^Emit the comment\.// or
              $action =~ s/^Emit (?:the current|that|the) (?:tag|DOCTYPE|comment) token(?:\.\s*| and then )// or
              $action =~ s/^Emit the current token and then //) { # xml5
       push @action, {type => 'emit'};
@@ -978,14 +981,15 @@ sub error_name ($$) {
   };
 
   modify_actions {
-    my ($acts => $new_acts) = @_;
+    my ($acts => $new_acts, $state, $cond) = @_;
     if (@$acts) {
-      push @$new_acts, shift @$acts;
+      push @$new_acts, {%{shift @$acts}};
       for (@$acts) {
         if ({
           'emit-char' => 1,
           'append' => 1,
-        }->{$_->{type}} and
+        }->{$_->{type}}) {
+          if (
             $new_acts->[-1]->{type} eq $_->{type} and
             ((not defined $new_acts->[-1]->{field} and
               not defined $_->{field}) or
@@ -998,7 +1002,10 @@ sub error_name ($$) {
             not defined $new_acts->[-1]->{break} and
             not defined $_->{if} and
             not defined $_->{break}) {
-          $new_acts->[-1]->{value} .= $_->{value};
+            $new_acts->[-1]->{value} .= $_->{value};
+          } else {
+            push @$new_acts, {%$_};
+          }
         } else {
           push @$new_acts, {%$_};
         }
