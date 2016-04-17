@@ -648,6 +648,11 @@ local/idl-extracted.json: local/dom.html local/domparsing.html \
     bin/extract-idls.pl local/url.html
 	$(PERL) bin/extract-idls.pl > $@
 
+local/modules/vcutils:
+	$(GIT) clone --depth 1 https://github.com/wakaba/perl-vcutils $@
+data/html-spec-svn-history.html: local/modules/vcutils $(HTML_REPO_DIR) always
+	HTML_REPO_DIR=$(HTML_REPO_DIR) $(PERL) bin/html-spec-svn-history.pl > $@
+
 ## ------ Microdata ------
 
 all-microdata: data/microdata.json data/ogp.json
@@ -728,3 +733,5 @@ test-deps: deps local/bin/jq
 test-main:
 	$(PROVE) t/*.t
 	!(grep '"_errors"' data/elements.json > /dev/null)
+
+always:
