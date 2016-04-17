@@ -16,7 +16,7 @@ my $doc = new Web::DOM::Document;
 $doc->manakai_is_html (1);
 $doc->inner_html (q{
   <!DOCTYPE HTML>
-  <title>HTML revision history 2004-2015</title>
+  <title>HTML revision history 2006-2015</title>
   <style>
     table {
       width: 100%;
