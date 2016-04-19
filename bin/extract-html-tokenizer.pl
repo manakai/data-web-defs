@@ -885,7 +885,7 @@ sub error_name ($$) {
           }
         } @$acts];
         my $eof_acts = [map {
-          if ($_->{type} eq 'parse error') {
+          if ($_->{type} eq 'XXXparse error') {
             +{
               "error_type" => "parser:EOF",
               "name" => "EOF",
