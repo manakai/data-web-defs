@@ -74,9 +74,9 @@ sub parse_action ($) {
       push @action, {type => 'switch', state => $1};
     } elsif ($action =~ s/^Reconsume in the ([A-Za-z0-9 ._()-]+? state)\s*\.//) {
       push @action, {type => 'switch', state => $1}, {type => 'reconsume'};
-    } elsif ($action =~ s/^\QSwitch to the bogus comment state (don't consume anything in the current state).\E//) {
+    } elsif ($action =~ s/^Switch to the ((?:DOCTYPE |)bogus comment state) \(don't consume anything in the current state\).\E//) {
       push @action,
-          {type => 'switch', state => 'bogus comment state'},
+          {type => 'switch', state => $1},
           {type => 'reconsume'};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state) with initial data "([^"]+)"(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1, INITIAL_DATA => $2};
@@ -596,25 +596,7 @@ sub parse_action ($) {
     if ($_->{type} eq 'switch' and $state_name eq 'attribute name state') {
       push @act, {type => 'set-attr'};
     }
-    if ($_->{type} eq 'switch' and
-        (#$_->{state} eq 'bogus comment state' or
-         $_->{state} eq 'DOCTYPE bogus comment state')) {
-      my @a;
-      if (@act and $act[-1]->{type} eq 'append-temp') {
-        push @a, pop @act;
-      }
-      push @act,
-          (defined $_->{INITIAL_DATA}
-               ? ({type => 'create', token => 'comment token', index_offset => length $_->{INITIAL_DATA}},
-                  {type => 'set', field => 'data', value => delete $_->{INITIAL_DATA}})
-               : ({type => 'create', token => 'comment token'},
-                  {type => 'set-empty', field => 'data'})),
-          @a,
-          $_,
-          {type => 'reconsume'};
-    } else {
-      push @act, $_;
-    }
+    push @act, $_;
   }
 
   return (\@act);
