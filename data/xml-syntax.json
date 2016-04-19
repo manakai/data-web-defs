@@ -29018,11 +29018,16 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "state" : "after attribute name state",
+                        "state" : "data state",
                         "type" : "switch"
                      },
                      {
-                        "type" : "reconsume"
+                        "check_end_tag_token" : 1,
+                        "possible_token_types" : {
+                           "end tag token" : 1,
+                           "start tag token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
