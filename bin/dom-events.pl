@@ -37,7 +37,7 @@ my @create = qw(
       popstateevent PopStateEvent
       progressevent ProgressEvent
       storageevent StorageEvent
-      svgevent Event
+      svgevents Event
       svgzoomevent SVGZoomEvent
       svgzoomevents SVGZoomEvent
       textevent CompositionEvent
