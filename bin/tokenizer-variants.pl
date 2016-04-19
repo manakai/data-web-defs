@@ -581,6 +581,9 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
           unshift @$new_acts, $act;
         }
       }
+      for (sort { $a cmp $b } keys %$sets) {
+        unshift @$new_acts, $sets->{$_};
+      }
       $acts = $new_acts;
     }
 
