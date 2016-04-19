@@ -85,8 +85,8 @@ sub for_actions (&$) {
   }
 
   for (
-    ['attribute name state', 'CHAR:002F'], # /
-    ['attribute name state', 'CHAR:003E'], # >
+    #['attribute name state', 'CHAR:002F'], # /
+    #['attribute name state', 'CHAR:003E'], # >
     ['after attribute name state', 'CHAR:002F'], # /
     ['after attribute name state', 'CHAR:003E'], # >
     ['after attribute name state', 'ELSE'],
