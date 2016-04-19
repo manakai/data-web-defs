@@ -61981,6 +61981,30 @@
                         "type" : "append-to-attr"
                      }
                   ]
+               },
+               "\u005C/\u005C>" : {
+                  "actions" : [
+                     {
+                        "state" : "self-closing start tag state",
+                        "type" : "switch"
+                     },
+                     {
+                        "field" : "self-closing flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "check_end_tag_token" : 1,
+                        "possible_token_types" : {
+                           "end tag token" : 1,
+                           "start tag token" : 1
+                        },
+                        "type" : "emit"
+                     }
+                  ]
                }
             },
             "conds" : {
@@ -62083,11 +62107,6 @@
                },
                "002F" : {
                   "actions" : [
-                     {
-                        "error_type" : "no attr value",
-                        "name" : "after-attribute-name-002f",
-                        "type" : "parse error"
-                     },
                      {
                         "state" : "self-closing start tag state",
                         "type" : "switch"
@@ -80638,11 +80657,6 @@
                      {
                         "error_type" : "nestc has no net",
                         "name" : "self-closing-start-tag-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "error_type" : "no attr value",
-                        "name" : "after-attribute-name-002f",
                         "type" : "parse error"
                      },
                      {

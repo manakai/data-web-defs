@@ -884,17 +884,7 @@ sub error_name ($$) {
             $_;
           }
         } @$acts];
-        my $eof_acts = [map {
-          if ($_->{type} eq 'XXXparse error') {
-            +{
-              "error_type" => "parser:EOF",
-              "name" => "EOF",
-              "type" => "parse error",
-            };
-          } else {
-            $_;
-          }
-        } @$else_acts];
+        my $eof_acts = [@$else_acts];
         push @$eof_acts, {type => 'reconsume'} unless $has_reconsume;
         while (length $act->{keyword}) {
           my $c = substr $act->{keyword}, 0, 1;
