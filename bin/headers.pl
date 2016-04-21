@@ -724,6 +724,11 @@ add_data +{key => 'hsts_directives',
            src_file_name => 'http-hsts.txt'};
 add_data +{key => 'pkp_directives',
            src_file_name => 'http-pkp.txt'};
+add_data +{iana_registry_file_name => 'alt-svc.json',
+           iana_registry_name => 'alt-svc-parameters',
+           iana_value_key => 'value',
+           key => 'alt_svc_params',
+           src_file_name => 'http-alt-svc.txt'};
 
 print perl2json_bytes_for_record $Data;
 

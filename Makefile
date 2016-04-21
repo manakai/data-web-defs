@@ -293,6 +293,9 @@ local/iana/tls.xml:
 local/iana/tls-exts.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xml
+local/iana/alt-svc.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-alt-svc-parameters/http-alt-svc-parameters.xml
 
 local/iana/%.json: local/iana/%.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
@@ -329,7 +332,8 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     local/iana/http-ims.json src/http-ims.txt \
     src/http-p3p.txt local/iana/headers.json \
     src/fcast-headers.txt local/iana/fcast.json \
-    src/http-equiv.txt src/http-pkp.txt src/http-hsts.txt
+    src/http-equiv.txt src/http-pkp.txt src/http-hsts.txt \
+    src/http-alt-svc.txt local/iana/alt-svc.json
 	$(PERL) bin/headers.pl > $@
 data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt \

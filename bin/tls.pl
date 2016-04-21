@@ -128,6 +128,12 @@ sub b16 ($) {
   $Data->{alpn_ids}->{b16 $_}->{hex} ||= b16 $_,
   $Data->{alpn_ids}->{b16 $_}->{string} ||= $_,
   $Data->{alpn_ids}->{b16 $_}->{reserved} = 1 for qw(h2c);
+
+  for my $v (values %{$Data->{alpn_ids}}) {
+    my $x = $v->{string};
+    $x =~ s/([^!\x23\x24\x26-'*-+\x2D-.0-9A-Z\x5E-z|~])/sprintf '%%%02X', ord $1/ge;
+    $v->{http_string} = $x;
+  }
 }
 
 print perl2json_bytes_for_record $Data;
