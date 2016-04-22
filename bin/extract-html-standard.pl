@@ -154,7 +154,7 @@ for my $f (($d->children)) {
         } elsif ($field eq 'content-model') {
           my $text = $_->text_content;
           my $a = $_->first_element_child;
-          if ($text =~ /^(\S+ \S+|Text|Transparent)\.$/ and
+          if ($text =~ /^(\S+ \S+|Text|Transparent)\.?$/ and
               $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{content_model}->{$title} = 1;
