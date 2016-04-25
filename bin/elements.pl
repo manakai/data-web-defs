@@ -78,7 +78,9 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   my $ns = '';
   my $ln = '*';
   for (($f->slurp)) {
-    if (/^\@ns (\S+)$/) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^\@ns (\S+)$/) {
       $ns = $1;
     } elsif (/^(\S+)\s(\S+)$/) {
       $ln = $1;
