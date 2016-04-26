@@ -49,9 +49,16 @@ $Data->{encodings}->{_key 'replacement'}->{output} = _key 'utf-8';
 $Data->{encodings}->{_key 'utf-16be'}->{output} = _key 'utf-8';
 $Data->{encodings}->{_key 'utf-16le'}->{output} = _key 'utf-8';
 
+$Data->{encodings}->{_key 'utf-16be'}->{utf16} = 1;
+$Data->{encodings}->{_key 'utf-16le'}->{utf16} = 1;
+for my $key (keys %{$Data->{encodings}}) {
+  $Data->{encodings}->{$key}->{ascii_compat}
+      = not $Data->{encodings}->{$key}->{utf16};
+}
+
 for my $key (keys %{$Data->{encodings}}) {
   $Data->{encodings}->{$key}->{html_decl_mapped}
-      = $Data->{encodings}->{$key}->{output};
+      = $Data->{encodings}->{$key}->{utf16} ? _key 'utf-8' : _key $key;
 }
 $Data->{encodings}->{_key 'x-user-defined'}->{html_decl_mapped}
     = _key 'windows-1252';
@@ -61,13 +68,6 @@ for my $key (keys %{$Data->{encodings}}) {
     $Data->{html_decl_map}->{$key}
         = $Data->{encodings}->{$key}->{html_decl_mapped};
   }
-}
-
-$Data->{encodings}->{_key 'utf-16be'}->{utf16} = 1;
-$Data->{encodings}->{_key 'utf-16le'}->{utf16} = 1;
-for my $key (keys %{$Data->{encodings}}) {
-  $Data->{encodings}->{$key}->{ascii_compat}
-      = not $Data->{encodings}->{$key}->{utf16};
 }
 
 $Data->{encodings}->{_key 'utf-8'}->{conforming} = 1;
