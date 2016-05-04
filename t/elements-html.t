@@ -12,4 +12,4 @@ test 2 '.elements["http://www.w3.org/1999/xhtml"].a.attrs[""].rel.id == "attr-hy
 test 3 '.elements["http://www.w3.org/1999/xhtml"].img.content_model == "empty"'
 test 4 '.elements["http://www.w3.org/1999/xhtml"].br.content_model == "empty"'
 
-test 5 '.categories["category-form-attr"].elements["http://www.w3.org/1999/xhtml"].button | not | not'
+test 5 '.categories["category-listed"].elements["http://www.w3.org/1999/xhtml"].button | not | not'
