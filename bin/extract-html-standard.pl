@@ -133,8 +133,8 @@ for my $f (($d->children)) {
             my $title = xref $a || lc sp $a->text_content;
             $props->{categories}->{$title} = 1;
           } elsif ($text =~ /^\S+ form-associated element\.$/ or
-                   $text =~ /^\S+ and reassociateable form-associated element\.$/ or
-                   $text =~ /^(?:\S+, )+and reassociateable form-associated element\.$/) {
+                   $text =~ /^\S+ and form-associated element\.$/ or
+                   $text =~ /^(?:\S+, )+and form-associated element\.$/) {
             for my $a (@{$_->query_selector_all ('a')}) {
               my $title = xref $a || lc sp $a->text_content;
               $props->{categories}->{$title} = 1;
