@@ -132,9 +132,7 @@ for my $f (($d->children)) {
           if ($text =~ /^(\S+ \S+)\.$/ and $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{categories}->{$title} = 1;
-          } elsif ($text =~ /^\S+ form-associated element\.$/ or
-                   $text =~ /^\S+ and form-associated element\.$/ or
-                   $text =~ /^(?:\S+, )+and form-associated element\.$/) {
+          } elsif ($text =~ /^.+ form-associated element\.$/) {
             for my $a (@{$_->query_selector_all ('a')}) {
               my $title = xref $a || lc sp $a->text_content;
               $props->{categories}->{$title} = 1;
