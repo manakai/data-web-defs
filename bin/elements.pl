@@ -15,6 +15,7 @@ sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
 
 my $Data = {};
 
+my $input_data;
 {
   my $f = file (__FILE__)->dir->parent->file ('local', 'html-extracted.json');
   my $json = file2perl $f;
@@ -64,6 +65,8 @@ my $Data = {};
   $Data->{input}->{attrs} = delete $Data->{input}->{content_attrs};
   push @{$Data->{_errors} ||= []}, $json->{_errors}
       if @{$json->{_errors} or []};
+
+  $input_data = $json->{elements}->{input};
 }
 
 for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
@@ -154,6 +157,26 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   }
 }
 
+## <input>
+{
+  my $input_states = [grep {
+    $Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}->{$_}->{conforming} and not /^#/;
+  } keys %{$Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}}];
+  for my $type (grep { $_ ne 'hidden' } @$input_states) {
+    for my $category (keys %{$input_data->{categories_unless_hidden}}) {
+      $Data->{input}->{states}->{$type}->{categories}->{$category} = 1;
+    }
+  }
+  for my $category (keys %{$input_data->{categories_if_hidden}}) {
+    $Data->{input}->{states}->{hidden}->{categories}->{$category} = 1;
+  }
+  for my $type (@$input_states) {
+    if ($Data->{input}->{states}->{$type}->{categories}->{'palpable content'}) {
+      $Data->{input}->{states}->{$type}->{categories}->{'feed significant content'} = 1;
+    }
+  }
+}
+
 ## Heading elements
 for my $el_name (qw(h1 h2 h3 h4 h5 h6)) {
   $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-h1,-h2,-h3,-h4,-h5,-and-h6-elements';
@@ -175,10 +198,6 @@ for my $el_name (qw(sub sup)) {
   $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'phrasing content'} = 1;
   $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
 }
-
-my $input_states = [grep {
-  $Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}->{$_}->{conforming} and not /^#/;
-} keys %{$Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}}];
 
 for ('flow content', 'phrasing content') {
   $Data->{elements}->{(HTML_NS)}->{area}->{states}->{'in-map'}
@@ -266,18 +285,6 @@ $Data->{input}->{states}->{$_}->{canvas_fallback} = 1
     for qw(checkbox radio submit reset button image);
 $Data->{input}->{states}->{$_}->{supported_canvas_fallback} = 1
     for qw(checkbox radio submit reset button);
-
-## <input>
-for (grep { $_ ne 'hidden' } @$input_states) {
-  $Data->{input}->{states}->{$_}->{categories}->{'interactive content'} = 1;
-  $Data->{input}->{states}->{$_}->{categories}->{'category-label'} = 1;
-
-  $Data->{input}->{states}->{$_}->{categories}->{'palpable content'} = 1;
-  $Data->{input}->{states}->{$_}->{categories}->{'feed significant content'} = 1;
-}
-$Data->{elements}->{(HTML_NS)}->{input}->{categories}->{$_} = 1
-    for 'category-listed', 'category-submit', 'category-reset',
-        'category-form-attr', 'form-associated element';
 
 $Data->{categories}->{'feed significant content'}->{url} = 'https://wiki.suikawiki.org/n/Feed%20Parsing';
 $Data->{categories}->{'feed significant content'}->{label} = 'feed significant content';

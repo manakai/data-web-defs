@@ -132,10 +132,14 @@ for my $f (($d->children)) {
           if ($text =~ /^(\S+ \S+)\.$/ and $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{categories}->{$title} = 1;
-          } elsif ($text =~ /^.+ form-associated element\.$/) {
+          } elsif ($text =~ /^If the type attribute is (not |)in the Hidden state: / or
+                   $text =~ /^.+ form-associated element\.$/) {
+            my $key = defined $1 ? $1 ? 'categories_unless_hidden' : 'categories_if_hidden' : 'categories';
             for my $a (@{$_->query_selector_all ('a')}) {
               my $title = xref $a || lc sp $a->text_content;
-              $props->{categories}->{$title} = 1;
+              next if $title eq 'hidden-state-(type=hidden)';
+              next if $title eq 'attr-input-type';
+              $props->{$key}->{$title} = 1;
             }
           } elsif ($text =~ /^If the element/ or
                    $text =~ /^If the \S+ (?:attribute|element) is/ or
