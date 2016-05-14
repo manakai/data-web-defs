@@ -190,7 +190,7 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.
       $Data->{$type}->{xpointer_schemes}->{'#'}->{shorthand} = 'MUST';
       $Data->{$type}->{xpointer_schemes}->{'#'}->{other} = 'MAY';
     }
-  } elsif (m{^  ## }) {
+  } elsif (m{^  \s*## }) {
     #
   } elsif (defined $attr and m{^    (\S+)$}) {
     $Data->{$type}->{params}->{$attr}->{$1} = 1;
