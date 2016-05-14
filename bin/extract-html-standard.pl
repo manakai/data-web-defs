@@ -142,6 +142,19 @@ for my $f (($d->children)) {
           if ($text =~ /^(\S+ \S+)\.$/ and $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{categories}->{$title} = 1;
+          } elsif ($text =~ /^If the (?:element has an? |)([a-z0-9-]+) attribute(?: is present|): ([a-zA-Z0-9- ]+ content)\.$/ and
+                   defined ($a = $_->last_element_child) and
+                   $a->local_name eq 'a') {
+            my $attr_name = $1;
+            my $title = xref $a || lc sp $a->text_content;
+            $props->{states}->{"$attr_name-attr"}->{categories}->{$title} = 1;
+          } elsif ($text =~ /^If the element is allowed in the body: ([a-zA-Z0-9- ]+ content)\.$/ and
+                   defined ($a = $_->last_element_child) and
+                   $a->local_name eq 'a') {
+            my $attr_name = $1;
+            my $title = xref $a || lc sp $a->text_content;
+            $props->{states}->{"itemprop-attr"}->{categories}->{$title} = 1;
+            $props->{states}->{"body-ok"}->{categories}->{$title} = 1;
           } elsif ($text =~ /^If the type attribute is (not |)in the Hidden state: / or
                    $text =~ /^.+ form-associated element\.$/) {
             my $key = defined $1 ? $1 ? 'categories_unless_hidden' : 'categories_if_hidden' : 'categories';
@@ -156,8 +169,6 @@ for my $f (($d->children)) {
                    $text =~ /^Otherwise/) {
             $props->{categories}->{_complex} = 1;
           } elsif ($text eq 'None.') {
-            #
-          } elsif ($text eq 'Same as for the source element.') {
             #
           } else {
             push @{$Data->{_errors} ||= []},

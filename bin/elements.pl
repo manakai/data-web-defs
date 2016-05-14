@@ -50,7 +50,12 @@ my $input_data;
           $p->{id} = $i->{id};
           $p->{spec} = 'HTML';
         }
-      }
+      } # $attr_name
+      for my $state (keys %{$in->{states} or {}}) {
+        for my $cat (keys %{$in->{states}->{$state}->{categories} or {}}) {
+          $prop->{states}->{$state}->{categories}->{$cat} = 1;
+        }
+      } # $state
     }
   } # $el_name
   for my $attr_name (keys %{$json->{global_attrs} or {}}) {
@@ -180,29 +185,12 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 for ('flow content', 'phrasing content') {
-  $Data->{elements}->{(HTML_NS)}->{area}->{states}->{'in-map'}
-      ->{categories}->{$_} = 1;
   $Data->{elements}->{(HTML_NS)}->{link}->{states}->{'itemprop-attr'}
-      ->{categories}->{$_} = 1;
-  $Data->{elements}->{(HTML_NS)}->{meta}->{states}->{'itemprop-attr'}
       ->{categories}->{$_} = 1;
 }
 
-$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
-    ->{categories}->{'interactive content'} = 1;
-$Data->{elements}->{(HTML_NS)}->{video}->{states}->{'controls-attr'}
-    ->{categories}->{'interactive content'} = 1;
-$Data->{elements}->{(HTML_NS)}->{img}->{states}->{'usemap-attr'}
-    ->{categories}->{'interactive content'} = 1;
-$Data->{elements}->{(HTML_NS)}->{object}->{states}->{'usemap-attr'}
-    ->{categories}->{'interactive content'} = 1;
 $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
     ->{categories}->{'interactive content'} = 1;
-
-$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
-    ->{categories}->{'palpable content'} = 1;
-$Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
-    ->{categories}->{'feed significant content'} = 1;
 
 $Data->{elements}->{(HTML_NS)}->{dl}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
@@ -236,8 +224,6 @@ $Data->{elements}->{(HTML_NS)}->{button}->{button} = 1;
 $Data->{elements}->{(HTML_NS)}->{button}->{states}->{'submit-button'}
     ->{submit_button} = 1;
 
-$Data->{elements}->{(HTML_NS)}->{a}->{states}->{'href-attr'}
-    ->{categories}->{'interactive content'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}
     ->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{a} = 1;
 
@@ -275,6 +261,14 @@ for my $ns (keys %{$Data->{elements}}) {
     if (($data->{categories} || {})->{'palpable content'} and
         ($data->{categories} || {})->{'embedded content'}) {
       $data->{categories}->{'feed significant content'} = 1;
+    }
+    for my $state (keys %{$data->{states} or {}}) {
+      my $d = $data->{states}->{$state};
+      if ((($data->{categories} || {})->{'embedded content'} or
+           ($d->{categories} || {})->{'embedded content'}) and
+          ($d->{categories} || {})->{'palpable content'}) {
+        $d->{categories}->{'feed significant content'} = 1;
+      }
     }
   }
 }
