@@ -188,8 +188,6 @@ for ('flow content', 'phrasing content') {
   $Data->{elements}->{(HTML_NS)}->{meta}->{states}->{'itemprop-attr'}
       ->{categories}->{$_} = 1;
 }
-$Data->{elements}->{(HTML_NS)}->{style}->{states}->{'scoped-attr'}
-    ->{categories}->{'flow content'} = 1;
 
 $Data->{elements}->{(HTML_NS)}->{audio}->{states}->{'controls-attr'}
     ->{categories}->{'interactive content'} = 1;
