@@ -1,10 +1,12 @@
 use strict;
 use warnings;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
-use JSON::PS qw(perl2json_bytes_for_record file2perl);
+use Path::Tiny;
+use lib glob path (__FILE__)->parent->child ('modules/*/lib')->stringify;
+use JSON::PS;
 
 sub HTML_NS () { 'http://www.w3.org/1999/xhtml' }
+sub MATH_NS () { 'http://www.w3.org/1998/Math/MathML' }
+sub SVG_NS () { 'http://www.w3.org/2000/svg' }
 sub ATOM_NS () { 'http://www.w3.org/2005/Atom' }
 sub THR_NS () { 'http://purl.org/syndication/thread/1.0' }
 sub APP_NS () { 'http://www.w3.org/2007/app' }
@@ -17,8 +19,8 @@ my $Data = {};
 
 my $input_data;
 {
-  my $f = file (__FILE__)->dir->parent->file ('local', 'html-extracted.json');
-  my $json = file2perl $f;
+  my $path = path (__FILE__)->parent->parent->child ('local/html-extracted.json');
+  my $json = json_bytes2perl $path->slurp;
   for my $el_name (keys %{$json->{elements}}) {
     next if $el_name eq 'svg' or $el_name eq 'math';
     my $in = $json->{elements}->{$el_name};
@@ -84,10 +86,10 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'element-interfaces.txt');
+  my $path = path (__FILE__)->parent->parent->child ('src/element-interfaces.txt');
   my $ns = '';
   my $ln = '*';
-  for (($f->slurp)) {
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\s*#/) {
       #
     } elsif (/^\@ns (\S+)$/) {
@@ -102,8 +104,8 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'elements.txt');
-  for (($f->slurp)) {
+  my $path = path (__FILE__)->parent->parent->child ('src/elements.txt');
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\s*#/) {
       #
     } elsif (/^([^=]+)=(.+)$/) {
@@ -122,10 +124,10 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'attr-types.txt');
+  my $path = path (__FILE__)->parent->parent->child ('src/attr-types.txt');
   my $ns;
   my $last_attr;
-  for (($f->slurp)) {
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\@ns (\S+)$/) {
       $ns = $1;
     } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
@@ -184,11 +186,6 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   }
 }
 
-for ('flow content', 'phrasing content') {
-  $Data->{elements}->{(HTML_NS)}->{link}->{states}->{'itemprop-attr'}
-      ->{categories}->{$_} = 1;
-}
-
 $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
     ->{categories}->{'interactive content'} = 1;
 
@@ -200,9 +197,6 @@ $Data->{elements}->{(HTML_NS)}->{ul}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
 $Data->{elements}->{(HTML_NS)}->{ol}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
-
-$Data->{elements}->{(HTML_NS)}->{video}->{categories}->{'media element'} = 1;
-$Data->{elements}->{(HTML_NS)}->{audio}->{categories}->{'media element'} = 1;
 
 $Data->{elements}->{'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}->{RDF}
     ->{categories}->{'metadata content'} = 1;
@@ -273,13 +267,166 @@ for my $ns (keys %{$Data->{elements}}) {
   }
 }
 
-use Encode;
-use Web::DOM::Document;
+my $has_category_prop = {};
+my $tree_pattern_name_map = {};
+my $tree_pattern_not_name_map = {};
+{
+  my $path = path (__FILE__)->parent->parent->child ('src/element-categories.txt');
+  my $name;
+  for (split /\x0D?\x0A/, $path->slurp) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^\*\s*([A-Za-z0-9_ -]+)$/) {
+      $name = $1;
+    } elsif (defined $name and /^spec\s+(\S+)$/) {
+      my $url = $1;
+      if ($url =~ m{^https?://html.spec.whatwg.org/#(.+)$}) {
+        $Data->{categories}->{$name}->{spec} = 'HTML';
+        $Data->{categories}->{$name}->{id} = $1;
+      } elsif ($url =~ m{^https?://www.whatwg.org/specs/web-apps/current-work/#(.+)$}) {
+        $Data->{categories}->{$name}->{spec} = 'HTML';
+        $Data->{categories}->{$name}->{id} = $1;
+      } else {
+        $Data->{categories}->{$name}->{url} = $url;
+      }
+    } elsif (defined $name and /^label\s+(\S.*)$/) {
+      $Data->{categories}->{$name}->{label} = $1;
+    } elsif (defined $name and /^text$/) {
+      $Data->{categories}->{$name}->{text} = 1;
+    } elsif (defined $name and /^text non-space$/) {
+      $Data->{categories}->{$name}->{text_non_space} = 1;
+    } elsif (defined $name and /^<(HTML|MATH|SVG)>\s+(.+)$/) {
+      my $lns = [grep { length $_ } split /[\s,]+/, $2];
+      my $ns = {
+        HTML => HTML_NS,
+        MATH => MATH_NS,
+        SVG => SVG_NS,
+      }->{$1};
+      for my $ln (@$lns) {
+        $Data->{elements}->{$ns}->{$ln}->{categories}->{$name} = 1;
+      }
+    } elsif (defined $name and /^prop$/) {
+      $has_category_prop->{$name} = 1;
+    } elsif (defined $name and /^pattern not (.+)$/) {
+      $tree_pattern_not_name_map->{$1} = $name;
+    } elsif (defined $name and /^pattern (.+)$/) {
+      $tree_pattern_name_map->{$1} = $name;
+    } elsif (/\S/) {
+      die "$path: Broken line |$_|";
+    }
+  }
+}
+
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/html-tree.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $key (keys %{$json->{patterns}}) {
+    my $def = $json->{patterns}->{$key};
+    unless (defined $def and ref $def eq 'ARRAY' and $def->[0] eq 'or') {
+      die "$path: Unknown pattern value for |$key|";
+    }
+    shift @$def;
+    my $name = $tree_pattern_name_map->{$key} || $key;
+    for (@$def) {
+      my $ns = {HTML => HTML_NS, SVG => SVG_NS, MathML => MATH_NS}->{$_->{ns}};
+      for my $ln (ref $_->{name} ? @{$_->{name}} : $_->{name}) {
+        if (defined $_->{attrs} and @{$_->{attrs}} == 1) {
+          if ($_->{attrs}->[0]->{name} eq 'encoding' and
+              defined $_->{attrs}->[0]->{lc_value} and
+              ($_->{attrs}->[0]->{lc_value} eq 'text/html' or
+               $_->{attrs}->[0]->{lc_value} eq 'application/xhtml+xml')) {
+            $Data->{elements}->{$ns}->{$ln}->{states}->{'encoding-html'}->{categories}->{$name} = 1;
+          } else {
+            push @{$Data->{_errors} ||= []},
+                "Bad |attr| value for $ns/$ln";
+          }
+        } else {
+          $Data->{elements}->{$ns}->{$ln}->{categories}->{$name} = 1;
+        }
+      }
+    }
+  }
+  for my $key (keys %{$json->{patterns_not}}) {
+    my $def = $json->{patterns_not}->{$key};
+    unless (defined $def and ref $def eq 'ARRAY' and $def->[0] eq 'or') {
+      die "$path: Unknown pattern value for |$key|";
+    }
+    shift @$def;
+    my $name = $tree_pattern_not_name_map->{$key} || $key;
+    for (@$def) {
+      my $ns = {HTML => HTML_NS, SVG => SVG_NS, MathML => MATH_NS}->{$_->{ns}};
+      for my $ln (ref $_->{name} ? @{$_->{name}} : $_->{name}) {
+        if (defined $_->{attrs}) {
+          push @{$Data->{_errors} ||= []},
+              "Bad |attr| value for $ns/$ln";
+        } else {
+          $Data->{elements}->{$ns}->{$ln}->{categories}->{$name} = 1;
+        }
+      }
+    }
+  }
+  for my $key (keys %{$json->{steps}}) {
+    my $name = $tree_pattern_name_map->{$key};
+    my $wk = 'while';
+    unless (defined $name) {
+      $name = $tree_pattern_not_name_map->{$key} || next;
+      $wk = 'while_not';
+    }
+    my $acts = $json->{steps}->{$key}->{actions};
+    for (@$acts) {
+      if ($_->{type} eq 'pop-oe' and defined $_->{$wk}) {
+        my $ns = {HTML => HTML_NS, SVG => SVG_NS, MathML => MATH_NS}->{$_->{$wk}->{ns}};
+        for my $ln (@{$_->{$wk}->{name}}) {
+          $Data->{elements}->{$ns}->{$ln}->{categories}->{$name} = 1;
+        }
+        last;
+      }
+    }
+  }
+  for (
+    [parser_implied_end_tag_at_body => $json->{ims}->{'in body'}->{conds}->{'END:html'}->{actions}],
+    [parser_implied_end_tag_at_eof => $json->{ims}->{'in body'}->{conds}->{'EOF'}->{actions}],
+  ) {
+    my $name = $_->[0];
+    my @act = @{$_->[1]};
+    while (@act) {
+      my $act = shift @act;
+      if ($act->{type} eq 'if' and
+          $act->{cond}->[0] eq 'oe' and
+          $act->{cond}->[1] eq 'in scope not' and
+          $act->{cond}->[2] eq 'all') {
+        for my $ln (@{$act->{cond}->[3]->{name}}) {
+          $Data->{elements}->{(HTML_NS)}->{$ln}->{categories}->{$name} = 1;
+        }
+        last;
+      } else {
+        unshift @act, @{$act->{actions} or []}, @{$act->{false_actions} or []};
+      }
+    }
+  }
+}
+
+## For backward compatibility
+{
+  for my $ns (keys %{$Data->{elements} or {}}) {
+    for my $ln (keys %{$Data->{elements}->{$ns}}) {
+      my $cats = $Data->{elements}->{$ns}->{$ln}->{categories} || {};
+      for my $name (keys %$has_category_prop) {
+        if ($cats->{$name}) {
+          $Data->{elements}->{$ns}->{$ln}->{$name} = 1;
+        }
+      }
+      $Data->{elements}->{$ns}->{$ln}->{parser_category} = 'special'
+          if $cats->{'special category'};
+      $Data->{elements}->{$ns}->{$ln}->{parser_category} = 'formatting'
+          if $cats->{'formatting category'};
+    }
+  }
+}
 
 for my $ns (keys %{$Data->{elements}}) {
   for my $ln (keys %{$Data->{elements}->{$ns}}) {
     my $v = $Data->{elements}->{$ns}->{$ln};
-
     for my $ans (keys %{$v->{attrs} || {}}) {
       for my $aln (keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
@@ -292,10 +439,11 @@ for my $ns (keys %{$Data->{elements}}) {
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('local', 'obsvocab.html');
+  use Web::DOM::Document;
+  my $path = path (__FILE__)->parent->parent->child ('local/obsvocab.html');
   my $doc = new Web::DOM::Document;
   $doc->manakai_is_html (1);
-  $doc->inner_html (decode 'utf-8', scalar $f->slurp);
+  $doc->inner_html ($path->slurp_utf8);
   my $dl = $doc->get_element_by_id ('index')->query_selector ('dl');
   my $el_name;
   for my $el (@{$dl->children}) {
@@ -321,13 +469,6 @@ for my $ns (keys %{$Data->{elements}}) {
     }
   }
 }
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#url-property-elements>.
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{categories}->{'URL property elements'} = 1
-    for qw(a area audio embed iframe img link object source track video);
-$Data->{categories}->{'URL property elements'}->{spec} = 'HTML';
-$Data->{categories}->{'URL property elements'}->{id} = 'URL property elements';
-$Data->{categories}->{'URL property elements'}->{label} = 'URL property elements';
 
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{html}->{complex_content_model} = [
   {elements => {'http://www.w3.org/1999/xhtml' => {head => 1}},
@@ -460,7 +601,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_additional_conte
            frameset noframes noembed);
 
 for (qw(acronym bgsound dir noframes isindex listing nextid
-        noembed plaintext rb strike xmp basefont big blink
+        noembed plaintext rb rtc strike xmp basefont big blink
         center font multicol nobr spacer tt)) {
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{spec} = 'HTML';
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{id} = $_;
@@ -897,37 +1038,6 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
   }
 }
 
-## <http://www.whatwg.org/specs/web-apps/current-work/#all-named-elements>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{all_named} = 1
-    for split /\s*,\s*/, q(a, applet, button, embed, form, frame, frameset, iframe, img, input, map, meta, object, select, textarea);
-    ## |keygen| is commented out in spec
-
-## <https://html.spec.whatwg.org/#dom-window-nameditem>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{window_named} = 1
-    for qw(a applet area embed form frameset img object);
-
-## <https://html.spec.whatwg.org/#dom-document-nameditem-filter>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{document_named} = 1
-    for qw(applet embed form iframe img object);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#the-stack-of-open-elements>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
-    = 'special' for grep { length } split /\s*,\s*|\s+/, q{
-  address, applet, area, article, aside, base, basefont, bgsound, blockquote, body, br, button, caption, center, col, colgroup, dd, details, dir, div, dl, dt, embed, fieldset, figcaption, figure, footer, form, frame, frameset, h1, h2, h3, h4, h5, h6, head, header, hgroup, hr, html, iframe, img, input, isindex, li, link, listing, main, marquee, menu, menuitem, meta, nav, noembed, noframes, noscript, object, ol, p, param, plaintext, pre, script, section, select, source, style, summary, table, tbody, td, template, textarea, tfoot, th, thead, title, tr, track, ul, wbr, xmp
-};
-$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_category}
-    = 'special' for grep { length } split /\s*,\s*|\s+/, q{
-  mi, mo, mn, ms, mtext, annotation-xml
-};
-$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_category}
-    = 'special' for grep { length } split /\s*,\s*|\s+/, q{
-foreignObject, desc, title
-};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_category}
-    = 'formatting' for grep { length } split /\s*,\s*|\s+/, q{
-a, b, big, code, em, font, i, nobr, s, small, strike, strong, tt, u
-};
-
 ## <https://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'void' for grep { length } split /\s*,\s*|\s+/, q{
@@ -960,66 +1070,9 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
 iframe, noscript, plaintext
 };
 
-## <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{first_newline_ignored} = 1
-    for qw(pre textarea listing);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-scope>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_scoping} = 1,
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_li_scoping} = 1,
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_button_scoping} = 1
-    for qw(applet caption html table td th marquee object template);
-$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_scoping} = 1,
-$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_li_scoping} = 1,
-$Data->{elements}->{'http://www.w3.org/1998/Math/MathML'}->{$_}->{parser_button_scoping} = 1
-    for qw(mi mo mn ms mtext annotation-xml);
-$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_scoping} = 1,
-$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_li_scoping} = 1,
-$Data->{elements}->{'http://www.w3.org/2000/svg'}->{$_}->{parser_button_scoping} = 1
-    for qw(foreignObject desc title);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-list-item-scope>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_li_scoping} = 1
-    for qw(ol ul);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-button-scope>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_button_scoping} = 1
-    for qw(button);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-table-scope>,
-## <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-context>.
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_scoping} = 1
-    for qw(html table template);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-body-context>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_body_scoping} = 1
-    for qw(html tbody tfoot thead template);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-row-context>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_table_row_scoping} = 1
-    for qw(html tr template);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-select-scope>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_select_non_scoping} = 1
-    for qw(optgroup option);
-
-## <http://www.whatwg.org/specs/web-apps/current-work/#generate-implied-end-tags>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag} = 1
-    for qw(dd dt li option optgroup p rp rt);
-
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag_at_eof} = 1
-    for qw(dd dt li p tbody td tfoot th thead tr body html);
-
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{parser_implied_end_tag_at_body} = 1
-    for qw(dd dt li optgroup option p rp rt tbody td tfoot th thead tr body html);
-
-## <http://wiki.suikawiki.org/n/the%20stack%20of%20open%20elements#anchor-9>
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_popped_action} = 1
-    for qw(style object video audio applet textarea);
-
 {
-  my $f = file (__FILE__)->dir->parent->file ('data', 'aria.json');
-  my $json = file2perl $f;
+  my $path = path (__FILE__)->parent->parent->child ('data/aria.json');
+  my $json = json_bytes2perl $path->slurp;
 
   for my $attr (keys %{$json->{attrs}}) {
     my $adef =
@@ -1056,8 +1109,8 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_popped_action} =
 }
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('local', 'element-aria.json');
-  my $json = file2perl $f;
+  my $path = path (__FILE__)->parent->parent->child ('local/element-aria.json');
+  my $json = json_bytes2perl $path->slurp;
   for my $el_name (keys %{$json->{html_elements}}) {
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria} = $json->{html_elements}->{$el_name};
   }
@@ -1089,17 +1142,17 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
            border units pluginpage pluginspage pluginurl palette);
 
 {
-  my $f = file (__FILE__)->dir->parent->file ('src', 'html-obsolete.txt');
+  my $path = path (__FILE__)->parent->parent->child ('src/html-obsolete.txt');
   my $alts = {};
   my $target;
-  for (($f->slurp)) {
+  for (split /\x0D?\x0A/, $path->slurp) {
     if (/^#/ or /^\s+##/) {
       #
     } elsif (/^<(\S+)>$/) {
-      die "$f: No alternative is specified for @$target" if $target;
+      die "$path: No alternative is specified for @$target" if $target;
       $target = [$1];
     } elsif (/^<(\S+) (\S+)>$/) {
-      die "$f: No alternative is specified for @$target" if $target;
+      die "$path: No alternative is specified for @$target" if $target;
       $target = [$1, $2];
     } elsif (defined $target and /^  (.+)$/) {
       my $alt = $1;
@@ -1122,11 +1175,11 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
       } elsif ($alt =~ m{^N/A$}) {
         $alts->{"@$target"} = {type => 'none'};
       } else {
-        die "$f: broken line: |  $alt|";
+        die "$path: broken line: |  $alt|";
       }
       undef $target;
     } elsif (/\S/) {
-      die "$f: broken line: |$_|";
+      die "$path: broken line: |$_|";
     }
   }
 

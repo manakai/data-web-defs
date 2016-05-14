@@ -108,15 +108,20 @@ for my $step_name (keys %{$Data->{tree_steps}}) {
 
 # XXX HTML only
 ## For invoking the steps to reset the form owner
-for my $cat ('form-associated element', 'category-form-attr') {
+for my $cat ('form-associated element', 'category-listed') {
   my @el;
+  my $names = [];
   for my $namespace (keys %{$ELDefs->{categories}->{$cat}->{elements}}) {
     die unless $namespace eq 'http://www.w3.org/1999/xhtml';
-    my $names = [keys %{$ELDefs->{categories}->{$cat}->{elements}->{$namespace}}];
-    $Data->{tree_patterns}->{$cat} = {ns => 'HTML', name => $names};
-    $Data->{tag_name_groups}->{join ' ', @$names} = 1
-        if $cat eq 'form-associated element';
+    push @$names, keys %{$ELDefs->{categories}->{$cat}->{elements}->{$namespace}};
   }
+  for my $namespace (keys %{$ELDefs->{categories}->{$cat}->{elements_with_exceptions} or {}}) {
+    die unless $namespace eq 'http://www.w3.org/1999/xhtml';
+    push @$names, keys %{$ELDefs->{categories}->{$cat}->{elements_with_exceptions}->{$namespace}};
+  }
+  $Data->{tree_patterns}->{$cat} = {ns => 'HTML', name => $names};
+  $Data->{tag_name_groups}->{join ' ', @$names} = 1
+      if $cat eq 'form-associated element';
 }
 
 ## For popping elements off the stack of open elements
@@ -1478,14 +1483,16 @@ for my $im (keys %{$Data->{ims}}) {
             for (@$tag_names) {
               $act->{possible_tag_names}->{$_} = {};
               $act->{possible_tag_names}->{$_}->{associate_form_owner} = 1
-                  if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_};
+                  if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_} or
+                     $ELDefs->{categories}->{'form-associated element'}->{elements_with_exceptions}->{'http://www.w3.org/1999/xhtml'}->{$_};
             }
           } elsif ($act->{type} eq 'create an HTML element' and
                   not defined $act->{local_name}) {
             for (@$tag_names) {
               $act->{possible_tag_names}->{$_} = {};
               $act->{possible_tag_names}->{$_}->{associate_form_owner} = 1
-                  if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_};
+                  if $ELDefs->{categories}->{'form-associated element'}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_} or
+                     $ELDefs->{categories}->{'form-associated element'}->{elements_with_exceptions}->{'http://www.w3.org/1999/xhtml'}->{$_};
             }
           } elsif ($act->{type} eq 'insert a foreign element') {
             $foreign = 1;
