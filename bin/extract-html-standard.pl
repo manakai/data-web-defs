@@ -78,13 +78,23 @@ for my $f (($d->children)) {
       $heading = $heading->previous_element_sibling;
     }
     next unless $heading;
-    next unless $heading->id =~ /^the-([0-9a-z_-]+)-element$/; # h1-h6 do not match
-    my $local_name = $1;
-    if ($local_name eq 'source-element-when-used-with-the-picture') {
-      $local_name = 'source';
+    my $id = $heading->id;
+    my $local_name;
+    my $more_names = [];
+    if ($id =~ /^the-([0-9a-z_-]+)-element$/) {
+      $local_name = $1;
+    } elsif ($id eq 'the-h1,-h2,-h3,-h4,-h5,-and-h6-elements') {
+      $local_name = 'h1';
+      push @$more_names, qw(h2 h3 h4 h5 h6);
+    } elsif ($id eq 'the-sub-and-sup-elements') {
+      $local_name = 'sub';
+      push @$more_names, qw(sup);
+    } else {
+      next;
     }
     my $props = $Data->{elements}->{$local_name} ||= {};
-    $props->{id} ||= "the-$local_name-element";
+    push @{$props->{additional_local_names} ||= []}, $_ for @$more_names;
+    $props->{id} ||= $id;
     my $field;
     for (@{$dl->children}) {
       if ($_->local_name eq 'dt') {

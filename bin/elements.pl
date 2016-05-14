@@ -22,35 +22,37 @@ my $input_data;
   for my $el_name (keys %{$json->{elements}}) {
     next if $el_name eq 'svg' or $el_name eq 'math';
     my $in = $json->{elements}->{$el_name};
-    my $prop = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} ||= {};
-    $prop->{conforming} = 1;
-    for (qw(desc start_tag end_tag id)) {
-      $prop->{$_} = $in->{$_} if defined $in->{$_};
-    }
-    $prop->{spec} = 'HTML' if defined $prop->{id};
-    if ($in->{content_model}) {
-      if (not $in->{content_model}->{_complex} and
-          1 == keys %{$in->{content_model}}) {
-        $prop->{content_model} = each %{$in->{content_model}};
+    for my $el_name ($el_name, @{$in->{additional_local_names} || []}) {
+      my $prop = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} ||= {};
+      $prop->{conforming} = 1;
+      for (qw(desc start_tag end_tag id)) {
+        $prop->{$_} //= $in->{$_} if defined $in->{$_};
+      }
+      $prop->{spec} = 'HTML' if defined $prop->{id};
+      if ($in->{content_model}) {
+        if (not $in->{content_model}->{_complex} and
+            1 == keys %{$in->{content_model}}) {
+          $prop->{content_model} = each %{$in->{content_model}};
+        }
+      }
+      for (keys %{$in->{categories} or {}}) {
+        next if $_ eq '_complex';
+        $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{categories}->{$_} = 1;
+        $Data->{categories}->{$_}->{spec} ||= 'HTML';
+        $Data->{categories}->{$_}->{id} ||= $json->{category_label_to_id}->{$_} || $_;
+      }
+      for my $attr_name (keys %{$in->{attrs} or {}}) {
+        my $i = $in->{attrs}->{$attr_name};
+        my $p = $prop->{attrs}->{''}->{$attr_name} ||= {};
+        $p->{conforming} = 1;
+        $p->{desc} = $i->{desc} if defined $i->{desc};
+        if (defined $i->{id}) {
+          $p->{id} = $i->{id};
+          $p->{spec} = 'HTML';
+        }
       }
     }
-    for (keys %{$in->{categories} or {}}) {
-      next if $_ eq '_complex';
-      $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{categories}->{$_} = 1;
-      $Data->{categories}->{$_}->{spec} ||= 'HTML';
-      $Data->{categories}->{$_}->{id} ||= $json->{category_label_to_id}->{$_} || $_;
-    }
-    for my $attr_name (keys %{$in->{attrs} or {}}) {
-      my $i = $in->{attrs}->{$attr_name};
-      my $p = $prop->{attrs}->{''}->{$attr_name} ||= {};
-      $p->{conforming} = 1;
-      $p->{desc} = $i->{desc} if defined $i->{desc};
-      if (defined $i->{id}) {
-        $p->{id} = $i->{id};
-        $p->{spec} = 'HTML';
-      }
-    }
-  }
+  } # $el_name
   for my $attr_name (keys %{$json->{global_attrs} or {}}) {
     my $prop = $json->{global_attrs}->{$attr_name};
     my $p = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr_name} ||= {};
@@ -177,28 +179,6 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   }
 }
 
-## Heading elements
-for my $el_name (qw(h1 h2 h3 h4 h5 h6)) {
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-h1,-h2,-h3,-h4,-h5,-and-h6-elements';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{spec} = 'HTML';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{content_model} = 'phrasing content';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{conforming} = 1;
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{desc} = 'Section heading';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'flow content'} = 1;
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'heading content'} = 1;
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
-}
-
-## |sub| and |sup|
-for my $el_name (qw(sub sup)) {
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{spec} = 'HTML';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{id} = 'the-sub-and-sup-elements';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{content_model} = 'phrasing content';
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'flow content'} = 1;
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'phrasing content'} = 1;
-  $Data->{elements}->{(HTML_NS)}->{$el_name}->{categories}->{'palpable content'} = 1;
-}
-
 for ('flow content', 'phrasing content') {
   $Data->{elements}->{(HTML_NS)}->{area}->{states}->{'in-map'}
       ->{categories}->{$_} = 1;
@@ -301,124 +281,17 @@ for my $ns (keys %{$Data->{elements}}) {
 
 use Encode;
 use Web::DOM::Document;
-use Web::XML::Parser;
-my $statuses = {};
-if (0) {
-  my $doc = Web::DOM::Document->new;
-  {
-    my $f = file (__FILE__)->dir->parent->file ('local', 'html-status.xml');
-    Web::XML::Parser->new->parse_char_string
-        ((decode 'utf-8', scalar $f->slurp) => $doc);
-  }
-  for (@{$doc->query_selector_all ('annotations > entry[section][status]')}) {
-    $statuses->{$_->get_attribute ('section')} = $_->get_attribute ('status');
-  }
-}
-
-my $id_for_status = {
-  'attr-lang' => 'the-lang-and-xml:lang-attributes',
-  'attr-translate' => 'global-attributes', # ...
-  'attr-class' => 'classes',
-  'attr-hyperlink-href' => 'links',
-  'attr-hyperlink-target' => 'links',
-  'attr-hyperlink-ping' => 'links',
-  'attr-hyperlink-rel' => 'links',
-  'attr-hyperlink-hreflang' => 'links',
-  'attr-hyperlink-type' => 'links',
-  'attr-hyperlink-usemap' => 'authoring',
-  'attr-link-sizes' => 'rel-icon',
-  'attr-media-src' => 'location-of-the-media-resource',
-  'attr-media-crossorigin' => 'location-of-the-media-resource',
-  'attr-media-preload' => 'loading-the-media-resource',
-  'attr-media-loop' => 'offsets-into-the-media-resource',
-  'attr-media-autoplay' => 'media-elements', # ...
-  'attr-media-mediagroup' => 'synchronising-multiple-media-elements', # ...
-  'attr-media-controls' => 'user-interface',
-  'attr-media-muted' => 'user-interface',
-  #attr-input-accept => ... the-input-element
-  #attr-input-src => ... the-input-element
-  #attr-input-alt => ... the-input-element
-  'attr-input-maxlength' => 'common-input-element-attributes', # ...
-  'attr-input-minlength' => 'common-input-element-attributes', # ...
-  'attr-input-size' => 'the-size-attribute',
-  'attr-input-readonly' => 'the-readonly-attribute',
-  'attr-input-required' => 'the-required-attribute',
-  'attr-input-multiple' => 'the-multiple-attribute',
-  'attr-input-pattern' => 'the-pattern-attribute',
-  'attr-input-min' => 'the-min-and-max-attributes',
-  'attr-input-max' => 'the-min-and-max-attributes',
-  'attr-input-step' => 'the-step-attribute',
-  'attr-input-list' => 'the-list-attribute',
-  'attr-input-placeholder' => 'the-placeholder-attribute',
-  'attr-fae-form' => 'association-of-controls-and-forms',
-  'attr-fe-name' => 'attributes-common-to-form-controls', # ...
-  'attr-fe-dirname' => 'attributes-common-to-form-controls', # ...
-  'attr-fe-disabled' => 'attributes-common-to-form-controls', # ...
-  'attr-fs-action' => 'form-submission-0',
-  'attr-fs-formaction' => 'form-submission-0',
-  'attr-fs-method' => 'form-submission-0',
-  'attr-fs-formmethod' => 'form-submission-0',
-  'attr-fs-enctype' => 'form-submission-0',
-  'attr-fs-formenctype' => 'form-submission-0',
-  'attr-fs-target' => 'form-submission-0',
-  'attr-fs-formtarget' => 'form-submission-0',
-  'attr-fs-novalidate' => 'form-submission-0',
-  'attr-fs-formnovalidate' => 'form-submission-0',
-  'attr-fe-autofocus' => 'attributes-common-to-form-controls', # ...
-  'attr-fe-inputmode' => 'attributes-common-to-form-controls', # ...
-  'attr-fe-autocomplete' => 'autofilling-form-controls:-the-autocomplete-attribute',
-  'attr-mod-cite' => 'attributes-common-to-ins-and-del-elements',
-  'attr-mod-datetime' => 'attributes-common-to-ins-and-del-elements',
-  'attr-dim-width' => 'dimension-attributes',
-  'attr-dim-height' => 'dimension-attributes',
-  'attr-meta-http-equiv' => 'pragma-directives',
-  'attr-table-sortable' => 'table-sorting-model',
-  'attr-tdth-colspan' => 'attributes-common-to-td-and-th-elements',
-  'attr-tdth-rowspan' => 'attributes-common-to-td-and-th-elements',
-  'attr-tdth-headers' => 'attributes-common-to-td-and-th-elements',
-  'attr-contenteditable' => 'contenteditable',
-  'attr-contextmenu' => 'context-menus',
-  'attr-spellcheck' => 'spelling-and-grammar-checking',
-  'attr-tabindex' => 'focus', # ...
-  'attr-itemscope' => 'items',
-  'attr-itemtype' => 'items',
-  'attr-itemid' => 'items',
-  'attr-itemref' => 'items',
-  'attr-itemprop' => 'names:-the-itemprop-attribute',
-  'attr-img-border' => 'obsolete-but-conforming-features',
-  'attr-script-language' => 'obsolete-but-conforming-features',
-  'attr-a-name' => 'obsolete-but-conforming-features',
-  'frameset' => 'frames',
-  'frame' => 'frames',
-  'attr-img-generator-unable-to-provide-required-alt' => 'guidance-for-markup-generators',
-};
 
 for my $ns (keys %{$Data->{elements}}) {
   for my $ln (keys %{$Data->{elements}->{$ns}}) {
     my $v = $Data->{elements}->{$ns}->{$ln};
-#    if ($v->{id} and $statuses->{$v->{id}} and $v->{spec} eq 'HTML') {
-#      $v->{status} ||= $statuses->{$v->{id}};
-#      delete $v->{status} if $v->{status} eq 'UNKNOWN' or $v->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/;
-#    }
 
     for my $ans (keys %{$v->{attrs} || {}}) {
       for my $aln (keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
-        next if defined $w->{status};
-        if ($w->{id} and $statuses->{$w->{id}} and $w->{spec} eq 'HTML') {
-#          $w->{status} ||= $statuses->{$w->{id}};
-        } elsif ($w->{id} and $id_for_status->{$w->{id}} and
-                 $statuses->{$id_for_status->{$w->{id}}}) {
-#          $w->{status} ||= $statuses->{$id_for_status->{$w->{id}}};
-        } elsif ($w->{id} and $w->{id} =~ /^handler-/ and $w->{spec} eq 'HTML') {
-#          $w->{status} ||= $statuses->{'event-handlers-on-elements,-document-objects,-and-window-objects'};
+        if ($w->{id} and $w->{id} =~ /^handler-/ and $w->{spec} eq 'HTML') {
           $w->{value_type} ||= 'event handler';
-        } elsif ($ans eq '' and $statuses->{"the-$aln-attribute"}) {
-#          $w->{status} ||= $statuses->{"the-$aln-attribute"};
         }
-        delete $w->{status} if defined $w->{status} and ($w->{status} eq 'UNKNOWN' or $w->{status} =~ /^(?:SPLIT|TBW|WIP|OCBE)/);
-        $w->{status} ||= $v->{status} if defined $v->{status};
-        delete $w->{status} unless defined $w->{spec};
       }
     }
   }
@@ -461,9 +334,6 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{categories}->{'URL p
 $Data->{categories}->{'URL property elements'}->{spec} = 'HTML';
 $Data->{categories}->{'URL property elements'}->{id} = 'URL property elements';
 $Data->{categories}->{'URL property elements'}->{label} = 'URL property elements';
-
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xmlns'}->{status} = $statuses->{'global-attributes'};
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{'xml:lang'}->{status} = $statuses->{'the-lang-and-xml:lang-attributes'};
 
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{html}->{complex_content_model} = [
   {elements => {'http://www.w3.org/1999/xhtml' => {head => 1}},
@@ -600,7 +470,6 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
         center font multicol nobr spacer tt)) {
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{spec} = 'HTML';
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{id} = $_;
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{status} = $statuses->{'non-conforming-features'};
 }
 
 for my $ns (keys %{$Data->{elements} or {}}) {
@@ -1026,7 +895,6 @@ while (@obs_attr) {
   my $attr_id = shift @obs_attr;
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{spec} = 'HTML';
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{id} = $attr_id;
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{status} = $statuses->{'non-conforming-features'};
 }
 
 for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
@@ -1169,7 +1037,6 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_popped_action} =
     }
     $adef->{conforming} = 1;
     $adef->{spec} = 'ARIA';
-    $adef->{status} = 'CR';
     if ($json->{attrs}->{$attr}->{tokens}) {
       if ($adef->{value_type} eq 'enumerated') {
         for (keys %{$json->{attrs}->{$attr}->{tokens}}) {
