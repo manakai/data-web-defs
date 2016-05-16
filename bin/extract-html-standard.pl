@@ -89,7 +89,11 @@ for my $f (($d->children)) {
     } elsif ($id eq 'the-sub-and-sup-elements') {
       $local_name = 'sub';
       push @$more_names, qw(sup);
+    } elsif ($id eq 'custom-elements-core-concepts') {
+      $local_name = '*-*';
+      $id = 'autonomous-custom-element';
     } else {
+      warn $id;
       next;
     }
     my $props = $Data->{elements}->{$local_name} ||= {};
@@ -109,6 +113,7 @@ for my $f (($d->children)) {
         if ($field eq 'attributes') {
           my $text = $_->text_content;
           if ($text eq 'Global attributes' or
+              $text eq 'Global attributes, except the is attribute' or
               $text eq 'Any other attribute that has no namespace (see prose).') {
             #
           } elsif ($text =~ /^If the element is not a child of an? ul or menu element: value \x{2014}/) {
