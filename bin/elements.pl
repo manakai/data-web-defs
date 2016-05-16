@@ -305,6 +305,8 @@ my $tree_pattern_not_name_map = {};
       for my $ln (@$lns) {
         $Data->{elements}->{$ns}->{$ln}->{categories}->{$name} = 1;
       }
+    } elsif (defined $name and /^autonomous custom elements$/) {
+      $Data->{elements}->{(HTML_NS)}->{'*-*'}->{categories}->{$name} = 1;
     } elsif (defined $name and /^prop$/) {
       $has_category_prop->{$name} = 1;
     } elsif (defined $name and /^pattern not (.+)$/) {
