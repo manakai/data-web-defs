@@ -1200,6 +1200,14 @@ for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
   }
 }
 
+## <https://html.spec.whatwg.org/#valid-custom-element-name>
+for (qw(
+  annotation-xml color-profile font-face font-face-src font-face-uri
+  font-face-format font-face-name missing-glyph
+)) {
+  $Data->{not_custom_element_names}->{$_} = 1;
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
