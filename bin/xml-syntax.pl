@@ -73,6 +73,23 @@ sub for_actions (&$) {
     }
   }
 
+  ## Ignore states introduced by
+  ## <https://github.com/whatwg/html/commit/6c629ac9e5736cdb824293999673de6a0f5ea06d>.
+  for (
+    'character reference state',
+    'numeric character reference state',
+    'hexadecimal character reference start state',
+    'hexademical character reference start state',
+    'decimal character reference start state',
+    'hexadecimal character reference state',
+    'hexademical character reference state',
+    'decimal character reference state',
+    'numeric character reference end state',
+    'character reference end state',
+  ) {
+    delete $Data->{tokenizer}->{states}->{$_};
+  }
+
   {
     my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child
         ('local/xml-tokenizer-delta.json')->slurp;

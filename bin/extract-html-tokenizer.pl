@@ -72,6 +72,14 @@ sub parse_action ($) {
       push @action, {type => 'parse error', index_offset => $1};
     } elsif ($action =~ s/^(?:S|s|Finally, s|Then s|Otherwise, s)witch to the ([A-Za-z0-9 ._()-]+? state)(?:\.\s*|\s*$)//) {
       push @action, {type => 'switch', state => $1};
+    } elsif ($action =~ s/^Set the return state to the (.+? state)\.\s+Switch to the character reference state\.//) {
+      if (index ($1, 'attribute') > -1) {
+        push @action,
+            {type => 'set-to-temp', value => '&'},
+            {type => 'switch', state => "$1 - character reference state"};
+      } else {
+        push @action, {type => 'switch', state => "character reference in $1"};
+      }
     } elsif ($action =~ s/^Reconsume in the ([A-Za-z0-9 ._()-]+? state)\s*\.//) {
       push @action, {type => 'switch', state => $1}, {type => 'reconsume'};
     } elsif ($action =~ s/^Switch to the ((?:DOCTYPE |)bogus comment state) \(don't consume anything in the current state\).\E//) {
