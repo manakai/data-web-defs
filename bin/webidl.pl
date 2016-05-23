@@ -136,7 +136,7 @@ my $XAttrAllowed = {
   attribute => {
     Clamp => 1, EnforceRange => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
-    LenientThis => 1, PutForwards => 1, Replaceable => 1,
+    LenientThis => 1, PutForwards => 1, Replaceable => 1, LenientSetter => 1,
     Unforgeable => 1, Unscopable => 1,
     SecureContext => 1,
   },
@@ -213,6 +213,7 @@ my $XAttrArgs = {
   Unscopable => {no => 1},
   LegacyUnenumerableNamedProperties => {no => 1},
   SecureContext => {no => 1},
+  LenientSetter => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
@@ -234,6 +235,8 @@ my $XAttrDisallowedCombinations = [
   ['OverrideBuiltins', 'Global'],
   ['OverrideBuiltins', 'PrimaryGlobal'],
   ['PutForwards', 'Replaceable'],
+  ['LenientSetter', 'PutForwards'],
+  ['LenientSetter', 'Replaceable'],
   ['Global', 'PrimaryGlobal'],
 ];
 
