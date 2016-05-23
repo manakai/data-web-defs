@@ -170,10 +170,7 @@ my $XAttrAllowed = {
   setlike => {
     SecureContext => 1,
   },
-  dictionary => {
-    Constructor => 1, Exposed => 1,
-    SecureContext => 1, # if [Constructor]
-  },
+  dictionary => {},
   partial_dictionary => {},
   dictionary_member => {
     Clamp => 1, EnforceRange => 1,
