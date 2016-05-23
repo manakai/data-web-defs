@@ -138,7 +138,7 @@ my $XAttrAllowed = {
     SameObject => 1, TreatNullAs => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1, LenientSetter => 1,
     Unforgeable => 1, Unscopable => 1,
-    SecureContext => 1,
+    SecureContext => 1, CEReactions => 1,
   },
   static_attribute => {
     Clamp => 1, Exposed => 1,
@@ -148,7 +148,7 @@ my $XAttrAllowed = {
   operation => {
     Exposed => 1, NewObject => 1, TreatNullAs => 1, Unforgeable => 1,
     Unscopable => 1,
-    SecureContext => 1,
+    SecureContext => 1, CEReactions => 1,
   },
   static_operation => {
     Exposed => 1, NewObject => 1, TreatNullAs => 1,
@@ -214,6 +214,7 @@ my $XAttrArgs = {
   LegacyUnenumerableNamedProperties => {no => 1},
   SecureContext => {no => 1},
   LenientSetter => {no => 1},
+  CEReactions => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
