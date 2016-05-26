@@ -23,6 +23,8 @@ while (<$file>) {
     $Data->{$scheme} = {};
   } elsif (/^\s+(tcp|udp|tls)$/) {
     $Data->{$scheme}->{transport}->{$1} = 1;
+  } elsif (/^\s+http\(s\)$/) {
+    $Data->{$scheme}->{http} = 1;
   } elsif (/^\s+([\w-]+)\s*$/) {
     if ($1 eq 'application') {
       $Data->{$scheme}->{$1} = {};
