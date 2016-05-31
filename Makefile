@@ -138,7 +138,7 @@ data/file-name-extensions.json: data/mime-types.json
 
 ## ------ URLs ------
 
-all-urls: data/url-schemes.json data/tlds.json
+all-urls: data/url-schemes.json data/tlds.json data/psl-tests.json
 clean-urls:
 	rm -fr local/sw-url-schemes.*
 	rm -fr local/iana-url-schemes.*
@@ -165,6 +165,10 @@ data/url-schemes.json: bin/url-schemes.pl \
 
 local/iana-tlds.txt:
 	$(WGET) -O $@ https://data.iana.org/TLD/tlds-alpha-by-domain.txt
+local/psl.txt:
+	$(WGET) -O $@ https://raw.githubusercontent.com/publicsuffix/list/master/public_suffix_list.dat
+local/psl-test.txt:
+	$(WGET) -O $@ https://raw.githubusercontent.com/publicsuffix/list/master/tests/test_psl.txt
 
 local/mozilla-prefs.js:
 	$(WGET) -O $@ https://raw.githubusercontent.com/mozilla/gecko-dev/master/modules/libpref/init/all.js
@@ -176,8 +180,10 @@ local/mozilla-idn-whitelist.txt: local/mozilla-prefs.js
 	}' $< > $@
 
 data/tlds.json: local/iana-tlds.txt src/tld-additional.txt bin/tlds.pl \
-    local/mozilla-idn-whitelist.txt
+    local/mozilla-idn-whitelist.txt local/psl.txt
 	$(PERL) bin/tlds.pl > $@
+data/psl-tests.json: bin/psl-tests.pl local/psl-test.txt
+	$(PERL) $< > $@
 
 ## ------ Language tags ------
 

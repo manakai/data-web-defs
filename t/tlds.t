@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..3"
+echo "1..6"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -10,3 +10,6 @@ test() {
 test 1 '.tlds.com.iana | not | not'
 test 2 '.tlds.jp.iana | not | not'
 test 3 '.tlds.arpa.iana | not | not'
+test 4 '.tlds.jp.subdomains.co.public_suffix == "ICANN"'
+test 5 '.tlds.io.subdomains.github.public_suffix == "PRIVATE"'
+test 6 '.tlds["xn--fiqs8s"].u == "中国"'

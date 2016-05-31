@@ -1,7 +1,7 @@
 tlds.json
 ~~~~~~~~~
 
-Top-level domain names.
+Top-level domain names and public suffixes.
 
 * Structure
 
@@ -10,22 +10,47 @@ pair:
 
   tld [object]
 
-    Names are TLDs in lowercase, values are their descriptions as
-    [protocol-object] with following additional name/value pairs:
+    Names are TLD labels, represented as lowercase A-labels, and
+    values are their descriptions as [domain-object].
 
-      iana [boolean]
+* The [domain-object] data structure
 
-        Whether the TLD has officially endorsed by ICANN or not.
+A [domain-object] data structure is a [protocol-object] with following
+additional name/value pairs:
 
-      mozilla_idn_whitelist [boolean]
+  iana [boolean]
 
-        Whether the TLD is in the Gecko's "network.IDN.whitelist.*"
-        whitelist ("IDN-enabled TLDs" list) or not.  Note that this
-        preference is obsolete.
+    Whether the domain has officially endorsed by ICANN or not.
+
+  mozilla_idn_whitelist [boolean]
+
+    Whether the domain is in the Gecko's "network.IDN.whitelist.*"
+    whitelist ("IDN-enabled TLDs" list) or not.  Note that this
+    preference is obsolete.
+
+  public_suffix [string?]
+
+    Whether the domain is a public suffix or not.  If the value is
+    |ICANN|, the domain is an ICANN domain in PSL.  If the value is
+    |PRIVATE|, the domain is a PRIVATE domain in PSL.  Otherwise,
+    i.e. if the value is |0|, or if has no value and no |*| fallback
+    entry (see |subdomains| field), the domain is not a public suffix.
+
+  subdomains [object?]
+
+    Subdomains of the domain.  Names are domain labels of subdomains,
+    represented as lowercase A-labels, and values are their
+    descriptions.  The |*| label represents the "fallback" entry for
+    the |public_suffix| fields.
+
+  u [string?]
+
+    The u-label of the domain label, if it is different from the
+    A-label.
 
 * Sources
 
-IANA — Root Zone Database <http://www.iana.org/domains/root/db>.
+IANA — Root Zone Database <https://www.iana.org/domains/root/db>.
 
 <http://data.iana.org/TLD/tlds-alpha-by-domain.txt>.
 
@@ -45,6 +70,8 @@ IDN-enabled TLDs — Mozilla
 <https://www.mozilla.org/en-US/about/governance/policies/security-group/tld-idn/>.
 
 <https://github.com/mozilla/gecko-dev/blob/master/modules/libpref/init/all.js>.
+
+View the Public Suffix List <https://publicsuffix.org/list/>.
 
 * License
 
