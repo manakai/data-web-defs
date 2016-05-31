@@ -824,6 +824,17 @@ for my $ns (keys %{$Data->{elements}}) {
   }
 }
 
+for my $keyword (qw(
+ allow-forms allow-modals allow-orientation-lock allow-pointer-lock
+ allow-popups allow-popups-to-escape-sandbox allow-presentation
+ allow-same-origin allow-scripts allow-top-navigation
+)) {
+  my $d = $Data->{elements}->{(HTML_NS)}->{iframe}->{attrs}->{''}->{sandbox}->{keywords}->{$keyword} ||= {};
+  $d->{conforming} = 1;
+  $d->{spec} = 'HTML';
+  $d->{id} = 'iframe-sandbox-' . $keyword;
+}
+
 my @obs_attr = qw(
   a charset attr-a-charset
   link charset attr-link-charset
