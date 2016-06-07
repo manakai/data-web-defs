@@ -55,25 +55,19 @@ for ((map { [$_, 'RTSP'] } @{(parse 'iana/rtsp.xml')->query_selector_all ('regis
   $Methods->{$method}->{iana}->{$proto} = 1;
 }
 
-## <http://fetch.spec.whatwg.org/#simple-method>
+## <https://fetch.spec.whatwg.org/#simple-method>
 $Methods->{$_}->{simple} = 1 for qw(GET HEAD POST);
 
-## <http://fetch.spec.whatwg.org/#concept-method-normalize>
+## <https://fetch.spec.whatwg.org/#concept-method-normalize>
 $Methods->{$_}->{case_insensitive} = 1
     for qw(DELETE GET HEAD OPTIONS POST PUT);
 
-## <http://fetch.spec.whatwg.org/#concept-forbidden-methods>
+## <https://fetch.spec.whatwg.org/#concept-forbidden-methods>
 $Methods->{$_}->{xhr_insecure} = 1 for qw(CONNECT TRACE TRACK);
 
-## <http://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>,
+## <https://xhr.spec.whatwg.org/#dom-xmlhttprequest-send>,
 ## <https://fetch.spec.whatwg.org/#dom-request>
 $Methods->{$_}->{xhr_no_request_body} = 1 for qw(GET HEAD);
-
-## <https://tools.ietf.org/html/rfc7231#section-4.2.3>
-$Methods->{$_}->{http}->{cacheable} = 1 for qw(GET HEAD POST);
-
-## <https://tools.ietf.org/html/rfc7231#page-22>
-$Methods->{$_}->{http}->{required} = 1 for qw(GET HEAD);
 
 for (
   ['http-methods.txt' => 'http', 'HTTP'],
@@ -112,9 +106,9 @@ for (
       my $key = $1;
       $key =~ s/-/_/g;
       $Methods->{$method_name}->{$key} = 1;
-    } elsif (m{^(required|ims|range|not-for-representation|write-lock|safe|idempotent|cacheable|obsolete)\s*$}) {
+    } elsif (m{^(required|ims|range|not-for-representation|write-lock|safe|idempotent|cacheable|obsolete|param body)\s*$}) {
       my $key = $1;
-      $key =~ s/-/_/g;
+      $key =~ s/[ -]/_/g;
       $Methods->{$method_name}->{$proto}->{$key} = 1;
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
