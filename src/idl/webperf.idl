@@ -1,0 +1,15 @@
+// <https://w3c.github.io/hr-time/>
+
+[Exposed=(Window, Worker)]
+interface Performance : EventTarget {
+  DOMHighResTimeStamp now ();
+  DOMHighResTimeStamp translateTime
+      (DOMHighResTimeStamp time,
+       (Window or Worker or SharedWorker or ServiceWorker) timeSource);
+  serializer = {attribute};
+};
+
+[Exposed=(Window, Worker)]
+partial interface WindowOrWorkerGlobalScope {
+  [Replaceable] readonly attribute Performance performance;
+};

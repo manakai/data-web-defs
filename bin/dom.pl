@@ -55,7 +55,7 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   push @{$json->{''} ||= []},
       map { '<plaintext>' . $idl_path->child ($_)->slurp_utf8 }
       qw(webidl.idl html-additional.idl xpath.idl xpath-whatwgwiki.idl
-         navigator.idl xslt-whatwgwiki.idl);
+         navigator.idl xslt-whatwgwiki.idl webperf.idl);
 
   my $doc = new Web::DOM::Document;
   $doc->manakai_is_html (1);
