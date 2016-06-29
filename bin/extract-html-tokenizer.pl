@@ -157,6 +157,9 @@ sub parse_action ($) {
               } elsif ($action =~ s/^Append a U\+([0-9A-F]+) [A-Z0-9 _-]+ character to the temporary buffer\.\s*//) {
                 push @action, {type => 'append-to-temp',
                                value => chr hex $1};
+              } elsif ($action =~ s/^Append two U\+002D (?:HYPHEN-MINUS characters \(-\)|\(-\) characters) to the comment token's data\.\s*//) {
+                push @action, {type => 'append', field => 'data',
+                               value => '--'};
               } elsif ($action =~ s/^Append two U\+002D (?:HYPHEN-MINUS characters \(-\)|\(-\) characters),?(?: and|) ([^.]+ to the comment token's data\.)\s*/Append $1/) {
                 push @action, {type => 'append', field => 'data',
                                value => '--'};
