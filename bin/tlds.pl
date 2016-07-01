@@ -60,7 +60,7 @@ my $Data = {};
       $type = 'PRIVATE';
     } elsif (m{^//}) {
       #
-    } elsif (/^(\S+)$/) {
+    } elsif (/^(\S+)\s*$/) {
       my $suffix = $1;
       my $exception = $suffix =~ s/^!//;
       $suffix =~ s/^\.//;
