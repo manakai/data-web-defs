@@ -124,6 +124,13 @@ for my $scheme (keys %{$Data}) {
   if ($Data->{$scheme}->{'x-callback-url'}) {
     $Data->{$scheme}->{query} ||= 'nv';
   }
+
+  ## <https://url.spec.whatwg.org/#http-scheme>
+  $Data->{$scheme}->{network} = 1 if $Data->{$scheme}->{http};
+  $Data->{$scheme}->{fetch} = 1 if $Data->{$scheme}->{network};
+
+  $Data->{$scheme}->{'web-core'} = 1 if $Data->{$scheme}->{fetch};
+  $Data->{$scheme}->{browser} = 1 if $Data->{$scheme}->{'web-core'};
 } # $scheme
 
 for (qw(

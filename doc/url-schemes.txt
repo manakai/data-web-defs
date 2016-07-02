@@ -1,5 +1,5 @@
-url-schemes.json
-~~~~~~~~~~~~~~~~
+data/url-schemes.json
+~~~~~~~~~~~~~~~~~~~~~
 
 This file contains known URL schemes and their properties.
 
@@ -49,18 +49,18 @@ authority [string]
   Semantics of the |authority| component, if known, other than
   |x-callback-url|.  One of following values:
 
-    any             Any value can be used.
-    empty           Always empty.
-    fake            Something other than |host|, |user|, or ID.
-    host            Host and optional port, optionally with user.
-    host+           Same as |host| but other options are also available.
-    id              Some kind of local object ID, including package names.
-    network         Some kind of network object ID.
-    none            Never used.
-    recursive       URL or an encoded URL.
+    any              Any value can be used.
+    empty            Always empty.
+    fake             Something other than |host|, |user|, or ID.
+    host             Host and optional port, optionally with user.
+    host+            Same as |host| but other options are also available.
+    id               Some kind of local object ID, including package names.
+    network          Some kind of network object ID.
+    none             Never used.
+    recursive        URL or an encoded URL.
     resourceless_jid resource-less JID.
-    reverse-domain  Reverse domain name.
-    user            Some kind of user ID.
+    reverse-domain   Reverse domain name.
+    user             Some kind of user ID.
 
 bad_ports [object?]
 
@@ -72,7 +72,8 @@ bad_ports [object?]
 
 browser [boolean]
 
-  Used by Web browsers for internal use or extensions.
+  Used by Web browsers for Web platform, internal use, or browser
+  extensions.
 
 conflict [boolean]
 
@@ -85,8 +86,13 @@ contact [boolean]
 
 default-port [number?]
 
-  The default port <http://url.spec.whatwg.org/#default-port> of the
+  The default port <https://url.spec.whatwg.org/#default-port> of the
   scheme, if defined.  See also |scheme-default-port|.
+
+fetch [boolean]
+
+  Whether the scheme is a fetch scheme
+  <https://url.spec.whatwg.org/#fetch-scheme> or not.
 
 fragment [string?]
 
