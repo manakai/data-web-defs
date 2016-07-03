@@ -71,6 +71,7 @@ all-mime: data/mime-types.json data/file-name-extensions.json
 clean-mime: 
 	rm -fr local/sw-mime-types-xml*
 	rm -fr local/iana-mime-type* local/apache-mime-types
+	rm -fr intermediate/mime-type-provisional.json
 
 local/sw-mime-types-xml:
 	$(WGET) -O $@-top "https://wiki.suikawiki.org/n/List%20of%20MIME%20types?format=xml"
