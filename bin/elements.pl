@@ -1158,7 +1158,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
   my $path = path (__FILE__)->parent->parent->child ('src/html-obsolete.txt');
   my $alts = {};
   my $target;
-  for (split /\x0D?\x0A/, $path->slurp) {
+  for (split /\x0D?\x0A/, $path->slurp_utf8) {
     if (/^#/ or /^\s+##/) {
       #
     } elsif (/^<(\S+)>$/) {

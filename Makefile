@@ -71,7 +71,6 @@ all-mime: data/mime-types.json data/file-name-extensions.json
 clean-mime: 
 	rm -fr local/sw-mime-types-xml*
 	rm -fr local/iana-mime-type* local/apache-mime-types
-	rm -fr intermediate/mime-type-provisional.json
 
 local/sw-mime-types-xml:
 	$(WGET) -O $@-top "https://wiki.suikawiki.org/n/List%20of%20MIME%20types?format=xml"
@@ -112,7 +111,7 @@ local/iana/mime-type-provisional.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/provisional-standard-media-types/provisional-standard-media-types.xml
 
 intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
-    local/iana/mime-type-provisional.json
+    local/iana/mime-type-provisional.json always
 	$(PERL) bin/mime-type-provisional.pl
 
 local/apache-mime-types:
@@ -747,3 +746,5 @@ test-main:
 	!(grep '"_errors"' data/elements.json > /dev/null)
 
 always:
+
+## License: Public Domain.
