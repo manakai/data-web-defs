@@ -35,6 +35,9 @@ my $input_data;
         if (not $in->{content_model}->{_complex} and
             1 == keys %{$in->{content_model}}) {
           $prop->{content_model} = each %{$in->{content_model}};
+          if ($prop->{content_model} eq 'text content') {
+            $prop->{content_model} = 'text';
+          }
         }
       }
       for (keys %{$in->{categories} or {}}) {
@@ -1045,12 +1048,6 @@ while (@obs_attr) {
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs}->{''}->{$attr_name}->{id} = $attr_id;
 }
 
-for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
-  if (($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{content_model} // '') eq 'empty') {
-    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{auto_br} ||= 'disallow';
-  }
-}
-
 ## <https://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'void' for grep { length } split /\s*,\s*|\s+/, q{
@@ -1072,7 +1069,7 @@ area, base, basefont, bgsound, br, col, embed, frame, hr, img, input, keygen, li
 };
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     ||= 'obsolete void macro' for grep { length } split /\s*,\s*|\s+/, q{
-image, isindex
+image
 };
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     ||= 'obsolete raw text' for grep { length } split /\s*,\s*|\s+/, q{
@@ -1082,6 +1079,44 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     ||= 'special' for grep { length } split /\s*,\s*|\s+/, q{
 iframe, noscript, plaintext
 };
+
+$Data->{elements}->{'*'}->{'*'}->{auto_br} = 'disallow';
+$Data->{elements}->{(HTML_NS)}->{'*'}->{auto_br} = 'allow';
+for my $ns (keys %{$Data->{elements}}) {
+  my $ns_default = ($Data->{elements}->{$ns}->{'*'} || {})->{auto_br}
+                || $Data->{elements}->{'*'}->{'*'}->{auto_br};
+  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+    my $el_def = $Data->{elements}->{$ns}->{$ln};
+    my $syntax = $el_def->{syntax_category} // '';
+    my $cm = $el_def->{content_model} // '';
+    if ($cm eq 'empty' or $cm eq 'text' or
+        $syntax eq 'void' or $syntax eq 'obsolete void' or
+        $syntax eq 'raw text' or $syntax eq 'obsolete raw text' or
+        $syntax eq 'escapable raw text' or
+        $syntax eq 'obsolete void macro') {
+      unless ($ns_default eq 'disallow') {
+        $el_def->{auto_br} = 'disallow';
+      }
+    } elsif ($cm eq 'flow content' or $cm eq 'phrasing content' or
+             $cm eq 'transparent') {
+      unless ($ns_default eq 'allow') {
+        $el_def->{auto_br} = 'allow';
+      }
+    } elsif (defined $el_def->{child_elements} or
+             defined $el_def->{complex_content_model} or
+             $el_def->{has_additional_content_constraints}) {
+      unless ($ns_default eq 'disallow') {
+        $el_def->{auto_br} = 'disallow';
+      }
+    }
+  }
+}
+delete $Data->{elements}->{(HTML_NS)}->{$_}->{auto_br} #= 'allow'
+    for qw(figure fieldset details menu template);
+$Data->{elements}->{(MATH_NS)}->{$_}->{auto_br} = 'allow'
+    for qw(mi mo mn ms mtext);
+$Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
+    for qw(title desc foreignObject);
 
 {
   my $path = path (__FILE__)->parent->parent->child ('data/aria.json');

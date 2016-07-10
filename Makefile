@@ -70,6 +70,7 @@ data/specs.json: bin/specs.pl src/specs.txt src/spec-*.txt
 all-mime: data/mime-types.json data/file-name-extensions.json
 clean-mime: 
 	rm -fr local/sw-mime-types-xml*
+	rm -fr local/intermediate-mime-type-provisional
 	rm -fr local/iana-mime-type* local/apache-mime-types
 
 local/sw-mime-types-xml:
@@ -111,8 +112,12 @@ local/iana/mime-type-provisional.xml:
 	$(WGET) -O $@ http://www.iana.org/assignments/provisional-standard-media-types/provisional-standard-media-types.xml
 
 intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
-    local/iana/mime-type-provisional.json always
+    local/iana/mime-type-provisional.json \
+    local/intermediate-mime-type-provisional
 	$(PERL) bin/mime-type-provisional.pl
+
+local/intermediate-mime-type-provisional:
+	touch $@
 
 local/apache-mime-types:
 	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
