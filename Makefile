@@ -435,7 +435,7 @@ data/dom-events.json: bin/dom-events.pl
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt \
     src/attr-types.txt local/obsvocab.html data/aria.json \
-    local/element-aria.json src/html-obsolete.txt \
+    local/element-aria.json src/html-obsolete.txt data/dom.json \
     src/element-categories.txt local/html-tree.json data/browsers.json
 	#local/html-status.xml
 	$(PERL) bin/elements.pl > $@

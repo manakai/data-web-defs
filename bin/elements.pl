@@ -205,6 +205,29 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   }
 }
 
+{
+  my $path = $RootPath->child ('data/dom.json');
+  my $json = json_bytes2perl $path->slurp;
+  my $rd = $json->{idl_defs}->{RequestDestination};
+  my $v = $rd->[1]->{value};
+  my $last_attr = $Data->{elements}->{(HTML_NS)}->{link}->{attrs}->{''}->{as} ||= {};
+  for my $as (keys %{$v->[1]}) {
+    $last_attr->{value_type} = 'case-sensitive enumerated';
+    $last_attr->{enumerated}->{$as}->{url} = 'https://fetch.spec.whatwg.org/#concept-request-destination';
+    $last_attr->{enumerated}->{$as}->{conforming} = 1;
+    $last_attr->{enumerated}->{$as}->{label} = qq{"$as"};
+  }
+
+  $last_attr->{enumerated}->{'#invalid'}->{url}
+      = $last_attr->{enumerated}->{''}->{url};
+  $last_attr->{enumerated}->{'#invalid'}->{label}
+      = $last_attr->{enumerated}->{''}->{label};
+  $last_attr->{enumerated}->{'#missing'}->{url}
+      = $last_attr->{enumerated}->{''}->{url};
+  $last_attr->{enumerated}->{'#missing'}->{label}
+      = $last_attr->{enumerated}->{''}->{label};
+}
+
 ## <input>
 {
   my $input_states = [grep {

@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..5"
+echo "1..6"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -13,3 +13,5 @@ test 3 '.elements["http://www.w3.org/1999/xhtml"].img.content_model == "empty"'
 test 4 '.elements["http://www.w3.org/1999/xhtml"].br.content_model == "empty"'
 
 test 5 '.categories["category-listed"].elements["http://www.w3.org/1999/xhtml"].button | not | not'
+
+test 6 '.elements["http://www.w3.org/1999/xhtml"].link.attrs[""].as.enumerated.font.conforming | not | not'
