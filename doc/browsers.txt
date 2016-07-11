@@ -1,11 +1,61 @@
-browsers.json
-~~~~~~~~~~~~~
+data/browsers.json
+~~~~~~~~~~~~~~~~~~
 
 This file contains data on Web browser environment.
 
 * Structure
 
-The file contains a JSON object, which has following name/value pair:
+The file contains a JSON object, which has following name/value pairs:
+
+  referrer_policies [object]
+
+    Names are referrer policy values and values are corresponding
+    [protocol-object] descriptions, with following additional
+    name/value pairs:
+
+      attr [string?]
+
+        Whether the value can be specified in a referrer policy
+        attribute (i.e. HTML |referrerpolicy| attribute).  If |MAY|,
+        it is allowed.  Otherwise, it is not allowed.
+
+      attr_keyword_url [string?]
+
+        The URL of the specification where the value is defined as an
+        attribute value of the referrer policy attribute, if any.
+
+      attr_state [string?]
+
+        The name of the enumerated attribute state corresponding to
+        the referrer policy value, if any, without " state" suffix.
+
+      http [string?]
+
+        Whether the value can be specified in an HTTP
+        |Referrer-Policy:| header.  If |MAY|, it is allowed.
+        Otherwise, it is not allowed.
+
+      idl [string?]
+
+        Whether the value can be specified where Web IDL
+        |ReferrerPolicy| enumeration value is expected.  If |MAY|, it
+        is allowed.  Otherwise, it is not allowed.
+
+      meta [string?]
+
+        Whether the value can be specified in HTML |<meta
+        name=referrer>|'s |content| attribute.  If |MAY|, it is
+        allowed.  Otherwise, if |MUST NOT|, it is not allowed but a
+        browser must support it.  Otherwise, it is not allowed.
+
+      preferred [string?]
+
+        The preferred referrer policy value, if any.
+
+      rel [string?]
+
+        The link type value, in lowercase cannonical form,
+        corresponding to the referrer policy, if any.
 
   task_sources [object]
 
@@ -34,11 +84,11 @@ The file contains a JSON object, which has following name/value pair:
 
 * Sources
 
-HTML Standard <http://www.whatwg.org/specs/web-apps/current-work/>.
+HTML Standard <https://www.whatwg.org/specs/web-apps/current-work/>.
 
-XMLHttpRequest Standard <http://xhr.spec.whatwg.org/>.
+XMLHttpRequest Standard <https://xhr.spec.whatwg.org/>.
 
-File API <http://dev.w3.org/2006/webapi/FileAPI/>.
+File API <https://dev.w3.org/2006/webapi/FileAPI/>.
 
 Indexed Database API
 <https://dvcs.w3.org/hg/IndexedDB/raw-file/tip/Overview.html>.
@@ -46,8 +96,20 @@ Indexed Database API
 WebGL <http://www.khronos.org/registry/webgl/specs/latest/1.0/>.
 
 File API: Writer
-<http://dev.w3.org/2009/dap/file-system/file-writer.html>.
+<https://dev.w3.org/2009/dap/file-system/file-writer.html>.
 
-Calendar API <http://dev.w3.org/2009/dap/calendar/>.
+Calendar API <https://dev.w3.org/2009/dap/calendar/>.
 
-The Gallery API <http://dev.w3.org/2009/dap/gallery/>.
+The Gallery API <https://dev.w3.org/2009/dap/gallery/>.
+
+Referrer Policy <https://w3c.github.io/webappsec-referrer-policy/>.
+
+* License
+
+You are granted a license to use, reproduce, and create derivative
+works of the JSON file.
+
+Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
+extent possible under law, the author of the JSON file and this
+document has waived all copyright and related or neighboring rights to
+the JSON file and this document.

@@ -436,7 +436,7 @@ data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt \
     src/attr-types.txt local/obsvocab.html data/aria.json \
     local/element-aria.json src/html-obsolete.txt \
-    src/element-categories.txt local/html-tree.json
+    src/element-categories.txt local/html-tree.json data/browsers.json
 	#local/html-status.xml
 	$(PERL) bin/elements.pl > $@
 
@@ -624,7 +624,7 @@ data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl \
     local/iana/link-relations.json
 	$(PERL) bin/html-metadata.pl > $@
 
-data/browsers.json: bin/browsers.pl src/task-sources.txt
+data/browsers.json: bin/browsers.pl src/task-sources.txt data/dom.json
 	$(PERL) bin/browsers.pl > $@
 
 data/rdf.json: bin/rdf.pl

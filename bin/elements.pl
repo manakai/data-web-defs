@@ -15,11 +15,12 @@ sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
 sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
 sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
 
+my $RootPath = path (__FILE__)->parent->parent;
 my $Data = {};
 
 my $input_data;
 {
-  my $path = path (__FILE__)->parent->parent->child ('local/html-extracted.json');
+  my $path = $RootPath->child ('local/html-extracted.json');
   my $json = json_bytes2perl $path->slurp;
   for my $el_name (keys %{$json->{elements}}) {
     next if $el_name eq 'svg' or $el_name eq 'math';
@@ -89,7 +90,7 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('src/element-interfaces.txt');
+  my $path = $RootPath->child ('src/element-interfaces.txt');
   my $ns = '';
   my $ln = '*';
   for (split /\x0D?\x0A/, $path->slurp) {
@@ -107,7 +108,7 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('src/elements.txt');
+  my $path = $RootPath->child ('src/elements.txt');
   for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\s*#/) {
       #
@@ -127,7 +128,7 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 }
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('src/attr-types.txt');
+  my $path = $RootPath->child ('src/attr-types.txt');
   my $ns;
   my $last_attr;
   for (split /\x0D?\x0A/, $path->slurp) {
@@ -166,6 +167,41 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
     } elsif (/\S/) {
       die "Broken line: $_";
     }
+  }
+}
+
+{
+  my $path = $RootPath->child ('data/browsers.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $pol (values %{$json->{referrer_policies}}) {
+    next unless $pol->{attr};
+
+    for my $ln (qw(a area link iframe img)) {
+      my $last_attr = $Data->{elements}->{(HTML_NS)}->{$ln}->{attrs}->{''}->{referrerpolicy} ||= {};
+      $last_attr->{value_type} = 'enumerated';
+      if ($pol->{attr_keyword_url} =~ m{^https?://html.spec.whatwg.org/#(.+)$}) {
+        $last_attr->{enumerated}->{$pol->{value}}->{spec} = 'HTML';
+        $last_attr->{enumerated}->{$pol->{value}}->{id} = $1;
+      }
+      $last_attr->{enumerated}->{$pol->{value}}->{label} = $pol->{attr_state};
+      $last_attr->{enumerated}->{$pol->{value}}->{conforming} = 1;
+    }
+  }
+
+  for my $ln (qw(a area link iframe img)) {
+    my $last_attr = $Data->{elements}->{(HTML_NS)}->{$ln}->{attrs}->{''}->{referrerpolicy} ||= {};
+    $last_attr->{enumerated}->{'#invalid'}->{label}
+        = $last_attr->{enumerated}->{''}->{label};
+    $last_attr->{enumerated}->{'#invalid'}->{spec}
+        = $last_attr->{enumerated}->{''}->{spec};
+    $last_attr->{enumerated}->{'#invalid'}->{id}
+        = $last_attr->{enumerated}->{''}->{id};
+    $last_attr->{enumerated}->{'#missing'}->{label}
+        = $last_attr->{enumerated}->{''}->{label};
+    $last_attr->{enumerated}->{'#missing'}->{spec}
+        = $last_attr->{enumerated}->{''}->{spec};
+    $last_attr->{enumerated}->{'#missing'}->{id}
+        = $last_attr->{enumerated}->{''}->{id};
   }
 }
 
@@ -274,7 +310,7 @@ my $has_category_prop = {};
 my $tree_pattern_name_map = {};
 my $tree_pattern_not_name_map = {};
 {
-  my $path = path (__FILE__)->parent->parent->child ('src/element-categories.txt');
+  my $path = $RootPath->child ('src/element-categories.txt');
   my $name;
   for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\s*#/) {
@@ -323,7 +359,7 @@ my $tree_pattern_not_name_map = {};
 }
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('local/html-tree.json');
+  my $path = $RootPath->child ('local/html-tree.json');
   my $json = json_bytes2perl $path->slurp;
   for my $key (keys %{$json->{patterns}}) {
     my $def = $json->{patterns}->{$key};
@@ -445,7 +481,7 @@ for my $ns (keys %{$Data->{elements}}) {
 
 {
   use Web::DOM::Document;
-  my $path = path (__FILE__)->parent->parent->child ('local/obsvocab.html');
+  my $path = $RootPath->child ('local/obsvocab.html');
   my $doc = new Web::DOM::Document;
   $doc->manakai_is_html (1);
   $doc->inner_html ($path->slurp_utf8);
@@ -1119,7 +1155,7 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     for qw(title desc foreignObject);
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('data/aria.json');
+  my $path = $RootPath->child ('data/aria.json');
   my $json = json_bytes2perl $path->slurp;
 
   for my $attr (keys %{$json->{attrs}}) {
@@ -1157,7 +1193,7 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
 }
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('local/element-aria.json');
+  my $path = $RootPath->child ('local/element-aria.json');
   my $json = json_bytes2perl $path->slurp;
   for my $el_name (keys %{$json->{html_elements}}) {
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria} = $json->{html_elements}->{$el_name};
@@ -1190,7 +1226,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
            border units pluginpage pluginspage pluginurl palette);
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('src/html-obsolete.txt');
+  my $path = $RootPath->child ('src/html-obsolete.txt');
   my $alts = {};
   my $target;
   for (split /\x0D?\x0A/, $path->slurp_utf8) {
