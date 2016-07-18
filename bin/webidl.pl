@@ -114,7 +114,7 @@ my $XAttrAllowed = {
     ImplicitThis => 1, NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     Unforgeable => 1, LegacyUnenumerableNamedProperties => 1,
-    SecureContext => 1,
+    SecureContext => 1, HTMLConstructor => 1,
   },
   callback_interface => {
     ArrayClass => 1, LegacyArrayClass => 1,
@@ -215,6 +215,7 @@ my $XAttrArgs = {
   SecureContext => {no => 1},
   LenientSetter => {no => 1},
   CEReactions => {no => 1},
+  HTMLConstructor => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
@@ -233,6 +234,8 @@ for my $name (keys %$XAttrMultiple) {
 my $XAttrDisallowedCombinations = [
   ['Clamp', 'EnforceRange'],
   ['Constructor', 'NoInterfaceObject'],
+  ['HTMLConstructor', 'Constructor'],
+  ['HTMLConstructor', 'NoInterfaceObject'],
   ['OverrideBuiltins', 'Global'],
   ['OverrideBuiltins', 'PrimaryGlobal'],
   ['PutForwards', 'Replaceable'],
