@@ -228,7 +228,7 @@ sub for_actions (&$) {
       my $state = shift @state;
       next if $state_done{$state}++;
       my $new_state = "DOCTYPE $state";
-      for my $cond (keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
+      for my $cond (sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}->{$state}->{conds}}) {
         $Data->{tokenizer}->{states}->{$new_state}->{conds}->{$cond}->{actions} = for_actions {
           my $acts = shift;
           my $new_acts = [];
