@@ -22,7 +22,7 @@ my $input_data;
 {
   my $path = $RootPath->child ('local/html-extracted.json');
   my $json = json_bytes2perl $path->slurp;
-  for my $el_name (keys %{$json->{elements}}) {
+  for my $el_name (sort { $a cmp $b } keys %{$json->{elements}}) {
     next if $el_name eq 'svg' or $el_name eq 'math';
     my $in = $json->{elements}->{$el_name};
     for my $el_name ($el_name, @{$in->{additional_local_names} || []}) {
@@ -34,20 +34,20 @@ my $input_data;
       $prop->{spec} = 'HTML' if defined $prop->{id};
       if ($in->{content_model}) {
         if (not $in->{content_model}->{_complex} and
-            1 == keys %{$in->{content_model}}) {
+            1 == sort { $a cmp $b } keys %{$in->{content_model}}) {
           $prop->{content_model} = each %{$in->{content_model}};
           if ($prop->{content_model} eq 'text content') {
             $prop->{content_model} = 'text';
           }
         }
       }
-      for (keys %{$in->{categories} or {}}) {
+      for (sort { $a cmp $b } keys %{$in->{categories} or {}}) {
         next if $_ eq '_complex';
         $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{categories}->{$_} = 1;
         $Data->{categories}->{$_}->{spec} ||= 'HTML';
         $Data->{categories}->{$_}->{id} ||= $json->{category_label_to_id}->{$_} || $_;
       }
-      for my $attr_name (keys %{$in->{attrs} or {}}) {
+      for my $attr_name (sort { $a cmp $b } keys %{$in->{attrs} or {}}) {
         my $i = $in->{attrs}->{$attr_name};
         my $p = $prop->{attrs}->{''}->{$attr_name} ||= {};
         $p->{conforming} = 1;
@@ -57,14 +57,14 @@ my $input_data;
           $p->{spec} = 'HTML';
         }
       } # $attr_name
-      for my $state (keys %{$in->{states} or {}}) {
-        for my $cat (keys %{$in->{states}->{$state}->{categories} or {}}) {
+      for my $state (sort { $a cmp $b } keys %{$in->{states} or {}}) {
+        for my $cat (sort { $a cmp $b } keys %{$in->{states}->{$state}->{categories} or {}}) {
           $prop->{states}->{$state}->{categories}->{$cat} = 1;
         }
       } # $state
     }
   } # $el_name
-  for my $attr_name (keys %{$json->{global_attrs} or {}}) {
+  for my $attr_name (sort { $a cmp $b } keys %{$json->{global_attrs} or {}}) {
     my $prop = $json->{global_attrs}->{$attr_name};
     my $p = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr_name} ||= {};
     $p->{conforming} = 1;
@@ -82,7 +82,7 @@ my $input_data;
   $input_data = $json->{elements}->{input};
 }
 
-for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
+for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}}) {
   next unless $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{id} =~ /^handler-/;
   for (qw(id spec desc)) {
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{frameset}->{attrs}->{''}->{$attr_name}->{$_} = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{body}->{attrs}->{''}->{$attr_name}->{$_};
@@ -211,7 +211,7 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
   my $rd = $json->{idl_defs}->{RequestDestination};
   my $v = $rd->[1]->{value};
   my $last_attr = $Data->{elements}->{(HTML_NS)}->{link}->{attrs}->{''}->{as} ||= {};
-  for my $as (keys %{$v->[1]}) {
+  for my $as (sort { $a cmp $b } keys %{$v->[1]}) {
     $last_attr->{value_type} = 'case-sensitive enumerated';
     $last_attr->{enumerated}->{$as}->{url} = 'https://fetch.spec.whatwg.org/#concept-request-destination';
     $last_attr->{enumerated}->{$as}->{conforming} = 1;
@@ -232,13 +232,13 @@ for my $attr_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{
 {
   my $input_states = [grep {
     $Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}->{$_}->{conforming} and not /^#/;
-  } keys %{$Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}}];
+  } sort { $a cmp $b } keys %{$Data->{elements}->{(HTML_NS)}->{input}->{attrs}->{''}->{type}->{enumerated}}];
   for my $type (grep { $_ ne 'hidden' } @$input_states) {
-    for my $category (keys %{$input_data->{categories_unless_hidden}}) {
+    for my $category (sort { $a cmp $b } keys %{$input_data->{categories_unless_hidden}}) {
       $Data->{input}->{states}->{$type}->{categories}->{$category} = 1;
     }
   }
-  for my $category (keys %{$input_data->{categories_if_hidden}}) {
+  for my $category (sort { $a cmp $b } keys %{$input_data->{categories_if_hidden}}) {
     $Data->{input}->{states}->{hidden}->{categories}->{$category} = 1;
   }
   for my $type (@$input_states) {
@@ -311,14 +311,14 @@ $Data->{input}->{states}->{$_}->{supported_canvas_fallback} = 1
 $Data->{categories}->{'feed significant content'}->{url} = 'https://wiki.suikawiki.org/n/Feed%20Parsing';
 $Data->{categories}->{'feed significant content'}->{label} = 'feed significant content';
 $Data->{categories}->{'feed significant content'}->{text} = 1;
-for my $ns (keys %{$Data->{elements}}) {
-  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
     my $data = $Data->{elements}->{$ns}->{$ln};
     if (($data->{categories} || {})->{'palpable content'} and
         ($data->{categories} || {})->{'embedded content'}) {
       $data->{categories}->{'feed significant content'} = 1;
     }
-    for my $state (keys %{$data->{states} or {}}) {
+    for my $state (sort { $a cmp $b } keys %{$data->{states} or {}}) {
       my $d = $data->{states}->{$state};
       if ((($data->{categories} || {})->{'embedded content'} or
            ($d->{categories} || {})->{'embedded content'}) and
@@ -384,7 +384,7 @@ my $tree_pattern_not_name_map = {};
 {
   my $path = $RootPath->child ('local/html-tree.json');
   my $json = json_bytes2perl $path->slurp;
-  for my $key (keys %{$json->{patterns}}) {
+  for my $key (sort { $a cmp $b } keys %{$json->{patterns}}) {
     my $def = $json->{patterns}->{$key};
     unless (defined $def and ref $def eq 'ARRAY' and $def->[0] eq 'or') {
       die "$path: Unknown pattern value for |$key|";
@@ -410,7 +410,7 @@ my $tree_pattern_not_name_map = {};
       }
     }
   }
-  for my $key (keys %{$json->{patterns_not}}) {
+  for my $key (sort { $a cmp $b } keys %{$json->{patterns_not}}) {
     my $def = $json->{patterns_not}->{$key};
     unless (defined $def and ref $def eq 'ARRAY' and $def->[0] eq 'or') {
       die "$path: Unknown pattern value for |$key|";
@@ -429,7 +429,7 @@ my $tree_pattern_not_name_map = {};
       }
     }
   }
-  for my $key (keys %{$json->{steps}}) {
+  for my $key (sort { $a cmp $b } keys %{$json->{steps}}) {
     my $name = $tree_pattern_name_map->{$key};
     my $wk = 'while';
     unless (defined $name) {
@@ -472,10 +472,10 @@ my $tree_pattern_not_name_map = {};
 
 ## For backward compatibility
 {
-  for my $ns (keys %{$Data->{elements} or {}}) {
-    for my $ln (keys %{$Data->{elements}->{$ns}}) {
+  for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {
+    for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
       my $cats = $Data->{elements}->{$ns}->{$ln}->{categories} || {};
-      for my $name (keys %$has_category_prop) {
+      for my $name (sort { $a cmp $b } keys %$has_category_prop) {
         if ($cats->{$name}) {
           $Data->{elements}->{$ns}->{$ln}->{$name} = 1;
         }
@@ -488,11 +488,11 @@ my $tree_pattern_not_name_map = {};
   }
 }
 
-for my $ns (keys %{$Data->{elements}}) {
-  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
     my $v = $Data->{elements}->{$ns}->{$ln};
-    for my $ans (keys %{$v->{attrs} || {}}) {
-      for my $aln (keys %{$v->{attrs}->{$ans}}) {
+    for my $ans (sort { $a cmp $b } keys %{$v->{attrs} || {}}) {
+      for my $aln (sort { $a cmp $b } keys %{$v->{attrs}->{$ans}}) {
         my $w = $v->{attrs}->{$ans}->{$aln};
         if ($w->{id} and $w->{id} =~ /^handler-/ and $w->{spec} eq 'HTML') {
           $w->{value_type} ||= 'event handler';
@@ -671,13 +671,13 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{id} = $_;
 }
 
-for my $ns (keys %{$Data->{elements} or {}}) {
-  for my $ln (keys %{$Data->{elements}->{$ns} or {}}) {
-    for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{categories} or {}}) {
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns} or {}}) {
+    for my $cat_name (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}->{$ln}->{categories} or {}}) {
       $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
     }
-    for my $state (keys %{$Data->{elements}->{$ns}->{$ln}->{states} or {}}) {
-      for my $cat_name (keys %{$Data->{elements}->{$ns}->{$ln}->{states}->{$state}->{categories} or {}}) {
+    for my $state (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}->{$ln}->{states} or {}}) {
+      for my $cat_name (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}->{$ln}->{states}->{$state}->{categories} or {}}) {
         if ($ln eq '*') {
           $Data->{categories}->{$cat_name}->{has_additional_rules} = 1;
         } else {
@@ -687,8 +687,8 @@ for my $ns (keys %{$Data->{elements} or {}}) {
     }
   }
 }
-for my $state (keys %{$Data->{input}->{states} or {}}) {
-  for my $cat_name (keys %{$Data->{input}->{states}->{$state}->{categories} or {}}) {
+for my $state (sort { $a cmp $b } keys %{$Data->{input}->{states} or {}}) {
+  for my $cat_name (sort { $a cmp $b } keys %{$Data->{input}->{states}->{$state}->{categories} or {}}) {
     $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{(HTML_NS)}->{input} = 1;
   }
 }
@@ -845,8 +845,8 @@ for my $ce ($Data->{elements}->{+ATOMDELETED_NS}->{'deleted-entry'}->{child_elem
   #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
   #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
 }
-for my $ns (keys %{$Data->{elements}}) {
-  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
     if (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomPersonConstruct') {
       for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
         $ce->{+ATOM_NS}->{$_}->{min} = 0,
@@ -1141,10 +1141,10 @@ iframe, noscript, plaintext
 
 $Data->{elements}->{'*'}->{'*'}->{auto_br} = 'disallow';
 $Data->{elements}->{(HTML_NS)}->{'*'}->{auto_br} = 'allow';
-for my $ns (keys %{$Data->{elements}}) {
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
   my $ns_default = ($Data->{elements}->{$ns}->{'*'} || {})->{auto_br}
                 || $Data->{elements}->{'*'}->{'*'}->{auto_br};
-  for my $ln (keys %{$Data->{elements}->{$ns}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
     my $el_def = $Data->{elements}->{$ns}->{$ln};
     my $syntax = $el_def->{syntax_category} // '';
     my $cm = $el_def->{content_model} // '';
@@ -1181,7 +1181,7 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
   my $path = $RootPath->child ('data/aria.json');
   my $json = json_bytes2perl $path->slurp;
 
-  for my $attr (keys %{$json->{attrs}}) {
+  for my $attr (sort { $a cmp $b } keys %{$json->{attrs}}) {
     my $adef =
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr} =
     $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{$attr} = {};
@@ -1193,12 +1193,12 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     $adef->{spec} = 'ARIA';
     if ($json->{attrs}->{$attr}->{tokens}) {
       if ($adef->{value_type} eq 'enumerated') {
-        for (keys %{$json->{attrs}->{$attr}->{tokens}}) {
+        for (sort { $a cmp $b } keys %{$json->{attrs}->{$attr}->{tokens}}) {
           $adef->{enumerated}->{$_}->{spec} = 'ARIA';
           $adef->{enumerated}->{$_}->{conforming} = 1;
         }
       } else {
-        for (keys %{$json->{attrs}->{$attr}->{tokens}}) {
+        for (sort { $a cmp $b } keys %{$json->{attrs}->{$attr}->{tokens}}) {
           $adef->{keywords}->{$_}->{spec} = 'ARIA';
           $adef->{keywords}->{$_}->{conforming} = 1;
         }
@@ -1206,7 +1206,7 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     }
   }
 
-  for my $role (keys %{$json->{roles}}) {
+  for my $role (sort { $a cmp $b } keys %{$json->{roles}}) {
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role} =
     $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role} =
         {spec => 'ARIA'};
@@ -1218,13 +1218,13 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
 {
   my $path = $RootPath->child ('local/element-aria.json');
   my $json = json_bytes2perl $path->slurp;
-  for my $el_name (keys %{$json->{html_elements}}) {
+  for my $el_name (sort { $a cmp $b } keys %{$json->{html_elements}}) {
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria} = $json->{html_elements}->{$el_name};
   }
   $Data->{input}->{aria} = $json->{input};
 
   ## :disabled
-  for my $el_name (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+  for my $el_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
     if (((($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs} or {})->{''}->{disabled} or {})->{id} || '') eq 'attr-fe-disabled') {
       $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria}->{''}->{attrs}->{'attr-disabled'} = {value_type => 'true/missing', state => ':disabled', strong => 1};
     }
@@ -1232,7 +1232,7 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
   delete $json->{common}->{''}->{disabled};
 
   ## :invalid
-  for my $el_name (keys %{$Data->{categories}->{'category-submit'}->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+  for my $el_name (sort { $a cmp $b } keys %{$Data->{categories}->{'category-submit'}->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria}->{''}->{attrs}->{'attr-invalid'} = {value_type => 'true/missing', state => ':invalid', strong => 1};
   }
   delete $json->{common}->{''}->{invalid};
@@ -1290,7 +1290,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
     }
   }
 
-  for (keys %$alts) {
+  for (sort { $a cmp $b } keys %$alts) {
     my ($el, $attr) = split / /, $_;
     my $v = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el} ||= {};
     $v = $v->{attrs}->{''}->{$attr} ||= {} if defined $attr;
@@ -1298,8 +1298,8 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
   }
 }
 
-for my $ln (keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
-  for my $attr_name (keys %{($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs} or {})->{''} or {}}) {
+for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
+  for my $attr_name (sort { $a cmp $b } keys %{($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs} or {})->{''} or {}}) {
     next if defined $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs}->{''}->{$attr_name}->{id};
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$ln}->{attrs}->{''}->{$attr_name}->{value_type}
         ||= ($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr_name} or {})->{value_type}
