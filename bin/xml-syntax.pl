@@ -72,6 +72,15 @@ sub for_actions (&$) {
       $Data->{tokenizer}->{states}->{$_} = $tokenizer->{states}->{$_};
     }
   }
+  for ('local/html-old-tokenizer.json') {
+    my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ($_)->slurp;
+    for (sort { $a cmp $b } keys %{$tokenizer->{char_sets} or {}}) {
+      $Data->{tokenizer}->{char_sets}->{$_} = $tokenizer->{char_sets}->{$_};
+    }
+    for (sort { $a cmp $b } grep { /^comment/ } keys %{$tokenizer->{states}}) {
+      $Data->{tokenizer}->{states}->{$_} = $tokenizer->{states}->{$_};
+    }
+  }
 
   ## Ignore states introduced by
   ## <https://github.com/whatwg/html/commit/6c629ac9e5736cdb824293999673de6a0f5ea06d>.
