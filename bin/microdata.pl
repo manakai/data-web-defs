@@ -79,18 +79,18 @@ sub n ($) {
   }
 }
 
-for my $itemtype (keys %$Data) {
+for my $itemtype (sort { $a cmp $b } keys %$Data) {
   if (($Data->{$itemtype}->{spec} // '') eq 'HTML') {
     my $id = $Data->{$itemtype}->{id};
     if (defined $id) {
       $Data->{$itemtype}->{id} = 'md-' . $id;
     }
-    for my $itemprop (keys %{$Data->{$itemtype}->{props}}) {
+    for my $itemprop (sort { $a cmp $b } keys %{$Data->{$itemtype}->{props}}) {
       $Data->{$itemtype}->{props}->{$itemprop}->{spec} ||= 'HTML';
       $Data->{$itemtype}->{props}->{$itemprop}->{id} ||= 'md-' . $id . '-' . $itemprop;
       if ($Data->{$itemtype}->{props}->{$itemprop}->{enum} and
           not $itemtype eq 'http://microformats.org/profile/hcalendar#vevent') {
-        for my $keyword (keys %{$Data->{$itemtype}->{props}->{$itemprop}->{enum} || {}}) {
+        for my $keyword (sort { $a cmp $b } keys %{$Data->{$itemtype}->{props}->{$itemprop}->{enum} || {}}) {
           $Data->{$itemtype}->{props}->{$itemprop}->{enum}->{$keyword}->{spec} ||= 'HTML';
           $Data->{$itemtype}->{props}->{$itemprop}->{enum}->{$keyword}->{id} ||= 'md-' . $id . '-' . $itemprop . '-' . $keyword;
         }
@@ -98,11 +98,11 @@ for my $itemtype (keys %$Data) {
       if ($Data->{$itemtype}->{props}->{$itemprop}->{item}) {
         $Data->{$itemtype}->{props}->{$itemprop}->{item}->{vocab} ||= $Data->{$itemtype}->{vocab}
             if $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props};
-        for my $subitemprop (keys %{$Data->{$itemtype}->{props}->{$itemprop}->{item}->{props} || {}}) {
+        for my $subitemprop (sort { $a cmp $b } keys %{$Data->{$itemtype}->{props}->{$itemprop}->{item}->{props} || {}}) {
           $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{spec} ||= 'HTML';
           $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{id} ||= 'md-' . $id . '-' . $itemprop . '-' . $subitemprop;
           if ($Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{enum}) {
-            for my $subkeyword (keys %{$Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{enum} || {}}) {
+            for my $subkeyword (sort { $a cmp $b } keys %{$Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{enum} || {}}) {
               $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{enum}->{$subkeyword}->{spec} ||= 'HTML';
               if ($itemprop eq 'related' and $subitemprop eq 'rel') {
                 $Data->{$itemtype}->{props}->{$itemprop}->{item}->{props}->{$subitemprop}->{enum}->{$subkeyword}->{id} ||= 'md-' . $id . '-' . $subitemprop . '-' . $subkeyword;
@@ -124,7 +124,7 @@ for my $itemtype (keys %$Data) {
 
   my $path = path (__FILE__)->parent->parent->child ('local/schemaorg.json');
   my $schema = json_bytes2perl $path->slurp;
-  for my $id (keys %$schema) {
+  for my $id (sort { $a cmp $b } keys %$schema) {
     if ($schema->{$id}->{types}->{'http://schema.org/Type'}) {
       $Data->{$id}->{vocab} = 'http://schema.org/';
       $Data->{$id}->{use_itemid} = 1;
@@ -139,7 +139,7 @@ for my $itemtype (keys %$Data) {
       delete $Data->{$id}->{superclass_of} unless keys %{$Data->{$id}->{superclass_of}};
     }
   }
-  for my $id (keys %$schema) {
+  for my $id (sort { $a cmp $b } keys %$schema) {
     if ($schema->{$id}->{types}->{'http://schema.org/Property'}) {
       my $prop = $id;
       $prop =~ s{^http://schema.org/}{};
@@ -172,7 +172,7 @@ for my $itemtype (keys %$Data) {
           $def->{value} = 'schema.org mass';
         }
       }
-      for my $range (keys %{$schema->{$id}->{range} or {}}) {
+      for my $range (sort { $a cmp $b } keys %{$schema->{$id}->{range} or {}}) {
         if (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Quantity'}) {
           #
         } elsif (defined $schema->{$range}->{subclass_of}->{'http://schema.org/Thing'}) {
@@ -247,7 +247,7 @@ for my $itemtype (keys %$Data) {
         }
         $def->{desc} = $desc;
       }
-      for my $type (keys %{$schema->{$id}->{domain} or {}}) {
+      for my $type (sort { $a cmp $b } keys %{$schema->{$id}->{domain} or {}}) {
         $Data->{$type}->{props}->{$prop} = $def
             if $schema->{$id}->{domain}->{$type} == 1;
       }

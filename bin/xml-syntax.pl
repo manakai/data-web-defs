@@ -93,8 +93,8 @@ sub for_actions (&$) {
   {
     my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child
         ('local/xml-tokenizer-delta.json')->slurp;
-    for my $state (keys %{$tokenizer->{states}}) {
-      for my $cond (keys %{$tokenizer->{states}->{$state}->{conds}}) {
+    for my $state (sort { $a cmp $b } keys %{$tokenizer->{states}}) {
+      for my $cond (sort { $a cmp $b } keys %{$tokenizer->{states}->{$state}->{conds}}) {
         $Data->{tokenizer}->{states}->{$state}->{conds}->{$cond}
             = $tokenizer->{states}->{$state}->{conds}->{$cond};
       }
@@ -124,7 +124,7 @@ sub for_actions (&$) {
   my $tokenizer_charrefs = do {
     my $json1 = json_bytes2perl path (__FILE__)->parent->parent->child ('local/html-tokenizer-charrefs.json')->slurp;
     my $json2 = json_bytes2perl path (__FILE__)->parent->parent->child ('local/xml-tokenizer-charrefs-replace.json')->slurp;
-    for (keys %{$json2->{states}}) {
+    for (sort { $a cmp $b } keys %{$json2->{states}}) {
       $json1->{states}->{$_} = $json2->{states}->{$_};
     }
 
@@ -155,9 +155,9 @@ sub for_actions (&$) {
     ['ENTITY value in entity state', undef],
   ) {
     my ($orig_state, $additional) = @$_;
-    for my $state (keys %{$tokenizer_charrefs->{states}}) {
+    for my $state (sort { $a cmp $b } keys %{$tokenizer_charrefs->{states}}) {
       if ($Data->{tokenizer}->{states}->{"$orig_state - $state"}) {
-        for my $cond (keys %{$Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}}) {
+        for my $cond (sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}}) {
           my $acts = $Data->{tokenizer}->{states}->{"$orig_state - $state"}->{conds}->{$cond}->{actions};
           for my $act (@$acts) {
             if ($act->{type} eq 'EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR') {
@@ -172,7 +172,7 @@ sub for_actions (&$) {
           }
         }
       } else {
-        for my $cond (keys %{$tokenizer_charrefs->{states}->{$state}->{conds}}) {
+        for my $cond (sort { $a cmp $b } keys %{$tokenizer_charrefs->{states}->{$state}->{conds}}) {
           my $def = $tokenizer_charrefs->{states}->{$state}->{conds}->{$cond};
           my $acts = [map {
             if ($_->{type} eq 'SWITCH-BACK') {
@@ -275,7 +275,7 @@ sub for_actions (&$) {
     $visit_state->('default attribute value in entity state');
     $visit_state->('ENTITY value in entity state');
     $visit_state->('before ENTITY value in entity state');
-    for (keys %{$Data->{tokenizer}->{states}}) {
+    for (sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}}) {
       if (/before text declaration in markup declaration state/) {
         $visit_state->($_);
       }
@@ -300,9 +300,9 @@ sub for_actions (&$) {
 
 {
   my $changed = 0;
-  for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  for my $state (sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}}) {
     my $state_def = $Data->{tokenizer}->{states}->{$state};
-    for my $cond (keys %{$state_def->{conds}}) {
+    for my $cond (sort { $a cmp $b } keys %{$state_def->{conds}}) {
       my $types = {%{$state_def->{initial_token_types} or {}}};
       my $last_state = $state;
       for my $act (@{$state_def->{conds}->{$cond}->{actions}}) {
@@ -313,11 +313,11 @@ sub for_actions (&$) {
           $types = {};
         } elsif ($act->{type} eq 'switch') {
           if (defined $act->{if}) {
-            for (keys %$types) {
+            for (sort { $a cmp $b } keys %$types) {
               $Data->{tokenizer}->{states}->{$act->{state}}->{initial_token_types}->{$_} ||= do { $changed = 1; $types->{$_} };
             }
           } elsif (defined $act->{dtd_state}) {
-            for (keys %$types) {
+            for (sort { $a cmp $b } keys %$types) {
               $Data->{tokenizer}->{states}->{$act->{dtd_state}}->{initial_token_types}->{$_} ||= do { $changed = 1; $types->{$_} };
             }
           } else {
@@ -327,7 +327,7 @@ sub for_actions (&$) {
           #
         }
       }
-      for (keys %$types) {
+      for (sort { $a cmp $b } keys %$types) {
         my $value = ($last_state eq 'data state' and $cond eq 'EOF') ? -1 : $types->{$_};
         $Data->{tokenizer}->{states}->{$last_state}->{initial_token_types}->{$_} ||= do { $changed = 1; $value };
       }
@@ -337,9 +337,9 @@ sub for_actions (&$) {
 }
 
 {
-  for my $state (keys %{$Data->{tokenizer}->{states}}) {
+  for my $state (sort { $a cmp $b } keys %{$Data->{tokenizer}->{states}}) {
     my $state_def = $Data->{tokenizer}->{states}->{$state};
-    for my $cond (keys %{$state_def->{conds}}) {
+    for my $cond (sort { $a cmp $b } keys %{$state_def->{conds}}) {
       my $types = {%{$state_def->{initial_token_types} or {}}};
       for my $act (@{$state_def->{conds}->{$cond}->{actions}}) {
         if ($act->{type} eq 'create') {
