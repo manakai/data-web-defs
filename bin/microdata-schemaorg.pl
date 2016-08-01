@@ -78,11 +78,11 @@ if (0) {
   }
 }
 
-for my $id (keys %$Data) {
-  my @super = keys %{$Data->{$id}->{subclass_of} or {}};
+for my $id (sort { $a cmp $b } keys %$Data) {
+  my @super = sort { $a cmp $b } keys %{$Data->{$id}->{subclass_of} or {}};
   while (@super) {
     my $super = shift @super;
-    for (keys %{$Data->{$super}->{subclass_of} or {}}) {
+    for (sort { $a cmp $b } keys %{$Data->{$super}->{subclass_of} or {}}) {
       next if $Data->{$id}->{subclass_of}->{$_};
       $Data->{$id}->{subclass_of}->{$_}
           = min ($Data->{$id}->{subclass_of}->{$_}, $Data->{$id}->{subclass_of}->{$super} + $Data->{$super}->{subclass_of}->{$_});
@@ -91,10 +91,10 @@ for my $id (keys %$Data) {
   }
   $Data->{$id}->{subclass_of}->{$id} = 0;
 
-  my @sub = keys %{$Data->{$id}->{superclass_of} or {}};
+  my @sub = sort { $a cmp $b } keys %{$Data->{$id}->{superclass_of} or {}};
   while (@sub) {
     my $sub = shift @sub;
-    for (keys %{$Data->{$sub}->{superclass_of} or {}}) {
+    for (sort { $a cmp $b } keys %{$Data->{$sub}->{superclass_of} or {}}) {
       next if $Data->{$id}->{superclass_of}->{$_};
       $Data->{$id}->{superclass_of}->{$_}
           = min ($Data->{$id}->{superclass_of}->{$_}, $Data->{$id}->{superclass_of}->{$sub} + $Data->{$sub}->{superclass_of}->{$_});
@@ -104,19 +104,19 @@ for my $id (keys %$Data) {
   $Data->{$id}->{superclass_of}->{$id} = 0;
 }
 
-for my $id (keys %$Data) {
+for my $id (sort { $a cmp $b } keys %$Data) {
   for my $key (qw(types)) {
-    for my $type (keys %{$Data->{$id}->{$key} or {}}) {
+    for my $type (sort { $a cmp $b } keys %{$Data->{$id}->{$key} or {}}) {
       $Data->{$id}->{$key}->{$_}
           = min ($Data->{$id}->{$key}->{$_}, 1 + $Data->{$type}->{subclass_of}->{$_})
-              for keys %{$Data->{$type}->{subclass_of} or {}};
+              for sort { $a cmp $b } keys %{$Data->{$type}->{subclass_of} or {}};
     }
   }
   for my $key (qw(domain range)) {
-    for my $type (keys %{$Data->{$id}->{$key} or {}}) {
+    for my $type (sort { $a cmp $b } keys %{$Data->{$id}->{$key} or {}}) {
       $Data->{$id}->{$key}->{$_}
           = min ($Data->{$id}->{$key}->{$_}, 1 + $Data->{$type}->{superclass_of}->{$_})
-              for keys %{$Data->{$type}->{superclass_of} or {}};
+              for sort { $a cmp $b } keys %{$Data->{$type}->{superclass_of} or {}};
     }
   }
 }
