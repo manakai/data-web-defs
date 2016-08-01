@@ -2204,6 +2204,24 @@
          },
          "DOCTYPE comment end bang state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 3,
+                        "type" : "append",
+                        "value" : "--!�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -2221,10 +2239,6 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "name" : "comment-end-bang-003e",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
@@ -2245,25 +2259,26 @@
                         "value" : "--!"
                      },
                      {
-                        "state" : "DOCTYPE comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -2277,6 +2292,24 @@
          },
          "DOCTYPE comment end dash state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -2294,25 +2327,26 @@
                         "value" : "-"
                      },
                      {
-                        "state" : "DOCTYPE comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -2326,8 +2360,30 @@
          },
          "DOCTYPE comment end state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 2,
+                        "type" : "append",
+                        "value" : "--�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:0021" : {
                   "actions" : [
+                     {
+                        "name" : "comment-end-0021",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "DOCTYPE comment end bang state",
                         "type" : "switch"
@@ -2336,6 +2392,10 @@
                },
                "CHAR:002D" : {
                   "actions" : [
+                     {
+                        "name" : "comment-end-002d",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "data",
                         "index_offset" : 0,
@@ -2361,165 +2421,36 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "name" : "comment-end-else",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 2,
                         "type" : "append",
                         "value" : "--"
                      },
                      {
-                        "state" : "DOCTYPE comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
-                     {
-                        "possible_token_types" : {
-                           "comment token" : 1
-                        },
-                        "type" : "emit"
-                     },
                      {
                         "state" : "DTD state",
                         "type" : "switch"
                      },
                      {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "DOCTYPE comment less-than sign bang dash dash state" : {
-            "conds" : {
-               "CHAR:003E" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment end state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "name" : "comment-less-than-sign-bang-dash-dash-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "DOCTYPE comment end state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment end state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "DOCTYPE comment less-than sign bang dash state" : {
-            "conds" : {
-               "CHAR:002D" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment less-than sign bang dash dash state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment end dash state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "DOCTYPE comment less-than sign bang state" : {
-            "conds" : {
-               "CHAR:002D" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment less-than sign bang dash state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "DOCTYPE comment less-than sign state" : {
-            "conds" : {
-               "CHAR:0021" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
-                        "state" : "DOCTYPE comment less-than sign bang state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "DOCTYPE comment state",
-                        "type" : "switch"
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -2533,6 +2464,24 @@
          },
          "DOCTYPE comment start dash state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -2568,25 +2517,26 @@
                         "value" : "-"
                      },
                      {
-                        "state" : "DOCTYPE comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
                      }
                   ]
                },
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -2600,6 +2550,24 @@
          },
          "DOCTYPE comment start state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "DOCTYPE comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -2629,8 +2597,26 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
                         "state" : "DOCTYPE comment state",
                         "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -2666,18 +2652,6 @@
                      }
                   ]
                },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
-                        "state" : "DOCTYPE comment less-than sign state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -2689,14 +2663,14 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DTD state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -30747,6 +30721,24 @@
          },
          "comment end bang state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 3,
+                        "type" : "append",
+                        "value" : "--!�"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -30764,10 +30756,6 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
-                        "name" : "comment-end-bang-003e",
-                        "type" : "parse error"
-                     },
-                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
@@ -30788,11 +30776,12 @@
                         "value" : "--!"
                      },
                      {
-                        "state" : "comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "comment state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -30803,14 +30792,14 @@
                         "type" : "parse error"
                      },
                      {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -30824,6 +30813,24 @@
          },
          "comment end dash state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-�"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -30841,11 +30848,12 @@
                         "value" : "-"
                      },
                      {
-                        "state" : "comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "comment state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -30856,14 +30864,14 @@
                         "type" : "parse error"
                      },
                      {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -30877,8 +30885,30 @@
          },
          "comment end state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 2,
+                        "type" : "append",
+                        "value" : "--�"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:0021" : {
                   "actions" : [
+                     {
+                        "name" : "comment-end-0021",
+                        "type" : "parse error"
+                     },
                      {
                         "state" : "comment end bang state",
                         "type" : "switch"
@@ -30887,6 +30917,10 @@
                },
                "CHAR:002D" : {
                   "actions" : [
+                     {
+                        "name" : "comment-end-002d",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "data",
                         "index_offset" : 0,
@@ -30912,17 +30946,22 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "name" : "comment-end-else",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 2,
                         "type" : "append",
                         "value" : "--"
                      },
                      {
-                        "state" : "comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "comment state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -30933,148 +30972,14 @@
                         "type" : "parse error"
                      },
                      {
-                        "possible_token_types" : {
-                           "comment token" : 1
-                        },
-                        "type" : "emit"
-                     },
-                     {
                         "state" : "data state",
                         "type" : "switch"
                      },
                      {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "comment less-than sign bang dash dash state" : {
-            "conds" : {
-               "CHAR:003E" : {
-                  "actions" : [
-                     {
-                        "state" : "comment end state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "name" : "comment-less-than-sign-bang-dash-dash-else",
-                        "type" : "parse error"
-                     },
-                     {
-                        "state" : "comment end state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               },
-               "EOF" : {
-                  "actions" : [
-                     {
-                        "state" : "comment end state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "comment less-than sign bang dash state" : {
-            "conds" : {
-               "CHAR:002D" : {
-                  "actions" : [
-                     {
-                        "state" : "comment less-than sign bang dash dash state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "comment end dash state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "comment less-than sign bang state" : {
-            "conds" : {
-               "CHAR:002D" : {
-                  "actions" : [
-                     {
-                        "state" : "comment less-than sign bang dash state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "comment state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "reconsume"
-                     }
-                  ]
-               }
-            },
-            "initial_token_types" : {
-               "comment token" : 1
-            }
-         },
-         "comment less-than sign state" : {
-            "conds" : {
-               "CHAR:0021" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
-                        "state" : "comment less-than sign bang state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     }
-                  ]
-               },
-               "ELSE" : {
-                  "actions" : [
-                     {
-                        "state" : "comment state",
-                        "type" : "switch"
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -31088,6 +30993,24 @@
          },
          "comment start dash state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 1,
+                        "type" : "append",
+                        "value" : "-�"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -31123,11 +31046,12 @@
                         "value" : "-"
                      },
                      {
-                        "state" : "comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "comment state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -31138,14 +31062,14 @@
                         "type" : "parse error"
                      },
                      {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
@@ -31159,6 +31083,24 @@
          },
          "comment start state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "data",
+                        "index_offset" : 0,
+                        "type" : "append",
+                        "value" : "�"
+                     },
+                     {
+                        "state" : "comment state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
                "CHAR:002D" : {
                   "actions" : [
                      {
@@ -31188,8 +31130,30 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "field" : "data",
+                        "type" : "append"
+                     },
+                     {
                         "state" : "comment state",
                         "type" : "switch"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "comment token" : 1
+                        },
+                        "type" : "emit"
                      },
                      {
                         "type" : "reconsume"
@@ -31225,18 +31189,6 @@
                      }
                   ]
                },
-               "CHAR:003C" : {
-                  "actions" : [
-                     {
-                        "field" : "data",
-                        "type" : "append"
-                     },
-                     {
-                        "state" : "comment less-than sign state",
-                        "type" : "switch"
-                     }
-                  ]
-               },
                "ELSE" : {
                   "actions" : [
                      {
@@ -31252,14 +31204,14 @@
                         "type" : "parse error"
                      },
                      {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "reconsume"
