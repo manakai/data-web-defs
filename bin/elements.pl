@@ -22,19 +22,24 @@ my $input_data;
 {
   my $path = $RootPath->child ('local/html-extracted.json');
   my $json = json_bytes2perl $path->slurp;
-  for my $el_name (sort { $a cmp $b } keys %{$json->{elements}}) {
-    next if $el_name eq 'svg' or $el_name eq 'math';
-    my $in = $json->{elements}->{$el_name};
-    for my $el_name ($el_name, @{$in->{additional_local_names} || []}) {
+  for my $el_name0 (sort { $a cmp $b } keys %{$json->{elements}}) {
+    next if $el_name0 eq 'svg' or $el_name0 eq 'math';
+    my $in = $json->{elements}->{$el_name0};
+    for my $el_name ($el_name0, @{$in->{additional_local_names} || []}) {
       my $prop = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name} ||= {};
       $prop->{conforming} = 1;
       for (qw(desc start_tag end_tag id)) {
-        $prop->{$_} //= $in->{$_} if defined $in->{$_};
+        next unless defined $in->{$_};
+        if ($el_name0 eq $el_name) {
+          $prop->{$_} = $in->{$_};
+        } else {
+          $prop->{$_} //= $in->{$_};
+        }
       }
       $prop->{spec} = 'HTML' if defined $prop->{id};
       if ($in->{content_model}) {
         if (not $in->{content_model}->{_complex} and
-            1 == sort { $a cmp $b } keys %{$in->{content_model}}) {
+            1 == keys %{$in->{content_model}}) {
           $prop->{content_model} = each %{$in->{content_model}};
           if ($prop->{content_model} eq 'text content') {
             $prop->{content_model} = 'text';
