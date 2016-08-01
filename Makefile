@@ -485,6 +485,7 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/html-tokenizer-charrefs.json \
     local/xml-tokenizer-charrefs-replace.json \
     local/html-tokenizer-charrefs-jump.json \
+    local/html-old-tokenizer.json \
     local/xml-tokenizer-delta.json \
     local/xml-tokenizer-replace.json \
     local/xml-tokenizer-only.json \
@@ -558,6 +559,8 @@ local/html-tokenizer-charrefs-jump.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs-jump.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs-jump.html > $@
 
+local/html-old-tokenizer.json: $< src/tokenizer/html-syntax.html
+	$(PERL) $< src/tokenizer/html-syntax.html > $@
 local/xml5-spec.html:
 	$(SAVEURL) $@ https://dvcs.w3.org/hg/xml-er/raw-file/3fb2e443ca50/Overview.src.html
 
