@@ -76,7 +76,7 @@ while (1) {
       $new = 1 unless $Data->{roles}->{$role};
       $Data->{roles}->{$role}->{subclass_of}->{$super} = 1;
       $Data->{roles}->{$role}->{subclass_of}->{$_} = $Data->{roles}->{$super}->{subclass_of}->{$_} + 1
-          for keys %{$Data->{roles}->{$super}->{subclass_of}};
+          for sort { $a cmp $b } keys %{$Data->{roles}->{$super}->{subclass_of}};
     }
   }
   last unless $new;
@@ -126,14 +126,14 @@ $Data->{roles}->{tab}->{attrs}->{'aria-setsize'} ||= {};
 ## <http://w3c.github.io/aria/aria/aria.html#aria-modal>
 $Data->{roles}->{window}->{attrs}->{'aria-modal'} ||= {};
 
-for my $role (keys %{$Data->{roles}}) {
-  for my $super (keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
+for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
+  for my $super (sort { $a cmp $b } keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
     unless ($super eq 'roletype') { # global
-      for my $state (keys %{$Data->{roles}->{$super}->{attrs} or {}}) {
+      for my $state (sort { $a cmp $b } keys %{$Data->{roles}->{$super}->{attrs} or {}}) {
         $Data->{roles}->{$role}->{attrs}->{$state} ||= $Data->{roles}->{$super}->{attrs}->{$state};
       }
     }
-    for my $role2 (keys %{$Data->{roles}->{$super}->{must_contain} or {}}) {
+    for my $role2 (sort { $a cmp $b } keys %{$Data->{roles}->{$super}->{must_contain} or {}}) {
       $Data->{roles}->{$role}->{must_contain}->{$role2} ||= $Data->{roles}->{$super}->{must_contain}->{$role2};
     }
   }
@@ -183,14 +183,14 @@ $Data->{roles}->{text}->{preferred} = {type => 'html_element', name => 'pre'};
 $Data->{roles}->{searchbox}->{preferred} = {type => 'input', name => 'search'};
 $Data->{roles}->{switch}->{preferred} = {type => 'input', name => 'checkbox'};
 
-for my $sub_role (keys %{$Data->{roles}}) {
-  for my $super_role (keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
+for my $sub_role (sort { $a cmp $b } keys %{$Data->{roles}}) {
+  for my $super_role (sort { $a cmp $b } keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
     $Data->{roles}->{$super_role}->{superclass_of}->{$sub_role} = $Data->{roles}->{$sub_role}->{subclass_of}->{$super_role};
   }
 }
-for my $role (keys %{$Data->{roles}}) {
-  for my $role2 (keys %{$Data->{roles}->{$role}->{scope} or {}}) {
-    for my $sub (keys %{$Data->{roles}->{$role2}->{superclass_of} or {}}) {
+for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
+  for my $role2 (sort { $a cmp $b } keys %{$Data->{roles}->{$role}->{scope} or {}}) {
+    for my $sub (sort { $a cmp $b } keys %{$Data->{roles}->{$role2}->{superclass_of} or {}}) {
       $Data->{roles}->{$role}->{scope}->{$sub} ||= $Data->{roles}->{$role}->{scope}->{$role2} + $Data->{roles}->{$role2}->{superclass_of}->{$sub};
     }
   }

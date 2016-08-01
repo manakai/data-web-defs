@@ -65,10 +65,10 @@ sub for_actions (&$) {
        'local/tokenizer-pi.json',
        'local/xml-tokenizer-replace.json') {
     my $tokenizer = json_bytes2perl path (__FILE__)->parent->parent->child ($_)->slurp;
-    for (keys %{$tokenizer->{char_sets} or {}}) {
+    for (sort { $a cmp $b } keys %{$tokenizer->{char_sets} or {}}) {
       $Data->{tokenizer}->{char_sets}->{$_} = $tokenizer->{char_sets}->{$_};
     }
-    for (keys %{$tokenizer->{states}}) {
+    for (sort { $a cmp $b } keys %{$tokenizer->{states}}) {
       $Data->{tokenizer}->{states}->{$_} = $tokenizer->{states}->{$_};
     }
   }
@@ -351,7 +351,7 @@ sub for_actions (&$) {
           $act->{check_end_tag_token} = 1 if $types->{'end tag token'};
         }
         if (defined $act->{field} and not $act->{type} =~ /-to-/) {
-          $Data->{tokenizer}->{tokens}->{$_}->{fields}->{$act->{field}} = 1 for keys %$types;
+          $Data->{tokenizer}->{tokens}->{$_}->{fields}->{$act->{field}} = 1 for sort { $a cmp $b } keys %$types;
         }
       }
     }

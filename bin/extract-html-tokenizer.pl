@@ -680,7 +680,7 @@ sub parse_switch ($) {
         if ($n->local_name eq 'dl' and $n->class_list->contains ('switch')) {
           my $conds = parse_switch $n;
           if (2 == keys %$conds and defined $conds->{ELSE}) {
-            my $cond_true = [grep { $_ ne 'ELSE' } keys %$conds]->[0];
+            my $cond_true = [grep { $_ ne 'ELSE' } sort { $a cmp $b } keys %$conds]->[0];
             if ($cond_true =~ /^IF-EMPTY:(.+)/) {
               push @$actions, {type => 'if-empty', list => $1,
                                actions => $conds->{$cond_true}->{actions},
@@ -728,7 +728,7 @@ while (@node) {
     } elsif ($ln eq 'dl') {
       if (defined $state_name and $node->class_list->contains ('switch')) {
         my $conds = parse_switch $node;
-        for (keys %$conds) {
+        for (sort { $a cmp $b } keys %$conds) {
           $Data->{states}->{$state_name}->{conds}->{$_} = $conds->{$_};
         }
       } else { # not .switch
@@ -755,8 +755,8 @@ while (@node) {
 
 sub modify_actions (&) {
   my $code = shift;
-  for my $state (keys %{$Data->{states}}) {
-    for my $cond (keys %{$Data->{states}->{$state}->{conds} or {}}) {
+  for my $state (sort { $a cmp $b } keys %{$Data->{states}}) {
+    for my $cond (sort { $a cmp $b } keys %{$Data->{states}->{$state}->{conds} or {}}) {
       for my $key (qw(actions false_actions)) {
         my $acts = $Data->{states}->{$state}->{conds}->{$cond}->{$key};
         if (defined $acts) {
