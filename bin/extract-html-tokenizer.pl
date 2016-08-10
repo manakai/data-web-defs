@@ -104,37 +104,38 @@ sub parse_action ($) {
       push @action, {type => 'switch-by-temp',
                      state => $2,
                      script_state => $1};
+
     } elsif ($action =~ s/^Emit the token\.\s*// or
              $action =~ s/^Emit the current token\.\s*// or
              $action =~ s/^Emit the comment\.// or
-             $action =~ s/^Emit (?:the current|that|the) (?:tag|DOCTYPE|comment) token(?:\.\s*| and then )// or
-             $action =~ s/^Emit the current token and then //) { # xml5
+             $action =~ s/^Emit (?:the current|that|the) (?:tag |DOCTYPE |comment |)token(?:\.\s*| and then )//) {
       push @action, {type => 'emit'};
     } elsif ($action =~ s/^Emit the current (?:tag |)token as (start tag token|empty tag token|short end tag token)(?:\.\s*| and then )//) { # xml5
-                push @action, {type => 'emit-as', token => $1};
-              } elsif ($action =~ s/^Emit a short end tag token and then //) { # xml5
-                push @action, {type => 'emit', token => 'short end tag token'};
-              } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token\.\s*//) {
-                push @action, {type => 'emit-char'};
-              } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token \(offset=([0-9]+)\)\.\s*//) {
-                push @action, {type => 'emit-char', index_offset => $1};
-              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|)\.\s*//) {
-                push @action, {type => 'emit-char', value => chr hex $1};
-              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|) \(offset=([0-9]+)\)\.\s*//) {
-                push @action, {type => 'emit-char', value => chr hex $1,
-                               index_offset => $2};
-              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|\([^()]+\)) character token,?(?: and|) (a|the) /Emit $2 /) {
-                push @action, {type => 'emit-char', value => chr hex $1};
-              } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) \([^()]+\) character as character token and also //) { # xml5
-                push @action, {type => 'emit-char', value => chr hex $1};
-              } elsif ($action =~ s/^Emit two U\+([0-9A-F]+) (?:\([^()]+\)|[A-Z0-9 ]+) character(?:s as character|) tokens(?: and also |\.)//) {
-                push @action, {type => 'emit-char', value => (chr hex $1) . (chr hex $1)};
-              } elsif ($action =~ s/^Emit a character token for each of the characters in the temporary buffer \(in the order they were added to the buffer\)\.\s*//) {
-                push @action, {type => 'emit-temp'};
-              } elsif ($action =~ s/^Emit an end-of-file token\.\s*//) {
-                push @action, {type => 'emit-eof'};
-              } elsif ($action =~ s/^Emit an end-of-DOCTYPE token\.\s*//) {
-                push @action, {type => 'emit-end-of-DOCTYPE'};
+      push @action, {type => 'emit-as', token => $1};
+    } elsif ($action =~ s/^Emit a short end tag token and then //) { # xml5
+      push @action, {type => 'emit', token => 'short end tag token'};
+    } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token\.\s*//) {
+      push @action, {type => 'emit-char'};
+    } elsif ($action =~ s/^[Ee]mit the (?:current |)input character as (?:a |)character token \(offset=([0-9]+)\)\.\s*//) {
+      push @action, {type => 'emit-char', index_offset => $1};
+    } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|)\.\s*//) {
+      push @action, {type => 'emit-char', value => chr hex $1};
+    } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|)(\([^()]+\)|) character(?: token|) \(offset=([0-9]+)\)\.\s*//) {
+      push @action, {type => 'emit-char', value => chr hex $1,
+                     index_offset => $2};
+    } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) (?:[A-Z0-9 _-]+|\([^()]+\)) character token,?(?: and|) (an?|the) /Emit $2 /) {
+      push @action, {type => 'emit-char', value => chr hex $1};
+    } elsif ($action =~ s/^Emit a U\+([0-9A-F]+) \([^()]+\) character as character token and also //) { # xml5
+      push @action, {type => 'emit-char', value => chr hex $1};
+    } elsif ($action =~ s/^Emit two U\+([0-9A-F]+) (?:\([^()]+\)|[A-Z0-9 ]+) character(?:s as character|) tokens(?: and also |\.)//) {
+      push @action, {type => 'emit-char', value => (chr hex $1) . (chr hex $1)};
+    } elsif ($action =~ s/^Emit a character token for each of the characters in the temporary buffer \(in the order they were added to the buffer\)\.\s*//) {
+      push @action, {type => 'emit-temp'};
+    } elsif ($action =~ s/^Emit an end-of-file token\.\s*//) {
+      push @action, {type => 'emit-eof'};
+    } elsif ($action =~ s/^Emit an end-of-DOCTYPE token\.\s*//) {
+      push @action, {type => 'emit-end-of-DOCTYPE'};
+
               } elsif ($action =~ s/^Reconsume the (?:current input |EOF |)character\.\s*//) {
                 push @action, {type => 'reconsume'};
               } elsif ($action =~ s/^[Rr](?:eprocess|econsume) the (?:current |)input character in the ([A-Za-z0-9 ._()-]+ state)\.\s*//) { # xml5
