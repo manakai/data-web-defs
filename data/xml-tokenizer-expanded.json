@@ -1048,13 +1048,13 @@
                         "value" : "]"
                      },
                      {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -1067,9 +1067,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "CDATA section end state" : {
@@ -1133,13 +1131,13 @@
                         "value" : "]]"
                      },
                      {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -1152,9 +1150,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "CDATA section state" : {
@@ -1196,10 +1192,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -1210,9 +1202,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "CDATA section state after 000D" : {
@@ -1260,13 +1250,13 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "CDATA section state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -1619,41 +1609,14 @@
                         "value" : "?"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -2214,37 +2177,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -2321,41 +2253,14 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -3590,41 +3495,14 @@
                         "type" : "set-empty"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -3800,41 +3678,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -4016,41 +3867,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -4232,41 +4056,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -4448,41 +4245,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -4664,41 +4434,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -4880,41 +4623,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -5112,41 +4828,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -5350,41 +5039,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -5566,41 +5228,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -5782,41 +5417,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -5998,41 +5606,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -6214,41 +5795,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -6446,41 +6000,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -6662,41 +6189,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -6878,41 +6378,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -7094,41 +6567,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -7326,41 +6772,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -7542,41 +6961,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -7758,41 +7150,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -7974,41 +7339,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -8190,41 +7528,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -8406,41 +7717,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -8622,41 +7906,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -8854,41 +8111,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "DOCTYPE bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "DTD state",
-                        "type" : "switch"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "if" : "sections is not empty",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "break" : 1,
-                        "if" : "fragment",
-                        "type" : "emit-eof"
-                     },
-                     {
-                        "error_type" : "parser:EOF",
-                        "name" : "EOF",
-                        "type" : "parse error"
-                     },
-                     {
-                        "type" : "set-DTD-mode",
-                        "value" : "N/A"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
-                        "type" : "emit-end-of-DOCTYPE"
                      },
                      {
                         "type" : "emit-eof"
@@ -9103,10 +8333,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -9205,6 +8431,10 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DOCTYPE public identifier (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
@@ -9218,10 +8448,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -9317,10 +8543,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -9421,6 +8643,10 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DOCTYPE public identifier (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
@@ -9434,10 +8660,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -9619,10 +8841,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -9633,9 +8851,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "DOCTYPE system identifier (double-quoted) state" : {
@@ -9711,10 +8927,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -9804,6 +9016,10 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DOCTYPE system identifier (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
@@ -9817,10 +9033,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -9902,10 +9114,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -9995,6 +9203,10 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "DOCTYPE system identifier (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
@@ -10008,10 +9220,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -19265,14 +18473,14 @@
                         "value" : "?"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -19285,9 +18493,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "PI target question state" : {
@@ -22505,10 +21711,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -22571,14 +21773,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -22643,14 +21845,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -22715,14 +21917,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -22787,14 +21989,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -22875,14 +22077,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -22947,14 +22149,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23019,14 +22221,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23091,14 +22293,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23163,14 +22365,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23251,14 +22453,14 @@
                         "type" : "set-flag"
                      },
                      {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23393,10 +22595,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23537,10 +22735,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -23622,10 +22816,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -23764,10 +22954,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -35432,10 +34618,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -35680,10 +34862,6 @@
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -37315,9 +36493,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "after mss state" : {
@@ -41424,13 +40600,13 @@
                         "type" : "set-attr"
                      },
                      {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -41531,10 +40707,6 @@
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -41730,13 +40902,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -41977,13 +41149,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -42224,13 +41396,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -42582,13 +41754,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -42811,13 +41983,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -43108,13 +42280,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -43235,13 +42407,13 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (double-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -43338,10 +42510,6 @@
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -43537,13 +42705,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -43784,13 +42952,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -44031,13 +43199,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -44389,13 +43557,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -44618,13 +43786,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -44915,13 +44083,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -45042,13 +44210,13 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (single-quoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -45190,10 +44358,6 @@
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -45490,13 +44654,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -45854,13 +45018,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -46218,13 +45382,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -46593,13 +45757,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -46923,13 +46087,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -47237,13 +46401,13 @@
                         "type" : "append-temp-to-attr"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -47429,13 +46593,13 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -51015,10 +50179,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -51029,9 +50189,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "before DOCTYPE public identifier state" : {
@@ -51148,10 +50306,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -51277,10 +50431,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -62205,13 +61355,13 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "after attribute name state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -62400,13 +61550,13 @@
                         "type" : "parse error"
                      },
                      {
+                        "state" : "attribute value (unquoted) state",
+                        "type" : "switch"
+                     },
+                     {
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -63573,10 +62723,6 @@
                            "DOCTYPE token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -65294,10 +64440,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -65406,10 +64548,6 @@
                         "type" : "emit"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -65486,14 +64624,14 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -66079,9 +65217,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "comment end bang state" : {
@@ -67181,9 +66317,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference before hexadecimal number state" : {
@@ -67339,9 +66473,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference decimal number state" : {
@@ -67529,9 +66661,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference hexadecimal number state" : {
@@ -67719,9 +66849,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference name state" : {
@@ -68031,9 +67159,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference number state" : {
@@ -68216,9 +67342,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference state" : {
@@ -68483,9 +67607,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "data state - character reference state after 000D" : {
@@ -74922,14 +74044,14 @@
                         "type" : "set-empty"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -74942,9 +74064,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "ignored section markup declaration open state" : {
@@ -75353,9 +74473,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "in pic state" : {
@@ -75630,14 +74748,14 @@
                         "type" : "set-empty"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -75650,9 +74768,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- -" : {
@@ -75815,14 +74931,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -75835,9 +74951,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- D" : {
@@ -76006,14 +75120,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -76026,9 +75140,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- DO" : {
@@ -76197,14 +75309,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -76217,9 +75329,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- DOC" : {
@@ -76388,14 +75498,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -76408,9 +75518,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- DOCT" : {
@@ -76579,14 +75687,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -76599,9 +75707,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- DOCTY" : {
@@ -76770,14 +75876,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -76790,9 +75896,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- DOCTYP" : {
@@ -76977,14 +76081,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -76997,9 +76101,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- [" : {
@@ -77157,14 +76259,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -77177,9 +76279,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- [C" : {
@@ -77337,14 +76437,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -77357,9 +76457,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- [CD" : {
@@ -77517,14 +76615,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -77537,9 +76635,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- [CDA" : {
@@ -77697,14 +76793,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -77717,9 +76813,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- [CDAT" : {
@@ -77877,14 +76971,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -77897,9 +76991,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "markup declaration open state -- [CDATA" : {
@@ -78060,14 +77152,14 @@
                         "type" : "append-temp"
                      },
                      {
+                        "state" : "bogus comment state",
+                        "type" : "switch"
+                     },
+                     {
                         "possible_token_types" : {
                            "comment token" : 1
                         },
                         "type" : "emit"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -78080,9 +77172,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "parameter entity declaration or reference after space state" : {
@@ -80776,10 +79866,6 @@
                         "type" : "parse error"
                      },
                      {
-                        "state" : "data state",
-                        "type" : "switch"
-                     },
-                     {
                         "type" : "emit-eof"
                      }
                   ]
@@ -80863,10 +79949,6 @@
                         "error_type" : "parser:EOF",
                         "name" : "EOF",
                         "type" : "parse error"
-                     },
-                     {
-                        "state" : "data state",
-                        "type" : "switch"
                      },
                      {
                         "type" : "emit-eof"
@@ -81535,9 +80617,7 @@
                "ELEMENT token" : -1,
                "ENTITY token" : -1,
                "NOTATION token" : -1,
-               "end tag token" : -1,
-               "processing instruction token" : -1,
-               "start tag token" : -1
+               "processing instruction token" : -1
             }
          },
          "text declaration in ENTITY value in entity state" : {
