@@ -947,7 +947,7 @@ my $DescPatterns = [
   [qr/move on to the next one/, 'NEXT-TOKEN'],
   [qr/run the adoption agency algorithm for the tag name "([^"]+)"/,
    'adoption agency algorithm', 'tag_name'],
-  [qr/run the adoption agency algorithm for the token's tag name/,
+  [qr/run the adoption agency algorithm for the token(?:'s tag name|)/,
    'adoption agency algorithm'],
   [qr/run the application cache selection algorithm with (the result of applying the URL serializer algorithm to the resulting parsed URL with the exclude fragment flag set)/,
    'application cache selection algorithm', 'INPUT'],
