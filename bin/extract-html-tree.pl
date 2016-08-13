@@ -511,6 +511,9 @@ while (@node) {
             $category_name = lc $el->query_selector ('dfn')->text_content;
             $list = {};
           } elsif ($ln eq 'dd' and defined $category_name) {
+            for ($el->query_selector_all ('.note')->to_list) {
+              $_->parent_node->remove_child ($_);
+            }
             my $tc = _n $el->text_content;
             $tc =~ s/^[^:]+: //;
             $tc =~ s/^HTML's //;
