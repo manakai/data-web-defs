@@ -39,10 +39,11 @@ for ($RootPath->child ('src/task-sources.txt')->lines_utf8) {
   $Data->{referrer_policies}->{''}->{attr_state} = 'empty string';
   $Data->{referrer_policies}->{$_}->{meta} = 'MUST NOT',
   $Data->{referrer_policies}->{$_}->{url} = 'https://html.spec.whatwg.org/#meta-referrer'
-      for qw(always never default);
+      for qw(always never default origin-when-crossorigin);
   $Data->{referrer_policies}->{always}->{preferred} = 'unsafe-url';
   $Data->{referrer_policies}->{never}->{preferred} = 'no-referrer';
   $Data->{referrer_policies}->{default}->{preferred} = 'no-referrer-when-downgrade';
+  $Data->{referrer_policies}->{'origin-when-crossorigin'}->{preferred} = 'origin-when-cross-origin';
   $Data->{referrer_policies}->{'no-referrer'}->{rel} = 'noreferrer';
 }
 
