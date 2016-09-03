@@ -477,9 +477,9 @@ data/html-syntax.json: bin/html-syntax.pl local/html-tokenizer.json \
     local/html-tokenizer-charrefs-jump.json \
     local/html-tree.json
 	$(PERL) bin/html-syntax.pl > $@
-	!(grep '"misc"' $@ > /dev/null)
-	!(grep '"UNPARSED"' $@ > /dev/null)
-	!(grep '"COND"' $@ > /dev/null)
+	!(grep '"misc"' $@)
+	!(grep '"UNPARSED"' $@)
+	!(grep '"COND"' $@)
 data/xml-syntax.json: bin/xml-syntax.pl \
     local/html-tokenizer.json \
     local/html-tokenizer-charrefs.json \
@@ -493,10 +493,10 @@ data/xml-syntax.json: bin/xml-syntax.pl \
     local/tokenizer-pi.json \
     local/xml-tree.json
 	$(PERL) bin/xml-syntax.pl > $@
-	!(grep '"misc"' $@ > /dev/null)
-	!(grep '"UNPARSED"' $@ > /dev/null)
-	!(grep '"COND"' $@ > /dev/null)
-	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@ > /dev/null)
+	!(grep '"misc"' $@)
+	!(grep '"UNPARSED"' $@)
+	!(grep '"COND"' $@)
+	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@)
 data/temma-syntax.json: bin/temma-syntax.pl \
     local/html-tokenizer.json \
     local/html-tokenizer-charrefs.json \
@@ -505,47 +505,47 @@ data/temma-syntax.json: bin/temma-syntax.pl \
     local/temma-tokenizer-replace.json \
     local/tokenizer-pi.json
 	$(PERL) bin/temma-syntax.pl > $@
-	!(grep '"misc"' $@ > /dev/null)
-	!(grep '"UNPARSED"' $@ > /dev/null)
-	!(grep '"COND"' $@ > /dev/null)
-	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@ > /dev/null)
+	!(grep '"misc"' $@)
+	!(grep '"UNPARSED"' $@)
+	!(grep '"COND"' $@)
+	!(grep '"EMIT-TEMP-OR-APPEND-TEMP-TO-ATTR"' $@)
 
 data/html-tokenizer-expanded.json: data/html-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/html-syntax.json > $@
-	!(grep reconsume $@ > /dev/null)
+	!(grep reconsume $@)
 data/xml-tokenizer-expanded.json: data/xml-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/xml-syntax.json > $@
-	!(grep reconsume $@ > /dev/null)
+	!(grep reconsume $@)
 data/temma-tokenizer-expanded.json: data/temma-syntax.json \
     bin/tokenizer-variants.pl intermediate/errors/parser-errors.json
 	$(PERL) bin/tokenizer-variants.pl < data/temma-syntax.json > $@
-	!(grep reconsume $@ > /dev/null)
+	!(grep reconsume $@)
 
 data/html-tree-constructor-expanded.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
-	!(grep '"tree_steps"' $@ > /dev/null)
-	!(grep '"CHAR' $@ > /dev/null)
-	!(grep '"FIELD"' $@ > /dev/null)
-	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
+	!(grep '"tree_steps"' $@)
+	!(grep '"CHAR' $@)
+	!(grep '"FIELD"' $@)
+	!(grep '"USING-THE-RULES-FOR"' $@)
 data/html-tree-constructor-expanded-no-isindex.json: data/html-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
 	NO_ISINDEX=1 \
 	$(PERL) bin/expand-tree-constructor.pl < data/html-syntax.json > $@
-	!(grep 'isindex' $@ > /dev/null)
+	!(grep 'isindex' $@)
 data/xml-tree-constructor-expanded.json: data/xml-syntax.json \
     bin/expand-tree-constructor.pl data/elements.json \
     intermediate/errors/parser-errors.json
 	PARSER_LANG=XML \
 	$(PERL) bin/expand-tree-constructor.pl < data/xml-syntax.json > $@
-	!(grep '"tree_steps"' $@ > /dev/null)
-	!(grep '"CHAR' $@ > /dev/null)
-	!(grep '"FIELD"' $@ > /dev/null)
-	!(grep '"USING-THE-RULES-FOR"' $@ > /dev/null)
+	!(grep '"tree_steps"' $@)
+	!(grep '"CHAR' $@)
+	!(grep '"FIELD"' $@)
+	!(grep '"USING-THE-RULES-FOR"' $@)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
 	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
@@ -596,15 +596,15 @@ local/xml-tokenizer-only2.json: bin/extract-html-tokenizer.pl \
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
 	$(PERL) bin/extract-html-tree.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
-	!(grep '"DESC"' $@ > /dev/null)
-	!(grep '"COND"' $@ > /dev/null)
-	!(grep '"misc"' $@ > /dev/null)
-	!(grep '"IF"' $@ > /dev/null)
-	!(grep '"TARGET"' $@ > /dev/null)
-	!(grep '"PROCESS"' $@ > /dev/null)
-	!(grep '"SAME-AS"' $@ > /dev/null)
-	!(grep '"LABEL"' $@ > /dev/null)
-	!(grep '"LOOP"' $@ > /dev/null)
+	!(grep '"DESC"' $@)
+	!(grep '"COND"' $@)
+	!(grep '"misc"' $@)
+	!(grep '"IF"' $@)
+	!(grep '"TARGET"' $@)
+	!(grep '"PROCESS"' $@)
+	!(grep '"SAME-AS"' $@)
+	!(grep '"LABEL"' $@)
+	!(grep '"LOOP"' $@)
 local/xml-tree.json: bin/extract-html-tree.pl src/xml-tree-construction.html
 	$(PERL) bin/extract-html-tree.pl src/xml-tree-construction.html > $@
 
@@ -751,7 +751,7 @@ test-deps: deps local/bin/jq
 
 test-main:
 	$(PROVE) t/*.t
-	!(grep '"_errors"' data/elements.json > /dev/null)
+	!(grep '"_errors"' data/elements.json)
 
 always:
 

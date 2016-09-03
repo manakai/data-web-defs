@@ -907,7 +907,7 @@ my $DescPatterns = [
   [qr/put (.+) in (.+)/, 'PUSH', 'ITEM', 'LIST'],
   [qr/set (.+?) (?:back |)to (?:point to |)(.+)/, 'SET', 'TARGET', 'VALUE'],
   [qr/let (.+?) (?:be|have) (.+)/, 'SET', 'TARGET', 'VALUE'],
-  [qr/initialise (.+) to be (.+)/, 'SET', 'TARGET', 'VALUE'],
+  [qr/initiali[zs]e (.+) to be (.+)/, 'SET', 'TARGET', 'VALUE'],
   [qr/mark (.+) as (?:being |)(.+)/, 'MARK', 'TARGET', 'VALUE'],
   [qr/unset (.+)/, 'UNSET', 'TARGET'],
   [qr/increment (.+) by one/, 'INCREMENT', 'TARGET'],
