@@ -3,8 +3,7 @@ use warnings;
 use Path::Tiny;
 use lib glob path (__FILE__)->parent->child ('modules/*/lib');
 use JSON::PS;
-use Web::DomainName::Canonicalize;
-use Web::DomainName::Punycode;
+use Web::Host;
 
 my $root_path = path (__FILE__)->parent->parent;
 my $Data = {};
@@ -65,7 +64,10 @@ my $Data = {};
       my $exception = $suffix =~ s/^!//;
       $suffix =~ s/^\.//;
       $suffix =~ s/\.$//;
-      my @label = map { canonicalize_domain_name $_ } split /\./, $suffix;
+      my $star = $suffix =~ s/^\*\.//;
+      my $host = Web::Host->parse_string ($suffix);
+      my @label = split /\./, $host->to_ascii;
+      unshift @label, '*' if $star;
       my $data = $Data->{tlds}->{pop @label} ||= {};
       while (@label) {
         my $label = pop @label;
@@ -85,7 +87,8 @@ my $Data = {};
     next unless defined $d;
     for my $a_label (keys %$d) {
       if ($a_label =~ /^xn--/) {
-        my $u_label = decode_punycode substr $a_label, 4;
+        my $host = Web::Host->parse_string ($a_label);
+        my $u_label = $host->to_unicode;
         if (defined $u_label and not $a_label eq $u_label) {
           $d->{$a_label}->{u} = $u_label;
         }
