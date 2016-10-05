@@ -694,15 +694,6 @@
          "type" : "webidl:parse error"
       },
       {
-         "di" : 215,
-         "fragment" : "] [*id=\u0022dom-datatransfer-types\u0022*]types;\u000A  DOMString [*id=\u0022dom-datatransfer-getdata\u0022*]getData(DOMStri",
-         "index" : 457,
-         "level" : "m",
-         "spec" : "HTML",
-         "text" : "other, *",
-         "type" : "webidl:parse error"
-      },
-      {
          "di" : 235,
          "fragment" : "HTMLConstructor]\u000Ainterface [*id=\u0022htmlcanvaselement\u0022*]HTMLCanvasElement : HTMLElement {\u000A  [CEReaction",
          "index" : 148,
@@ -766,15 +757,6 @@
          "value" : "DOMMatrixInit"
       },
       {
-         "di" : 168,
-         "fragment" : "readonly attribute DataTransfer? [*id=\u0022dom-dragevent-datatransfer\u0022*]dataTransfer;\u000A};\u000A\u000Adictionary [*i",
-         "index" : 165,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "DataTransfer"
-      },
-      {
          "di" : 8,
          "fragment" : "[CEReactions] Document transformToDocument(Node source);\u000A  void setParameter([TreatNullAs=EmptyStrin",
          "index" : 416,
@@ -800,6 +782,15 @@
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "File"
+      },
+      {
+         "di" : 215,
+         "fragment" : "[SameObject] readonly attribute [*id=\u0022filelist-section\u0022*]FileList [*id=\u0022dom-datatransfer-files\u0022*]fil",
+         "index" : 732,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "FileList"
       },
       {
          "di" : 78,
@@ -894,7 +885,7 @@
       {
          "di" : 239,
          "fragment" : "partial interface ServiceWorkerGlobalScope {\u000A  attribute EventHandler [*id=\u0022dom-serviceworkerglobals",
-         "index" : 1624,
+         "index" : 1640,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -1101,7 +1092,7 @@
       {
          "di" : 239,
          "fragment" : "dictionary [*id=\u0022dictdef-notificationeventinit\u0022*]NotificationEventInit : ExtendableEventInit {\u000A  req",
-         "index" : 1374,
+         "index" : 1390,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -1587,6 +1578,14 @@
          }
       ],
       "DOMTokenList" : [
+         "object",
+         {
+            "Exposed" : {
+               "Window" : 1
+            }
+         }
+      ],
+      "DataTransfer" : [
          "object",
          {
             "Exposed" : {
@@ -9741,6 +9740,182 @@
             ]
          }
       ],
+      "DataTransfer" : [
+         "interface",
+         {
+            "Exposed" : {
+               "Window" : 1
+            },
+            "id" : "datatransfer",
+            "members" : {
+               "clearData" : [
+                  "operation",
+                  {
+                     "id" : "dom-datatransfer-cleardata",
+                     "overload_set" : {
+                        "" : {
+                           "args" : [
+                           ],
+                           "type" : "void"
+                        },
+                        "DOMString" : {
+                           "args" : [
+                              {
+                                 "name" : "format",
+                                 "optionality" : "optional",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "dropEffect" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-datatransfer-dropeffect",
+                     "setter" : 1,
+                     "spec" : "HTML",
+                     "type" : "DOMString"
+                  }
+               ],
+               "effectAllowed" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-datatransfer-effectallowed",
+                     "setter" : 1,
+                     "spec" : "HTML",
+                     "type" : "DOMString"
+                  }
+               ],
+               "files" : [
+                  "attribute",
+                  {
+                     "SameObject" : 1,
+                     "getter" : 1,
+                     "id" : "dom-datatransfer-files",
+                     "spec" : "HTML",
+                     "type" : [
+                        "ref",
+                        "FileList"
+                     ]
+                  }
+               ],
+               "getData" : [
+                  "operation",
+                  {
+                     "id" : "dom-datatransfer-getdata",
+                     "overload_set" : {
+                        "DOMString" : {
+                           "args" : [
+                              {
+                                 "name" : "format",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              }
+                           ],
+                           "type" : "DOMString"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "items" : [
+                  "attribute",
+                  {
+                     "SameObject" : 1,
+                     "getter" : 1,
+                     "id" : "dom-datatransfer-items",
+                     "spec" : "HTML",
+                     "type" : [
+                        "ref_interface",
+                        "DataTransferItemList"
+                     ]
+                  }
+               ],
+               "setData" : [
+                  "operation",
+                  {
+                     "id" : "dom-datatransfer-setdata",
+                     "overload_set" : {
+                        "DOMString,DOMString" : {
+                           "args" : [
+                              {
+                                 "name" : "format",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              },
+                              {
+                                 "name" : "data",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "DOMString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "setDragImage" : [
+                  "operation",
+                  {
+                     "id" : "dom-datatransfer-setdragimage",
+                     "overload_set" : {
+                        "ref[Element],long,long" : {
+                           "args" : [
+                              {
+                                 "name" : "image",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_interface",
+                                    "Element"
+                                 ]
+                              },
+                              {
+                                 "name" : "x",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "long"
+                              },
+                              {
+                                 "name" : "y",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "long"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "types" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-datatransfer-types",
+                     "spec" : "HTML",
+                     "type" : [
+                        "FrozenArray",
+                        "DOMString"
+                     ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
       "DataTransferItem" : [
          "interface",
          {
@@ -11158,7 +11333,7 @@
                      "type" : [
                         "nullable",
                         [
-                           "ref",
+                           "ref_interface",
                            "DataTransfer"
                         ]
                      ]
@@ -11185,7 +11360,7 @@
                      "type" : [
                         "nullable",
                         [
-                           "ref",
+                           "ref_interface",
                            "DataTransfer"
                         ]
                      ],
@@ -29309,6 +29484,15 @@
                      "type" : "USVString"
                   }
                ],
+               "image" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-notification-image",
+                     "spec" : "NOTIFICATIONS",
+                     "type" : "USVString"
+                  }
+               ],
                "lang" : [
                   "attribute",
                   {
@@ -29709,6 +29893,14 @@
                   "dictionary_member",
                   {
                      "id" : "dom-notificationoptions-icon",
+                     "spec" : "NOTIFICATIONS",
+                     "type" : "USVString"
+                  }
+               ],
+               "image" : [
+                  "dictionary_member",
+                  {
+                     "id" : "dom-notificationoptions-image",
                      "spec" : "NOTIFICATIONS",
                      "type" : "USVString"
                   }
