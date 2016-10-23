@@ -77,7 +77,7 @@ sub for_actions (&$) {
     for (sort { $a cmp $b } keys %{$tokenizer->{char_sets} or {}}) {
       $Data->{tokenizer}->{char_sets}->{$_} = $tokenizer->{char_sets}->{$_};
     }
-    for (sort { $a cmp $b } grep { /^comment/ } keys %{$tokenizer->{states}}) {
+    for (sort { $a cmp $b } grep { /^(?:bogus |)comment/ } keys %{$tokenizer->{states}}) {
       $Data->{tokenizer}->{states}->{$_} = $tokenizer->{states}->{$_};
     }
   }
