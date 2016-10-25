@@ -54,6 +54,12 @@
          },
          "value_type" : "enumerated"
       },
+      "aria-colcount" : {
+      },
+      "aria-colindex" : {
+      },
+      "aria-colspan" : {
+      },
       "aria-controls" : {
          "id_type" : "any",
          "item_type" : "idref",
@@ -92,6 +98,8 @@
          "item_type" : "idref",
          "value_type" : "ordered set of unique space-separated tokens"
       },
+      "aria-details" : {
+      },
       "aria-disabled" : {
          "default" : "false",
          "is_state" : 1,
@@ -124,6 +132,8 @@
             }
          },
          "value_type" : "unordered set of unique space-separated tokens"
+      },
+      "aria-errormessage" : {
       },
       "aria-expanded" : {
          "default" : "undefined",
@@ -200,6 +210,8 @@
          },
          "value_type" : "enumerated"
       },
+      "aria-keyshortcuts" : {
+      },
       "aria-label" : {
          "value_type" : "any"
       },
@@ -274,6 +286,8 @@
          "item_type" : "idref",
          "value_type" : "ordered set of unique space-separated tokens"
       },
+      "aria-placeholder" : {
+      },
       "aria-posinset" : {
          "value_type" : "non-negative integer greater than zero"
       },
@@ -325,6 +339,14 @@
             }
          },
          "value_type" : "enumerated"
+      },
+      "aria-roledescription" : {
+      },
+      "aria-rowcount" : {
+      },
+      "aria-rowindex" : {
+      },
+      "aria-rowspan" : {
       },
       "aria-selected" : {
          "default" : "undefined",
@@ -408,19 +430,21 @@
       },
       "application" : {
          "attrs" : {
-            "aria-expanded" : {
+            "aria-activedescendant" : {
             }
          },
          "subclass_of" : {
-            "landmark" : 1,
-            "roletype" : 4,
-            "section" : 2,
-            "structure" : 3
+            "roletype" : 2,
+            "structure" : 1
          }
       },
       "article" : {
          "attrs" : {
             "aria-expanded" : {
+            },
+            "aria-posinset" : {
+            },
+            "aria-setsize" : {
             }
          },
          "preferred" : {
@@ -462,10 +486,39 @@
             "widget" : 2
          }
       },
+      "cell" : {
+         "attrs" : {
+            "aria-colindex" : {
+            },
+            "aria-colspan" : {
+            },
+            "aria-expanded" : {
+            },
+            "aria-rowindex" : {
+            },
+            "aria-rowspan" : {
+            }
+         },
+         "scope" : {
+            "row" : 1
+         },
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         },
+         "superclass_of" : {
+            "columnheader" : 2,
+            "gridcell" : 1,
+            "rowheader" : 2
+         }
+      },
       "checkbox" : {
          "attrs" : {
             "aria-checked" : {
                "must" : 1
+            },
+            "aria-readonly" : {
             }
          },
          "preferred" : {
@@ -480,17 +533,24 @@
          "superclass_of" : {
             "menuitemcheckbox" : 1,
             "menuitemradio" : 2,
-            "radio" : 1,
             "switch" : 1
          }
       },
       "columnheader" : {
          "attrs" : {
+            "aria-colindex" : {
+            },
+            "aria-colspan" : {
+            },
             "aria-expanded" : {
             },
             "aria-readonly" : {
             },
             "aria-required" : {
+            },
+            "aria-rowindex" : {
+            },
+            "aria-rowspan" : {
             },
             "aria-selected" : {
             },
@@ -505,12 +565,13 @@
             "row" : 1
          },
          "subclass_of" : {
+            "cell" : 2,
             "gridcell" : 1,
-            "roletype" : 2,
-            "section" : 2,
+            "roletype" : 3,
+            "section" : 3,
             "sectionhead" : 1,
             "structure" : 2,
-            "widget" : 1
+            "widget" : 2
          }
       },
       "combobox" : {
@@ -519,15 +580,25 @@
             },
             "aria-autocomplete" : {
             },
+            "aria-controls" : {
+               "must" : 1
+            },
             "aria-expanded" : {
                "must" : 1
+            },
+            "aria-orientation" : {
+            },
+            "aria-readonly" : {
             },
             "aria-required" : {
             }
          },
          "must_contain" : {
+            "dialog" : 1,
+            "grid" : 1,
             "listbox" : 1,
-            "textbox" : 1
+            "textbox" : 1,
+            "tree" : 1
          },
          "preferred" : {
             "name" : "text",
@@ -536,8 +607,7 @@
          "subclass_of" : {
             "composite" : 2,
             "group" : 2,
-            "input" : 2,
-            "roletype" : 4,
+            "roletype" : 5,
             "section" : 3,
             "select" : 1,
             "structure" : 4,
@@ -588,6 +658,7 @@
             "menubar" : 3,
             "radiogroup" : 2,
             "select" : 1,
+            "spinbutton" : 1,
             "tablist" : 1,
             "tree" : 2,
             "treegrid" : 3
@@ -652,9 +723,6 @@
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         },
-         "superclass_of" : {
-            "tablist" : 1
          }
       },
       "document" : {
@@ -668,6 +736,34 @@
          },
          "superclass_of" : {
             "article" : 1
+         }
+      },
+      "feed" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "must_contain" : {
+            "article" : 1,
+            "group" : 1,
+            "listitem" : 1
+         },
+         "subclass_of" : {
+            "list" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "figure" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
          }
       },
       "form" : {
@@ -723,11 +819,19 @@
       },
       "gridcell" : {
          "attrs" : {
+            "aria-colindex" : {
+            },
+            "aria-colspan" : {
+            },
             "aria-expanded" : {
             },
             "aria-readonly" : {
             },
             "aria-required" : {
+            },
+            "aria-rowindex" : {
+            },
+            "aria-rowspan" : {
             },
             "aria-selected" : {
             }
@@ -740,9 +844,10 @@
             "row" : 1
          },
          "subclass_of" : {
+            "cell" : 1,
             "roletype" : 2,
-            "section" : 1,
-            "structure" : 2,
+            "section" : 2,
+            "structure" : 3,
             "widget" : 1
          },
          "superclass_of" : {
@@ -773,7 +878,6 @@
             "menubar" : 3,
             "radiogroup" : 2,
             "row" : 1,
-            "rowgroup" : 1,
             "select" : 1,
             "toolbar" : 1,
             "tree" : 2,
@@ -785,6 +889,7 @@
             "aria-expanded" : {
             },
             "aria-level" : {
+               "must" : 1
             }
          },
          "preferred" : {
@@ -820,24 +925,15 @@
          },
          "superclass_of" : {
             "checkbox" : 1,
-            "combobox" : 2,
-            "listbox" : 2,
-            "menu" : 2,
-            "menubar" : 3,
             "menuitemcheckbox" : 2,
-            "menuitemradio" : 3,
+            "menuitemradio" : 2,
             "option" : 1,
-            "radio" : 2,
-            "radiogroup" : 2,
-            "scrollbar" : 1,
+            "radio" : 1,
             "searchbox" : 2,
-            "select" : 1,
             "slider" : 1,
             "spinbutton" : 1,
             "switch" : 2,
             "textbox" : 1,
-            "tree" : 2,
-            "treegrid" : 3,
             "treeitem" : 2
          }
       },
@@ -853,13 +949,13 @@
             "structure" : 2
          },
          "superclass_of" : {
-            "application" : 1,
             "banner" : 1,
             "complementary" : 1,
             "contentinfo" : 1,
             "form" : 1,
             "main" : 1,
             "navigation" : 1,
+            "region" : 1,
             "search" : 1
          }
       },
@@ -898,10 +994,7 @@
          },
          "superclass_of" : {
             "directory" : 1,
-            "listbox" : 1,
-            "menu" : 1,
-            "menubar" : 2,
-            "tablist" : 2
+            "feed" : 1
          }
       },
       "listbox" : {
@@ -912,12 +1005,14 @@
             },
             "aria-multiselectable" : {
             },
+            "aria-orientation" : {
+            },
+            "aria-readonly" : {
+            },
             "aria-required" : {
             }
          },
          "must_contain" : {
-            "group" : 1,
-            "listitem" : 1,
             "option" : 1
          },
          "preferred" : {
@@ -927,9 +1022,7 @@
          "subclass_of" : {
             "composite" : 2,
             "group" : 2,
-            "input" : 2,
-            "list" : 1,
-            "roletype" : 4,
+            "roletype" : 5,
             "section" : 3,
             "select" : 1,
             "structure" : 4,
@@ -952,12 +1045,20 @@
             "type" : "html_element"
          },
          "scope" : {
+            "combobox" : 3,
             "directory" : 2,
+            "feed" : 2,
+            "group" : 1,
             "list" : 1,
-            "listbox" : 2,
-            "menu" : 2,
-            "menubar" : 3,
-            "tablist" : 3
+            "listbox" : 3,
+            "menu" : 3,
+            "menubar" : 4,
+            "radiogroup" : 3,
+            "row" : 2,
+            "select" : 2,
+            "toolbar" : 2,
+            "tree" : 3,
+            "treegrid" : 4
          },
          "subclass_of" : {
             "roletype" : 3,
@@ -1025,11 +1126,12 @@
             "aria-activedescendant" : {
             },
             "aria-expanded" : {
+            },
+            "aria-orientation" : {
             }
          },
          "must_contain" : {
             "group" : 1,
-            "listitem" : 1,
             "menuitem" : 1,
             "menuitemcheckbox" : 1,
             "menuitemradio" : 1
@@ -1041,9 +1143,7 @@
          "subclass_of" : {
             "composite" : 2,
             "group" : 2,
-            "input" : 2,
-            "list" : 1,
-            "roletype" : 4,
+            "roletype" : 5,
             "section" : 3,
             "select" : 1,
             "structure" : 4,
@@ -1058,11 +1158,12 @@
             "aria-activedescendant" : {
             },
             "aria-expanded" : {
+            },
+            "aria-orientation" : {
             }
          },
          "must_contain" : {
             "group" : 1,
-            "listitem" : 1,
             "menuitem" : 1,
             "menuitemcheckbox" : 1,
             "menuitemradio" : 1
@@ -1074,10 +1175,8 @@
          "subclass_of" : {
             "composite" : 3,
             "group" : 3,
-            "input" : 3,
-            "list" : 2,
             "menu" : 1,
-            "roletype" : 5,
+            "roletype" : 6,
             "section" : 4,
             "select" : 2,
             "structure" : 5,
@@ -1085,13 +1184,28 @@
          }
       },
       "menuitem" : {
+         "attrs" : {
+            "aria-posinset" : {
+            },
+            "aria-setsize" : {
+            }
+         },
          "preferred" : {
             "name" : "menuitem",
             "type" : "html_element"
          },
          "scope" : {
+            "combobox" : 3,
+            "group" : 1,
+            "listbox" : 3,
             "menu" : 1,
-            "menubar" : 1
+            "menubar" : 1,
+            "radiogroup" : 3,
+            "row" : 2,
+            "select" : 2,
+            "toolbar" : 2,
+            "tree" : 3,
+            "treegrid" : 4
          },
          "subclass_of" : {
             "command" : 1,
@@ -1107,6 +1221,12 @@
          "attrs" : {
             "aria-checked" : {
                "must" : 1
+            },
+            "aria-posinset" : {
+            },
+            "aria-readonly" : {
+            },
+            "aria-setsize" : {
             }
          },
          "preferred" : {
@@ -1136,6 +1256,8 @@
             },
             "aria-posinset" : {
             },
+            "aria-readonly" : {
+            },
             "aria-setsize" : {
             }
          },
@@ -1144,18 +1266,27 @@
             "type" : "html_element"
          },
          "scope" : {
+            "combobox" : 3,
+            "group" : 1,
+            "listbox" : 3,
             "menu" : 1,
-            "menubar" : 1
+            "menubar" : 1,
+            "radiogroup" : 3,
+            "row" : 2,
+            "select" : 2,
+            "toolbar" : 2,
+            "tree" : 3,
+            "treegrid" : 4
          },
          "subclass_of" : {
             "checkbox" : 2,
             "command" : 3,
-            "input" : 3,
+            "input" : 2,
             "menuitem" : 2,
             "menuitemcheckbox" : 1,
             "radio" : 1,
-            "roletype" : 5,
-            "widget" : 4
+            "roletype" : 4,
+            "widget" : 3
          }
       },
       "navigation" : {
@@ -1198,6 +1329,7 @@
             "aria-posinset" : {
             },
             "aria-selected" : {
+               "must" : 1
             },
             "aria-setsize" : {
             }
@@ -1257,10 +1389,9 @@
             "type" : "input"
          },
          "subclass_of" : {
-            "checkbox" : 1,
-            "input" : 2,
-            "roletype" : 4,
-            "widget" : 3
+            "input" : 1,
+            "roletype" : 3,
+            "widget" : 2
          },
          "superclass_of" : {
             "menuitemradio" : 1
@@ -1272,6 +1403,10 @@
             },
             "aria-expanded" : {
             },
+            "aria-orientation" : {
+            },
+            "aria-readonly" : {
+            },
             "aria-required" : {
             }
          },
@@ -1281,8 +1416,7 @@
          "subclass_of" : {
             "composite" : 2,
             "group" : 2,
-            "input" : 2,
-            "roletype" : 4,
+            "roletype" : 5,
             "section" : 3,
             "select" : 1,
             "structure" : 4,
@@ -1318,9 +1452,10 @@
             }
          },
          "subclass_of" : {
-            "roletype" : 3,
-            "section" : 1,
-            "structure" : 2
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
          }
       },
       "roletype" : {
@@ -1336,19 +1471,21 @@
             },
             "aria-describedby" : {
             },
+            "aria-details" : {
+            },
             "aria-disabled" : {
             },
-            "aria-dropeffect" : {
+            "aria-errormessage" : {
             },
             "aria-flowto" : {
-            },
-            "aria-grabbed" : {
             },
             "aria-haspopup" : {
             },
             "aria-hidden" : {
             },
             "aria-invalid" : {
+            },
+            "aria-keyshortcuts" : {
             },
             "aria-label" : {
             },
@@ -1359,6 +1496,8 @@
             "aria-owns" : {
             },
             "aria-relevant" : {
+            },
+            "aria-roledescription" : {
             }
          },
          "subclass_of" : {
@@ -1366,13 +1505,14 @@
          "superclass_of" : {
             "alert" : 3,
             "alertdialog" : 3,
-            "application" : 4,
+            "application" : 2,
             "article" : 3,
             "banner" : 4,
             "button" : 3,
+            "cell" : 3,
             "checkbox" : 3,
-            "columnheader" : 2,
-            "combobox" : 4,
+            "columnheader" : 3,
+            "combobox" : 5,
             "command" : 2,
             "complementary" : 4,
             "composite" : 2,
@@ -1381,6 +1521,8 @@
             "dialog" : 2,
             "directory" : 4,
             "document" : 2,
+            "feed" : 4,
+            "figure" : 3,
             "form" : 4,
             "grid" : 3,
             "gridcell" : 2,
@@ -1391,35 +1533,35 @@
             "landmark" : 3,
             "link" : 3,
             "list" : 3,
-            "listbox" : 4,
+            "listbox" : 5,
             "listitem" : 3,
             "log" : 3,
             "main" : 4,
             "marquee" : 3,
             "math" : 3,
-            "menu" : 4,
-            "menubar" : 5,
+            "menu" : 5,
+            "menubar" : 6,
             "menuitem" : 3,
             "menuitemcheckbox" : 4,
-            "menuitemradio" : 5,
+            "menuitemradio" : 4,
             "navigation" : 4,
             "note" : 3,
             "option" : 3,
             "presentation" : 2,
             "progressbar" : 3,
-            "radio" : 4,
-            "radiogroup" : 4,
+            "radio" : 3,
+            "radiogroup" : 5,
             "range" : 2,
-            "region" : 3,
+            "region" : 4,
             "row" : 2,
-            "rowgroup" : 4,
-            "rowheader" : 2,
+            "rowgroup" : 2,
+            "rowheader" : 3,
             "scrollbar" : 3,
             "search" : 4,
             "searchbox" : 4,
             "section" : 2,
             "sectionhead" : 2,
-            "select" : 3,
+            "select" : 4,
             "separator" : 2,
             "slider" : 3,
             "spinbutton" : 3,
@@ -1427,15 +1569,17 @@
             "structure" : 1,
             "switch" : 4,
             "tab" : 2,
-            "tablist" : 5,
+            "table" : 3,
+            "tablist" : 3,
             "tabpanel" : 3,
+            "term" : 3,
             "text" : 2,
             "textbox" : 3,
             "timer" : 4,
             "toolbar" : 4,
             "tooltip" : 3,
-            "tree" : 4,
-            "treegrid" : 5,
+            "tree" : 5,
+            "treegrid" : 6,
             "treeitem" : 4,
             "widget" : 1,
             "window" : 1
@@ -1445,14 +1589,19 @@
          "attrs" : {
             "aria-activedescendant" : {
             },
+            "aria-colindex" : {
+            },
             "aria-expanded" : {
             },
             "aria-level" : {
+            },
+            "aria-rowindex" : {
             },
             "aria-selected" : {
             }
          },
          "must_contain" : {
+            "cell" : 1,
             "columnheader" : 1,
             "gridcell" : 1,
             "rowheader" : 1
@@ -1464,6 +1613,7 @@
          "scope" : {
             "grid" : 1,
             "rowgroup" : 1,
+            "table" : 1,
             "treegrid" : 1
          },
          "subclass_of" : {
@@ -1475,12 +1625,6 @@
          }
       },
       "rowgroup" : {
-         "attrs" : {
-            "aria-activedescendant" : {
-            },
-            "aria-expanded" : {
-            }
-         },
          "must_contain" : {
             "row" : 1
          },
@@ -1490,22 +1634,29 @@
          },
          "scope" : {
             "grid" : 1,
-            "treegrid" : 2
+            "table" : 1,
+            "treegrid" : 1
          },
          "subclass_of" : {
-            "group" : 1,
-            "roletype" : 4,
-            "section" : 2,
-            "structure" : 3
+            "roletype" : 2,
+            "structure" : 1
          }
       },
       "rowheader" : {
          "attrs" : {
+            "aria-colindex" : {
+            },
+            "aria-colspan" : {
+            },
             "aria-expanded" : {
             },
             "aria-readonly" : {
             },
             "aria-required" : {
+            },
+            "aria-rowindex" : {
+            },
+            "aria-rowspan" : {
             },
             "aria-selected" : {
             },
@@ -1520,12 +1671,13 @@
             "row" : 1
          },
          "subclass_of" : {
+            "cell" : 2,
             "gridcell" : 1,
-            "roletype" : 2,
-            "section" : 2,
+            "roletype" : 3,
+            "section" : 3,
             "sectionhead" : 1,
             "structure" : 2,
-            "widget" : 1
+            "widget" : 2
          }
       },
       "scrollbar" : {
@@ -1552,7 +1704,6 @@
             "type" : "css"
          },
          "subclass_of" : {
-            "input" : 1,
             "range" : 1,
             "roletype" : 3,
             "widget" : 2
@@ -1577,6 +1728,8 @@
             "aria-autocomplete" : {
             },
             "aria-multiline" : {
+            },
+            "aria-placeholder" : {
             },
             "aria-readonly" : {
             },
@@ -1607,17 +1760,19 @@
          "superclass_of" : {
             "alert" : 1,
             "alertdialog" : 2,
-            "application" : 2,
             "banner" : 2,
-            "columnheader" : 2,
+            "cell" : 1,
+            "columnheader" : 3,
             "combobox" : 3,
             "complementary" : 2,
             "contentinfo" : 2,
             "definition" : 1,
             "directory" : 2,
+            "feed" : 2,
+            "figure" : 1,
             "form" : 2,
             "grid" : 1,
-            "gridcell" : 1,
+            "gridcell" : 2,
             "group" : 1,
             "img" : 1,
             "landmark" : 1,
@@ -1633,15 +1788,15 @@
             "navigation" : 2,
             "note" : 1,
             "radiogroup" : 3,
-            "region" : 1,
+            "region" : 2,
             "row" : 2,
-            "rowgroup" : 2,
-            "rowheader" : 2,
+            "rowheader" : 3,
             "search" : 2,
             "select" : 2,
             "status" : 1,
-            "tablist" : 3,
+            "table" : 1,
             "tabpanel" : 1,
+            "term" : 1,
             "timer" : 2,
             "toolbar" : 2,
             "tooltip" : 1,
@@ -1673,13 +1828,14 @@
             "aria-activedescendant" : {
             },
             "aria-expanded" : {
+            },
+            "aria-orientation" : {
             }
          },
          "subclass_of" : {
             "composite" : 1,
             "group" : 1,
-            "input" : 1,
-            "roletype" : 3,
+            "roletype" : 4,
             "section" : 2,
             "structure" : 3,
             "widget" : 2
@@ -1696,19 +1852,31 @@
       },
       "separator" : {
          "attrs" : {
-            "aria-expanded" : {
-            },
             "aria-orientation" : {
+            },
+            "aria-valuemax" : {
+               "must" : 1
+            },
+            "aria-valuemin" : {
+               "must" : 1
+            },
+            "aria-valuenow" : {
+               "must" : 1
+            },
+            "aria-valuetext" : {
             }
          },
          "subclass_of" : {
             "roletype" : 2,
-            "structure" : 1
+            "structure" : 1,
+            "widget" : 1
          }
       },
       "slider" : {
          "attrs" : {
             "aria-orientation" : {
+            },
+            "aria-readonly" : {
             },
             "aria-valuemax" : {
                "must" : 1
@@ -1735,6 +1903,10 @@
       },
       "spinbutton" : {
          "attrs" : {
+            "aria-activedescendant" : {
+            },
+            "aria-readonly" : {
+            },
             "aria-required" : {
             },
             "aria-valuemax" : {
@@ -1754,6 +1926,7 @@
             "type" : "input"
          },
          "subclass_of" : {
+            "composite" : 1,
             "input" : 1,
             "range" : 1,
             "roletype" : 3,
@@ -1782,9 +1955,10 @@
          "superclass_of" : {
             "alert" : 2,
             "alertdialog" : 3,
-            "application" : 3,
+            "application" : 1,
             "article" : 2,
             "banner" : 3,
+            "cell" : 2,
             "columnheader" : 2,
             "combobox" : 4,
             "complementary" : 3,
@@ -1792,9 +1966,11 @@
             "definition" : 2,
             "directory" : 3,
             "document" : 1,
+            "feed" : 3,
+            "figure" : 2,
             "form" : 3,
             "grid" : 2,
-            "gridcell" : 2,
+            "gridcell" : 3,
             "group" : 2,
             "heading" : 2,
             "img" : 2,
@@ -1812,9 +1988,9 @@
             "note" : 2,
             "presentation" : 1,
             "radiogroup" : 4,
-            "region" : 2,
+            "region" : 3,
             "row" : 3,
-            "rowgroup" : 3,
+            "rowgroup" : 1,
             "rowheader" : 2,
             "search" : 3,
             "section" : 1,
@@ -1823,8 +1999,9 @@
             "separator" : 1,
             "status" : 2,
             "tab" : 2,
-            "tablist" : 4,
+            "table" : 2,
             "tabpanel" : 2,
+            "term" : 2,
             "text" : 1,
             "timer" : 3,
             "toolbar" : 3,
@@ -1838,6 +2015,8 @@
          "attrs" : {
             "aria-checked" : {
                "must" : 1
+            },
+            "aria-readonly" : {
             }
          },
          "preferred" : {
@@ -1872,31 +2051,57 @@
             "widget" : 1
          }
       },
+      "table" : {
+         "attrs" : {
+            "aria-colcount" : {
+            },
+            "aria-expanded" : {
+            },
+            "aria-rowcount" : {
+            }
+         },
+         "must_contain" : {
+            "row" : 1,
+            "rowgroup" : 1
+         },
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
       "tablist" : {
          "attrs" : {
             "aria-activedescendant" : {
             },
-            "aria-expanded" : {
-            },
             "aria-level" : {
+            },
+            "aria-multiselectable" : {
+            },
+            "aria-orientation" : {
             }
          },
          "must_contain" : {
-            "group" : 1,
-            "listitem" : 1,
             "tab" : 1
          },
          "subclass_of" : {
             "composite" : 1,
-            "directory" : 1,
-            "list" : 2,
-            "roletype" : 5,
-            "section" : 3,
-            "structure" : 4,
+            "roletype" : 3,
             "widget" : 2
          }
       },
       "tabpanel" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "term" : {
          "attrs" : {
             "aria-expanded" : {
             }
@@ -1924,6 +2129,8 @@
             "aria-autocomplete" : {
             },
             "aria-multiline" : {
+            },
+            "aria-placeholder" : {
             },
             "aria-readonly" : {
             },
@@ -1959,6 +2166,8 @@
             "aria-activedescendant" : {
             },
             "aria-expanded" : {
+            },
+            "aria-orientation" : {
             }
          },
          "preferred" : {
@@ -1994,6 +2203,8 @@
             },
             "aria-multiselectable" : {
             },
+            "aria-orientation" : {
+            },
             "aria-required" : {
             }
          },
@@ -2004,8 +2215,7 @@
          "subclass_of" : {
             "composite" : 2,
             "group" : 2,
-            "input" : 2,
-            "roletype" : 4,
+            "roletype" : 5,
             "section" : 3,
             "select" : 1,
             "structure" : 4,
@@ -2025,6 +2235,8 @@
             },
             "aria-multiselectable" : {
             },
+            "aria-orientation" : {
+            },
             "aria-readonly" : {
             },
             "aria-required" : {
@@ -2040,8 +2252,7 @@
             "composite" : 3,
             "grid" : 1,
             "group" : 3,
-            "input" : 3,
-            "roletype" : 5,
+            "roletype" : 6,
             "section" : 4,
             "select" : 2,
             "structure" : 5,
@@ -2060,6 +2271,7 @@
             "aria-posinset" : {
             },
             "aria-selected" : {
+               "must" : 1
             },
             "aria-setsize" : {
             }
@@ -2072,7 +2284,6 @@
             "menubar" : 4,
             "radiogroup" : 3,
             "row" : 2,
-            "rowgroup" : 2,
             "select" : 2,
             "toolbar" : 2,
             "tree" : 1,
@@ -2096,7 +2307,7 @@
          "superclass_of" : {
             "button" : 2,
             "checkbox" : 2,
-            "columnheader" : 1,
+            "columnheader" : 2,
             "combobox" : 3,
             "command" : 1,
             "composite" : 1,
@@ -2109,17 +2320,18 @@
             "menubar" : 4,
             "menuitem" : 2,
             "menuitemcheckbox" : 3,
-            "menuitemradio" : 4,
+            "menuitemradio" : 3,
             "option" : 2,
             "progressbar" : 2,
-            "radio" : 3,
+            "radio" : 2,
             "radiogroup" : 3,
             "range" : 1,
             "row" : 1,
-            "rowheader" : 1,
+            "rowheader" : 2,
             "scrollbar" : 2,
             "searchbox" : 3,
             "select" : 2,
+            "separator" : 1,
             "slider" : 2,
             "spinbutton" : 2,
             "switch" : 3,
