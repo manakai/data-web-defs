@@ -1,0 +1,83 @@
+// <https://w3c.github.io/deviceorientation/spec-source-orientation.html>
+partial interface Window {
+  attribute EventHandler ondeviceorientation;
+  attribute EventHandler ondeviceorientationabsolute;
+  attribute EventHandler ondevicemotion;
+};
+
+// <https://w3c.github.io/pointerlock/>
+partial interface Element {
+  void requestPonterLock ();
+};
+partial interface Document {
+  attribute EventHandler onpointerlockchange;
+  attribute EventHandler onpointerlockerror;
+  void exitPointerLock ();
+};
+partial interface DocumentOrShadowRoot {
+  readonly attribute Element? pointrLockElement;
+};
+
+// <https://w3c.github.io/deviceorientation/spec-source-orientation.html>
+[Constructor(DOMString type, optional DeviceOrientationEventInit eventInitDict),
+ Expose=(Window)]
+interface DeviceOrientationEvent : Event {
+  readonly attribute double? alpha;
+  readonly attribute double? beta;
+  readonly attribute double? gamma;
+  readonly attribute boolean absolute;
+};
+dictionary DeviceOrientationEventInit : EventInit {
+  double? alpha = null;
+  double? beta = null;
+  double? gamma = null;
+  boolean absolute = false;
+};
+[Constructor(DOMString type, optional DeviceMotionEventInit eventInitDict),
+ Expose=(Window)]
+interface DeviceMotionEvent : Event {
+  readonly attribute DeviceAcceleration? acceleration;
+  readonly attribute DeviceAcceleration? accelerationIncludingGravity;
+  readonly attribute DeviceRotationRate? rotationRate;
+  readonly attribute double? interval;
+};
+dictionary DeviceMotionEventInit : EventInit {
+  DeviceAccelerationInit? acceleration;
+  DeviceAccelerationInit? accelerationIncludingGravity;
+  DeviceRotationRateInit? rotationRate;
+  double? interval = null;
+};
+
+// <https://w3c.github.io/pointerlock/>
+partial interface MouseEvent {
+  readonly attribute long movementX;
+  readonly attribute long movementY;
+};
+partial dictionary MouseEventInit {
+  long movementX = 0;
+  long movementY = 0;
+};
+
+// <https://w3c.github.io/deviceorientation/spec-source-orientation.html>
+[NoInterfaceObject]
+interface DeviceAcceleration {
+  readonly attribute double? x;
+  readonly attribute double? y;
+  readonly attribute double? z;
+};
+dictionary DeviceAccelerationInit {
+  double? x = null;
+  double? y = null;
+  double? z = null;
+};
+[NoInterfaceObject]
+interface DeviceRotationRate {
+  readonly attribute double? alpha;
+  readonly attribute double? beta;
+  readonly attribute double? gamma;
+};
+dictionary DeviceRotationRateInit {
+  double? alpha = null;
+  double? beta = null;
+  double? gamma = null;
+};
