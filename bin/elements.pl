@@ -137,7 +137,9 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
   my $ns;
   my $last_attr;
   for (split /\x0D?\x0A/, $path->slurp) {
-    if (/^\@ns (\S+)$/) {
+    if (/^\s*##/) {
+      #
+    } elsif (/^\@ns (\S+)$/) {
       $ns = $1;
     } elsif (/^(\S+)\s+(\S+)\s+([^=:]+):([^=]+)=(.+)$/) {
       $last_attr = $Data->{elements}->{$ns}->{$1}->{attrs}->{''}->{$2} ||= {};
