@@ -4139,6 +4139,7 @@
                "DOMString" : {
                   "args" : [
                      {
+                        "id" : "dom-textdecoder-textdecoder-label-options-label",
                         "name" : "label",
                         "optionality" : "optional",
                         "spec" : "ENCODING",
@@ -4159,6 +4160,7 @@
                "DOMString,ref[TextDecoderOptions]" : {
                   "args" : [
                      {
+                        "id" : "dom-textdecoder-textdecoder-label-options-label",
                         "name" : "label",
                         "optionality" : "optional",
                         "spec" : "ENCODING",
@@ -4169,6 +4171,7 @@
                         ]
                      },
                      {
+                        "id" : "dom-textdecoder-textdecoder-label-options-options",
                         "name" : "options",
                         "optionality" : "optional",
                         "spec" : "ENCODING",
@@ -26786,7 +26789,7 @@
                   {
                      "id" : "dom-messageevent-initmessageevent",
                      "overload_set" : {
-                        "DOMString,boolean,boolean,any,USVString,DOMString,nullable[union[ref[WindowProxy],ref[MessagePort]]],sequence[ref[MessagePort]]" : {
+                        "DOMString,boolean,boolean,any,USVString,DOMString,nullable[ref[MessageEventSource]],sequence[ref[MessagePort]]" : {
                            "args" : [
                               {
                                  "name" : "type",
@@ -26831,29 +26834,8 @@
                                  "type" : [
                                     "nullable",
                                     [
-                                       "union",
-                                       {
-                                          "def" : [
-                                             [
-                                                "ref_interface",
-                                                "WindowProxy"
-                                             ],
-                                             [
-                                                "ref_interface",
-                                                "MessagePort"
-                                             ]
-                                          ],
-                                          "flattened" : {
-                                             "ref_interface[MessagePort]" : [
-                                                "ref_interface",
-                                                "MessagePort"
-                                             ],
-                                             "ref_interface[WindowProxy]" : [
-                                                "ref_interface",
-                                                "WindowProxy"
-                                             ]
-                                          }
-                                       }
+                                       "ref_typedef",
+                                       "MessageEventSource"
                                     ]
                                  ]
                               },
@@ -26918,29 +26900,8 @@
                      "type" : [
                         "nullable",
                         [
-                           "union",
-                           {
-                              "def" : [
-                                 [
-                                    "ref_interface",
-                                    "WindowProxy"
-                                 ],
-                                 [
-                                    "ref_interface",
-                                    "MessagePort"
-                                 ]
-                              ],
-                              "flattened" : {
-                                 "ref_interface[MessagePort]" : [
-                                    "ref_interface",
-                                    "MessagePort"
-                                 ],
-                                 "ref_interface[WindowProxy]" : [
-                                    "ref_interface",
-                                    "WindowProxy"
-                                 ]
-                              }
-                           }
+                           "ref_typedef",
+                           "MessageEventSource"
                         ]
                      ]
                   }
@@ -27014,29 +26975,8 @@
                      "type" : [
                         "nullable",
                         [
-                           "union",
-                           {
-                              "def" : [
-                                 [
-                                    "ref_interface",
-                                    "WindowProxy"
-                                 ],
-                                 [
-                                    "ref_interface",
-                                    "MessagePort"
-                                 ]
-                              ],
-                              "flattened" : {
-                                 "ref_interface[MessagePort]" : [
-                                    "ref_interface",
-                                    "MessagePort"
-                                 ],
-                                 "ref_interface[WindowProxy]" : [
-                                    "ref_interface",
-                                    "WindowProxy"
-                                 ]
-                              }
-                           }
+                           "ref_typedef",
+                           "MessageEventSource"
                         ]
                      ],
                      "value" : "null"
@@ -27044,6 +26984,46 @@
                ]
             },
             "spec" : "HTML"
+         }
+      ],
+      "MessageEventSource" : [
+         "typedef",
+         {
+            "id" : "messageeventsource",
+            "spec" : "HTML",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "ref_interface",
+                        "WindowProxy"
+                     ],
+                     [
+                        "ref_interface",
+                        "MessagePort"
+                     ],
+                     [
+                        "ref",
+                        "ServiceWorker"
+                     ]
+                  ],
+                  "flattened" : {
+                     "ref[ServiceWorker]" : [
+                        "ref",
+                        "ServiceWorker"
+                     ],
+                     "ref_interface[MessagePort]" : [
+                        "ref_interface",
+                        "MessagePort"
+                     ],
+                     "ref_interface[WindowProxy]" : [
+                        "ref_interface",
+                        "WindowProxy"
+                     ]
+                  }
+               }
+            ]
          }
       ],
       "MessagePort" : [
@@ -34190,6 +34170,7 @@
                "stream" : [
                   "dictionary_member",
                   {
+                     "id" : "dom-textdecodeoptions-stream",
                      "spec" : "ENCODING",
                      "type" : "boolean",
                      "value" : "false"
@@ -34222,6 +34203,7 @@
                         "ref[BufferSource]" : {
                            "args" : [
                               {
+                                 "id" : "dom-textdecoder-decode-input-options-input",
                                  "name" : "input",
                                  "optionality" : "optional",
                                  "spec" : "ENCODING",
@@ -34236,6 +34218,7 @@
                         "ref[BufferSource],ref[TextDecodeOptions]" : {
                            "args" : [
                               {
+                                 "id" : "dom-textdecoder-decode-input-options-input",
                                  "name" : "input",
                                  "optionality" : "optional",
                                  "spec" : "ENCODING",
@@ -34245,6 +34228,7 @@
                                  ]
                               },
                               {
+                                 "id" : "dom-textdecoder-decode-input-options-options",
                                  "name" : "options",
                                  "optionality" : "optional",
                                  "spec" : "ENCODING",
@@ -34304,6 +34288,7 @@
                "fatal" : [
                   "dictionary_member",
                   {
+                     "id" : "dom-textdecoderoptions-fatal",
                      "spec" : "ENCODING",
                      "type" : "boolean",
                      "value" : "false"
@@ -34312,6 +34297,7 @@
                "ignoreBOM" : [
                   "dictionary_member",
                   {
+                     "id" : "dom-textdecoderoptions-ignorebom",
                      "spec" : "ENCODING",
                      "type" : "boolean",
                      "value" : "false"
@@ -34346,6 +34332,7 @@
                            "NewObject" : 1,
                            "args" : [
                               {
+                                 "id" : "dom-textencoder-encode-input-input",
                                  "name" : "input",
                                  "optionality" : "optional",
                                  "spec" : "ENCODING",
