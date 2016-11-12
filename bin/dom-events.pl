@@ -38,8 +38,6 @@ my @create = qw(
       progressevent ProgressEvent
       storageevent StorageEvent
       svgevents Event
-      svgzoomevent SVGZoomEvent
-      svgzoomevents SVGZoomEvent
       textevent CompositionEvent
       touchevent TouchEvent
       trackevent TrackEvent
