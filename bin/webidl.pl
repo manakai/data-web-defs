@@ -111,22 +111,20 @@ my $XAttrAllowed = {
   interface => {
     ArrayClass => 1, LegacyArrayClass => 1,
     Constructor => 1, Exposed => 1, Global => 1,
-    ImplicitThis => 1, NamedConstructor => 1,
+    NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
-    Unforgeable => 1, LegacyUnenumerableNamedProperties => 1,
+    LegacyUnenumerableNamedProperties => 1,
     SecureContext => 1, HTMLConstructor => 1,
   },
   callback_interface => {
     ArrayClass => 1, LegacyArrayClass => 1,
     Exposed => 1, Global => 1,
-    ImplicitThis => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
-    Unforgeable => 1,
     SecureContext => 1,
   },
   partial_interface => {
     Exposed => 1, Global => 1, OverrideBuiltins => 1,
-    PrimaryGlobal => 1, Unforgeable => 1,
+    PrimaryGlobal => 1,
     SecureContext => 1,
   },
   const => {
@@ -137,7 +135,7 @@ my $XAttrAllowed = {
     Clamp => 1, EnforceRange => 1, Exposed => 1,
     SameObject => 1, TreatNullAs => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1, LenientSetter => 1,
-    Unforgeable => 1, Unscopable => 1,
+    Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
   },
   static_attribute => {
@@ -146,7 +144,7 @@ my $XAttrAllowed = {
     SecureContext => 1,
   },
   operation => {
-    Exposed => 1, NewObject => 1, TreatNullAs => 1, Unforgeable => 1,
+    Exposed => 1, NewObject => 1, TreatNullAs => 1,
     Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
   },
@@ -195,7 +193,6 @@ my $XAttrArgs = {
   Clamp => {no => 1},
   Constructor => {no => 1, args => 1},
   EnforceRange => {no => 1},
-  ImplicitThis => {no => 1},
   LenientThis => {no => 1},
   NewObject => {no => 1},
   NoInterfaceObject => {no => 1},
@@ -205,7 +202,6 @@ my $XAttrArgs = {
   SameObject => {no => 1},
   TreatNonObjectAsNull => {no => 1}, # No MUST in spec
   TreatNullAs => {id => 1},
-  Unforgeable => {no => 1},
   Global => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
   PrimaryGlobal => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
   Exposed => {id => 1, id_list => 1},
