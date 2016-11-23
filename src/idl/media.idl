@@ -1,0 +1,70 @@
+// <https://w3c.github.io/media-source/#mediasource>
+enum ReadyState { "closed", "open", "ended" };
+enum EndOfStreamError { "network", "decode" };
+[Constructor,
+ Exposed=(Window)] // not in spec
+interface MediaSource : EventTarget {
+  [SameObject] // not in spec
+  readonly attribute SourceBufferList sourceBuffers;
+  [SameObject] // not in spec
+  readonly attribute SourceBufferList activeSourceBuffers;
+  readonly attribute ReadyState readyState;
+  attribute unrestricted double duration;
+  attribute EvenrHandler onsourceopen;
+  attribute EventHandler onsourceended;
+  attribute EventHandler onsourceclose;
+  SourceBuffer addSourceBuffer (DOMString type);
+  void removeSourceBuffer (SourceBuffer sourceBuffer);
+  void endOfStream (optional EndOfStreamError error);
+  void setLiveSeekableRange (double start, double end);
+  void clearLiveSeekableRange ();
+  static boolean isTypeSupported (DOMString type);
+};
+
+// <https://w3c.github.io/media-source/#sourcebuffer>
+enum AppendMode { "segments", "sequence" };
+[Exposed=(Window)] // not in spec
+interface SourceBuffer : EventTarget {
+  attribute AppendMode mode;
+  readonly attribute boolean updating;
+  readonly attribute TimeRanges buffered;
+  attribute double timestampOffset;
+  [SameObject] // not in spec
+  readonly attribute AudioTrackList audioTracks;
+  [SameObject] // not in spec
+  readonly attribute VideoTrackList videoTracks;
+  [SameObject] // not in spec
+  readonly attribute TextTrackList textTracks;
+  attribute double appendWindowStart;
+  attribute unrestricted double appendWindowEnd;
+  attribute EventHandler onupdatestart;
+  attribute EventHandler onupdate;
+  attribute EventHandler onupdateend;
+  attribute EventHandler onerror;
+  attribute EventHandler onabort;
+  void appendBuffer (BufferSource data);
+  void abort ();
+  void remove (double start, unrestricted double end);
+};
+[Exposed=(Window)] // not in spec
+interface SourceBufferList : EventTarget {
+  readonly attribute unsigned long length;
+  attribute EventHandler onaddsourcebuffer;
+  attribute EventHandler onremovesourcebuffer;
+  getter SourceBuffer (unsigned long index);
+};
+
+// <https://w3c.github.io/media-source/>
+[Exposed=(Window)]
+partial interface URL {
+  static DOMString createObjectURL (MediaSource mediaSource);
+};
+partial interface AudioTrack {
+  readonly attribute SourceBuffer? sourceBuffer;
+};
+partial interface VideoTrack {
+  readonly attribute SourceBuffer? sourceBuffer;
+};
+partial interface TextTrack {
+  readonly attribute SourceBuffer? sourceBuffer;
+};
