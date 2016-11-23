@@ -2220,19 +2220,14 @@ for my $def (
 ) {
   my $acts = $def->{actions} or next;
   my $new_acts = [];
-  my $prev_was_doctype;
   while (@$acts) {
     my $act = shift @$acts;
     if ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /parse error/) {
       push @$new_acts, {type => 'if', cond => ['legacy doctype'],
                         actions => [{type => 'parse error',
                                      name => error_name 'initial-DOCTYPE'}]};
-      $prev_was_doctype = 0;
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /DOCTYPE token matches/) {
-      push @$new_acts, {type => 'doctype-switch'} unless $prev_was_doctype;
-      $prev_was_doctype = 1;
-    } elsif ($act->{type} eq 'misc' and $act->{desc} =~ /<li>/) {
-      push @doctype_switch_def, $act->{desc};
+      push @$new_acts, {type => 'doctype-switch'} unless $Has::DoctypeSwitch++;
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^conformance checkers may,/) {
       #
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^associate the DocumentType node with the Document object/) {
@@ -2241,37 +2236,18 @@ for my $def (
       #
     } elsif ($act->{type} eq 'UNPARSED' and $act->{DESC} =~ /^a system identifier whose value is the empty string is not/) {
       #
+    } elsif ($act->{type} eq 'misc' and $act->{desc} =~ /<li>/) {
+      push @doctype_switch_def, $act->{desc};
     } else {
       push @$new_acts, $act;
-      $prev_was_doctype = 0;
     }
   }
   $def->{actions} = $new_acts;
 }
-if (@doctype_switch_def == 3) {
+if (@doctype_switch_def == 2) {
   my $el = $doc->create_element ('div');
   $el->inner_html ($doctype_switch_def[0]);
-  for (@{$el->query_selector_all ('li')}) {
-    my $text = _n $_->text_content;
-    $text =~ s/\xA0/ /g;
-    if ($text =~ /^The DOCTYPE token's name is a case-sensitive match for the string "(html)", the token's public identifier is the case-sensitive string "([^"]+)", and the token's system identifier is either missing or the case-sensitive string "([^"]+)".$/) {
-      push @{$Data->{doctype_switch}->{obsolete_permitted} ||= []},
-          [$2, $3], [$2, undef];
-    } elsif ($text =~ /^The DOCTYPE token's name is a case-sensitive match for the string "(html)", the token's public identifier is the case-sensitive string "([^"]+)", and the token's system identifier is the case-sensitive string "([^"]+)".$/) {
-      push @{$Data->{doctype_switch}->{obsolete_permitted} ||= []},
-          [$2, $3];
-    } else {
-      die "Unparsable doctype switch def: |$text|";
-    }
-  }
-  {
-    no warnings 'uninitialized';
-    @{$Data->{doctype_switch}->{obsolete_permitted}} = sort {
-      $a->[0] cmp $b->[0] || $a->[1] cmp $b->[1];
-    } @{$Data->{doctype_switch}->{obsolete_permitted}};
-  }
-
-  for ([1 => 'quirks'], [2 => 'limited_quirks']) {
+  for ([0 => 'quirks'], [1 => 'limited_quirks']) {
     $el->inner_html ($doctype_switch_def[$_->[0]]);
     my $p = $_->[1];
     for (@{$el->query_selector_all ('li')}) {
@@ -2296,8 +2272,8 @@ if (@doctype_switch_def == 3) {
       }
     }
   }
-} else {
-  #die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
+} elsif (@doctype_switch_def) {
+  die "Unsupported doctype switch definition: there is |@{[scalar @doctype_switch_def]}| defs";
 }
 
 for my $im (keys %{$Data->{ims}}) {
