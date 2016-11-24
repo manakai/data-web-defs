@@ -60,10 +60,12 @@ for my $doc (parse 'sw-mime-types-xml-*') {
     for my $record (@{$json->{registries}->{$t}->{records}}) {
       my $subtype = $record->{name};
       my $info = '';
-      if ($subtype =~ s/\s+-\s+(.+)$//s) {
-        $info = $1;
-      } elsif ($subtype =~ s/\s+\((.+)\)\s*$//s) {
-        $info = $1;
+      if ($subtype =~ /^([A-Za-z0-9+._-]+)\s+-\s+(.+)$/s) {
+        $subtype = $1;
+        $info = $2;
+      } elsif ($subtype =~ s/^([A-Za-z0-9+._-]+)\s+\((.+)\)\s*$//s) {
+        $subtype = $1;
+        $info = $2;
       } elsif (not $subtype =~ /\A[A-Za-z0-9+._-]+\z/) {
         die "Badly formed MIME subtype |$subtype|";
       }
