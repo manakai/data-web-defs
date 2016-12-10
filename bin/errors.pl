@@ -13,8 +13,10 @@ my $Data = {};
     my $def = $data->{error_names}->{$error_name};
     $Data->{dom_errors}->{$error_name}->{name} = $error_name;
     #$Data->{dom_errors}->{$error_name}->{desc} = $def->{desc};
-    $Data->{dom_errors}->{$error_name}->{const_name} = $def->{const_name}
-        if defined $def->{const_name};
+    for (qw(const_name preferred deprecated)) {
+      $Data->{dom_errors}->{$error_name}->{$_} = $def->{$_}
+          if defined $def->{$_};
+    }
     $Data->{dom_errors}->{$error_name}->{const_value} = 0+$def->{const_value}
         if defined $def->{const_value};
     $Data->{dom_errors}->{$error_name}->{spec} = 'WEBIDL';
