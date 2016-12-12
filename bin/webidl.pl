@@ -29,6 +29,8 @@ for (qw(
   Float32Array Float64Array DataView USVString
   FrozenArray
 
+  record
+
   class extends
 
   { } ( ) [ ] ; = : ... - . < > ?
@@ -51,6 +53,8 @@ $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   stringifier typedef unrestricted required
 
   class extends
+
+  record
 );
 $Data->{keyword_tokens}->{$_}->{attribute_name} = 1 for qw(
   required
