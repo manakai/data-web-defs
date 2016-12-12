@@ -64,15 +64,6 @@
          "value" : "id"
       },
       {
-         "di" : 51,
-         "fragment" : "\u003CByteString, ByteString>) [*id=\u0022typedefdef-headersinit\u0022*]HeadersInit;\u000A\u000A[[*id=\u0022dom-headers\u0022*]Construc",
-         "index" : 63,
-         "level" : "m",
-         "spec" : "FETCH",
-         "text" : "?, ",
-         "type" : "webidl:parse error"
-      },
-      {
          "di" : 61,
          "fragment" : "HTMLConstructor]\u000Ainterface [*id=\u0022htmlframesetelement\u0022*]HTMLFrameSetElement : HTMLElement {\u000A  [CEReac",
          "index" : 26,
@@ -989,24 +980,6 @@
          "spec" : "XHR",
          "type" : "webidl:not defined",
          "value" : "HTMLInputElement"
-      },
-      {
-         "di" : 54,
-         "fragment" : "[[*id=\u0022SameObject\u0022*]SameObject] readonly attribute Headers [*id=\u0022dom-request-headers\u0022*]headers;\u000A\u000A  r",
-         "index" : 455,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "Headers"
-      },
-      {
-         "di" : 54,
-         "fragment" : "[*id=\u0022typedefdef-headersinit\u0022*]HeadersInit [*id=\u0022dom-requestinit-headers\u0022*]headers;\u000A  BodyInit? [*id",
-         "index" : 1526,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:not defined",
-         "value" : "HeadersInit"
       },
       {
          "di" : 209,
@@ -2906,6 +2879,48 @@
                   "type" : [
                      "ref_interface",
                      "HashChangeEvent"
+                  ]
+               }
+            }
+         }
+      ],
+      "Headers" : [
+         "operation",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "id" : "dom-headers",
+                  "spec" : "FETCH",
+                  "type" : [
+                     "ref_interface",
+                     "Headers"
+                  ]
+               },
+               "ref[HeadersInit]" : {
+                  "args" : [
+                     {
+                        "id" : "dom-headers-headers-init-init",
+                        "name" : "init",
+                        "optionality" : "optional",
+                        "spec" : "FETCH",
+                        "type" : [
+                           "ref_typedef",
+                           "HeadersInit"
+                        ]
+                     }
+                  ],
+                  "id" : "dom-headers",
+                  "spec" : "FETCH",
+                  "type" : [
+                     "ref_interface",
+                     "Headers"
                   ]
                }
             }
@@ -26126,6 +26141,190 @@
             "spec" : "HTML"
          }
       ],
+      "Headers" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "id" : "headers",
+            "iterable" : [
+               "iterable",
+               {
+                  "keys_type" : "ByteString",
+                  "spec" : "FETCH",
+                  "values_type" : "ByteString"
+               }
+            ],
+            "members" : {
+               "append" : [
+                  "operation",
+                  {
+                     "id" : "dom-headers-append",
+                     "overload_set" : {
+                        "ByteString,ByteString" : {
+                           "args" : [
+                              {
+                                 "id" : "dom-headers-append-name-value-name",
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              },
+                              {
+                                 "id" : "dom-headers-append-name-value-value",
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "FETCH"
+                  }
+               ],
+               "delete" : [
+                  "operation",
+                  {
+                     "id" : "dom-headers-delete",
+                     "overload_set" : {
+                        "ByteString" : {
+                           "args" : [
+                              {
+                                 "id" : "dom-headers-delete-name-name",
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "FETCH"
+                  }
+               ],
+               "get" : [
+                  "operation",
+                  {
+                     "id" : "dom-headers-get",
+                     "overload_set" : {
+                        "ByteString" : {
+                           "args" : [
+                              {
+                                 "id" : "dom-headers-get-name-name",
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              }
+                           ],
+                           "type" : [
+                              "nullable",
+                              "ByteString"
+                           ]
+                        }
+                     },
+                     "spec" : "FETCH"
+                  }
+               ],
+               "has" : [
+                  "operation",
+                  {
+                     "id" : "dom-headers-has",
+                     "overload_set" : {
+                        "ByteString" : {
+                           "args" : [
+                              {
+                                 "id" : "dom-headers-has-name-name",
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              }
+                           ],
+                           "type" : "boolean"
+                        }
+                     },
+                     "spec" : "FETCH"
+                  }
+               ],
+               "set" : [
+                  "operation",
+                  {
+                     "id" : "dom-headers-set",
+                     "overload_set" : {
+                        "ByteString,ByteString" : {
+                           "args" : [
+                              {
+                                 "id" : "dom-headers-set-name-value-name",
+                                 "name" : "name",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              },
+                              {
+                                 "id" : "dom-headers-set-name-value-value",
+                                 "name" : "value",
+                                 "optionality" : "required",
+                                 "spec" : "FETCH",
+                                 "type" : "ByteString"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "FETCH"
+                  }
+               ]
+            },
+            "spec" : "FETCH"
+         }
+      ],
+      "HeadersInit" : [
+         "typedef",
+         {
+            "id" : "typedefdef-headersinit",
+            "spec" : "FETCH",
+            "type" : [
+               "union",
+               {
+                  "def" : [
+                     [
+                        "sequence",
+                        [
+                           "sequence",
+                           "ByteString"
+                        ]
+                     ],
+                     [
+                        "record",
+                        "ByteString",
+                        "ByteString"
+                     ]
+                  ],
+                  "flattened" : {
+                     "record[ByteString]" : [
+                        "record",
+                        "ByteString",
+                        "ByteString"
+                     ],
+                     "sequence[sequence[ByteString]]" : [
+                        "sequence",
+                        [
+                           "sequence",
+                           "ByteString"
+                        ]
+                     ]
+                  }
+               }
+            ]
+         }
+      ],
       "History" : [
          "interface",
          {
@@ -33221,7 +33420,7 @@
                      "id" : "dom-request-headers",
                      "spec" : "FETCH",
                      "type" : [
-                        "ref",
+                        "ref_interface",
                         "Headers"
                      ]
                   }
@@ -33528,7 +33727,7 @@
                      "id" : "dom-requestinit-headers",
                      "spec" : "FETCH",
                      "type" : [
-                        "ref",
+                        "ref_typedef",
                         "HeadersInit"
                      ]
                   }
@@ -33810,7 +34009,7 @@
                      "id" : "dom-response-headers",
                      "spec" : "FETCH",
                      "type" : [
-                        "ref",
+                        "ref_interface",
                         "Headers"
                      ]
                   }
@@ -33913,7 +34112,7 @@
                      "type" : [
                         "Promise",
                         [
-                           "ref",
+                           "ref_interface",
                            "Headers"
                         ]
                      ]
@@ -33987,7 +34186,7 @@
                      "id" : "dom-responseinit-headers",
                      "spec" : "FETCH",
                      "type" : [
-                        "ref",
+                        "ref_typedef",
                         "HeadersInit"
                      ]
                   }
