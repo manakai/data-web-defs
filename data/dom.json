@@ -4708,7 +4708,7 @@
                      "URLSearchParams"
                   ]
                },
-               "union[USVString,ref[URLSearchParams]]" : {
+               "union[sequence[sequence[USVString]],record[USVString],USVString]" : {
                   "args" : [
                      {
                         "id" : "dom-urlsearchparams-urlsearchparams-init-init",
@@ -4719,17 +4719,33 @@
                            "union",
                            {
                               "def" : [
-                                 "USVString",
                                  [
-                                    "ref_interface",
-                                    "URLSearchParams"
-                                 ]
+                                    "sequence",
+                                    [
+                                       "sequence",
+                                       "USVString"
+                                    ]
+                                 ],
+                                 [
+                                    "record",
+                                    "USVString",
+                                    "USVString"
+                                 ],
+                                 "USVString"
                               ],
                               "flattened" : {
                                  "USVString" : "USVString",
-                                 "ref_interface[URLSearchParams]" : [
-                                    "ref_interface",
-                                    "URLSearchParams"
+                                 "record[USVString]" : [
+                                    "record",
+                                    "USVString",
+                                    "USVString"
+                                 ],
+                                 "sequence[sequence[USVString]]" : [
+                                    "sequence",
+                                    [
+                                       "sequence",
+                                       "USVString"
+                                    ]
                                  ]
                               }
                            }
