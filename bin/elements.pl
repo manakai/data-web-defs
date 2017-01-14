@@ -1117,7 +1117,7 @@ while (@obs_attr) {
 ## <https://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'void' for grep { length } split /\s*,\s*|\s+/, q{
-area, base, br, col, embed, hr, img, input, keygen, link, meta, param, source, track, wbr
+area, base, br, col, embed, hr, img, input, link, meta, param, source, track, wbr
 };
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{syntax_category}
     = 'raw text' for grep { length } split /\s*,\s*|\s+/, q{
