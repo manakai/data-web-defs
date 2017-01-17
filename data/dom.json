@@ -1010,8 +1010,8 @@
       },
       {
          "di" : 53,
-         "fragment" : "typedef (BodyInit or [*id=\u0022concept-readablestream\u0022*]ReadableStream) [*id=\u0022responsebodyinit\u0022*]Respons",
-         "index" : 155,
+         "fragment" : "typedef ([*id=\u0022dfn-Blob\u0022*]Blob or [*id=\u0022BufferSource\u0022*]BufferSource or FormData or URLSearchParams o",
+         "index" : 14,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -4116,7 +4116,7 @@
                      "Response"
                   ]
                },
-               "nullable[ref[ResponseBodyInit]]" : {
+               "nullable[ref[BodyInit]]" : {
                   "args" : [
                      {
                         "id" : "dom-response-response-body-init-body",
@@ -4127,7 +4127,7 @@
                            "nullable",
                            [
                               "ref_typedef",
-                              "ResponseBodyInit"
+                              "BodyInit"
                            ]
                         ],
                         "value" : "null"
@@ -4140,7 +4140,7 @@
                      "Response"
                   ]
                },
-               "nullable[ref[ResponseBodyInit]],ref[ResponseInit]" : {
+               "nullable[ref[BodyInit]],ref[ResponseInit]" : {
                   "args" : [
                      {
                         "id" : "dom-response-response-body-init-body",
@@ -4151,7 +4151,7 @@
                            "nullable",
                            [
                               "ref_typedef",
-                              "ResponseBodyInit"
+                              "BodyInit"
                            ]
                         ],
                         "value" : "null"
@@ -5944,6 +5944,10 @@
                         "ref_interface",
                         "URLSearchParams"
                      ],
+                     [
+                        "ref",
+                        "ReadableStream"
+                     ],
                      "USVString"
                   ],
                   "flattened" : {
@@ -5951,6 +5955,10 @@
                      "ref[Blob]" : [
                         "ref",
                         "Blob"
+                     ],
+                     "ref[ReadableStream]" : [
+                        "ref",
+                        "ReadableStream"
                      ],
                      "ref_interface[FormData]" : [
                         "ref_interface",
@@ -34052,38 +34060,6 @@
                ]
             },
             "spec" : "FETCH"
-         }
-      ],
-      "ResponseBodyInit" : [
-         "typedef",
-         {
-            "id" : "responsebodyinit",
-            "spec" : "FETCH",
-            "type" : [
-               "union",
-               {
-                  "def" : [
-                     [
-                        "ref_typedef",
-                        "BodyInit"
-                     ],
-                     [
-                        "ref",
-                        "ReadableStream"
-                     ]
-                  ],
-                  "flattened" : {
-                     "ref[ReadableStream]" : [
-                        "ref",
-                        "ReadableStream"
-                     ],
-                     "ref_typedef[BodyInit]" : [
-                        "ref_typedef",
-                        "BodyInit"
-                     ]
-                  }
-               }
-            ]
          }
       ],
       "ResponseInit" : [
