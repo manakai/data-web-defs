@@ -35,6 +35,12 @@ for my $node (
     my $desc = _n $row->cells->[1]->text_content;
     $desc =~ s/\s*\[\w+\]\s*$//;
     #$Data->{error_names}->{$name}->{desc} = $desc;
+    if ($desc =~ /^\s*Deprecated\.\s*Use\s+(\S+)\s+instead\.\s*$/) {
+      $Data->{error_names}->{$name}->{preferred} = $1;
+      $Data->{error_names}->{$name}->{deprecated} = 1;
+    } elsif ($desc =~ /^\s*Deprecated\./) {
+      $Data->{error_names}->{$name}->{deprecated} = 1;
+    }
 
     my $code_cell = $row->cells->[2];
     if (defined $code_cell) {
@@ -47,36 +53,6 @@ for my $node (
       $Data->{error_names}->{$name}->{const_name} = $code;
       $Data->{error_names}->{$name}->{const_value} = $code_value;
     }
-  }
-}
-
-for my $node (
-  $doc->get_element_by_id ('legacy-error-names'),
-) {
-  my $tw = $doc->create_tree_walker ($doc);
-  $tw->current_node ($node);
-  while (not ($node->node_type == 1 and $node->local_name eq 'table')) {
-    $node = $tw->next_node;
-  }
-
-  for my $row ($node->tbodies->[0]->rows->to_list) {
-    my $value = $row->cells->[0]->text_content;
-    my $name;
-    if ($value =~ /^\s*"(\S+)"\s*(\S+)\s*\(([0-9]+)\)\s*$/) {
-      $name = $1;
-      $Data->{error_names}->{$name}->{const_name} = $2;
-      $Data->{error_names}->{$name}->{const_value} = 0+$3;
-    } else {
-      die "Bad value |$value|";
-    }
-
-    my $desc = $row->cells->[1]->text_content;
-    if ($desc =~ /^\s*Use\s+(\S+)\.\s*$/) {
-      $Data->{error_names}->{$name}->{preferred} = $1;
-    } else {
-      #warn $desc;
-    }
-    $Data->{error_names}->{$name}->{deprecated} = 1; # discouraged
   }
 }
 
