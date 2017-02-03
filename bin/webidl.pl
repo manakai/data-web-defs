@@ -251,7 +251,7 @@ for (@$XAttrDisallowedCombinations) {
 
 ## <https://heycam.github.io/webidl/#dfn-reserved-identifier>
 my $ReservedIdentifiers = {
-  constructor => 1, iterator => 1, toString => 1, toJSON => 1,
+  constructor => 1, iterator => 1, toString => 1,
 };
 my $Reserved = {
   const => {prototype => 1},
