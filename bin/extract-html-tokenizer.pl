@@ -628,11 +628,14 @@ sub parse_switch ($) {
         #
       } elsif ($cond eq 'Anything else') {
         $cond = 'ELSE';
-      } elsif ($cond eq 'Uppercase ASCII letter') {
+      } elsif ($cond eq 'ASCII upper alpha' or
+               $cond eq 'Uppercase ASCII letter') {
         $cond = 'UPPER';
-      } elsif ($cond eq 'Lowercase ASCII letter') {
+      } elsif ($cond eq 'ASCII lower alpha' or
+               $cond eq 'Lowercase ASCII letter') {
         $cond = 'LOWER';
-      } elsif ($cond eq 'ASCII letter') {
+      } elsif ($cond eq 'ASCII alpha' or
+               $cond eq 'ASCII letter') {
         $cond = 'LETTER';
       } elsif ($cond eq 'ASCII digit') {
         $cond = 'DIGIT';

@@ -1096,7 +1096,7 @@ sub parse_cond ($) {
     $cond = ['DOCTYPE system identifier', 'non-empty'];
   } elsif ($COND =~ /^the list of active formatting elements contains an? ([\w-]+) element between the end of the list and the last marker on the list \(or the start of the list if there is no marker on the list\)$/) {
     $cond = ['afe', 'in scope', 'marker', {ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not space characters$/) {
+  } elsif ($COND =~ /^any of the tokens in the pending table character tokens list are character tokens that are not (?:ASCII whitespace|space characters)$/) {
     $cond = ['pending table character tokens list', 'has non-space'];
   } elsif ($COND =~ /^the stack of template insertion modes is not empty$/) {
     $cond = ['stack of template insertion modes', 'is not empty'];
