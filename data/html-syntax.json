@@ -1321,7 +1321,6 @@
                                     "dd",
                                     "dt",
                                     "li",
-                                    "menuitem",
                                     "optgroup",
                                     "option",
                                     "p",
@@ -1682,7 +1681,6 @@
                                     "dd",
                                     "dt",
                                     "li",
-                                    "menuitem",
                                     "optgroup",
                                     "option",
                                     "p",
@@ -1921,7 +1919,6 @@
                                     "dd",
                                     "dt",
                                     "li",
-                                    "menuitem",
                                     "optgroup",
                                     "option",
                                     "p",
@@ -1996,7 +1993,7 @@
                   }
                ]
             },
-            "START:address article aside blockquote center details dialog dir div dl fieldset figcaption figure footer header hgroup main nav ol p section summary ul" : {
+            "START:address article aside blockquote center details dialog dir div dl fieldset figcaption figure footer header hgroup main menu nav ol p section summary ul" : {
                "actions" : [
                   {
                      "actions" : [
@@ -2544,22 +2541,6 @@
                      "type" : "if"
                   },
                   {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "menuitem",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
                      "type" : "insert an HTML element"
                   },
                   {
@@ -2828,72 +2809,6 @@
                         "self-closing flag"
                      ],
                      "type" : "if"
-                  }
-               ]
-            },
-            "START:menu" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "close a p element"
-                        }
-                     ],
-                     "cond" : [
-                        "oe",
-                        "in scope",
-                        "button",
-                        {
-                           "name" : "p",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "menuitem",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "type" : "insert an HTML element"
-                  }
-               ]
-            },
-            "START:menuitem" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "menuitem",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert an HTML element"
                   }
                ]
             },
@@ -9759,7 +9674,7 @@
                      }
                   ]
                },
-               "UPPER" : {
+               "LOWER" : {
                   "actions" : [
                      {
                         "field" : "name",
@@ -15919,7 +15834,6 @@
                      "dd",
                      "dt",
                      "li",
-                     "menuitem",
                      "optgroup",
                      "option",
                      "p",
