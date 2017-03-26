@@ -894,9 +894,10 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
 }
 
 for my $keyword (qw(
- allow-forms allow-modals allow-orientation-lock allow-pointer-lock
- allow-popups allow-popups-to-escape-sandbox allow-presentation
- allow-same-origin allow-scripts allow-top-navigation
+  allow-forms allow-modals allow-orientation-lock allow-pointer-lock
+  allow-popups allow-popups-to-escape-sandbox allow-presentation
+  allow-same-origin allow-scripts allow-top-navigation
+  allow-top-navigation-by-user-activation
 )) {
   my $d = $Data->{elements}->{(HTML_NS)}->{iframe}->{attrs}->{''}->{sandbox}->{keywords}->{$keyword} ||= {};
   $d->{conforming} = 1;

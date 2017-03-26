@@ -119,6 +119,8 @@ my $XAttrAllowed = {
     NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
     LegacyUnenumerableNamedProperties => 1,
     SecureContext => 1, HTMLConstructor => 1,
+    Serializable => 1,
+    Transferable => 1,
   },
   callback_interface => {
     ArrayClass => 1, LegacyArrayClass => 1,
@@ -130,6 +132,8 @@ my $XAttrAllowed = {
     Exposed => 1, Global => 1, OverrideBuiltins => 1,
     PrimaryGlobal => 1,
     SecureContext => 1,
+    Serializable => 1,
+    Transferable => 1,
   },
   const => {
     Exposed => 1,
@@ -216,6 +220,8 @@ my $XAttrArgs = {
   LenientSetter => {no => 1},
   CEReactions => {no => 1},
   HTMLConstructor => {no => 1},
+  Serializable => {no => 1},
+  Transferable => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
