@@ -2704,7 +2704,9 @@
                      "value_type" : "enumerated"
                   },
                   "dropzone" : {
-                     "value_type" : "unordered set of unique space-separated tokens"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "dynsrc" : {
                      "id" : "attr-dynsrc",
@@ -4552,6 +4554,11 @@
                   "vspace" : {
                      "id" : "attr-vspace",
                      "spec" : "OBSVOCAB"
+                  },
+                  "webkitdropzone" : {
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "x-ms-format-detection" : {
                      "enumerated" : {
@@ -11210,6 +11217,12 @@
                      "spec" : "OBSVOCAB",
                      "value_type" : "enumerated"
                   },
+                  "server-rendered" : {
+                     "preferred" : {
+                        "name" : "data-*",
+                        "type" : "html_attr"
+                     }
+                  },
                   "version" : {
                      "id" : "attr-html-version",
                      "preferred" : {
@@ -11533,6 +11546,17 @@
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
                   },
+                  "mozapp" : {
+                     "preferred" : {
+                        "type" : "none"
+                     }
+                  },
+                  "mozbrowser" : {
+                     "preferred" : {
+                        "name" : "iframe",
+                        "type" : "html_element"
+                     }
+                  },
                   "name" : {
                      "conforming" : 1,
                      "desc" : "Name of nested browsing context",
@@ -11628,6 +11652,11 @@
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   },
+                  "remote" : {
+                     "preferred" : {
+                        "type" : "none"
+                     }
+                  },
                   "sandbox" : {
                      "conforming" : 1,
                      "desc" : "Security rules for nested content",
@@ -11681,6 +11710,11 @@
                         "allow-top-navigation" : {
                            "conforming" : 1,
                            "id" : "iframe-sandbox-allow-top-navigation",
+                           "spec" : "HTML"
+                        },
+                        "allow-top-navigation-by-user-activation" : {
+                           "conforming" : 1,
+                           "id" : "iframe-sandbox-allow-top-navigation-by-user-activation",
                            "spec" : "HTML"
                         }
                      },
@@ -14536,7 +14570,8 @@
                      "conforming" : 1,
                      "desc" : "Color to use when customizing a site's icon (for rel=\u0022mask-icon\u0022)",
                      "id" : "attr-link-color",
-                     "spec" : "HTML"
+                     "spec" : "HTML",
+                     "value_type" : "color"
                   },
                   "crossorigin" : {
                      "conforming" : 1,
@@ -14742,7 +14777,8 @@
                      "conforming" : 1,
                      "desc" : "A scope url service worker registration (for rel=\u0022serviceworker\u0022)",
                      "id" : "attr-link-scope",
-                     "spec" : "HTML"
+                     "spec" : "HTML",
+                     "value_type" : "URL potentially surrounded by spaces"
                   },
                   "sizes" : {
                      "conforming" : 1,
@@ -14801,7 +14837,8 @@
                      "conforming" : 1,
                      "desc" : "Whether to set use cache to true for a service worker registration (for rel=\u0022serviceworker\u0022)",
                      "id" : "attr-link-usecache",
-                     "spec" : "HTML"
+                     "spec" : "HTML",
+                     "value_type" : "boolean"
                   },
                   "version" : {
                      "preferred" : {
@@ -14811,8 +14848,22 @@
                   "workertype" : {
                      "conforming" : 1,
                      "desc" : "A service worker type for a service worker registration (for rel=\u0022serviceworker\u0022)",
+                     "enumerated" : {
+                        "#missing" : {
+                           "label" : "classic"
+                        },
+                        "classic" : {
+                           "conforming" : 1,
+                           "label" : "classic"
+                        },
+                        "module" : {
+                           "conforming" : 1,
+                           "label" : "module"
+                        }
+                     },
                      "id" : "attr-link-workertype",
-                     "spec" : "HTML"
+                     "spec" : "HTML",
+                     "value_type" : "enumerated"
                   }
                }
             },
@@ -17725,7 +17776,8 @@
                      "conforming" : 1,
                      "desc" : "Prevents execution in user agents that support module scripts",
                      "id" : "attr-script-nomodule",
-                     "spec" : "HTML"
+                     "spec" : "HTML",
+                     "value_type" : "boolean"
                   },
                   "nonce" : {
                      "conforming" : 1,
@@ -21031,6 +21083,11 @@
             "spec" : "HTML",
             "syntax_category" : "void"
          },
+         "transition" : {
+            "preferred" : {
+               "type" : "script"
+            }
+         },
          "tt" : {
             "categories" : {
                "formatting category" : 1
@@ -21516,6 +21573,12 @@
             "parser_category" : "special",
             "spec" : "HTML",
             "syntax_category" : "void"
+         },
+         "webview" : {
+            "preferred" : {
+               "name" : "iframe",
+               "type" : "html_element"
+            }
          },
          "widget" : {
             "preferred" : {
