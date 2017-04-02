@@ -24,7 +24,7 @@ update-submodules:
 	$(GIT) add config
 
 dataautoupdate: clean deps all
-	$(GIT) add data/*.json
+	$(GIT) add data intermediate
 
 ## ------ Setup ------
 
