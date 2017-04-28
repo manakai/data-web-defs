@@ -219,10 +219,10 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
   my $v = $rd->[1]->{value};
   my $last_attr = $Data->{elements}->{(HTML_NS)}->{link}->{attrs}->{''}->{as} ||= {};
   for my $as (sort { $a cmp $b } keys %{$v->[1]}) {
-    $last_attr->{value_type} = 'case-sensitive enumerated';
+    $last_attr->{value_type} = 'enumerated';
     $last_attr->{enumerated}->{$as}->{url} = 'https://fetch.spec.whatwg.org/#concept-request-destination';
     $last_attr->{enumerated}->{$as}->{conforming} = 1;
-    $last_attr->{enumerated}->{$as}->{label} = qq{"$as"};
+    $last_attr->{enumerated}->{$as}->{label} = $as;
   }
 
   $last_attr->{enumerated}->{'#invalid'}->{url}
