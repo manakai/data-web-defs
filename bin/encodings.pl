@@ -26,7 +26,7 @@ my $Data = {};
 }
 
 {
-  my $path = path (__FILE__)->parent->parent->child ('local/indexes.json');
+  my $path = path (__FILE__)->parent->parent->child ('data/encoding-indexes.json');
   my $json = json_bytes2perl $path->slurp;
   for my $name (keys %$json) {
     my $def = $json->{$name};

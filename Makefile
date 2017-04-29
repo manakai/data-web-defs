@@ -371,10 +371,10 @@ clean-encodings:
 	rm -fr local/encodings.json local/indexes.json
 
 data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt \
-    local/encodings.json local/indexes.json
-	$(PERL) bin/encodings.pl > $@
-data/encoding-indexes.json: local/indexes.json
-	cp $< $@
+    local/encodings.json data/encoding-indexes.json
+	$(PERL) $< > $@
+data/encoding-indexes.json: bin/encoding-indexes.pl local/indexes.json
+	$(PERL) $< > $@
 
 local/encodings.json:
 	$(SAVEURL) $@ https://encoding.spec.whatwg.org/encodings.json
