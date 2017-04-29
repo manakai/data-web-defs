@@ -25,6 +25,17 @@ my $Data = {};
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/indexes.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $name (keys %$json) {
+    my $def = $json->{$name};
+    if (@$def == 128) {
+      $Data->{encodings}->{$name}->{single_byte} = 1;
+    }
+  }
+}
+
 sub _key ($) {
   return $Data->{supported_labels}->{lc $_[0]} || lc $_[0];
 } # _key

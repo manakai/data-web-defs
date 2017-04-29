@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..15"
+echo "1..17"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -22,3 +22,5 @@ test 12 '.locale_default.ja == "shift_jis"'
 test 13 '.supported_labels["windows-31j"] == "shift_jis"'
 test 14 '.encodings["utf-16be"].output == "utf-8"'
 test 15 '.encodings["utf-16be"].html_decl_mapped == "utf-8"'
+test 16 '.encodings["utf-16be"].single_byte | not'
+test 17 '.encodings["windows-1252"].single_byte | not | not'
