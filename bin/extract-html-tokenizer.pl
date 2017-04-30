@@ -226,14 +226,14 @@ sub parse_action ($) {
                 push @action, {type => 'insert-INCLUDE'};
               } elsif ($action =~ s/^Create a marked section whose status is IGNORE and push it onto the stack of open marked sections\.//) {
                 push @action, {type => 'insert-IGNORE'};
-              } elsif ($action =~ s/^Create a comment token whose data is the empty string.//) {
-                push @action,
-                    {type => 'create', token => 'comment token'},
-                    {type => 'set-empty', field => 'data'};
-              } elsif ($action =~ s/^Create a comment token whose (data) is "(\?)".//) {
-                push @action,
-                    {type => 'create', token => 'comment token', index_offset => 1},
-                    {type => 'set', field => $1, value => $2};
+    } elsif ($action =~ s/^[Cc]reate a comment token whose data is the empty string(?:\.|, and )//) {
+      push @action,
+          {type => 'create', token => 'comment token'},
+          {type => 'set-empty', field => 'data'};
+    } elsif ($action =~ s/^Create a comment token whose (data) is "(\?)".//) {
+      push @action,
+          {type => 'create', token => 'comment token', index_offset => 1},
+          {type => 'set', field => $1, value => $2};
               } elsif ($action =~ s/^Pop the current marked section off the stack of open marked sections and reset the state\.//) {
                 push @action, {type => 'pop-section'};
               } elsif ($action =~ s/^[Ss]et (?:its|the (?:current |)token's) (tag name|name|target|data|notation name|content keyword) to the (?:current |)input character(?:\.\s*|, then )//) {
@@ -492,6 +492,11 @@ sub parse_action ($) {
               if => 'in-foreign', break => 1},
              {type => 'SAME-AS-ELSE'},
            ]};
+    } elsif ($action =~ s/^If there is an adjusted current node and it is not an element in the HTML namespace, then consume those characters and switch to the CDATA section state. Otherwise, act as described in the "anything else" entry below\.//) {
+      push @action,
+          {type => 'switch', state => 'CDATA section state',
+           if => 'in-foreign', break => 1},
+          {type => 'SAME-AS-ELSE'};
     } elsif ($action =~ s/^Otherwise, if the next seven characters are a case-sensitive match for the string "\[CDATA\[" \([^()]+\), then consume those characters and switch to the CDATA section state\.//) {
       push @action,
           {type => 'IF-KEYWORD',
@@ -708,6 +713,7 @@ sub parse_switch ($) {
   return $conds;
 } # parse_switch
 
+my $switch_mode = '';
 my @node = @{$doc->body->child_nodes};
 while (@node) {
   check_loop 'document.body';
@@ -731,9 +737,44 @@ while (@node) {
       }
     } elsif ($ln eq 'dl') {
       if (defined $state_name and $node->class_list->contains ('switch')) {
-        my $conds = parse_switch $node;
-        for (sort { $a cmp $b } keys %$conds) {
-          $Data->{states}->{$state_name}->{conds}->{$_} = $conds->{$_};
+        if ($switch_mode eq 'if-keyword') {
+          my $current;
+          for my $cn ($node->children->to_list) {
+            if ($cn->local_name eq 'dt') {
+              my $cond = _n $cn->text_content;
+              $current = {type => 'IF-KEYWORD', value => []};
+              if ($cond =~ /^Two U\+002D HYPHEN-MINUS characters \(-\)$/) {
+                $current->{keyword} = '--';
+              } elsif ($cond =~ /^ASCII case-insensitive match for the word "([^"]+)"$/) {
+                $current->{keyword} = $1;
+                $current->{case_insensitive} = 1;
+              } elsif ($cond =~ /^Case-sensitive match for the string "([^"]+)" \([^()]+\)$/) {
+                $current->{keyword} = $1;
+              } elsif ($cond =~ /^Anything else$/) {
+                $current = undef;
+              } else {
+                die "Bad condition |$cond|";
+              }
+              push @{$Data->{states}->{$state_name}->{conds}->{ELSE}->{actions} ||= []}, $current
+                  if defined $current;
+            } elsif ($cn->local_name eq 'dd') {
+              my $tc = _n $cn->text_content;
+              $tc =~ s/^Consume those (?:two |)characters(?:, | and )//;
+              my ($actions) = parse_action $tc;
+              if (defined $current) {
+                push @{$current->{value}}, @$actions;
+              } else {
+                push @{$Data->{states}->{$state_name}->{conds}->{ELSE}->{actions} ||= []}, @$actions;
+              }
+            } else {
+              die "Bad element |@{[$cn->local_name]}| in switch";
+            }
+          } # $cn
+        } else {
+          my $conds = parse_switch $node;
+          for (sort { $a cmp $b } keys %$conds) {
+            $Data->{states}->{$state_name}->{conds}->{$_} = $conds->{$_};
+          }
         }
       } else { # not .switch
         unshift @node, $node->child_nodes->to_list;
@@ -744,7 +785,9 @@ while (@node) {
       my $tc = _n $node->text_content;
       next unless defined $state_name;
       if ($tc =~ /^Consume the next input character:$/) {
-        #
+        $switch_mode = '';
+      } elsif ($tc =~ /^If the next few characters are:$/) {
+        $switch_mode = 'if-keyword';
       } else {
         my ($actions) = parse_action $tc;
         push @{$Data->{states}->{$state_name}->{conds}->{ELSE}->{actions} ||= []}, @$actions;

@@ -11,7 +11,9 @@ my $Data = {};
   $Data->{tokenizer} = $tokenizer;
 
   ## Ignore states introduced by
-  ## <https://github.com/whatwg/html/commit/6c629ac9e5736cdb824293999673de6a0f5ea06d>.
+  ## <https://github.com/whatwg/html/commit/6c629ac9e5736cdb824293999673de6a0f5ea06d>
+  ## and
+  ## <https://github.com/whatwg/html/commit/7d3201282d31c30cdba2583445d3727a94390286>.
   for (
     'character reference state',
     'numeric character reference state',
@@ -23,6 +25,7 @@ my $Data = {};
     'decimal character reference state',
     'numeric character reference end state',
     'character reference end state',
+    'named character reference state',
   ) {
     delete $Data->{tokenizer}->{states}->{$_};
   }
