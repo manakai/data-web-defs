@@ -1,0 +1,46 @@
+data/mime-sniffing.json
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This JSON file contains data for MIME sniffing algorithms.
+
+* Data
+
+The file contains a JSON object, with following names:
+
+  scriptable
+  non_scriptable
+  bom1
+  bom2
+  image
+  audio_or_video
+  archive
+  font
+  text_track
+
+Their values are JSON arrays of JSON objects, each of which is
+corresponding to a row in the specification's definition table, with
+following name/value pairs:
+
+  computed [string]
+
+    The "Computed MIME Type".
+
+  leading_ws [boolean]
+
+    Whether the "Leading Bytes to Be Ignored" is "Whitespace bytes."
+    or not.
+
+  mask [string]
+
+    The "Pattern Mask", as space (U+0020) separated sequence of two
+    hexadecimal digits representing bytes.
+
+  pattern [string]
+
+    The "Byte Pattern", as space (U+0020) separated sequence of two
+    hexadecimal digits representing bytes.
+
+  regexp [string]
+
+    A regular expression that is equivalent to the pattern described
+    by "leading_ws", "mask", and "pattern".
