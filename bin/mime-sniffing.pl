@@ -3,141 +3,125 @@ use warnings;
 use JSON::PS;
 
 our @ScriptableSniffingTable = (
-  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag, Security Flag
-  ## (1 = Safe, 0 = Otherwise)
+  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [ # "<!DOCTYPE HTML "
-    "\xFF\xFF\xDF\xDF\xDF\xDF\xDF\xDF\xDF\xFF\xDF\xDF\xDF\xDF\xFF",
-    "\x3C\x21\x44\x4F\x43\x54\x59\x50\x45\x20\x48\x54\x4D\x4C\x20",
-    "text/html", 0, 0,
-  ],
-  [ # "<!DOCTYPE HTML>"
-    "\xFF\xFF\xDF\xDF\xDF\xDF\xDF\xDF\xDF\xFF\xDF\xDF\xDF\xDF\xFF",
-    "\x3C\x21\x44\x4F\x43\x54\x59\x50\x45\x20\x48\x54\x4D\x4C\x3E",
-    "text/html", 0, 0,
+    "FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF",
+    "3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C TT",
+    "text/html", 0,
   ],
   [
-    "\xFF\xDF\xDF\xDF\xDF\xFF",
-    "\x3C\x48\x54\x4D\x4C\x20", # "<HTML "
-    "text/html", 1, 0,
-  ],
-  [
-    "\xFF\xDF\xDF\xDF\xDF\xFF",
-    "\x3C\x48\x54\x4D\x4C\x3E", # "<HTML>"
-    "text/html", 1, 0,
+    "FF DF DF DF DF FF",
+    "3C 48 54 4D 4C TT", # "<HTML "
+    "text/html", 1,
   ],
   # XXX
   [
-    "\xFF\xDF\xDF\xDF\xDF",
-    "\x3C\x48\x45\x41\x44", # "<HEAD"
-    "text/html", 1, 0,
+    "FF DF DF DF DF",
+    "3C 48 45 41 44", # "<HEAD"
+    "text/html", 1,
   ],
   # XXX
   [
-    "\xFF\xDF\xDF\xDF\xDF\xDF\xDF",
-    "\x3C\x53\x43\x52\x49\x50\x54", # "<SCRIPT"
-    "text/html", 1, 0,
+    "FF DF DF DF DF DF DF",
+    "3C 53 43 52 49 50 54", # "<SCRIPT"
+    "text/html", 1,
   ],
   # XXX more
   [
-    "\xFF\xFF\xFF\xFF\xFF",
-    "\x25\x50\x44\x46\x2D",
-    "application/pdf", 0, 0,
+    "FF FF FF FF FF",
+    "25 50 44 46 2D",
+    "application/pdf", 0,
   ],
 );
 
 our @NonScriptableSniffingTable = (
-  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag, Security Flag
-  ## (1 = Safe, 0 = Otherwise)
+  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
-    "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
-    "\x25\x21\x50\x53\x2D\x41\x64\x6F\x62\x65\x2D",
-    "application/postscript", 0, 1,
+    "FF FF FF FF FF FF FF FF FF FF FF",
+    "25 21 50 53 2D 41 64 6F 62 65 2D",
+    "application/postscript", 0,
   ],
 );
 
 our @BOM1SniffingTable = (
-  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag, Security Flag
-  ## (1 = Safe, 0 = Otherwise)
+  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
-    "\xFF\xFF\x00\x00",
-    "\xFE\xFF\x00\x00", # UTF-16BE BOM
-    "text/plain", 0, 0,
+    "FF FF 00 00",
+    "FE FF 00 00", # UTF-16BE BOM
+    "text/plain", 0,
   ],
   [
-    "\xFF\xFF\x00\x00",
-    "\xFF\xFE\x00\x00", # UTF-16LE BOM
-    "text/plain", 0, 0,
+    "FF FF 00 00",
+    "FF FE 00 00", # UTF-16LE BOM
+    "text/plain", 0,
   ],
   [
-    "\xFF\xFF\xFF\x00",
-    "\xEF\xBB\xBF\x00", # UTF-8 BOM
-    "text/plain", 0, 0,
+    "FF FF FF 00",
+    "EF BB BF 00", # UTF-8 BOM
+    "text/plain", 0,
   ],
 );
 
 our @BOM2SniffingTable = (
-  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag, Security Flag
-  ## (1 = Safe, 0 = Otherwise)
+  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
-    "\xFF\xFF",
-    "\xFE\xFF", # UTF-16BE BOM
-    "text/plain", 0, 0,
+    "FF FF",
+    "FE FF", # UTF-16BE BOM
+    "text/plain", 0,
   ],
   [
-    "\xFF\xFF",
-    "\xFF\xFE", # UTF-16LE BOM
-    "text/plain", 0, 0,
+    "FF FF",
+    "FF FE", # UTF-16LE BOM
+    "text/plain", 0,
   ],
   [
-    "\xFF\xFF\xFF",
-    "\xEF\xBB\xBF", # UTF-8 BOM
-    "text/plain", 0, 0,
+    "FF FF FF",
+    "EF BB BF", # UTF-8 BOM
+    "text/plain", 0,
   ],
 );
 
 my @ImageSniffingTable = (
-  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag, Security Flag
-  ## (1 = Safe, 0 = Otherwise)
+  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
-    "\xFF\xFF\xFF\xFF\xFF\xFF",
-    "\x47\x49\x46\x38\x37\x61",
-    "image/gif", 0, 1,
+    "FF FF FF FF FF FF",
+    "47 49 46 38 37 61",
+    "image/gif", 0,
   ],
   [
-    "\xFF\xFF\xFF\xFF\xFF\xFF",
-    "\x47\x49\x46\x38\x39\x61",
-    "image/gif", 0, 1,
+    "FF FF FF FF FF FF",
+    "47 49 46 38 39 61",
+    "image/gif", 0,
   ],
   [
-    "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
-    "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A",
-    "image/png", 0, 1,
+    "FF FF FF FF FF FF FF FF",
+    "89 50 4E 47 0D 0A 1A 0A",
+    "image/png", 0,
   ],
   [
-    "\xFF\xFF\xFF",
-    "\xFF\xD8\xFF",
-    "image/jpeg", 0, 1,
+    "FF FF FF",
+    "FF D8 FF",
+    "image/jpeg", 0,
   ],
   [
-    "\xFF\xFF",
-    "\x42\x4D",
-    "image/bmp", 0, 1, 
+    "FF FF",
+    "42 4D",
+    "image/bmp", 0,
   ],
   [
-    "\xFF\xFF\xFF\xFF",
-    "\x00\x00\x01\x00",
-    "image/vnd.microsoft.icon", 0, 1,
+    "FF FF FF FF",
+    "00 00 01 00",
+    "image/vnd.microsoft.icon", 0,
   ],
   # XXX update
 );
 
 my @AudioOrVideoSniffingTable = (
-  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag, Security Flag
-  ## (1 = Safe, 0 = Otherwise)
+  ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
-    "\xFF\xFF\xFF\xFF",
-    "\x2E\x73\x6E\x64",
-    "audio/basic", 0, 1,
+    "FF FF FF FF",
+    "2E 73 6E 64",
+    "audio/basic", 0,
   ],
   # XXX more
 );
@@ -145,6 +129,11 @@ my @AudioOrVideoSniffingTable = (
 my @ArchiveSniffingTable;
 my @FontSniffingTable;
 my @TextTrackSniffingTable;
+
+sub parse ($) {
+  my $s = shift;
+  return join '', map { pack 'C', hex $_ } split /\s+/, $s;
+} # parse
 
 sub bytes ($) {
   my $s = shift;
@@ -186,14 +175,30 @@ sub regexp ($$$) {
 } # regexp
 
 sub _row ($) {
-  my $in = $_[0];
-  return {
-    mask => bytes $in->[0],
-    pattern => bytes $in->[1],
-    leading_ws => $in->[3],
-    regexp => (regexp $in->[1], $in->[0], $in->[3]),
-    computed => $in->[2],
-  };
+  my @in;
+  if ($_[0]->[1] =~ /TT/g) {
+    die "There are multiple TTs" if $_[0]->[1] =~ /TT/g;
+    for ("20", "3E") { # tag-terminating byte
+      my $v = [@{$_[0]}];
+      $v->[1] =~ s/TT/$_/;
+      push @in, $v;
+    }
+  } else {
+    push @in, $_[0];
+  }
+  my @out;
+  for my $in (@in) {
+    $in->[0] = parse $in->[0];
+    $in->[1] = parse $in->[1];
+    push @out, {
+      mask => bytes $in->[0],
+      pattern => bytes $in->[1],
+      leading_ws => $in->[3],
+      regexp => (regexp $in->[1], $in->[0], $in->[3]),
+      computed => $in->[2],
+    };
+  }
+  return @out;
 } # _row
 
 my $Data = {};
