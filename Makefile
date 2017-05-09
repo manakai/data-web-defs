@@ -67,7 +67,8 @@ data/specs.json: bin/specs.pl src/specs.txt src/spec-*.txt
 
 ## ------ MIME types ------
 
-all-mime: data/mime-types.json data/file-name-extensions.json
+all-mime: data/mime-types.json data/file-name-extensions.json \
+    data/mime-sniffing.json
 clean-mime: 
 	rm -fr local/sw-mime-types-xml*
 	rm -fr local/intermediate-mime-type-provisional
@@ -140,6 +141,9 @@ data/mime-types.json: bin/mime-types.pl \
 	$(PERL) bin/mime-types.pl
 
 data/file-name-extensions.json: data/mime-types.json
+
+data/mime-sniffing.json: bin/mime-sniffing.pl
+	$(PERL) $< > $@
 
 ## ------ URLs ------
 
