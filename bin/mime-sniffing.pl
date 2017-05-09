@@ -212,4 +212,17 @@ $Data->{tables}->{archive} = {defs => [map { _row $_ } @ArchiveSniffingTable]};
 $Data->{tables}->{font} = {defs => [map { _row $_ } @FontSniffingTable]};
 $Data->{tables}->{text_track} = {defs => [map { _row $_ } @TextTrackSniffingTable]};
 
+for (
+  '74 65 78 74 2F 70 6C 61 69 6E',
+  '74 65 78 74 2F 70 6C 61 69 6E 3B 20 63 68 61 72 73 65 74 3D 49 53 4F 2D 38 38 35 39 2D 31',
+  '74 65 78 74 2F 70 6C 61 69 6E 3B 20 63 68 61 72 73 65 74 3D 69 73 6F 2D 38 38 35 39 2D 31',
+  '74 65 78 74 2F 70 6C 61 69 6E 3B 20 63 68 61 72 73 65 74 3D 55 54 46 2D 38',
+) {
+  my $bytes = parse $_;
+  push @{$Data->{apache_bug_content_types} ||= []}, {
+    hex => bytes $bytes,
+    chars => $bytes,
+  };
+}
+
 print perl2json_bytes_for_record $Data;
