@@ -7,104 +7,126 @@ This JSON file contains data for MIME sniffing algorithms.
 
 The file contains a JSON object with following name/value pairs:
 
-apache_bug_content_types
+  apache_bug_content_types
 
-  "Content-Type" header values flagging the "check-for-apache-bug
-  flag"
-  <https://mimesniff.spec.whatwg.org/#supplied-mime-type-detection-algorithm>.
-  An JSON array of JSON objects with following name/value pairs:
+    "Content-Type" header values flagging the "check-for-apache-bug
+    flag"
+    <https://mimesniff.spec.whatwg.org/#supplied-mime-type-detection-algorithm>.
+    An JSON array of JSON objects with following name/value pairs:
 
-    chars [string]
+      chars [string]
 
-      ASCII character string equivalent of the bytes.
+        ASCII character string equivalent of the bytes.
 
-    hex [string]
+      hex [string]
 
-      Space (U+0020) separated sequence of two hexadecimal digits
-      representing the bytes.
+        Space (U+0020) separated sequence of two hexadecimal digits
+        representing the bytes.
 
-tables [object]
+  mp3 [object]
 
-  Tables in definitions of sniffing steps.  The value is a JSON
-  object, with following names:
+    Tables for MP3 sniffing
+    <https://mimesniff.spec.whatwg.org/#matches-the-signature-for-mp3-without-id3>.
+    A JSON object with following name/value pairs:
 
-    scriptable
+      mp25rates
 
-      Table of the rules for identifying an unknown MIME type, step 1.
+        The "mp2.5-rates table".  A JSON array whose indexes represent
+        the "index" column and values represent "mp2.5-rates" column.
 
-    non_scriptable
+      mp3rates
 
-      Table of the rules for identifying an unknown MIME type, step 2,
-      except for BOM patterns.
+        The "mp3-rates table".  A JSON array whose indexes represent
+        the "index" column and values represent "mp3-rates" column.
 
-    bom1
+      samplerates
 
-      Table of the rules for identifying an unknown MIME type, step 2,
-      BOM patterns.
+        The "sample-rate table".  A JSON array whose indexes represent
+        the "index" column and values represent "samplerates" column.
 
-    bom2
+  tables [object]
 
-      Table equivalent to the BOM detecting steps of the rules for
-      distinguishing if a resource is text or binary.
+    Tables in definitions of sniffing steps.  The value is a JSON
+    object, with following names:
 
-    image
+      scriptable
 
-      Table of the image type pattern matching algorithm.
+        Table of the rules for identifying an unknown MIME type, step
+        1.
 
-    audio_or_video
+      non_scriptable
 
-      Table of the audio or video type pattern matching algorithm.
+        Table of the rules for identifying an unknown MIME type, step
+        2, except for BOM patterns.
 
-    font
+      bom1
 
-      Table of font type pattern matching algorithm.
+        Table of the rules for identifying an unknown MIME type, step
+        2, BOM patterns.
 
-    archive
+      bom2
 
-      Table of archive type pattern matching algorithm.
+        Table equivalent to the BOM detecting steps of the rules for
+        distinguishing if a resource is text or binary.
 
-    text_track
+      image
 
-      Table to sniff WebVTT.
+        Table of the image type pattern matching algorithm.
 
-  Their values are JSON objects with following name/value pairs:
+      audio_or_video
 
-    defs [object]
+        Table of the audio or video type pattern matching algorithm.
 
-      A JSON array of JSON objects, each of which is corresponding to
-      a row in the specification's definition table, with following
-      name/value pairs:
+      font
 
-        computed [string]
+        Table of font type pattern matching algorithm.
 
-          The "Computed MIME Type".
+      archive
 
-        leading_ws [boolean]
+        Table of archive type pattern matching algorithm.
 
-          Whether the "Leading Bytes to Be Ignored" is "Whitespace
-          bytes."  or not.
+      text_track
 
-        mask [string]
+        Table to sniff WebVTT.
 
-          The "Pattern Mask", as space (U+0020) separated sequence of
-          two hexadecimal digits representing bytes.
+    Their values are JSON objects with following name/value pairs:
 
-        pattern [string]
+      defs [object]
 
-          The "Byte Pattern", as space (U+0020) separated sequence of
-          two hexadecimal digits representing bytes.
+        A JSON array of JSON objects, each of which is corresponding
+        to a row in the specification's definition table, with
+        following name/value pairs:
 
-        regexp [string]
+          computed [string]
 
-          A regular expression that is equivalent to the pattern
-          described by "leading_ws", "mask", and "pattern".
+            The "Computed MIME Type".
 
-    regexps [object]
+          leading_ws [boolean]
 
-      Assembled regular expressions equivalent to "defs".  A JSON
-      object whose names are computed MIME type and values are regular
-      expressions matching will result in the corresponding computed
-      MIME type.
+            Whether the "Leading Bytes to Be Ignored" is "Whitespace
+            bytes."  or not.
+
+          mask [string]
+
+            The "Pattern Mask", as space (U+0020) separated sequence
+            of two hexadecimal digits representing bytes.
+
+          pattern [string]
+
+            The "Byte Pattern", as space (U+0020) separated sequence
+            of two hexadecimal digits representing bytes.
+
+          regexp [string]
+
+            A regular expression that is equivalent to the pattern
+            described by "leading_ws", "mask", and "pattern".
+
+      regexps [object]
+
+        Assembled regular expressions equivalent to "defs".  A JSON
+        object whose names are computed MIME type and values are
+        regular expressions matching will result in the corresponding
+        computed MIME type.
 
 * Source
 

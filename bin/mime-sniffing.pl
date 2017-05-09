@@ -404,6 +404,20 @@ for (
   };
 }
 
+$Data->{mp3}->{samplerates} = [map { 0+$_ } qw(
+  44100 48000 32000
+)];
+
+$Data->{mp3}->{mp3rates} = [map { 0+$_ } qw(
+  0 32000 40000 48000 56000 64000 80000 96000 112000 128000 160000
+  192000 224000 256000 320000
+)];
+
+$Data->{mp3}->{mp25rates} = [map { 0+$_ } qw(
+  0 8000 16000 24000 32000 40000 48000 56000 64000 80000 96000 112000
+  128000 144000 160000
+)];
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.  See doc/mime-sniffing.txt.
