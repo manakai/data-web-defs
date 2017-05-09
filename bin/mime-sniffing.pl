@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use Regexp::Assemble;
 use JSON::PS;
 
 ## <https://mimesniff.spec.whatwg.org/#rules-for-identifying-an-unknown-mime-type>
@@ -374,6 +375,20 @@ $Data->{tables}->{audio_or_video} = {defs => [map { _row $_ } @AudioOrVideoSniff
 $Data->{tables}->{archive} = {defs => [map { _row $_ } @ArchiveSniffingTable]};
 $Data->{tables}->{font} = {defs => [map { _row $_ } @FontSniffingTable]};
 $Data->{tables}->{text_track} = {defs => [map { _row $_ } @TextTrackSniffingTable]};
+
+for (values %{$Data->{tables}}) {
+  my $type_to_regexps = {};
+  for (@{$_->{defs}}) {
+    push @{$type_to_regexps->{$_->{computed}} ||= []}, $_->{regexp};
+  }
+  for my $type (keys %$type_to_regexps) {
+    my $ra = Regexp::Assemble->new;
+    $ra->add ($_) for @{$type_to_regexps->{$type}};
+    my $re = $ra->re;
+    $re =~ s/([\x00-\x20\x7F-\xFF])/sprintf '\\x%02X', ord $1/ge;
+    $_->{regexps}->{$type} = $re;
+  }
+}
 
 for (
   '74 65 78 74 2F 70 6C 61 69 6E',

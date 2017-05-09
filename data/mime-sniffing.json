@@ -41,7 +41,12 @@
                "pattern" : "52 61 72 20 1A 07 00",
                "regexp" : "Rar\u005Cx20\u005Cx1A\u005Cx07\u005Cx00"
             }
-         ]
+         ],
+         "regexps" : {
+            "application/x-gzip" : "(?^:\u005Cx1F\u005Cx8B\u005Cx08)",
+            "application/x-rar-compressed" : "(?^:Rar\u005Cx20\u005Cx1A\u005Cx07\u005Cx00)",
+            "application/zip" : "(?^:PK\u005Cx03\u005Cx04)"
+         }
       },
       "audio_or_video" : {
          "defs" : [
@@ -94,7 +99,16 @@
                "pattern" : "52 49 46 46 00 00 00 00 57 41 56 45",
                "regexp" : "RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]WAVE"
             }
-         ]
+         ],
+         "regexps" : {
+            "application/ogg" : "(?^:OggS\u005Cx00)",
+            "audio/aiff" : "(?^:FORM[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]AIFF)",
+            "audio/basic" : "(?^:\u005C.snd)",
+            "audio/midi" : "(?^:MThd\u005Cx00\u005Cx00\u005Cx00\u005Cx06)",
+            "audio/mpeg" : "(?^:ID3)",
+            "audio/wave" : "(?^:RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]WAVE)",
+            "video/avi" : "(?^:RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]AVI\u005Cx20)"
+         }
       },
       "bom1" : {
          "defs" : [
@@ -119,7 +133,10 @@
                "pattern" : "EF BB BF 00",
                "regexp" : "\u005CxEF\u005CxBB\u005CxBF[\u005Cx00-\u005CxFF]"
             }
-         ]
+         ],
+         "regexps" : {
+            "text/plain" : "(?^:(?:(?:\u005CxFE\u005CxFF|\u005CxFF\u005CxFE)[\u005Cx00-\u005CxFF]|\u005CxEF\u005CxBB\u005CxBF)[\u005Cx00-\u005CxFF])"
+         }
       },
       "bom2" : {
          "defs" : [
@@ -144,7 +161,10 @@
                "pattern" : "EF BB BF",
                "regexp" : "\u005CxEF\u005CxBB\u005CxBF"
             }
-         ]
+         ],
+         "regexps" : {
+            "text/plain" : "(?^:(?:\u005CxEF\u005CxBB\u005CxBF|\u005CxFE\u005CxFF|\u005CxFF\u005CxFE))"
+         }
       },
       "font" : {
          "defs" : [
@@ -183,7 +203,14 @@
                "pattern" : "77 4F 46 46",
                "regexp" : "wOFF"
             }
-         ]
+         ],
+         "regexps" : {
+            "application/font-woff" : "(?^:wOFF)",
+            "application/vnd.ms-fontobject" : "(?^:[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]LP)",
+            "font/collection" : "(?^:ttcf)",
+            "font/otf" : "(?^:OTTO)",
+            "font/ttf" : "(?^:\u005Cx00\u005Cx01\u005Cx00\u005Cx00)"
+         }
       },
       "image" : {
          "defs" : [
@@ -243,7 +270,15 @@
                "pattern" : "FF D8 FF",
                "regexp" : "\u005CxFF\u005CxD8\u005CxFF"
             }
-         ]
+         ],
+         "regexps" : {
+            "image/bmp" : "(?^:BM)",
+            "image/gif" : "(?^:GIF8[79]a)",
+            "image/jpeg" : "(?^:\u005CxFF\u005CxD8\u005CxFF)",
+            "image/png" : "(?^:\u005Cx89PNG\u005Cx0D\u005Cx0A\u005Cx1A\u005Cx0A)",
+            "image/webp" : "(?^:RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]WEBPVP)",
+            "image/x-icon" : "(?^:\u005Cx00\u005Cx00[\u005Cx01\u005Cx02]\u005Cx00)"
+         }
       },
       "non_scriptable" : {
          "defs" : [
@@ -254,7 +289,10 @@
                "pattern" : "25 21 50 53 2D 41 64 6F 62 65 2D",
                "regexp" : "\u005Cx25\u005Cx21PS\u005Cx2DAdobe\u005Cx2D"
             }
-         ]
+         ],
+         "regexps" : {
+            "application/postscript" : "(?^:%!PS-Adobe-)"
+         }
       },
       "scriptable" : {
          "defs" : [
@@ -503,7 +541,12 @@
                "pattern" : "25 50 44 46 2D",
                "regexp" : "\u005Cx25PDF\u005Cx2D"
             }
-         ]
+         ],
+         "regexps" : {
+            "application/pdf" : "(?^:%PDF-)",
+            "text/html" : "(?^:(?:[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u003C(?:[Ss](?:[Cc][Rr][Ii][Pp][Tt][\u005Cx20>]|[Tt][Yy][Ll][Ee][\u005Cx20>])|[Tt](?:[Aa][Bb][Ll][Ee][\u005Cx20>]|[Ii][Tt][Ll][Ee][\u005Cx20>])|[Hh](?:[\u005Cx20>]|[Ee][Aa][Dd][\u005Cx20>]|[Tt][Mm][Ll][\u005Cx20>])|[Bb](?:[\u005Cx20>]|[Oo][Dd][Yy][\u005Cx20>]|[Rr][\u005Cx20>])|[Ii][Ff][Rr][Aa][Mm][Ee][\u005Cx20>]|[Ff][Oo][Nn][Tt][\u005Cx20>]|[Dd][Ii][Vv][\u005Cx20>]|[Aa][\u005Cx20>]|[Pp][\u005Cx20>]|!--)|\u003C![Dd][Oo][Cc][Tt][Yy][Pp][Ee]\u005Cx20[Hh][Tt][Mm][Ll][\u005Cx20>]))",
+            "text/xml" : "(?^:[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u003C\u005C?xml)"
+         }
       },
       "text_track" : {
          "defs" : [
@@ -514,7 +557,10 @@
                "pattern" : "57 45 42 56 54 54",
                "regexp" : "WEBVTT"
             }
-         ]
+         ],
+         "regexps" : {
+            "text/vtt" : "(?^:WEBVTT)"
+         }
       }
    }
 }
