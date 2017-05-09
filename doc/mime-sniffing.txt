@@ -5,42 +5,51 @@ This JSON file contains data for MIME sniffing algorithms.
 
 * Data
 
-The file contains a JSON object, with following names:
+The file contains a JSON object with following name/value pair:
 
-  scriptable
-  non_scriptable
-  bom1
-  bom2
-  image
-  audio_or_video
-  archive
-  font
-  text_track
+tables [object]
 
-Their values are JSON arrays of JSON objects, each of which is
-corresponding to a row in the specification's definition table, with
-following name/value pairs:
+  Tables in definitions of sniffing steps.  The value is a JSON
+  object, with following names:
 
-  computed [string]
+    scriptable
+    non_scriptable
+    bom1
+    bom2
+    image
+    audio_or_video
+    archive
+    font
+    text_track
 
-    The "Computed MIME Type".
+  Their values are JSON objects with following name/value pairs:
 
-  leading_ws [boolean]
+    defs [object]
 
-    Whether the "Leading Bytes to Be Ignored" is "Whitespace bytes."
-    or not.
+      A JSON array of JSON objects, each of which is corresponding to
+      a row in the specification's definition table, with following
+      name/value pairs:
 
-  mask [string]
+        computed [string]
 
-    The "Pattern Mask", as space (U+0020) separated sequence of two
-    hexadecimal digits representing bytes.
+          The "Computed MIME Type".
 
-  pattern [string]
+        leading_ws [boolean]
 
-    The "Byte Pattern", as space (U+0020) separated sequence of two
-    hexadecimal digits representing bytes.
+          Whether the "Leading Bytes to Be Ignored" is "Whitespace
+          bytes."  or not.
 
-  regexp [string]
+        mask [string]
 
-    A regular expression that is equivalent to the pattern described
-    by "leading_ws", "mask", and "pattern".
+          The "Pattern Mask", as space (U+0020) separated sequence of
+          two hexadecimal digits representing bytes.
+
+        pattern [string]
+
+          The "Byte Pattern", as space (U+0020) separated sequence of
+          two hexadecimal digits representing bytes.
+
+        regexp [string]
+
+          A regular expression that is equivalent to the pattern
+          described by "leading_ws", "mask", and "pattern".

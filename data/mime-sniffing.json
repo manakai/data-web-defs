@@ -1,167 +1,187 @@
 {
-   "archive" : [
-   ],
-   "audio_or_video" : [
-      {
-         "computed" : "audio/basic",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF",
-         "pattern" : "2E 73 6E 64",
-         "regexp" : "\u005Cx2Esnd"
+   "tables" : {
+      "archive" : {
+         "defs" : [
+         ]
+      },
+      "audio_or_video" : {
+         "defs" : [
+            {
+               "computed" : "audio/basic",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "2E 73 6E 64",
+               "regexp" : "\u005Cx2Esnd"
+            }
+         ]
+      },
+      "bom1" : {
+         "defs" : [
+            {
+               "computed" : "text/plain",
+               "leading_ws" : 0,
+               "mask" : "FF FF 00 00",
+               "pattern" : "FE FF 00 00",
+               "regexp" : "\u005CxFE\u005CxFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]"
+            },
+            {
+               "computed" : "text/plain",
+               "leading_ws" : 0,
+               "mask" : "FF FF 00 00",
+               "pattern" : "FF FE 00 00",
+               "regexp" : "\u005CxFF\u005CxFE[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]"
+            },
+            {
+               "computed" : "text/plain",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF 00",
+               "pattern" : "EF BB BF 00",
+               "regexp" : "\u005CxEF\u005CxBB\u005CxBF[\u005Cx00-\u005CxFF]"
+            }
+         ]
+      },
+      "bom2" : {
+         "defs" : [
+            {
+               "computed" : "text/plain",
+               "leading_ws" : 0,
+               "mask" : "FF FF",
+               "pattern" : "FE FF",
+               "regexp" : "\u005CxFE\u005CxFF"
+            },
+            {
+               "computed" : "text/plain",
+               "leading_ws" : 0,
+               "mask" : "FF FF",
+               "pattern" : "FF FE",
+               "regexp" : "\u005CxFF\u005CxFE"
+            },
+            {
+               "computed" : "text/plain",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF",
+               "pattern" : "EF BB BF",
+               "regexp" : "\u005CxEF\u005CxBB\u005CxBF"
+            }
+         ]
+      },
+      "font" : {
+         "defs" : [
+         ]
+      },
+      "image" : {
+         "defs" : [
+            {
+               "computed" : "image/gif",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF",
+               "pattern" : "47 49 46 38 37 61",
+               "regexp" : "GIF87a"
+            },
+            {
+               "computed" : "image/gif",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF",
+               "pattern" : "47 49 46 38 39 61",
+               "regexp" : "GIF89a"
+            },
+            {
+               "computed" : "image/png",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF FF FF",
+               "pattern" : "89 50 4E 47 0D 0A 1A 0A",
+               "regexp" : "\u005Cx89PNG\u005Cx0D\u005Cx0A\u005Cx1A\u005Cx0A"
+            },
+            {
+               "computed" : "image/jpeg",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF",
+               "pattern" : "FF D8 FF",
+               "regexp" : "\u005CxFF\u005CxD8\u005CxFF"
+            },
+            {
+               "computed" : "image/bmp",
+               "leading_ws" : 0,
+               "mask" : "FF FF",
+               "pattern" : "42 4D",
+               "regexp" : "BM"
+            },
+            {
+               "computed" : "image/vnd.microsoft.icon",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "00 00 01 00",
+               "regexp" : "\u005Cx00\u005Cx00\u005Cx01\u005Cx00"
+            }
+         ]
+      },
+      "non_scriptable" : {
+         "defs" : [
+            {
+               "computed" : "application/postscript",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF FF FF FF FF FF",
+               "pattern" : "25 21 50 53 2D 41 64 6F 62 65 2D",
+               "regexp" : "\u005Cx25\u005Cx21PS\u005Cx2DAdobe\u005Cx2D"
+            }
+         ]
+      },
+      "scriptable" : {
+         "defs" : [
+            {
+               "computed" : "text/html",
+               "leading_ws" : 0,
+               "mask" : "FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF",
+               "pattern" : "3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C 20",
+               "regexp" : "\u005Cx3C\u005Cx21[Dd][Oo][Cc][Tt][Yy][Pp][Ee]\u005Cx20[Hh][Tt][Mm][Ll]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 0,
+               "mask" : "FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF",
+               "pattern" : "3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C 3E",
+               "regexp" : "\u005Cx3C\u005Cx21[Dd][Oo][Cc][Tt][Yy][Pp][Ee]\u005Cx20[Hh][Tt][Mm][Ll]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 48 54 4D 4C 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Tt][Mm][Ll]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 48 54 4D 4C 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Tt][Mm][Ll]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF",
+               "pattern" : "3C 48 45 41 44",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Ee][Aa][Dd]"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF DF",
+               "pattern" : "3C 53 43 52 49 50 54",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Cc][Rr][Ii][Pp][Tt]"
+            },
+            {
+               "computed" : "application/pdf",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF",
+               "pattern" : "25 50 44 46 2D",
+               "regexp" : "\u005Cx25PDF\u005Cx2D"
+            }
+         ]
+      },
+      "text_track" : {
+         "defs" : [
+         ]
       }
-   ],
-   "bom1" : [
-      {
-         "computed" : "text/plain",
-         "leading_ws" : 0,
-         "mask" : "FF FF 00 00",
-         "pattern" : "FE FF 00 00",
-         "regexp" : "\u005CxFE\u005CxFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]"
-      },
-      {
-         "computed" : "text/plain",
-         "leading_ws" : 0,
-         "mask" : "FF FF 00 00",
-         "pattern" : "FF FE 00 00",
-         "regexp" : "\u005CxFF\u005CxFE[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]"
-      },
-      {
-         "computed" : "text/plain",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF 00",
-         "pattern" : "EF BB BF 00",
-         "regexp" : "\u005CxEF\u005CxBB\u005CxBF[\u005Cx00-\u005CxFF]"
-      }
-   ],
-   "bom2" : [
-      {
-         "computed" : "text/plain",
-         "leading_ws" : 0,
-         "mask" : "FF FF",
-         "pattern" : "FE FF",
-         "regexp" : "\u005CxFE\u005CxFF"
-      },
-      {
-         "computed" : "text/plain",
-         "leading_ws" : 0,
-         "mask" : "FF FF",
-         "pattern" : "FF FE",
-         "regexp" : "\u005CxFF\u005CxFE"
-      },
-      {
-         "computed" : "text/plain",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF",
-         "pattern" : "EF BB BF",
-         "regexp" : "\u005CxEF\u005CxBB\u005CxBF"
-      }
-   ],
-   "font" : [
-   ],
-   "image" : [
-      {
-         "computed" : "image/gif",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF FF FF",
-         "pattern" : "47 49 46 38 37 61",
-         "regexp" : "GIF87a"
-      },
-      {
-         "computed" : "image/gif",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF FF FF",
-         "pattern" : "47 49 46 38 39 61",
-         "regexp" : "GIF89a"
-      },
-      {
-         "computed" : "image/png",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF FF FF FF FF",
-         "pattern" : "89 50 4E 47 0D 0A 1A 0A",
-         "regexp" : "\u005Cx89PNG\u005Cx0D\u005Cx0A\u005Cx1A\u005Cx0A"
-      },
-      {
-         "computed" : "image/jpeg",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF",
-         "pattern" : "FF D8 FF",
-         "regexp" : "\u005CxFF\u005CxD8\u005CxFF"
-      },
-      {
-         "computed" : "image/bmp",
-         "leading_ws" : 0,
-         "mask" : "FF FF",
-         "pattern" : "42 4D",
-         "regexp" : "BM"
-      },
-      {
-         "computed" : "image/vnd.microsoft.icon",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF",
-         "pattern" : "00 00 01 00",
-         "regexp" : "\u005Cx00\u005Cx00\u005Cx01\u005Cx00"
-      }
-   ],
-   "non_scriptable" : [
-      {
-         "computed" : "application/postscript",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF FF FF FF FF FF FF FF",
-         "pattern" : "25 21 50 53 2D 41 64 6F 62 65 2D",
-         "regexp" : "\u005Cx25\u005Cx21PS\u005Cx2DAdobe\u005Cx2D"
-      }
-   ],
-   "scriptable" : [
-      {
-         "computed" : "text/html",
-         "leading_ws" : 0,
-         "mask" : "FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF",
-         "pattern" : "3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C 20",
-         "regexp" : "\u005Cx3C\u005Cx21[Dd][Oo][Cc][Tt][Yy][Pp][Ee]\u005Cx20[Hh][Tt][Mm][Ll]\u005Cx20"
-      },
-      {
-         "computed" : "text/html",
-         "leading_ws" : 0,
-         "mask" : "FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF",
-         "pattern" : "3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C 3E",
-         "regexp" : "\u005Cx3C\u005Cx21[Dd][Oo][Cc][Tt][Yy][Pp][Ee]\u005Cx20[Hh][Tt][Mm][Ll]\u005Cx3E"
-      },
-      {
-         "computed" : "text/html",
-         "leading_ws" : 1,
-         "mask" : "FF DF DF DF DF FF",
-         "pattern" : "3C 48 54 4D 4C 20",
-         "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Tt][Mm][Ll]\u005Cx20"
-      },
-      {
-         "computed" : "text/html",
-         "leading_ws" : 1,
-         "mask" : "FF DF DF DF DF FF",
-         "pattern" : "3C 48 54 4D 4C 3E",
-         "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Tt][Mm][Ll]\u005Cx3E"
-      },
-      {
-         "computed" : "text/html",
-         "leading_ws" : 1,
-         "mask" : "FF DF DF DF DF",
-         "pattern" : "3C 48 45 41 44",
-         "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Ee][Aa][Dd]"
-      },
-      {
-         "computed" : "text/html",
-         "leading_ws" : 1,
-         "mask" : "FF DF DF DF DF DF DF",
-         "pattern" : "3C 53 43 52 49 50 54",
-         "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Cc][Rr][Ii][Pp][Tt]"
-      },
-      {
-         "computed" : "application/pdf",
-         "leading_ws" : 0,
-         "mask" : "FF FF FF FF FF",
-         "pattern" : "25 50 44 46 2D",
-         "regexp" : "\u005Cx25PDF\u005Cx2D"
-      }
-   ],
-   "text_track" : [
-   ]
+   }
 }

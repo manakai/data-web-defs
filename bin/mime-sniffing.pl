@@ -202,14 +202,14 @@ sub _row ($) {
 } # _row
 
 my $Data = {};
-$Data->{scriptable} = [map { _row $_ } @ScriptableSniffingTable];
-$Data->{non_scriptable} = [map { _row $_ } @NonScriptableSniffingTable];
-$Data->{bom1} = [map { _row $_ } @BOM1SniffingTable];
-$Data->{bom2} = [map { _row $_ } @BOM2SniffingTable];
-$Data->{image} = [map { _row $_ } @ImageSniffingTable];
-$Data->{audio_or_video} = [map { _row $_ } @AudioOrVideoSniffingTable];
-$Data->{archive} = [map { _row $_ } @ArchiveSniffingTable];
-$Data->{font} = [map { _row $_ } @FontSniffingTable];
-$Data->{text_track} = [map { _row $_ } @TextTrackSniffingTable];
+$Data->{tables}->{scriptable} = {defs => [map { _row $_ } @ScriptableSniffingTable]};
+$Data->{tables}->{non_scriptable} = {defs => [map { _row $_ } @NonScriptableSniffingTable]};
+$Data->{tables}->{bom1} = {defs => [map { _row $_ } @BOM1SniffingTable]};
+$Data->{tables}->{bom2} = {defs => [map { _row $_ } @BOM2SniffingTable]};
+$Data->{tables}->{image} = {defs => [map { _row $_ } @ImageSniffingTable]};
+$Data->{tables}->{audio_or_video} = {defs => [map { _row $_ } @AudioOrVideoSniffingTable]};
+$Data->{tables}->{archive} = {defs => [map { _row $_ } @ArchiveSniffingTable]};
+$Data->{tables}->{font} = {defs => [map { _row $_ } @FontSniffingTable]};
+$Data->{tables}->{text_track} = {defs => [map { _row $_ } @TextTrackSniffingTable]};
 
 print perl2json_bytes_for_record $Data;
