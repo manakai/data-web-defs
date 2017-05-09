@@ -32,7 +32,7 @@ our @ScriptableSniffingTable = (
     "text/html", 1,
   ],
   [
-    "FF DF DF FF",
+    "FF DF FF FF",
     "3C 48 31 TT", # "<H1"
     "text/html", 1,
   ],
@@ -330,6 +330,7 @@ sub regexp ($$$) {
         }
       }
     }
+    die "Empty ($pattern)" unless length $r;
     $r = "[$r]" if $r =~ /-/ or 4 < length $r;
     $r =~ s/\\x(3[0-9]|[46][1-9A-F]|[57][0-9A])/pack 'C', hex $1/ge;
     push @r, $r;
