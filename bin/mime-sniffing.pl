@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use JSON::PS;
 
+## <https://mimesniff.spec.whatwg.org/#rules-for-identifying-an-unknown-mime-type>
 our @ScriptableSniffingTable = (
   ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [ # "<!DOCTYPE HTML "
@@ -14,19 +15,86 @@ our @ScriptableSniffingTable = (
     "3C 48 54 4D 4C TT", # "<HTML "
     "text/html", 1,
   ],
-  # XXX
   [
-    "FF DF DF DF DF",
-    "3C 48 45 41 44", # "<HEAD"
+    "FF DF DF DF DF FF",
+    "3C 48 45 41 44 TT", # "<HEAD"
     "text/html", 1,
   ],
-  # XXX
   [
-    "FF DF DF DF DF DF DF",
-    "3C 53 43 52 49 50 54", # "<SCRIPT"
+    "FF DF DF DF DF DF DF FF",
+    "3C 53 43 52 49 50 54 TT", # "<SCRIPT"
     "text/html", 1,
   ],
-  # XXX more
+  [
+    "FF DF DF DF DF DF DF FF",
+    "3C 49 46 52 41 4D 45 TT", # "<IFRAME"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF FF",
+    "3C 48 31 TT", # "<H1"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF DF FF",
+    "3C 44 49 56 TT", # "<DIV"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF DF DF FF",
+    "3C 46 4F 4E 54 TT", # "<FONT"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF DF DF DF FF",
+    "3C 54 41 42 4C 45 TT", # "<TABLE"
+    "text/html", 1,
+  ],
+  [
+    "FF DF FF",
+    "3C 41 TT", # "<A"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF DF DF DF FF",
+    "3C 53 54 59 4C 45 TT", # "<STYLE"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF DF DF DF FF",
+    "3C 54 49 54 4C 45 TT", # "<TITLE"
+    "text/html", 1,
+  ],
+  [
+    "FF DF FF",
+    "3C 42 TT", # "<B"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF DF DF FF",
+    "3C 42 4F 44 59 TT", # "<BODY"
+    "text/html", 1,
+  ],
+  [
+    "FF DF DF FF",
+    "3C 42 52 TT", # "<BR"
+    "text/html", 1,
+  ],
+  [
+    "FF DF FF",
+    "3C 50 TT", # "<P"
+    "text/html", 1,
+  ],
+  [
+    "FF FF FF FF",
+    "3C 21 2D 2D", # "<!--"
+    "text/html", 1,
+  ],
+  [
+    "FF FF FF FF FF",
+    "3C 3F 78 6D 6C", # "<?xml"
+    "text/xml", 1,
+  ],
   [
     "FF FF FF FF FF",
     "25 50 44 46 2D",
@@ -34,6 +102,7 @@ our @ScriptableSniffingTable = (
   ],
 );
 
+## <https://mimesniff.spec.whatwg.org/#rules-for-identifying-an-unknown-mime-type>
 our @NonScriptableSniffingTable = (
   ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
@@ -43,6 +112,7 @@ our @NonScriptableSniffingTable = (
   ],
 );
 
+## <https://mimesniff.spec.whatwg.org/#rules-for-identifying-an-unknown-mime-type>
 our @BOM1SniffingTable = (
   ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
@@ -62,6 +132,7 @@ our @BOM1SniffingTable = (
   ],
 );
 
+## <https://mimesniff.spec.whatwg.org/#rules-for-text-or-binary>
 our @BOM2SniffingTable = (
   ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
@@ -81,8 +152,24 @@ our @BOM2SniffingTable = (
   ],
 );
 
+## <https://mimesniff.spec.whatwg.org/#image-type-pattern-matching-algorithm>
 my @ImageSniffingTable = (
   ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
+  [
+    "FF FF FF FF",
+    "00 00 01 00",
+    "image/x-icon", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "00 00 02 00",
+    "image/x-icon", 0,
+  ],
+  [
+    "FF FF",
+    "42 4D",
+    "image/bmp", 0,
+  ],
   [
     "FF FF FF FF FF FF",
     "47 49 46 38 37 61",
@@ -94,6 +181,11 @@ my @ImageSniffingTable = (
     "image/gif", 0,
   ],
   [
+    "FF FF FF FF 00 00 00 00 FF FF FF FF FF FF",
+    "52 49 46 46 00 00 00 00 57 45 42 50 56 50",
+    "image/webp", 0,
+  ],
+  [
     "FF FF FF FF FF FF FF FF",
     "89 50 4E 47 0D 0A 1A 0A",
     "image/png", 0,
@@ -103,19 +195,9 @@ my @ImageSniffingTable = (
     "FF D8 FF",
     "image/jpeg", 0,
   ],
-  [
-    "FF FF",
-    "42 4D",
-    "image/bmp", 0,
-  ],
-  [
-    "FF FF FF FF",
-    "00 00 01 00",
-    "image/vnd.microsoft.icon", 0,
-  ],
-  # XXX update
 );
 
+## <https://mimesniff.spec.whatwg.org/#audio-or-video-type-pattern-matching-algorithm>
 my @AudioOrVideoSniffingTable = (
   ## Mask, Pattern, Sniffed Type, Has leading "WS" flag
   [
@@ -123,12 +205,93 @@ my @AudioOrVideoSniffingTable = (
     "2E 73 6E 64",
     "audio/basic", 0,
   ],
-  # XXX more
+  [
+    "FF FF FF FF 00 00 00 00 FF FF FF FF",
+    "46 4F 52 4D 00 00 00 00 41 49 46 46",
+    "audio/aiff", 0,
+  ],
+  [
+    "FF FF FF",
+    "49 44 33",
+    "audio/mpeg", 0,
+  ],
+  [
+    "FF FF FF FF FF",
+    "4F 67 67 53 00",
+    "application/ogg", 0,
+  ],
+  [
+    "FF FF FF FF FF FF FF FF",
+    "4D 54 68 64 00 00 00 06",
+    "audio/midi", 0,
+  ],
+  [
+    "FF FF FF FF 00 00 00 00 FF FF FF FF",
+    "52 49 46 46 00 00 00 00 41 56 49 20",
+    "video/avi", 0,
+  ],
+  [
+    "FF FF FF FF 00 00 00 00 FF FF FF FF",
+    "52 49 46 46 00 00 00 00 57 41 56 45",
+    "audio/wave", 0,
+  ],
 );
 
-my @ArchiveSniffingTable;
-my @FontSniffingTable;
-my @TextTrackSniffingTable;
+## <https://mimesniff.spec.whatwg.org/#font-type-pattern-matching-algorithm>
+my @FontSniffingTable = (
+  [
+    "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF",
+    "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 4C 50",
+    "application/vnd.ms-fontobject", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "00 01 00 00",
+    "font/ttf", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "4F 54 54 4F",
+    "font/otf", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "74 74 63 66",
+    "font/collection", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "77 4F 46 46",
+    "application/font-woff", 0,
+  ],
+);
+
+## <https://mimesniff.spec.whatwg.org/#archive-type-pattern-matching-algorithm>
+my @ArchiveSniffingTable = (
+  [
+    "FF FF FF",
+    "1F 8B 08",
+    "application/x-gzip", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "50 4B 03 04",
+    "application/zip", 0,
+  ],
+  [
+    "FF FF FF FF FF FF FF",
+    "52 61 72 20 1A 07 00",
+    "application/x-rar-compressed", 0,
+  ],
+);
+
+my @TextTrackSniffingTable = (
+  [
+    "FF FF FF FF FF FF",
+    "57 45 42 56 54 54",
+    "text/vtt", 0,
+  ],
+);
 
 sub parse ($) {
   my $s = shift;
@@ -226,3 +389,5 @@ for (
 }
 
 print perl2json_bytes_for_record $Data;
+
+## License: Public Domain.  See doc/mime-sniffing.txt.

@@ -20,6 +20,27 @@
    "tables" : {
       "archive" : {
          "defs" : [
+            {
+               "computed" : "application/x-gzip",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF",
+               "pattern" : "1F 8B 08",
+               "regexp" : "\u005Cx1F\u005Cx8B\u005Cx08"
+            },
+            {
+               "computed" : "application/zip",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "50 4B 03 04",
+               "regexp" : "PK\u005Cx03\u005Cx04"
+            },
+            {
+               "computed" : "application/x-rar-compressed",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF FF",
+               "pattern" : "52 61 72 20 1A 07 00",
+               "regexp" : "Rar\u005Cx20\u005Cx1A\u005Cx07\u005Cx00"
+            }
          ]
       },
       "audio_or_video" : {
@@ -30,6 +51,48 @@
                "mask" : "FF FF FF FF",
                "pattern" : "2E 73 6E 64",
                "regexp" : "\u005Cx2Esnd"
+            },
+            {
+               "computed" : "audio/aiff",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF 00 00 00 00 FF FF FF FF",
+               "pattern" : "46 4F 52 4D 00 00 00 00 41 49 46 46",
+               "regexp" : "FORM[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]AIFF"
+            },
+            {
+               "computed" : "audio/mpeg",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF",
+               "pattern" : "49 44 33",
+               "regexp" : "ID3"
+            },
+            {
+               "computed" : "application/ogg",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF",
+               "pattern" : "4F 67 67 53 00",
+               "regexp" : "OggS\u005Cx00"
+            },
+            {
+               "computed" : "audio/midi",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF FF FF",
+               "pattern" : "4D 54 68 64 00 00 00 06",
+               "regexp" : "MThd\u005Cx00\u005Cx00\u005Cx00\u005Cx06"
+            },
+            {
+               "computed" : "video/avi",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF 00 00 00 00 FF FF FF FF",
+               "pattern" : "52 49 46 46 00 00 00 00 41 56 49 20",
+               "regexp" : "RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]AVI\u005Cx20"
+            },
+            {
+               "computed" : "audio/wave",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF 00 00 00 00 FF FF FF FF",
+               "pattern" : "52 49 46 46 00 00 00 00 57 41 56 45",
+               "regexp" : "RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]WAVE"
             }
          ]
       },
@@ -85,10 +148,66 @@
       },
       "font" : {
          "defs" : [
+            {
+               "computed" : "application/vnd.ms-fontobject",
+               "leading_ws" : 0,
+               "mask" : "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF",
+               "pattern" : "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 4C 50",
+               "regexp" : "[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]LP"
+            },
+            {
+               "computed" : "font/ttf",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "00 01 00 00",
+               "regexp" : "\u005Cx00\u005Cx01\u005Cx00\u005Cx00"
+            },
+            {
+               "computed" : "font/otf",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "4F 54 54 4F",
+               "regexp" : "OTTO"
+            },
+            {
+               "computed" : "font/collection",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "74 74 63 66",
+               "regexp" : "ttcf"
+            },
+            {
+               "computed" : "application/font-woff",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "77 4F 46 46",
+               "regexp" : "wOFF"
+            }
          ]
       },
       "image" : {
          "defs" : [
+            {
+               "computed" : "image/x-icon",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "00 00 01 00",
+               "regexp" : "\u005Cx00\u005Cx00\u005Cx01\u005Cx00"
+            },
+            {
+               "computed" : "image/x-icon",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF",
+               "pattern" : "00 00 02 00",
+               "regexp" : "\u005Cx00\u005Cx00\u005Cx02\u005Cx00"
+            },
+            {
+               "computed" : "image/bmp",
+               "leading_ws" : 0,
+               "mask" : "FF FF",
+               "pattern" : "42 4D",
+               "regexp" : "BM"
+            },
             {
                "computed" : "image/gif",
                "leading_ws" : 0,
@@ -104,6 +223,13 @@
                "regexp" : "GIF89a"
             },
             {
+               "computed" : "image/webp",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF 00 00 00 00 FF FF FF FF FF FF",
+               "pattern" : "52 49 46 46 00 00 00 00 57 45 42 50 56 50",
+               "regexp" : "RIFF[\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF][\u005Cx00-\u005CxFF]WEBPVP"
+            },
+            {
                "computed" : "image/png",
                "leading_ws" : 0,
                "mask" : "FF FF FF FF FF FF FF FF",
@@ -116,20 +242,6 @@
                "mask" : "FF FF FF",
                "pattern" : "FF D8 FF",
                "regexp" : "\u005CxFF\u005CxD8\u005CxFF"
-            },
-            {
-               "computed" : "image/bmp",
-               "leading_ws" : 0,
-               "mask" : "FF FF",
-               "pattern" : "42 4D",
-               "regexp" : "BM"
-            },
-            {
-               "computed" : "image/vnd.microsoft.icon",
-               "leading_ws" : 0,
-               "mask" : "FF FF FF FF",
-               "pattern" : "00 00 01 00",
-               "regexp" : "\u005Cx00\u005Cx00\u005Cx01\u005Cx00"
             }
          ]
       },
@@ -177,16 +289,212 @@
             {
                "computed" : "text/html",
                "leading_ws" : 1,
-               "mask" : "FF DF DF DF DF",
-               "pattern" : "3C 48 45 41 44",
-               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Ee][Aa][Dd]"
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 48 45 41 44 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Ee][Aa][Dd]\u005Cx20"
             },
             {
                "computed" : "text/html",
                "leading_ws" : 1,
-               "mask" : "FF DF DF DF DF DF DF",
-               "pattern" : "3C 53 43 52 49 50 54",
-               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Cc][Rr][Ii][Pp][Tt]"
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 48 45 41 44 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh][Ee][Aa][Dd]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF DF FF",
+               "pattern" : "3C 53 43 52 49 50 54 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Cc][Rr][Ii][Pp][Tt]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF DF FF",
+               "pattern" : "3C 53 43 52 49 50 54 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Cc][Rr][Ii][Pp][Tt]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF DF FF",
+               "pattern" : "3C 49 46 52 41 4D 45 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ii][Ff][Rr][Aa][Mm][Ee]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF DF FF",
+               "pattern" : "3C 49 46 52 41 4D 45 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ii][Ff][Rr][Aa][Mm][Ee]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF FF",
+               "pattern" : "3C 48 31 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF FF",
+               "pattern" : "3C 48 31 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Hh]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF FF",
+               "pattern" : "3C 44 49 56 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Dd][Ii][Vv]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF FF",
+               "pattern" : "3C 44 49 56 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Dd][Ii][Vv]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 46 4F 4E 54 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ff][Oo][Nn][Tt]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 46 4F 4E 54 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ff][Oo][Nn][Tt]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF FF",
+               "pattern" : "3C 54 41 42 4C 45 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Tt][Aa][Bb][Ll][Ee]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF FF",
+               "pattern" : "3C 54 41 42 4C 45 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Tt][Aa][Bb][Ll][Ee]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF FF",
+               "pattern" : "3C 41 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Aa]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF FF",
+               "pattern" : "3C 41 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Aa]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF FF",
+               "pattern" : "3C 53 54 59 4C 45 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Tt][Yy][Ll][Ee]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF FF",
+               "pattern" : "3C 53 54 59 4C 45 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Ss][Tt][Yy][Ll][Ee]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF FF",
+               "pattern" : "3C 54 49 54 4C 45 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Tt][Ii][Tt][Ll][Ee]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF DF FF",
+               "pattern" : "3C 54 49 54 4C 45 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Tt][Ii][Tt][Ll][Ee]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF FF",
+               "pattern" : "3C 42 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Bb]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF FF",
+               "pattern" : "3C 42 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Bb]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 42 4F 44 59 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Bb][Oo][Dd][Yy]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF DF DF FF",
+               "pattern" : "3C 42 4F 44 59 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Bb][Oo][Dd][Yy]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF FF",
+               "pattern" : "3C 42 52 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Bb][Rr]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF DF FF",
+               "pattern" : "3C 42 52 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Bb][Rr]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF FF",
+               "pattern" : "3C 50 20",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Pp]\u005Cx20"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF DF FF",
+               "pattern" : "3C 50 3E",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C[Pp]\u005Cx3E"
+            },
+            {
+               "computed" : "text/html",
+               "leading_ws" : 1,
+               "mask" : "FF FF FF FF",
+               "pattern" : "3C 21 2D 2D",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C\u005Cx21\u005Cx2D\u005Cx2D"
+            },
+            {
+               "computed" : "text/xml",
+               "leading_ws" : 1,
+               "mask" : "FF FF FF FF FF",
+               "pattern" : "3C 3F 78 6D 6C",
+               "regexp" : "[\u005Cx09\u005Cx0A\u005Cx0C\u005Cx0D\u005Cx20]*\u005Cx3C\u005Cx3Fxml"
             },
             {
                "computed" : "application/pdf",
@@ -199,6 +507,13 @@
       },
       "text_track" : {
          "defs" : [
+            {
+               "computed" : "text/vtt",
+               "leading_ws" : 0,
+               "mask" : "FF FF FF FF FF FF",
+               "pattern" : "57 45 42 56 54 54",
+               "regexp" : "WEBVTT"
+            }
          ]
       }
    }
