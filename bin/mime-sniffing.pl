@@ -387,6 +387,7 @@ for (values %{$Data->{tables}}) {
     $ra->add ($_) for @{$type_to_regexps->{$type}};
     my $re = $ra->re;
     $re =~ s/([\x00-\x20\x7F-\xFF])/sprintf '\\x%02X', ord $1/ge;
+    $re =~ s/\(\?\^:/(?:/g;
     $_->{regexps}->{$type} = $re;
   }
 }
