@@ -1334,7 +1334,7 @@
       },
       {
          "di" : 103,
-         "fragment" : "[[*id=\u0022dom-sharedworker\u0022*]Constructor(USVString scriptURL, optional DOMString name = \u0022\u0022, optional Wo",
+         "fragment" : "[[*id=\u0022dom-sharedworker\u0022*]Constructor(USVString scriptURL, optional (DOMString or WorkerOptions) opt",
          "index" : 13,
          "level" : "m",
          "spec" : "XHR",
@@ -5498,57 +5498,37 @@
                      "SharedWorker"
                   ]
                },
-               "USVString,DOMString" : {
+               "USVString,union[DOMString,ref[WorkerOptions]]" : {
                   "args" : [
                      {
                         "name" : "scriptURL",
                         "optionality" : "required",
                         "spec" : "HTML",
                         "type" : "USVString"
-                     },
-                     {
-                        "name" : "name",
-                        "optionality" : "optional",
-                        "spec" : "HTML",
-                        "type" : "DOMString",
-                        "value" : [
-                           "string",
-                           ""
-                        ]
-                     }
-                  ],
-                  "id" : "dom-sharedworker",
-                  "spec" : "HTML",
-                  "type" : [
-                     "ref_interface",
-                     "SharedWorker"
-                  ]
-               },
-               "USVString,DOMString,ref[WorkerOptions]" : {
-                  "args" : [
-                     {
-                        "name" : "scriptURL",
-                        "optionality" : "required",
-                        "spec" : "HTML",
-                        "type" : "USVString"
-                     },
-                     {
-                        "name" : "name",
-                        "optionality" : "optional",
-                        "spec" : "HTML",
-                        "type" : "DOMString",
-                        "value" : [
-                           "string",
-                           ""
-                        ]
                      },
                      {
                         "name" : "options",
                         "optionality" : "optional",
                         "spec" : "HTML",
                         "type" : [
-                           "ref_dictionary",
-                           "WorkerOptions"
+                           "union",
+                           {
+                              "def" : [
+                                 "DOMString",
+                                 [
+                                    "ref_dictionary",
+                                    "WorkerOptions"
+                                 ]
+                              ],
+                              "flattened" : {
+                                 "DOMString" : "DOMString",
+                                 "ref_dictionary[WorkerOptions]" : [
+                                    "ref_dictionary",
+                                    "WorkerOptions"
+                                 ]
+                              },
+                              "has_dictionary" : 1
+                           }
                         ],
                         "value" : [
                            "dictionary_value",
@@ -11597,6 +11577,15 @@
                      "spec" : "HTML"
                   }
                ],
+               "name" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-dedicatedworkerglobalscope-name",
+                     "spec" : "HTML",
+                     "type" : "DOMString"
+                  }
+               ],
                "onmessage" : [
                   "attribute",
                   {
@@ -12336,6 +12325,7 @@
                "fullscreen" : [
                   "attribute",
                   {
+                     "Unscopable" : 1,
                      "getter" : 1,
                      "id" : "dom-document-fullscreen",
                      "setter" : "LenientSetter",
@@ -35631,6 +35621,17 @@
                      "value" : [
                         "string",
                         "omit"
+                     ]
+                  }
+               ],
+               "name" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "DOMString",
+                     "value" : [
+                        "string",
+                        ""
                      ]
                   }
                ],
