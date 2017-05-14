@@ -416,6 +416,7 @@ clean-dom:
 	rm -fr local/dom.html local/domparsing.html
 	rm -fr local/html.spec.whatwg.org local/webidl.html
 	rm -fr local/MetaExtensions.html
+	rm -fr data/webidl.json
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \

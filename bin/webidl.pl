@@ -140,29 +140,27 @@ my $XAttrAllowed = {
     SecureContext => 1,
   },
   attribute => {
-    Clamp => 1, EnforceRange => 1, Exposed => 1,
-    SameObject => 1, TreatNullAs => 1,
+    Exposed => 1,
+    SameObject => 1,
     LenientThis => 1, PutForwards => 1, Replaceable => 1, LenientSetter => 1,
     Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
   },
   static_attribute => {
-    Clamp => 1, Exposed => 1,
-    SameObject => 1, TreatNullAs => 1,
+    Exposed => 1,
+    SameObject => 1,
     SecureContext => 1,
   },
   operation => {
-    Exposed => 1, NewObject => 1, TreatNullAs => 1,
+    Exposed => 1, NewObject => 1,
     Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
   },
   static_operation => {
-    Exposed => 1, NewObject => 1, TreatNullAs => 1,
+    Exposed => 1, NewObject => 1,
     SecureContext => 1,
   },
-  argument => {
-    Clamp => 1, EnforceRange => 1, TreatNullAs => 1,
-  },
+  argument => {},
   serializer => {
     SecureContext => 1,
   },
@@ -178,15 +176,18 @@ my $XAttrAllowed = {
   },
   dictionary => {},
   partial_dictionary => {},
-  dictionary_member => {
-    Clamp => 1, EnforceRange => 1,
-  },
+  dictionary_member => {},
   enum => {},
   callback => {
     TreatNonObjectAsNull => 1,
   },
   typedef => {},
   implements => {},
+  type => {
+    Clamp => 1,
+    EnforceRange => 1,
+    TreatNullAs => 1,
+  },
 };
 
 for my $key (keys %$XAttrAllowed) {
