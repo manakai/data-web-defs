@@ -130,6 +130,9 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   for (keys %$data) {
     $Data->{$_} = $data->{$_};
   }
+  for (@error) {
+    delete $_->{di};
+  }
   $Data->{_idl_errors} = \@error;
 }
 

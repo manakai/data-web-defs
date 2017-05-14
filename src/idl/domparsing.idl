@@ -1,0 +1,32 @@
+// WHATWG DOM Parsing and Serialization Standard
+[*spec=DOMPARSING*]
+
+enum [*id="supportedtype"*] SupportedType {
+  "text/html",
+  "text/xml",
+  "application/xml",
+  "application/xhtml+xml",
+  "image/svg+xml"
+};
+
+[Constructor]
+interface [*id="domparser"*] DOMParser {
+  Document [*id="dom-domparser-parsefromstring"*] parseFromString (DOMString str, SupportedType type);
+};
+
+[Constructor]
+interface [*id="xmlserializer"*] XMLSerializer {
+  DOMString [*id="dom-xmlserializer-serializetostring"*] serializeToString (Node root);
+};
+
+partial interface Element {
+  attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-innerhtml"*] innerHTML;
+  attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-outerhtml"*] outerHTML;
+  void [*id="dom-element-insertAdjacentHTML"*] insertAdjacentHTML (DOMString position, DOMString text);
+};
+
+// partial interface Text { attribute boolean serializeAsCDATA };
+
+partial interface Range {
+  DocumentFragment [*id="createcontextualfragment"*] createContextualFragment (DOMString fragment);
+};

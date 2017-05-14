@@ -661,15 +661,16 @@ local/compat.html:
 	$(SAVEURL) $@ https://compat.spec.whatwg.org/
 local/url.html:
 	$(SAVEURL) $@ https://url.spec.whatwg.org/
-local/domparsing.html:
-	#$(SAVEURL) $@ https://domparsing.spec.whatwg.org/
-	$(SAVEURL) $@ https://raw.githubusercontent.com/whatwg/domparsing/edc795ccfdc03e396197bf81a0f550105930e90b/domparser
+#local/domparsing.html:
+#	#$(SAVEURL) $@ https://domparsing.spec.whatwg.org/
+#	$(SAVEURL) $@ https://raw.githubusercontent.com/whatwg/domparsing/edc795ccfdc03e396197bf81a0f550105930e90b/domparser
 local/xhr.html:
 	$(SAVEURL) $@ https://xhr.spec.whatwg.org/
-local/idl-extracted.json: local/dom.html local/domparsing.html \
+local/idl-extracted.json: local/dom.html \
     local/xhr.html local/fetch.html local/notifications.html \
     local/fullscreen.html local/encoding.html local/compat.html \
     bin/extract-idls.pl local/url.html
+#local/domparsing.html
 	$(PERL) bin/extract-idls.pl > $@
 
 local/modules/vcutils:
