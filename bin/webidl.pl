@@ -183,11 +183,6 @@ my $XAttrAllowed = {
   },
   typedef => {},
   implements => {},
-  type => {
-    Clamp => 1,
-    EnforceRange => 1,
-    TreatNullAs => 1,
-  },
 };
 
 for my $key (keys %$XAttrAllowed) {
@@ -282,6 +277,38 @@ for (keys %$Reserved) {
     $Data->{constructs}->{$_}->{reserved}->{$name} = 1;
   }
 }
+
+## <https://heycam.github.io/webidl/#idl-types>.
+$Data->{types}->{$_}->{integer_type} = 1,
+$Data->{types}->{$_}->{numeric_type} = 1,
+$Data->{types}->{$_}->{primitive_type} = 1
+    for qw(byte octet short long), 'unsigned short', 'unsigned long',
+        'long long', 'unsigned long long';
+$Data->{types}->{$_}->{numeric_type} = 1,
+$Data->{types}->{$_}->{primitive_type} = 1
+    for 'boolean';
+$Data->{types}->{$_}->{string_type} = 1
+    for qw(DOMString ByteString USVString);
+$Data->{constructs}->{enum}->{string_type} = 1;
+$Data->{types}->{$_}->{exception_type} = 1,
+$Data->{types}->{$_}->{object_type} = 1
+    for qw(Error DOMException);
+$Data->{types}->{$_}->{typed_array_type} = 1,
+$Data->{types}->{$_}->{buffer_source_type} = 1
+    for qw(Int8Array Int16Array Int32Array Uint8Array Uint16Array
+           Uint32Array Uint8ClampedArray Float32Array Float64Array);
+$Data->{types}->{$_}->{buffer_source_type} = 1
+    for qw(ArrayBuffer DataView);
+$Data->{types}->{$_}->{object_type} = 1
+    for qw(object);
+$Data->{constructs}->{interface}->{object_type} = 1;
+$Data->{constructs}->{callback_interface}->{object_type} = 1;
+#partial_interface
+
+$Data->{types}->{$_}->{allowed_extended_attributes}->{Clamp} = 1,
+$Data->{types}->{$_}->{allowed_extended_attributes}->{EnforceRange} = 1
+    for grep { $Data->{types}->{$_}->{integer_type} } keys %{$Data->{types}};
+$Data->{types}->{DOMString}->{allowed_extended_attributes}->{DOMString} = 1;
 
 print perl2json_bytes_for_record $Data;
 

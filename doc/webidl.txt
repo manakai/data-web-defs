@@ -9,10 +9,9 @@ The file contains following name/value pairs:
 
   constructs [object]
 
-    Constructs appear in Web IDL fragments and "type" for the Web IDL
-    types.  Names are short strings identifying constructs, and values
-    are their descriptions, represented as JSON objects with following
-    name/value pairs:
+    Constructs appear in Web IDL fragments.  Names are short strings
+    identifying constructs, and values are their descriptions,
+    represented as JSON objects with following name/value pairs:
 
       allowed_extended_attributes [object?]
 
@@ -48,11 +47,21 @@ The file contains following name/value pairs:
         The English name of the construct, as used in the Web IDL
         specification.
 
+      object_type [boolean]
+
+        Whether the type defined by this construct is an object type
+        or not.
+
       reserved [object?]
 
         Reserved identifiers which cannot be used as an identifier of
         the construct, if any, represented as a JSON object whose
         names are identifiers and values are boolean true values.
+
+      string_type [boolean]
+
+        Whether the type defined by this construct is a string type or
+        not.
 
   extended_attributes [object]
 
@@ -133,6 +142,51 @@ The file contains following name/value pairs:
     Exactly one of |pattern| and |value| is specified.  Note that this
     object does not contain token types in |keyword_tokens| and
     |other_tokens|.
+
+  types [object]
+
+    Web IDL types other than various "compound" and "special" types
+    (might be expanded later to cover more types).  Names are keywords
+    of types (where types with more than one keywords using a U+0020
+    character as the separator).  Values are corresponding
+    descriptions, as JSON objects with following name/value pairs:
+
+      allowed_extended_attributes [object?]
+
+        Extended attributes allowed for this type, if any.  Names are
+        extended attribute names and values are boolean true values.
+
+      buffer_source_type [boolean]
+
+        Whether the type is a buffer source type or not.
+
+      exception_type [boolean]
+
+        Whether the type is an exception type or not.
+
+      integer_type [boolean]
+
+        Whether the type is an integer type or not.
+
+      numeric_type [boolean]
+
+        Whether the type is a numeric type or not.
+
+      object_type [boolean]
+
+        Whether the type is an object type or not.
+
+      primitive_type [boolean]
+
+        Whether the type is a primitive type or not.
+
+      string_type [boolean]
+
+        Whether the type is a string type or not.
+
+      typed_array_type [boolean]
+
+        Whether the type is a typed array type or not.
 
 * Sources
 
