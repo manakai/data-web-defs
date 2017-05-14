@@ -308,7 +308,7 @@ $Data->{constructs}->{callback_interface}->{object_type} = 1;
 $Data->{types}->{$_}->{allowed_extended_attributes}->{Clamp} = 1,
 $Data->{types}->{$_}->{allowed_extended_attributes}->{EnforceRange} = 1
     for grep { $Data->{types}->{$_}->{integer_type} } keys %{$Data->{types}};
-$Data->{types}->{DOMString}->{allowed_extended_attributes}->{DOMString} = 1;
+$Data->{types}->{DOMString}->{allowed_extended_attributes}->{TreatNullAs} = 1;
 
 print perl2json_bytes_for_record $Data;
 
