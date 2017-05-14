@@ -31,8 +31,6 @@ for (qw(
 
   record
 
-  class extends
-
   { } ( ) [ ] ; = : ... - . < > ?
 ), ',') {
   if ($_ =~ /\A_?[A-Za-z][0-9A-Z_a-z]*\z/) {
@@ -52,17 +50,11 @@ $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   maplike partial serializer setlike setter static
   stringifier typedef unrestricted required
 
-  class extends
-
   record
 );
 $Data->{keyword_tokens}->{$_}->{attribute_name} = 1 for qw(
   required
 );
-
-## "class" and "extends" are not in spec but extended at:
-## <https://dom.spec.whatwg.org/#elements>,
-## <https://www.w3.org/Bugs/Public/show_bug.cgi?id=23225>.
 
 for (
   [interface => 'interface', 'interface'],
@@ -74,7 +66,6 @@ for (
   [callback => 'callback', 'callback function'],
   [typedef => 'typedef', 'typedef'],
   [implements => 'implements', 'implements statement'],
-  [class => 'class', 'class'],
 ) {
   $Data->{constructs}->{$_->[0]}->{definition} = 1;
   $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1];
@@ -270,7 +261,7 @@ for my $name (keys %$ReservedIdentifiers) {
              enum callback typedef const attribute
              static_attribute dictionary_member
              operation static_operation argument
-             class);
+             );
 }
 for (keys %$Reserved) {
   for my $name (keys %{$Reserved->{$_}}) {
