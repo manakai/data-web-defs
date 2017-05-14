@@ -11,7 +11,7 @@ enum [*id="supportedtype"*] SupportedType {
 
 [Constructor]
 interface [*id="domparser"*] DOMParser {
-  Document [*id="dom-domparser-parsefromstring"*] parseFromString (DOMString str, SupportedType type);
+  [NewObject] Document [*id="dom-domparser-parsefromstring"*] parseFromString (DOMString str, SupportedType type);
 };
 
 [Constructor]
@@ -20,13 +20,13 @@ interface [*id="xmlserializer"*] XMLSerializer {
 };
 
 partial interface Element {
-  attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-innerhtml"*] innerHTML;
-  attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-outerhtml"*] outerHTML;
-  void [*id="dom-element-insertAdjacentHTML"*] insertAdjacentHTML (DOMString position, DOMString text);
+  [CEReactions] attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-innerhtml"*] innerHTML;
+  [CEReactions] attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-outerhtml"*] outerHTML;
+  [CEReactions] void [*id="dom-element-insertAdjacentHTML"*] insertAdjacentHTML (DOMString position, DOMString text);
 };
 
 // partial interface Text { attribute boolean serializeAsCDATA };
 
 partial interface Range {
-  DocumentFragment [*id="createcontextualfragment"*] createContextualFragment (DOMString fragment);
+  [CEReactions, NewObject] DocumentFragment [*id="createcontextualfragment"*] createContextualFragment (DOMString fragment);
 };
