@@ -208,6 +208,7 @@ my $XAttrArgs = {
   HTMLConstructor => {no => 1},
   Serializable => {no => 1},
   Transferable => {no => 1},
+  AllowShared => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
@@ -299,6 +300,8 @@ $Data->{types}->{$_}->{allowed_extended_attributes}->{Clamp} = 1,
 $Data->{types}->{$_}->{allowed_extended_attributes}->{EnforceRange} = 1
     for grep { $Data->{types}->{$_}->{integer_type} } keys %{$Data->{types}};
 $Data->{types}->{DOMString}->{allowed_extended_attributes}->{TreatNullAs} = 1;
+$Data->{types}->{$_}->{allowed_extended_attributes}->{AllowShared} = 1
+    for grep { $Data->{types}->{$_}->{buffer_source_type} } keys %{$Data->{types}};
 
 print perl2json_bytes_for_record $Data;
 
