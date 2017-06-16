@@ -553,7 +553,7 @@ data/xml-tree-constructor-expanded.json: data/xml-syntax.json \
 	!(grep '"USING-THE-RULES-FOR"' $@)
 
 local/html-tokenizer.json: bin/extract-html-tokenizer.pl local/html
-	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
+	$(PERL) bin/extract-html-tokenizer.pl local/html.spec.whatwg.org/multipage/parsing.html > $@
 local/html-tokenizer-charrefs.json: bin/extract-html-tokenizer.pl \
     src/tokenizer/charrefs.html
 	$(PERL) bin/extract-html-tokenizer.pl src/tokenizer/charrefs.html > $@
@@ -600,7 +600,7 @@ local/xml-tokenizer-only2.json: bin/extract-html-tokenizer.pl \
 	$(PERL) bin/extract-html-tokenizer.pl local/xml-tokenizer.html > $@
 
 local/html-tree.json: bin/extract-html-tree.pl local/html
-	$(PERL) bin/extract-html-tree.pl local/html.spec.whatwg.org/multipage/syntax.html > $@
+	$(PERL) bin/extract-html-tree.pl local/html.spec.whatwg.org/multipage/parsing.html > $@
 	!(grep '"DESC"' $@)
 	!(grep '"COND"' $@)
 	!(grep '"misc"' $@)

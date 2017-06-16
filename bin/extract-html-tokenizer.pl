@@ -67,6 +67,10 @@ sub parse_action ($) {
     } elsif ($action =~ s/^Parse error\.\s*// or
              $action =~ s/^Otherwise, this is a parse error\.\s*//) {
       push @action, {type => 'parse error'};
+    } elsif ($action =~ s/^This is an? ([\w-]+) parse error\.\s*// or
+             $action =~ s/^Otherwise, this is an? ([\w-]+) parse error\.\s*//) {
+      push @action, {type => 'parse error',
+                     code => $1};
     } elsif ($action =~ s/^Parse error \(offset=([0-9]+)\)\.$// or
              $action =~ s/^Otherwise, this is a parse error \(offset=([0-9]+)\)\.\s*//) {
       push @action, {type => 'parse error', index_offset => $1};
@@ -230,10 +234,17 @@ sub parse_action ($) {
       push @action,
           {type => 'create', token => 'comment token'},
           {type => 'set-empty', field => 'data'};
-    } elsif ($action =~ s/^Create a comment token whose (data) is "(\?)".//) {
+    } elsif ($action =~ s/^\QCreate a comment token whose data is the "[CDATA[" string.\E//) {
+      push @action,
+          {type => 'create', token => 'comment token'},
+          {type => 'set-empty', field => 'data'},
+          {type => 'append-temp', field => 'data'},
+          {type => 'append', field => 'data'};
+    } elsif ($action =~ s/^Create a comment token whose (data) is "([^"]+)"\.//) {
       push @action,
           {type => 'create', token => 'comment token', index_offset => 1},
           {type => 'set', field => $1, value => $2};
+
               } elsif ($action =~ s/^Pop the current marked section off the stack of open marked sections and reset the state\.//) {
                 push @action, {type => 'pop-section'};
               } elsif ($action =~ s/^[Ss]et (?:its|the (?:current |)token's) (tag name|name|target|data|notation name|content keyword) to the (?:current |)input character(?:\.\s*|, then )//) {
@@ -414,8 +425,8 @@ sub parse_action ($) {
           {type => 'RECONSUME-IF-EOF'};
     } elsif ($action =~ s/^If the end of the file was reached, reconsume the EOF character\.//) {
       push @action, {type => 'RECONSUME-IF-EOF'};
-    } elsif ($action =~ s/^When the user agent leaves the attribute name state \(and before emitting the tag token, if appropriate\), the complete attribute's name must be compared to the other attributes on the same token; if there is already an attribute on the token with the exact same name, then this is a parse error and the new attribute must be removed from the token\.// or
-             $action =~ s/^When the user agent leaves this state \(and before emitting the tag token, if appropriate\), the complete attribute's name must be compared to the other attributes on the same token; if there is already an attribute on the token with the exact same name, then this is a parse error and the new attribute must be dropped, along with the value that gets associated with it \(if any\)\.//) {
+    } elsif ($action =~ s/^When the user agent leaves the attribute name state \(and before emitting the tag token, if appropriate\), the complete attribute's name must be compared to the other attributes on the same token; if there is already an attribute on the token with the exact same name, then this is an? (?:[\w-]+ |)parse error and the new attribute must be removed from the token\.// or
+             $action =~ s/^When the user agent leaves this state \(and before emitting the tag token, if appropriate\), the complete attribute's name must be compared to the other attributes on the same token; if there is already an attribute on the token with the exact same name, then this is an? (?:[\w-]+ |)parse error and the new attribute must be dropped, along with the value that gets associated with it \(if any\)\.//) {
       #
     } elsif ($action =~ s/^Attempt to consume a character reference\.//) {
       push @action, {type => 'consume-charref'};
@@ -492,6 +503,10 @@ sub parse_action ($) {
               if => 'in-foreign', break => 1},
              {type => 'SAME-AS-ELSE'},
            ]};
+    } elsif ($action =~ s/^Consume those characters\.\s*If there is an adjusted current node and it is not an element in the HTML namespace, then switch to the CDATA section state\.//) {
+      push @action,
+         {type => 'switch', state => 'CDATA section state',
+          if => 'in-foreign', break => 1};
     } elsif ($action =~ s/^If there is an adjusted current node and it is not an element in the HTML namespace, then consume those characters and switch to the CDATA section state. Otherwise, act as described in the "anything else" entry below\.//) {
       push @action,
           {type => 'switch', state => 'CDATA section state',

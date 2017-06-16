@@ -2388,5 +2388,7 @@ delete $Data->{ims}->{_steps};
 
 print perl2json_bytes_for_record $Data;
 
+die "No intertion mode extracted" unless keys %{$Data->{ims}};
+
 ## License: Public Domain.
 

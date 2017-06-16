@@ -534,7 +534,9 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
         } elsif (($act->{type} eq 'switch' and 2 == keys %$act and
                   defined $act->{state}) or
                  ($act->{type} eq 'parse error' and 3 == keys %$act and
-                  defined $act->{name} and defined $act->{error_type})) {
+                  defined $act->{name} and defined $act->{error_type}) or
+                 ($act->{type} eq 'parse error' and 4 == keys %$act and
+                  defined $act->{name} and defined $act->{error_type} and defined $act->{code})) {
           unshift @$new_acts, $act;
         } else {
           $appends = {};
@@ -570,6 +572,8 @@ for my $state (keys %{$Data->{tokenizer}->{states}}) {
                   defined $act->{state}) or
                  ($act->{type} eq 'parse error' and 3 == keys %$act and
                   defined $act->{name} and defined $act->{error_type}) or
+                 ($act->{type} eq 'parse error' and 4 == keys %$act and
+                  defined $act->{name} and defined $act->{error_type} and defined $act->{code}) or
                  ($act->{type} eq 'set-empty-to-attr' and 2 == keys %$act and
                   defined $act->{field} and
                   not defined $sets->{$act->{field}})) {
