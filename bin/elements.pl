@@ -163,8 +163,12 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
       $keyword = '' if $keyword eq '#empty';
       my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
       if ($id ne '-') {
-        $last_attr->{enumerated}->{$keyword}->{id} = $id;
-        $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
+        if ($id =~ /#/) {
+          $last_attr->{enumerated}->{$keyword}->{url} = $id;
+        } else {
+          $last_attr->{enumerated}->{$keyword}->{id} = $id;
+          $last_attr->{enumerated}->{$keyword}->{spec} = 'HTML';
+        }
       }
       $last_attr->{enumerated}->{$keyword}->{label} = $label if $label ne '-';
       $last_attr->{enumerated}->{$keyword}->{canonical} = 1 if $canonical;
