@@ -348,7 +348,8 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/http-p3p.txt local/iana/headers.json \
     src/fcast-headers.txt local/iana/fcast.json \
     src/http-equiv.txt src/http-pkp.txt src/http-hsts.txt \
-    src/http-alt-svc.txt local/iana/alt-svc.json
+    src/http-alt-svc.txt local/iana/alt-svc.json \
+    src/sip-headers.txt
 	$(PERL) bin/headers.pl > $@
 data/digests.json: bin/digests.pl \
     local/iana/http-digests.json src/http-digests.txt \

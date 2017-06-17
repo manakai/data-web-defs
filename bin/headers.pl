@@ -59,12 +59,12 @@ my $IANAFCASTData = json_bytes2perl $src_path->parent->child ('local/iana/fcast.
 {
   for my $record (@{$IANASIPData->{registries}->{'sip-parameters-2'}->{records}}) {
     my $name = $record->{value};
-    my $deprecated = $name =~ s/\s*\(Deprecated\)\s*$//;
+    my $deprecated = $name =~ s/\s*\([Dd]eprecated(?:\s+by [^()]+|)\)\s*$//;
     my $key = lc $name;
     $Data->{headers}->{$key}->{name} ||= $name;
     $Data->{headers}->{$key}->{sip}->{iana} = 1;
     $Data->{headers}->{$key}->{sip}->{deprecated} = 1 if $deprecated;
-    if (defined $record->{compact}) {
+    if (defined $record->{compact} and length $record->{compact}) {
       my $name = $record->{compact};
       my $key = lc $name;
       $Data->{headers}->{$key}->{name} ||= $name;
@@ -89,6 +89,7 @@ for (
   ['shttp-headers.txt', 's-http'],
   ['ssdp-headers.txt', 'ssdp'],
   ['http-headers.txt', 'http'],
+  ['sip-headers.txt', 'sip'],
 ) {
   my $header_name;
   my ($file_name, $proto) = @$_;
