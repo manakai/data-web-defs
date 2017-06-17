@@ -2588,12 +2588,9 @@
                      "value_type" : "enumerated"
                   },
                   "contextmenu" : {
-                     "conforming" : 1,
-                     "desc" : "The element's context menu",
-                     "id" : "attr-contextmenu",
-                     "id_type" : "popup",
-                     "spec" : "HTML",
-                     "value_type" : "idref"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "coords" : {
                      "preferred" : {
@@ -3800,11 +3797,9 @@
                      "value_type" : "event handler"
                   },
                   "onshow" : {
-                     "conforming" : 1,
-                     "desc" : "show event handler",
-                     "id" : "handler-onshow",
-                     "spec" : "HTML",
-                     "value_type" : "event handler"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "onsort" : {
                      "preferred" : {
@@ -7926,9 +7921,7 @@
                   },
                   "default" : {
                      "preferred" : {
-                        "element" : "menuitem",
-                        "name" : "default",
-                        "type" : "html_attr"
+                        "type" : "script"
                      }
                   },
                   "disabled" : {
@@ -11425,7 +11418,8 @@
                      "conforming" : 1,
                      "desc" : "Whether the iframe's contents are allowed to use the PaymentRequest interface to make payment requests",
                      "id" : "attr-iframe-allowpaymentrequest",
-                     "spec" : "HTML"
+                     "spec" : "HTML",
+                     "value_type" : "boolean"
                   },
                   "allowtransparency" : {
                      "enumerated" : {
@@ -12819,7 +12813,7 @@
                   },
                   "checked" : {
                      "conforming" : 1,
-                     "desc" : "Whether the command or control is checked",
+                     "desc" : "Whether the control is checked",
                      "id" : "attr-input-checked",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -14016,27 +14010,17 @@
             }
          },
          "keygen" : {
-            "aria" : {
-               "" : {
-                  "allowed_roles" : {
-                     "presentation" : 1
-                  },
-                  "strong_role" : 1
-               }
-            },
             "attrs" : {
                "" : {
                   "autofocus" : {
                      "preferred" : {
                         "type" : "script"
-                     },
-                     "value_type" : "boolean"
+                     }
                   },
                   "challenge" : {
                      "preferred" : {
                         "type" : "script"
-                     },
-                     "value_type" : "any"
+                     }
                   },
                   "disabled" : {
                      "preferred" : {
@@ -14045,57 +14029,33 @@
                      "value_type" : "boolean"
                   },
                   "form" : {
-                     "id_type" : "form",
                      "preferred" : {
                         "type" : "script"
-                     },
-                     "value_type" : "idref"
+                     }
                   },
                   "keyparams" : {
                      "id" : "attr-keygen-keyparams",
                      "preferred" : {
                         "type" : "script"
                      },
-                     "spec" : "OBSVOCAB",
-                     "value_type" : "any"
+                     "spec" : "OBSVOCAB"
                   },
                   "keytype" : {
-                     "enumerated" : {
-                        "#invalid" : {
-                           "label" : "unknown"
-                        },
-                        "#missing" : {
-                           "label" : "RSA"
-                        },
-                        "dsa" : {
-                           "non_conforming" : 1
-                        },
-                        "ec" : {
-                           "non_conforming" : 1
-                        },
-                        "rsa" : {
-                           "conforming" : 1,
-                           "label" : "RSA"
-                        }
-                     },
                      "preferred" : {
                         "type" : "script"
-                     },
-                     "value_type" : "enumerated"
+                     }
                   },
                   "name" : {
                      "preferred" : {
                         "type" : "script"
-                     },
-                     "value_type" : "non-empty"
+                     }
                   },
                   "pqg" : {
                      "id" : "attr-keygen-pqg",
                      "preferred" : {
                         "type" : "script"
                      },
-                     "spec" : "OBSVOCAB",
-                     "value_type" : "any"
+                     "spec" : "OBSVOCAB"
                   }
                }
             },
@@ -14104,7 +14064,7 @@
                "special category" : 1
             },
             "content_model" : "empty",
-            "id" : "the-keygen-element",
+            "id" : "keygen",
             "interface" : "HTMLUnknownElement",
             "parser_category" : "special",
             "preferred" : {
@@ -14492,7 +14452,7 @@
                "" : {
                   "as" : {
                      "conforming" : 1,
-                     "desc" : "Destination for a preload request (for rel=\u0022preload\u0022)",
+                     "desc" : "Potential destination for a preload request (for rel=\u0022preload\u0022)",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -14860,6 +14820,34 @@
                      "spec" : "HTML",
                      "value_type" : "MIME type"
                   },
+                  "updateviacache" : {
+                     "conforming" : 1,
+                     "desc" : "Update via cache mode for a service worker registration (for rel=\u0022serviceworker\u0022)",
+                     "enumerated" : {
+                        "#missing" : {
+                           "label" : "imports",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-update-via-cache"
+                        },
+                        "all" : {
+                           "conforming" : 1,
+                           "label" : "all",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-update-via-cache"
+                        },
+                        "imports" : {
+                           "conforming" : 1,
+                           "label" : "imports",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-update-via-cache"
+                        },
+                        "none" : {
+                           "conforming" : 1,
+                           "label" : "none",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-update-via-cache"
+                        }
+                     },
+                     "id" : "attr-link-updateviacache",
+                     "spec" : "HTML",
+                     "value_type" : "enumerated"
+                  },
                   "urn" : {
                      "id" : "attr-link-urn",
                      "preferred" : {
@@ -14868,11 +14856,11 @@
                      "spec" : "HTML"
                   },
                   "usecache" : {
-                     "conforming" : 1,
-                     "desc" : "Whether to set use cache to true for a service worker registration (for rel=\u0022serviceworker\u0022)",
-                     "id" : "attr-link-usecache",
-                     "spec" : "HTML",
-                     "value_type" : "boolean"
+                     "preferred" : {
+                        "element" : "link",
+                        "name" : "updateviacache",
+                        "type" : "html_attr"
+                     }
                   },
                   "version" : {
                      "preferred" : {
@@ -14883,16 +14871,22 @@
                      "conforming" : 1,
                      "desc" : "Service worker type for a service worker registration (for rel=\u0022serviceworker\u0022)",
                      "enumerated" : {
+                        "#invalid" : {
+                           "label" : "invalid"
+                        },
                         "#missing" : {
-                           "label" : "classic"
+                           "label" : "classic",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-job-worker-type"
                         },
                         "classic" : {
                            "conforming" : 1,
-                           "label" : "classic"
+                           "label" : "classic",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-job-worker-type"
                         },
                         "module" : {
                            "conforming" : 1,
-                           "label" : "module"
+                           "label" : "module",
+                           "url" : "https://w3c.github.io/ServiceWorker/#dfn-job-worker-type"
                         }
                      },
                      "id" : "attr-link-workertype",
@@ -15393,17 +15387,11 @@
                      }
                   },
                   "label" : {
-                     "conforming" : 1,
-                     "desc" : "User-visible label",
-                     "directionality_capable" : "1",
-                     "id" : "attr-menu-label",
-                     "spec" : "HTML",
-                     "translatable" : "1",
-                     "value_type" : "text"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "type" : {
-                     "conforming" : 1,
-                     "desc" : "Type of menu",
                      "enumerated" : {
                         "context" : {
                            "conforming" : 1,
@@ -15418,8 +15406,9 @@
                            "spec" : "HTML"
                         }
                      },
-                     "id" : "attr-menu-type",
-                     "spec" : "HTML",
+                     "preferred" : {
+                        "type" : "script"
+                     },
                      "value_type" : "enumerated"
                   },
                   "width" : {
@@ -15453,11 +15442,9 @@
             "attrs" : {
                "" : {
                   "checked" : {
-                     "conforming" : 1,
-                     "desc" : "Whether the command or control is checked",
-                     "id" : "attr-menuitem-checked",
-                     "spec" : "HTML",
-                     "value_type" : "boolean"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "command" : {
                      "preferred" : {
@@ -15465,91 +15452,42 @@
                      }
                   },
                   "default" : {
-                     "conforming" : 1,
-                     "desc" : "Mark the command as being a default command",
-                     "id" : "attr-menuitem-default",
-                     "spec" : "HTML",
-                     "value_type" : "boolean"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "disabled" : {
-                     "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
-                     "id" : "attr-menuitem-disabled",
-                     "spec" : "HTML",
+                     "preferred" : {
+                        "type" : "script"
+                     },
                      "value_type" : "boolean"
                   },
                   "icon" : {
-                     "conforming" : 1,
-                     "desc" : "Icon for the command",
-                     "id" : "attr-menuitem-icon",
-                     "spec" : "HTML",
-                     "url_role" : "embedded",
-                     "value_type" : "non-empty URL potentially surrounded by spaces"
+                     "preferred" : {
+                        "type" : "script"
+                     },
+                     "url_role" : "embedded"
                   },
                   "label" : {
-                     "conforming" : 1,
-                     "desc" : "User-visible label",
-                     "directionality_capable" : "1",
-                     "id" : "attr-menuitem-label",
-                     "spec" : "HTML",
-                     "translatable" : "1",
-                     "value_type" : "non-empty text"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "radiogroup" : {
-                     "conforming" : 1,
-                     "desc" : "Name of group of commands to treat as a radio button group",
-                     "id" : "attr-menuitem-radiogroup",
-                     "spec" : "HTML",
-                     "value_type" : "non-empty"
-                  },
-                  "title" : {
-                     "conforming" : 1,
-                     "desc" : "Hint describing the command.",
-                     "id" : "attr-menuitem-title",
-                     "spec" : "HTML",
-                     "value_type" : "text"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "type" : {
-                     "conforming" : 1,
-                     "desc" : "Type of command",
-                     "enumerated" : {
-                        "#missing" : {
-                           "id" : "attr-menuitem-type-state-command",
-                           "label" : "Command",
-                           "spec" : "HTML"
-                        },
-                        "checkbox" : {
-                           "conforming" : 1,
-                           "id" : "attr-menuitem-type-state-checkbox",
-                           "label" : "Checkbox",
-                           "spec" : "HTML"
-                        },
-                        "command" : {
-                           "conforming" : 1,
-                           "id" : "attr-menuitem-type-state-command",
-                           "label" : "Command",
-                           "spec" : "HTML"
-                        },
-                        "radio" : {
-                           "conforming" : 1,
-                           "id" : "attr-menuitem-type-state-radio",
-                           "label" : "Radio",
-                           "spec" : "HTML"
-                        }
-                     },
-                     "id" : "attr-menuitem-type",
-                     "spec" : "HTML",
-                     "value_type" : "enumerated"
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   }
                }
             },
-            "auto_br" : "disallow",
-            "conforming" : 1,
-            "content_model" : "text",
-            "desc" : "Menu command",
-            "id" : "the-menuitem-element",
-            "interface" : "HTMLMenuItemElement",
-            "spec" : "HTML"
+            "preferred" : {
+               "type" : "script"
+            }
          },
          "message" : {
             "preferred" : {
