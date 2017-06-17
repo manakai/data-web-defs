@@ -6906,6 +6906,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-cdata",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -6921,6 +6922,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -6957,6 +6959,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -7002,6 +7005,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -7024,6 +7028,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "abrupt-doctype-public-identifier",
                         "name" : "doctype-public-identifier-double-quoted-003e",
                         "type" : "parse error"
                      },
@@ -7054,6 +7059,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -7082,6 +7088,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -7104,6 +7111,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "abrupt-doctype-public-identifier",
                         "name" : "doctype-public-identifier-single-quoted-003e",
                         "type" : "parse error"
                      },
@@ -7134,6 +7142,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -7159,9 +7168,21 @@
          },
          "DOCTYPE state" : {
             "conds" : {
+               "CHAR:003E" : {
+                  "actions" : [
+                     {
+                        "state" : "before DOCTYPE name state",
+                        "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
+                     }
+                  ]
+               },
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-before-doctype-name",
                         "name" : "doctype-else",
                         "type" : "parse error"
                      },
@@ -7177,6 +7198,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -7214,6 +7236,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -7236,6 +7259,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "abrupt-doctype-system-identifier",
                         "name" : "doctype-system-identifier-double-quoted-003e",
                         "type" : "parse error"
                      },
@@ -7266,6 +7290,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -7294,6 +7319,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -7316,6 +7342,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "abrupt-doctype-system-identifier",
                         "name" : "doctype-system-identifier-single-quoted-003e",
                         "type" : "parse error"
                      },
@@ -7346,6 +7373,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -7374,6 +7402,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -7609,6 +7638,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -7855,6 +7885,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -8300,6 +8331,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8316,6 +8348,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -8374,6 +8407,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8394,6 +8428,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8446,6 +8481,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8466,6 +8502,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8518,6 +8555,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8538,6 +8576,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8590,6 +8629,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8610,6 +8650,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8656,6 +8697,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8676,6 +8718,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8728,6 +8771,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8748,6 +8792,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8800,6 +8845,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8820,6 +8866,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8872,6 +8919,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8892,6 +8940,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8944,6 +8993,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -8964,6 +9014,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -9010,6 +9061,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -9030,6 +9082,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "invalid-character-sequence-after-doctype-name",
                         "name" : "after-doctype-name-else",
                         "type" : "parse error"
                      },
@@ -9056,6 +9109,7 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-between-doctype-public-and-system-identifiers",
                         "name" : "after-doctype-public-identifier-0022",
                         "type" : "parse error"
                      },
@@ -9072,6 +9126,7 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-between-doctype-public-and-system-identifiers",
                         "name" : "after-doctype-public-identifier-0027",
                         "type" : "parse error"
                      },
@@ -9102,6 +9157,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-quote-before-doctype-system-identifier",
                         "name" : "after-doctype-public-identifier-else",
                         "type" : "parse error"
                      },
@@ -9118,6 +9174,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -9154,6 +9211,7 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-after-doctype-public-keyword",
                         "name" : "after-doctype-public-keyword-0022",
                         "type" : "parse error"
                      },
@@ -9170,6 +9228,7 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-after-doctype-public-keyword",
                         "name" : "after-doctype-public-keyword-0027",
                         "type" : "parse error"
                      },
@@ -9186,6 +9245,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-doctype-public-identifier",
                         "name" : "after-doctype-public-keyword-003e",
                         "type" : "parse error"
                      },
@@ -9208,6 +9268,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-quote-before-doctype-public-identifier",
                         "name" : "after-doctype-public-keyword-else",
                         "type" : "parse error"
                      },
@@ -9224,6 +9285,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -9274,6 +9336,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-after-doctype-system-identifier",
                         "name" : "after-doctype-system-identifier-else",
                         "type" : "parse error"
                      },
@@ -9286,6 +9349,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -9318,6 +9382,7 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-after-doctype-system-keyword",
                         "name" : "after-doctype-system-keyword-0022",
                         "type" : "parse error"
                      },
@@ -9334,6 +9399,7 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-after-doctype-system-keyword",
                         "name" : "after-doctype-system-keyword-0027",
                         "type" : "parse error"
                      },
@@ -9350,6 +9416,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-doctype-system-identifier",
                         "name" : "after-doctype-system-keyword-003e",
                         "type" : "parse error"
                      },
@@ -9372,6 +9439,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-quote-before-doctype-system-identifier",
                         "name" : "after-doctype-system-keyword-else",
                         "type" : "parse error"
                      },
@@ -9388,6 +9456,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -9478,6 +9547,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -9525,6 +9595,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-whitespace-between-attributes",
                         "name" : "after-attribute-value-quoted-else",
                         "type" : "parse error"
                      },
@@ -9540,6 +9611,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -9567,6 +9639,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -9580,6 +9653,7 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-attribute-name",
                         "name" : "attribute-name-0022",
                         "type" : "parse error"
                      },
@@ -9592,6 +9666,7 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-attribute-name",
                         "name" : "attribute-name-0027",
                         "type" : "parse error"
                      },
@@ -9618,6 +9693,7 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-attribute-name",
                         "name" : "attribute-name-003c",
                         "type" : "parse error"
                      },
@@ -9708,6 +9784,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -9750,6 +9827,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -10129,6 +10207,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -10171,6 +10250,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -10550,6 +10630,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -10563,6 +10644,7 @@
                "CHAR:0022" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-unquoted-attribute-value",
                         "name" : "attribute-value-unquoted-0022",
                         "type" : "parse error"
                      },
@@ -10588,6 +10670,7 @@
                "CHAR:0027" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-unquoted-attribute-value",
                         "name" : "attribute-value-unquoted-0027",
                         "type" : "parse error"
                      },
@@ -10600,6 +10683,7 @@
                "CHAR:003C" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-unquoted-attribute-value",
                         "name" : "attribute-value-unquoted-003c",
                         "type" : "parse error"
                      },
@@ -10612,6 +10696,7 @@
                "CHAR:003D" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-unquoted-attribute-value",
                         "name" : "attribute-value-unquoted-003d",
                         "type" : "parse error"
                      },
@@ -10640,6 +10725,7 @@
                "CHAR:0060" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-character-in-unquoted-attribute-value",
                         "name" : "attribute-value-unquoted-0060",
                         "type" : "parse error"
                      },
@@ -10660,6 +10746,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11047,6 +11134,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -11068,6 +11156,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-doctype-name",
                         "name" : "before-doctype-name-003e",
                         "type" : "parse error"
                      },
@@ -11110,6 +11199,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11184,6 +11274,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-doctype-public-identifier",
                         "name" : "before-doctype-public-identifier-003e",
                         "type" : "parse error"
                      },
@@ -11206,6 +11297,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-quote-before-doctype-public-identifier",
                         "name" : "before-doctype-public-identifier-else",
                         "type" : "parse error"
                      },
@@ -11222,6 +11314,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11278,6 +11371,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-doctype-system-identifier",
                         "name" : "before-doctype-system-identifier-003e",
                         "type" : "parse error"
                      },
@@ -11300,6 +11394,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-quote-before-doctype-system-identifier",
                         "name" : "before-doctype-system-identifier-else",
                         "type" : "parse error"
                      },
@@ -11316,6 +11411,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11359,6 +11455,7 @@
                "CHAR:003D" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-equals-sign-before-attribute-name",
                         "name" : "before-attribute-name-003d",
                         "type" : "parse error"
                      },
@@ -11454,15 +11551,21 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-attribute-value",
                         "name" : "before-attribute-value-003e",
                         "type" : "parse error"
                      },
                      {
-                        "state" : "attribute value (unquoted) state",
+                        "state" : "data state",
                         "type" : "switch"
                      },
                      {
-                        "type" : "reconsume"
+                        "check_end_tag_token" : 1,
+                        "possible_token_types" : {
+                           "end tag token" : 1,
+                           "start tag token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -11530,6 +11633,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "missing-quote-before-doctype-system-identifier",
                         "name" : "between-doctype-public-and-system-identifiers-else",
                         "type" : "parse error"
                      },
@@ -11546,6 +11650,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-doctype",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11725,6 +11830,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "incorrectly-closed-comment",
                         "name" : "comment-end-bang-003e",
                         "type" : "parse error"
                      },
@@ -11760,6 +11866,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-comment",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11809,6 +11916,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-comment",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11882,6 +11990,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-comment",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -11917,6 +12026,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "nested-comment",
                         "name" : "comment-less-than-sign-bang-dash-dash-else",
                         "type" : "parse error"
                      },
@@ -12048,6 +12158,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "abrupt-closing-of-empty-comment",
                         "name" : "comment-start-dash-003e",
                         "type" : "parse error"
                      },
@@ -12083,6 +12194,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-comment",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -12115,6 +12227,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "abrupt-closing-of-empty-comment",
                         "name" : "comment-start-003e",
                         "type" : "parse error"
                      },
@@ -12151,6 +12264,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -12193,6 +12307,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-comment",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -12217,6 +12332,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -12581,6 +12697,7 @@
                "CHAR:003E" : {
                   "actions" : [
                      {
+                        "code" : "missing-end-tag-name",
                         "name" : "end-tag-open-003e",
                         "type" : "parse error"
                      },
@@ -12593,6 +12710,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "invalid-first-character-of-tag-name",
                         "name" : "end-tag-open-else",
                         "type" : "parse error"
                      },
@@ -12616,6 +12734,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-before-tag-name",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -12699,6 +12818,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -12746,6 +12866,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -12777,6 +12898,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -12834,6 +12956,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -12865,6 +12988,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -12922,6 +13046,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -12953,6 +13078,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13010,6 +13136,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13041,6 +13168,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13098,6 +13226,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13129,6 +13258,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13186,6 +13316,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13217,6 +13348,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13268,6 +13400,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13299,6 +13432,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13345,6 +13479,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13376,6 +13511,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13422,6 +13558,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13453,6 +13590,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13499,6 +13637,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13530,6 +13669,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13576,6 +13716,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13607,6 +13748,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13653,6 +13795,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13684,6 +13827,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13721,10 +13865,7 @@
                         "type" : "switch"
                      },
                      {
-                        "state" : "markup declaration open state",
-                        "type" : "switch"
-                     },
-                     {
+                        "code" : "cdata-in-html-content",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13741,11 +13882,12 @@
                         "type" : "append-temp"
                      },
                      {
-                        "state" : "bogus comment state",
-                        "type" : "switch"
+                        "field" : "data",
+                        "type" : "append"
                      },
                      {
-                        "type" : "reconsume"
+                        "state" : "bogus comment state",
+                        "type" : "switch"
                      }
                   ]
                },
@@ -13756,6 +13898,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13787,6 +13930,7 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "incorrectly-opened-comment",
                         "name" : "markup-declaration-open-else",
                         "type" : "parse error"
                      },
@@ -13965,6 +14109,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14028,6 +14173,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-script-html-comment-like-text",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -14043,6 +14189,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14097,6 +14244,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-script-html-comment-like-text",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -14143,6 +14291,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14189,6 +14338,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-script-html-comment-like-text",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -14436,6 +14586,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14494,6 +14645,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-script-html-comment-like-text",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -14512,6 +14664,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14561,6 +14714,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-script-html-comment-like-text",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -14798,6 +14952,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14839,6 +14994,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-script-html-comment-like-text",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -14904,6 +15060,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -14966,6 +15123,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-solidus-in-tag",
                         "name" : "self-closing-start-tag-else",
                         "type" : "parse error"
                      },
@@ -14981,6 +15139,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -15000,6 +15159,7 @@
                "CHAR:0000" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-null-character",
                         "name" : "NULL",
                         "type" : "parse error"
                      },
@@ -15046,6 +15206,7 @@
                "EOF" : {
                   "actions" : [
                      {
+                        "code" : "eof-in-tag",
                         "name" : "EOF",
                         "type" : "parse error"
                      },
@@ -15101,6 +15262,7 @@
                "CHAR:003F" : {
                   "actions" : [
                      {
+                        "code" : "unexpected-question-mark-instead-of-tag-name",
                         "name" : "tag-open-003f",
                         "type" : "parse error"
                      },
@@ -15124,6 +15286,7 @@
                "ELSE" : {
                   "actions" : [
                      {
+                        "code" : "invalid-first-character-of-tag-name",
                         "name" : "tag-open-else",
                         "type" : "parse error"
                      },
@@ -15138,6 +15301,23 @@
                      },
                      {
                         "type" : "reconsume"
+                     }
+                  ]
+               },
+               "EOF" : {
+                  "actions" : [
+                     {
+                        "code" : "eof-before-tag-name",
+                        "name" : "EOF",
+                        "type" : "parse error"
+                     },
+                     {
+                        "index_offset" : 1,
+                        "type" : "emit-char",
+                        "value" : "\u003C"
+                     },
+                     {
+                        "type" : "emit-eof"
                      }
                   ]
                },
