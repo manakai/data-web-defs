@@ -233,7 +233,7 @@ data/langtags.json: bin/langtags.pl \
 
 all-http: data/http-status-codes.json data/http-methods.json \
     data/headers.json data/digests.json data/http-frames.json \
-    data/tls.json
+    data/tls.json data/fetch.json
 
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
@@ -368,6 +368,9 @@ local/mozilla-ciphers.json: local/mozilla-ciphers.html bin/mozilla-ciphers.pl
 data/tls.json: bin/tls.pl local/iana/tls.json local/mozilla-ciphers.json \
     local/iana/tls-exts.json
 	$(PERL) bin/tls.pl > $@
+
+data/fetch.json: bin/fetch.pl data/dom.json
+	$(PERL) $< > $@
 
 ## ------ Encodings ------
 
