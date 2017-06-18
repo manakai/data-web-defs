@@ -568,6 +568,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_desc
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{address}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ol}->{complex_content_model} =
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{ul}->{complex_content_model} =
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{menu}->{complex_content_model} =
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dir}->{complex_content_model} = [
   {elements => {'http://www.w3.org/1999/xhtml' => {li => 1}},
    categories => {'script-supporting elements' => 1},
@@ -655,7 +656,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{picture}->{complex_content
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{canvas}->{content_model} = 'transparent';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{has_additional_content_constraints} = 1
     for qw(head title style dl figure ruby iframe video audio table
-           colgroup label datalist option menu script noscript template
+           colgroup label datalist option script noscript template
            canvas summary picture
            frameset noframes noembed);
 
@@ -1167,7 +1168,7 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
   }
 }
 delete $Data->{elements}->{(HTML_NS)}->{$_}->{auto_br} #= 'allow'
-    for qw(figure fieldset details menu template);
+    for qw(figure fieldset details template);
 $Data->{elements}->{(MATH_NS)}->{$_}->{auto_br} = 'allow'
     for qw(mi mo mn ms mtext);
 $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
