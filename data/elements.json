@@ -2101,10 +2101,6 @@
                            "spec" : "ARIA"
                         }
                      },
-                     "preferred" : {
-                        "name" : "dropzone",
-                        "type" : "html_attr"
-                     },
                      "spec" : "ARIA",
                      "value_type" : "unordered set of unique space-separated tokens"
                   },
@@ -2168,10 +2164,6 @@
                            "conforming" : 1,
                            "spec" : "ARIA"
                         }
-                     },
-                     "preferred" : {
-                        "name" : "contextmenu",
-                        "type" : "html_attr"
                      },
                      "spec" : "ARIA",
                      "value_type" : "enumerated"
@@ -3511,6 +3503,11 @@
                      "id" : "handler-onhelp",
                      "spec" : "OBSVOCAB",
                      "value_type" : "event handler"
+                  },
+                  "onhide" : {
+                     "preferred" : {
+                        "type" : "script"
+                     }
                   },
                   "oninput" : {
                      "conforming" : 1,
@@ -14690,6 +14687,7 @@
                      "desc" : "Scope url for a service worker registration (for rel=\u0022serviceworker\u0022)",
                      "id" : "attr-link-scope",
                      "spec" : "HTML",
+                     "url_role" : "base",
                      "value_type" : "URL potentially surrounded by spaces"
                   },
                   "sizes" : {
@@ -15252,13 +15250,7 @@
          },
          "menu" : {
             "aria" : {
-               "popup" : {
-                  "allowed_roles" : {
-                     "presentation" : 1
-                  },
-                  "strong_role" : 1
-               },
-               "toolbar" : {
+               "" : {
                   "allowed_roles" : {
                      "directory" : 1,
                      "list" : 1,
@@ -15311,24 +15303,9 @@
                      }
                   },
                   "type" : {
-                     "enumerated" : {
-                        "context" : {
-                           "conforming" : 1,
-                           "id" : "popup-menu-state",
-                           "label" : "popup menu",
-                           "spec" : "HTML"
-                        },
-                        "toolbar" : {
-                           "conforming" : 1,
-                           "id" : "toolbar-state",
-                           "label" : "toolbar",
-                           "spec" : "HTML"
-                        }
-                     },
                      "preferred" : {
                         "type" : "script"
-                     },
-                     "value_type" : "enumerated"
+                     }
                   },
                   "width" : {
                      "preferred" : {
@@ -15338,19 +15315,32 @@
                   }
                }
             },
+            "auto_br" : "disallow",
             "categories" : {
                "flow content" : 1,
                "special category" : 1
             },
+            "complex_content_model" : [
+               {
+                  "categories" : {
+                     "script-supporting elements" : 1
+                  },
+                  "elements" : {
+                     "http://www.w3.org/1999/xhtml" : {
+                        "li" : 1
+                     }
+                  },
+                  "min" : 0
+               }
+            ],
             "conforming" : 1,
             "desc" : "Menu of commands",
-            "has_additional_content_constraints" : 1,
             "id" : "the-menu-element",
             "interface" : "HTMLMenuElement",
             "parser_category" : "special",
             "spec" : "HTML",
             "states" : {
-               "toolbar" : {
+               "has-item" : {
                   "categories" : {
                      "palpable content" : 1
                   }
@@ -21803,10 +21793,6 @@
                            "spec" : "ARIA"
                         }
                      },
-                     "preferred" : {
-                        "name" : "dropzone",
-                        "type" : "html_attr"
-                     },
                      "spec" : "ARIA",
                      "value_type" : "unordered set of unique space-separated tokens"
                   },
@@ -21870,10 +21856,6 @@
                            "conforming" : 1,
                            "spec" : "ARIA"
                         }
-                     },
-                     "preferred" : {
-                        "name" : "contextmenu",
-                        "type" : "html_attr"
                      },
                      "spec" : "ARIA",
                      "value_type" : "enumerated"
