@@ -217,26 +217,40 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
 }
 
 {
-  my $path = $RootPath->child ('data/dom.json');
+  my $path = $RootPath->child ('data/fetch.json');
   my $json = json_bytes2perl $path->slurp;
-  my $rd = $json->{idl_defs}->{RequestDestination};
-  my $v = $rd->[1]->{value};
-  my $last_attr = $Data->{elements}->{(HTML_NS)}->{link}->{attrs}->{''}->{as} ||= {};
-  for my $as (sort { $a cmp $b } keys %{$v->[1]}) {
-    $last_attr->{value_type} = 'enumerated';
-    $last_attr->{enumerated}->{$as}->{url} = 'https://fetch.spec.whatwg.org/#concept-request-destination';
-    $last_attr->{enumerated}->{$as}->{conforming} = 1;
-    $last_attr->{enumerated}->{$as}->{label} = $as;
-  }
 
-  $last_attr->{enumerated}->{'#invalid'}->{url}
-      = $last_attr->{enumerated}->{''}->{url};
-  $last_attr->{enumerated}->{'#invalid'}->{label}
-      = $last_attr->{enumerated}->{''}->{label};
-  $last_attr->{enumerated}->{'#missing'}->{url}
-      = $last_attr->{enumerated}->{''}->{url};
-  $last_attr->{enumerated}->{'#missing'}->{label}
-      = $last_attr->{enumerated}->{''}->{label};
+  for (
+    ['link', 'as', 'destination', 'potential_destination'],
+    ['link', 'workertype', 'script_type', 'service_worker_type'],
+    ['link', 'updateviacache', 'update_via_cache_mode', 'enumerated_attr_state'],
+  ) {
+    my ($ename, $aname, $set, $check) = @$_;
+    my $a_def = $Data->{elements}->{(HTML_NS)}->{$ename}->{attrs}->{''}->{$aname} ||= {};
+    my $s_def = $json->{$set};
+    for my $value (keys %{$s_def->{values}}) {
+      my $v_def = $s_def->{values}->{$value};
+      next unless $v_def->{$check};
+      $a_def->{value_type} = 'enumerated';
+      $a_def->{enumerated}->{$value}->{url} = $v_def->{url} || $s_def->{url};
+      $a_def->{enumerated}->{$value}->{conforming} = 1;
+      $a_def->{enumerated}->{$value}->{label} = $v_def->{enumerated_attr_state};
+    }
+    if (defined $s_def->{invalid_value_default}) {
+      if ($a_def->{enumerated}->{$s_def->{invalid_value_default}}) {
+        $a_def->{enumerated}->{'#invalid'}->{label} = $a_def->{enumerated}->{$s_def->{invalid_value_default}}->{label};
+      } else {
+        $a_def->{enumerated}->{'#invalid'}->{label} = $s_def->{invalid_value_default};
+      }
+    }
+    if (defined $s_def->{missing_value_default}) {
+      if ($a_def->{enumerated}->{$s_def->{missing_value_default}}) {
+        $a_def->{enumerated}->{'#missing'}->{label} = $a_def->{enumerated}->{$s_def->{missing_value_default}}->{label};
+      } else {
+        $a_def->{enumerated}->{'#missing'}->{label} = $s_def->{missing_value_default};
+      }
+    }
+  }
 }
 
 ## <input>

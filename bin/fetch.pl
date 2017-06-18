@@ -26,6 +26,21 @@ $Data->{response_type}->{values}->{$_} = {}
 $Data->{response_type}->{default} = 'default';
 $Data->{response_type}->{url} = q<https://fetch.spec.whatwg.org/#concept-response-type>;
 
+$Data->{script_type}->{values}->{$_}->{service_worker_type} = 1,
+$Data->{script_type}->{values}->{$_}->{enumerated_attr_state} = $_
+    for qw(classic module);
+$Data->{script_type}->{default} = 'classic';
+$Data->{script_type}->{url} = q<https://w3c.github.io/ServiceWorker/#dfn-type>;
+$Data->{script_type}->{invalid_value_default} = 'invalid';
+$Data->{script_type}->{missing_value_default} = 'classic';
+
+$Data->{update_via_cache_mode}->{values}->{$_}->{enumerated_attr_state} = $_
+    for qw(imports all none);
+$Data->{update_via_cache_mode}->{default} = 'imports';
+$Data->{update_via_cache_mode}->{url} = q<https://w3c.github.io/ServiceWorker/#dfn-update-via-cache>;
+$Data->{update_via_cache_mode}->{invalid_value_default} =
+$Data->{update_via_cache_mode}->{missing_value_default} = 'imports';
+
 {
   my $path = $RootPath->child ('data/dom.json');
   my $json = json_bytes2perl $path->slurp;
@@ -78,6 +93,14 @@ for (keys %{$Data->{destination}->{values}}) {
 ## <https://fetch.spec.whatwg.org/#concept-potential-destination>
 $Data->{destination}->{values}->{fetch}->{url} = q<https://fetch.spec.whatwg.org/#concept-potential-destination>;
 $Data->{destination}->{values}->{fetch}->{potential_destination} = 1;
+
+## <https://html.spec.whatwg.org/#attr-link-as>
+for (keys %{$Data->{destination}->{values}}) {
+  $Data->{destination}->{values}->{$_}->{enumerated_attr_state} = $_
+      if $Data->{destination}->{values}->{$_}->{potential_destination};
+}
+#$Data->{destination}->{values}->{invalid_value_default} =
+#$Data->{destination}->{values}->{missing_value_default} = undef;
 
 ## <https://fetch.spec.whatwg.org/#subresource-request>
 $Data->{destination}->{values}->{$_}->{subresource} = 1

@@ -43,9 +43,18 @@ The file contains a JSON object with following names:
 
     The type of a response.
 
+  script_type
+
+    The type of a script.
+
   type
 
     The type of a request.
+
+  update_via_cache_mode
+
+    The update via cache mode of a service worker registration
+    <https://w3c.github.io/ServiceWorker/#dfn-update-via-cache>.
 
 Their values are [protocol-object] describing the set of the possible
 values, with following name/value pairs:
@@ -53,6 +62,18 @@ values, with following name/value pairs:
   default [string?]
 
     The default value, if any.
+
+  invalid_value_default [string?]
+
+    The state name of the invalid value default, if the value set is
+    used as an enumerated attribute and there is an (explicit or
+    implicit) invalid value default.
+
+  missing_value_default [string?]
+
+    The state name of the missing value default, if the value set is
+    used as an enumerated attribute and there is a missing value
+    default.
 
   values [object]
 
@@ -63,6 +84,11 @@ values, with following name/value pairs:
       destination [boolean]
 
         Whether the value is a destination or not.
+
+      enumerated_attr_state [string?]
+
+        State name used when the value is part of an enumerated
+        attribute, if any.
 
       navigation [boolean]
 
@@ -93,14 +119,23 @@ values, with following name/value pairs:
         Whether the value is part of the DOM enumeration type with
         that name or not.
 
+      service_worker_type [boolean]
+
+        Whether the value is a type of a service worker
+        <https://w3c.github.io/ServiceWorker/#dfn-type> or not.
+
       subresource [boolean]
 
         Whether a request with this destination value is a subresource
         request or not.
 
-* Source
+* Sources
 
 Fetch Standard <https://fetch.spec.whatwg.org/>.
+
+Service Workers <https://w3c.github.io/ServiceWorker/>.
+
+HTML Standard <https://html.spec.whatwg.org/>.
 
 * License
 
