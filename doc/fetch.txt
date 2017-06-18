@@ -5,95 +5,98 @@ Fetch parameters.
 
 * Structure
 
-The file contains a JSON object with following name/value pairs:
+The file contains a JSON object with following names:
 
   cache_mode
 
-    The possible cache mode values of a request.
+    The cache mode of a request.
 
   credentials_mode
 
-    The possible credentials mode values of a request.
+    The credentials mode of a request.
 
   destination
 
-    The possible destination values of a request and the potential
-    destination values.
+    The destination of a request and the potential destination.
 
   initiator
 
-    The possible initiator values of a request.
+    The initiator of a request.
 
   mode
 
-    The possible mode values of a request.
+    The mode of a request.
 
   parser_metadata
 
-    The possible parser metadata values of a request.
+    The parser metadata of a request.
 
   redirect_mode
 
-    The possible redirect mode values of a request.
+    The redirect mode of a request.
 
   response_tainting
 
-    The possible response tainting values of a request.
+    The response tainting of a request.
 
   response_type
 
-    The possible type values of a response.
+    The type of a response.
 
   type
 
-    The possible type values of a request.
+    The type of a request.
 
-Their values are JSON object whose names are possible values and whose
-values are their descriptions, that is [protocol-object] with
-following name/value pairs:
+Their values are [protocol-object] describing the set of the possible
+values, with following name/value pairs:
 
-  default [boolean]
+  default [string?]
 
-    Whether the value is the default value of the set of the possible
-    values or not.
+    The default value, if any.
 
-  destination [boolean]
+  values [object]
 
-    Whether the value is a destination or not.
+    The possible values.  A JSON object whose names are possible
+    values and whose values are their descriptions, that is a
+    [protocol-object] with following name/value pairs:
 
-  navigation [boolean]
+      destination [boolean]
 
-    Whether a request with this destination value is a navigation
-    request or not.
+        Whether the value is a destination or not.
 
-  non_subresource [boolean]
+      navigation [boolean]
 
-    Whether a request with this destination value is a non-subresource
-    request or not.
+        Whether a request with this destination value is a navigation
+        request or not.
 
-  potential_destination [boolean]
+      non_subresource [boolean]
 
-    Whether the value is a potential destination or not.
+        Whether a request with this destination value is a
+        non-subresource request or not.
 
-  potential_navigation_or_subresource [boolean]
+      potential_destination [boolean]
 
-    Whether a request with this destination value is a
-    potential-navigation-or-subresource request or not.
+        Whether the value is a potential destination or not.
 
-  RequestCache [boolean]
-  RequestCredentials [boolean]
-  RequestDestination [boolean]
-  RequestMode [boolean]
-  RequestRedirect [boolean]
-  RequestType [boolean]
+      potential_navigation_or_subresource [boolean]
 
-    Whether the value is part of the DOM enumeration type with that
-    name or not.
+        Whether a request with this destination value is a
+        potential-navigation-or-subresource request or not.
 
-  subresource [boolean]
+      RequestCache [boolean]
+      RequestCredentials [boolean]
+      RequestDestination [boolean]
+      RequestMode [boolean]
+      RequestRedirect [boolean]
+      RequestType [boolean]
 
-    Whether a request with this destination value is a subresource
-    request or not.
+        Whether the value is part of the DOM enumeration type with
+        that name or not.
+
+      subresource [boolean]
+
+        Whether a request with this destination value is a subresource
+        request or not.
 
 * Source
 

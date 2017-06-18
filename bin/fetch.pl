@@ -6,21 +6,25 @@ use Path::Tiny;
 my $RootPath = path (__FILE__)->parent->parent;
 my $Data = {};
 
-$Data->{initiator}->{$_}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-initiator>
+$Data->{initiator}->{values}->{$_} = {}
     for '', qw(download imageset manifest xslt);
-$Data->{initiator}->{''}->{default} = 1;
+$Data->{initiator}->{default} = '';
+$Data->{initiator}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-initiator>;
 
-$Data->{parser_metadata}->{$_}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-parser-metadata>
+$Data->{parser_metadata}->{values}->{$_} = {}
     for '', 'parser-inserted', 'not-parser-inserted';
-$Data->{parser_metadata}->{''}->{default} = 1;
+$Data->{parser_metadata}->{default} = '';
+$Data->{parser_metadata}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-parser-metadata>;
 
-$Data->{response_tainting}->{$_}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-response-tainting>
+$Data->{response_tainting}->{values}->{$_} = {}
     for 'basic', 'cors', 'opaque';
-$Data->{response_tainting}->{basic}->{default} = 1;
+$Data->{response_tainting}->{default} = 'basic';
+$Data->{response_tainting}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-response-tainting>;
 
-$Data->{response_type}->{$_}->{url} = q<https://fetch.spec.whatwg.org/#concept-response-type>
+$Data->{response_type}->{values}->{$_} = {}
     for qw(basic cors default error opaque opaqueredirect);
-$Data->{response_type}->{default}->{default} = 1;
+$Data->{response_type}->{default} = 'default';
+$Data->{response_type}->{url} = q<https://fetch.spec.whatwg.org/#concept-response-type>;
 
 {
   my $path = $RootPath->child ('data/dom.json');
@@ -55,40 +59,40 @@ $Data->{response_type}->{default}->{default} = 1;
     my $rd = $json->{idl_defs}->{$d->{enum}};
     my $v = $rd->[1]->{value};
     for (sort { $a cmp $b } keys %{$v->[1]}) {
-      $Data->{$d->{key}}->{$_}->{url} = $d->{url};
-      $Data->{$d->{key}}->{$_}->{$d->{enum}} = 1;
+      $Data->{$d->{key}}->{values}->{$_}->{$d->{enum}} = 1;
     }
-    $Data->{$d->{key}}->{$d->{default}}->{default} = 1;
+    $Data->{$d->{key}}->{default} = $d->{default};
+    $Data->{$d->{key}}->{url} = $d->{url};
   } # $d
 }
 
-$Data->{mode}->{websocket}->{url} = 'https://fetch.spec.whatwg.org/#concept-request-mode';
+$Data->{mode}->{values}->{websocket} ||= {};
 
-for (keys %{$Data->{destination}}) {
-  $Data->{destination}->{$_}->{destination} = 1
-      if $Data->{destination}->{$_}->{RequestDestination};
-  $Data->{destination}->{$_}->{potential_destination} = 1
-      if $Data->{destination}->{$_}->{destination} and not $_ eq '';
+for (keys %{$Data->{destination}->{values}}) {
+  $Data->{destination}->{values}->{$_}->{destination} = 1
+      if $Data->{destination}->{values}->{$_}->{RequestDestination};
+  $Data->{destination}->{values}->{$_}->{potential_destination} = 1
+      if $Data->{destination}->{values}->{$_}->{destination} and not $_ eq '';
 }
 
 ## <https://fetch.spec.whatwg.org/#concept-potential-destination>
-$Data->{destination}->{fetch}->{url} = q<https://fetch.spec.whatwg.org/#concept-potential-destination>;
-$Data->{destination}->{fetch}->{potential_destination} = 1;
+$Data->{destination}->{values}->{fetch}->{url} = q<https://fetch.spec.whatwg.org/#concept-potential-destination>;
+$Data->{destination}->{values}->{fetch}->{potential_destination} = 1;
 
 ## <https://fetch.spec.whatwg.org/#subresource-request>
-$Data->{destination}->{$_}->{subresource} = 1
+$Data->{destination}->{values}->{$_}->{subresource} = 1
     for '', qw(audio font image manifest script style track video xslt);
 
 ## <https://fetch.spec.whatwg.org/#potential-navigation-or-subresource-request>
-$Data->{destination}->{$_}->{potential_navigation_or_subresource} = 1
+$Data->{destination}->{values}->{$_}->{potential_navigation_or_subresource} = 1
     for 'object', 'embed';
 
 ## <https://fetch.spec.whatwg.org/#non-subresource-request>
-$Data->{destination}->{$_}->{non_subresource} = 1
+$Data->{destination}->{values}->{$_}->{non_subresource} = 1
     for qw(document report serviceworker sharedworker worker);
 
 ## <https://fetch.spec.whatwg.org/#navigation-request>
-$Data->{destination}->{$_}->{navigation} = 1
+$Data->{destination}->{values}->{$_}->{navigation} = 1
     for qw(document);
 
 print perl2json_bytes_for_record $Data;
