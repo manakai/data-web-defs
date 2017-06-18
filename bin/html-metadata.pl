@@ -50,7 +50,8 @@ sub _html ($) {
     $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
 
     my $data = $Data->{metadata_names}->{$key} ||= {};
-    warn "Duplicate metadata name: |$kwd|" if defined $data->{name};
+    push @{$Data->{_errors} ||= []}, "Duplicate metadata name: |$kwd|"
+        if defined $data->{name};
     $data->{name} = $kwd;
 
     $data->{whatwg_wiki_status} = $status;
@@ -80,7 +81,7 @@ sub _html ($) {
       }
     }
     if (defined $row->{'Link to more details'} and defined $row->{'Link to specification'}) {
-      warn "There are both |Link to more details| and |Link to specification| fields";
+      push @{$Data->{_errors} ||= []}, "There are both |Link to more details| and |Link to specification| fields";
     }
 
     my $synonyms = _t ($row->{Synonyms} // '');
@@ -126,7 +127,8 @@ sub _html ($) {
       #warn "Duplicate value type for |$key|" if defined $data->{value_type};
       $data->{value_type} ||= $1;
     } elsif (/^  item (text)$/) {
-      warn "Duplicate item value type for |$key|" if defined $data->{item_type};
+      push @{$Data->{_errors} ||= []}, "Duplicate item value type for |$key|"
+          if defined $data->{item_type};
       $data->{item_type} = $1;
     } elsif (/^  enum (.+)$/) {
       $data->{allowed_values}->{$1} = 1;
@@ -160,7 +162,8 @@ sub _html ($) {
     my $key = $kwd;
     $key =~ tr/A-Z/a-z/; ## ASCII case-insensitive.
     my $data = $Data->{link_types}->{$key} ||= {};
-    warn "Duplicate type |$key|" if defined $data->{name};
+    push @{$Data->{_errors} ||= []}, "Duplicate type |$key|"
+        if defined $data->{name};
     $data->{name} = $kwd;
     my $fc = $div->first_element_child;
     if (defined $fc and $fc->local_name eq 'a' and
@@ -183,25 +186,23 @@ sub _html ($) {
 
     my $a = lc _t ($row->{'Effect on a, area'} // '');
     if (length $a) {
-      if ($a =~ /\A(not allowed|external resource|hyperlink|annotation)\z/) {
+      if ($a =~ /\A(not allowed|external resource|hyperlink)\z/) {
         $data->{html_a} = $a;
-      } elsif ($a eq 'img pop-up') {
-        $data->{html_a} = 'hyperlink';
-      } elsif ($a eq 'contextual external resource') {
-        $data->{html_a} = 'external resource';
       } elsif ($a eq 'hyperlink annotation') {
         $data->{html_a} = 'annotation';
       } else {
-        warn "Unknown effect |$a| ($kwd)";
+        push @{$Data->{_errors} ||= []}, "Unknown effect |$a| ($kwd)";
       }
     }
 
     my $li = lc _t ($row->{'Effect on link'} // '');
     if (length $li) {
-      if ($li =~ /\A(not allowed|external resource|hyperlink|annotation)\z/) {
+      if ($li =~ /\A(not allowed|external resource|hyperlink)\z/) {
         $data->{html_link} = $li;
+      } elsif ($li eq 'hyperlink annotation') {
+        $data->{html_link} = 'annotation';
       } else {
-        warn "Unknown effect |$li| ($kwd)";
+        push @{$Data->{_errors} ||= []}, "Unknown effect |$li| ($kwd)";
       }
     }
 
@@ -275,10 +276,17 @@ sub _html ($) {
     } elsif (/^  (non-conforming) -> (.+)$/) {
       $data->{preferred} ||= {type => 'rel', name => $2};
       delete $data->{conforming};
+    } elsif (/^  (deprecated)$/) {
+      $data->{deprecated} = 1;
+    } elsif (/^  (deprecated) -> (.+)$/) {
+      $data->{preferred} ||= {type => 'rel', name => $2};
+      $data->{conforming} = 1;
     } elsif (/^  (whatwg wiki accepted)$/) {
       $data->{conforming} = 1;
-    } elsif (/^  (a|link|rev) (hyperlink|external resource|annotation|not allowed)$/) {
+    } elsif (/^  (a|link|rev) (hyperlink|external resource|not allowed)$/) {
       $data->{"html_$1"} = $2;
+    } elsif (/^  (a|link|rev) (?:hyperlink |)annotation$/) {
+      $data->{"html_$1"} = 'annotation';
     } elsif (/^  (a|link) can support$/) {
       $data->{"html_${1}_supportable"} = 1;
     } elsif (/^  (atom)$/) {
@@ -313,8 +321,8 @@ sub _html ($) {
       $data->{html_link} ||= 1;
     } elsif (/^  body-ok$/) {
       $data->{body_ok} = 1;
-    } elsif (/^  sizes$/) {
-      $data->{sizes} = 1;
+    } elsif (/^  <link (sizes|as|scope|workertype|updateviacache|color|integrity)>$/) {
+      $data->{$1} = 1;
     } elsif (/^  spec (.+)$/) {
       $data->{url} = $1 if defined $src_url and $data->{url} eq $src_url;
       $data->{url} ||= $1;
