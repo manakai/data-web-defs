@@ -248,7 +248,7 @@ $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
 
 $Data->{elements}->{(HTML_NS)}->{dl}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
-$Data->{elements}->{(HTML_NS)}->{menu}->{states}->{'toolbar'}
+$Data->{elements}->{(HTML_NS)}->{menu}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
 $Data->{elements}->{(HTML_NS)}->{ul}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;

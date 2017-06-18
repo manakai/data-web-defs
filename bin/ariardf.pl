@@ -166,9 +166,9 @@ $Data->{roles}->{main}->{preferred} = {type => 'html_element', name => 'main'};
 $Data->{roles}->{math}->{preferred} = {type => 'math'};
 $Data->{roles}->{menu}->{preferred} = {type => 'html_element', name => 'menu'};
 $Data->{roles}->{menubar}->{preferred} = {type => 'html_element', name => 'menu'};
-$Data->{roles}->{menuitem}->{preferred} = {type => 'html_element', name => 'menuitem'};
-$Data->{roles}->{menuitemcheckbox}->{preferred} = {type => 'html_element', name => 'menuitem'};
-$Data->{roles}->{menuitemradio}->{preferred} = {type => 'html_element', name => 'menuitem'};
+$Data->{roles}->{menuitem}->{preferred} = {type => 'html_element', name => 'li'};
+$Data->{roles}->{menuitemcheckbox}->{preferred} = {type => 'input', name => 'checkbox'};
+$Data->{roles}->{menuitemradio}->{preferred} = {type => 'input', name => 'radio'};
 $Data->{roles}->{navigation}->{preferred} = {type => 'html_element', name => 'nav'};
 $Data->{roles}->{option}->{preferred} = {type => 'html_element', name => 'option'};
 $Data->{roles}->{progressbar}->{preferred} = {type => 'html_element', name => 'progress'};
@@ -197,10 +197,10 @@ for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
 }
 
 ## |aria-*| attributes
-## <http://www.w3.org/WAI/PF/aria/complete#states_and_properties>.
+## <https://www.w3.org/WAI/PF/aria/complete#states_and_properties>.
 
-## <http://www.w3.org/WAI/PF/aria/complete#propcharacteristic_value>,
-## <http://www.w3.org/WAI/PF/aria/complete#typemapping>.
+## <https://www.w3.org/WAI/PF/aria/complete#propcharacteristic_value>,
+## <https://www.w3.org/WAI/PF/aria/complete#typemapping>.
 my $ARIAValueTypes = {
   'true/false' => 'enumerated',
   'tristate' => 'enumerated',
@@ -217,12 +217,12 @@ my $ARIAValueTypes = {
   'URI' => 'URL',
 };
 
-## <http://www.w3.org/WAI/PF/aria/complete#index_state_prop>
+## <https://www.w3.org/WAI/PF/aria/complete#index_state_prop>
 $Data->{attrs}->{$_}->{is_state} = 1
     for qw(aria-busy aria-checked aria-disabled aria-expanded
            aria-grabbed aria-hidden aria-invalid aria-pressed aria-selected);
 
-## <http://w3c.github.io/aria/aria/aria.html#aria-current>
+## <https://w3c.github.io/aria/aria/aria.html#aria-current>
 $Data->{attrs}->{$_}->{is_state} = 1,
 $Data->{roles}->{roletype}->{attrs}->{$_} ||= {},
     for qw(aria-current);
@@ -305,9 +305,7 @@ $Data->{attrs}->{'aria-autocomplete'}->{default} = 'none';
 $Data->{attrs}->{'aria-dropeffect'}->{tokens}->{$_} = {}
     for qw(copy move link execute popup none);
 $Data->{attrs}->{'aria-dropeffect'}->{default} = 'none';
-$Data->{attrs}->{'aria-haspopup'}->{preferred} = {type => 'html_attr', name => 'contextmenu'};
 $Data->{attrs}->{'aria-hidden'}->{preferred} = {type => 'html_attr', name => 'hidden'};
-$Data->{attrs}->{'aria-dropeffect'}->{preferred} = {type => 'html_attr', name => 'dropzone'};
 $Data->{attrs}->{'aria-invalid'}->{tokens}->{$_} = {}
     for qw(grammer false spelling true);
 $Data->{attrs}->{'aria-invalid'}->{default} = 'false';
