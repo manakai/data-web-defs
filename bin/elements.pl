@@ -182,41 +182,6 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
 }
 
 {
-  my $path = $RootPath->child ('data/browsers.json');
-  my $json = json_bytes2perl $path->slurp;
-  for my $pol (values %{$json->{referrer_policies}}) {
-    next unless $pol->{attr};
-
-    for my $ln (qw(a area link iframe img)) {
-      my $last_attr = $Data->{elements}->{(HTML_NS)}->{$ln}->{attrs}->{''}->{referrerpolicy} ||= {};
-      $last_attr->{value_type} = 'enumerated';
-      if ($pol->{attr_keyword_url} =~ m{^https?://html.spec.whatwg.org/#(.+)$}) {
-        $last_attr->{enumerated}->{$pol->{value}}->{spec} = 'HTML';
-        $last_attr->{enumerated}->{$pol->{value}}->{id} = $1;
-      }
-      $last_attr->{enumerated}->{$pol->{value}}->{label} = $pol->{attr_state};
-      $last_attr->{enumerated}->{$pol->{value}}->{conforming} = 1;
-    }
-  }
-
-  for my $ln (qw(a area link iframe img)) {
-    my $last_attr = $Data->{elements}->{(HTML_NS)}->{$ln}->{attrs}->{''}->{referrerpolicy} ||= {};
-    $last_attr->{enumerated}->{'#invalid'}->{label}
-        = $last_attr->{enumerated}->{''}->{label};
-    $last_attr->{enumerated}->{'#invalid'}->{spec}
-        = $last_attr->{enumerated}->{''}->{spec};
-    $last_attr->{enumerated}->{'#invalid'}->{id}
-        = $last_attr->{enumerated}->{''}->{id};
-    $last_attr->{enumerated}->{'#missing'}->{label}
-        = $last_attr->{enumerated}->{''}->{label};
-    $last_attr->{enumerated}->{'#missing'}->{spec}
-        = $last_attr->{enumerated}->{''}->{spec};
-    $last_attr->{enumerated}->{'#missing'}->{id}
-        = $last_attr->{enumerated}->{''}->{id};
-  }
-}
-
-{
   my $path = $RootPath->child ('data/fetch.json');
   my $json = json_bytes2perl $path->slurp;
 
@@ -224,6 +189,11 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
     ['link', 'as', 'destination', 'potential_destination'],
     ['link', 'workertype', 'script_type', 'service_worker_type'],
     ['link', 'updateviacache', 'update_via_cache_mode', 'enumerated_attr_state'],
+    ['a', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
+    ['area', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
+    ['link', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
+    ['iframe', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
+    ['img', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
   ) {
     my ($ename, $aname, $set, $check) = @$_;
     my $a_def = $Data->{elements}->{(HTML_NS)}->{$ename}->{attrs}->{''}->{$aname} ||= {};

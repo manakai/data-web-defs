@@ -81,6 +81,12 @@ values, with following name/value pairs:
     values and whose values are their descriptions, that is a
     [protocol-object] with following name/value pairs:
 
+      attr [conformance?]
+
+        Whether the value can be specified in a referrer policy
+        attribute (i.e. HTML |referrerpolicy| attribute).  If |MAY|,
+        it is allowed.  Otherwise, it is not allowed.
+
       destination [boolean]
 
         Whether the value is a destination or not.
@@ -88,7 +94,20 @@ values, with following name/value pairs:
       enumerated_attr_state [string?]
 
         State name used when the value is part of an enumerated
-        attribute, if any.
+        attribute, without the " state" suffix, if any.
+
+      http [conformance?]
+
+        Whether the value can be specified in an HTTP
+        |Referrer-Policy:| header.  If |MAY|, it is allowed.
+        Otherwise, it is not allowed.
+
+      meta [conformance?]
+
+        Whether the value can be specified in HTML |<meta
+        name=referrer>|'s |content| attribute.  If |MAY|, it is
+        allowed.  Otherwise, if |MUST NOT|, it is not allowed but a
+        browser must support it.  Otherwise, it is not allowed.
 
       navigation [boolean]
 
@@ -109,6 +128,7 @@ values, with following name/value pairs:
         Whether a request with this destination value is a
         potential-navigation-or-subresource request or not.
 
+      ReferrerPolicy [boolean]
       RequestCache [boolean]
       RequestCredentials [boolean]
       RequestDestination [boolean]
@@ -118,6 +138,11 @@ values, with following name/value pairs:
 
         Whether the value is part of the DOM enumeration type with
         that name or not.
+
+      rel [string?]
+
+        The link type value, in lowercase cannonical form,
+        corresponding to the referrer policy, if any.
 
       service_worker_type [boolean]
 
@@ -136,6 +161,8 @@ Fetch Standard <https://fetch.spec.whatwg.org/>.
 Service Workers <https://w3c.github.io/ServiceWorker/>.
 
 HTML Standard <https://html.spec.whatwg.org/>.
+
+Referrer Policy <https://w3c.github.io/webappsec-referrer-policy/>.
 
 * License
 

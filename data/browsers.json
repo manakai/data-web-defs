@@ -2,9 +2,9 @@
    "referrer_policies" : {
       "" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#referrer-policy-attribute",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-empty-string",
          "attr_state" : "empty string",
-         "http" : "MAY",
+         "http" : "MUST NOT",
          "idl" : "MAY",
          "meta" : "MAY",
          "url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-empty-string",
@@ -12,23 +12,35 @@
       },
       "always" : {
          "meta" : "MUST NOT",
-         "preferred" : "unsafe-url",
-         "url" : "https://html.spec.whatwg.org/#meta-referrer"
+         "preferred" : {
+            "type" : "value",
+            "value" : "unsafe-url"
+         },
+         "url" : "https://html.spec.whatwg.org/#meta-referrer",
+         "value" : "always"
       },
       "default" : {
          "meta" : "MUST NOT",
-         "preferred" : "no-referrer-when-downgrade",
-         "url" : "https://html.spec.whatwg.org/#meta-referrer"
+         "preferred" : {
+            "type" : "value",
+            "value" : "no-referrer-when-downgrade"
+         },
+         "url" : "https://html.spec.whatwg.org/#meta-referrer",
+         "value" : "default"
       },
       "never" : {
          "meta" : "MUST NOT",
-         "preferred" : "no-referrer",
-         "url" : "https://html.spec.whatwg.org/#meta-referrer"
+         "preferred" : {
+            "type" : "value",
+            "value" : "no-referrer"
+         },
+         "url" : "https://html.spec.whatwg.org/#meta-referrer",
+         "value" : "never"
       },
       "no-referrer" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-no-referrer-keyword",
-         "attr_state" : "\u0022no-referrer\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-no-referrer",
+         "attr_state" : "no-referrer",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -38,8 +50,8 @@
       },
       "no-referrer-when-downgrade" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-no-referrer-when-downgrade-keyword",
-         "attr_state" : "\u0022no-referrer-when-downgrade\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-no-referrer-when-downgrade",
+         "attr_state" : "no-referrer-when-downgrade",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -48,8 +60,8 @@
       },
       "origin" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-origin-keyword",
-         "attr_state" : "\u0022origin\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-origin",
+         "attr_state" : "origin",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -58,8 +70,8 @@
       },
       "origin-when-cross-origin" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-origin-when-cross-origin-keyword",
-         "attr_state" : "\u0022origin-when-cross-origin\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-origin-when-cross-origin",
+         "attr_state" : "origin-when-cross-origin",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -68,13 +80,17 @@
       },
       "origin-when-crossorigin" : {
          "meta" : "MUST NOT",
-         "preferred" : "origin-when-cross-origin",
-         "url" : "https://html.spec.whatwg.org/#meta-referrer"
+         "preferred" : {
+            "type" : "value",
+            "value" : "origin-when-cross-origin"
+         },
+         "url" : "https://html.spec.whatwg.org/#meta-referrer",
+         "value" : "origin-when-crossorigin"
       },
       "same-origin" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-same-origin-keyword",
-         "attr_state" : "\u0022same-origin\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-same-origin",
+         "attr_state" : "same-origin",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -83,8 +99,8 @@
       },
       "strict-origin" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-strict-origin-keyword",
-         "attr_state" : "\u0022strict-origin\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-strict-origin",
+         "attr_state" : "strict-origin",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -93,8 +109,8 @@
       },
       "strict-origin-when-cross-origin" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-strict-origin-when-cross-origin-keyword",
-         "attr_state" : "\u0022strict-origin-when-cross-origin\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-strict-origin-when-cross-origin",
+         "attr_state" : "strict-origin-when-cross-origin",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",
@@ -103,8 +119,8 @@
       },
       "unsafe-url" : {
          "attr" : "MAY",
-         "attr_keyword_url" : "https://html.spec.whatwg.org/#attr-referrerpolicy-unsafe-url-keyword",
-         "attr_state" : "\u0022unsafe-url\u0022",
+         "attr_keyword_url" : "https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-unsafe-url",
+         "attr_state" : "unsafe-url",
          "http" : "MAY",
          "idl" : "MAY",
          "meta" : "MAY",

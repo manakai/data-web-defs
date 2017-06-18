@@ -21,30 +21,19 @@ for ($RootPath->child ('src/task-sources.txt')->lines_utf8) {
 }
 
 {
-  my $json = json_bytes2perl $RootPath->child ('data/dom.json')->slurp;
-  my $rp = $json->{idl_defs}->{ReferrerPolicy};
-  my $value = $rp->[1]->{value};
-  for (keys %{$value->[1]}) {
-    $Data->{referrer_policies}->{$_}->{value} = $_;
-    $Data->{referrer_policies}->{$_}->{idl} = 'MAY';
-    $Data->{referrer_policies}->{$_}->{http} = 'MAY';
-    $Data->{referrer_policies}->{$_}->{meta} = 'MAY';
-    $Data->{referrer_policies}->{$_}->{attr} = 'MAY';
-    $Data->{referrer_policies}->{$_}->{attr_state} = '"'.$_.'"';
-    $Data->{referrer_policies}->{$_}->{url} = 'https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-' . $_;
-    $Data->{referrer_policies}->{$_}->{attr_keyword_url} = 'https://html.spec.whatwg.org/#attr-referrerpolicy-' . $_ . '-keyword';
+  my $json = json_bytes2perl $RootPath->child ('data/fetch.json')->slurp;
+  $Data->{referrer_policies} = $json->{referrer_policy}->{values};
+  for (values %{$Data->{referrer_policies}}) {
+    if (delete $_->{ReferrerPolicy}) {
+      $_->{idl} = 'MAY';
+      if (defined $_->{enumerated_attr_state}) {
+        $_->{attr} = 'MAY';
+        $_->{attr_state} = delete $_->{enumerated_attr_state};
+        $_->{attr_keyword_url} = $_->{url};
+      }
+      $_->{preferred} = $_->{preferred}->{value} if defined $_->{preferred};
+    }
   }
-  $Data->{referrer_policies}->{''}->{url} = 'https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-empty-string';
-  $Data->{referrer_policies}->{''}->{attr_keyword_url} = 'https://html.spec.whatwg.org/#referrer-policy-attribute';
-  $Data->{referrer_policies}->{''}->{attr_state} = 'empty string';
-  $Data->{referrer_policies}->{$_}->{meta} = 'MUST NOT',
-  $Data->{referrer_policies}->{$_}->{url} = 'https://html.spec.whatwg.org/#meta-referrer'
-      for qw(always never default origin-when-crossorigin);
-  $Data->{referrer_policies}->{always}->{preferred} = 'unsafe-url';
-  $Data->{referrer_policies}->{never}->{preferred} = 'no-referrer';
-  $Data->{referrer_policies}->{default}->{preferred} = 'no-referrer-when-downgrade';
-  $Data->{referrer_policies}->{'origin-when-crossorigin'}->{preferred} = 'origin-when-cross-origin';
-  $Data->{referrer_policies}->{'no-referrer'}->{rel} = 'noreferrer';
 }
 
 print perl2json_bytes_for_record $Data;

@@ -70,11 +70,15 @@ $Data->{update_via_cache_mode}->{missing_value_default} = 'imports';
      enum => 'RequestRedirect',
      url => 'https://fetch.spec.whatwg.org/#concept-request-redirect-mode',
      default => 'follow'},
+    {key => 'referrer_policy',
+     enum => 'ReferrerPolicy',
+     url => 'https://w3c.github.io/webappsec-referrer-policy/#referrer-policies'},
   ) {
     my $rd = $json->{idl_defs}->{$d->{enum}};
     my $v = $rd->[1]->{value};
     for (sort { $a cmp $b } keys %{$v->[1]}) {
       $Data->{$d->{key}}->{values}->{$_}->{$d->{enum}} = 1;
+      $Data->{$d->{key}}->{values}->{$_}->{value} = $_;
     }
     $Data->{$d->{key}}->{default} = $d->{default};
     $Data->{$d->{key}}->{url} = $d->{url};
@@ -117,6 +121,37 @@ $Data->{destination}->{values}->{$_}->{non_subresource} = 1
 ## <https://fetch.spec.whatwg.org/#navigation-request>
 $Data->{destination}->{values}->{$_}->{navigation} = 1
     for qw(document);
+
+for (values %{$Data->{referrer_policy}->{values}}) {
+  if ($_->{ReferrerPolicy}) {
+    $_->{http} = $_->{value} eq '' ? 'MUST NOT' : 'MAY';
+    $_->{meta} = 'MAY';
+    $_->{url} = 'https://w3c.github.io/webappsec-referrer-policy/#referrer-policy-' . ($_->{value} eq '' ? 'empty-string' : $_->{value});
+    $_->{enumerated_attr_state} = $_->{value} eq '' ? 'empty string' : $_->{value};
+  }
+}
+## <https://html.spec.whatwg.org/#referrer-policy-attribute>
+$Data->{referrer_policy}->{invalid_value_default} = 'empty string';
+$Data->{referrer_policy}->{missing_value_default} = 'empty string';
+
+$Data->{referrer_policy}->{values}->{$_}->{url} = 'https://html.spec.whatwg.org/#meta-referrer',
+$Data->{referrer_policy}->{values}->{$_}->{meta} = 'MUST NOT'
+    for qw(always never default origin-when-crossorigin);
+$Data->{referrer_policy}->{values}->{always}->{preferred}
+    = {type => 'value', value => 'unsafe-url'};
+$Data->{referrer_policy}->{values}->{never}->{preferred}
+    = {type => 'value', value => 'no-referrer'};
+$Data->{referrer_policy}->{values}->{default}->{preferred}
+    = {type => 'value', value => 'no-referrer-when-downgrade'};
+$Data->{referrer_policy}->{values}->{'origin-when-crossorigin'}->{preferred}
+    = {type => 'value', value => 'origin-when-cross-origin'};
+$Data->{referrer_policy}->{values}->{'no-referrer'}->{rel} = 'noreferrer';
+
+for my $set (values %$Data) {
+  for (keys %{$set->{values} or {}}) {
+    $set->{values}->{$_}->{value} = $_;
+  }
+}
 
 print perl2json_bytes_for_record $Data;
 
