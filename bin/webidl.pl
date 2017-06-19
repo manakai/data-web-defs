@@ -136,16 +136,19 @@ my $XAttrAllowed = {
     LenientThis => 1, PutForwards => 1, Replaceable => 1, LenientSetter => 1,
     Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
+    Unforgeable => 1,
   },
   static_attribute => {
     Exposed => 1,
     SameObject => 1,
     SecureContext => 1,
+    Unforgeable => 1,
   },
   operation => {
     Exposed => 1, NewObject => 1,
     Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
+    Unforgeable => 1,
   },
   static_operation => {
     Exposed => 1, NewObject => 1,
@@ -209,6 +212,7 @@ my $XAttrArgs = {
   Serializable => {no => 1},
   Transferable => {no => 1},
   AllowShared => {no => 1},
+  Unforgeable => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
