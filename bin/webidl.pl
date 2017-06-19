@@ -112,6 +112,7 @@ my $XAttrAllowed = {
     SecureContext => 1, HTMLConstructor => 1,
     Serializable => 1,
     Transferable => 1,
+    LegacyWindowAlias => 1,
   },
   callback_interface => {
     LegacyArrayClass => 1,
@@ -213,6 +214,7 @@ my $XAttrArgs = {
   Transferable => {no => 1},
   AllowShared => {no => 1},
   Unforgeable => {no => 1},
+  LegacyWindowAlias => {id => 1, id_list => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
@@ -233,6 +235,7 @@ my $XAttrDisallowedCombinations = [
   ['Constructor', 'NoInterfaceObject'],
   ['HTMLConstructor', 'Constructor'],
   ['HTMLConstructor', 'NoInterfaceObject'],
+  ['LegacyWindowAlias', 'NoInterfaceObject'],
   ['OverrideBuiltins', 'Global'],
   ['OverrideBuiltins', 'PrimaryGlobal'],
   ['PutForwards', 'Replaceable'],
