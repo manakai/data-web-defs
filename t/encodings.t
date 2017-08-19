@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..17"
+echo "1..19"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -24,3 +24,7 @@ test 14 '.encodings["utf-16be"].output == "utf-8"'
 test 15 '.encodings["utf-16be"].html_decl_mapped == "utf-8"'
 test 16 '.encodings["utf-16be"].single_byte | not'
 test 17 '.encodings["windows-1252"].single_byte | not | not'
+test 18 '.encodings.replacement.name == "replacement"'
+test 19 '.supported_labels.replacement == "replacement"'
+
+## License: Public Domain.
