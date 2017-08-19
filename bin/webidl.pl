@@ -19,7 +19,7 @@ for (
 
 for (qw(
   callback interface partial dictionary enum typedef implements const
-  null true false -Infinity Infinity NaN serializer getter stringifier
+  null true false -Infinity Infinity NaN getter stringifier
   static attribute inherit readonly setter deleter
   legacycaller iterable optional ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
@@ -47,7 +47,7 @@ for (qw(
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const deleter dictionary enum
   getter implements inherit interface iterable legacycaller
-  maplike partial serializer setlike setter static
+  maplike partial setlike setter static
   stringifier typedef unrestricted required
 
   record
@@ -78,7 +78,6 @@ for (
   [static_attribute => 'attribute', 'static attribute'],
   [operation => undef, 'operation'],
   [static_operation => undef, 'static operation'],
-  [serializer => 'serializer', 'serializer'],
   [iterable => 'iterable', 'iterable declaration'],
   [maplike => 'maplike', 'maplike declaration'],
   [setlike => 'setlike', 'setlike declaration'],
@@ -150,15 +149,13 @@ my $XAttrAllowed = {
     Unscopable => 1,
     SecureContext => 1, CEReactions => 1,
     Unforgeable => 1,
+    Default => 1,
   },
   static_operation => {
     Exposed => 1, NewObject => 1,
     SecureContext => 1,
   },
   argument => {},
-  serializer => {
-    SecureContext => 1,
-  },
   iterable => {
     Exposed => 1,
     SecureContext => 1,
@@ -215,6 +212,7 @@ my $XAttrArgs = {
   AllowShared => {no => 1},
   Unforgeable => {no => 1},
   LegacyWindowAlias => {id => 1, id_list => 1},
+  Default => {no => 1},
 };
 
 for my $name (keys %$XAttrArgs) {
