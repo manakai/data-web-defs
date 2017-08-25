@@ -676,6 +676,12 @@ sub parse_switch ($) {
         $cond = 'IF-EMPTY:' . $n;
       } elsif ($cond eq 'Otherwise') {
         $cond = 'ELSE';
+      } elsif ($cond eq 'ASCII alphanumeric') {
+        $conds->{'LETTER'} = $conds->{'DIGIT'} ||= {};
+        $switch_conds = [] if $was_dd;
+        push @$switch_conds, 'LETTER', 'DIGIT';
+        $was_dd = 0;
+        next;
       } else {
         $cond = 'MISC:' . $cond;
       }

@@ -86,6 +86,13 @@ sub parse_step ($) {
     push @action, {type => 'UNPARSED', DESC => "$1, and if $2"};
   }
 
+  if ($tc =~ s{^\QIf the parser was invoked via the document.write() or document.writeln() methods, then optionally mark the script element as "already started".\E\s+\((?>[^()]|\(\))+\)\s*}{}) {
+    push @action, {type => 'if',
+                   cond => ['dynamic'],
+                   actions => [{type => 'set-node-flag',
+                                target => 'already started'}]};
+  }
+
   while ($tc =~ s/^((?>[^.()]+|\.e\.|\([^()]+\))+)\.\s*(\([^()]+\)\s*|)//) {
     push @action, {type => 'UNPARSED', DESC => $1};
   }

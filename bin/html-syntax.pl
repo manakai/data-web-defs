@@ -26,6 +26,7 @@ my $Data = {};
     'numeric character reference end state',
     'character reference end state',
     'named character reference state',
+    'ambiguous ampersand state',
   ) {
     delete $Data->{tokenizer}->{states}->{$_};
   }
