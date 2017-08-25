@@ -584,11 +584,6 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{disallowed_descendant
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{content_model} = 'flow content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{object}->{complex_content_model} =
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{applet}->{complex_content_model} = [
-  {elements => {'http://www.w3.org/1999/xhtml' => {param => 1}},
-   min => 0},
-  {transparent => 1},
-];
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{video}->{disallowed_descendants}->{categories}->{'media element'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{audio}->{disallowed_descendants}->{categories}->{'media element'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{caption}->{content_model} = 'flow content';
@@ -939,7 +934,6 @@ my @obs_attr = qw(
   th axis attr-tdth-axis
   td scope attr-td-scope
   a datasrc attr-datasrc
-  applet datasrc attr-datasrc
   button datasrc attr-datasrc
   div datasrc attr-datasrc
   frame datasrc attr-datasrc
@@ -956,7 +950,6 @@ my @obs_attr = qw(
   table datasrc attr-datasrc
   textarea datasrc attr-datasrc
   a datafld attr-datafld
-  applet datafld attr-datafld
   button datafld attr-datafld
   div datafld attr-datafld
   fieldset datafld attr-datafld
