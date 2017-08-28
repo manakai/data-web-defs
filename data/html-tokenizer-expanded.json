@@ -3990,7 +3990,36 @@
          },
          "after DOCTYPE name state" : {
             "conds" : {
-               "0000 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D" : {
+                  "actions" : [
+                  ],
+                  "repeat" : 1
+               },
+               "0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4007,11 +4036,6 @@
                         "type" : "switch"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 000D" : {
-                  "actions" : [
-                  ],
-                  "repeat" : 1
                },
                "003E" : {
                   "actions" : [
@@ -4101,7 +4125,7 @@
          },
          "after DOCTYPE name state -- P" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4116,6 +4140,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4175,7 +4247,7 @@
          },
          "after DOCTYPE name state -- PU" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4190,6 +4262,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4249,7 +4369,7 @@
          },
          "after DOCTYPE name state -- PUB" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4264,6 +4384,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4323,7 +4491,7 @@
          },
          "after DOCTYPE name state -- PUBL" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4338,6 +4506,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4397,7 +4613,7 @@
          },
          "after DOCTYPE name state -- PUBLI" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4412,6 +4628,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4465,7 +4729,7 @@
          },
          "after DOCTYPE name state -- S" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4480,6 +4744,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4539,7 +4851,7 @@
          },
          "after DOCTYPE name state -- SY" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4554,6 +4866,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4613,7 +4973,7 @@
          },
          "after DOCTYPE name state -- SYS" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4628,6 +4988,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4687,7 +5095,7 @@
          },
          "after DOCTYPE name state -- SYST" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4702,6 +5110,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4761,7 +5217,7 @@
          },
          "after DOCTYPE name state -- SYSTE" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003E 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "invalid-character-sequence-after-doctype-name",
@@ -4776,6 +5232,54 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "003E" : {
+                  "actions" : [
+                     {
+                        "code" : "invalid-character-sequence-after-doctype-name",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-name-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "data state",
+                        "type" : "switch"
+                     },
+                     {
+                        "possible_token_types" : {
+                           "DOCTYPE token" : 1
+                        },
+                        "type" : "emit"
                      }
                   ]
                },
@@ -4829,7 +5333,7 @@
          },
          "after DOCTYPE public identifier state" : {
             "conds" : {
-               "0000 0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "missing-quote-before-doctype-system-identifier",
@@ -4844,6 +5348,12 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      }
                   ]
                },
@@ -4851,6 +5361,24 @@
                   "actions" : [
                      {
                         "state" : "between DOCTYPE public and system identifiers state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "missing-quote-before-doctype-system-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-public-identifier-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
                         "type" : "switch"
                      }
                   ]
@@ -4935,7 +5463,7 @@
          },
          "after DOCTYPE public keyword state" : {
             "conds" : {
-               "0000 0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "missing-quote-before-doctype-public-identifier",
@@ -4950,6 +5478,12 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      }
                   ]
                },
@@ -4957,6 +5491,24 @@
                   "actions" : [
                      {
                         "state" : "before DOCTYPE public identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "missing-quote-before-doctype-public-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-public-keyword-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
                         "type" : "switch"
                      }
                   ]
@@ -5051,7 +5603,32 @@
          },
          "after DOCTYPE system identifier state" : {
             "conds" : {
-               "0000 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
+                  "actions" : [
+                     {
+                        "code" : "unexpected-character-after-doctype-system-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-system-identifier-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D" : {
+                  "actions" : [
+                  ],
+                  "repeat" : 1
+               },
+               "0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
                         "code" : "unexpected-character-after-doctype-system-identifier",
@@ -5064,11 +5641,6 @@
                         "type" : "switch"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 000D" : {
-                  "actions" : [
-                  ],
-                  "repeat" : 1
                },
                "003E" : {
                   "actions" : [
@@ -5114,7 +5686,7 @@
          },
          "after DOCTYPE system keyword state" : {
             "conds" : {
-               "0000 0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
                   "actions" : [
                      {
                         "code" : "missing-quote-before-doctype-system-identifier",
@@ -5129,6 +5701,12 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      }
                   ]
                },
@@ -5136,6 +5714,24 @@
                   "actions" : [
                      {
                         "state" : "before DOCTYPE system identifier state",
+                        "type" : "switch"
+                     }
+                  ]
+               },
+               "0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+                  "actions" : [
+                     {
+                        "code" : "missing-quote-before-doctype-system-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "after-doctype-system-keyword-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
                         "type" : "switch"
                      }
                   ]
@@ -11369,7 +11965,36 @@
          },
          "before DOCTYPE public identifier state" : {
             "conds" : {
-               "0000 0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
+                  "actions" : [
+                     {
+                        "code" : "missing-quote-before-doctype-public-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "before-doctype-public-identifier-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D" : {
+                  "actions" : [
+                  ],
+                  "repeat" : 1
+               },
+               "0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
                         "code" : "missing-quote-before-doctype-public-identifier",
@@ -11386,11 +12011,6 @@
                         "type" : "switch"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 000D" : {
-                  "actions" : [
-                  ],
-                  "repeat" : 1
                },
                "0022" : {
                   "actions" : [
@@ -11470,7 +12090,36 @@
          },
          "before DOCTYPE system identifier state" : {
             "conds" : {
-               "0000 0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
+                  "actions" : [
+                     {
+                        "code" : "missing-quote-before-doctype-system-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "before-doctype-system-identifier-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D" : {
+                  "actions" : [
+                  ],
+                  "repeat" : 1
+               },
+               "0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
                         "code" : "missing-quote-before-doctype-system-identifier",
@@ -11487,11 +12136,6 @@
                         "type" : "switch"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 000D" : {
-                  "actions" : [
-                  ],
-                  "repeat" : 1
                },
                "0022" : {
                   "actions" : [
@@ -12049,7 +12693,36 @@
          },
          "between DOCTYPE public and system identifiers state" : {
             "conds" : {
-               "0000 0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
+                  "actions" : [
+                     {
+                        "code" : "missing-quote-before-doctype-system-identifier",
+                        "error_type" : "bogus DOCTYPE",
+                        "name" : "between-doctype-public-and-system-identifiers-else",
+                        "type" : "parse error"
+                     },
+                     {
+                        "field" : "force-quirks flag",
+                        "type" : "set-flag"
+                     },
+                     {
+                        "state" : "bogus DOCTYPE state",
+                        "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D" : {
+                  "actions" : [
+                  ],
+                  "repeat" : 1
+               },
+               "0021 0023 0026 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                      {
                         "code" : "missing-quote-before-doctype-system-identifier",
@@ -12066,11 +12739,6 @@
                         "type" : "switch"
                      }
                   ]
-               },
-               "0009,000C,0020 000A 000D" : {
-                  "actions" : [
-                  ],
-                  "repeat" : 1
                },
                "0022" : {
                   "actions" : [
@@ -12140,7 +12808,17 @@
          },
          "bogus DOCTYPE state" : {
             "conds" : {
-               "0000 0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
+               "0000" : {
+                  "actions" : [
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
+               "0009,000C,0020 000A 000D 0021 0022 0023 0026 0027 002D 002F 0030,0031,0032,0033,0034,0035,0036,0037,0038,0039 003B 003C 003D 003F 0041 0042 0043 0044 0045 0046 0047,0048,004A,004B,004E,0051,0052,0056,0057,005A 0049 004C 004D 004F 0050 0053 0054 0055 0058 0059 005B 005D 0060 0061,0066 0062 0063 0064 0065 0067,0068,006A,006B,006E,0071,0072,0076,0077,007A 0069 006C 006D 006F 0070 0073 0074 0075 0078 0079 ELSE" : {
                   "actions" : [
                   ],
                   "repeat" : 1
@@ -12181,6 +12859,12 @@
             "conds" : {
                "0000" : {
                   "actions" : [
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "data",
                         "index_offset" : 0,
@@ -12251,6 +12935,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -15526,6 +16216,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "set",
@@ -15663,6 +16359,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -15850,6 +16552,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -16029,6 +16737,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -16218,6 +16932,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -16403,6 +17123,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -16592,6 +17318,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -16777,6 +17509,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -16966,6 +17704,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -17147,6 +17891,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -17321,6 +18071,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -17499,6 +18255,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -17673,6 +18435,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",
@@ -17851,6 +18619,12 @@
                         "type" : "switch"
                      },
                      {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
+                     {
                         "field" : "data",
                         "index_offset" : 0,
                         "type" : "append",
@@ -18025,6 +18799,12 @@
                      {
                         "state" : "bogus comment state",
                         "type" : "switch"
+                     },
+                     {
+                        "code" : "unexpected-null-character",
+                        "error_type" : "NULL",
+                        "name" : "NULL",
+                        "type" : "parse error"
                      },
                      {
                         "field" : "data",

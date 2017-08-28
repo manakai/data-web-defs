@@ -4878,6 +4878,18 @@
                      "type" : "if"
                   },
                   {
+                     "actions" : [
+                        {
+                           "target" : "already started",
+                           "type" : "set-node-flag"
+                        }
+                     ],
+                     "cond" : [
+                        "dynamic"
+                     ],
+                     "type" : "if"
+                  },
+                  {
                      "type" : "append-to-adjusted-insertion-location"
                   },
                   {
@@ -8342,6 +8354,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8418,6 +8433,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8492,6 +8510,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8566,6 +8587,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8640,6 +8664,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8708,6 +8735,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8782,6 +8812,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8856,6 +8889,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -8930,6 +8966,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9004,6 +9043,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9072,6 +9114,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9168,6 +9213,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9279,6 +9327,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9343,6 +9394,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -9450,6 +9504,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -11308,6 +11365,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -11405,6 +11465,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -11644,6 +11707,9 @@
                      {
                         "state" : "bogus DOCTYPE state",
                         "type" : "switch"
+                     },
+                     {
+                        "type" : "reconsume"
                      }
                   ]
                },
@@ -11680,6 +11746,15 @@
          },
          "bogus DOCTYPE state" : {
             "conds" : {
+               "CHAR:0000" : {
+                  "actions" : [
+                     {
+                        "code" : "unexpected-null-character",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     }
+                  ]
+               },
                "CHAR:003E" : {
                   "actions" : [
                      {
@@ -11720,6 +11795,11 @@
             "conds" : {
                "CHAR:0000" : {
                   "actions" : [
+                     {
+                        "code" : "unexpected-null-character",
+                        "name" : "NULL",
+                        "type" : "parse error"
+                     },
                      {
                         "field" : "data",
                         "index_offset" : 0,
