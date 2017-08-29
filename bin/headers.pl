@@ -151,7 +151,7 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata|forbidden response|forbidden|simple|CORS included|CORS non-wildcard request-header)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata|forbidden response|forbidden|simple|CORS included|CORS non-wildcard request-header|proxy-removed)\s*$}) {
     my $key = lc $1;
     $key =~ tr/ -/__/;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
@@ -221,7 +221,12 @@ for (keys %{$Data->{headers}}) {
         unless $header->{$proto}->{'304_representation_metadata'};
     $header->{$proto}->{'206_representation_metadata'} ||= 'SHOULD NOT';
   }
+
+  if ($header->{$proto}->{connection_option}) {
+    $header->{$proto}->{proxy_removed} = 1;
+  }
 }
+delete $Data->{headers}->{prefer}->{http}->{proxy_removed};
 
 {
   for my $record (@{$IANAUpgradeData->{registries}->{'http-upgrade-tokens-1'}->{records}}) {

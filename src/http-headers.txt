@@ -24,6 +24,8 @@ message-framing
 payload
 forbidden
 
+proxy-removed
+
 * TE
 
 spec https://tools.ietf.org/html/rfc7230#section-4.3
@@ -44,6 +46,8 @@ payload
 payload-processing
 forbidden
 
+proxy-removed
+
 * Trailers
 
 spec http://purl.org/NET/http-errata#trailer-hop
@@ -57,6 +61,8 @@ request
 routing
 control
 forbidden
+
+proxy-removed
 
 * Via
 
@@ -500,12 +506,16 @@ response
 407 MUST
 proxy
 
+proxy-removed
+
 * Proxy-Authorization
 
 spec https://tools.ietf.org/html/rfc7235#section-4.4
 value credentials
 authentication-credentials
 request
+
+proxy-removed
 
 * Authentication-Info
 
@@ -521,11 +531,15 @@ value #auth-param
 response
 trailer
 
+proxy-removed
+
 * Proxy-support
 
 spec https://tools.ietf.org/html/rfc4559#section-6
 response
 proxy
+
+proxy-removed
 
 * Forwarded
 
@@ -848,11 +862,13 @@ value 1#
 
 spec http://tools.ietf.org/html/rfc2774#section-4.2
 value 1#
+connection-option
 
 * C-Opt
 
 spec http://tools.ietf.org/html/rfc2774#section-4.2
 value 1#
+connection-option
 
 * Ext
 
@@ -861,6 +877,7 @@ spec http://tools.ietf.org/html/rfc2774#section-4.3
 * C-Ext
 
 spec http://tools.ietf.org/html/rfc2774#section-4.3
+connection-option
 
 * Delta-Base
 
