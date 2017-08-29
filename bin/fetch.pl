@@ -49,7 +49,8 @@ $Data->{update_via_cache_mode}->{missing_value_default} = 'imports';
     {key => 'type',
      enum => 'RequestType',
      url => 'https://fetch.spec.whatwg.org/#concept-request-type',
-     default => ''},
+     default => '',
+     obsolete => 1},
     {key => 'destination',
      enum => 'RequestDestination',
      url => 'https://fetch.spec.whatwg.org/#concept-request-destination',
@@ -74,14 +75,15 @@ $Data->{update_via_cache_mode}->{missing_value_default} = 'imports';
      enum => 'ReferrerPolicy',
      url => 'https://w3c.github.io/webappsec-referrer-policy/#referrer-policies'},
   ) {
-    my $rd = $json->{idl_defs}->{$d->{enum}};
-    my $v = $rd->[1]->{value};
+    my $rd = $json->{idl_defs}->{$d->{enum}} || [];
+    my $v = $rd->[1]->{value} || [];
     for (sort { $a cmp $b } keys %{$v->[1]}) {
       $Data->{$d->{key}}->{values}->{$_}->{$d->{enum}} = 1;
       $Data->{$d->{key}}->{values}->{$_}->{value} = $_;
     }
     $Data->{$d->{key}}->{default} = $d->{default};
     $Data->{$d->{key}}->{url} = $d->{url};
+    $Data->{$d->{key}}->{obsolete} = $d->{obsolete} if defined $d->{obsolete};
   } # $d
 }
 
@@ -121,6 +123,10 @@ $Data->{destination}->{values}->{$_}->{non_subresource} = 1
 ## <https://fetch.spec.whatwg.org/#navigation-request>
 $Data->{destination}->{values}->{$_}->{navigation} = 1
     for qw(document);
+
+## <https://fetch.spec.whatwg.org/>
+$Data->{destination}->{values}->{$_}->{script_like} = 1
+    for qw(script serviceworker sharedworker worker);
 
 for (values %{$Data->{referrer_policy}->{values}}) {
   if ($_->{ReferrerPolicy}) {
