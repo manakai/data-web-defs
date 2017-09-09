@@ -225,10 +225,12 @@ for my $f (($d->children)) {
   } # dl.element
 
   for my $pre (@{$doc->query_selector_all ('pre.idl')}) {
+    my $idl_html = $pre->inner_html;
+    next if $idl_html =~ m{interface <dfn>Example</dfn>};
     if ($f =~ /obsolete/) {
-      push @idl, '[*obsolete*]' . $pre->inner_html;
+      push @idl, '[*obsolete*]' . $idl_html;
     } else {
-      push @idl, $pre->inner_html;
+      push @idl, $idl_html;
     }
   }
 } # files
