@@ -118,7 +118,7 @@ $Data->{destination}->{values}->{$_}->{potential_navigation_or_subresource} = 1
 
 ## <https://fetch.spec.whatwg.org/#non-subresource-request>
 $Data->{destination}->{values}->{$_}->{non_subresource} = 1
-    for qw(document report serviceworker sharedworker worker);
+    for qw(document report sharedworker worker);
 
 ## <https://fetch.spec.whatwg.org/#navigation-request>
 $Data->{destination}->{values}->{$_}->{navigation} = 1
@@ -126,7 +126,7 @@ $Data->{destination}->{values}->{$_}->{navigation} = 1
 
 ## <https://fetch.spec.whatwg.org/>
 $Data->{destination}->{values}->{$_}->{script_like} = 1
-    for qw(script serviceworker sharedworker worker);
+    for qw(script sharedworker worker);
 
 for (values %{$Data->{referrer_policy}->{values}}) {
   if ($_->{ReferrerPolicy}) {
