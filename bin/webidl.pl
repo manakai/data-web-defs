@@ -21,7 +21,7 @@ for (qw(
   callback interface partial dictionary enum typedef implements const
   null true false -Infinity Infinity NaN getter stringifier
   static attribute inherit readonly setter deleter
-  legacycaller iterable optional ByteString Date
+  iterable optional ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
   Promise Error ArrayBuffer Int8Array Int16Array
@@ -46,7 +46,7 @@ for (qw(
 ## <https://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const deleter dictionary enum
-  getter implements inherit interface iterable legacycaller
+  getter implements inherit interface iterable
   maplike partial setlike setter static
   stringifier typedef unrestricted required
 
