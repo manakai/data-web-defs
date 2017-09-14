@@ -201,6 +201,8 @@ for my $f (($d->children)) {
             $props->{content_model}->{_complex} = 1;
           } elsif ($text eq 'Same as for the source element.') {
             #
+          } elsif ($text eq 'Text that gives a conformant style sheet.') {
+            #
           } else {
             push @{$Data->{_errors} ||= []},
                 ['content_model', $local_name, $_->inner_html];
