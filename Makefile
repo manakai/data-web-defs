@@ -441,10 +441,13 @@ local/dom-extracted.json: local/dom.html bin/extract-dom-standard.pl
 data/dom-events.json: bin/dom-events.pl
 	$(PERL) $< > $@
 
+local/altmap-html-obsolete.json: src/html-obsolete.txt bin/altmap-to-json.pl
+	$(PERL) bin/altmap-to-json.pl $< > $@
+
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt \
     src/attr-types.txt local/obsvocab.html data/aria.json \
-    local/element-aria.json src/html-obsolete.txt \
+    local/element-aria.json local/altmap-html-obsolete.json \
     src/element-categories.txt local/html-tree.json data/fetch.json
 	#local/html-status.xml
 	$(PERL) bin/elements.pl > $@

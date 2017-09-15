@@ -1239,52 +1239,20 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{embed}->{attrs}->{''}->{$_
            border units pluginpage pluginspage pluginurl palette);
 
 {
-  my $path = $RootPath->child ('src/html-obsolete.txt');
-  my $alts = {};
-  my $target;
-  for (split /\x0D?\x0A/, $path->slurp_utf8) {
-    if (/^#/ or /^\s+##/) {
-      #
-    } elsif (/^<(\S+)>$/) {
-      die "$path: No alternative is specified for @$target" if $target;
-      $target = [$1];
-    } elsif (/^<(\S+) (\S+)>$/) {
-      die "$path: No alternative is specified for @$target" if $target;
-      $target = [$1, $2];
-    } elsif (defined $target and /^  (.+)$/) {
-      my $alt = $1;
-      if ($alt =~ /^<(\S+)>$/) {
-        $alts->{"@$target"} = {type => 'html_element', name => $1};
-      } elsif ($alt =~ /^<\* (\S+)>$/) {
-        $alts->{"@$target"} = {type => 'html_attr', name => $1};
-      } elsif ($alt =~ /^<(input) (type)=(\S+)>$/) {
-        $alts->{"@$target"} = {type => 'input', name => $3};
-      } elsif ($alt =~ /^<(\S+) (\S+)>$/) {
-        $alts->{"@$target"} = {type => 'html_attr', name => $2, element => $1};
-      } elsif ($alt =~ /^-$/) {
-        $alts->{"@$target"} = {type => 'omit'};
-      } elsif ($alt =~ /^([a-z-]+): (\S+)$/) {
-        $alts->{"@$target"} = {type => 'css_prop', name => $1, value => $2};
-      } elsif ($alt =~ /^([a-z-]+)$/) {
-        $alts->{"@$target"} = {type => 'css_prop', name => $1};
-      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter|text)$/) {
-        $alts->{"@$target"} = {type => $1};
-      } elsif ($alt =~ m{^N/A$}) {
-        $alts->{"@$target"} = {type => 'none'};
-      } else {
-        die "$path: broken line: |  $alt|";
+  my $data = json_bytes2perl $RootPath->child ('local/altmap-html-obsolete.json')->slurp;
+  for my $ns (sort { $a cmp $b } keys %{$data->{elements}}) {
+    for my $ln (sort { $a cmp $b } keys %{$data->{elements}->{$ns}}) {
+      my $preferred = $data->{elements}->{$ns}->{$ln}->{preferred};
+      $Data->{elements}->{$ns}->{$ln}->{preferred} = $preferred
+          if defined $preferred;
+      for my $ans (sort { $a cmp $b } keys %{$data->{elements}->{$ns}->{$ln}->{attrs} or {}}) {
+        for my $aln (sort { $a cmp $b } keys %{$data->{elements}->{$ns}->{$ln}->{attrs}->{$ans}}) {
+          my $preferred = $data->{elements}->{$ns}->{$ln}->{attrs}->{$ans}->{$aln}->{preferred};
+          $Data->{elements}->{$ns}->{$ln}->{attrs}->{$ans}->{$aln}->{preferred} = $preferred
+              if defined $preferred;
+        }
       }
-      undef $target;
-    } elsif (/\S/) {
-      die "$path: broken line: |$_|";
     }
-  }
-
-  for (sort { $a cmp $b } keys %$alts) {
-    my ($el, $attr) = split / /, $_;
-    my $v = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el} ||= {};
-    $v = $v->{attrs}->{''}->{$attr} ||= {} if defined $attr;
-    $v->{preferred} = $alts->{$_};
   }
 }
 
