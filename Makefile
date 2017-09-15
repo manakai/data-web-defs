@@ -443,6 +443,8 @@ data/dom-events.json: bin/dom-events.pl
 
 local/altmap-html-obsolete.json: src/html-obsolete.txt bin/altmap-to-json.pl
 	$(PERL) bin/altmap-to-json.pl $< > $@
+local/altmap-aria.json: src/altmap-aria.txt bin/altmap-to-json.pl
+	$(PERL) bin/altmap-to-json.pl $< > $@
 
 data/elements.json: bin/elements.pl src/element-interfaces.txt \
     local/html-extracted.json src/elements.txt \
@@ -467,9 +469,9 @@ local/obsvocab.html:
 	$(SAVEURL) $@ https://manakai.github.io/spec-obsvocab/
 
 local/aria.rdf:
-	$(SAVEURL) $@ http://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
+	$(SAVEURL) $@ https://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
 
-data/aria.json: local/aria.rdf bin/ariardf.pl
+data/aria.json: local/aria.rdf bin/ariardf.pl local/altmap-aria.json
 	$(PERL) bin/ariardf.pl > $@
 
 local/element-aria.json: src/element-aria.txt bin/ariaelements.pl \

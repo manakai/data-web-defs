@@ -1,8 +1,7 @@
 use strict;
 use warnings;
-use Path::Class;
-use lib glob file (__FILE__)->dir->subdir ('modules', '*', 'lib')->stringify;
-use Encode;
+use Path::Tiny;
+use lib glob path (__FILE__)->parent->child ('modules/*/lib')->stringify;
 use JSON::PS;
 use Web::DOM::Document;
 use Web::XML::Parser;
@@ -17,10 +16,10 @@ sub _v ($) {
 
 my $Triples = [];
 {
-  my $f = file (__FILE__)->dir->parent->file ('local', 'aria.rdf');
+  my $f = path (__FILE__)->parent->parent->child ('local/aria.rdf');
   my $doc = new Web::DOM::Document;
   my $parser = Web::XML::Parser->new;
-  $parser->parse_char_string ((decode 'utf-8', scalar $f->slurp) => $doc);
+  $parser->parse_char_string ($f->slurp_utf8 => $doc);
   my $rdfparser = Web::RDF::XML::Parser->new;
   $rdfparser->ontriple (sub {
     my %args = @_;
@@ -82,7 +81,7 @@ while (1) {
   last unless $new;
 }
 
-## <http://www.w3.org/WAI/PF/aria/complete#abstract_roles>
+## <https://w3c.github.io/aria/aria/aria.html#abstract_roles>
 $Data->{roles}->{$_}->{abstract} = 1
     for qw(command composite input landmark range roletype section
            sectionhead select structure widget window);
@@ -139,49 +138,19 @@ for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   }
 }
 
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/altmap-aria.json');
+  my $data = json_bytes2perl $path->slurp;
+  for my $role (keys %{$data->{roles}}) {
+    my $preferred = $data->{roles}->{$role}->{preferred};
+    $Data->{roles}->{$role}->{preferred} = $preferred if defined $preferred;
+  }
+}
+
 $Data->{roles}->{alertdialog}->{attrs}->{'aria-describedby'}->{should} = 1;
 $Data->{roles}->{definition}->{attrs}->{'aria-labelledby'}->{should} = 1;
 $Data->{roles}->{form}->{attrs}->{'aria-labelledby'}->{should} = 1;
 $Data->{roles}->{scrollbar}->{attrs}->{'aria-controls'}->{must} = 1;
-$Data->{roles}->{article}->{preferred} = {type => 'html_element', name => 'article'};
-$Data->{roles}->{button}->{preferred} = {type => 'html_element', name => 'button'};
-$Data->{roles}->{checkbox}->{preferred} = {type => 'input', name => 'checkbox'};
-$Data->{roles}->{combobox}->{preferred} = {type => 'input', name => 'text'};
-$Data->{roles}->{dialog}->{preferred} = {type => 'html_element', name => 'dialog'};
-$Data->{roles}->{form}->{preferred} = {type => 'html_element', name => 'form'};
-$Data->{roles}->{grid}->{preferred} = {type => 'html_element', name => 'table'};
-$Data->{roles}->{columnheader}->{preferred} = {type => 'th', scope => 'col'};
-$Data->{roles}->{rowheader}->{preferred} = {type => 'th', scope => 'row'};
-$Data->{roles}->{gridcell}->{preferred} = {type => 'html_element', name => 'td'};
-$Data->{roles}->{rowgroup}->{preferred} = {type => 'html_element', name => 'tbody'};
-$Data->{roles}->{row}->{preferred} = {type => 'html_element', name => 'tr'};
-$Data->{roles}->{group}->{preferred} = {type => 'html_element', name => 'fieldset'};
-$Data->{roles}->{heading}->{preferred} = {type => 'html_element', name => 'h1'};
-$Data->{roles}->{img}->{preferred} = {type => 'html_element', name => 'figure'};
-$Data->{roles}->{link}->{preferred} = {type => 'html_element', name => 'a'};
-$Data->{roles}->{list}->{preferred} = {type => 'html_element', name => 'ul'};
-$Data->{roles}->{listbox}->{preferred} = {type => 'html_element', name => 'select'};
-$Data->{roles}->{listitem}->{preferred} = {type => 'html_element', name => 'li'};
-$Data->{roles}->{main}->{preferred} = {type => 'html_element', name => 'main'};
-$Data->{roles}->{math}->{preferred} = {type => 'math'};
-$Data->{roles}->{menu}->{preferred} = {type => 'html_element', name => 'menu'};
-$Data->{roles}->{menubar}->{preferred} = {type => 'html_element', name => 'menu'};
-$Data->{roles}->{menuitem}->{preferred} = {type => 'html_element', name => 'li'};
-$Data->{roles}->{menuitemcheckbox}->{preferred} = {type => 'input', name => 'checkbox'};
-$Data->{roles}->{menuitemradio}->{preferred} = {type => 'input', name => 'radio'};
-$Data->{roles}->{navigation}->{preferred} = {type => 'html_element', name => 'nav'};
-$Data->{roles}->{option}->{preferred} = {type => 'html_element', name => 'option'};
-$Data->{roles}->{progressbar}->{preferred} = {type => 'html_element', name => 'progress'};
-$Data->{roles}->{radio}->{preferred} = {type => 'input', name => 'radio'};
-$Data->{roles}->{scrollbar}->{preferred} = {type => 'css'};
-$Data->{roles}->{slider}->{preferred} = {type => 'input', name => 'range'};
-$Data->{roles}->{spinbutton}->{preferred} = {type => 'input', name => 'number'};
-$Data->{roles}->{textbox}->{preferred} = {type => 'textbox'};
-$Data->{roles}->{toolbar}->{preferred} = {type => 'html_element', name => 'menu'};
-$Data->{roles}->{tooltip}->{preferred} = {type => 'title'};
-$Data->{roles}->{text}->{preferred} = {type => 'html_element', name => 'pre'};
-$Data->{roles}->{searchbox}->{preferred} = {type => 'input', name => 'search'};
-$Data->{roles}->{switch}->{preferred} = {type => 'input', name => 'checkbox'};
 
 for my $sub_role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   for my $super_role (sort { $a cmp $b } keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {

@@ -16,17 +16,24 @@ my $Data = {};
     } elsif (/^<(\S+)>$/) {
       die "$path: No alternative is specified for @$target" if $target;
       $target = [$1];
+    } elsif (/^<\* role=(\S+)>$/) {
+      die "$path: No alternative is specified for @$target" if $target;
+      $target = ['ROLE', $1];
     } elsif (/^<(\S+) (\S+)>$/) {
       die "$path: No alternative is specified for @$target" if $target;
       $target = [$1, $2];
     } elsif (defined $target and /^  (.+)$/) {
       my $alt = $1;
-      if ($alt =~ /^<(\S+)>$/) {
+      if ($alt eq '<math>') {
+        $alts->{"@$target"} = {type => 'math'};
+      } elsif ($alt =~ /^<(\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_element', name => $1};
       } elsif ($alt =~ /^<\* (\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_attr', name => $1};
       } elsif ($alt =~ /^<(input) (type)=(\S+)>$/) {
         $alts->{"@$target"} = {type => 'input', name => $3};
+      } elsif ($alt =~ /^<th scope=(\S+)>$/) {
+        $alts->{"@$target"} = {type => 'th', scope => $1};
       } elsif ($alt =~ /^<(\S+) (\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_attr', name => $2, element => $1};
       } elsif ($alt =~ /^-$/) {
@@ -35,7 +42,7 @@ my $Data = {};
         $alts->{"@$target"} = {type => 'css_prop', name => $1, value => $2};
       } elsif ($alt =~ /^([a-z-]+)$/) {
         $alts->{"@$target"} = {type => 'css_prop', name => $1};
-      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter|text)$/) {
+      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter|text|textbox|title)$/) {
         $alts->{"@$target"} = {type => $1};
       } elsif ($alt =~ m{^N/A$}) {
         $alts->{"@$target"} = {type => 'none'};
@@ -52,6 +59,7 @@ my $Data = {};
     my ($el, $attr) = split / /, $_;
     my $v = $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el} ||= {};
     $v = $v->{attrs}->{''}->{$attr} ||= {} if defined $attr;
+    $v = $Data->{roles}->{$attr} ||= {} if $el eq 'ROLE';
     $v->{preferred} = $alts->{$_};
   }
 }
