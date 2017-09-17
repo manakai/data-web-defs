@@ -41,6 +41,10 @@ for (split /\x0D?\x0A/, $in_path->slurp_utf8) {
     $Data->{roles}->{$role}->{must_contain}->{$2} = 1;
   } elsif (/^required\s+context\s+role\s+(\S+)$/) {
     $Data->{roles}->{$role}->{scope}->{$1} = 1;
+  } elsif (/^abstract$/) {
+    $Data->{roles}->{$role}->{abstract} = 1;
+  } elsif (/^(MUST|SHOULD)\s+(aria-\S+)$/) {
+    $Data->{roles}->{$role}->{attrs}->{$2}->{lc $1} = 1;
 
   } elsif (/^\@spec\s+(\S+)$/) {
     $spec = $1;

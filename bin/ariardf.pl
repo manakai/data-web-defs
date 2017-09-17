@@ -14,7 +14,17 @@ for (qw(
   my $data = json_bytes2perl $path->slurp;
   for my $name (keys %{$data->{roles}}) {
     for my $key (keys %{$data->{roles}->{$name}}) {
-      $Data->{roles}->{$name}->{$key} = $data->{roles}->{$name}->{$key};
+      if ($key eq 'attrs') {
+        for my $aname (keys %{$data->{roles}->{$name}->{$key}}) {
+          $Data->{roles}->{$name}->{$key}->{$aname} ||= {};
+          for my $akey (keys %{$data->{roles}->{$name}->{$key}->{$aname}}) {
+            $Data->{roles}->{$name}->{$key}->{$aname}->{$akey}
+                = $data->{roles}->{$name}->{$key}->{$aname}->{$akey};
+          }
+        }
+      } else {
+        $Data->{roles}->{$name}->{$key} = $data->{roles}->{$name}->{$key};
+      }
     }
   }
   for my $name (keys %{$data->{attrs}}) {
@@ -23,11 +33,6 @@ for (qw(
     }
   }
 }
-
-## <https://w3c.github.io/aria/aria/aria.html#abstract_roles>
-$Data->{roles}->{$_}->{abstract} = 1
-    for qw(command composite input landmark range roletype section
-           sectionhead select structure widget window);
 
 {
   my $has_new = 0;
@@ -69,25 +74,6 @@ for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
     $Data->{roles}->{$role}->{preferred} = $preferred if defined $preferred;
   }
 }
-
-$Data->{roles}->{alertdialog}->{attrs}->{'aria-describedby'}->{should} = 1;
-$Data->{roles}->{definition}->{attrs}->{'aria-labelledby'}->{should} = 1;
-$Data->{roles}->{form}->{attrs}->{'aria-labelledby'}->{should} = 1;
-
-## <https://w3c.github.io/aria/aria/aria.html#scrollbar>
-$Data->{roles}->{scrollbar}->{attrs}->{$_}->{must} = 1
-    for qw(
-      aria-controls aria-valuemin aria-valuemax aria-valuenow
-    );
-
-## <https://w3c.github.io/aria/aria/aria.html#slider>
-$Data->{roles}->{slider}->{attrs}->{$_}->{must} = 1
-    for qw(
-      aria-valuemin aria-valuemax aria-valuenow
-    );
-
-## <https://w3c.github.io/aria/aria/aria.html#spinbutton>
-$Data->{roles}->{spinbutton}->{attrs}->{'aria-valuenow'}->{must} = 1;
 
 for my $sub_role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   for my $super_role (sort { $a cmp $b } keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
