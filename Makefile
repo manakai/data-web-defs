@@ -472,8 +472,11 @@ local/aria.rdf:
 	$(SAVEURL) $@ https://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
 local/ariardf-parsed.json: bin/parse-ariardf.pl local/aria.rdf
 	$(PERL) $< > $@
+local/aria-roles.json: src/aria-roles.txt bin/aria-roles.pl
+	$(PERL) bin/aria-roles.pl > $@
 
-data/aria.json: bin/ariardf.pl local/altmap-aria.json local/ariardf-parsed.json
+data/aria.json: bin/ariardf.pl local/altmap-aria.json \
+    local/ariardf-parsed.json local/aria-roles.json
 	$(PERL) bin/ariardf.pl > $@
 
 local/element-aria.json: src/element-aria.txt bin/ariaelements.pl \

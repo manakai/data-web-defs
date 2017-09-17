@@ -55,10 +55,13 @@
          "value_type" : "enumerated"
       },
       "aria-colcount" : {
+         "value_type" : "non-negative integer"
       },
       "aria-colindex" : {
+         "value_type" : "non-negative integer"
       },
       "aria-colspan" : {
+         "value_type" : "non-negative integer greater than zero"
       },
       "aria-controls" : {
          "id_type" : "any",
@@ -87,10 +90,6 @@
          "value_type" : "enumerated"
       },
       "aria-describedat" : {
-         "preferred" : {
-            "name" : "a",
-            "type" : "html_element"
-         },
          "value_type" : "URL"
       },
       "aria-describedby" : {
@@ -99,6 +98,8 @@
          "value_type" : "ordered set of unique space-separated tokens"
       },
       "aria-details" : {
+         "id_type" : "any",
+         "value_type" : "idref"
       },
       "aria-disabled" : {
          "default" : "false",
@@ -113,6 +114,7 @@
       },
       "aria-dropeffect" : {
          "default" : "none",
+         "deprecated" : 1,
          "tokens" : {
             "copy" : {
             },
@@ -130,6 +132,8 @@
          "value_type" : "unordered set of unique space-separated tokens"
       },
       "aria-errormessage" : {
+         "id_type" : "any",
+         "value_type" : "idref"
       },
       "aria-expanded" : {
          "default" : "undefined",
@@ -151,6 +155,7 @@
       },
       "aria-grabbed" : {
          "default" : "undefined",
+         "deprecated" : 1,
          "is_state" : 1,
          "tokens" : {
             "false" : {
@@ -165,7 +170,17 @@
       "aria-haspopup" : {
          "default" : "false",
          "tokens" : {
+            "dialog" : {
+            },
             "false" : {
+            },
+            "grid" : {
+            },
+            "listbox" : {
+            },
+            "menu" : {
+            },
+            "tree" : {
             },
             "true" : {
             }
@@ -203,6 +218,7 @@
          "value_type" : "enumerated"
       },
       "aria-keyshortcuts" : {
+         "value_type" : "any"
       },
       "aria-label" : {
          "value_type" : "any"
@@ -229,10 +245,6 @@
       },
       "aria-modal" : {
          "default" : "false",
-         "preferred" : {
-            "name" : "dialog",
-            "type" : "html_element"
-         },
          "tokens" : {
             "false" : {
             },
@@ -279,6 +291,7 @@
          "value_type" : "ordered set of unique space-separated tokens"
       },
       "aria-placeholder" : {
+         "value_type" : "any"
       },
       "aria-posinset" : {
          "value_type" : "non-negative integer greater than zero"
@@ -333,12 +346,16 @@
          "value_type" : "enumerated"
       },
       "aria-roledescription" : {
+         "value_type" : "any"
       },
       "aria-rowcount" : {
+         "value_type" : "non-negative integer"
       },
       "aria-rowindex" : {
+         "value_type" : "non-negative integer"
       },
       "aria-rowspan" : {
+         "value_type" : "non-negative integer greater than zero"
       },
       "aria-selected" : {
          "default" : "undefined",
@@ -388,9 +405,16 @@
    },
    "roles" : {
       "alert" : {
+         "attr_default" : {
+            "aria-atomic" : "true",
+            "aria-live" : "assertive"
+         },
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 3,
@@ -399,9 +423,11 @@
          },
          "superclass_of" : {
             "alertdialog" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#alert"
       },
       "alertdialog" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-describedby" : {
                "should" : 1
@@ -411,24 +437,33 @@
             "aria-modal" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "alert" : 1,
             "dialog" : 1,
-            "roletype" : 3,
+            "roletype" : 4,
             "section" : 2,
             "structure" : 3,
             "window" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#alertdialog"
       },
       "application" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-activedescendant" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "structure" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#application"
       },
       "article" : {
          "attrs" : {
@@ -439,6 +474,9 @@
             "aria-setsize" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "article",
             "type" : "html_element"
@@ -447,26 +485,41 @@
             "document" : 1,
             "roletype" : 3,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#article"
       },
       "banner" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "header",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "landmark" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#banner"
       },
       "button" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             },
             "aria-pressed" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "button",
@@ -476,7 +529,8 @@
             "command" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#button"
       },
       "cell" : {
          "attrs" : {
@@ -491,6 +545,10 @@
             "aria-rowspan" : {
             }
          },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "scope" : {
             "row" : 1
          },
@@ -503,15 +561,25 @@
             "columnheader" : 2,
             "gridcell" : 1,
             "rowheader" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#cell"
       },
       "checkbox" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-checked" : "false"
+         },
          "attrs" : {
             "aria-checked" : {
                "must" : 1
             },
             "aria-readonly" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "checkbox",
@@ -526,9 +594,11 @@
             "menuitemcheckbox" : 1,
             "menuitemradio" : 2,
             "switch" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#checkbox"
       },
       "columnheader" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-colindex" : {
             },
@@ -549,6 +619,10 @@
             "aria-sort" : {
             }
          },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "preferred" : {
             "scope" : "col",
             "type" : "th"
@@ -559,14 +633,20 @@
          "subclass_of" : {
             "cell" : 2,
             "gridcell" : 1,
-            "roletype" : 3,
+            "roletype" : 5,
             "section" : 3,
             "sectionhead" : 1,
-            "structure" : 2,
+            "structure" : 4,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#columnheader"
       },
       "combobox" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-expanded" : "false",
+            "aria-haspopup" : "listbox"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -592,6 +672,9 @@
             "textbox" : 1,
             "tree" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "text",
             "type" : "input"
@@ -604,39 +687,59 @@
             "select" : 1,
             "structure" : 4,
             "widget" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#combobox"
       },
       "command" : {
          "abstract" : 1,
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "widget" : 1
          },
          "superclass_of" : {
             "button" : 1,
+            "doc-backlink" : 2,
+            "doc-biblioref" : 2,
+            "doc-glossref" : 2,
+            "doc-noteref" : 2,
             "link" : 1,
             "menuitem" : 1,
             "menuitemcheckbox" : 2,
             "menuitemradio" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#command"
       },
       "complementary" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "aside",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "landmark" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#complementary"
       },
       "composite" : {
          "abstract" : 1,
          "attrs" : {
             "aria-activedescendant" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 2,
@@ -654,19 +757,28 @@
             "tablist" : 1,
             "tree" : 2,
             "treegrid" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#composite"
       },
       "contentinfo" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "footer",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "landmark" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#contentinfo"
       },
       "definition" : {
          "attrs" : {
@@ -676,18 +788,26 @@
                "should" : 1
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#definition"
       },
       "dialog" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             },
             "aria-modal" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "dialog",
@@ -699,7 +819,8 @@
          },
          "superclass_of" : {
             "alertdialog" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#dialog"
       },
       "directory" : {
          "attrs" : {
@@ -710,11 +831,684 @@
             "group" : 1,
             "listitem" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "list" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#directory"
+      },
+      "doc-abstract" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-acknowledgments" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-afterword" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-appendix" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-backlink" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "command" : 2,
+            "link" : 1,
+            "roletype" : 4,
+            "widget" : 3
+         }
+      },
+      "doc-biblioentry" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            },
+            "aria-level" : {
+            },
+            "aria-posinset" : {
+            },
+            "aria-setsize" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "listitem" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-bibliography" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "must_contain" : {
+            "doc-biblioentry" : 1
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-biblioref" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "command" : 2,
+            "link" : 1,
+            "roletype" : 4,
+            "widget" : 3
+         }
+      },
+      "doc-chapter" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "section",
+            "type" : "html_element"
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-colophon" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-conclusion" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-cover" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "img" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-credit" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-credits" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-dedication" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-endnote" : {
+         "attrs" : {
+            "aria-expanded" : {
+            },
+            "aria-level" : {
+            },
+            "aria-posinset" : {
+            },
+            "aria-setsize" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "scope" : {
+            "doc-endnotes" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "listitem" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-endnotes" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "must_contain" : {
+            "doc-endnote" : 1
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-epigraph" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-epilogue" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-errata" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-example" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-footnote" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-foreword" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-glossary" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "must_contain" : {
+            "definition" : 1,
+            "term" : 1
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-glossref" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "command" : 2,
+            "link" : 1,
+            "roletype" : 4,
+            "widget" : 3
+         }
+      },
+      "doc-index" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 2,
+            "navigation" : 1,
+            "roletype" : 5,
+            "section" : 3,
+            "structure" : 4
+         }
+      },
+      "doc-introduction" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-noteref" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "command" : 2,
+            "link" : 1,
+            "roletype" : 4,
+            "widget" : 3
+         }
+      },
+      "doc-notice" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "note" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-pagebreak" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-orientation" : {
+            },
+            "aria-valuemax" : {
+               "must" : 1
+            },
+            "aria-valuemin" : {
+               "must" : 1
+            },
+            "aria-valuenow" : {
+               "must" : 1
+            },
+            "aria-valuetext" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "separator" : 1,
+            "structure" : 2,
+            "widget" : 2
+         }
+      },
+      "doc-pagelist" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 2,
+            "navigation" : 1,
+            "roletype" : 5,
+            "section" : 3,
+            "structure" : 4
+         }
+      },
+      "doc-part" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-preface" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-prologue" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-pullquote" : {
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "none" : 1,
+            "presentation" : 2,
+            "roletype" : 4,
+            "structure" : 3
+         }
+      },
+      "doc-qna" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "section" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-subtitle" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "h1",
+            "type" : "html_element"
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "roletype" : 3,
+            "sectionhead" : 1,
+            "structure" : 2
+         }
+      },
+      "doc-tip" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "note" : 1,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3
+         }
+      },
+      "doc-toc" : {
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "spec" : "https://w3c.github.io/aria/aria/dpub.html#role_definitions",
+         "subclass_of" : {
+            "landmark" : 2,
+            "navigation" : 1,
+            "roletype" : 5,
+            "section" : 3,
+            "structure" : 4
          }
       },
       "document" : {
@@ -722,13 +1516,18 @@
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "structure" : 1
          },
          "superclass_of" : {
-            "article" : 1
-         }
+            "article" : 1,
+            "graphics-document" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#document"
       },
       "feed" : {
          "attrs" : {
@@ -740,23 +1539,35 @@
             "group" : 1,
             "listitem" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "list" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#feed"
       },
       "figure" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "figure",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#figure"
       },
       "form" : {
          "attrs" : {
@@ -765,6 +1576,9 @@
             "aria-labelledby" : {
                "should" : 1
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "form",
@@ -775,11 +1589,58 @@
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#form"
+      },
+      "graphics-document" : {
+         "accessible_name_required" : 1,
+         "attrs" : {
+            "aria-expanded" : {
+            }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "subclass_of" : {
+            "document" : 1,
+            "roletype" : 3,
+            "structure" : 2
+         },
+         "url" : "https://w3c.github.io/aria/aria/graphics.html#graphics-document"
+      },
+      "graphics-object" : {
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
+         "subclass_of" : {
+            "roletype" : 2,
+            "structure" : 1
+         },
+         "superclass_of" : {
+            "graphics-symbol" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/graphics.html#graphics-document"
+      },
+      "graphics-symbol" : {
+         "accessible_name_required" : 1,
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
+         },
+         "subclass_of" : {
+            "graphics-object" : 1,
+            "roletype" : 3,
+            "structure" : 2
+         },
+         "url" : "https://w3c.github.io/aria/aria/graphics.html#graphics-symbol"
       },
       "grid" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-activedescendant" : {
+            },
+            "aria-colcount" : {
             },
             "aria-expanded" : {
             },
@@ -788,11 +1649,16 @@
             "aria-multiselectable" : {
             },
             "aria-readonly" : {
+            },
+            "aria-rowcount" : {
             }
          },
          "must_contain" : {
             "row" : 1,
             "rowgroup" : 1
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "table",
@@ -800,16 +1666,19 @@
          },
          "subclass_of" : {
             "composite" : 1,
-            "roletype" : 3,
-            "section" : 1,
-            "structure" : 2,
+            "roletype" : 4,
+            "section" : 2,
+            "structure" : 3,
+            "table" : 1,
             "widget" : 2
          },
          "superclass_of" : {
             "treegrid" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#grid"
       },
       "gridcell" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-colindex" : {
             },
@@ -828,6 +1697,10 @@
             "aria-selected" : {
             }
          },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "preferred" : {
             "name" : "td",
             "type" : "html_element"
@@ -837,7 +1710,7 @@
          },
          "subclass_of" : {
             "cell" : 1,
-            "roletype" : 2,
+            "roletype" : 4,
             "section" : 2,
             "structure" : 3,
             "widget" : 1
@@ -845,7 +1718,8 @@
          "superclass_of" : {
             "columnheader" : 1,
             "rowheader" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#gridcell"
       },
       "group" : {
          "attrs" : {
@@ -853,6 +1727,9 @@
             },
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "fieldset",
@@ -874,15 +1751,24 @@
             "toolbar" : 1,
             "tree" : 2,
             "treegrid" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#group"
       },
       "heading" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-level" : "2"
+         },
          "attrs" : {
             "aria-expanded" : {
             },
             "aria-level" : {
                "must" : 1
             }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "h1",
@@ -892,12 +1778,18 @@
             "roletype" : 3,
             "sectionhead" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#heading"
       },
       "img" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "figure",
@@ -907,10 +1799,17 @@
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "superclass_of" : {
+            "doc-cover" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#img"
       },
       "input" : {
          "abstract" : 1,
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "widget" : 1
@@ -918,7 +1817,7 @@
          "superclass_of" : {
             "checkbox" : 1,
             "menuitemcheckbox" : 2,
-            "menuitemradio" : 2,
+            "menuitemradio" : 3,
             "option" : 1,
             "radio" : 1,
             "searchbox" : 2,
@@ -927,13 +1826,17 @@
             "switch" : 2,
             "textbox" : 1,
             "treeitem" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#input"
       },
       "landmark" : {
          "abstract" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 3,
@@ -944,17 +1847,42 @@
             "banner" : 1,
             "complementary" : 1,
             "contentinfo" : 1,
+            "doc-acknowledgments" : 1,
+            "doc-afterword" : 1,
+            "doc-appendix" : 1,
+            "doc-bibliography" : 1,
+            "doc-chapter" : 1,
+            "doc-conclusion" : 1,
+            "doc-credits" : 1,
+            "doc-endnotes" : 1,
+            "doc-epilogue" : 1,
+            "doc-errata" : 1,
+            "doc-foreword" : 1,
+            "doc-glossary" : 1,
+            "doc-index" : 2,
+            "doc-introduction" : 1,
+            "doc-pagelist" : 2,
+            "doc-part" : 1,
+            "doc-preface" : 1,
+            "doc-prologue" : 1,
+            "doc-toc" : 2,
             "form" : 1,
             "main" : 1,
             "navigation" : 1,
             "region" : 1,
             "search" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#landmark"
       },
       "link" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "a",
@@ -964,7 +1892,14 @@
             "command" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "superclass_of" : {
+            "doc-backlink" : 1,
+            "doc-biblioref" : 1,
+            "doc-glossref" : 1,
+            "doc-noteref" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#link"
       },
       "list" : {
          "attrs" : {
@@ -974,6 +1909,9 @@
          "must_contain" : {
             "group" : 1,
             "listitem" : 1
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "ul",
@@ -987,9 +1925,14 @@
          "superclass_of" : {
             "directory" : 1,
             "feed" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#list"
       },
       "listbox" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-orientation" : "vertical"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -1007,6 +1950,9 @@
          "must_contain" : {
             "option" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "select",
             "type" : "html_element"
@@ -1019,7 +1965,8 @@
             "select" : 1,
             "structure" : 4,
             "widget" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#listbox"
       },
       "listitem" : {
          "attrs" : {
@@ -1031,6 +1978,9 @@
             },
             "aria-setsize" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "li",
@@ -1058,24 +2008,38 @@
             "structure" : 2
          },
          "superclass_of" : {
+            "doc-biblioentry" : 1,
+            "doc-endnote" : 1,
             "treeitem" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#listitem"
       },
       "log" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-live" : "polite"
+         },
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#log"
       },
       "main" : {
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "main",
@@ -1086,23 +2050,33 @@
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#main"
       },
       "marquee" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#marquee"
       },
       "math" : {
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "type" : "math"
@@ -1111,9 +2085,13 @@
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#math"
       },
       "menu" : {
+         "attr_default" : {
+            "aria-orientation" : "vertical"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -1127,6 +2105,9 @@
             "menuitem" : 1,
             "menuitemcheckbox" : 1,
             "menuitemradio" : 1
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "menu",
@@ -1143,9 +2124,13 @@
          },
          "superclass_of" : {
             "menubar" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#menu"
       },
       "menubar" : {
+         "attr_default" : {
+            "aria-orientation" : "horizontal"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -1160,6 +2145,9 @@
             "menuitemcheckbox" : 1,
             "menuitemradio" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "menu",
             "type" : "html_element"
@@ -1173,14 +2161,20 @@
             "select" : 2,
             "structure" : 5,
             "widget" : 4
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#menubar"
       },
       "menuitem" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-posinset" : {
             },
             "aria-setsize" : {
             }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "li",
@@ -1207,9 +2201,14 @@
          "superclass_of" : {
             "menuitemcheckbox" : 1,
             "menuitemradio" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#menuitem"
       },
       "menuitemcheckbox" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-checked" : "false"
+         },
          "attrs" : {
             "aria-checked" : {
                "must" : 1
@@ -1220,6 +2219,11 @@
             },
             "aria-setsize" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "checkbox",
@@ -1239,9 +2243,14 @@
          },
          "superclass_of" : {
             "menuitemradio" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#menuitemcheckbox"
       },
       "menuitemradio" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-checked" : "false"
+         },
          "attrs" : {
             "aria-checked" : {
                "must" : 1
@@ -1252,6 +2261,11 @@
             },
             "aria-setsize" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "radio",
@@ -1273,18 +2287,22 @@
          "subclass_of" : {
             "checkbox" : 2,
             "command" : 3,
-            "input" : 2,
+            "input" : 3,
             "menuitem" : 2,
             "menuitemcheckbox" : 1,
             "radio" : 1,
-            "roletype" : 4,
-            "widget" : 3
-         }
+            "roletype" : 5,
+            "widget" : 4
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#menuitemradio"
       },
       "navigation" : {
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "nav",
@@ -1295,26 +2313,60 @@
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "superclass_of" : {
+            "doc-index" : 1,
+            "doc-pagelist" : 1,
+            "doc-toc" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#navigation"
       },
       "none" : {
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "hidden",
+            "type" : "html_attr"
+         },
          "subclass_of" : {
-            "roletype" : 2,
-            "structure" : 1
-         }
+            "presentation" : 1,
+            "roletype" : 3,
+            "structure" : 2
+         },
+         "superclass_of" : {
+            "doc-pullquote" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#none"
       },
       "note" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "aside",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "superclass_of" : {
+            "doc-notice" : 1,
+            "doc-tip" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#note"
       },
       "option" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-selected" : "false"
+         },
          "attrs" : {
             "aria-checked" : {
             },
@@ -1325,6 +2377,11 @@
             },
             "aria-setsize" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "option",
@@ -1337,15 +2394,29 @@
          },
          "superclass_of" : {
             "treeitem" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#option"
       },
       "presentation" : {
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "none",
+            "type" : "role"
+         },
          "subclass_of" : {
             "roletype" : 2,
             "structure" : 1
-         }
+         },
+         "superclass_of" : {
+            "doc-pullquote" : 2,
+            "none" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#presentation"
       },
       "progressbar" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-valuemax" : {
             },
@@ -1356,6 +2427,10 @@
             "aria-valuetext" : {
             }
          },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "progress",
             "type" : "html_element"
@@ -1364,9 +2439,14 @@
             "range" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#progressbar"
       },
       "radio" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-checked" : "false"
+         },
          "attrs" : {
             "aria-checked" : {
                "must" : 1
@@ -1375,6 +2455,11 @@
             },
             "aria-setsize" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "radio",
@@ -1387,9 +2472,11 @@
          },
          "superclass_of" : {
             "menuitemradio" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#radio"
       },
       "radiogroup" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -1405,6 +2492,9 @@
          "must_contain" : {
             "radio" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "composite" : 2,
             "group" : 2,
@@ -1413,7 +2503,8 @@
             "select" : 1,
             "structure" : 4,
             "widget" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#radiogroup"
       },
       "range" : {
          "abstract" : 1,
@@ -1427,6 +2518,9 @@
             "aria-valuetext" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "widget" : 1
@@ -1436,19 +2530,29 @@
             "scrollbar" : 1,
             "slider" : 1,
             "spinbutton" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#range"
       },
       "region" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "section",
+            "type" : "html_element"
          },
          "subclass_of" : {
             "landmark" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#region"
       },
       "roletype" : {
          "abstract" : 1,
@@ -1492,18 +2596,16 @@
             "aria-roledescription" : {
             }
          },
-         "subclass_of" : {
-         },
          "superclass_of" : {
             "alert" : 3,
-            "alertdialog" : 3,
+            "alertdialog" : 4,
             "application" : 2,
             "article" : 3,
             "banner" : 4,
             "button" : 3,
             "cell" : 3,
             "checkbox" : 3,
-            "columnheader" : 3,
+            "columnheader" : 5,
             "combobox" : 5,
             "command" : 2,
             "complementary" : 4,
@@ -1512,12 +2614,54 @@
             "definition" : 3,
             "dialog" : 2,
             "directory" : 4,
+            "doc-abstract" : 3,
+            "doc-acknowledgments" : 4,
+            "doc-afterword" : 4,
+            "doc-appendix" : 4,
+            "doc-backlink" : 4,
+            "doc-biblioentry" : 4,
+            "doc-bibliography" : 4,
+            "doc-biblioref" : 4,
+            "doc-chapter" : 4,
+            "doc-colophon" : 3,
+            "doc-conclusion" : 4,
+            "doc-cover" : 4,
+            "doc-credit" : 3,
+            "doc-credits" : 4,
+            "doc-dedication" : 3,
+            "doc-endnote" : 4,
+            "doc-endnotes" : 4,
+            "doc-epigraph" : 3,
+            "doc-epilogue" : 4,
+            "doc-errata" : 4,
+            "doc-example" : 3,
+            "doc-footnote" : 3,
+            "doc-foreword" : 4,
+            "doc-glossary" : 4,
+            "doc-glossref" : 4,
+            "doc-index" : 5,
+            "doc-introduction" : 4,
+            "doc-noteref" : 4,
+            "doc-notice" : 4,
+            "doc-pagebreak" : 3,
+            "doc-pagelist" : 5,
+            "doc-part" : 4,
+            "doc-preface" : 4,
+            "doc-prologue" : 4,
+            "doc-pullquote" : 4,
+            "doc-qna" : 3,
+            "doc-subtitle" : 3,
+            "doc-tip" : 4,
+            "doc-toc" : 5,
             "document" : 2,
             "feed" : 4,
             "figure" : 3,
             "form" : 4,
-            "grid" : 3,
-            "gridcell" : 2,
+            "graphics-document" : 3,
+            "graphics-object" : 2,
+            "graphics-symbol" : 3,
+            "grid" : 4,
+            "gridcell" : 4,
             "group" : 3,
             "heading" : 3,
             "img" : 3,
@@ -1535,8 +2679,9 @@
             "menubar" : 6,
             "menuitem" : 3,
             "menuitemcheckbox" : 4,
-            "menuitemradio" : 4,
+            "menuitemradio" : 5,
             "navigation" : 4,
+            "none" : 3,
             "note" : 3,
             "option" : 3,
             "presentation" : 2,
@@ -1545,9 +2690,9 @@
             "radiogroup" : 5,
             "range" : 2,
             "region" : 4,
-            "row" : 2,
+            "row" : 4,
             "rowgroup" : 2,
-            "rowheader" : 3,
+            "rowheader" : 5,
             "scrollbar" : 3,
             "search" : 4,
             "searchbox" : 4,
@@ -1560,12 +2705,11 @@
             "status" : 3,
             "structure" : 1,
             "switch" : 4,
-            "tab" : 2,
+            "tab" : 3,
             "table" : 3,
             "tablist" : 3,
             "tabpanel" : 3,
             "term" : 3,
-            "text" : 2,
             "textbox" : 3,
             "timer" : 4,
             "toolbar" : 4,
@@ -1575,7 +2719,8 @@
             "treeitem" : 4,
             "widget" : 1,
             "window" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#roletype"
       },
       "row" : {
          "attrs" : {
@@ -1598,6 +2743,10 @@
             "gridcell" : 1,
             "rowheader" : 1
          },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "preferred" : {
             "name" : "tr",
             "type" : "html_element"
@@ -1610,15 +2759,20 @@
          },
          "subclass_of" : {
             "group" : 1,
-            "roletype" : 2,
+            "roletype" : 4,
             "section" : 2,
             "structure" : 3,
             "widget" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#row"
       },
       "rowgroup" : {
          "must_contain" : {
             "row" : 1
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "tbody",
@@ -1632,9 +2786,11 @@
          "subclass_of" : {
             "roletype" : 2,
             "structure" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#rowgroup"
       },
       "rowheader" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-colindex" : {
             },
@@ -1655,6 +2811,10 @@
             "aria-sort" : {
             }
          },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "preferred" : {
             "scope" : "row",
             "type" : "th"
@@ -1665,14 +2825,20 @@
          "subclass_of" : {
             "cell" : 2,
             "gridcell" : 1,
-            "roletype" : 3,
+            "roletype" : 5,
             "section" : 3,
             "sectionhead" : 1,
-            "structure" : 2,
+            "structure" : 4,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#rowheader"
       },
       "scrollbar" : {
+         "attr_default" : {
+            "aria-orientation" : "vertical",
+            "aria-valuemax" : "100",
+            "aria-valuemin" : "0"
+         },
          "attrs" : {
             "aria-controls" : {
                "must" : 1
@@ -1692,6 +2858,10 @@
             "aria-valuetext" : {
             }
          },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "type" : "css"
          },
@@ -1699,21 +2869,27 @@
             "range" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#scrollbar"
       },
       "search" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "landmark" : 1,
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#search"
       },
       "searchbox" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -1728,6 +2904,9 @@
             "aria-required" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "search",
             "type" : "input"
@@ -1737,7 +2916,8 @@
             "roletype" : 4,
             "textbox" : 1,
             "widget" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#searchbox"
       },
       "section" : {
          "abstract" : 1,
@@ -1760,10 +2940,42 @@
             "contentinfo" : 2,
             "definition" : 1,
             "directory" : 2,
+            "doc-abstract" : 1,
+            "doc-acknowledgments" : 2,
+            "doc-afterword" : 2,
+            "doc-appendix" : 2,
+            "doc-biblioentry" : 2,
+            "doc-bibliography" : 2,
+            "doc-chapter" : 2,
+            "doc-colophon" : 1,
+            "doc-conclusion" : 2,
+            "doc-cover" : 2,
+            "doc-credit" : 1,
+            "doc-credits" : 2,
+            "doc-dedication" : 1,
+            "doc-endnote" : 2,
+            "doc-endnotes" : 2,
+            "doc-epigraph" : 1,
+            "doc-epilogue" : 2,
+            "doc-errata" : 2,
+            "doc-example" : 1,
+            "doc-footnote" : 1,
+            "doc-foreword" : 2,
+            "doc-glossary" : 2,
+            "doc-index" : 3,
+            "doc-introduction" : 2,
+            "doc-notice" : 2,
+            "doc-pagelist" : 3,
+            "doc-part" : 2,
+            "doc-preface" : 2,
+            "doc-prologue" : 2,
+            "doc-qna" : 1,
+            "doc-tip" : 2,
+            "doc-toc" : 3,
             "feed" : 2,
             "figure" : 1,
             "form" : 2,
-            "grid" : 1,
+            "grid" : 2,
             "gridcell" : 2,
             "group" : 1,
             "img" : 1,
@@ -1795,7 +3007,8 @@
             "tree" : 3,
             "treegrid" : 4,
             "treeitem" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#section"
       },
       "sectionhead" : {
          "abstract" : 1,
@@ -1803,16 +3016,22 @@
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "structure" : 1
          },
          "superclass_of" : {
             "columnheader" : 1,
+            "doc-subtitle" : 1,
             "heading" : 1,
             "rowheader" : 1,
             "tab" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#sectionhead"
       },
       "select" : {
          "abstract" : 1,
@@ -1823,6 +3042,9 @@
             },
             "aria-orientation" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "composite" : 1,
@@ -1840,9 +3062,16 @@
             "radiogroup" : 1,
             "tree" : 1,
             "treegrid" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#select"
       },
       "separator" : {
+         "attr_default" : {
+            "aria-orientation" : "horizontal",
+            "aria-valuemax" : "100",
+            "aria-valuemin" : "0",
+            "aria-valuenow" : "50"
+         },
          "attrs" : {
             "aria-orientation" : {
             },
@@ -1858,13 +3087,27 @@
             "aria-valuetext" : {
             }
          },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 2,
             "structure" : 1,
             "widget" : 1
-         }
+         },
+         "superclass_of" : {
+            "doc-pagebreak" : 1
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#separator"
       },
       "slider" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-orientation" : "horizontal",
+            "aria-valuemax" : "100",
+            "aria-valuemin" : "0"
+         },
          "attrs" : {
             "aria-orientation" : {
             },
@@ -1882,6 +3125,10 @@
             "aria-valuetext" : {
             }
          },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "range",
             "type" : "input"
@@ -1891,9 +3138,14 @@
             "range" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#slider"
       },
       "spinbutton" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-valuenow" : "0"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -1913,6 +3165,9 @@
             "aria-valuetext" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "name" : "number",
             "type" : "input"
@@ -1923,12 +3178,20 @@
             "range" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#spinbutton"
       },
       "status" : {
+         "attr_default" : {
+            "aria-atomic" : "true",
+            "aria-live" : "polite"
+         },
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 3,
@@ -1937,7 +3200,8 @@
          },
          "superclass_of" : {
             "timer" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#status"
       },
       "structure" : {
          "abstract" : 1,
@@ -1951,17 +3215,55 @@
             "article" : 2,
             "banner" : 3,
             "cell" : 2,
-            "columnheader" : 2,
+            "columnheader" : 4,
             "combobox" : 4,
             "complementary" : 3,
             "contentinfo" : 3,
             "definition" : 2,
             "directory" : 3,
+            "doc-abstract" : 2,
+            "doc-acknowledgments" : 3,
+            "doc-afterword" : 3,
+            "doc-appendix" : 3,
+            "doc-biblioentry" : 3,
+            "doc-bibliography" : 3,
+            "doc-chapter" : 3,
+            "doc-colophon" : 2,
+            "doc-conclusion" : 3,
+            "doc-cover" : 3,
+            "doc-credit" : 2,
+            "doc-credits" : 3,
+            "doc-dedication" : 2,
+            "doc-endnote" : 3,
+            "doc-endnotes" : 3,
+            "doc-epigraph" : 2,
+            "doc-epilogue" : 3,
+            "doc-errata" : 3,
+            "doc-example" : 2,
+            "doc-footnote" : 2,
+            "doc-foreword" : 3,
+            "doc-glossary" : 3,
+            "doc-index" : 4,
+            "doc-introduction" : 3,
+            "doc-notice" : 3,
+            "doc-pagebreak" : 2,
+            "doc-pagelist" : 4,
+            "doc-part" : 3,
+            "doc-preface" : 3,
+            "doc-prologue" : 3,
+            "doc-pullquote" : 3,
+            "doc-qna" : 2,
+            "doc-subtitle" : 2,
+            "doc-tip" : 3,
+            "doc-toc" : 4,
             "document" : 1,
             "feed" : 3,
             "figure" : 2,
             "form" : 3,
-            "grid" : 2,
+            "graphics-document" : 2,
+            "graphics-object" : 1,
+            "graphics-symbol" : 2,
+            "grid" : 3,
             "gridcell" : 3,
             "group" : 2,
             "heading" : 2,
@@ -1977,13 +3279,14 @@
             "menu" : 4,
             "menubar" : 5,
             "navigation" : 3,
+            "none" : 2,
             "note" : 2,
             "presentation" : 1,
             "radiogroup" : 4,
             "region" : 3,
             "row" : 3,
             "rowgroup" : 1,
-            "rowheader" : 2,
+            "rowheader" : 4,
             "search" : 3,
             "section" : 1,
             "sectionhead" : 1,
@@ -1994,22 +3297,31 @@
             "table" : 2,
             "tabpanel" : 2,
             "term" : 2,
-            "text" : 1,
             "timer" : 3,
             "toolbar" : 3,
             "tooltip" : 2,
             "tree" : 4,
             "treegrid" : 5,
             "treeitem" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#structure"
       },
       "switch" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-checked" : "false"
+         },
          "attrs" : {
             "aria-checked" : {
                "must" : 1
             },
             "aria-readonly" : {
             }
+         },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "name" : "checkbox",
@@ -2020,9 +3332,13 @@
             "input" : 2,
             "roletype" : 4,
             "widget" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#switch"
       },
       "tab" : {
+         "attr_default" : {
+            "aria-selected" : "false"
+         },
          "attrs" : {
             "aria-expanded" : {
             },
@@ -2033,17 +3349,24 @@
             "aria-setsize" : {
             }
          },
+         "children_presentational" : 1,
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
+         },
          "scope" : {
             "tablist" : 1
          },
          "subclass_of" : {
-            "roletype" : 2,
+            "roletype" : 3,
             "sectionhead" : 1,
             "structure" : 2,
             "widget" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#tab"
       },
       "table" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-colcount" : {
             },
@@ -2056,13 +3379,28 @@
             "row" : 1,
             "rowgroup" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "table",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "superclass_of" : {
+            "grid" : 1,
+            "treegrid" : 2
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#table"
       },
       "tablist" : {
+         "attr_default" : {
+            "aria-orientation" : "horizontal"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -2076,45 +3414,53 @@
          "must_contain" : {
             "tab" : 1
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "composite" : 1,
             "roletype" : 3,
             "widget" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#tablist"
       },
       "tabpanel" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#tabpanel"
       },
       "term" : {
          "attrs" : {
             "aria-expanded" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
+         "preferred" : {
+            "name" : "dfn",
+            "type" : "html_element"
+         },
          "subclass_of" : {
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
-      },
-      "text" : {
-         "preferred" : {
-            "name" : "pre",
-            "type" : "html_element"
          },
-         "subclass_of" : {
-            "roletype" : 2,
-            "structure" : 1
-         }
+         "url" : "https://w3c.github.io/aria/aria/aria.html#term"
       },
       "textbox" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -2129,6 +3475,9 @@
             "aria-required" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "preferred" : {
             "type" : "textbox"
          },
@@ -2139,21 +3488,30 @@
          },
          "superclass_of" : {
             "searchbox" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#textbox"
       },
       "timer" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "roletype" : 4,
             "section" : 2,
             "status" : 1,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#timer"
       },
       "toolbar" : {
+         "attr_default" : {
+            "aria-orientation" : "horizontal"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -2161,6 +3519,9 @@
             },
             "aria-orientation" : {
             }
+         },
+         "name_from" : {
+            "author" : 1
          },
          "preferred" : {
             "name" : "menu",
@@ -2171,12 +3532,18 @@
             "roletype" : 4,
             "section" : 2,
             "structure" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#toolbar"
       },
       "tooltip" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-expanded" : {
             }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "preferred" : {
             "type" : "title"
@@ -2185,9 +3552,14 @@
             "roletype" : 3,
             "section" : 1,
             "structure" : 2
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#tooltip"
       },
       "tree" : {
+         "accessible_name_required" : 1,
+         "attr_default" : {
+            "aria-orientation" : "vertical"
+         },
          "attrs" : {
             "aria-activedescendant" : {
             },
@@ -2203,6 +3575,9 @@
          "must_contain" : {
             "group" : 1,
             "treeitem" : 1
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "composite" : 2,
@@ -2215,11 +3590,15 @@
          },
          "superclass_of" : {
             "treegrid" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#tree"
       },
       "treegrid" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-activedescendant" : {
+            },
+            "aria-colcount" : {
             },
             "aria-expanded" : {
             },
@@ -2232,6 +3611,8 @@
             "aria-readonly" : {
             },
             "aria-required" : {
+            },
+            "aria-rowcount" : {
             }
          },
          "must_contain" : {
@@ -2239,6 +3620,9 @@
             "row" : 1,
             "rowgroup" : 1,
             "treeitem" : 1
+         },
+         "name_from" : {
+            "author" : 1
          },
          "subclass_of" : {
             "composite" : 3,
@@ -2248,11 +3632,14 @@
             "section" : 4,
             "select" : 2,
             "structure" : 5,
+            "table" : 2,
             "tree" : 1,
             "widget" : 4
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#treegrid"
       },
       "treeitem" : {
+         "accessible_name_required" : 1,
          "attrs" : {
             "aria-checked" : {
             },
@@ -2267,6 +3654,10 @@
             },
             "aria-setsize" : {
             }
+         },
+         "name_from" : {
+            "author" : 1,
+            "contents" : 1
          },
          "scope" : {
             "combobox" : 3,
@@ -2289,7 +3680,8 @@
             "section" : 2,
             "structure" : 3,
             "widget" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#treeitem"
       },
       "widget" : {
          "abstract" : 1,
@@ -2303,6 +3695,11 @@
             "combobox" : 3,
             "command" : 1,
             "composite" : 1,
+            "doc-backlink" : 3,
+            "doc-biblioref" : 3,
+            "doc-glossref" : 3,
+            "doc-noteref" : 3,
+            "doc-pagebreak" : 2,
             "grid" : 2,
             "gridcell" : 1,
             "input" : 1,
@@ -2312,7 +3709,7 @@
             "menubar" : 4,
             "menuitem" : 2,
             "menuitemcheckbox" : 3,
-            "menuitemradio" : 3,
+            "menuitemradio" : 4,
             "option" : 2,
             "progressbar" : 2,
             "radio" : 2,
@@ -2333,7 +3730,8 @@
             "tree" : 3,
             "treegrid" : 4,
             "treeitem" : 3
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#widget"
       },
       "window" : {
          "abstract" : 1,
@@ -2343,13 +3741,17 @@
             "aria-modal" : {
             }
          },
+         "name_from" : {
+            "author" : 1
+         },
          "subclass_of" : {
             "roletype" : 1
          },
          "superclass_of" : {
             "alertdialog" : 2,
             "dialog" : 1
-         }
+         },
+         "url" : "https://w3c.github.io/aria/aria/aria.html#window"
       }
    }
 }

@@ -31,9 +31,6 @@ my $Triples = [];
 my $subClassOf = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
 my $ARIAPrefix = q<http://www.w3.org/WAI/ARIA/Schemata/aria-1#>;
 
-# XXX equivalent
-push @$Triples, [$ARIAPrefix.'none', $subClassOf, $ARIAPrefix.'presentation'];
-
 for my $triple (@$Triples) {
   if ($triple->[1] eq $subClassOf) {
     my $role = $triple->[0];

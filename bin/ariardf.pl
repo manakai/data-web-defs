@@ -6,14 +6,21 @@ use JSON::PS;
 
 my $Data = {};
 
-{
-  my $path = path (__FILE__)->parent->parent->child ('local/ariardf-parsed.json');
+for (qw(
+  local/ariardf-parsed.json
+  local/aria-roles.json
+)) {
+  my $path = path (__FILE__)->parent->parent->child ($_);
   my $data = json_bytes2perl $path->slurp;
   for my $name (keys %{$data->{roles}}) {
-    $Data->{roles}->{$name} = $data->{roles}->{$name};
+    for my $key (keys %{$data->{roles}->{$name}}) {
+      $Data->{roles}->{$name}->{$key} = $data->{roles}->{$name}->{$key};
+    }
   }
   for my $name (keys %{$data->{attrs}}) {
-    $Data->{attrs}->{$name} = $data->{attrs}->{$name};
+    for my $key (keys %{$data->{attrs}->{$name}}) {
+      $Data->{attrs}->{$name}->{$key} = $data->{attrs}->{$name}->{$key};
+    }
   }
 }
 
