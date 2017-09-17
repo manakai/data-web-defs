@@ -3,127 +3,24 @@ use warnings;
 use Path::Tiny;
 use lib glob path (__FILE__)->parent->child ('modules/*/lib')->stringify;
 use JSON::PS;
-use Web::DOM::Document;
-use Web::XML::Parser;
-use Web::RDF::XML::Parser;
 
 my $Data = {};
 
-sub _v ($) {
-  return defined $_[0]->{url} ? $_[0]->{url} :
-         defined $_[0]->{lexical} ? $_[0]->{lexical} : $_[0];
-} # _v
-
-my $Triples = [];
 {
-  my $f = path (__FILE__)->parent->parent->child ('local/aria.rdf');
-  my $doc = new Web::DOM::Document;
-  my $parser = Web::XML::Parser->new;
-  $parser->parse_char_string ($f->slurp_utf8 => $doc);
-  my $rdfparser = Web::RDF::XML::Parser->new;
-  $rdfparser->ontriple (sub {
-    my %args = @_;
-    push @$Triples, [_v $args{subject}, _v $args{predicate}, _v $args{object}];
-  });
-  $rdfparser->convert_document ($doc);
-}
-
-my $subClassOf = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
-
-## <http://w3c.github.io/aria/aria/aria.html#text>
-push @$Triples, ['text', $subClassOf, 'structure'];
-
-## <http://w3c.github.io/aria/aria/aria.html#searchbox>
-push @$Triples, ['searchbox', $subClassOf, 'textbox'];
-
-## <http://w3c.github.io/aria/aria/aria.html#switch>
-push @$Triples, ['switch', $subClassOf, 'checkbox'];
-
-## <https://github.com/w3c/aria/commit/ad45423151fb13accd8776c1a04d911e6ee81623>
-@$Triples = grep {
-  not ($_->[0] =~ /#(?:section|alert|grid|landmark|list|log|status|tabpanel|article)$/ and
-       $_->[1] eq $subClassOf);
-} @$Triples;
-push @$Triples, ['section', $subClassOf, 'structure'];
-push @$Triples, ['alert', $subClassOf, 'section'];
-push @$Triples, ['grid', $subClassOf, 'composite'];
-push @$Triples, ['grid', $subClassOf, 'section'];
-push @$Triples, ['landmark', $subClassOf, 'section'];
-push @$Triples, ['list', $subClassOf, 'section'];
-push @$Triples, ['log', $subClassOf, 'section'];
-push @$Triples, ['status', $subClassOf, 'section'];
-push @$Triples, ['tabpanel', $subClassOf, 'section'];
-push @$Triples, ['article', $subClassOf, 'document'];
-
-$Data->{roles}->{roletype} = {};
-while (1) {
-  my $new;
-  for my $triple (@$Triples) {
-    my $super;
-    if ($triple->[1] eq $subClassOf and
-        do {
-          $super = $triple->[2];
-          $super =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-          !!$Data->{roles}->{$super};
-        }) {
-      my $role = $triple->[0];
-      $role =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-
-      ## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
-      next if $role eq 'radio' and $super eq 'option';
-
-      $new = 1 unless $Data->{roles}->{$role};
-      $Data->{roles}->{$role}->{subclass_of}->{$super} = 1;
-      $Data->{roles}->{$role}->{subclass_of}->{$_} = $Data->{roles}->{$super}->{subclass_of}->{$_} + 1
-          for sort { $a cmp $b } keys %{$Data->{roles}->{$super}->{subclass_of}};
-    }
+  my $path = path (__FILE__)->parent->parent->child ('local/ariardf-parsed.json');
+  my $data = json_bytes2perl $path->slurp;
+  for my $name (keys %{$data->{roles}}) {
+    $Data->{roles}->{$name} = $data->{roles}->{$name};
   }
-  last unless $new;
+  for my $name (keys %{$data->{attrs}}) {
+    $Data->{attrs}->{$name} = $data->{attrs}->{$name};
+  }
 }
 
 ## <https://w3c.github.io/aria/aria/aria.html#abstract_roles>
 $Data->{roles}->{$_}->{abstract} = 1
     for qw(command composite input landmark range roletype section
            sectionhead select structure widget window);
-
-for my $triple (@$Triples) {
-  if ($triple->[1] eq "http://www.w3.org/1999/xhtml/vocab#supportedState") {
-    my $role = $triple->[0];
-    $role =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-    my $state = $triple->[2];
-    $state =~ s{^\Qhttp://www.w3.org/2005/07/aaa#\E}{};
-    $Data->{roles}->{$role}->{attrs}->{$state} ||= {};
-    $Data->{attrs}->{$state} ||= {};
-  } elsif ($triple->[1] eq "http://www.w3.org/1999/xhtml/vocab#requiredState") {
-    my $role = $triple->[0];
-    $role =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-    my $state = $triple->[2];
-    $state =~ s{^\Qhttp://www.w3.org/2005/07/aaa#\E}{};
-    $Data->{roles}->{$role}->{attrs}->{$state}->{must} = 1;
-    $Data->{attrs}->{$state} ||= {};
-  } elsif ($triple->[1] eq 'http://www.w3.org/1999/xhtml/vocab#mustContain') {
-    my $role = $triple->[0];
-    $role =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-    my $role2 = $triple->[2];
-    $role2 =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-    $Data->{roles}->{$role}->{must_contain}->{$role2} = 1;
-  } elsif ($triple->[1] eq 'http://www.w3.org/1999/xhtml/vocab#scope') {
-    my $role = $triple->[0];
-    $role =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-    my $role2 = $triple->[2];
-    $role2 =~ s{^\Qhttp://www.w3.org/WAI/ARIA/Schemata/aria-1#\E}{};
-    $Data->{roles}->{$role}->{scope}->{$role2} = 1;
-  }
-}
-
-## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
-$Data->{roles}->{radio}->{attrs}->{'aria-posinset'} ||= {};
-$Data->{roles}->{radio}->{attrs}->{'aria-setsize'} ||= {};
-$Data->{roles}->{tab}->{attrs}->{'aria-posinset'} ||= {};
-$Data->{roles}->{tab}->{attrs}->{'aria-setsize'} ||= {};
-
-## <http://w3c.github.io/aria/aria/aria.html#aria-modal>
-$Data->{roles}->{window}->{attrs}->{'aria-modal'} ||= {};
 
 for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   for my $super (sort { $a cmp $b } keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
@@ -150,7 +47,21 @@ for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
 $Data->{roles}->{alertdialog}->{attrs}->{'aria-describedby'}->{should} = 1;
 $Data->{roles}->{definition}->{attrs}->{'aria-labelledby'}->{should} = 1;
 $Data->{roles}->{form}->{attrs}->{'aria-labelledby'}->{should} = 1;
-$Data->{roles}->{scrollbar}->{attrs}->{'aria-controls'}->{must} = 1;
+
+## <https://w3c.github.io/aria/aria/aria.html#scrollbar>
+$Data->{roles}->{scrollbar}->{attrs}->{$_}->{must} = 1
+    for qw(
+      aria-controls aria-valuemin aria-valuemax aria-valuenow
+    );
+
+## <https://w3c.github.io/aria/aria/aria.html#slider>
+$Data->{roles}->{slider}->{attrs}->{$_}->{must} = 1
+    for qw(
+      aria-valuemin aria-valuemax aria-valuenow
+    );
+
+## <https://w3c.github.io/aria/aria/aria.html#spinbutton>
+$Data->{roles}->{spinbutton}->{attrs}->{'aria-valuenow'}->{must} = 1;
 
 for my $sub_role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   for my $super_role (sort { $a cmp $b } keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
@@ -186,15 +97,10 @@ my $ARIAValueTypes = {
   'URI' => 'URL',
 };
 
-## <https://www.w3.org/WAI/PF/aria/complete#index_state_prop>
 $Data->{attrs}->{$_}->{is_state} = 1
     for qw(aria-busy aria-checked aria-disabled aria-expanded
-           aria-grabbed aria-hidden aria-invalid aria-pressed aria-selected);
-
-## <https://w3c.github.io/aria/aria/aria.html#aria-current>
-$Data->{attrs}->{$_}->{is_state} = 1,
-$Data->{roles}->{roletype}->{attrs}->{$_} ||= {},
-    for qw(aria-current);
+           aria-grabbed aria-hidden aria-invalid aria-pressed aria-selected
+           aria-current);
 
 {
   my @type = qw(
@@ -211,7 +117,7 @@ $Data->{roles}->{roletype}->{attrs}->{$_} ||= {},
     aria-expanded true/false/undefined
     aria-flowto ID_reference_list
     aria-grabbed true/false/undefined
-    aria-haspopup true/false
+    aria-haspopup token
     aria-hidden true/false
     aria-invalid token
     aria-label string
@@ -238,6 +144,17 @@ $Data->{roles}->{roletype}->{attrs}->{$_} ||= {},
 
     aria-modal true/false
     aria-current token
+    aria-colcount integer
+    aria-colindex integer
+    aria-colspan positive_integer
+    aria-details ID_reference
+    aria-errormessage ID_reference
+    aria-keyshortcuts string
+    aria-placeholder string
+    aria-roledescription string
+    aria-rowcount integer
+    aria-rowindex integer
+    aria-rowspan positive_integer
   );
   while (@type) {
     my $name = shift @type;
@@ -291,22 +208,29 @@ $Data->{attrs}->{'aria-sort'}->{tokens}->{$_} = {}
     for qw(ascending descending none other);
 $Data->{attrs}->{'aria-sort'}->{default} = 'none';
 
+## <https://w3c.github.io/aria/aria/aria.html#aria-haspopup>
+$Data->{attrs}->{'aria-haspopup'}->{tokens}->{$_} = {}
+    for qw(false true menu listbox tree grid dialog);
+$Data->{attrs}->{'aria-haspopup'}->{default} = 'false';
+
+## <https://w3c.github.io/aria/aria/aria.html#aria-dropeffect>
+$Data->{attrs}->{'aria-dropeffect'}->{deprecated} = 1;
+
+## <https://w3c.github.io/aria/aria/aria.html#aria-grabbed>
+$Data->{attrs}->{'aria-grabbed'}->{deprecated} = 1;
+
 ## <http://w3c.github.io/aria/aria/aria.html#aria-current>
 $Data->{attrs}->{'aria-current'}->{tokens}->{$_} = {}
     for qw(page step location date time true false);
 $Data->{attrs}->{'aria-current'}->{default} = 'false';
 
-## <http://rawgit.com/w3c/aria/master/spec/aria.html#aria-orientation>
+## <https://w3c.github.io/aria/aria/aria.html#aria-orientation>
 #$Data->{attrs}->{'aria-orientation'}->{default} = 'horizontal'; # 1.0
 $Data->{attrs}->{'aria-orientation'}->{default} = 'undefined'; # 1.1
 
-$Data->{attrs}->{'aria-describedat'}->{preferred} = {type => 'html_element', name => 'a'};
-
-## <http://w3c.github.io/aria/aria/aria.html#aria-modal>
-$Data->{attrs}->{'aria-modal'}->{preferred} = {type => 'html_element', name => 'dialog'};
-
-## <http://rawgit.com/w3c/aria/master/spec/aria.html#h2_changelog>
-$Data->{roles}->{none} = $Data->{roles}->{presentation};
+## The aria-keyshortcuts attribute has complex value constraints not
+## formalized here:
+## <https://w3c.github.io/aria/aria/aria.html#aria-keyshortcuts>.
 
 print perl2json_bytes_for_record $Data;
 

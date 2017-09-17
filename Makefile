@@ -470,8 +470,10 @@ local/obsvocab.html:
 
 local/aria.rdf:
 	$(SAVEURL) $@ https://www.w3.org/WAI/ARIA/schemata/aria-1.rdf
+local/ariardf-parsed.json: bin/parse-ariardf.pl local/aria.rdf
+	$(PERL) $< > $@
 
-data/aria.json: local/aria.rdf bin/ariardf.pl local/altmap-aria.json
+data/aria.json: bin/ariardf.pl local/altmap-aria.json local/ariardf-parsed.json
 	$(PERL) bin/ariardf.pl > $@
 
 local/element-aria.json: src/element-aria.txt bin/ariaelements.pl \
