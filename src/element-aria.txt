@@ -1,61 +1,77 @@
-area:hyperlink
-  role=link !
-link:hyperlink
-  role=link !
-a:hyperlink
-  role=link or menuitem tab treeitem
+@ns http://www.w3.org/1999/xhtml
 
-body:the-body
-  role=document or application
-frameset:the-body
+## Unless otherwise noted, from ARIA in HTML:
+
+area:href-attr
+  role=link !
+link:href-attr
+  role=link !
+  no aria-*
+a:href-attr
+  role=link or button checkbox menuitem menuitemcheckbox menuitemradio option radio switch tab treeitem doc-backlink doc-biblioref doc-glossref doc-noteref
+
+body
+  role=document !
+frameset
+  ## From HTML Standard (where it is limited to the body element of document):
   role=document or application
 section
-  role=region or alert alertdialog application contentinfo dialog document log main marquee search status
+  role=region or alert alertdialog application contentinfo dialog document log main marquee search status banner complementary feed navigation tabpanel doc-abstract doc-acknowledgments doc-afterword doc-appendix doc-bibliography doc-chapter doc-colophon doc-conclusion doc-credit doc-credits doc-dedication doc-endnotes doc-epilogue doc-errata doc-example doc-foreword doc-index doc-introduction doc-notice doc-pagelist doc-part doc-preface doc-prologue doc-pullquote doc-qna doc-toc presentation none
+  ## ARIA in HTML forces #norole when there is no accessible name
 article
-  role=article or document application main
+  role=article or feed document application presentation none
+  ## ARIA in HTML also allows main and region
 nav
-  role=navigation !
+  role=navigation or doc-index doc-pagelist doc-toc
 address
   role=#norole or contentinfo
+  ## ARIA in HTML also allows any role
 aside
-  role=complementary or note search
+  role=complementary or feed note search doc-example doc-footnote doc-pullquote doc-tip presentation none
+  ## ARIA in HTML also allows region
 main
-  role=main or document application
+  role=main !
 header
-  role=#norole or banner
+  role=#norole or banner group doc-footnote presentation none
+  ## ARIA in HTML sometimes forces banner, sometimes forces #norole
 footer
-  role=#norole or contentinfo
+  role=#norole or contentinfo group doc-footnote presentation none
+  ## ARIA in HTML sometimes forces contentinfo, sometimes forces #norole
 hr
-  role=separator !
+  role=separator or doc-pagebreak presentation none
 
 hgroup
+  ## From HTML Standard:
   role=heading !
   aria-level=#outlinedepth !
+
 h1:no-hgroup
-  role=heading or tab
+  role=heading or tab presentation none
   aria-level=#outlinedepth
 h2:no-hgroup
-  role=heading or tab
+  role=heading or tab presentation none
   aria-level=#outlinedepth
 h3:no-hgroup
-  role=heading or tab
+  role=heading or tab presentation none
   aria-level=#outlinedepth
 h4:no-hgroup
-  role=heading or tab
+  role=heading or tab presentation none
   aria-level=#outlinedepth
 h5:no-hgroup
-  role=heading or tab
+  role=heading or tab presentation none
   aria-level=#outlinedepth
 h6:no-hgroup
-  role=heading or tab
+  role=heading or tab presentation none
   aria-level=#outlinedepth
+## ARIA in HTML also allows doc-subtitle for them
 
 img:empty-alt
-  role=presentation !
+  role=#norole or presentation none
+  aria-hidden only
 img:not-empty-alt
   role=img or #any
 embed
-  role=#norole or application document img
+  role=#norole or application document img presentation none
 object
   role=#norole or application document img
 audio
@@ -65,93 +81,115 @@ video
 iframe
   role=#norole or application document img
 
-input
-  aria-required=true/missing[required] !
+form
+  role=form or search presentation none
+map
+  role=#norole !
+  no aria-*
+
 input:type=color
   role=#norole !
+  aria-invalid=true/missing:invalid !
 input:type=file
   role=#norole !
+  aria-invalid=true/missing:invalid !
 input:type=hidden
   role=#norole !
+  no aria-*
 
 input:type=checkbox
-  role=checkbox or menuitemcheckbox
+  role=checkbox or menuitemcheckbox button option switch
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-checked=true/false/mixed:indeterminate:checked !
 input:type=radio
   role=radio or menuitemradio
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-checked=true/false:checked !
 
 input:type=date
   role=#norole !
-  aria-readonly=true/missing[readonly] !
+  aria-invalid=true/missing:invalid !
 input:type=datetime-local
   role=#norole !
-  aria-readonly=true/missing[readonly] !
+  aria-invalid=true/missing:invalid !
 input:type=month
   role=#norole !
-  aria-readonly=true/missing[readonly] !
+  aria-invalid=true/missing:invalid !
 input:type=time
   role=#norole !
-  aria-readonly=true/missing[readonly] !
+  aria-invalid=true/missing:invalid !
 input:type=week
   role=#norole !
-  aria-readonly=true/missing[readonly] !
+  aria-invalid=true/missing:invalid !
 
 input:type=number
   role=spinbutton !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-valuemax=#maximum !
   aria-valuemin=#minimum !
   aria-valuenow=#value-if-number !
-  aria-readonly=true/missing[readonly] !
 input:type=range
   role=slider !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-valuemax=#maximum !
   aria-valuemin=#minimum !
   aria-valuenow=#value-if-number !
-  aria-readonly=true/missing[readonly] !
-input:type=range:multiple
-  aria-valuemax=#maximum !
-  aria-valuemin=#minimum !
-  aria-readonly=true/missing[readonly] !
 
 input:type=reset
   role=button !
 input:type=submit
   role=button !
+  aria-invalid=true/missing:invalid !
 input:type=button
-  role=button or menuitem
+  role=button or menuitem link menuitemcheckbox menuitemradio option radio switch tab
 input:type=image
-  role=button or menuitem
+  role=button or menuitem link menuitemcheckbox menuitemradio radio switch
+  aria-invalid=true/missing:invalid !
 
 input:type=email
   role=#textbox-or-combobox !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-owns=#list-if-combobox !
-  aria-readonly=true/missing[readonly] !
 input:type=search
   role=#textbox-or-combobox !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-owns=#list-if-combobox !
-  aria-readonly=true/missing[readonly] !
 input:type=tel
   role=#textbox-or-combobox !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-owns=#list-if-combobox !
-  aria-readonly=true/missing[readonly] !
 input:type=text
   role=#textbox-or-combobox !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-owns=#list-if-combobox !
-  aria-readonly=true/missing[readonly] !
+input:type=password
+  role=#norole !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
+  aria-owns=#list-if-combobox !
 input:type=url
   role=#textbox-or-combobox !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-owns=#list-if-combobox !
-  aria-readonly=true/missing[readonly] !
 
 textarea
   role=textbox !
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-multiline=true !
-  aria-readonly=true/missing[readonly] !
-  aria-required=true/missing[required] !
 
 button
-  role=button or menuitem
+  role=button or checkbox link menuitem menuitemcheckbox menuitemradio option radio switch tab
+  aria-invalid=true/missing:invalid !
 label
   role=#norole !
 output
@@ -159,88 +197,120 @@ output
 
 datalist
   role=listbox !
+  ## From HTML Standard:
   aria-multiselectable=false !
 optgroup
-  role=#norole !
+  role=group !
 select:multilist
-  role=listbox !
-  aria-multiselectable=true !
-  aria-required=true/missing[required] !
-select:singlelist
-  role=listbox !
-  aria-multiselectable=false !
-  aria-required=true/missing[required] !
-select:dropdown
   role=listbox or menu
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
+  aria-multiselectable=true !
+select:singlelist
+  role=listbox or menu
+  aria-invalid=true/missing:invalid !
+  ## From HTML Standard:
   aria-multiselectable=false !
-  aria-required=true/missing[required] !
 option:in-datalist
   role=option !
-option:in-select-multilist
+option:in-select
   role=option !
-  aria-selected=#selected !
-  aria-checked=#selected !
-option:in-select-singlelist
-  role=option !
-  aria-selected=#selected !
-  aria-checked=#selected !
-option:in-select-dropdown
-  role=option or menuitem menuitemradio separator
+  ## From HTML Standard:
   aria-selected=#selected !
   aria-checked=#selected !
 
 details
-  role=group or #aria-expanded
+  role=group !
+  ## From HTML Standard:
   aria-expanded=true/false[open] !
 dialog
-  role=dialog or alert alertdialog application contentinfo document log main marquee region search status
+  role=dialog or alertdialog
+  ## From HTML Standard:
   aria-hidden=missing/true[open] !
 fieldset
-  role=group !
+  role=#norole or group presentation none
+figure
+  role=figure or presentation none
+figcaption
+  role=#norole or group presentation none
 
 menu
+  ## From HTML Standard:
   role=toolbar or directory list listbox menu menubar tablist tree
 li:in-ulol
-  role=listitem or menuitemcheckbox menuitemradio option tab treeitem
+  role=listitem or menuitemcheckbox menuitemradio option tab treeitem radio separator doc-biblioentry doc-endnote presentation none
 ol
-  role=list or directory group listbox menu menubar tablist toolbar tree
+  role=list or directory group listbox menu menubar tablist toolbar tree radiogroup presentation none
 ul
-  role=list or directory group listbox menu menubar tablist toolbar tree
+  role=list or directory group listbox menu menubar tablist toolbar tree radiogroup presentation none
+
+dl
+  role=list or group doc-glossary presentation none
+## ARIA in HTML says the following, which is apparently broken:
+#dt
+#  role=listitem !
+#dd
+#  role=definition !
 
 progress
   role=progressbar !
+  ## From HTML Standard
   aria-valuemax=#maximum-if-determinate !
   aria-valuemin=#0-if-determinate !
   aria-valuenow=#value-if-determinate !
 
 table
-  role=grid !
-  aria-readonly=true !
+  role=table !
+  ## ARIA in HTML allows any other role.
 tbody
   role=rowgroup !
+  ## ARIA in HTML allows any other role.
 thead
   role=rowgroup !
+  ## ARIA in HTML allows any other role.
 tfoot
   role=rowgroup !
+  ## ARIA in HTML allows any other role.
 tr
   role=row !
+  ## ARIA in HTML allows any other role.
 th
-  role=gridcell or columnheader rowheader
+  role=cell or columnheader rowheader
+  ## ARIA in HTML says columnheader "or" rowheader and allows any role.
 td
-  role=gridcell !
+  role=cell !
+  ## ARIA in HTML limits only when there is a descendant table element.
+  ## ARIA in HTML allows any other role.
+caption
+  role=#norole !
+col
+  role=#norole !
+colgroup
+  role=#norole !
 
 param
   role=#norole !
+  no aria-*
+picture
+  role=#norole !
+  no aria-*
 meta
   role=#norole !
+  no aria-*
 meter
   role=#norole !
 source
   role=#norole !
-summary
+  no aria-*
+track
   role=#norole !
+  no aria-*
+summary
+  role=button !
+  aria-expanded=true/false[details.open] !
 title
   role=#norole !
+  no aria-*
 base
   role=#norole !
 html
@@ -248,27 +318,259 @@ html
 
 head
   role=#norole !
+  ## From HTML Standard:
   aria-hidden=true !
-noscript:scripting
+noscript
   role=#norole !
+  no aria-*
+  ## From HTML Standard:
   aria-hidden=true !
 script
   role=#norole !
+  no aria-*
+  ## From HTML Standard:
   aria-hidden=true !
 style
   role=#norole !
+  no aria-*
+  ## From HTML Standard:
   aria-hidden=true !
 template
   role=#norole !
+  no aria-*
+  ## From HTML Standard:
   aria-hidden=true !
 
-:inert
-  aria-hidden=true !
-:hidden-attr
+*:inert
+  ## Not in ARIA in HTML
   aria-hidden=true !
 
-## See also elements.pl
-:disabled
-  aria-disabled=true !
-:invalid
-  aria-invalid=true !
+*:contenteditable-attr
+  aria-readonly=false
+
+attr the-hidden-attribute aria-hidden=true/missing
+
+## c.f. <https://html.spec.whatwg.org/#enabling-and-disabling-form-controls:-the-disabled-attribute>
+attr attr-fe-disabled aria-disabled=true/missing
+attr attr-fieldset-disabled aria-disabled=true/missing
+
+## Not in ARIA in HTML
+attr attr-optgroup-disabled aria-disabled=true/missing
+attr attr-option-disabled aria-disabled=true/missing
+
+## c.f. <https://html.spec.whatwg.org/#attr-input-required>
+attr attr-input-required aria-required=true/missing
+
+## Not in ARIA in HTML
+attr attr-select-required aria-required=true/missing
+attr attr-textarea-required aria-required=true/missing
+
+## c.f. <https://html.spec.whatwg.org/#attr-input-readonly>
+attr attr-input-readonly aria-readonly=true/missing
+
+## Not in ARIA in HTML
+attr attr-textarea-readonly aria-readonly=true/missing
+
+## c.f. <https://html.spec.whatwg.org/#the-placeholder-attribute>
+## ARIA in HTML sets the empty string
+attr attr-input-placeholder aria-placeholder=same
+
+## Not in ARIA in HTML
+attr attr-textarea-placeholder aria-placeholder=same
+
+@ns http://www.w3.org/2000/svg
+
+svg
+  ## ARIA in HTML:
+  #role=#norole or application document img
+  ## SVG 2.0:
+  #role=graphics-document or #any
+  role=graphics-document or application document img
+
+## Unless otherwise noted, from SVG 2.0:
+
+a:svg-href-attr
+  role=link or #any
+
+foreignObject:inclusion
+  role=group or #any
+foreignObject:not-inclusion
+  role=none or #any
+g:inclusion
+  role=group or #any
+g:not-inclusion
+  role=none or #any
+text:inclusion
+  role=group or #any
+text:not-inclusion
+  role=none or #any
+textPath:inclusion
+  role=group or #any
+textPath:not-inclusion
+  role=none or #any
+tspan:inclusion
+  role=group or #any
+tspan:not-inclusion
+  role=none or #any
+a:not-svg-href-attr-inclusion
+  role=group or #any
+a:not-svg-href-attr-not-inclusion
+  role=none or #any
+
+circle:inclusion
+  role=graphics-symbol or #any
+circle:not-inclusion
+  role=none or #any
+ellipse:inclusion
+  role=graphics-symbol or #any
+ellipse:not-inclusion
+  role=none or #any
+line:inclusion
+  role=graphics-symbol or #any
+line:not-inclusion
+  role=none or #any
+path:inclusion
+  role=graphics-symbol or #any
+path:not-inclusion
+  role=none or #any
+polygon:inclusion
+  role=graphics-symbol or #any
+polygon:not-inclusion
+  role=none or #any
+polyline:inclusion
+  role=graphics-symbol or #any
+polyline:not-inclusion
+  role=none or #any
+rect:inclusion
+  role=graphics-symbol or #any
+rect:not-inclusion
+  role=none or #any
+
+symbol:inclusion
+  role=graphics-object or #any
+symbol:not-inclusion
+  role=none or #any
+use:inclusion
+  role=graphics-object or #any
+use:not-inclusion
+  role=none or #any
+
+mesh:inclusion
+  role=img or #any
+mesh:not-inclusion
+  role=none or #any
+
+image
+  role=img or #any
+
+audio
+  role=#norole or application
+video
+  role=#norole or application
+iframe
+  role=#norole or application document img
+
+clipPath
+  role=none !
+cursor
+  role=none !
+defs
+  role=none !
+desc
+  role=none !
+feBlend
+  role=none !
+feColorMatrix
+  role=none !
+feComponentTransfer
+  role=none !
+feComposite
+  role=none !
+feConvolveMatrix
+  role=none !
+feDiffuseLighting
+  role=none !
+feDisplacementMap
+  role=none !
+feDistantLight
+  role=none !
+feDropShadow
+  role=none !
+feFlood
+  role=none !
+feFuncA
+  role=none !
+feFuncB
+  role=none !
+feFuncG
+  role=none !
+feFuncR
+  role=none !
+feGaussianBlur
+  role=none !
+feImage
+  role=none !
+feMerge
+  role=none !
+feMergeNode
+  role=none !
+feMorphology
+  role=none !
+feOffset
+  role=none !
+fePointLight
+  role=none !
+feSpecularLighting
+  role=none !
+feSpotLight
+  role=none !
+feTile
+  role=none !
+feTurbulence
+  role=none !
+filter
+  role=none !
+hatch
+  role=none !
+hatchpath
+  role=none !
+lineGradient
+  role=none !
+marker
+  role=none !
+mask
+  role=none !
+meshhgradient
+  role=none !
+meshpatch
+  role=none !
+meshrow
+  role=none !
+metadata
+  role=none !
+mpath
+  role=none !
+pattern
+  role=none !
+radicalGradient
+  role=none !
+script
+  role=none !
+solidcolor
+  role=none !
+stop
+  role=none !
+style
+  role=none !
+switch
+  role=none !
+title
+  role=none !
+view
+  role=none !
+
+@ns http://www.w3.org/1998/Math/MathML
+
+math
+  ## ARIA in HTML:
+  role=math !

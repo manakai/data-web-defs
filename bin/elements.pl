@@ -1211,27 +1211,58 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
 
 {
   my $path = $RootPath->child ('local/element-aria.json');
-  my $json = json_bytes2perl $path->slurp;
-  for my $el_name (sort { $a cmp $b } keys %{$json->{html_elements}}) {
-    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria} = $json->{html_elements}->{$el_name};
-  }
-  $Data->{input}->{aria} = $json->{input};
-
-  ## :disabled
-  for my $el_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
-    if (((($Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{attrs} or {})->{''}->{disabled} or {})->{id} || '') eq 'attr-fe-disabled') {
-      $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria}->{''}->{attrs}->{'attr-disabled'} = {value_type => 'true/missing', state => ':disabled', strong => 1};
+  my $data = json_bytes2perl $path->slurp;
+  for my $ns (sort { $a cmp $b } keys %{$data->{elements}}) {
+    for my $ln (sort { $a cmp $b } keys %{$data->{elements}->{$ns}}) {
+      $Data->{elements}->{$ns}->{$ln}->{aria} = $data->{elements}->{$ns}->{$ln}->{conds};
     }
   }
-  delete $json->{common}->{''}->{disabled};
 
-  ## :invalid
-  for my $el_name (sort { $a cmp $b } keys %{$Data->{categories}->{'category-submit'}->{elements}->{'http://www.w3.org/1999/xhtml'}}) {
-    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$el_name}->{aria}->{''}->{attrs}->{'attr-invalid'} = {value_type => 'true/missing', state => ':invalid', strong => 1};
+  for my $type (sort { $a cmp $b } keys %{$data->{input}->{'http://www.w3.org/1999/xhtml'}}) {
+    $Data->{input}->{aria}->{$type} = $data->{input}->{'http://www.w3.org/1999/xhtml'}->{$type}->{conds};
   }
-  delete $json->{common}->{''}->{invalid};
 
-  $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{aria} = $json->{common}->{''};
+  for my $rule (@{$data->{attr_rules}}) {
+    for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
+      for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
+        my $edef = $Data->{elements}->{$ns}->{$ln};
+        for my $ans (sort { $a cmp $b } keys %{$edef->{attrs} or {}}) {
+          for my $aln (sort { $a cmp $b } keys %{$edef->{attrs}->{$ans}}) {
+            my $adef = $edef->{attrs}->{$ans}->{$aln};
+            if (defined $adef->{spec} and
+                $adef->{spec} eq 'HTML' and $adef->{id} eq $rule->[0]) {
+              $edef->{aria}->{''} = {} unless keys %{$edef->{aria} or {}};
+              for my $cond (sort { $a cmp $b } keys %{$edef->{aria}}) {
+                if ($aln eq 'disabled') { # per HTML Standard (not ARIA in HTML)
+                  $edef->{aria}->{$cond}->{attrs}->{$rule->[1]}
+                      = {value_type => $rule->[2],
+                         state => ':disabled', strong => 1};
+                } else {
+                  $edef->{aria}->{$cond}->{attrs}->{$rule->[1]}
+                      = {value_type => $rule->[2],
+                         attr => $aln, strong => 1};
+                }
+              }
+              if ($ns eq 'http://www.w3.org/1999/xhtml' and $ln eq 'input') {
+                for my $type (sort { $a cmp $b } keys %{$Data->{input}->{attrs}->{$aln} or {}}) {
+                  for my $cond (sort { $a cmp $b } keys %{$Data->{input}->{aria}->{$type}}) {
+                    $Data->{input}->{aria}->{$type}->{$cond}->{attrs}->{$rule->[1]}
+                        = {value_type => $rule->[2], attr => $aln, strong => 1};
+                  }
+                }
+              } # input
+            }
+          }
+        }
+        if ($data->{elements}->{$ns}->{$ln}->{aria_disallowed}) {
+          $edef->{aria_disallowed} = 1;
+        }
+        if ($data->{elements}->{$ns}->{$ln}->{aria_hidden_only}) {
+          $edef->{aria_hidden_only} = 1;
+        }
+      } # $ln
+    }
+  }
 }
 
 ## <http://www.whatwg.org/specs/web-apps/current-work/#the-embed-element>
