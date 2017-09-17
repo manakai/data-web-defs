@@ -31,32 +31,8 @@ my $Triples = [];
 my $subClassOf = "http://www.w3.org/2000/01/rdf-schema#subClassOf";
 my $ARIAPrefix = q<http://www.w3.org/WAI/ARIA/Schemata/aria-1#>;
 
-## <http://w3c.github.io/aria/aria/aria.html#searchbox>
-push @$Triples, [$ARIAPrefix.'searchbox', $subClassOf, $ARIAPrefix.'textbox'];
-
-## <http://w3c.github.io/aria/aria/aria.html#switch>
-push @$Triples, [$ARIAPrefix.'switch', $subClassOf, $ARIAPrefix.'checkbox'];
-
 # XXX equivalent
 push @$Triples, [$ARIAPrefix.'none', $subClassOf, $ARIAPrefix.'presentation'];
-
-## <https://github.com/w3c/aria/commit/ad45423151fb13accd8776c1a04d911e6ee81623>
-@$Triples = grep {
-  not ($_->[0] =~ /#(?:section|alert|grid|landmark|list|log|status|tabpanel|article)$/ and
-       $_->[1] eq $subClassOf);
-} @$Triples;
-push @$Triples, [$ARIAPrefix.'section', $subClassOf, $ARIAPrefix.'structure'];
-push @$Triples, [$ARIAPrefix.'alert', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'grid', $subClassOf, $ARIAPrefix.'composite'];
-push @$Triples, [$ARIAPrefix.'grid', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'landmark', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'list', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'log', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'status', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'tabpanel', $subClassOf, $ARIAPrefix.'section'];
-push @$Triples, [$ARIAPrefix.'article', $subClassOf, $ARIAPrefix.'document'];
-
-$Data->{roles}->{roletype} = {};
 
 for my $triple (@$Triples) {
   if ($triple->[1] eq $subClassOf) {
