@@ -28,6 +28,8 @@ my $Data = {};
         $alts->{"@$target"} = {type => 'math'};
       } elsif ($alt =~ /^<(\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_element', name => $1};
+      } elsif ($alt =~ /^<\* role=(\S+)>$/) {
+        $alts->{"@$target"} = {type => 'role', name => $1};
       } elsif ($alt =~ /^<\* (\S+)>$/) {
         $alts->{"@$target"} = {type => 'html_attr', name => $1};
       } elsif ($alt =~ /^<(input) (type)=(\S+)>$/) {
@@ -42,7 +44,7 @@ my $Data = {};
         $alts->{"@$target"} = {type => 'css_prop', name => $1, value => $2};
       } elsif ($alt =~ /^([a-z-]+)$/) {
         $alts->{"@$target"} = {type => 'css_prop', name => $1};
-      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter|text|textbox|title)$/) {
+      } elsif ($alt =~ /^#(script|progressive|comment|vcard|vevent|math|css|counter|text|textbox|title|omit)$/) {
         $alts->{"@$target"} = {type => $1};
       } elsif ($alt =~ m{^N/A$}) {
         $alts->{"@$target"} = {type => 'none'};
