@@ -22,6 +22,25 @@ $Data->{roles}->{$_}->{abstract} = 1
     for qw(command composite input landmark range roletype section
            sectionhead select structure widget window);
 
+{
+  my $has_new = 0;
+  for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
+    for my $super (sort { $a cmp $b } keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
+      my $v = $Data->{roles}->{$role}->{subclass_of}->{$super};
+      next unless $v == 1;
+      for (sort { $a cmp $b } keys %{$Data->{roles}->{$super}->{subclass_of} or {}}) {
+        my $old = $Data->{roles}->{$role}->{subclass_of}->{$_};
+        my $new = $Data->{roles}->{$super}->{subclass_of}->{$_} + 1;
+        if (not defined $old or $old < $new) {
+          $Data->{roles}->{$role}->{subclass_of}->{$_} = $new;
+          $has_new = 1;
+        }
+      }
+    }
+  } # $role
+  redo if $has_new;
+}
+
 for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   for my $super (sort { $a cmp $b } keys %{$Data->{roles}->{$role}->{subclass_of} or {}}) {
     unless ($super eq 'roletype') { # global
