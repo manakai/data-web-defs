@@ -12,12 +12,12 @@ for (qw(
 )) {
   my $path = path (__FILE__)->parent->parent->child ($_);
   my $data = json_bytes2perl $path->slurp;
-  for my $name (keys %{$data->{roles}}) {
-    for my $key (keys %{$data->{roles}->{$name}}) {
+  for my $name (sort { $a cmp $b } keys %{$data->{roles}}) {
+    for my $key (sort { $a cmp $b } keys %{$data->{roles}->{$name}}) {
       if ($key eq 'attrs') {
-        for my $aname (keys %{$data->{roles}->{$name}->{$key}}) {
+        for my $aname (sort { $a cmp $b } keys %{$data->{roles}->{$name}->{$key}}) {
           $Data->{roles}->{$name}->{$key}->{$aname} ||= {};
-          for my $akey (keys %{$data->{roles}->{$name}->{$key}->{$aname}}) {
+          for my $akey (sort { $a cmp $b } keys %{$data->{roles}->{$name}->{$key}->{$aname}}) {
             $Data->{roles}->{$name}->{$key}->{$aname}->{$akey}
                 = $data->{roles}->{$name}->{$key}->{$aname}->{$akey};
           }
@@ -27,8 +27,8 @@ for (qw(
       }
     }
   }
-  for my $name (keys %{$data->{attrs}}) {
-    for my $key (keys %{$data->{attrs}->{$name}}) {
+  for my $name (sort { $a cmp $b } keys %{$data->{attrs}}) {
+    for my $key (sort { $a cmp $b } keys %{$data->{attrs}->{$name}}) {
       $Data->{attrs}->{$name}->{$key} = $data->{attrs}->{$name}->{$key};
     }
   }
@@ -66,15 +66,6 @@ for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   }
 }
 
-{
-  my $path = path (__FILE__)->parent->parent->child ('local/altmap-aria.json');
-  my $data = json_bytes2perl $path->slurp;
-  for my $role (keys %{$data->{roles}}) {
-    my $preferred = $data->{roles}->{$role}->{preferred};
-    $Data->{roles}->{$role}->{preferred} = $preferred if defined $preferred;
-  }
-}
-
 for my $sub_role (sort { $a cmp $b } keys %{$Data->{roles}}) {
   for my $super_role (sort { $a cmp $b } keys %{$Data->{roles}->{$sub_role}->{subclass_of} or {}}) {
     $Data->{roles}->{$super_role}->{superclass_of}->{$sub_role} = $Data->{roles}->{$sub_role}->{subclass_of}->{$super_role};
@@ -109,140 +100,73 @@ my $ARIAValueTypes = {
   'URI' => 'URL',
 };
 
-$Data->{attrs}->{$_}->{is_state} = 1
-    for qw(aria-busy aria-checked aria-disabled aria-expanded
-           aria-grabbed aria-hidden aria-invalid aria-pressed aria-selected
-           aria-current);
-
 {
-  my @type = qw(
-    role token_list
-    aria-activedescendant ID_reference
-    aria-atomic true/false
-    aria-autocomplete token
-    aria-busy true/false
-    aria-checked true/false/mixed/undefined
-    aria-controls ID_reference_list
-    aria-describedby ID_reference_list
-    aria-disabled true/false
-    aria-dropeffect token_list
-    aria-expanded true/false/undefined
-    aria-flowto ID_reference_list
-    aria-grabbed true/false/undefined
-    aria-haspopup token
-    aria-hidden true/false
-    aria-invalid token
-    aria-label string
-    aria-labelledby ID_reference_list
-    aria-level positive_integer
-    aria-live token
-    aria-multiline true/false
-    aria-multiselectable true/false
-    aria-orientation token
-    aria-owns ID_reference_list
-    aria-posinset positive_integer
-    aria-pressed true/false/mixed/undefined
-    aria-readonly true/false
-    aria-relevant token_list
-    aria-required true/false
-    aria-selected true/false/undefined
-    aria-setsize integer
-    aria-sort token
-    aria-valuemax number
-    aria-valuemin number
-    aria-valuenow number
-    aria-valuetext string
-    aria-describedat URI
-
-    aria-modal true/false
-    aria-current token
-    aria-colcount integer
-    aria-colindex integer
-    aria-colspan positive_integer
-    aria-details ID_reference
-    aria-errormessage ID_reference
-    aria-keyshortcuts string
-    aria-placeholder string
-    aria-roledescription string
-    aria-rowcount integer
-    aria-rowindex integer
-    aria-rowspan positive_integer
-  );
-  while (@type) {
-    my $name = shift @type;
-    my $type = shift @type;
-    $type =~ tr/_/ /;
-    $Data->{attrs}->{$name}->{value_type} = $ARIAValueTypes->{$type};
-    $Data->{attrs}->{$name}->{item_type} = 'idref',
-    $Data->{attrs}->{$name}->{id_type} = 'any'
-        if $type eq 'ID reference list';
-    $Data->{attrs}->{$name}->{id_type} = 'any' if $type eq 'ID reference';
-    if ($type eq 'true/false') {
-      $Data->{attrs}->{$name}->{tokens}->{$_} = {}
-          for qw(true false);
-      $Data->{attrs}->{$name}->{default} = 'false';
-    } elsif ($type eq 'true/false/undefined') {
-      $Data->{attrs}->{$name}->{tokens}->{$_} = {}
-          for qw(true false undefined);
-      $Data->{attrs}->{$name}->{default} = 'undefined';
-    } elsif ($type eq 'tristate') {
-      $Data->{attrs}->{$name}->{tokens}->{$_} = {}
-          for qw(true false mixed);
-      $Data->{attrs}->{$name}->{default} = 'false';
-    } elsif ($type eq 'true/false/mixed/undefined') {
-      $Data->{attrs}->{$name}->{tokens}->{$_} = {}
-          for qw(true false mixed undefined);
-      $Data->{attrs}->{$name}->{default} = 'undefined';
+  my $path = path (__FILE__)->parent->parent->child ('src/aria-attrs.txt');
+  my $aname;
+  for (split /\x0D?\x0A/, $path->slurp_utf8) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^\*\s*(\S+)$/) {
+      $aname = $1;
+      $Data->{attrs}->{$aname} ||= {};
+    } elsif (/^spec\s+(\S+)$/) {
+      $Data->{attrs}->{$aname}->{url} = $1;
+    } elsif (/^value\s+(.+?\|.+)$/) {
+      $Data->{attrs}->{$aname}->{tokens}->{$_} ||= {} for split /\|/, $1;
+      $Data->{attrs}->{$aname}->{value_type} = $ARIAValueTypes->{token};
+    } elsif (/^value\+\s+(.+?\|.+)$/) {
+      $Data->{attrs}->{$aname}->{tokens}->{$_} ||= {} for split /\|/, $1;
+      $Data->{attrs}->{$aname}->{value_type} = $ARIAValueTypes->{'token list'};
+    } elsif (/^value\s+(.+)$/) {
+      my $type = $1;
+      die "Bad type |$type|" unless defined $ARIAValueTypes->{$type};
+      $Data->{attrs}->{$aname}->{value_type} = $ARIAValueTypes->{$type};
+      if ($type eq 'ID reference list') {
+        $Data->{attrs}->{$aname}->{item_type} = 'idref';
+        $Data->{attrs}->{$aname}->{id_type} = 'any';
+      } elsif ($type eq 'ID reference') {
+        $Data->{attrs}->{$aname}->{id_type} = 'any';
+      } elsif ($type eq 'true/false') {
+        $Data->{attrs}->{$aname}->{tokens}->{$_} = {}
+            for qw(true false);
+        $Data->{attrs}->{$aname}->{default} = 'false';
+      } elsif ($type eq 'true/false/undefined') {
+        $Data->{attrs}->{$aname}->{tokens}->{$_} = {}
+            for qw(true false undefined);
+        $Data->{attrs}->{$aname}->{default} = 'undefined';
+      } elsif ($type eq 'tristate') {
+        $Data->{attrs}->{$aname}->{tokens}->{$_} = {}
+            for qw(true false mixed);
+        $Data->{attrs}->{$aname}->{default} = 'false';
+      } elsif ($type eq 'true/false/mixed/undefined') {
+        $Data->{attrs}->{$aname}->{tokens}->{$_} = {}
+            for qw(true false mixed undefined);
+        $Data->{attrs}->{$aname}->{default} = 'undefined';
+      }
+    } elsif (/^default\s+(.*)$/) {
+      $Data->{attrs}->{$aname}->{default} = $1;
+    } elsif (/^state$/) {
+      $Data->{attrs}->{$aname}->{is_state} = 1;
+    } elsif (/^(deprecated|obsolete)$/) {
+      $Data->{attrs}->{$aname}->{$1} = 1;
+    } elsif (/\S+/) {
+      die "Bad line |$_|";
     }
   }
 }
 
-$Data->{attrs}->{'aria-autocomplete'}->{tokens}->{$_} = {}
-    for qw(inline list both none);
-$Data->{attrs}->{'aria-autocomplete'}->{default} = 'none';
-$Data->{attrs}->{'aria-dropeffect'}->{tokens}->{$_} = {}
-    for qw(copy move link execute popup none);
-$Data->{attrs}->{'aria-dropeffect'}->{default} = 'none';
-$Data->{attrs}->{'aria-hidden'}->{preferred} = {type => 'html_attr', name => 'hidden'};
-$Data->{attrs}->{'aria-invalid'}->{tokens}->{$_} = {}
-    for qw(grammer false spelling true);
-$Data->{attrs}->{'aria-invalid'}->{default} = 'false';
-$Data->{attrs}->{'aria-live'}->{tokens}->{$_} = {}
-    for qw(off polite assertive);
-$Data->{attrs}->{'aria-live'}->{default} = 'off';
-$Data->{attrs}->{'aria-orientation'}->{tokens}->{$_} = {}
-    for qw(vertical horizontal
-           undefined);
-$Data->{attrs}->{'aria-relevant'}->{tokens}->{$_} = {}
-    for qw(additions removals text all);
-$Data->{attrs}->{'aria-relevant'}->{default} = 'additions text';
-$Data->{attrs}->{'aria-sort'}->{tokens}->{$_} = {}
-    for qw(ascending descending none other);
-$Data->{attrs}->{'aria-sort'}->{default} = 'none';
-
-## <https://w3c.github.io/aria/aria/aria.html#aria-haspopup>
-$Data->{attrs}->{'aria-haspopup'}->{tokens}->{$_} = {}
-    for qw(false true menu listbox tree grid dialog);
-$Data->{attrs}->{'aria-haspopup'}->{default} = 'false';
-
-## <https://w3c.github.io/aria/aria/aria.html#aria-dropeffect>
-$Data->{attrs}->{'aria-dropeffect'}->{deprecated} = 1;
-
-## <https://w3c.github.io/aria/aria/aria.html#aria-grabbed>
-$Data->{attrs}->{'aria-grabbed'}->{deprecated} = 1;
-
-## <http://w3c.github.io/aria/aria/aria.html#aria-current>
-$Data->{attrs}->{'aria-current'}->{tokens}->{$_} = {}
-    for qw(page step location date time true false);
-$Data->{attrs}->{'aria-current'}->{default} = 'false';
-
-## <https://w3c.github.io/aria/aria/aria.html#aria-orientation>
-#$Data->{attrs}->{'aria-orientation'}->{default} = 'horizontal'; # 1.0
-$Data->{attrs}->{'aria-orientation'}->{default} = 'undefined'; # 1.1
-
-## The aria-keyshortcuts attribute has complex value constraints not
-## formalized here:
-## <https://w3c.github.io/aria/aria/aria.html#aria-keyshortcuts>.
+{
+  my $path = path (__FILE__)->parent->parent->child ('local/altmap-aria.json');
+  my $data = json_bytes2perl $path->slurp;
+  for my $role (sort { $a cmp $b } keys %{$data->{roles}}) {
+    my $preferred = $data->{roles}->{$role}->{preferred};
+    $Data->{roles}->{$role}->{preferred} = $preferred if defined $preferred;
+  }
+  for my $name (sort { $a cmp $b } keys %{$data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}}) {
+    my $preferred = $data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$name}->{preferred};
+    $Data->{attrs}->{$name}->{preferred} = $preferred if defined $preferred;
+  }
+}
 
 print perl2json_bytes_for_record $Data;
 

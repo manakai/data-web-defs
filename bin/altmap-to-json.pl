@@ -66,6 +66,6 @@ my $Data = {};
   }
 }
 
-print perl2json_bytes $Data;
+print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.

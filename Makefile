@@ -476,7 +476,7 @@ local/aria-roles.json: src/aria-roles.txt bin/aria-roles.pl
 	$(PERL) bin/aria-roles.pl > $@
 
 data/aria.json: bin/ariardf.pl local/altmap-aria.json \
-    local/ariardf-parsed.json local/aria-roles.json
+    local/ariardf-parsed.json local/aria-roles.json src/aria-attrs.txt
 	$(PERL) bin/ariardf.pl > $@
 
 local/element-aria.json: src/element-aria.txt bin/ariaelements.pl \

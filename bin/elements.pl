@@ -1175,21 +1175,25 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     my $adef =
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{$attr} =
     $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{$attr} = {};
-    for (qw(value_type item_type id_type preferred)) {
+    for (qw(preferred)) {
+      $adef->{$_} = $json->{attrs}->{$attr}->{$_}
+          if defined $json->{attrs}->{$attr}->{$_};
+    }
+    next if $json->{attrs}->{$attr}->{obsolete};
+    for (qw(value_type item_type id_type url)) {
       $adef->{$_} = $json->{attrs}->{$attr}->{$_}
           if defined $json->{attrs}->{$attr}->{$_};
     }
     $adef->{conforming} = 1;
-    $adef->{spec} = 'ARIA';
     if ($json->{attrs}->{$attr}->{tokens}) {
       if ($adef->{value_type} eq 'enumerated') {
         for (sort { $a cmp $b } keys %{$json->{attrs}->{$attr}->{tokens}}) {
-          $adef->{enumerated}->{$_}->{spec} = 'ARIA';
+          $adef->{enumerated}->{$_}->{url} = $adef->{url};
           $adef->{enumerated}->{$_}->{conforming} = 1;
         }
       } else {
         for (sort { $a cmp $b } keys %{$json->{attrs}->{$attr}->{tokens}}) {
-          $adef->{keywords}->{$_}->{spec} = 'ARIA';
+          $adef->{keywords}->{$_}->{url} = $adef->{url};
           $adef->{keywords}->{$_}->{conforming} = 1;
         }
       }
