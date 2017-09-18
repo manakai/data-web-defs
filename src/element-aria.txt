@@ -14,7 +14,8 @@ body
   role=document !
 frameset
   ## From HTML Standard (where it is limited to the body element of document):
-  role=document or application
+  role=document !
+  ## HTML Standard also allows application
 section
   role=region or alert alertdialog application contentinfo dialog document log main marquee search status banner complementary feed navigation tabpanel doc-abstract doc-acknowledgments doc-afterword doc-appendix doc-bibliography doc-chapter doc-colophon doc-conclusion doc-credit doc-credits doc-dedication doc-endnotes doc-epilogue doc-errata doc-example doc-foreword doc-index doc-introduction doc-notice doc-pagelist doc-part doc-preface doc-prologue doc-pullquote doc-qna doc-toc presentation none
   ## ARIA in HTML forces #norole when there is no accessible name
@@ -69,7 +70,7 @@ img:empty-alt
   role=#norole or presentation none
   aria-hidden only
 img:not-empty-alt
-  role=img or #any
+  role=img or #any-no-presentation
 embed
   role=#norole or application document img presentation none
 object
@@ -307,7 +308,7 @@ track
   no aria-*
 summary
   role=button !
-  aria-expanded=true/false[details.open] !
+  aria-expanded=#details-open !
 title
   role=#norole !
   no aria-*
@@ -341,14 +342,11 @@ template
   ## From HTML Standard:
   aria-hidden=true !
 
-*:inert
-  ## Not in ARIA in HTML
-  aria-hidden=true !
-
-*:contenteditable-attr
-  aria-readonly=false
+*
+  role=#any
 
 attr the-hidden-attribute aria-hidden=true/missing
+attr attr-contenteditable aria-readonly=false/missing
 
 ## c.f. <https://html.spec.whatwg.org/#enabling-and-disabling-form-controls:-the-disabled-attribute>
 attr attr-fe-disabled aria-disabled=true/missing

@@ -14,7 +14,7 @@ for (split /\x0D?\x0A/, $in_path->slurp_utf8) {
   } elsif (/^\*\s*(\S+)$/) {
     $role = $1;
     $Data->{roles}->{$role} ||= {};
-    $Data->{roles}->{$role}->{spec} = $spec if defined $spec;
+    $Data->{roles}->{$role}->{url} = $spec if defined $spec;
   } elsif (/^spec\s+(\S+)$/) {
     $Data->{roles}->{$role}->{url} = $1;
   } elsif (/^name\s+from\s+(author)$/) {
@@ -45,6 +45,13 @@ for (split /\x0D?\x0A/, $in_path->slurp_utf8) {
     $Data->{roles}->{$role}->{abstract} = 1;
   } elsif (/^(MUST|SHOULD)\s+(aria-\S+)$/) {
     $Data->{roles}->{$role}->{attrs}->{$2}->{lc $1} = 1;
+  } elsif (/^category\s+(flow content|phrasing content|interactive content|heading content)$/) {
+    $Data->{roles}->{$role}->{categories}->{$1} = 1;
+  } elsif (/^children\s+(flow content|phrasing content)$/) {
+    $Data->{roles}->{$role}->{content_model} = $1;
+  } elsif (/^-(([a-z]+)|interactive content|heading content|sectioning content|sectioning root)$/) {
+    $Data->{roles}->{$role}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{$2} = 1 if defined $2;
+    $Data->{roles}->{$role}->{disallowed_descendants}->{categories}->{$1} = 1 unless defined $2;
 
   } elsif (/^\@spec\s+(\S+)$/) {
     $spec = $1;

@@ -581,7 +581,7 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendan
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{content_model} = 'transparent';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{disallowed_descendants}->{categories}->{'interactive content'} = 1;
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{content_model} = 'flow content';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{content_model} = 'phrasing content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{object}->{complex_content_model} =
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{video}->{disallowed_descendants}->{categories}->{'media element'} = 1;
@@ -1201,13 +1201,17 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
   }
 
   for my $role (sort { $a cmp $b } keys %{$json->{roles}}) {
-    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role} =
-    $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role} =
-        {spec => 'ARIA'};
+    $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role}->{url} =
+    $Data->{elements}->{'http://www.w3.org/2000/svg'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role}->{url}
+        = $json->{roles}->{$role}->{url};
     $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{'*'}->{attrs}->{''}->{role}->{keywords}->{$role}->{conforming} = 1
         unless $json->{roles}->{$role}->{abstract};
+
+    for my $category (sort { $a cmp $b } keys %{$json->{roles}->{$role}->{categories} or {}}) {
+      $Data->{categories}->{$category}->{roles}->{$role} = 1;
+    }
   }
-}
+} # data/aria.json
 
 {
   my $path = $RootPath->child ('local/element-aria.json');
@@ -1222,6 +1226,38 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     $Data->{input}->{aria}->{$type} = $data->{input}->{'http://www.w3.org/1999/xhtml'}->{$type}->{conds};
   }
 
+  my $merge = sub {
+    my ($v1, $v2) = @_;
+    return $v1 if not defined $v2;
+    return $v2 if not defined $v1;
+
+    return $v1 if $v1->{value_type} eq 'true' or $v1->{value_type} eq 'false';
+    return $v2 if $v2->{value_type} eq 'true' or $v2->{value_type} eq 'false';
+
+    if ($v1->{value_type} eq 'missing/true' and
+        $v1->{attr} eq 'open' and
+        $v2->{value_type} eq 'true/missing' and
+        $v2->{attr} eq 'hidden' and
+        $v1->{strong} and $v2->{strong}) {
+      return {value_type => 'open-hidden', strong => 1};
+    }
+
+    if ($v1->{value_type} eq 'false/missing' and
+        $v1->{attr} eq 'contenteditable' and
+        $v2->{value_type} eq 'true/missing' and
+        $v2->{attr} eq 'readonly' and
+        $v1->{strong} and $v2->{strong}) {
+      ## Note that <input readonly contenteditable> implies
+      ## aria-readonly=true aria-readonly=false, which is really
+      ## broken and should be detected by another steps of conformance
+      ## checkers.
+      return $v2;
+    }
+
+    return {value_type => 'XX'.'X cannot merge values',
+            v1 => $v1, v2 => $v2};
+  }; # $merge
+
   for my $rule (@{$data->{attr_rules}}) {
     for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
@@ -1232,17 +1268,29 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
             if (defined $adef->{spec} and
                 $adef->{spec} eq 'HTML' and $adef->{id} eq $rule->[0]) {
               $edef->{aria}->{''} = {} unless keys %{$edef->{aria} or {}};
-              for my $cond (sort { $a cmp $b } keys %{$edef->{aria}}) {
-                if ($aln eq 'disabled') { # per HTML Standard (not ARIA in HTML)
-                  $edef->{aria}->{$cond}->{attrs}->{$rule->[1]}
-                      = {value_type => $rule->[2],
-                         state => ':disabled', strong => 1};
-                } else {
-                  $edef->{aria}->{$cond}->{attrs}->{$rule->[1]}
-                      = {value_type => $rule->[2],
-                         attr => $aln, strong => 1};
-                }
+              my @aria = ($edef->{aria});
+              if ($ln eq '*') {
+                push @aria,
+                    grep { defined $_ }
+                    map { $Data->{elements}->{$ns}->{$_}->{aria} }
+                    grep { $_ ne $ln }
+                    keys %{$Data->{elements}->{$ns}};
               }
+              for my $aria (@aria) {
+                for my $cond (sort { $a cmp $b } keys %$aria) {
+                  if ($aln eq 'disabled') { # per HTML Standard (not ARIA in HTML)
+                    $aria->{$cond}->{attrs}->{$rule->[1]}
+                        = $merge->($aria->{$cond}->{attrs}->{$rule->[1]},
+                                   {value_type => $rule->[2],
+                                    state => ':disabled', strong => 1});
+                  } else {
+                    $aria->{$cond}->{attrs}->{$rule->[1]}
+                        = $merge->($aria->{$cond}->{attrs}->{$rule->[1]},
+                                   {value_type => $rule->[2],
+                                    attr => $aln, strong => 1});
+                  }
+                }
+              } # $aria
               if ($ns eq 'http://www.w3.org/1999/xhtml' and $ln eq 'input') {
                 for my $type (sort { $a cmp $b } keys %{$Data->{input}->{attrs}->{$aln} or {}}) {
                   for my $cond (sort { $a cmp $b } keys %{$Data->{input}->{aria}->{$type}}) {

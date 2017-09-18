@@ -20,7 +20,7 @@ my $all_roles = {};
   my $elname;
   my $cond;
   for (split /\x0D?\x0A/, $f->slurp_utf8) {
-    if (/^([0-9A-Za-z_-]+)$/) {
+    if (/^([0-9A-Za-z_*-]+)$/) {
       $key = 'elements';
       $elname = $1;
       $cond = '';
@@ -31,12 +31,6 @@ my $all_roles = {};
       $elname = $1;
       $cond = $2;
       die "Duplicate element |$elname|:$cond"
-          if defined $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond};
-    } elsif (/^\*:([0-9A-Za-z_-]+)$/) {
-      $key = 'elements';
-      $elname = '*';
-      $cond = $1;
-      die "Duplicate :$cond"
           if defined $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond};
     } elsif (/^input:type=([a-z-]+)$/) {
       $key = 'input';
@@ -74,26 +68,31 @@ my $all_roles = {};
         $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{default_role} = $default_role;
         $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{allowed_roles} = $more_roles;
       }
-    } elsif (/^  role=([a-z-]+) or #any$/) {
+    } elsif (/^  role=([a-z-]+) or #any(-no-presentation|)$/) {
       die "No element" unless defined $elname;
       die "Role for |$elname| already defined"
           if defined $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{default_role};
       $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{default_role} = $1;
       $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{allowed_roles} = {%$all_roles};
       delete $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{allowed_roles}->{$1};
+      delete $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{allowed_roles}->{presentation} if $2;
+      delete $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{allowed_roles}->{none} if $2;
+    } elsif (/^  role=#any$/) {
+      die "No element" unless defined $elname;
+      die "Role for |$elname| already defined"
+          if defined $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{default_role};
+      $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{allowed_roles} = {%$all_roles};
     } elsif (/^  (aria-[0-9a-z]+)=(true|false)( !)?$/) {
       my $v = $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{attrs}->{$1}
           = {value_type => $2, strong => $3 ? 1 : 0};
       delete $v->{strong} unless $v->{strong};
-    } elsif (/^  (aria-[0-9a-z]+)=#(outlinedepth|maximum|minimum|value-if-number|list-if-combobox|maximum-if-determinate|value-if-determinate|0-if-determinate|selected)( !)?$/) {
+    } elsif (/^  (aria-[0-9a-z]+)=#(outlinedepth|maximum|minimum|value-if-number|list-if-combobox|maximum-if-determinate|value-if-determinate|0-if-determinate|selected|details-open)( !)?$/) {
       my $v = $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{attrs}->{$1}
           = {value_type => $2, strong => $3 ? 1 : 0};
       delete $v->{strong} unless $v->{strong};
-    } elsif (m{^  (aria-[0-9a-z]+)=(true/missing|true/false/mixed|true/false|missing/true)\[(?:([a-z]+)\.|)([a-z]+)\]( !)?$}) {
+    } elsif (m{^  (aria-[0-9a-z]+)=(true/missing|true/false/mixed|true/false|missing/true)\[([a-z]+)\]( !)?$}) {
       my $v = $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{attrs}->{$1}
-          = {value_type => $2, attr => $4, attr_of_parent => $3,
-             strong => $5 ? 1 : 0};
-      delete $v->{attr_of_parent} unless defined $v->{attr_of_parent};
+          = {value_type => $2, attr => $3, strong => $4 ? 1 : 0};
       delete $v->{strong} unless $v->{strong};
     } elsif (m{^  (aria-[0-9a-z]+)=(true/missing|true/false/mixed|true/false|missing/true)(:checked|:indeterminate:checked|:invalid)( !)?$}) {
       my $v = $Data->{$key}->{$elns}->{$elname}->{conds}->{$cond}->{attrs}->{$1}
