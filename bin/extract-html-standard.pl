@@ -186,7 +186,9 @@ for my $f (($d->children)) {
               $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{content_model}->{$title} = 1;
-          } elsif ($text eq 'Nothing.' or $text eq 'Empty.') {
+          } elsif ($text eq 'Nothing.' or
+                   $text eq 'Empty.' or
+                   $text =~ /^Nothing \([^()]+\)\.$/) {
             $props->{content_model}->{empty} = 1;
           } elsif ($text =~ /[Pp]rose/ or
                    $text =~ /followed by/ or
