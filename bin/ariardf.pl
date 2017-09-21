@@ -34,6 +34,9 @@ for (qw(
   }
 }
 
+$Data->{roles}->{roletype}->{attrs}->{'aria-dropeffect'} ||= {};
+$Data->{roles}->{roletype}->{attrs}->{'aria-grabbed'} ||= {};
+
 {
   my $has_new = 0;
   for my $role (sort { $a cmp $b } keys %{$Data->{roles}}) {
