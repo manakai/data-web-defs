@@ -50,11 +50,11 @@ clean-json-ps:
 	rm -fr local/perl-latest/pm/lib/perl5/JSON/PS.pm
 local/perl-latest/pm/lib/perl5/JSON/PS.pm:
 	mkdir -p local/perl-latest/pm/lib/perl5/JSON
-	$(WGET) -O $@ https://raw.githubusercontent.com/wakaba/perl-json-ps/master/lib/JSON/PS.pm
+	$(SAVEURL) $@ https://raw.githubusercontent.com/wakaba/perl-json-ps/master/lib/JSON/PS.pm
 
 local/bin/jq:
 	mkdir -p local/bin
-	$(WGET) -O $@ https://stedolan.github.io/jq/download/linux64/jq
+	$(SAVEURL) $@ https://stedolan.github.io/jq/download/linux64/jq
 	chmod u+x $@
 
 ## ------ Metadata ------
@@ -75,42 +75,42 @@ clean-mime:
 	rm -fr local/iana-mime-type* local/apache-mime-types
 
 local/sw-mime-types-xml:
-	$(WGET) -O $@-top "https://wiki.suikawiki.org/n/List%20of%20MIME%20types?format=xml"
-	$(WGET) -O $@-suffix "https://wiki.suikawiki.org/n/structured%20syntax%20suffix?format=xml"
-	$(WGET) -O $@-xapplication "https://wiki.suikawiki.org/n/x-application%2F%2A?format=xml"
-	$(WGET) -O $@-application "https://wiki.suikawiki.org/n/application%2F%2A?format=xml"
-	$(WGET) -O $@-audio "https://wiki.suikawiki.org/n/audio%2F%2A?format=xml"
-	$(WGET) -O $@-chemical "https://wiki.suikawiki.org/n/chemical%2F%2A?format=xml"
-	$(WGET) -O $@-xferrumhead "https://wiki.suikawiki.org/n/x-ferrum-head%2F%2A?format=xml"
-	$(WGET) -O $@-xferrummenu "https://wiki.suikawiki.org/n/x-ferrum-menu%2F%2A?format=xml"
-	$(WGET) -O $@-font "https://wiki.suikawiki.org/n/font%2F%2A?format=xml"
-	$(WGET) -O $@-image "https://wiki.suikawiki.org/n/image%2F%2A?format=xml"
-	$(WGET) -O $@-inode "https://wiki.suikawiki.org/n/inode%2F%2A?format=xml"
-	$(WGET) -O $@-math "https://wiki.suikawiki.org/n/math%2F%2A?format=xml"
-	$(WGET) -O $@-message "https://wiki.suikawiki.org/n/message%2F%2A?format=xml"
-	$(WGET) -O $@-model "https://wiki.suikawiki.org/n/model%2F%2A?format=xml"
-	$(WGET) -O $@-multipart "https://wiki.suikawiki.org/n/multipart%2F%2A?format=xml"
-	$(WGET) -O $@-plugin "https://wiki.suikawiki.org/n/plugin%2F%2A?format=xml"
-	$(WGET) -O $@-xpostpet "https://wiki.suikawiki.org/n/x-postpet%2F%2A?format=xml"
-	$(WGET) -O $@-text "https://wiki.suikawiki.org/n/text%2F%2A?format=xml"
-	$(WGET) -O $@-vector "https://wiki.suikawiki.org/n/vector%2F%2A?format=xml"
-	$(WGET) -O $@-video "https://wiki.suikawiki.org/n/video%2F%2A?format=xml"
-	$(WGET) -O $@-windows "https://wiki.suikawiki.org/n/windows%2F%2A?format=xml"
-	$(WGET) -O $@-xworld "https://wiki.suikawiki.org/n/x-world%2F%2A?format=xml"
-	$(WGET) -O $@-xgi "https://wiki.suikawiki.org/n/xgi%2F%2A?format=xml"
-	$(WGET) -O $@-fitness "https://wiki.suikawiki.org/n/vnd.google.fitness.data_type%2F%2A?format=xml"
-	$(WGET) -O $@-cursor "https://wiki.suikawiki.org/n/vnd.android.cursor.dir%2F%2A?format=xml"
+	$(SAVEURL) $@-top "https://wiki.suikawiki.org/n/List%20of%20MIME%20types?format=xml"
+	$(SAVEURL) $@-suffix "https://wiki.suikawiki.org/n/structured%20syntax%20suffix?format=xml"
+	$(SAVEURL) $@-xapplication "https://wiki.suikawiki.org/n/x-application%2F%2A?format=xml"
+	$(SAVEURL) $@-application "https://wiki.suikawiki.org/n/application%2F%2A?format=xml"
+	$(SAVEURL) $@-audio "https://wiki.suikawiki.org/n/audio%2F%2A?format=xml"
+	$(SAVEURL) $@-chemical "https://wiki.suikawiki.org/n/chemical%2F%2A?format=xml"
+	$(SAVEURL) $@-xferrumhead "https://wiki.suikawiki.org/n/x-ferrum-head%2F%2A?format=xml"
+	$(SAVEURL) $@-xferrummenu "https://wiki.suikawiki.org/n/x-ferrum-menu%2F%2A?format=xml"
+	$(SAVEURL) $@-font "https://wiki.suikawiki.org/n/font%2F%2A?format=xml"
+	$(SAVEURL) $@-image "https://wiki.suikawiki.org/n/image%2F%2A?format=xml"
+	$(SAVEURL) $@-inode "https://wiki.suikawiki.org/n/inode%2F%2A?format=xml"
+	$(SAVEURL) $@-math "https://wiki.suikawiki.org/n/math%2F%2A?format=xml"
+	$(SAVEURL) $@-message "https://wiki.suikawiki.org/n/message%2F%2A?format=xml"
+	$(SAVEURL) $@-model "https://wiki.suikawiki.org/n/model%2F%2A?format=xml"
+	$(SAVEURL) $@-multipart "https://wiki.suikawiki.org/n/multipart%2F%2A?format=xml"
+	$(SAVEURL) $@-plugin "https://wiki.suikawiki.org/n/plugin%2F%2A?format=xml"
+	$(SAVEURL) $@-xpostpet "https://wiki.suikawiki.org/n/x-postpet%2F%2A?format=xml"
+	$(SAVEURL) $@-text "https://wiki.suikawiki.org/n/text%2F%2A?format=xml"
+	$(SAVEURL) $@-vector "https://wiki.suikawiki.org/n/vector%2F%2A?format=xml"
+	$(SAVEURL) $@-video "https://wiki.suikawiki.org/n/video%2F%2A?format=xml"
+	$(SAVEURL) $@-windows "https://wiki.suikawiki.org/n/windows%2F%2A?format=xml"
+	$(SAVEURL) $@-xworld "https://wiki.suikawiki.org/n/x-world%2F%2A?format=xml"
+	$(SAVEURL) $@-xgi "https://wiki.suikawiki.org/n/xgi%2F%2A?format=xml"
+	$(SAVEURL) $@-fitness "https://wiki.suikawiki.org/n/vnd.google.fitness.data_type%2F%2A?format=xml"
+	$(SAVEURL) $@-cursor "https://wiki.suikawiki.org/n/vnd.android.cursor.dir%2F%2A?format=xml"
 	touch $@
 
 local/iana/mime-types.xml:
 	mkdir -p local/iana
-	$(WGET) -O $@ http://www.iana.org/assignments/media-types/media-types.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/media-types/media-types.xml
 local/iana/mime-type-suffixes.xml:
 	mkdir -p local/iana
-	$(WGET) -O $@ http://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/media-type-structured-suffix/media-type-structured-suffix.xml
 local/iana/mime-type-provisional.xml:
 	mkdir -p local/iana
-	$(WGET) -O $@ http://www.iana.org/assignments/provisional-standard-media-types/provisional-standard-media-types.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/provisional-standard-media-types/provisional-standard-media-types.xml
 
 intermediate/mime-type-provisional.json: bin/mime-type-provisional.pl \
     local/iana/mime-type-provisional.json \
@@ -121,11 +121,11 @@ local/intermediate-mime-type-provisional:
 	touch $@
 
 local/apache-mime-types:
-	$(WGET) -O $@ http://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
+	$(SAVEURL) $@ https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 local/jshttp-mime-types.json:
-	$(WGET) -O $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
+	$(SAVEURL) $@ https://raw.githubusercontent.com/jshttp/mime-db/master/db.json
 local/mime-types-data.json:
-	$(WGET) -O $@ https://raw.githubusercontent.com/mime-types/mime-types-data/master/data/mime-types.json
+	$(SAVEURL) $@ https://raw.githubusercontent.com/mime-types/mime-types-data/master/data/mime-types.json
 
 local/wpa-mime-types.json: intermediate/wpa-mime-types.json \
     bin/wpa-mime-types.pl src/mime-type-iana-template.txt
@@ -154,17 +154,17 @@ clean-urls:
 	rm -fr local/mozilla-prefs.js
 
 local/sw-url-schemes.xml:
-	$(WGET) -O $@ "https://wiki.suikawiki.org/n/List%20of%20URL%20schemes?format=xml"
+	$(SAVEURL) $@ "https://wiki.suikawiki.org/n/List%20of%20URL%20schemes?format=xml"
 local/sw-url-schemes.txt: local/sw-url-schemes.xml \
     bin/extract-sw-url-schemes.pl
 	$(PERL) bin/extract-sw-url-schemes.pl < $< > $@
 
 local/iana/url-schemes.xml:
 	mkdir -p local/iana
-	$(WGET) -O $@ http://www.iana.org/assignments/uri-schemes/uri-schemes.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/uri-schemes/uri-schemes.xml
 
 src/url-schemes-ihasapp.json:
-	$(WGET) -O $@ https://raw.githubusercontent.com/danielamitay/iHasApp/master/iHasApp/schemeApps.json
+	$(SAVEURL) $@ https://raw.githubusercontent.com/danielamitay/iHasApp/master/iHasApp/schemeApps.json
 
 data/url-schemes.json: bin/url-schemes.pl \
     src/url-schemes.txt local/sw-url-schemes.txt local/iana/url-schemes.json \
@@ -173,14 +173,14 @@ data/url-schemes.json: bin/url-schemes.pl \
 	$(PERL) bin/url-schemes.pl
 
 local/iana-tlds.txt:
-	$(WGET) -O $@ https://data.iana.org/TLD/tlds-alpha-by-domain.txt
+	$(SAVEURL) $@ https://data.iana.org/TLD/tlds-alpha-by-domain.txt
 local/psl.txt:
-	$(WGET) -O $@ https://raw.githubusercontent.com/publicsuffix/list/master/public_suffix_list.dat
+	$(SAVEURL) $@ https://raw.githubusercontent.com/publicsuffix/list/master/public_suffix_list.dat
 local/psl-test.txt:
-	$(WGET) -O $@ https://raw.githubusercontent.com/publicsuffix/list/master/tests/test_psl.txt
+	$(SAVEURL) $@ https://raw.githubusercontent.com/publicsuffix/list/master/tests/test_psl.txt
 
 local/mozilla-prefs.js:
-	$(WGET) -O $@ https://raw.githubusercontent.com/mozilla/gecko-dev/master/modules/libpref/init/all.js
+	$(SAVEURL) $@ https://raw.githubusercontent.com/mozilla/gecko-dev/master/modules/libpref/init/all.js
 local/mozilla-idn-whitelist.txt: local/mozilla-prefs.js
 	perl -e 'while (<>) { #\
 	  if (m{pref\("network.IDN.whitelist.([0-9a-zA-Z-]+)", true\)}) { #\
@@ -204,18 +204,18 @@ clean-langtags:
 
 local/langtags/subtag-registry:
 	mkdir -p local/langtags
-	$(WGET) http://www.iana.org/assignments/language-subtag-registry -O $@
+	$(WGET) https://www.iana.org/assignments/language-subtag-registry -O $@
 local/langtags/ext-registry:
 	mkdir -p local/langtags
-	$(WGET) http://www.iana.org/assignments/language-tag-extensions-registry -O $@
+	$(WGET) https://www.iana.org/assignments/language-tag-extensions-registry -O $@
 local/langtags/cldr-bcp47:
 	mkdir -p local/langtags/cldr-bcp47
 	touch $@/update
 local/langtags/cldr-bcp47/update: local/langtags/cldr-bcp47
 	cd local/langtags/cldr-bcp47 && \
-	$(CURL) http://www.unicode.org/repos/cldr/trunk/common/bcp47/ | \
+	$(CURL) https://www.unicode.org/repos/cldr/trunk/common/bcp47/ | \
 	perl -n -e 'print "$$1\n" if /([A-Za-z0-9_.-]+\.xml)/' | \
-	xargs -i% -- $(WGET) -O % http://www.unicode.org/repos/cldr/trunk/common/bcp47/%
+	xargs -i% -- $(SAVEURL) % https://www.unicode.org/repos/cldr/trunk/common/bcp47/%
 	touch $@
 
 local/chars-scripts.json:
@@ -242,57 +242,57 @@ clean-http:
 	rm -fr local/iana/http*.xml local/mozilla-ciphers.html
 
 local/sw-http-statuses.xml:
-	$(WGET) -O $@ "https://wiki.suikawiki.org/n/List%20of%20HTTP%20status%20codes?format=xml"
+	$(SAVEURL) $@ "https://wiki.suikawiki.org/n/List%20of%20HTTP%20status%20codes?format=xml"
 local/sw-http-methods.xml:
-	$(WGET) -O $@ "https://wiki.suikawiki.org/n/List%20of%20HTTP%20methods?format=xml"
+	$(SAVEURL) $@ "https://wiki.suikawiki.org/n/List%20of%20HTTP%20methods?format=xml"
 local/iana-http-statuses.xml:
-	$(WGET) -O $@ http://www.iana.org/assignments/http-status-codes/http-status-codes.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-status-codes/http-status-codes.xml
 local/iana/rtsp.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/rtsp-parameters/rtsp-parameters.xml
 local/iana/sip.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/sip-parameters/sip-parameters.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/sip-parameters/sip-parameters.xml
 local/iana/http-methods.xml:
 	mkdir -p local/iana
-	$(WGET) -O $@ http://www.iana.org/assignments/http-methods/http-methods.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-methods/http-methods.xml
 local/iana/http-methods.json: local/iana/http-methods.xml bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
 local/iana/http-protocols.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/http-upgrade-tokens/http-upgrade-tokens.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-upgrade-tokens/http-upgrade-tokens.xml
 local/iana/http-protocols.json: local/iana/http-protocols.xml \
     bin/ianaxml2json.pl
 	$(PERL) bin/ianaxml2json.pl $< > $@
 
 local/iana/http-parameters.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/http-parameters/http-parameters.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-parameters/http-parameters.xml
 local/iana/http-cache-control.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/http-cache-directives/http-cache-directives.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-cache-directives/http-cache-directives.xml
 local/iana/http-warn-codes.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/http-warn-codes/http-warn-codes.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-warn-codes/http-warn-codes.xml
 local/iana/http-auth-schemes.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/http-authschemes/http-authschemes.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-authschemes/http-authschemes.xml
 local/iana/cont-disp.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/cont-disp/cont-disp.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/cont-disp/cont-disp.xml
 local/iana/http-ims.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/inst-man-values/inst-man-values.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/inst-man-values/inst-man-values.xml
 local/iana/http-digests.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/http-dig-alg/http-dig-alg.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-dig-alg/http-dig-alg.xml
 local/iana/headers.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/message-headers/message-headers.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/message-headers/message-headers.xml
 local/iana/fcast.xml:
 	mkdir -p local/iana
-	$(SAVEURL) $@ http://www.iana.org/assignments/fcast/fcast.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/fcast/fcast.xml
 local/iana/ni.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/named-information/named-information.xml
@@ -632,15 +632,15 @@ intermediate/errors/parser-errors.json: bin/parser-errors.pl \
 	$(PERL) bin/parser-errors.pl src/parser-errors.txt > $@
 
 local/MetaExtensions.html:
-	$(WGET) -O $@ https://wiki.whatwg.org/wiki/MetaExtensions
+	$(SAVEURL) $@ https://wiki.whatwg.org/wiki/MetaExtensions
 local/MetaExtensions.json: local/MetaExtensions.html bin/parse-wiki-tables.pl
 	$(PERL) bin/parse-wiki-tables.pl table.wikitable 1 $< > $@
 local/RelExtensions.html:
-	$(WGET) -O $@ http://microformats.org/wiki/existing-rel-values
+	$(SAVEURL) $@ http://microformats.org/wiki/existing-rel-values
 local/RelExtensions.json: local/RelExtensions.html bin/parse-wiki-tables.pl
 	$(PERL) bin/parse-wiki-tables.pl "a[name=\"HTML5_link_type_extensions\"] ~ table" 0 $< > $@
 local/iana/link-relations.xml:
-	$(WGET) -O $@ https://www.iana.org/assignments/link-relations/link-relations.xml
+	$(SAVEURL) $@ https://www.iana.org/assignments/link-relations/link-relations.xml
 data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl \
     local/RelExtensions.json src/html-meta-names.txt src/html-link-types.txt \
     local/iana/link-relations.json
@@ -712,18 +712,18 @@ local/data-vocabulary/files:
 	for x in itemtype itemprop Event Geo Address Organization Person \
 	         Product Review Review-aggregate Breadcrumb \
 	         Offer Offer-aggregate Recipe; do \
-	  $(WGET) -O local/data-vocabulary/$$x.html http://www.data-vocabulary.org/$$x/; \
+	  $(SAVEURL) local/data-vocabulary/$$x.html http://www.data-vocabulary.org/$$x/; \
 	done
 	touch $@
 
 local/schemaorg.rdfa:
-	$(WGET) -O $@ https://raw.githubusercontent.com/schemaorg/schemaorg/sdo-gozer/data/schema.rdfa
+	$(SAVEURL) $@ https://raw.githubusercontent.com/schemaorg/schemaorg/sdo-gozer/data/schema.rdfa
 	#http://schema.org/docs/schema_org_rdfa.html
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
 
 local/schemaorg-wsa.html:
-	$(WGET) -O $@ http://www.w3.org/wiki/WebSchemas/Accessibility
+	$(SAVEURL) $@ https://www.w3.org/wiki/WebSchemas/Accessibility
 local/schemaorg-wsa.json: local/schemaorg-wsa.html bin/extract-schemaorg-wsa.pl
 	$(PERL) bin/extract-schemaorg-wsa.pl > $@
 
@@ -733,7 +733,7 @@ local/xls2txt:
 local/xls2txt/xls2txt: local/xls2txt
 
 local/rec20.xls:
-	$(WGET) -O $@ http://www.unece.org/fileadmin/DAM/cefact/recommendations/rec20/rec20_Rev9e_2014.xls
+	$(SAVEURL) $@ http://www.unece.org/fileadmin/DAM/cefact/recommendations/rec20/rec20_Rev9e_2014.xls
 local/rec20-1.tsv: local/xls2txt/xls2txt local/rec20.xls
 	local/xls2txt/xls2txt -n 1 local/rec20.xls > $@
 local/rec20-common-codes.json: local/rec20-1.tsv bin/extract-rec20.pl
