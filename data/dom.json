@@ -82,7 +82,7 @@
       },
       {
          "fragment" : "optional [*id=\u0022dictdef-dommatrix2dinit\u0022*]DOMMatrix2DInit transform);\u000A  void [*id=\u0022dom-context-2d-res",
-         "index" : 3161,
+         "index" : 3168,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -97,7 +97,7 @@
          "value" : "EvenrHandler"
       },
       {
-         "fragment" : "File? [*id=\u0022dom-datatransferitem-getasfile\u0022*]getAsFile();\u000A};\u000A\u000Acallback [*id=\u0022functionstringcallback\u0022",
+         "fragment" : "[*id=\u0022dfn-file\u0022*]File? [*id=\u0022dom-datatransferitem-getasfile\u0022*]getAsFile();\u000A};\u000A\u000Acallback [*id=\u0022functi",
          "index" : 324,
          "level" : "m",
          "spec" : "XHR",
@@ -113,7 +113,7 @@
          "value" : "FileList"
       },
       {
-         "fragment" : "typedef (MediaStream or MediaSource or Blob) [*id=\u0022mediaprovider\u0022*]MediaProvider;\u000A\u000A[Exposed=Window]\u000A",
+         "fragment" : "typedef (MediaStream or MediaSource or [*id=\u0022dfn-Blob\u0022*]Blob) [*id=\u0022mediaprovider\u0022*]MediaProvider;\u000A\u000A",
          "index" : 219,
          "level" : "m",
          "spec" : "XHR",
@@ -295,6 +295,34 @@
          "spec" : "XHR",
          "type" : "webidl:bad optionality",
          "value" : "eventInitDict"
+      },
+      {
+         "fragment" : "[*spec=XHR*][[*id=\u0022dom-progressevent-progressevent\u0022*]Constructor(DOMString [*id=\u0022dom-progressevent-p",
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "AudioWorklet"
+      },
+      {
+         "fragment" : "[*spec=XHR*][[*id=\u0022dom-progressevent-progressevent\u0022*]Constructor(DOMString [*id=\u0022dom-progressevent-p",
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "AudioWorklet"
+      },
+      {
+         "fragment" : "[*spec=XHR*][[*id=\u0022dom-progressevent-progressevent\u0022*]Constructor(DOMString [*id=\u0022dom-progressevent-p",
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "AudioWorklet"
+      },
+      {
+         "fragment" : "[*spec=XHR*][[*id=\u0022dom-progressevent-progressevent\u0022*]Constructor(DOMString [*id=\u0022dom-progressevent-p",
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "AudioWorklet"
       },
       {
          "fragment" : "[*spec=XHR*][[*id=\u0022dom-progressevent-progressevent\u0022*]Constructor(DOMString [*id=\u0022dom-progressevent-p",
@@ -9587,7 +9615,7 @@
             "named_getter" : [
                "operation",
                {
-                  "id" : "dom-domstringmap-namedItem",
+                  "id" : "dom-domstringmap-nameditem",
                   "overload_set" : {
                      "DOMString" : {
                         "args" : [
@@ -11186,6 +11214,7 @@
                      "id" : "dom-document-createelement",
                      "overload_set" : {
                         "DOMString" : {
+                           "CEReactions" : 1,
                            "NewObject" : 1,
                            "args" : [
                               {
@@ -11201,6 +11230,7 @@
                            ]
                         },
                         "DOMString,ref[ElementCreationOptions]" : {
+                           "CEReactions" : 1,
                            "NewObject" : 1,
                            "args" : [
                               {
@@ -11240,6 +11270,7 @@
                      "id" : "dom-document-createelementns",
                      "overload_set" : {
                         "nullable[DOMString],DOMString" : {
+                           "CEReactions" : 1,
                            "NewObject" : 1,
                            "args" : [
                               {
@@ -11264,6 +11295,7 @@
                            ]
                         },
                         "nullable[DOMString],DOMString,ref[ElementCreationOptions]" : {
+                           "CEReactions" : 1,
                            "NewObject" : 1,
                            "args" : [
                               {
@@ -14789,6 +14821,23 @@
                ]
             },
             "obsolete" : 1,
+            "spec" : "HTML"
+         }
+      ],
+      "FocusOptions" : [
+         "dictionary",
+         {
+            "id" : "focusoptions",
+            "members" : {
+               "preventScroll" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "boolean",
+                     "value" : "false"
+                  }
+               ]
+            },
             "spec" : "HTML"
          }
       ],
@@ -18354,6 +18403,25 @@
                      "overload_set" : {
                         "" : {
                            "args" : [
+                           ],
+                           "type" : "void"
+                        },
+                        "ref[FocusOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "options",
+                                 "optionality" : "optional",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "FocusOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
                            ],
                            "type" : "void"
                         }
@@ -25150,6 +25218,7 @@
                      "CEReactions" : 1,
                      "getter" : 1,
                      "id" : "dom-script-charset",
+                     "obsolete" : 1,
                      "setter" : 1,
                      "spec" : "HTML",
                      "type" : "DOMString"
@@ -36540,6 +36609,10 @@
                      "id" : "dom-requestdestination-audio",
                      "spec" : "FETCH"
                   },
+                  "audioworklet" : {
+                     "id" : "dom-requestdestination-audioworklet",
+                     "spec" : "FETCH"
+                  },
                   "document" : {
                      "id" : "dom-requestdestination-document",
                      "spec" : "FETCH"
@@ -36562,6 +36635,10 @@
                   },
                   "object" : {
                      "id" : "dom-requestdestination-object",
+                     "spec" : "FETCH"
+                  },
+                  "paintworklet" : {
+                     "id" : "dom-requestdestination-paintworklet",
                      "spec" : "FETCH"
                   },
                   "report" : {
