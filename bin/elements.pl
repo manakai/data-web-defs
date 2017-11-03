@@ -1186,6 +1186,9 @@ $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     }
     $adef->{conforming} = 1;
     if ($json->{attrs}->{$attr}->{tokens}) {
+      ## In ARIA in HTML spec tokens are case-sensitive, but HTML
+      ## enumerated attributes are ASCII case-insensitive in general.
+      ## We willfully ignore the inconsistent rule here.
       if ($adef->{value_type} eq 'enumerated') {
         for (sort { $a cmp $b } keys %{$json->{attrs}->{$attr}->{tokens}}) {
           $adef->{enumerated}->{$_}->{url} = $adef->{url};
