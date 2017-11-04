@@ -3,6 +3,7 @@ use warnings;
 use Path::Tiny;
 use lib glob path (__FILE__)->parent->child ('modules/*/lib')->stringify;
 use JSON::PS;
+use Web::Encoding;
 
 sub HTML_NS () { 'http://www.w3.org/1999/xhtml' }
 sub MATH_NS () { 'http://www.w3.org/1998/Math/MathML' }
@@ -136,7 +137,7 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
   my $path = $RootPath->child ('src/attr-types.txt');
   my $ns;
   my $last_attr;
-  for (split /\x0D?\x0A/, $path->slurp) {
+  for (split /\x0D?\x0A/, decode_web_utf8 $path->slurp) {
     if (/^\s*##/) {
       #
     } elsif (/^\@ns (\S+)$/) {
@@ -161,6 +162,7 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
       my ($keyword, $id, $label) = ($1, $2, $3);
       my $canonical = $label =~ s/\s*!s*$//;
       $keyword = '' if $keyword eq '#empty';
+      $keyword =~ s/\x{2423}/ /g;
       my $invalid = $label =~ s/\s+X\s*$// || $keyword =~ /^#/;
       if ($id ne '-') {
         if ($id =~ /#/) {
