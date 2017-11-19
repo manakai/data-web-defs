@@ -572,10 +572,10 @@ while (@node) {
       my $map = {};
       for ($node->children->to_list) {
         my $t = _n $_->text_content;
-        if ($t =~ /^If node is an? (\w+(?:(?:, or | or |, )\w+)*) element, then switch the insertion mode to "([^"]+)" and abort these steps.(?: \([^()]+\)|)$/) {
+        if ($t =~ /^If node is an? (\w+(?:(?:, or | or |, )\w+)*) element, then switch the insertion mode to "([^"]+)" and (?:return|abort these steps).(?: \([^()]+\)|)$/) {
           my $mode = $2;
           $map->{always}->{$_} = $mode for split /, or | or |, /, $1;
-        } elsif ($t =~ /^If node is an? (\w+(?:(?:, or | or |, )\w+)*) element and last is false, then switch the insertion mode to "([^"]+)" and abort these steps.(?: \([^()]+\)|)$/) {
+        } elsif ($t =~ /^If node is an? (\w+(?:(?:, or | or |, )\w+)*) element and last is false, then switch the insertion mode to "([^"]+)" and (?:return|abort these steps).(?: \([^()]+\)|)$/) {
           my $mode = $2;
           $map->{last_is_false}->{$_} = $mode for split /, or | or |, /, $1;
         }
@@ -886,6 +886,7 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
     ['run the application cache selection algorithm with no manifest' => 'application cache selection algorithm'],
     ['run the application cache selection algorithm with no manifest, passing it the Document object' => 'application cache selection algorithm'],
     ['stop these steps' => 'abort these steps'],
+    ['return' => 'abort these steps'],
     ['process the SVG script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
     ['process the script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
     ['change the encoding to the resulting encoding' => 'change the encoding'],

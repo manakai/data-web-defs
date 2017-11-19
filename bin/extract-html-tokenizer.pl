@@ -358,35 +358,35 @@ sub parse_action ($) {
       push @action, {type => 'switch', state => $2,
                      if => 'DTD mode is ' . $1,
                      break => 1};
-    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, emit an end-of-file token and abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, emit an end-of-file token and (?:return|abort these steps)\.//) {
       push @action, {type => 'emit-eof',
                      if => 'fragment',
                      break => 1};
-    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, switch to the (DTD state) and abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, switch to the (DTD state) and (?:return|abort these steps)\.//) {
       push @action, {type => 'switch',
                      state => $1,
                      if => 'fragment', break => 1};
-    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, this is a parse error; switch to the (DTD state) and abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, this is a parse error; switch to the (DTD state) and (?:return|abort these steps)\.//) {
       push @action, {type => 'parse error-and-switch',
                      state => $1,
                      if => 'fragment', break => 1};
-    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, this is a parse error \(offset=1\); switch to the (DTD state) and abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created as part of the XML fragment parsing algorithm, this is a parse error \(offset=1\); switch to the (DTD state) and (?:return|abort these steps)\.//) {
       push @action, {type => 'parse error-and-switch',
                      state => $1,
                      index_offset => 1,
                      if => 'fragment', break => 1};
-    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error; switch to the (.+? state) and abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error; switch to the (.+? state) and (?:return|abort these steps)\.//) {
       push @action, {type => 'parse error-and-switch',
                      state => $1,
                      if => 'md-fragment', break => 1};
-    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error \(offset=1\); switch to the (.+? state) and abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, this is a parse error \(offset=1\); switch to the (.+? state) and (?:return|abort these steps)\.//) {
       push @action, {type => 'parse error-and-switch',
                      state => $1,
                      index_offset => 1,
                      if => 'md-fragment', break => 1};
     } elsif ($action =~ s/^If the stack of open marked sections is not empty, parse error\.//) {
       push @action, {type => 'parse error', if => 'sections is not empty'};
-    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, abort these steps\.//) {
+    } elsif ($action =~ s/^If the parser was originally created for a parameter entity reference in a markup declaration, (?:return|abort these steps)\.//) {
       push @action, {type => 'break', if => 'md-fragment'};
 
     } elsif ($action =~ s/^(?:T|Otherwise, t)reat it as per the "anything else" entry below\.\s*//) {
