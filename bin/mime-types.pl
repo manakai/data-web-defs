@@ -161,6 +161,8 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.
     }
   } elsif (m{^  ([0-9A-Za-z_-]+)$}) {
     $Data->{$type}->{$1} ||= 1;
+  } elsif (m{^  (cors exception)$}) {
+    $Data->{$type}->{cors_exception} ||= 1;
   } elsif (m{^  ([0-9A-Za-z_.-]+)=""$}) {
     $attr = $1;
     $attr =~ tr/A-Z/a-z/;
