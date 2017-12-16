@@ -9,24 +9,27 @@ enum [*id="supportedtype"*] SupportedType {
   "image/svg+xml"
 };
 
-[Constructor]
+[Constructor, Exposed=Window]
 interface [*id="domparser"*] DOMParser {
   [NewObject] Document [*id="dom-domparser-parsefromstring"*] parseFromString (DOMString str, SupportedType type);
 };
 
-[Constructor]
+[Constructor, Exposed=Window]
 interface [*id="xmlserializer"*] XMLSerializer {
   DOMString [*id="dom-xmlserializer-serializetostring"*] serializeToString (Node root);
 };
 
+[Exposed=Window]
 partial interface Element {
   [CEReactions] attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-innerhtml"*] innerHTML;
   [CEReactions] attribute [TreatNullAs=EmptyString] DOMString [*id="dom-element-outerhtml"*] outerHTML;
   [CEReactions] void [*id="dom-element-insertAdjacentHTML"*] insertAdjacentHTML (DOMString position, DOMString text);
 };
 
+// [Exposed=Window]
 // partial interface Text { attribute boolean serializeAsCDATA };
 
+[Exposed=Window]
 partial interface Range {
   [CEReactions, NewObject] DocumentFragment [*id="createcontextualfragment"*] createContextualFragment (DOMString fragment);
 };
