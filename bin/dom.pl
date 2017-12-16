@@ -136,6 +136,9 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
   $Data->{_idl_errors} = \@error;
 }
 
+## For backward compatibility
+$Data->{primary_global} ||= 'Window';
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.

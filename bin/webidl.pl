@@ -106,7 +106,7 @@ my $XAttrAllowed = {
     LegacyArrayClass => 1,
     Constructor => 1, Exposed => 1, Global => 1,
     NamedConstructor => 1,
-    NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
+    NoInterfaceObject => 1, OverrideBuiltins => 1,
     LegacyUnenumerableNamedProperties => 1,
     SecureContext => 1, HTMLConstructor => 1,
     Serializable => 1,
@@ -116,12 +116,11 @@ my $XAttrAllowed = {
   callback_interface => {
     LegacyArrayClass => 1,
     Exposed => 1, Global => 1,
-    NoInterfaceObject => 1, OverrideBuiltins => 1, PrimaryGlobal => 1,
+    NoInterfaceObject => 1, OverrideBuiltins => 1,
     SecureContext => 1,
   },
   partial_interface => {
     Exposed => 1, Global => 1, OverrideBuiltins => 1,
-    PrimaryGlobal => 1,
     SecureContext => 1,
     Serializable => 1,
     Transferable => 1,
@@ -198,7 +197,6 @@ my $XAttrArgs = {
   TreatNonObjectAsNull => {no => 1}, # No MUST in spec
   TreatNullAs => {id => 1},
   Global => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
-  PrimaryGlobal => {no => 1, id => 1, id_list => 1}, # 'id' not allowed in spec
   Exposed => {id => 1, id_list => 1},
   NamedConstructor => {id => 1, named_args => 1},
   Unscopable => {no => 1},
@@ -235,11 +233,9 @@ my $XAttrDisallowedCombinations = [
   ['HTMLConstructor', 'NoInterfaceObject'],
   ['LegacyWindowAlias', 'NoInterfaceObject'],
   ['OverrideBuiltins', 'Global'],
-  ['OverrideBuiltins', 'PrimaryGlobal'],
   ['PutForwards', 'Replaceable'],
   ['LenientSetter', 'PutForwards'],
   ['LenientSetter', 'Replaceable'],
-  ['Global', 'PrimaryGlobal'],
 ];
 
 for (@$XAttrDisallowedCombinations) {
