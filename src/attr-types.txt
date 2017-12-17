@@ -79,6 +79,12 @@ img    crossorigin enumerated
   #missing         attr-crossorigin-none No CORS
 img    ismap     boolean
 img    alt       text
+img    decoding  enumerated
+  sync             attr-img-decoding-sync  sync
+  async            attr-img-decoding-async async
+  auto             attr-img-decoding-auto  auto
+  #missing         -                       auto
+  #invalid         -                       auto
 iframe src       non-empty URL potentially surrounded by spaces
 iframe name      browsing context name
 iframe sandbox   unordered set of unique space-separated tokens
@@ -346,33 +352,16 @@ input  autofocus   boolean
 button autofocus   boolean
 select autofocus   boolean
 textarea autofocus boolean
-input  inputmode   enumerated
-  verbatim         attr-fe-inputmode-state-verbatim Latin Verbatim
-  latin            attr-fe-inputmode-state-latin Latin Text
-  latin-name       attr-fe-inputmode-state-latin-name Latin Name
-  latin-prose      attr-fe-inputmode-state-latin-prose Latin Prose
-  full-width-latin attr-fe-inputmode-state-full-width-latin Full-width Latin
-  kana             attr-fe-inputmode-state-kana Kana
-  kana-name        attr-fe-inputmode-state-kana-name Kana Name
-  katakana         attr-fe-inputmode-state-katakana Katakana
-  numeric          attr-fe-inputmode-state-numeric Numeric
-  tel              attr-fe-inputmode-state-telephone Telephone
-  email            attr-fe-inputmode-state-email E-mail
-  url              attr-fe-inputmode-state-url URL
-  #missing         attr-fe-inputmode-state-default Default
-textarea inputmode enumerated
-  verbatim         attr-fe-inputmode-state-verbatim Latin Verbatim
-  latin            attr-fe-inputmode-state-latin Latin Text
-  latin-name       attr-fe-inputmode-state-latin-name Latin Name
-  latin-prose      attr-fe-inputmode-state-latin-prose Latin Prose
-  full-width-latin attr-fe-inputmode-state-full-width-latin Full-width Latin
-  kana             attr-fe-inputmode-state-kana Kana
-  katakana         attr-fe-inputmode-state-katakana Katakana
-  numeric          attr-fe-inputmode-state-numeric Numeric
-  tel              attr-fe-inputmode-state-telephone Telephone
-  email            attr-fe-inputmode-state-email E-mail
-  url              attr-fe-inputmode-state-url URL
-  #missing         attr-fe-inputmode-state-default Default
+*      inputmode   enumerated
+  none             attr-inputmode-keyword-none none
+  text             attr-inputmode-keyword-text text
+  tel              attr-inputmode-keyword-tel tel
+  email            attr-inputmode-keyword-email email
+  url              attr-inputmode-keyword-url url
+  numeric          attr-inputmode-keyword-numeric numeric
+  decimal          attr-inputmode-keyword-decimal decimal
+  search           attr-inputmode-keyword-search search
+  #missing         - underspecified
 input  autocomplete set of space-separated tokens
 textarea autocomplete set of space-separated tokens
 details open       boolean
@@ -1067,12 +1056,19 @@ script   event     any
 *        ontouchend event handler
 *        ontouchmove event handler
 *        ontouchstart event handler
-input    autocapitalize enumerated
-  on               -                     -
-  off              -                     -
-textarea autocapitalize enumerated
-  on               -                     -
-  off              -                     -
+*        autocapitalize enumerated
+  off              attr-autocapitalize-off   none
+  none             attr-autocapitalize-none  none
+##                                           autocap-hint-none
+  on               attr-autocapitalize-on    sentences
+  sentences        attr-autocapitalize-sentences sentences
+##                                           autocap-hint-sentences
+  words            attr-autocapitalize-words words
+##                                           autocap-hint-words
+  characters       attr-autocapitalize-characters characters
+##                                           autocap-hint-characters
+  #invalid         autocap-hint-sentences    sentences
+  #missing         autocap-hint-default      default
 input    autocorrect enumerated
   on               -                     -
   off              -                     -
