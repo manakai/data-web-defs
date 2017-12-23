@@ -18,7 +18,7 @@ for (
 }
 
 for (qw(
-  callback interface partial dictionary enum typedef implements const
+  callback interface partial dictionary enum typedef includes mixin const
   null true false -Infinity Infinity NaN getter stringifier
   static attribute inherit readonly setter deleter
   iterable optional ByteString Date
@@ -46,7 +46,7 @@ for (qw(
 ## <https://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const deleter dictionary enum
-  getter implements inherit interface iterable
+  getter includes inherit interface iterable
   maplike partial setlike setter static
   stringifier typedef unrestricted required
 
@@ -59,13 +59,15 @@ $Data->{keyword_tokens}->{$_}->{attribute_name} = 1 for qw(
 for (
   [interface => 'interface', 'interface'],
   [partial_interface => 'interface', 'partial interface definition'],
+  [interface_mixin => 'interface', 'interface mixin definition'],
+  [partial_interface_mixin => 'interface', 'partial interface mixin definition'],
   [callback_interface => 'interface', 'callback interface'],
   [dictionary => 'dictionary', 'dictionary'],
   [partial_dictionary => 'dictionary', 'partial dictionary definition'],
   [enum => 'enum', 'enumeration'],
   [callback => 'callback', 'callback function'],
   [typedef => 'typedef', 'typedef'],
-  [implements => 'implements', 'implements statement'],
+  [includes => 'includes', 'includes statement'],
 ) {
   $Data->{constructs}->{$_->[0]}->{definition} = 1;
   $Data->{constructs}->{$_->[0]}->{keyword} = $_->[1];
@@ -125,6 +127,14 @@ my $XAttrAllowed = {
     Serializable => 1,
     Transferable => 1,
   },
+  interface_mixin => {
+    Exposed => 1,
+    SecureContext => 1,
+  },
+  partial_interface_mixin => {
+    Exposed => 1,
+    SecureContext => 1,
+  },
   const => {
     Exposed => 1,
     SecureContext => 1,
@@ -141,7 +151,6 @@ my $XAttrAllowed = {
     Exposed => 1,
     SameObject => 1,
     SecureContext => 1,
-    Unforgeable => 1,
   },
   operation => {
     Exposed => 1, NewObject => 1,
@@ -173,7 +182,7 @@ my $XAttrAllowed = {
     TreatNonObjectAsNull => 1,
   },
   typedef => {},
-  implements => {},
+  includes => {},
 };
 
 for my $key (keys %$XAttrAllowed) {
@@ -258,6 +267,7 @@ my $Reserved = {
 for my $name (keys %$ReservedIdentifiers) {
   $Data->{constructs}->{$_}->{reserved}->{$name} = 1
       for qw(interface partial_interface callback_interface
+             interface_mixin partial_interface_mixin
              dictionary partial_dictionary
              enum callback typedef const attribute
              static_attribute dictionary_member
