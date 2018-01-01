@@ -19,7 +19,7 @@ for (
 
 for (qw(
   callback interface partial dictionary enum typedef includes mixin const
-  null true false -Infinity Infinity NaN getter stringifier
+  null true false -Infinity Infinity NaN getter stringifier namespace
   static attribute inherit readonly setter deleter
   iterable optional ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
@@ -46,7 +46,7 @@ for (qw(
 ## <https://heycam.github.io/webidl/#prod-ArgumentNameKeyword>
 $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   attribute callback const deleter dictionary enum
-  getter includes inherit interface iterable
+  getter includes inherit interface namespace iterable
   maplike partial setlike setter static
   stringifier typedef unrestricted required
 
@@ -57,12 +57,14 @@ $Data->{keyword_tokens}->{$_}->{attribute_name} = 1 for qw(
 );
 
 for (
-  [interface => 'interface', 'interface'],
+  [interface => 'interface', 'interface definition'],
   [partial_interface => 'interface', 'partial interface definition'],
   [interface_mixin => 'interface', 'interface mixin definition'],
   [partial_interface_mixin => 'interface', 'partial interface mixin definition'],
-  [callback_interface => 'interface', 'callback interface'],
-  [dictionary => 'dictionary', 'dictionary'],
+  [callback_interface => 'interface', 'callback interface definition'],
+  [namespace => 'namespace', 'namespace definition'],
+  [partial_namespace => 'namespace', 'partial namespace definition'],
+  [dictionary => 'dictionary', 'dictionary definition'],
   [partial_dictionary => 'dictionary', 'partial dictionary definition'],
   [enum => 'enum', 'enumeration'],
   [callback => 'callback', 'callback function'],
@@ -132,6 +134,14 @@ my $XAttrAllowed = {
     SecureContext => 1,
   },
   partial_interface_mixin => {
+    Exposed => 1,
+    SecureContext => 1,
+  },
+  namespace => {
+    Exposed => 1,
+    SecureContext => 1,
+  },
+  partial_namespace => {
     Exposed => 1,
     SecureContext => 1,
   },
