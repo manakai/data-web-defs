@@ -1,6 +1,12 @@
-/* Source: <https://wiki.whatwg.org/wiki/DOM_XPath> (with some modifications) */
+/* Source: <https://wiki.whatwg.org/wiki/DOM_XPath> with following
+   modifications:
 
-/* "Content is available under a CC0 Universal Public Domain
+     - Added [Exposed] extended attributes
+     - Replace |implements| by |includes| and introduced |XPathEvaluatorMixin|
+*/
+
+/* License of the source (at the time this file forked from it):
+   "Content is available under a CC0 Universal Public Domain
    Declaration, with some restrictions
    <https://wiki.whatwg.org/wiki/WHATWG_Wiki:Copyrights> unless
    otherwise noted." */
@@ -30,25 +36,33 @@ interface XPathResult {
   Node?               snapshotItem(unsigned long index);
 };
 
-[Constructor, Exposed=Window]
-interface XPathEvaluator {
-  XPathExpression    createExpression(DOMString expression, 
-                                      XPathNSResolver? resolver);
-  XPathNSResolver    createNSResolver(Node? nodeResolver);
+[Exposed=Window]
+interface XPathExpression {
+  XPathResult evaluate(Node contextNode,
+                       optional unsigned short type,
+                       optional object? result);
+};
 
-  /*
-  XPathResult        evaluate(DOMString expression, 
-                              Node? contextNode, 
-                              XPathNSResolver? resolver, 
-                              unsigned short type, 
-                              object? result);
-  */
+[Exposed=Window]
+interface XPathNSResolver {
+  DOMString? lookupNamespaceURI(DOMString? prefix);
+};
+
+interface mixin XPathEvaluatorMixin {
+  XPathExpression    createExpression(DOMString expression, 
+                                      optional XPathNSResolver? resolver);
+  XPathNSResolver    createNSResolver(Node nodeResolver);
 
   XPathResult evaluate(DOMString expression,
                        Node contextNode,
-                       XPathNSResolver? resolver,
-                       optional unsigned short type = 0,
-                       optional object? result = null);
+                       optional XPathNSResolver? resolver,
+                       optional unsigned short type,
+                       optional object? result);
 
 };
-Document includes XPathEvaluator;
+
+[Constructor, Exposed=Window]
+interface XPathEvaluator { };
+
+Document includes XPathEvaluatorMixin;
+XPathEvaluator includes XPathEvaluatorMixin;
