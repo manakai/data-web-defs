@@ -241,14 +241,6 @@
          "value" : "ExtendableEventInit"
       },
       {
-         "fragment" : "Document includes XPathEvaluator;\u000A",
-         "index" : 2190,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:includes:right is not mixin",
-         "value" : "XPathEvaluator"
-      },
-      {
          "fragment" : "HTMLLinkElement includes [*id=\u0022the-linkstyle-interface\u0022*]LinkStyle;",
          "index" : 1078,
          "level" : "m",
@@ -10745,6 +10737,10 @@
                   "supplemental" : 1
                },
                "ParentNode" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
+               "XPathEvaluatorMixin" : {
                   "depth" : 1,
                   "supplemental" : 1
                }
@@ -42734,6 +42730,10 @@
                "ParentNode" : {
                   "depth" : 2,
                   "supplemental" : 1
+               },
+               "XPathEvaluatorMixin" : {
+                  "depth" : 2,
+                  "supplemental" : 1
                }
             },
             "members" : {
@@ -43443,11 +43443,37 @@
             "Exposed" : {
                "Window" : 1
             },
+            "implements" : {
+               "XPathEvaluatorMixin" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               }
+            },
+            "members" : {
+            }
+         }
+      ],
+      "XPathEvaluatorMixin" : [
+         "interface_mixin",
+         {
             "members" : {
                "createExpression" : [
                   "operation",
                   {
                      "overload_set" : {
+                        "DOMString" : {
+                           "args" : [
+                              {
+                                 "name" : "expression",
+                                 "optionality" : "required",
+                                 "type" : "DOMString"
+                              }
+                           ],
+                           "type" : [
+                              "ref_interface",
+                              "XPathExpression"
+                           ]
+                        },
                         "DOMString,nullable[ref[XPathNSResolver]]" : {
                            "args" : [
                               {
@@ -43457,7 +43483,7 @@
                               },
                               {
                                  "name" : "resolver",
-                                 "optionality" : "required",
+                                 "optionality" : "optional",
                                  "type" : [
                                     "nullable",
                                     [
@@ -43479,17 +43505,14 @@
                   "operation",
                   {
                      "overload_set" : {
-                        "nullable[ref[Node]]" : {
+                        "ref[Node]" : {
                            "args" : [
                               {
                                  "name" : "nodeResolver",
                                  "optionality" : "required",
                                  "type" : [
-                                    "nullable",
-                                    [
-                                       "ref_interface",
-                                       "Node"
-                                    ]
+                                    "ref_interface",
+                                    "Node"
                                  ]
                               }
                            ],
@@ -43505,6 +43528,27 @@
                   "operation",
                   {
                      "overload_set" : {
+                        "DOMString,ref[Node]" : {
+                           "args" : [
+                              {
+                                 "name" : "expression",
+                                 "optionality" : "required",
+                                 "type" : "DOMString"
+                              },
+                              {
+                                 "name" : "contextNode",
+                                 "optionality" : "required",
+                                 "type" : [
+                                    "ref_interface",
+                                    "Node"
+                                 ]
+                              }
+                           ],
+                           "type" : [
+                              "ref_interface",
+                              "XPathResult"
+                           ]
+                        },
                         "DOMString,ref[Node],nullable[ref[XPathNSResolver]]" : {
                            "args" : [
                               {
@@ -43522,7 +43566,7 @@
                               },
                               {
                                  "name" : "resolver",
-                                 "optionality" : "required",
+                                 "optionality" : "optional",
                                  "type" : [
                                     "nullable",
                                     [
@@ -43554,7 +43598,7 @@
                               },
                               {
                                  "name" : "resolver",
-                                 "optionality" : "required",
+                                 "optionality" : "optional",
                                  "type" : [
                                     "nullable",
                                     [
@@ -43566,11 +43610,7 @@
                               {
                                  "name" : "type",
                                  "optionality" : "optional",
-                                 "type" : "unsigned short",
-                                 "value" : [
-                                    "integer",
-                                    0
-                                 ]
+                                 "type" : "unsigned short"
                               }
                            ],
                            "type" : [
@@ -43595,7 +43635,7 @@
                               },
                               {
                                  "name" : "resolver",
-                                 "optionality" : "required",
+                                 "optionality" : "optional",
                                  "type" : [
                                     "nullable",
                                     [
@@ -43607,11 +43647,7 @@
                               {
                                  "name" : "type",
                                  "optionality" : "optional",
-                                 "type" : "unsigned short",
-                                 "value" : [
-                                    "integer",
-                                    0
-                                 ]
+                                 "type" : "unsigned short"
                               },
                               {
                                  "name" : "result",
@@ -43619,8 +43655,7 @@
                                  "type" : [
                                     "nullable",
                                     "object"
-                                 ],
-                                 "value" : "null"
+                                 ]
                               }
                            ],
                            "type" : [
@@ -43674,11 +43709,7 @@
                               {
                                  "name" : "type",
                                  "optionality" : "optional",
-                                 "type" : "unsigned short",
-                                 "value" : [
-                                    "integer",
-                                    0
-                                 ]
+                                 "type" : "unsigned short"
                               }
                            ],
                            "type" : [
@@ -43699,11 +43730,7 @@
                               {
                                  "name" : "type",
                                  "optionality" : "optional",
-                                 "type" : "unsigned short",
-                                 "value" : [
-                                    "integer",
-                                    0
-                                 ]
+                                 "type" : "unsigned short"
                               },
                               {
                                  "name" : "result",
@@ -43711,8 +43738,7 @@
                                  "type" : [
                                     "nullable",
                                     "object"
-                                 ],
-                                 "value" : "null"
+                                 ]
                               }
                            ],
                            "type" : [
