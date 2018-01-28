@@ -2801,100 +2801,41 @@
                      "Path2D"
                   ]
                },
-               "DOMString" : {
-                  "args" : [
-                     {
-                        "name" : "d",
-                        "optionality" : "required",
-                        "spec" : "HTML",
-                        "type" : "DOMString"
-                     }
-                  ],
-                  "id" : "dom-path2d-withdata",
-                  "spec" : "HTML",
-                  "type" : [
-                     "ref_interface",
-                     "Path2D"
-                  ]
-               },
-               "ref[Path2D]" : {
+               "union[ref[Path2D],DOMString]" : {
                   "args" : [
                      {
                         "name" : "path",
-                        "optionality" : "required",
-                        "spec" : "HTML",
-                        "type" : [
-                           "ref_interface",
-                           "Path2D"
-                        ]
-                     }
-                  ],
-                  "id" : "dom-path2d-copy",
-                  "spec" : "HTML",
-                  "type" : [
-                     "ref_interface",
-                     "Path2D"
-                  ]
-               },
-               "sequence[ref[Path2D]]" : {
-                  "args" : [
-                     {
-                        "name" : "paths",
-                        "optionality" : "required",
-                        "spec" : "HTML",
-                        "type" : [
-                           "sequence",
-                           [
-                              "ref_interface",
-                              "Path2D"
-                           ]
-                        ]
-                     }
-                  ],
-                  "id" : "dom-path2d-merge",
-                  "spec" : "HTML",
-                  "type" : [
-                     "ref_interface",
-                     "Path2D"
-                  ]
-               },
-               "sequence[ref[Path2D]],ref[CanvasFillRule]" : {
-                  "args" : [
-                     {
-                        "name" : "paths",
-                        "optionality" : "required",
-                        "spec" : "HTML",
-                        "type" : [
-                           "sequence",
-                           [
-                              "ref_interface",
-                              "Path2D"
-                           ]
-                        ]
-                     },
-                     {
-                        "name" : "fillRule",
                         "optionality" : "optional",
                         "spec" : "HTML",
                         "type" : [
-                           "ref_enum",
-                           "CanvasFillRule"
-                        ],
-                        "value" : [
-                           "string",
-                           "nonzero"
+                           "union",
+                           {
+                              "def" : [
+                                 [
+                                    "ref_interface",
+                                    "Path2D"
+                                 ],
+                                 "DOMString"
+                              ],
+                              "flattened" : {
+                                 "DOMString" : "DOMString",
+                                 "ref_interface[Path2D]" : [
+                                    "ref_interface",
+                                    "Path2D"
+                                 ]
+                              }
+                           }
                         ]
                      }
                   ],
-                  "id" : "dom-path2d-merge",
+                  "id" : "dom-path2d",
                   "spec" : "HTML",
                   "type" : [
                      "ref_interface",
                      "Path2D"
                   ]
                }
-            },
-            "overloaded" : 1
+            }
          }
       ],
       "Performance" : [
