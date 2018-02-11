@@ -238,7 +238,7 @@ my @AudioOrVideoSniffingTable = (
   ],
 );
 
-## <https://mimesniff.spec.whatwg.org/#font-type-pattern-matching-algorithm>
+## <https://mimesniff.spec.whatwg.org/#rules-for-sniffing-fonts-specifically>
 my @FontSniffingTable = (
   [
     "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 FF FF",
@@ -263,7 +263,12 @@ my @FontSniffingTable = (
   [
     "FF FF FF FF",
     "77 4F 46 46",
-    "application/font-woff", 0,
+    "font/woff", 0,
+  ],
+  [
+    "FF FF FF FF",
+    "77 4F 46 32",
+    "font/woff2", 0,
   ],
 );
 
