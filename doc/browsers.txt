@@ -36,6 +36,43 @@ The file contains a JSON object, which has following name/value pairs:
 
         The status of the task source, if known.
 
+  user_agents [object]
+
+    Platform identification strings.  The object has nested objects
+    with following structure:
+
+      .user_agents[ /environment/ ][ /os/ ][ /mode/ ]
+
+    ... where /environment/ is the environment (either |desktop|,
+    |tablet|, or |mobile|), /os/ is the operating system (either
+    |android|, |ipad|, |iphone|, |linux|, |mac|, or |windows|), and
+    /mode/ is the navigator compatibility mode (either |chrome|,
+    |gecko|, or |webkit|).  The value is a [ua-object].  No value is
+    supplied if the combination of /environment/, /os/, and /mode/ is
+    not applicable.
+
+* Data type
+
+A [ua-object] is an object representing a platform identifying strings
+with following name/value pairs:
+
+  appVersion [string]
+
+    The |navigator.appVersion| string.
+
+  oscpu [string?]
+
+    The |navigator.oscpu| string, if the navigator compatibility mode
+    is Gecko.
+
+  platform [string]
+
+    The |navigator.platform| string.
+
+  userAgent [string]
+
+    The |navigator.userAgent| string.
+
 * Sources
 
 HTML Standard <https://www.whatwg.org/specs/web-apps/current-work/>.

@@ -420,7 +420,7 @@ clean-dom:
 	rm -fr local/dom.html local/domparsing.html
 	rm -fr local/html.spec.whatwg.org local/webidl.html
 	rm -fr local/MetaExtensions.html
-	rm -fr data/webidl.json
+	rm -fr data/webidl.json local/ua-names.pl
 
 data/dom.json: bin/dom.pl src/dom-nodes.txt local/html-extracted.json \
   local/idl-extracted.json \
@@ -646,9 +646,6 @@ data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl \
     local/iana/link-relations.json
 	$(PERL) bin/html-metadata.pl > $@
 
-data/browsers.json: bin/browsers.pl src/task-sources.txt data/fetch.json
-	$(PERL) $< > $@
-
 data/rdf.json: bin/rdf.pl
 	$(PERL) bin/rdf.pl > $@
 
@@ -691,6 +688,15 @@ local/modules/vcutils:
 	$(GIT) clone --depth 1 https://github.com/wakaba/perl-vcutils $@
 data/html-spec-svn-history.html: local/modules/vcutils $(HTML_REPO_DIR) always
 	HTML_REPO_DIR=$(HTML_REPO_DIR) $(PERL) bin/html-spec-svn-history.pl > $@
+
+data/browsers.json: bin/browsers.pl src/task-sources.txt data/fetch.json \
+    intermediate/ua-names.json
+	$(PERL) $< > $@
+
+local/ua-names.pl:
+	$(WGET) -O $@ https://raw.githubusercontent.com/manakai/data-web-impls/uaname/intermediate/ua-names.pl
+intermediate/ua-names.json: bin/ua-names.pl local/ua-names.pl
+	$(PERL) $<
 
 ## ------ Microdata ------
 

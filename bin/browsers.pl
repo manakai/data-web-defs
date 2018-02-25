@@ -36,6 +36,42 @@ for ($RootPath->child ('src/task-sources.txt')->lines_utf8) {
   }
 }
 
+{
+  my $json = json_bytes2perl $RootPath->child ('intermediate/ua-names.json')->slurp;
+  for my $type (keys %$json) {
+    for my $os (keys %{$json->{$type}}) {
+      for my $mode (keys %{$json->{$type}->{$os}}) {
+        my $ua = $json->{$type}->{$os}->{$mode};
+        my $v = $Data->{user_agents}->{$type}->{$os}->{$mode} = {};
+        $v->{userAgent} = $ua;
+        my $ver = $ua;
+        $ver =~ s{^Mozilla/}{};
+        if ($mode eq 'gecko') {
+          $ver =~ s{;.*}{}s;
+          $ver = '5.0 (Windows' if $ver =~ m{^5\.0 \(Windows};
+          $ver .= ')';
+        }
+        $v->{appVersion} = $ver;
+        $v->{platform} = {
+          'windows' => ($mode eq 'gecko' ? 'Win64' : 'Win32'),
+          mac => 'MacIntel',
+          ipad => 'iPad',
+          iphone => 'iPhone',
+          linux => 'Linux x86_64',
+          android => 'Linux armv7l',
+        }->{$os} // '';
+        if ($mode eq 'gecko') {
+          if ($v->{platform} eq 'Win64') {
+            $v->{oscpu} = 'Windows NT 10.0; Win64; x64';
+          } else {
+            $v->{oscpu} = $v->{platform};
+          }
+        }
+      }
+    }
+  }
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.
