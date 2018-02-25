@@ -27,8 +27,8 @@ my $Data = json_bytes2perl $DataPath->slurp;
     ['gecko',   'mobile',  'android', 'firefox,mobile,android'],
 
     ['webkit',  'desktop', 'mac',     'webkit,mac'],
-    ['webkit',  'tablet',  'ipad',    'webkit,tablet,ios'],
-    ['webkit',  'mobile',  'iphone',  'webkit,mobile,ios'],
+    ['webkit',  'tablet',  'ios',     'webkit,tablet,ios'],
+    ['webkit',  'mobile',  'ios',     'webkit,mobile,ios'],
   ) {
     my ($mode, $type, $os, $key) = @$_;
     my $value = $data->{$key};

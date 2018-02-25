@@ -55,8 +55,7 @@ for ($RootPath->child ('src/task-sources.txt')->lines_utf8) {
         $v->{platform} = {
           'windows' => ($mode eq 'gecko' ? 'Win64' : 'Win32'),
           mac => 'MacIntel',
-          ipad => 'iPad',
-          iphone => 'iPhone',
+          ios => ($type eq 'tablet' ? 'iPad' : 'iPhone'),
           linux => 'Linux x86_64',
           android => 'Linux armv7l',
         }->{$os} // '';
