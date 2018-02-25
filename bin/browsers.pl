@@ -67,6 +67,7 @@ for ($RootPath->child ('src/task-sources.txt')->lines_utf8) {
             $v->{oscpu} = $v->{platform};
           }
         }
+        $v->{newline} = $os eq 'windows' ? "\x0D\x0A" : "\x0A";
       }
     }
   }
