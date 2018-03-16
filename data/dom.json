@@ -405,6 +405,14 @@
             }
          }
       ],
+      "AbstractRange" : [
+         "object",
+         {
+            "Exposed" : {
+               "Window" : 1
+            }
+         }
+      ],
       "ApplicationCache" : [
          "object",
          {
@@ -3326,6 +3334,14 @@
             }
          }
       ],
+      "StaticRange" : [
+         "object",
+         {
+            "Exposed" : {
+               "Window" : 1
+            }
+         }
+      ],
       "Storage" : [
          "object",
          {
@@ -4191,6 +4207,69 @@
                         "ref_typedef",
                         "EventHandler"
                      ]
+                  }
+               ]
+            },
+            "spec" : "DOM"
+         }
+      ],
+      "AbstractRange" : [
+         "interface",
+         {
+            "Exposed" : {
+               "Window" : 1
+            },
+            "id" : "abstractrange",
+            "members" : {
+               "collapsed" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-range-collapsed",
+                     "spec" : "DOM",
+                     "type" : "boolean"
+                  }
+               ],
+               "endContainer" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-range-endcontainer",
+                     "spec" : "DOM",
+                     "type" : [
+                        "ref_interface",
+                        "Node"
+                     ]
+                  }
+               ],
+               "endOffset" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-range-endoffset",
+                     "spec" : "DOM",
+                     "type" : "unsigned long"
+                  }
+               ],
+               "startContainer" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-range-startcontainer",
+                     "spec" : "DOM",
+                     "type" : [
+                        "ref_interface",
+                        "Node"
+                     ]
+                  }
+               ],
+               "startOffset" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-range-startoffset",
+                     "spec" : "DOM",
+                     "type" : "unsigned long"
                   }
                ]
             },
@@ -35621,6 +35700,11 @@
                "Window" : 1
             },
             "id" : "range",
+            "implements" : {
+               "AbstractRange" : {
+                  "depth" : 1
+               }
+            },
             "members" : {
                "END_TO_END" : [
                   "const",
@@ -35732,15 +35816,6 @@
                         }
                      },
                      "spec" : "DOM"
-                  }
-               ],
-               "collapsed" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-range-collapsed",
-                     "spec" : "DOM",
-                     "type" : "boolean"
                   }
                ],
                "commonAncestorContainer" : [
@@ -35867,27 +35942,6 @@
                         }
                      },
                      "spec" : "DOM"
-                  }
-               ],
-               "endContainer" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-range-endcontainer",
-                     "spec" : "DOM",
-                     "type" : [
-                        "ref_interface",
-                        "Node"
-                     ]
-                  }
-               ],
-               "endOffset" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-range-endoffset",
-                     "spec" : "DOM",
-                     "type" : "unsigned long"
                   }
                ],
                "extractContents" : [
@@ -36190,27 +36244,6 @@
                         }
                      },
                      "spec" : "DOM"
-                  }
-               ],
-               "startContainer" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-range-startcontainer",
-                     "spec" : "DOM",
-                     "type" : [
-                        "ref_interface",
-                        "Node"
-                     ]
-                  }
-               ],
-               "startOffset" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "dom-range-startoffset",
-                     "spec" : "DOM",
-                     "type" : "unsigned long"
                   }
                ],
                "surroundContents" : [
@@ -37868,6 +37901,23 @@
                   }
                ]
             }
+         }
+      ],
+      "StaticRange" : [
+         "interface",
+         {
+            "Exposed" : {
+               "Window" : 1
+            },
+            "id" : "staticrange",
+            "implements" : {
+               "AbstractRange" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+            },
+            "spec" : "DOM"
          }
       ],
       "Storage" : [
