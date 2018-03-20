@@ -467,6 +467,30 @@ my $tree_pattern_not_name_map = {};
   }
 }
 
+{
+  my $path = $RootPath->child ('data/headers.json');
+  my $data = json_bytes2perl $path->slurp;
+  for my $data (values %{$data->{headers}}) {
+    if ($data->{http_equiv}->{conforming} or
+        defined $data->{http_equiv}->{enumerated_attr_state_name}) {
+      my $a_def = $Data->{elements}->{(HTML_NS)}->{meta}->{attrs}->{''}->{'http-equiv'} ||= {};
+      my $value = $data->{http_equiv}->{name};
+      $value =~ tr/A-Z/a-z/;
+      for (qw(url id spec)) {
+        $a_def->{enumerated}->{$value}->{$_} = $data->{http_equiv}->{$_}
+            if defined $data->{http_equiv}->{$_};
+      }
+      if ($data->{http_equiv}->{conforming}) {
+        $a_def->{enumerated}->{$value}->{conforming} = 1;
+      } else {
+        $a_def->{enumerated}->{$value}->{non_conforming} = 1;
+      }
+      $a_def->{enumerated}->{$value}->{label} = $data->{http_equiv}->{enumerated_attr_state_name}
+          if defined $data->{http_equiv}->{enumerated_attr_state_name};
+    }
+  } # $data
+}
+
 ## For backward compatibility
 {
   for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {

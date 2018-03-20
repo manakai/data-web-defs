@@ -576,9 +576,9 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
     } elsif (/^(non-conforming)$/) {
       delete $data->{conforming};
     } elsif (/^WHATWG Wiki (allowed|proposed)$/) {
-      $data->{whatwg_wiki_status} = $1;
-      $data->{conforming} = 1;
-    } elsif (/(.+ state)/) {
+      #$data->{whatwg_wiki_status} = $1;
+      #$data->{conforming} = 1;
+    } elsif (/(.+) state/) {
       $data->{enumerated_attr_state_name} = $1;
     } elsif (/\S/) {
       die "Broken line |$_|";
