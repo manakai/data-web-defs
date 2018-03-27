@@ -9,7 +9,7 @@ test() {
 
 test 1 '.idl_defs.DOMTokenList[1].members.toggle[0] == "operation"'
 test 2 '.idl_defs.DOMTimeStamp[0] == "typedef"'
-test 3 '.idl_defs.HTMLElement[1].members.focus[1].spec == "HTML"'
+test 3 '.idl_defs.HTMLModElement[1].members.cite[1].spec == "HTML"'
 test 4 '.idl_defs.Text[1].implements.ChildNode.supplemental | not | not'
 test 5 '.idl_defs.Text[1].implements.EventTarget.depth | not | not'
 test 6 '.primary_global == "Window"'
