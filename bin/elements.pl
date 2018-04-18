@@ -189,8 +189,6 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
 
   for (
     ['link', 'as', 'destination', 'potential_destination'],
-    ['link', 'workertype', 'script_type', 'service_worker_type'],
-    ['link', 'updateviacache', 'update_via_cache_mode', 'enumerated_attr_state'],
     ['a', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
     ['area', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
     ['link', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
