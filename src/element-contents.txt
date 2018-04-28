@@ -1,0 +1,255 @@
+* <ATOM>feed
+
+0-* <ATOM>author^*
+0-* <ATOM>category
+0-* <ATOM>contributor
+0-* <ATOM>link^*
+0-* <ATOM>entry^*
+0-* <APP>collection
+0-* <ATOMDELETED>deleted-entry
+
+0-1 <ATOM>generator
+0-1 <ATOM>icon
+0-1 <ATOM>logo
+0-1 <ATOM>rights
+0-1 <ATOM>subtitle
+0-1 <FH>archive
+0-1 <FH>complete
+#0-1 <DSIG>Signature
+
+1-1 <ATOM>id
+1-1 <ATOM>title
+1-1 <ATOM>updated
+
+* <ATOM>entry
+
+0-* <ATOM>author^*
+0-* <ATOM>category
+0-* <ATOM>contributor
+0-* <ATOM>link^*
+0-* <THR>in-reply-to
+
+0-1 <ATOM>content
+0-1 <ATOM>rights
+0-1 <ATOM>source
+0-1 <ATOM>summary^*
+0-1 <APP>control
+0-1 <APP>edited^*
+0-1 <THR>total
+#0-1 <DSIG>Signature
+
+1-1 <ATOM>id
+1-1 <ATOM>title
+1-1 <ATOM>updated
+
+* <ATOM>source
+
+0-* <ATOM>author
+0-* <ATOM>category
+0-* <ATOM>contributor
+0-* <ATOM>link
+
+0-1 <ATOM>generator
+0-1 <ATOM>icon
+0-1 <ATOM>id
+0-1 <ATOM>logo
+0-1 <ATOM>rights
+0-1 <ATOM>subtitle
+0-1 <ATOM>title
+0-1 <ATOM>updated
+
+* <ATOM03>feed
+
+0-1 <ATOM03>author
+0-1 <ATOM03>copyright
+0-1 <ATOM03>generator
+0-1 <ATOM03>id
+0-1 <ATOM03>info
+0-1 <ATOM03>tagline
+
+1-1 <ATOM03>modified
+1-1 <ATOM03>title
+
+0-* <ATOM03>contributor
+0-* <ATOM03>entry
+
+1-* <ATOM03>link
+
+* <ATOM03>entry
+
+0-1 <ATOM03>author
+0-1 <ATOM03>created
+0-1 <ATOM03>id
+0-1 <ATOM03>summary
+
+1-1 <ATOM03>issued
+1-1 <ATOM03>modified
+1-1 <ATOM03>title
+
+0-* <ATOM03>contributor
+0-* <ATOM03>content
+
+1-* <ATOM03>link
+
+* <APP>categories
+
+0-* <ATOM>category
+
+* <APP>service
+
+0-* <APP>workspace
+
+* <APP>workspace
+
+0-* <APP>collection
+1-1 <ATOM>title
+
+* <APP>collection
+
+0-* <APP>accept
+0-* <APP>categories
+
+1-1 <ATOM>title
+
+* <APP>control
+
+0-1 <APP>draft
+
+* <ATOMDELETED>deleted-entry
+
+0-* <ATOM>link
+0-1 <ATOM>source
+0-1 <ATOMDELETED>by
+0-1 <ATOMDELETED>comment
+#0-1 <DSIG>Signature
+
+
+* <RDF>RDF
+
+1-1 <RSS1>channel
+0-1 <RSS1>image
+1-* <RSS1>item
+  ## recommended: 1-15
+0-1 <RSS1>textinput
+rdf:about
+spec http://web.resource.org/rss/1.0/spec#s5.2
+conforming
+and more
+
+* <RSS1>channel
+
+1-1 <RSS1>title
+1-1 <RSS1>link
+1-1 <RSS1>description
+0-1 <RSS1>image
+1-1 <RSS1>items
+0-1 <RSS1>textinput
+rdf:about
+spec http://web.resource.org/rss/1.0/spec#s5.3
+conforming
+
+* <RSS1>title
+
+content text
+#suggested max 40
+  ## channel, image, textinput
+suggested max 100
+  ## item
+spec http://web.resource.org/rss/1.0/spec#s5.3.1
+#spec http://web.resource.org/rss/1.0/spec#s5.4.1
+#spec http://web.resource.org/rss/1.0/spec#s5.5.1
+#spec http://web.resource.org/rss/1.0/spec#s5.6.1
+conforming
+
+* <RSS1>link
+
+content URL
+suggested max 500
+spec http://web.resource.org/rss/1.0/spec#s5.3.2
+#spec http://web.resource.org/rss/1.0/spec#s5.4.3
+#spec http://web.resource.org/rss/1.0/spec#s5.5.2
+#spec http://web.resource.org/rss/1.0/spec#s5.6.4
+conforming
+
+* <RSS1>url
+
+content URL
+suggested max 500
+spec http://web.resource.org/rss/1.0/spec#s5.4.2
+conforming
+
+* <RSS1>description
+
+content text
+suggested max 500
+  ## channel, item
+#suggested max 100
+  ## textinput
+spec http://web.resource.org/rss/1.0/spec#s5.3.3
+#spec http://web.resource.org/rss/1.0/spec#s5.5.3
+#spec http://web.resource.org/rss/1.0/spec#s5.6.2
+conforming
+
+* <RSS1>name
+
+content string
+suggested max 500
+spec http://web.resource.org/rss/1.0/spec#s5.6.3
+conforming
+
+* <RSS1>image
+
+rdf:resource
+content empty
+#spec http://web.resource.org/rss/1.0/spec#s5.3.4
+
+rdf:about
+1-1 <RSS1>title
+1-1 <RSS1>url
+1-1 <RSS1>link
+spec http://web.resource.org/rss/1.0/spec#s5.4
+conforming
+
+* <RSS1>items
+
+0-1 <RDF>Seq
+spec http://web.resource.org/rss/1.0/spec#s5.3.5
+conforming
+
+* <RSS1>textinput
+
+rdf:resource
+#content empty
+#spec http://web.resource.org/rss/1.0/spec#s5.3.6
+
+rdf:about
+1-1 <RSS1>title
+1-1 <RSS1>description
+1-1 <RSS1>name
+1-1 <RSS1>link
+spec http://web.resource.org/rss/1.0/spec#s5.6
+conforming
+
+* <RSS1>item
+
+rdf:about
+1-1 <RSS1>title
+1-1 <RSS1>link
+0-1 <RSS1>description
+spec http://web.resource.org/rss/1.0/spec#s5.5
+conforming
+
+* <RDF>Seq
+
+0-* <RDF>li
+spec http://web.resource.org/rss/1.0/spec#s5.3.5
+conforming
+and more
+
+* <RDF>li
+
+rdf:resource
+#content empty
+spec http://web.resource.org/rss/1.0/spec#s5.3.5
+conforming
+and more

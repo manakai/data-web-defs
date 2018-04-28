@@ -15,6 +15,24 @@ sub FH_NS () { 'http://purl.org/syndication/history/1.0' }
 sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
 sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
 sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
+sub RDF_NS () { q<http://www.w3.org/1999/02/22-rdf-syntax-ns#> }
+sub RSS1_NS () {q<http://purl.org/rss/1.0/> }
+
+my $NSMAP = {
+  HTML => HTML_NS,
+  MATH => MATH_NS,
+  SVG => SVG_NS,
+  ATOM => ATOM_NS,
+  THR => THR_NS,
+  APP => APP_NS,
+  FH => FH_NS,
+  ATOMDELETED => ATOMDELETED_NS,
+  ATOM03 => ATOM03_NS,
+  DSIG => DSIG_NS,
+  RDF => RDF_NS,
+  RSS1 => RSS1_NS,
+};
+my $NSPATTERN = join '|', keys %$NSMAP;
 
 my $RootPath = path (__FILE__)->parent->parent;
 my $Data = {};
@@ -352,13 +370,9 @@ my $tree_pattern_not_name_map = {};
       $Data->{categories}->{$name}->{text} = 1;
     } elsif (defined $name and /^text non-space$/) {
       $Data->{categories}->{$name}->{text_non_space} = 1;
-    } elsif (defined $name and /^<(HTML|MATH|SVG)>\s+(.+)$/) {
+    } elsif (defined $name and /^<($NSPATTERN)>\s+(.+)$/o) {
       my $lns = [grep { length $_ } split /[\s,]+/, $2];
-      my $ns = {
-        HTML => HTML_NS,
-        MATH => MATH_NS,
-        SVG => SVG_NS,
-      }->{$1};
+      my $ns = $NSMAP->{$1};
       for my $ln (@$lns) {
         $Data->{elements}->{$ns}->{$ln}->{categories}->{$name} = 1;
       }
@@ -748,118 +762,6 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{href}
     ->{preferred} = {type => 'atom_attr', name => 'href', element => 'link'};
 $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
     ->{preferred} = {type => 'atom_attr', name => 'title', element => 'link'};
-
-for my $ce ($Data->{elements}->{+ATOM_NS}->{feed}->{child_elements} ||= {}) {
-  $ce->{+ATOM_NS}->{$_}->{min} = 0
-      for qw(author category contributor link entry);
-  $ce->{+APP_NS}->{collection}->{min} = 0;
-  $ce->{+ATOMDELETED_NS}->{'deleted-entry'}->{min} = 0;
-  $ce->{+ATOM_NS}->{$_}->{min} = 0,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(generator icon logo rights subtitle);
-  $ce->{+ATOM_NS}->{$_}->{min} = 1,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(id title updated);
-  $ce->{+ATOM_NS}->{$_}->{has_additional_rules} = 1
-      for qw(author link entry);
-  $ce->{+FH_NS}->{$_}->{min} = 0,
-  $ce->{+FH_NS}->{$_}->{max} = 1
-      for qw(archive complete);
-  #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
-  #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
-}
-for my $ce ($Data->{elements}->{+ATOM_NS}->{entry}->{child_elements} ||= {}) {
-  $ce->{+ATOM_NS}->{$_}->{min} = 0
-      for qw(author category contributor link);
-  $ce->{+ATOM_NS}->{$_}->{min} = 0,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(content rights source summary);
-  $ce->{+APP_NS}->{$_}->{min} = 0,
-  $ce->{+APP_NS}->{$_}->{max} = 1
-      for qw(control edited);
-  $ce->{+ATOM_NS}->{$_}->{min} = 1,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(id title updated);
-  $ce->{+ATOM_NS}->{$_}->{has_additional_rules} = 1
-      for qw(author link summary);
-  $ce->{+APP_NS}->{$_}->{has_additional_rules} = 1
-      for qw(edited);
-  $ce->{+THR_NS}->{'in-reply-to'}->{min} = 0;
-  $ce->{+THR_NS}->{total}->{min} = 0;
-  $ce->{+THR_NS}->{total}->{max} = 1;
-  #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
-  #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
-}
-for my $ce ($Data->{elements}->{+ATOM_NS}->{source}->{child_elements} ||= {}) {
-  $ce->{+ATOM_NS}->{$_}->{min} = 0
-      for qw(author category contributor link);
-  $ce->{+ATOM_NS}->{$_}->{min} = 0,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(generator icon id logo rights subtitle title updated);
-}
-for my $ce ($Data->{elements}->{+ATOM03_NS}->{feed}->{child_elements} ||= {}) {
-  $ce->{+ATOM03_NS}->{$_}->{min} = 0,
-  $ce->{+ATOM03_NS}->{$_}->{max} = 1
-      for qw(author copyright generator id info tagline);
-  $ce->{+ATOM03_NS}->{$_}->{min} = 1,
-  $ce->{+ATOM03_NS}->{$_}->{max} = 1
-      for qw(modified title);
-  $ce->{+ATOM03_NS}->{$_}->{min} = 0
-      for qw(contributor entry);
-  $ce->{+ATOM03_NS}->{$_}->{min} = 1
-      for qw(link);
-}
-for my $ce ($Data->{elements}->{+ATOM03_NS}->{entry}->{child_elements} ||= {}) {
-  $ce->{+ATOM03_NS}->{$_}->{min} = 0,
-  $ce->{+ATOM03_NS}->{$_}->{max} = 1
-      for qw(author created id summary);
-  $ce->{+ATOM03_NS}->{$_}->{min} = 1,
-  $ce->{+ATOM03_NS}->{$_}->{max} = 1
-      for qw(issued modified title);
-  $ce->{+ATOM03_NS}->{$_}->{min} = 0
-      for qw(contributor content);
-  $ce->{+ATOM03_NS}->{$_}->{min} = 1
-      for qw(link);
-}
-for my $ce ($Data->{elements}->{+APP_NS}->{categories}->{child_elements} ||= {}) {
-  $ce->{+ATOM_NS}->{$_}->{min} = 0
-      for qw(category);
-}
-for my $ce ($Data->{elements}->{+APP_NS}->{service}->{child_elements} ||= {}) {
-  $ce->{+APP_NS}->{$_}->{min} = 1
-      for qw(workspace);
-}
-for my $ce ($Data->{elements}->{+APP_NS}->{workspace}->{child_elements} ||= {}) {
-  $ce->{+APP_NS}->{$_}->{min} = 0
-      for qw(collection);
-  $ce->{+ATOM_NS}->{$_}->{min} = 1,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(title);
-}
-for my $ce ($Data->{elements}->{+APP_NS}->{collection}->{child_elements} ||= {}) {
-  $ce->{+APP_NS}->{$_}->{min} = 0
-      for qw(accept categories);
-  $ce->{+ATOM_NS}->{$_}->{min} = 1,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(title);
-}
-for my $ce ($Data->{elements}->{+APP_NS}->{control}->{child_elements} ||= {}) {
-  $ce->{+APP_NS}->{$_}->{min} = 0,
-  $ce->{+APP_NS}->{$_}->{max} = 1
-      for qw(draft);
-}
-for my $ce ($Data->{elements}->{+ATOMDELETED_NS}->{'deleted-entry'}->{child_elements} ||= {}) {
-  $ce->{+ATOM_NS}->{$_}->{min} = 0
-      for qw(link);
-  $ce->{+ATOM_NS}->{$_}->{min} = 0,
-  $ce->{+ATOM_NS}->{$_}->{max} = 1
-      for qw(source);
-  $ce->{+ATOMDELETED_NS}->{$_}->{min} = 0,
-  $ce->{+ATOMDELETED_NS}->{$_}->{max} = 1
-      for qw(by comment);
-  #$ce->{+DSIG_NS}->{Signature}->{min} = 0;
-  #$ce->{+DSIG_NS}->{Signature}->{max} = 1;
-}
 for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
   for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
     if (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomPersonConstruct') {
@@ -897,6 +799,49 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
             = {type => 'none'};
       }
       $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{value_type} ||= 'MIME type';
+    }
+  }
+}
+
+
+
+{
+  my $path = $RootPath->child ('src/element-contents.txt');
+  my $ens;
+  my $eln;
+  my $edef;
+  for (split /\x0D?\x0A/, $path->slurp) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^\*\s*<($NSPATTERN)>([\w-]+)\s*$/o) {
+      $ens = $NSMAP->{$1};
+      $eln = $2;
+      $edef = $Data->{elements}->{$ens}->{$eln} ||= {};
+    } elsif (/^([0-9]+)-([0-9]+|\*)\s+<($NSPATTERN)>([\w-]+)(\^\*|)\s*$/o) {
+      my $ans = $NSMAP->{$3};
+      $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
+      $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
+      $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
+    } elsif (/^rdf:(about|resource)$/) {
+      $edef->{attrs}->{(RDF_NS)}->{$1}->{conforming} = 1;
+      $edef->{attrs}->{(RDF_NS)}->{$1}->{value_type} = 'URL';
+      $edef->{attrs}->{(RDF_NS)}->{$1}->{url}
+          = 'http://web.resource.org/rss/1.0/spec';
+    } elsif (/^content\s+(text|string|URL)\s*$/) {
+      $edef->{content_model} = 'text';
+      $edef->{text_type} = $1;
+    } elsif (/^content\s+(empty)\s*$/) {
+      $edef->{content_model} = $1;
+    } elsif (/^suggested\s+max\s+([0-9]+)\s*$/) {
+      #
+    } elsif (/^spec\s+(\S+)\s*$/) {
+      $edef->{url} = $1;
+    } elsif (/^conforming$/) {
+      $edef->{conforming} = 1;
+    } elsif (/^and\s+more$/) {
+      $edef->{has_additional_content_constraints} = 1;
+    } elsif (/\S/) {
+      die "Bad line |$_|";
     }
   }
 }
