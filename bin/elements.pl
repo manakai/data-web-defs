@@ -16,7 +16,10 @@ sub ATOMDELETED_NS () { 'http://purl.org/atompub/tombstones/1.0' }
 sub ATOM03_NS () { 'http://purl.org/atom/ns#' }
 sub DSIG_NS () { 'http://www.w3.org/2000/09/xmldsig#' }
 sub RDF_NS () { q<http://www.w3.org/1999/02/22-rdf-syntax-ns#> }
-sub RSS1_NS () {q<http://purl.org/rss/1.0/> }
+sub RSS_NS () { q<http://purl.org/rss/1.0/> }
+sub DC_NS () { q<http://purl.org/dc/elements/1.1/> }
+sub RSS_CONTENT_NS () { q<http://purl.org/rss/1.0/modules/content/> }
+sub HATENA_NS () { q<http://www.hatena.ne.jp/info/xmlns#> }
 
 my $NSMAP = {
   HTML => HTML_NS,
@@ -30,7 +33,10 @@ my $NSMAP = {
   ATOM03 => ATOM03_NS,
   DSIG => DSIG_NS,
   RDF => RDF_NS,
-  RSS1 => RSS1_NS,
+  RSS => RSS_NS,
+  DC => DC_NS,
+  RSS_CONTENT => RSS_CONTENT_NS,
+  HATENA => HATENA_NS,
 };
 my $NSPATTERN = join '|', keys %$NSMAP;
 
@@ -827,7 +833,7 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       $edef->{attrs}->{(RDF_NS)}->{$1}->{value_type} = 'URL';
       $edef->{attrs}->{(RDF_NS)}->{$1}->{url}
           = 'http://web.resource.org/rss/1.0/spec';
-    } elsif (/^content\s+(text|string|URL)\s*$/) {
+    } elsif (/^content\s+(text|string|URL|global date and time string)\s*$/) {
       $edef->{content_model} = 'text';
       $edef->{text_type} = $1;
     } elsif (/^content\s+(empty)\s*$/) {

@@ -126,29 +126,49 @@
 
 * <RDF>RDF
 
-1-1 <RSS1>channel
-0-1 <RSS1>image
-1-* <RSS1>item
+1-1 <RSS>channel
+0-1 <RSS>image
+1-* <RSS>item
   ## recommended: 1-15
-0-1 <RSS1>textinput
+0-1 <RSS>textinput
 rdf:about
 spec http://web.resource.org/rss/1.0/spec#s5.2
 conforming
 and more
 
-* <RSS1>channel
+* <RSS>channel
 
-1-1 <RSS1>title
-1-1 <RSS1>link
-1-1 <RSS1>description
-0-1 <RSS1>image
-1-1 <RSS1>items
-0-1 <RSS1>textinput
+1-1 <RSS>title
+1-1 <RSS>link
+1-1 <RSS>description
+0-1 <RSS>image
+1-1 <RSS>items
+0-1 <RSS>textinput
 rdf:about
 spec http://web.resource.org/rss/1.0/spec#s5.3
 conforming
 
-* <RSS1>title
+# http://web.resource.org/rss/1.0/modules/dc/
+0-1 <DC>title
+0-1 <DC>creator
+0-1 <DC>subject
+0-1 <DC>description
+0-1 <DC>publisher
+0-1 <DC>contributor
+0-1 <DC>date
+0-1 <DC>type
+0-1 <DC>format
+0-1 <DC>identifier
+0-1 <DC>source
+0-1 <DC>language
+0-1 <DC>relation
+0-1 <DC>coverage
+0-1 <DC>rights
+
+# vallangs
+0-* <ATOM>link
+
+* <RSS>title
 
 content text
 #suggested max 40
@@ -161,7 +181,7 @@ spec http://web.resource.org/rss/1.0/spec#s5.3.1
 #spec http://web.resource.org/rss/1.0/spec#s5.6.1
 conforming
 
-* <RSS1>link
+* <RSS>link
 
 content URL
 suggested max 500
@@ -171,14 +191,14 @@ spec http://web.resource.org/rss/1.0/spec#s5.3.2
 #spec http://web.resource.org/rss/1.0/spec#s5.6.4
 conforming
 
-* <RSS1>url
+* <RSS>url
 
 content URL
 suggested max 500
 spec http://web.resource.org/rss/1.0/spec#s5.4.2
 conforming
 
-* <RSS1>description
+* <RSS>description
 
 content text
 suggested max 500
@@ -190,54 +210,105 @@ spec http://web.resource.org/rss/1.0/spec#s5.3.3
 #spec http://web.resource.org/rss/1.0/spec#s5.6.2
 conforming
 
-* <RSS1>name
+* <RSS>name
 
 content string
 suggested max 500
 spec http://web.resource.org/rss/1.0/spec#s5.6.3
 conforming
 
-* <RSS1>image
+* <RSS>image
 
 rdf:resource
-content empty
+#content empty
 #spec http://web.resource.org/rss/1.0/spec#s5.3.4
 
 rdf:about
-1-1 <RSS1>title
-1-1 <RSS1>url
-1-1 <RSS1>link
+1-1 <RSS>title
+1-1 <RSS>url
+1-1 <RSS>link
 spec http://web.resource.org/rss/1.0/spec#s5.4
 conforming
 
-* <RSS1>items
+# http://web.resource.org/rss/1.0/modules/dc/
+0-1 <DC>title
+0-1 <DC>creator
+0-1 <DC>subject
+0-1 <DC>description
+0-1 <DC>publisher
+0-1 <DC>contributor
+0-1 <DC>date
+0-1 <DC>type
+0-1 <DC>format
+0-1 <DC>identifier
+0-1 <DC>source
+0-1 <DC>language
+0-1 <DC>relation
+0-1 <DC>coverage
+0-1 <DC>rights
+
+* <RSS>items
 
 0-1 <RDF>Seq
 spec http://web.resource.org/rss/1.0/spec#s5.3.5
 conforming
 
-* <RSS1>textinput
+* <RSS>textinput
 
 rdf:resource
 #content empty
 #spec http://web.resource.org/rss/1.0/spec#s5.3.6
 
 rdf:about
-1-1 <RSS1>title
-1-1 <RSS1>description
-1-1 <RSS1>name
-1-1 <RSS1>link
+1-1 <RSS>title
+1-1 <RSS>description
+1-1 <RSS>name
+1-1 <RSS>link
 spec http://web.resource.org/rss/1.0/spec#s5.6
 conforming
 
-* <RSS1>item
+# http://web.resource.org/rss/1.0/modules/dc/
+0-1 <DC>title
+0-1 <DC>creator
+0-1 <DC>subject
+0-1 <DC>description
+0-1 <DC>publisher
+0-1 <DC>contributor
+0-1 <DC>date
+0-1 <DC>type
+0-1 <DC>format
+0-1 <DC>identifier
+0-1 <DC>source
+0-1 <DC>language
+0-1 <DC>relation
+0-1 <DC>coverage
+0-1 <DC>rights
+
+* <RSS>item
 
 rdf:about
-1-1 <RSS1>title
-1-1 <RSS1>link
-0-1 <RSS1>description
+1-1 <RSS>title
+1-1 <RSS>link
+0-1 <RSS>description
 spec http://web.resource.org/rss/1.0/spec#s5.5
 conforming
+
+# http://web.resource.org/rss/1.0/modules/dc/
+0-1 <DC>title
+0-1 <DC>creator
+0-1 <DC>subject
+0-1 <DC>description
+0-1 <DC>publisher
+0-1 <DC>contributor
+0-1 <DC>date
+0-1 <DC>type
+0-1 <DC>format
+0-1 <DC>identifier
+0-1 <DC>source
+0-1 <DC>language
+0-1 <DC>relation
+0-1 <DC>coverage
+0-1 <DC>rights
 
 * <RDF>Seq
 
@@ -253,3 +324,160 @@ rdf:resource
 spec http://web.resource.org/rss/1.0/spec#s5.3.5
 conforming
 and more
+
+* <DC>title
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#title
+conforming
+content text
+
+* <DC>creator
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#creator
+conforming
+content text
+
+* <DC>subject
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#subject
+conforming
+content string
+
+* <DC>description
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#description
+conforming
+content text
+
+* <DC>publisher
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#publisher
+conforming
+content text
+
+* <DC>contributor
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#contributor
+conforming
+content text
+
+* <DC>date
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#date
+conforming
+content global date and time string
+
+* <DC>type
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#type
+conforming
+content string
+
+* <DC>format
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#format
+conforming
+content string
+
+* <DC>identifier
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#identifier
+conforming
+content string
+
+* <DC>source
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#source
+conforming
+content string
+
+* <DC>language
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#language
+conforming
+content string
+
+* <DC>relation
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#relation
+conforming
+content string
+
+* <DC>coverage
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#coverage
+conforming
+content text
+
+* <DC>rights
+
+#http://web.resource.org/rss/1.0/modules/dc/
+spec http://dublincore.org/documents/dces/#rights
+conforming
+content text
+
+* <RSS_CONTENT>encoded
+
+spec http://web.resource.org/rss/1.0/modules/content/#syntax2
+#content html
+conforming
+
+* <HATENA>imageurl
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#imageurl
+content URL
+conforming
+
+* <HATENA>imageurlsmall
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#imageurlsmall
+content URL
+conforming
+
+* <HATENA>syntax
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#syntax
+#content hatena
+conforming
+
+* <HATENA>score
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#score
+conforming
+
+* <HATENA>contentscore
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#contentscore
+conforming
+
+* <HATENA>furigana
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#furigana
+conforming
+content text
+
+* <HATENA>bookmarkcount
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#bookmarkcount
+conforming
+
+* <HATENA>formatted-content
+
+spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#bookmarkcount
+     # sic!
+conforming
+#content html
