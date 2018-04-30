@@ -14,4 +14,4 @@ test 4 '.elements["http://www.w3.org/1999/xhtml"].br.content_model == "empty"'
 
 test 5 '.categories["category-listed"].elements["http://www.w3.org/1999/xhtml"].button | not | not'
 
-test 6 '.elements["http://www.w3.org/1999/xhtml"].link.attrs[""].as.enumerated.font.conforming | not | not'
+test 6 '.elements["http://www.w3.org/1999/xhtml"].link.attrs[""].as.enumerated.serviceworker.conforming | not | not'
