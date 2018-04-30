@@ -24,7 +24,8 @@ sub MRSS1_NS () { q<http://search.yahoo.com/mrss/> }
 sub MRSS2_NS () { q<http://search.yahoo.com/mrss> }
 sub GDATA_NS () { q<http://schemas.google.com/g/2005> }
 sub SLASH_NS () { q<http://purl.org/rss/1.0/modules/slash/> }
-sub ITUNES_NS () { q<http://www.itunes.com/dtds/podcast-1.0.dtd> }
+sub ITUNES1_NS () { q<http://www.itunes.com/dtds/podcast-1.0.dtd> }
+sub ITUNES2_NS () { q<http://www.itunes.com/DTDs/Podcast-1.0.dtd> }
 
 my $NSMAP = {
   HTML => HTML_NS,
@@ -42,11 +43,8 @@ my $NSMAP = {
   DC => DC_NS,
   RSS_CONTENT => RSS_CONTENT_NS,
   HATENA => HATENA_NS,
-  MRSS1 => MRSS1_NS,
-  MRSS2 => MRSS2_NS,
   GDATA => GDATA_NS,
   SLASH => SLASH_NS,
-  ITUNES => ITUNES_NS,
 };
 my $NSPATTERN = join '|', keys %$NSMAP;
 
@@ -859,6 +857,13 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       @edef = ($Data->{elements}->{(MRSS1_NS)}->{$eln} ||= {},
                $Data->{elements}->{(MRSS2_NS)}->{$eln} ||= {});
       @defined = @edef;
+    } elsif (/^\*\s*<(ITUNES)>([\w-]+)\s*$/o) {
+      $ens = '';
+      $eln = $2;
+      $defined->();
+      @edef = ($Data->{elements}->{(ITUNES1_NS)}->{$eln} ||= {},
+               $Data->{elements}->{(ITUNES2_NS)}->{$eln} ||= {});
+      @defined = @edef;
     } elsif (/^([0-9]+)-([0-9]+|\*)\s+<($NSPATTERN)>([\w-]+)(\^\*|)\s*$/o) {
       my $ans = $NSMAP->{$3};
       for my $edef (@edef) {
@@ -869,6 +874,14 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
     } elsif (/^([0-9]+)-([0-9]+|\*)\s+<(MEDIA)>([\w-]+)(\^\*|)\s*$/o) {
       for my $edef (@edef) {
         for my $ans (MRSS1_NS, MRSS2_NS) {
+          $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
+          $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
+          $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
+        }
+      }
+    } elsif (/^([0-9]+)-([0-9]+|\*)\s+<(ITUNES)>([\w-]+)(\^\*|)\s*$/o) {
+      for my $edef (@edef) {
+        for my $ans (ITUNES1_NS, ITUNES2_NS) {
           $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
           $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
           $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
@@ -896,12 +909,26 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $w->{value_type} = $3 unless $3 eq '...';
         $w->{required} = 1 if $1;
       }
-    } elsif (/^(required\s+|)attr\s+(\S+)\s+enum\s+\(([^()]+)\)$/) {
-
     } elsif (/^content\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address)\s*$/) {
       for my $edef (@edef) {
         $edef->{content_model} = 'text';
         $edef->{text_type} = $1;
+      }
+    } elsif (/^(required\s+|)attr\s+(\S+)\s+enum\s+\(([^()]+)\)$/) {
+      my @value = split /\|/, $2;
+      for my $edef (@edef) {
+        my $w = $edef->{attrs}->{''}->{$2} ||= {};
+        push @defined, $w;
+        $w->{conforming} = 1;
+        $w->{value_type} = 'case-sensitive enumerated';
+        $w->{required} = 1 if $1;
+        for (@value) {
+          my $v = $_;
+          my $bad = $v =~ s/^\*//;
+          my $ww = $w->{enumerated}->{$v} ||= {};
+          push @defined, $ww;
+          $ww->{conforming} = 1 unless $bad;
+        }
       }
     } elsif (/^content\s+enum\s+\(([^()]+)\)\s*$/) {
       my @value = split /\|/, $1;
@@ -926,9 +953,9 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       $spec = $1;
     } elsif (/^conforming$/) {
       $edef[0]->{conforming} = 1;
-    } elsif (/^deprecated$/) {
+    } elsif (/^(deprecated|root)$/) {
       for my $edef (@edef) {
-        $edef->{deprecated} = 1;
+        $edef->{$1} = 1;
       }
     } elsif (/^preferred\s+/) {
       # XXX
