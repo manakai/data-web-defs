@@ -1,5 +1,5 @@
-elements.json
-~~~~~~~~~~~~~
+data/elements.json
+~~~~~~~~~~~~~~~~~~
 
 This file contains data on HTML/XML elements.
 
@@ -73,703 +73,7 @@ pairs:
     The element description for the local name |*-*| is the
     description for the autonomous custom elements.
 
-    Element descriptions are [protocol-object] with following
-    name/value pairs:
-
-      all_named [boolean]
-
-        Whether the element is one of "all"-named elements or not
-        <https://www.whatwg.org/specs/web-apps/current-work/#all-named-elements>.
-
-      aria [object?]
-
-        The ARIA semantics of the element.  If an object is specified,
-        that contains the description of the element-specific ARIA
-        semantics.  In addition, if an object is specified for the "*"
-        local name, it is also applicable to the elements in that
-        namespace.  See later section for details of the object's
-        structure.
-
-      atom_extensible [boolean]
-
-        Whether the element is an Atom extensible element or not
-        <https://suika.suikawiki.org/www/markup/xml/validation-langs#atom-extensible-element>.
-
-      attrs [object?]
-
-        Names in the object are namespace URLs (the null namespace is
-        represented by the empty string).  Their corresponding values
-        are JSON objects containing local names of attributes in the
-        namespaces.  Objects corresponding to local names contain
-        properties of the attribute, including:
-
-          browser [boolean]
-
-            If true, the attribute is intended for processing by the
-            browser (rather than plugins).  This flag is only set for
-            HTML |embed| element.
-
-          conforming [boolean]
-
-            Whether using the attribute is conforming or not.  If this
-            flag is not set, the attribute is non-standard or
-            obsolete.
-
-          desc [string?]
-
-            A short description of semantics of the element in
-            English, if known.
-
-          directionality_capable [string?]
-
-            If the value is not set, the attribute is not
-            directionality-capable
-            <https://www.whatwg.org/specs/web-apps/current-work/#directionality-capable-attribute>.
-            Otherwise, one of following values is set:
-
-              1          It is a directionality-capable attribute.
-              contextual It might be a directionality-capable depending on
-                         the context.
-
-          enumerated [object?]
-
-            If the |value_type| is |enumerated|, this object contains
-            the list of known enumerated keywords for the attribute.
-            The names in the object are keywords, with two exceptions:
-            "#missing" represents the missing value default and
-            "#invalid" represents the invalid value default.  Note
-            that the empty string can be a keyword.  If the invalid
-            value default is same as the missing value default, the
-            invalid value default might not be explicitly shown.  The
-            value corresponding to the keyword is a [protocol-object]
-            with following additional name/value pairs:
-
-              canonical [boolean]
-
-                If true, it is the canonical keyword for the state.
-                This flag is only set when the canonical one is
-                explicitly defined.
-
-              conforming [boolean]
-
-                Whether the keyword is conforming or not.  Note that
-                even if the value is true, the entire attribute (or in
-                fact the element of the attribute) might be
-                non-conforming.
-
-              label [string]
-
-                The name of the state corresponding to the keyword,
-                without preceding "the" and following "state" words.
-
-              non_conforming [boolean]
-
-                Whether the keyword is specified in some relevant
-                specification but non-conforming.  Note that some
-                keywords might have none of |conforming| and
-                |non_conforming| flags set.
-
-            Note that the missing value default of the |preload|
-            attribute of media element is user-agent defined, but the
-            suggested default is listed.
-
-          id [id-in-spec?]
-
-            The ID in the specification, identified by |spec|, for the
-            attribute.
-
-          id_type [string?]
-
-            If the |value_type| or |item_type| is "idref" or "hash-ID
-            reference", the type of the expected referenced element of
-            IDs in the value.  One of followings:
-
-              any       - Any element
-              command   - An element that defines a command
-              datalist  - An HTML |datalist| element
-              form      - An HTML |form| element
-              labelable - A labelable element
-              object    - An HTML |object| element
-              th        - An HTML |th| element
-
-            Note that there might be additional restrictions that
-            cannot be represented by one of these values.
-
-          item_type [value-type?]
-
-            If the |value_type| is one of "ordered set of unique
-            space-separated tokens", "set of comma-separated tokens",
-            "set of space-separated tokens", or "unordered set of
-            unique space-separated tokens", the data type of the words
-            in the value, if known and representable.
-
-          keywords [object?]
-
-            The list of keywords for the attribute.  How the keywords
-            are used depends on the attribute.  The object contains
-            following properties as name/value pairs:
-
-              conforming [boolean]
-
-                Whether the keyword is conforming or not.
-
-              id [id-in-spec?]
-
-                The identifier of keyword, if any.
-
-              spec [spec?]
-
-                The specification in which the keyword is defined, if
-                any.
-
-          lang_sensitive [boolean]
-
-            Whether the attribute is language-sensitive
-            <http://tools.ietf.org/html/rfc4287#section-2> or not.
-
-          non_conforming [boolean]
-
-            If true, the attribute is non-conforming.  This flag is
-            only set for HTML |embed| element as custom attributes are
-            conforming for the |embed| element.
-
-          obsolete_but_conforming [boolean]
-
-            Whether the attribute is obsolete but conforming according
-            to the HTML Standard or not.  Note that this flag is not
-            set for the |maxlength| and |size| attributes of the
-            |input| elemenet as they are conforming for some input
-            types.
-
-          preferred [preferred?]
-
-            If the attribute is obsolete or deprecated, or if this is
-            an ARIA attribute and there is similar native markup
-            feature that should be used instead of the attribute, it
-            is represented by the value.
-
-          spec [spec?]
-
-            The specification in which the attribute is defined, if
-            any.
-
-          translatable [string?]
-
-            If the value is not set, the attribute is not translatable
-            <http://www.whatwg.org/specs/web-apps/current-work/#translatable-attributes>.
-            Otherwise, one of following values is set:
-
-              1          It is a translatable attribute and the value is text.
-              contextual It might be a translatable depending on the context.
-              partial    The value has to be parsed to translate.
-
-          url_role [string?]
-
-            Characteristics of URL(s) contained by the element, if
-            any.  If specified, the value is one of followings:
-
-              base                  The base URL.
-              contextual            The semantics changes depending on context.
-              embedded              The URL is used to retrieve an embedded
-                                    object in the document.
-              hyperlink             The URL is the destination of a hyperlink
-                                    link.
-              hyperlink-secondary   Same as |hyperlink| but the link is not
-                                    shown in typical primary rendering.
-              id                    The URL is used to identify or to reference
-                                    some type or concept without dereferenced.
-              resource              The URL is the destination of an external
-                                    resource link, used to process the
-                                    document, or used by elements or scripts
-                                    in the document as input data.
-              submission            The URL to which form or other data
-                                    is to be submitted.
-
-            Note that the attribute might contain any number of URLs,
-            depending on the definition of the attribute.  In fact the
-            attribute might not contain any URL but contain some other
-            construct.  In any case, this property apply only to URLs
-            contained by the attribute.
-
-          value_type [value-type?]
-
-            The type of the attribute value, if it is known and
-            representable.
-
-        Note that the object for elements with non-"*" local name does
-        not contain global attributes.  If there is the objects for
-        element with "*" local name in the same namespace, their
-        attributes are also applicable to any other element in the
-        same namespace.  Additionally, attributes for namespace "*"
-        and local name "*" is also applicable to any element.  (If
-        attributes with same namespace URL and local name are defined
-        for "*" and non-"*" elements, the definition for non-"*"
-        element takes precedence.)
-
-        The |data-*| attributes, |x-*| and |_*| attributes, custom
-        attributes for the HTML |embed| element, and XML namespace
-        declaration attributes other than the |xmlns| attribute are
-        not listed.
-
-      auto_br [string?]
-
-        Whether the automatic <br> insertion in some kind of HTML
-        authoring support tools
-        (e.g. <http://staff.hatenablog.com/entry/2013/09/25/124816>)
-        should be enabled or not.  Whether HTML |br| elements should
-        be inserted at appropriate places as child of an element /E/
-        can be determined by following steps:
-
-          1. Set /value/ to the |auto_br| property value for namespace
-             "*" and local name "*".
-
-          2. Set /value/ to the |auto_br| property value for /E/'s
-             namespace and local name "*", if it is set to a non-null
-             value.
-
-          3. Set /value/ to the |auto_br| property value for /E/'s
-             namespace and local name, if it is set to a non-null
-             value.
-
-          4. If /E/ is an HTML |noscript| element and it has a parent
-             element, set /value/ to the result of applying these
-             steps to the parent element.
-
-          4. If /value/ is "allow", enable automatic <br> insertion.
-             Otherwise, if /value/ is "disallow", disable automatic
-             <br> insertion.
-
-        Note that a descendant element of "disallow"ed elements might
-        allow automatic <br> insertion.
-
-      button [boolean]
-
-        Whether the element is a button
-        <http://www.whatwg.org/specs/web-apps/current-work/#concept-button>
-        or not.
-
-        This name/value pair can also be specified in |states| of HTML
-        |input| element.
-
-      canvas_fallback [boolean]
-
-        Whether the element is an interactive content that is allowed
-        as a descendant of an HTML |canvas| element or not.
-
-        This name/value pair can also be specified in |states| of
-        element or HTML |input| element.
-
-      categories [object?]
-
-        A JSON object containing categories to which the element
-        belongs.  Names are identifiers of categories and values are
-        boolean true values.
-
-        This name/value pair can also be specified in |states| of
-        element or HTML |input| element.
-
-      child_elements [object?]
-
-        A description of content model, represented as list of allowed
-        elements.  Note that this description might not be complete
-        description of the content model.  Please check the relevant
-        specifications.  The object, if any, has name/value pairs
-        whose names are namespace URLs and values are objects, whose
-        names are local names in the namespace and values are objects,
-        which has following name/value pairs for the element with the
-        namespace URL and local name:
-
-          has_additional_rules [boolean]
-
-            If true, there are additional rules on the usage of the
-            element.  Please note that even when this flag is not set,
-            there might be additional rule depending on the context.
-
-          max [number?]
-
-            The maximum value of the number of the element allowed as
-            the children of the element in question.  If the value is
-            not specified, any number of elements can be specified
-            (unless there is any other constraint).
-
-          min [number]
-
-            The minimum (or required) value of the number of the
-            elements allowed as the children of the element in
-            question.
-
-      conforming [boolean]
-
-        Whether using the element is conforming or not.  If this flag
-        is not set, the element is non-standard or obsolete.
-
-      complex_content_model
-
-        More detailed description of the content model of the element,
-        if it is not representable in |content_model|'s values.  (This
-        description also has limitations, however.)
-
-        If the value is a JSON array, elements represented by its
-        items must be included as content, in order.  Items are JSON
-        objects describing kinds of elements, using following
-        properties as name/value pairs:
-
-          categories [object?]
-
-            JSON object containing category names as names and
-            |boolean| true values are values.
-
-          elements [object?]
-
-            JSON object containing namespace URLs as names and
-            corresponding objects as values, which are objects
-            containing local names as names and |boolean| true values
-            are values.
-
-          max [number?]
-
-            The maximum allowed number of elements.  Infinity if not
-            specified.
-
-          min [number?]
-
-            The minimum required number of elements.  Zero if not
-            specified.
-
-          transparent [boolean]
-
-            If this property has true value, it represents the
-            "transparent" content model.
-
-        If |elements| and/or |categories| are specified, it represents
-        that there must be a sequence of elements that are in these
-        lists.
-
-      content_model [string?]
-
-        The content model of the element.  Possible values include:
-
-          empty                  Nothing [HTML].
-          text                   Text.
-          transparent            Transparent [HTML].
-          atomDateConstruct      Atom Date Construct [ATOM].
-          atomPersonConstruct    Atom Person Construct [ATOM].
-          atomTextConstruct      Atom Text Construct [ATOM].
-          atom03DateConstruct    Atom 0.3 Date Construct [ATOM03].
-          atom03PersonConstruct  Atom 0.3 Person Construct [ATOM03].
-          atom03ContentConstruct Atom 0.3 Content Construct [ATOM03].
-          (otherwise)            One of element categories.
-
-        If no value is provided, either the element's content model
-        can't be represented as a category, the element itself is
-        non-conforming or non-standard, or the content model is
-        unknown.
-
-        See also |child_elements|, |complex_content_model|, and
-        |disallowed_descendants|.
-
-      desc [string?]
-
-        A short description of semantics of the element in English, if
-        known.
-
-      disallowed_descendants [object?]
-
-        List of elements that cannot be used as descendants of the
-        element, described using following properties as name/value
-        pairs:
-
-          categories [object?]
-
-            JSON object containing category names as names and
-            |boolean| true values are values.
-
-          elements [object?]
-
-            JSON object containing namespace URLs as names and
-            corresponding objects as values, which are objects
-            containing local names as names and |boolean| true values
-            are values.
-
-      document_named [boolean]
-
-        Whether the element can be a named object for the purpose of
-        |Document|'s named properties
-        <https://html.spec.whatwg.org/#dom-document-nameditem-filter>.
-
-      end_tag [string?]
-
-        If the value is "never", the element is void element.
-        Otherwise, if the value is "optional", the end tag can be
-        omitted in certain context.  Otherwise, the end tag is
-        required.  Note that this property is not specified for
-        non-conforming elements.
-
-      first_newline_ignored [boolean]
-
-        If true, a newline character that is not part of the actual
-        data can be inserted just after the start tag in the HTML
-        syntax
-        <http://www.whatwg.org/specs/web-apps/current-work/#element-restrictions>,
-        the first newline character just after the start tag is
-        ignored by the HTML parser, and the HTML serializer inserts an
-        additional newline character just after the start tag
-        <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>.
-        (Note that the |listing| element is not allowed to insert a
-        newline in the HTML syntax as it is an obsolete element.  In
-        the parser and serializer, it is handled in the same way as
-        other elements in this category.)
-
-      has_additional_content_constraints [boolean]
-
-        If true, there are additional constraints that can't be
-        represented by |content_model|, |complex_content_model|, and
-        |disallowed_descendants|, e.g. requirements depending on the
-        value of attributes.  Please note that even when this value is
-        false, there might be additional requirements on the content
-        of the element; read the spec carefully!
-
-      has_popped_action [boolean]
-
-        Whether some element-specific action invoked when the element
-        is popped off the stack of the open elements of the HTML or
-        XML parser is defined or not.
-
-      id [id-in-spec?]
-
-        The ID in the specification, identified by |spec|, for the
-        element.
-
-      interface [string?]
-
-        The element interface (see DOM Standard) for the element.  If
-        this property has a value, it is the interface used for the
-        element.  Otherwise, if the "interface" property of the "*"
-        local name in the same namespace has a value, it is the
-        interface used for the element.  Otherwise, the |Element|
-        interface is the used interface.
-
-        If you don't want to support Atom DOM, ignore |interface|
-        values starting with "Atom".
-
-      lang_sensitive [boolean]
-
-        Whether the element is Language-Sensitive
-        <http://tools.ietf.org/html/rfc4287#section-2> or not.
-
-        Note that structured extension elements are also
-        Language-Sensitive.
-
-      parser_button_scoping [boolean]
-
-        Whether the element is in the /list/ for the "have a
-        particular element in button scope" in the HTML parser or not
-        <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-button-scope>.
-
-      parser_category [string?]
-
-        The category of the element in the HTML parser
-        <http://www.whatwg.org/specs/web-apps/current-work/#the-stack-of-open-elements>.
-        If the value is not specified, the category of the element is
-        "orginary".  Otherwise the value is the category of the
-        element, which is either "special" or "formatting".
-
-      parser_implied_end_tag [boolean]
-
-        Whether the "generate implied end tags" steps
-        <https://html.spec.whatwg.org/#generate-implied-end-tags> of
-        the HTML parser generates the implied end tag for this element
-        or not.
-
-      parser_implied_end_tag_at_body [boolean]
-
-        Whether the "body" or "html" end tag token in the "in body"
-        insertion mode of the HTML parser generates the implied end
-        tag for this element or not.
-
-      parser_implied_end_tag_at_eof [boolean]
-
-        Whether the end-of-line token in the "in body" insertion mode
-        of the HTML parser generates the implied end tag for this
-        element or not.
-
-      parser_implied_end_tag_thoroughly [boolean]
-
-        Whether the "generate implied end tags throughly" steps
-        <https://html.spec.whatwg.org/#generate-all-implied-end-tags-thoroughly>
-        of the HTML parser generates the implied end tag for this
-        element or not.
-
-      parser_li_scoping [boolean]
-
-        Whether the element is in the /list/ for the "have a
-        particular element in list item scope" in the HTML parser or
-        not
-        <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-list-item-scope>.
-
-      parser_scoping [boolean]
-
-        Whether the element is in the /list/ for the "have a
-        particular element in scope" in the HTML parser or not
-        <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-scope>.
-
-      parser_select_non_scoping [boolean]
-
-        Whether the element is NOT in the /list/ for the "have a
-        particular element in select scope" in the HTML parser or not
-        <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-select-scope>.
-
-      parser_table_body_scoping [boolean]
-
-        Whether the element is in the list of "clear the stack back to
-        a table body context" in the HTML parser or not
-        <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-body-context>.
-
-      parser_table_row_scoping [boolean]
-
-        Whether the element is in the list of "clear the stack back to
-        a table row context" in the HTML parser or not
-        <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-row-context>.
-
-      parser_table_scoping [boolean]
-
-        Whether the element is in the /list/ for the "have a
-        particular element in table scope" in the HTML parser or not
-        <http://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-table-scope>.
-        It is also in the list of "clear the stack back to a table
-        context"
-        <http://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-context>.
-
-      preferred [preferred?]
-
-        The "preferred" object for the element, if the element is
-        obsolete or deprecated.
-
-      root [boolean]
-
-        If true, the element can be used as the document element (or
-        root element) according to relevant specifications.  Note that
-        false value does not indicate that the element can't be used
-        as the root element.  For example, the RDF/XML specification
-        allows infinite types of elements as root (with certain
-        constraints).  Note also that the true value does not mean the
-        element cannot be used as non-root element.
-
-      spec [spec?]
-
-        The specification in which the element is defined, if any.
-
-      start_tag [string?]
-
-        If the value is "optional", the start tag can be omitted in
-        certain context.  Otherwise, the start tag is required.
-
-      states [object?]
-
-        A JSON object whose names are "states" of the element and
-        values are JSON object containing properties apply to the
-        element only when it is in specific state.  States are
-        represented in "element state" type (see
-        |doc/data-types.txt|).  Name/value pairs for elements are also
-        available for element states if they are defined to be
-        applicable for element states.
-
-      submit_button [boolean]
-
-        Whether the element is a submit button
-        <http://www.whatwg.org/specs/web-apps/current-work/#concept-submit-button>
-        or not.
-
-        This name/value pair can also be specified in |states| of HTML
-        |input| element.
-
-      supported_canvas_fallback [boolean]
-
-        Whether the element is a supported interactive canvas fallback
-        element
-        <http://www.whatwg.org/specs/web-apps/current-work/#supported-interactive-canvas-fallback-element>
-        or not.
-
-        This name/value pair can also be specified in |states| of
-        element or HTML |input| element.
-
-      syntax_category [string?]
-
-        The kind of the element in the HTML syntax
-        <http://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
-        and how the element is serialized in the HTML syntax
-        <http://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>.
-
-        If specified, the value is one of "void", "obsolete void",
-        "raw text", "obsolete raw text", "escapable raw text",
-        "obsolete void macro", and "special".
-
-        The kind of the element can be determined as follows:
-
-          If the value is "void", it is a void element.
-
-          Otherwise, if the value is "raw text", it is a raw text
-          element.
-
-          Otherwise if the value is "escapable raw text", it is an
-          escapable raw text element.
-
-          Otherwise, if the element in the SVG namespace or in the
-          MathML namespace, it is a foreign element.
-
-          Otherwise, if the element is a conforming element (c.f. the
-          |conforming| field) in the HTML namespace, it is a normal
-          element.
-
-          Otherwise, the element is in no category.
-
-        Please note that obsolete and non-standard HTML elements are
-        in no category.
-
-        The element is serialized as a void element if the value is
-        "void" or "obsolete void".  (Note that there is an element
-        with the value "obsolete void macro", which is not treated as
-        void elements in the serialization algorithm, but used as void
-        elements in documents and expanded as macro by the parser.)
-
-        The element content texts are serialized without escapes
-        (i.e. treated as a raw text element) by the serializer if the
-        value is "raw text" or "obsolete raw text", if the value is
-        "special" and it is an |iframe| or |plaintext| element, or if
-        the value is "special", it is a |noscript| element, and
-        scripting is enabled for the element.  (Note that the |iframe|
-        element is not a raw text element by definition although it is
-        parsed as a raw text element.  The |plaintext| element is in
-        fact not a raw text element as the parser does not find its
-        end tag.)
-
-      text_type [value-type?]
-
-        If |content_model| of the element is |text|, the value type to
-        which the text has to conform, if known.
-
-      transparent [string?]
-
-        Whether the content model of the element is transparent
-        <http://www.whatwg.org/specs/web-apps/current-work/#transparent>
-        or not, represented by one of followings:
-
-          If not set, the element is not transparent.
-          1           The entire content model is transparent.
-          semi        The content model has transparent part.
-          partial     The content model is contextually transparent.
-
-      url_role [string?]
-
-        Characteristics of URL(s) contained by the element, if any.
-        See attributes' |url_role| property for the description for
-        values.
-
-      window_named [boolean]
-
-        Whether the element can be a named object for the purpose of
-        |Window|'s named properties
-        <https://html.spec.whatwg.org/#dom-window-nameditem-filter>.
+    An element description is an [element-description].
 
   input [object]
 
@@ -868,6 +172,658 @@ pairs:
     Names are strings that match the |PotentialCustomElementName| but
     not valid custom element names and values are [boolean] true
     values.
+
+* Element description objects
+
+An element description [element-description] is a [protocol-object]
+with following name/value pairs:
+
+  all_named [boolean]
+
+    Whether the element is one of "all"-named elements or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#all-named-elements>.
+
+  aria [object?]
+
+    The ARIA semantics of the element.  If an object is specified,
+    that contains the description of the element-specific ARIA
+    semantics.  In addition, if an object is specified for the "*"
+    local name, it is also applicable to the elements in that
+    namespace.  See later section for details of the object's
+    structure.
+
+  atom_extensible [boolean]
+
+    Whether the element is an Atom extensible element or not
+    <https://suika.suikawiki.org/www/markup/xml/validation-langs#atom-extensible-element>.
+
+  attrs [object?]
+
+    Names in the object are namespace URLs (the null namespace is
+    represented by the empty string).  Their corresponding values are
+    JSON objects containing local names of attributes in the
+    namespaces.  Objects corresponding to local names contain
+    properties of the attribute [attr-description].
+
+    Note that the [attr-description] object for elements with non-"*"
+    local name does not contain global attributes.  If there is the
+    objects for element with "*" local name in the same namespace,
+    their attributes are also applicable to any other element in the
+    same namespace.  Additionally, attributes for namespace "*" and
+    local name "*" is also applicable to any element.  (If attributes
+    with same namespace URL and local name are defined for "*" and
+    non-"*" elements, the definition for non-"*" element takes
+    precedence.)
+
+    The |data-*| attributes, |x-*| and |_*| attributes, custom
+    attributes for the HTML |embed| element, and XML namespace
+    declaration attributes other than the |xmlns| attribute are not
+    listed.
+
+  auto_br [string?]
+
+    Whether the automatic <br> insertion in some kind of HTML
+    authoring support tools
+    (e.g. <http://staff.hatenablog.com/entry/2013/09/25/124816>)
+    should be enabled or not.  Whether HTML |br| elements should be
+    inserted at appropriate places as child of an element /E/ can be
+    determined by following steps:
+
+      1. Set /value/ to the |auto_br| property value for namespace "*"
+         and local name "*".
+
+      2. Set /value/ to the |auto_br| property value for /E/'s
+         namespace and local name "*", if it is set to a non-null
+         value.
+
+      3. Set /value/ to the |auto_br| property value for /E/'s
+         namespace and local name, if it is set to a non-null value.
+
+      4. If /E/ is an HTML |noscript| element and it has a parent
+         element, set /value/ to the result of applying these steps to
+         the parent element.
+
+      5. If /value/ is "allow", enable automatic <br> insertion.
+         Otherwise, if /value/ is "disallow", disable automatic <br>
+         insertion.
+
+    Note that a descendant element of "disallow"ed elements might
+    allow automatic <br> insertion.
+
+  button [boolean]
+
+    Whether the element is a button
+    <https://www.whatwg.org/specs/web-apps/current-work/#concept-button>
+    or not.
+
+    This name/value pair can also be specified in |states| of HTML
+    |input| element.
+
+  canvas_fallback [boolean]
+
+    Whether the element is an interactive content that is allowed as a
+    descendant of an HTML |canvas| element or not.
+
+    This name/value pair can also be specified in |states| of element
+    or HTML |input| element.
+
+  categories [object?]
+
+    A JSON object containing categories to which the element belongs.
+    Names are identifiers of categories and values are boolean true
+    values.
+
+    This name/value pair can also be specified in |states| of element
+    or HTML |input| element.
+
+  child_elements [object?]
+
+    A description of content model, represented as list of allowed
+    elements.  Note that this description might not be complete
+    description of the content model.  Please check the relevant
+    specifications.  The object, if any, has name/value pairs whose
+    names are namespace URLs and values are objects, whose names are
+    local names in the namespace and values are objects, which has
+    following name/value pairs for the element with the namespace URL
+    and local name:
+
+      has_additional_rules [boolean]
+
+        If true, there are additional rules on the usage of the
+        element.  Please note that even when this flag is not set,
+        there might be additional rule depending on the context.
+
+      max [number?]
+
+        The maximum value of the number of the element allowed as the
+        children of the element in question.  If the value is not
+        specified, any number of elements can be specified (unless
+        there is any other constraint).
+
+      min [number]
+
+        The minimum (or required) value of the number of the elements
+        allowed as the children of the element in question.
+
+  conforming [boolean]
+
+    Whether using the element is conforming or not.  If this flag is
+    not set, the element is non-standard or obsolete.
+
+  complex_content_model
+
+    More detailed description of the content model of the element, if
+    it is not representable in |content_model|'s values.  (This
+    description also has limitations, however.)
+
+    If the value is a JSON array, elements represented by its items
+    must be included as content, in order.  Items are JSON objects
+    describing kinds of elements, using following properties as
+    name/value pairs:
+
+      categories [object?]
+
+        JSON object containing category names as names and |boolean|
+        true values are values.
+
+      elements [object?]
+
+        JSON object containing namespace URLs as names and
+        corresponding objects as values, which are objects containing
+        local names as names and |boolean| true values are values.
+
+      max [number?]
+
+        The maximum allowed number of elements.  Infinity if not
+        specified.
+
+      min [number?]
+
+        The minimum required number of elements.  Zero if not
+        specified.
+
+      transparent [boolean]
+
+        If this property has true value, it represents the
+        "transparent" content model.
+
+    If |elements| and/or |categories| are specified, it represents
+    that there must be a sequence of elements that are in these lists.
+
+  content_model [string?]
+
+    The content model of the element.  Possible values include:
+
+      empty                  Nothing [HTML].
+      text                   Text.
+      transparent            Transparent [HTML].
+      atomDateConstruct      Atom Date Construct [ATOM].
+      atomPersonConstruct    Atom Person Construct [ATOM].
+      atomTextConstruct      Atom Text Construct [ATOM].
+      atom03DateConstruct    Atom 0.3 Date Construct [ATOM03].
+      atom03PersonConstruct  Atom 0.3 Person Construct [ATOM03].
+      atom03ContentConstruct Atom 0.3 Content Construct [ATOM03].
+      (otherwise)            One of element categories.
+
+    If no value is provided, either the element's content model can't
+    be represented as a category, the element itself is non-conforming
+    or non-standard, or the content model is unknown.
+
+    See also |child_elements|, |complex_content_model|, and
+    |disallowed_descendants|.
+
+  desc [string?]
+
+    A short description of semantics of the element in English, if
+    known.
+
+  disallowed_descendants [object?]
+
+    List of elements that cannot be used as descendants of the
+    element, described using following properties as name/value pairs:
+
+      categories [object?]
+
+        JSON object containing category names as names and |boolean|
+        true values are values.
+
+      elements [object?]
+
+        JSON object containing namespace URLs as names and
+        corresponding objects as values, which are objects containing
+        local names as names and |boolean| true values are values.
+
+  document_named [boolean]
+
+    Whether the element can be a named object for the purpose of
+    |Document|'s named properties
+    <https://html.spec.whatwg.org/#dom-document-nameditem-filter>.
+
+  end_tag [string?]
+
+    If the value is "never", the element is void element.  Otherwise,
+    if the value is "optional", the end tag can be omitted in certain
+    context.  Otherwise, the end tag is required.  Note that this
+    property is not specified for non-conforming elements.
+
+  first_newline_ignored [boolean]
+
+    If true, a newline character that is not part of the actual data
+    can be inserted just after the start tag in the HTML syntax
+    <https://www.whatwg.org/specs/web-apps/current-work/#element-restrictions>,
+    the first newline character just after the start tag is ignored by
+    the HTML parser, and the HTML serializer inserts an additional
+    newline character just after the start tag
+    <https://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>.
+    (Note that the |listing| element is not allowed to insert a
+    newline in the HTML syntax as it is an obsolete element.  In the
+    parser and serializer, it is handled in the same way as other
+    elements in this category.)
+
+  has_additional_content_constraints [boolean]
+
+    If true, there are additional constraints that can't be
+    represented by |content_model|, |complex_content_model|, and
+    |disallowed_descendants|, e.g. requirements depending on the value
+    of attributes.  Please note that even when this value is false,
+    there might be additional requirements on the content of the
+    element; read the spec carefully!
+
+  has_popped_action [boolean]
+
+    Whether some element-specific action invoked when the element is
+    popped off the stack of the open elements of the HTML or XML
+    parser is defined or not.
+
+  interface [string?]
+
+    The element interface (see DOM Standard) for the element.  If this
+    property has a value, it is the interface used for the element.
+    Otherwise, if the "interface" property of the "*" local name in
+    the same namespace has a value, it is the interface used for the
+    element.  Otherwise, the |Element| interface is the used
+    interface.
+
+    If you don't want to support Atom DOM, ignore |interface| values
+    starting with "Atom".
+
+  lang_sensitive [boolean]
+
+    Whether the element is Language-Sensitive
+    <https://tools.ietf.org/html/rfc4287#section-2> or not.
+
+    Note that structured extension elements are also
+    Language-Sensitive.
+
+  parser_button_scoping [boolean]
+
+    Whether the element is in the /list/ for the "have a particular
+    element in button scope" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-button-scope>.
+
+  parser_category [string?]
+
+    The category of the element in the HTML parser
+    <https://www.whatwg.org/specs/web-apps/current-work/#the-stack-of-open-elements>.
+    If the value is not specified, the category of the element is
+    "orginary".  Otherwise the value is the category of the element,
+    which is either "special" or "formatting".
+
+  parser_implied_end_tag [boolean]
+
+    Whether the "generate implied end tags" steps
+    <https://html.spec.whatwg.org/#generate-implied-end-tags> of the
+    HTML parser generates the implied end tag for this element or not.
+
+  parser_implied_end_tag_at_body [boolean]
+
+    Whether the "body" or "html" end tag token in the "in body"
+    insertion mode of the HTML parser generates the implied end tag
+    for this element or not.
+
+  parser_implied_end_tag_at_eof [boolean]
+
+    Whether the end-of-line token in the "in body" insertion mode of
+    the HTML parser generates the implied end tag for this element or
+    not.
+
+  parser_implied_end_tag_thoroughly [boolean]
+
+    Whether the "generate implied end tags throughly" steps
+    <https://html.spec.whatwg.org/#generate-all-implied-end-tags-thoroughly>
+    of the HTML parser generates the implied end tag for this element
+    or not.
+
+  parser_li_scoping [boolean]
+
+    Whether the element is in the /list/ for the "have a particular
+    element in list item scope" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-list-item-scope>.
+
+  parser_scoping [boolean]
+
+    Whether the element is in the /list/ for the "have a particular
+    element in scope" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-scope>.
+
+  parser_select_non_scoping [boolean]
+
+    Whether the element is NOT in the /list/ for the "have a
+    particular element in select scope" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-select-scope>.
+
+  parser_table_body_scoping [boolean]
+
+    Whether the element is in the list of "clear the stack back to a
+    table body context" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-body-context>.
+
+  parser_table_row_scoping [boolean]
+
+    Whether the element is in the list of "clear the stack back to a
+    table row context" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-row-context>.
+
+  parser_table_scoping [boolean]
+
+    Whether the element is in the /list/ for the "have a particular
+    element in table scope" in the HTML parser or not
+    <https://www.whatwg.org/specs/web-apps/current-work/#has-an-element-in-table-scope>.
+    It is also in the list of "clear the stack back to a table
+    context"
+    <https://www.whatwg.org/specs/web-apps/current-work/#clear-the-stack-back-to-a-table-context>.
+
+  root [boolean]
+
+    If true, the element can be used as the document element (or root
+    element) according to relevant specifications.  Note that false
+    value does not indicate that the element can't be used as the root
+    element.  For example, the RDF/XML specification allows infinite
+    types of elements as root (with certain constraints).  Note also
+    that the true value does not mean the element cannot be used as
+    non-root element.
+
+  start_tag [string?]
+
+    If the value is "optional", the start tag can be omitted in
+    certain context.  Otherwise, the start tag is required.
+
+  states [object?]
+
+    A JSON object whose names are "states" of the element and values
+    are JSON object containing properties apply to the element only
+    when it is in specific state.  States are represented in "element
+    state" type (see |doc/data-types.txt|).  Name/value pairs for
+    elements are also available for element states if they are defined
+    to be applicable for element states.
+
+  submit_button [boolean]
+
+    Whether the element is a submit button
+    <https://www.whatwg.org/specs/web-apps/current-work/#concept-submit-button>
+    or not.
+
+    This name/value pair can also be specified in |states| of HTML
+    |input| element.
+
+  supported_canvas_fallback [boolean]
+
+    Whether the element is a supported interactive canvas fallback
+    element
+    <https://www.whatwg.org/specs/web-apps/current-work/#supported-interactive-canvas-fallback-element>
+    or not.
+
+    This name/value pair can also be specified in |states| of element
+    or HTML |input| element.
+
+  syntax_category [string?]
+
+    The kind of the element in the HTML syntax
+    <https://www.whatwg.org/specs/web-apps/current-work/#syntax-elements>
+    and how the element is serialized in the HTML syntax
+    <https://www.whatwg.org/specs/web-apps/current-work/#serializing-html-fragments>.
+
+    If specified, the value is one of "void", "obsolete void", "raw
+    text", "obsolete raw text", "escapable raw text", "obsolete void
+    macro", and "special".
+
+    The kind of the element can be determined as follows:
+
+      If the value is "void", it is a void element.
+
+      Otherwise, if the value is "raw text", it is a raw text element.
+
+      Otherwise if the value is "escapable raw text", it is an
+      escapable raw text element.
+
+      Otherwise, if the element in the SVG namespace or in the MathML
+      namespace, it is a foreign element.
+
+      Otherwise, if the element is a conforming element (c.f. the
+      |conforming| field) in the HTML namespace, it is a normal
+      element.
+
+      Otherwise, the element is in no category.
+
+    Please note that obsolete and non-standard HTML elements are in no
+    category.
+
+    The element is serialized as a void element if the value is "void"
+    or "obsolete void".  (Note that there is an element with the value
+    "obsolete void macro", which is not treated as void elements in
+    the serialization algorithm, but used as void elements in
+    documents and expanded as macro by the parser.)
+
+    The element content texts are serialized without escapes
+    (i.e. treated as a raw text element) by the serializer if the
+    value is "raw text" or "obsolete raw text", if the value is
+    "special" and it is an |iframe| or |plaintext| element, or if the
+    value is "special", it is a |noscript| element, and scripting is
+    enabled for the element.  (Note that the |iframe| element is not a
+    raw text element by definition although it is parsed as a raw text
+    element.  The |plaintext| element is in fact not a raw text
+    element as the parser does not find its end tag.)
+
+  text_type [value-type?]
+
+    If |content_model| of the element is |text|, the value type to
+    which the text has to conform, if known.
+
+  transparent [string?]
+
+    Whether the content model of the element is transparent
+    <https://www.whatwg.org/specs/web-apps/current-work/#transparent>
+    or not, represented by one of followings:
+
+      If not set, the element is not transparent.
+      1           The entire content model is transparent.
+      semi        The content model has transparent part.
+      partial     The content model is contextually transparent.
+
+  url_role [string?]
+
+    Characteristics of URL(s) contained by the element, if any.  See
+    attributes' |url_role| property for the description for values.
+
+  window_named [boolean]
+
+    Whether the element can be a named object for the purpose of
+    |Window|'s named properties
+    <https://html.spec.whatwg.org/#dom-window-nameditem-filter>.
+
+* Attribute description objects
+
+An attribute description [attr-description] is a [protocol-object]
+with following name/value pairs:
+
+  browser [boolean]
+
+    If true, the attribute is intended for processing by the browser
+    (rather than plugins).  This flag is only set for HTML |embed|
+    element.
+
+  conforming [boolean]
+
+    Whether using the attribute is conforming or not.  If this flag is
+    not set, the attribute is non-standard or obsolete.
+
+  desc [string?]
+
+    A short description of semantics of the element in English, if
+    known.
+
+  directionality_capable [string?]
+
+    If the value is not set, the attribute is not
+    directionality-capable
+    <https://www.whatwg.org/specs/web-apps/current-work/#directionality-capable-attribute>.
+    Otherwise, one of following values is set:
+
+      1          It is a directionality-capable attribute.
+      contextual It might be a directionality-capable depending on
+                 the context.
+
+  enumerated [object?]
+
+    If the |value_type| is |enumerated|, this object contains the list
+    of known enumerated keywords for the attribute.  The names in the
+    object are keywords, with two exceptions: "#missing" represents
+    the missing value default and "#invalid" represents the invalid
+    value default.  Note that the empty string can be a keyword.  If
+    the invalid value default is same as the missing value default,
+    the invalid value default might not be explicitly shown.  The
+    value corresponding to the keyword is a [protocol-object] with
+    following additional name/value pairs:
+
+      canonical [boolean]
+
+        If true, it is the canonical keyword for the state.  This flag
+        is only set when the canonical one is explicitly defined.
+
+      conforming [boolean]
+
+        Whether the keyword is conforming or not.  Note that even if
+        the value is true, the entire attribute (or in fact the
+        element of the attribute) might be non-conforming.
+
+      label [string]
+
+        The name of the state corresponding to the keyword, without
+        preceding "the" and following "state" words.
+
+      non_conforming [boolean]
+
+        Whether the keyword is specified in some relevant
+        specification but non-conforming.  Note that some keywords
+        might have none of |conforming| and |non_conforming| flags
+        set.
+
+    Note that the missing value default of the |preload| attribute of
+    media element is user-agent defined, but the suggested default is
+    listed.
+
+  id_type [string?]
+
+    If the |value_type| or |item_type| is "idref" or "hash-ID
+    reference", the type of the expected referenced element of IDs in
+    the value.  One of followings:
+
+      any       - Any element
+      command   - An element that defines a command
+      datalist  - An HTML |datalist| element
+      form      - An HTML |form| element
+      labelable - A labelable element
+      object    - An HTML |object| element
+      th        - An HTML |th| element
+
+    Note that there might be additional restrictions that cannot be
+    represented by one of these values.
+
+  item_type [value-type?]
+
+    If the |value_type| is one of "ordered set of unique
+    space-separated tokens", "set of comma-separated tokens", "set of
+    space-separated tokens", or "unordered set of unique
+    space-separated tokens", the data type of the words in the value,
+    if known and representable.
+
+  keywords [object?]
+
+    The list of keywords for the attribute.  How the keywords are used
+    depends on the attribute.  The object contains following
+    properties as name/value pairs:
+
+      conforming [boolean]
+
+        Whether the keyword is conforming or not.
+
+      id [id-in-spec?]
+
+        The identifier of keyword, if any.
+
+      spec [spec?]
+
+        The specification in which the keyword is defined, if any.
+
+  lang_sensitive [boolean]
+
+    Whether the attribute is language-sensitive
+    <https://tools.ietf.org/html/rfc4287#section-2> or not.
+
+  non_conforming [boolean]
+
+    If true, the attribute is non-conforming.  This flag is only set
+    for HTML |embed| element as custom attributes are conforming for
+    the |embed| element.
+
+  obsolete_but_conforming [boolean]
+
+    Whether the attribute is obsolete but conforming according to the
+    HTML Standard or not.  Note that this flag is not set for the
+    |maxlength| and |size| attributes of the |input| elemenet as they
+    are conforming for some input types.
+
+  translatable [string?]
+
+    If the value is not set, the attribute is not translatable
+    <https://www.whatwg.org/specs/web-apps/current-work/#translatable-attributes>.
+    Otherwise, one of following values is set:
+
+      1          It is a translatable attribute and the value is text.
+      contextual It might be a translatable depending on the context.
+      partial    The value has to be parsed to translate.
+
+  url_role [string?]
+
+    Characteristics of URL(s) contained by the element, if any.  If
+    specified, the value is one of followings:
+
+      base                  The base URL.
+      contextual            The semantics changes depending on context.
+      embedded              The URL is used to retrieve an embedded
+                            object in the document.
+      hyperlink             The URL is the destination of a hyperlink
+                            link.
+      hyperlink-secondary   Same as |hyperlink| but the link is not
+                            shown in typical primary rendering.
+      id                    The URL is used to identify or to reference
+                            some type or concept without dereferenced.
+      resource              The URL is the destination of an external
+                            resource link, used to process the
+                            document, or used by elements or scripts
+                            in the document as input data.
+      submission            The URL to which form or other data
+                            is to be submitted.
+
+    Note that the attribute might contain any number of URLs,
+    depending on the definition of the attribute.  In fact the
+    attribute might not contain any URL but contain some other
+    construct.  In any case, this property apply only to URLs
+    contained by the attribute.
+
+  value_type [value-type?]
+
+    The type of the attribute value, if it is known and representable.
 
 * ARIA semantics objects
 
@@ -1051,13 +1007,30 @@ ARIA in HTML <https://w3c.github.io/html-aria/>.
 Elements and Attributes
 <https://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab>.
 
-[VALIDLANGS] Handling of unknown namespaces in conformance checking
-<https://suika.suikawiki.org/www/markup/xml/validation-langs>.
+[VALIDLANGS] DOM Tree Validation
+<https://manakai.github.io/spec-dom/validation-langs>.
+
+[RSSDC] RDF Site Summary 1.0 Modules: Dublin Core
+<http://web.resource.org/rss/1.0/modules/dc/>.
+
+[DCES] DCMI: Dublin Core Metadata Element Set, Version 1.1: Reference
+Description <http://dublincore.org/documents/dces/>.
+
+[RSSCONTENT] RDF Site Summary 1.0 Modules: Content
+<http://web.resource.org/rss/1.0/modules/content/>.
+
+[HATENA] はてなXML名前空間 - Hatena Developer Center
+<http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns>.
+
+[RSS2] RSS 2.0 <http://www.rssboard.org/rss-specification>.
+
+[RSSBP] RSS Best Practices Profile
+<http://www.rssboard.org/rss-profile>.
 
 * License
 
 You are granted a license to use, reproduce, and create derivative
-works of the JSON file.
+works of the JSON file and this document.
 
 Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
 extent possible under law, the author of the JSON file and this
