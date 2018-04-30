@@ -1425,6 +1425,40 @@ for (qw(
   $Data->{not_custom_element_names}->{$_} = 1;
 }
 
+{
+  my $path = $RootPath->child ('src/namespaces.txt');
+  my $ns;
+  my $def;
+  for (split /\x0D?\x0A/, $path->slurp) {
+    if (/^\s*#/) {
+      #
+    } elsif (/^\*\s*(\S+)\s*$/) {
+      $ns = $1;
+      $def = $Data->{namespaces}->{$ns} ||= {};
+    } elsif (/^label\s+(.+)$/) {
+      $def->{label} = $1;
+    } elsif (/^([\w]+):$/) {
+      $def->{prefix} = $1;
+    } elsif (/^atom\s+family$/) {
+      $def->{atom_family} = 1;
+    } elsif (/^spec\s+(\S+)\s*$/) {
+      $def->{url} = $1;
+    } elsif (/^fully\s+supported$/) {
+      $def->{supported} = 1;
+    } elsif (/^partially\s+supported$/) {
+      #
+    } elsif (/^(obsolete)$/) {
+      $def->{$1} = 1;
+    } elsif (/\S/) {
+      die "Bad line |$_|";
+    }
+  }
+}
+for my $ns (keys %{$Data->{elements}}) {
+  next if $ns eq '' or $ns eq '*';
+  $Data->{namespaces}->{$ns} ||= {};
+}
+
 print perl2json_bytes_for_record $Data;
 
 ## License: Public Domain.

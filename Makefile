@@ -451,7 +451,7 @@ data/elements.json: bin/elements.pl src/element-interfaces.txt \
     src/attr-types.txt local/obsvocab.html data/aria.json \
     local/element-aria.json local/altmap-html-obsolete.json \
     src/element-categories.txt local/html-tree.json data/fetch.json \
-    data/headers.json src/element-contents.txt
+    data/headers.json src/element-contents.txt src/namespaces.txt
 	#local/html-status.xml
 	$(PERL) bin/elements.pl > $@
 
