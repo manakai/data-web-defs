@@ -60,20 +60,18 @@ pairs:
     Descriptions of known DOM elements.  Names are namespaces and
     values are corresponding namespace descriptions.  Namespace
     descriptions are JSON objects whose names are local names and
-    values are element descriptions for corresponding local names in
+    values are [element-description] for corresponding local names in
     the namespace.
 
     The null namespace is represented by the empty string.
 
-    The element description for the local name |*| is the description
-    for the local names not covered by any other local name in the
-    namespace description, except for the |attrs| (see the description
-    below).
+    The [element-description] for the local name |*| is the
+    description for the local names not covered by any other local
+    name in the namespace description, except for the |attrs| (see
+    [attr-description]).
 
-    The element description for the local name |*-*| is the
+    The [element-description] for the local name |*-*| is the
     description for the autonomous custom elements.
-
-    An element description is an [element-description].
 
   input [object]
 
@@ -142,8 +140,8 @@ pairs:
 
       atom_family [boolean]
 
-        Whether the namespace is one of Atom family namespaces or not
-        <http://suika.suikawiki.org/www/markup/xml/validation-langs#atom-family-namespaces>.
+        Whether the namespace is one of Atom family namespaces
+        [VALLANGS] or not.
 
       label [string]
 
@@ -162,16 +160,28 @@ pairs:
 
       supported [boolean]
 
-        Whether a conformance checker that contains data in the
-        |element.json| file should consider the namespace as supported
-        <https://suika.suikawiki.org/www/markup/xml/validation-langs#supported-namespace>
-        or not.
+        Whether the data file contains the complete data for the
+        namespace (similar to the "fully supported" concept
+        [VALLANGS]) or not.
 
   not_custom_element_names [object]
 
     Names are strings that match the |PotentialCustomElementName| but
     not valid custom element names and values are [boolean] true
     values.
+
+  rss_elements [object]
+
+    Descriptions of RSS2 elements.  The value is a JSON object whose
+    names are local names and values are [element-description] for
+    corresponding local names.
+
+    The element description for the local name |*| is the description
+    for the local names not covered by any other local name, except
+    for the |attrs| (see [attr-description]).
+
+    Note that the |*| namespace description of |elements| is also
+    applicable to RSS2 elements.
 
 * Element description objects
 
@@ -194,8 +204,8 @@ with following name/value pairs:
 
   atom_extensible [boolean]
 
-    Whether the element is an Atom extensible element or not
-    <https://suika.suikawiki.org/www/markup/xml/validation-langs#atom-extensible-element>.
+    Whether the element is an Atom extensible element [VALLANGS] or
+    not.
 
   attrs [object?]
 
@@ -783,6 +793,10 @@ with following name/value pairs:
     |maxlength| and |size| attributes of the |input| elemenet as they
     are conforming for some input types.
 
+  required [boolean]
+
+    Whether the attribute is required or not.
+
   translatable [string?]
 
     If the value is not set, the attribute is not translatable
@@ -968,7 +982,8 @@ compared case-insensitively.
 [HTML] HTML Standard <https://html.spec.whatwg.org/>,
 <https://github.com/whatwg/html/commit/f619b0c0dfa6076d738c90e0d115221efc7cd003>.
 
-Scalable Vector Graphics (SVG) 2 <https://svgwg.org/svg2-draft/>.
+[SVG] Scalable Vector Graphics (SVG) 2
+<https://svgwg.org/svg2-draft/>.
 
 [ATOM] The Atom Syndication Format
 <https://tools.ietf.org/html/rfc4287>,
@@ -992,22 +1007,22 @@ Scalable Vector Graphics (SVG) 2 <https://svgwg.org/svg2-draft/>.
 [ATOMDOM] Atom DOM
 <https://suika.suikawiki.org/www/markup/xml/atomdom>.
 
-Accessible Rich Internet Applications (WAI-ARIA) 1.1
+[ARIA] Accessible Rich Internet Applications (WAI-ARIA) 1.1
 <https://w3c.github.io/aria/aria/aria.html>.
 
-Digital Publishing WAI-ARIA Module 1.0
+[ARIADPUB] Digital Publishing WAI-ARIA Module 1.0
 <https://w3c.github.io/aria/aria/dpub.html>.
 
-WAI-ARIA Graphics Module
+[ARIAGRAPHICS] WAI-ARIA Graphics Module
 <https://w3c.github.io/aria/aria/graphics.html>.
 
-ARIA in HTML <https://w3c.github.io/html-aria/>.
+[ARIAHTML] ARIA in HTML <https://w3c.github.io/html-aria/>.
 
 [OBSVOCAB] manakai's Conformance Checking Guideline for Obsolete HTML
 Elements and Attributes
 <https://suika.suikawiki.org/www/markup/html/exts/manakai-obsvocab>.
 
-[VALIDLANGS] DOM Tree Validation
+[VALLANGS] DOM Tree Validation
 <https://manakai.github.io/spec-dom/validation-langs>.
 
 [RSSDC] RDF Site Summary 1.0 Modules: Dublin Core
@@ -1026,6 +1041,12 @@ Description <http://dublincore.org/documents/dces/>.
 
 [RSSBP] RSS Best Practices Profile
 <http://www.rssboard.org/rss-profile>.
+
+[MEDIARSS] Media RSS Specification
+<http://www.rssboard.org/media-rss>.
+
+[ITUNES] RSS tags for Podcasts Connect - Podcasts Connect Help
+<https://help.apple.com/itc/podcasts_connect/#/itcb54353390>.
 
 * License
 

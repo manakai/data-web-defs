@@ -20,6 +20,11 @@ sub RSS_NS () { q<http://purl.org/rss/1.0/> }
 sub DC_NS () { q<http://purl.org/dc/elements/1.1/> }
 sub RSS_CONTENT_NS () { q<http://purl.org/rss/1.0/modules/content/> }
 sub HATENA_NS () { q<http://www.hatena.ne.jp/info/xmlns#> }
+sub MRSS1_NS () { q<http://search.yahoo.com/mrss/> }
+sub MRSS2_NS () { q<http://search.yahoo.com/mrss> }
+sub GDATA_NS () { q<http://schemas.google.com/g/2005> }
+sub SLASH_NS () { q<http://purl.org/rss/1.0/modules/slash/> }
+sub ITUNES_NS () { q<http://www.itunes.com/dtds/podcast-1.0.dtd> }
 
 my $NSMAP = {
   HTML => HTML_NS,
@@ -37,6 +42,11 @@ my $NSMAP = {
   DC => DC_NS,
   RSS_CONTENT => RSS_CONTENT_NS,
   HATENA => HATENA_NS,
+  MRSS1 => MRSS1_NS,
+  MRSS2 => MRSS2_NS,
+  GDATA => GDATA_NS,
+  SLASH => SLASH_NS,
+  ITUNES => ITUNES_NS,
 };
 my $NSPATTERN = join '|', keys %$NSMAP;
 
@@ -778,6 +788,9 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $ce->{+ATOM_NS}->{$_}->{min} = 1,
         $ce->{+ATOM_NS}->{$_}->{max} = 1
             for qw(name);
+        $ce->{+GDATA_NS}->{$_}->{min} = 0,
+        $ce->{+GDATA_NS}->{$_}->{max} = 1
+            for qw(image);
       }
       $Data->{elements}->{$ns}->{$ln}->{atom_extensible} = 1;
     } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03PersonConstruct') {
@@ -815,41 +828,119 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
   my $path = $RootPath->child ('src/element-contents.txt');
   my $ens;
   my $eln;
-  my $edef;
+  my @edef;
+  my $spec;
+  my @defined;
+  my $defined = sub {
+    for my $def (@defined) {
+      $def->{url} = $spec if defined $spec;
+    }
+    @defined = ();
+  };
   for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\s*#/) {
       #
     } elsif (/^\*\s*<($NSPATTERN)>([\w-]+)\s*$/o) {
       $ens = $NSMAP->{$1};
       $eln = $2;
-      $edef = $Data->{elements}->{$ens}->{$eln} ||= {};
+      $defined->();
+      @edef = ($Data->{elements}->{$ens}->{$eln} ||= {});
+      @defined = @edef;
+    } elsif (/^\*\s*<(RSS2)>([\w-]+)\s*$/o) {
+      $ens = '';
+      $eln = $2;
+      $defined->();
+      @edef = ($Data->{rss2_elements}->{$eln} ||= {});
+      @defined = @edef;
+    } elsif (/^\*\s*<(MEDIA)>([\w-]+)\s*$/o) {
+      $ens = '';
+      $eln = $2;
+      $defined->();
+      @edef = ($Data->{elements}->{(MRSS1_NS)}->{$eln} ||= {},
+               $Data->{elements}->{(MRSS2_NS)}->{$eln} ||= {});
+      @defined = @edef;
     } elsif (/^([0-9]+)-([0-9]+|\*)\s+<($NSPATTERN)>([\w-]+)(\^\*|)\s*$/o) {
       my $ans = $NSMAP->{$3};
-      $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
-      $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
-      $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
+      for my $edef (@edef) {
+        $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
+        $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
+        $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
+      }
+    } elsif (/^([0-9]+)-([0-9]+|\*)\s+<(MEDIA)>([\w-]+)(\^\*|)\s*$/o) {
+      for my $edef (@edef) {
+        for my $ans (MRSS1_NS, MRSS2_NS) {
+          $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
+          $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
+          $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
+        }
+      }
+    } elsif ($ens eq '' and
+             /^([0-9]+)-([0-9]+|\*)\s+<(RSS2)>([\w-]+)(\^\*|)\s*$/o) {
+      my $ans = '';
+      for my $edef (@edef) {
+        $edef->{child_elements}->{$ans}->{$4}->{min} = 0+$1;
+        $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
+        $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
+      }
     } elsif (/^rdf:(about|resource)$/) {
-      $edef->{attrs}->{(RDF_NS)}->{$1}->{conforming} = 1;
-      $edef->{attrs}->{(RDF_NS)}->{$1}->{value_type} = 'URL';
-      $edef->{attrs}->{(RDF_NS)}->{$1}->{url}
-          = 'http://web.resource.org/rss/1.0/spec';
-    } elsif (/^content\s+(text|string|URL|global date and time string)\s*$/) {
-      $edef->{content_model} = 'text';
-      $edef->{text_type} = $1;
+      for my $edef (@edef) {
+        $edef->{attrs}->{(RDF_NS)}->{$1}->{conforming} = 1;
+        $edef->{attrs}->{(RDF_NS)}->{$1}->{value_type} = 'URL';
+        push @defined, $edef->{attrs}->{(RDF_NS)}->{$1};
+      }
+    } elsif (/^(required\s+|)attr\s+(\S+)\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|\.\.\.)$/) {
+      for my $edef (@edef) {
+        my $w = $edef->{attrs}->{''}->{$2} ||= {};
+        push @defined, $w;
+        $w->{conforming} = 1;
+        $w->{value_type} = $3 unless $3 eq '...';
+        $w->{required} = 1 if $1;
+      }
+    } elsif (/^(required\s+|)attr\s+(\S+)\s+enum\s+\(([^()]+)\)$/) {
+
+    } elsif (/^content\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address)\s*$/) {
+      for my $edef (@edef) {
+        $edef->{content_model} = 'text';
+        $edef->{text_type} = $1;
+      }
+    } elsif (/^content\s+enum\s+\(([^()]+)\)\s*$/) {
+      my @value = split /\|/, $1;
+      for my $edef (@edef) {
+        $edef->{content_model} = 'text';
+        $edef->{text_type} = 'case-sensitive enumerated';
+        for (@value) {
+          my $v = $_;
+          my $bad = $v =~ s/^\*//;
+          my $w = $edef->{enumerated}->{$v} ||= {};
+          push @defined, $w;
+          $w->{conforming} = 1 unless $bad;
+        }
+      }
     } elsif (/^content\s+(empty)\s*$/) {
-      $edef->{content_model} = $1;
+      for my $edef (@edef) {
+        $edef->{content_model} = $1;
+      }
     } elsif (/^suggested\s+max\s+([0-9]+)\s*$/) {
       #
     } elsif (/^spec\s+(\S+)\s*$/) {
-      $edef->{url} = $1;
+      $spec = $1;
     } elsif (/^conforming$/) {
-      $edef->{conforming} = 1;
+      $edef[0]->{conforming} = 1;
+    } elsif (/^deprecated$/) {
+      for my $edef (@edef) {
+        $edef->{deprecated} = 1;
+      }
+    } elsif (/^preferred\s+/) {
+      # XXX
     } elsif (/^and\s+more$/) {
-      $edef->{has_additional_content_constraints} = 1;
+      for my $edef (@edef) {
+        $edef->{has_additional_content_constraints} = 1;
+      }
     } elsif (/\S/) {
       die "Bad line |$_|";
     }
-  }
+  } # split
+  $defined->();
 }
 
 for my $keyword (qw(

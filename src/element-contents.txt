@@ -42,6 +42,11 @@
 1-1 <ATOM>title
 1-1 <ATOM>updated
 
+# VALLANGS
+0-1 <MEDIA>thumbnail
+0-1 <MEDIA>group
+#1-1 <DC>subject
+
 * <ATOM>source
 
 0-* <ATOM>author
@@ -372,7 +377,7 @@ content text
 #http://web.resource.org/rss/1.0/modules/dc/
 spec http://dublincore.org/documents/dces/#date
 conforming
-content global date and time string
+content W3C-DTF
 
 * <DC>type
 
@@ -481,3 +486,974 @@ spec http://developer.hatena.ne.jp/ja/documents/other/misc/xmlns#bookmarkcount
      # sic!
 conforming
 #content html
+
+* <RSS2>rss
+
+1-1 <RSS2>channel
+required attr version enum (2.0)
+spec http://www.rssboard.org/rss-specification#whatIsRss
+#spec http://www.rssboard.org/rss-profile#element-rss
+conforming
+
+* <RSS2>channel
+
+1-1 <RSS2>title
+1-1 <RSS2>link
+1-1 <RSS2>description
+spec http://www.rssboard.org/rss-specification#requiredChannelElements
+
+0-1 <RSS2>language
+0-1 <RSS2>copyright
+0-1 <RSS2>managingEditor
+0-1 <RSS2>webMaster
+0-1 <RSS2>pubDate
+0-1 <RSS2>lastBuildDate
+0-* <RSS2>category
+0-1 <RSS2>generator
+0-1 <RSS2>docs
+0-1 <RSS2>cloud
+0-1 <RSS2>ttl
+0-1 <RSS2>image
+0-1 <RSS2>rating
+0-1 <RSS2>textInput
+0-1 <RSS2>skipHours
+0-1 <RSS2>skipDays
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+
+0-* <RSS2>item
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+
+#spec http://www.rssboard.org/rss-profile#element-channel
+#item SHOULD be last elements
+
+0-* <ATOM>link
+#spec http://www.rssboard.org/rss-profile#namespace-elements-atom-link
+
+0-1 <DC>creator
+#spec http://www.rssboard.org/rss-profile#namespace-elements-dublin-creator
+
+#spec http://www.rssboard.org/media-rss#optional-elements
+0-* <MEDIA>adult
+0-* <MEDIA>rating
+0-* <MEDIA>title
+0-* <MEDIA>description
+0-* <MEDIA>keywords
+0-* <MEDIA>thumbnail
+0-* <MEDIA>category
+0-* <MEDIA>hash
+0-* <MEDIA>player
+0-* <MEDIA>credit
+0-* <MEDIA>copyright
+0-* <MEDIA>text
+0-* <MEDIA>restriction
+0-* <MEDIA>community
+0-* <MEDIA>comments
+0-* <MEDIA>embed
+0-* <MEDIA>responses
+0-* <MEDIA>backLinks
+0-* <MEDIA>status
+0-* <MEDIA>price
+0-* <MEDIA>license
+0-* <MEDIA>subTitle
+0-* <MEDIA>peerLink
+0-* <MEDIA>location
+0-* <MEDIA>rights
+0-* <MEDIA>scenes
+
+#spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+0-1 <ITUNES>type
+0-1 <ITUNES>subtitle
+0-1 <ITUNES>summary
+0-1 <ITUNES>author
+0-1 <ITUNES>block
+0-1 <ITUNES>category
+0-1 <ITUNES>complete
+0-1 <ITUNES>explicit
+0-1 <ITUNES>image
+0-1 <ITUNES>new-feed-url
+0-1 <ITUNES>owner
+
+conforming
+
+* <RSS2>title
+
+content text
+#spec http://www.rssboard.org/rss-specification#requiredChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-title
+
+#content text
+#spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-image-title
+
+#content text
+#spec http://www.rssboard.org/rss-specification#lttextinputgtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-textinput-title
+
+#content text
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-title
+
+conforming
+
+* <RSS2>link
+
+#content URL
+#spec http://www.rssboard.org/rss-specification#requiredChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-link
+
+#content URL
+#spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-image-link
+
+#content URL
+#spec http://www.rssboard.org/rss-specification#lttextinputgtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-textinput-link
+
+#content URL
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-link
+
+content absolute URL
+spec http://www.rssboard.org/rss-profile#data-types-url
+
+conforming
+
+* <RSS2>description
+
+#content text
+#spec http://www.rssboard.org/rss-specification#requiredChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-description
+
+#content text
+#spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-image-description
+
+#content text
+#spec http://www.rssboard.org/rss-specification#lttextinputgtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-textinput-description
+
+#content HTML fragment
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-description
+  # SHOULD NOT contain a relative URL
+
+conforming
+
+* <RSS2>language
+
+content language tag
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-language
+#spec http://www.rssboard.org/rss-language-codes
+conforming
+
+* <RSS2>copyright
+
+content text
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-copyright
+conforming
+
+* <RSS2>managingEditor
+
+content RSS 2.0 person
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-managingeditor
+conforming
+
+* <RSS2>webMaster
+
+content RSS 2.0 person
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-webmaster
+conforming
+
+* <RSS2>pubDate
+
+content RSS 2.0 date
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-pubdate
+#spec http://www.rssboard.org/rss-profile#element-channel-item-pubdate
+conforming
+
+* <RSS2>lastBuildDate
+
+content RSS 2.0 date
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-lastbuilddate
+conforming
+
+* <RSS2>category
+
+content text
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-category
+
+#content text
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+#spec http://www.rssboard.org/rss-specification#ltcategorygtSubelementOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-category
+
+attr domain string
+conforming
+
+* <RSS2>generator
+
+content text
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-generator
+conforming
+
+* <RSS2>docs
+
+content URL
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-docs
+conforming
+
+* <RSS2>cloud
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-specification#ltcloudgtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rsscloud-interface
+#spec http://www.rssboard.org/rss-profile#element-channel-cloud
+required attr domain ...
+required attr port ...
+required attr path ...
+required attr registerProcedure enum (xml-rpc|soap)
+required attr protocol ...
+content empty
+conforming
+
+* <RSS2>ttl
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-specification#ltttlgtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-ttl
+content non-negative integer
+conforming
+
+* <RSS2>image
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-image
+1-1 <RSS2>url
+1-1 <RSS2>title
+1-1 <RSS2>link
+0-1 <RSS2>width
+0-1 <RSS2>height
+0-1 <RSS2>description
+conforming
+
+* <RSS2>url
+
+#spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+spec http://www.rssboard.org/rss-profile#element-channel-image-url
+#content URL
+
+spec http://www.rssboard.org/rss-profile#data-types-url
+content absolute URL
+conforming
+
+* <RSS2>width
+
+#spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+spec http://www.rssboard.org/rss-profile#element-channel-image-width
+content non-negative integer
+conforming
+
+* <RSS2>height
+
+#spec http://www.rssboard.org/rss-specification#ltimagegtSubelementOfLtchannelgt
+spec http://www.rssboard.org/rss-profile#element-channel-image-height
+content non-negative integer
+conforming
+
+* <RSS2>rating
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-rating
+#content PICS rating
+conforming
+
+* <RSS2>textInput
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-specification#lttextinputgtSubelementOfLtchannelgt
+#spec http://www.rssboard.org/rss-profile#element-channel-textinput
+1-1 <RSS2>title
+1-1 <RSS2>description
+1-1 <RSS2>name
+1-1 <RSS2>link
+conforming
+deprecated
+  # discouraged
+
+* <RSS2>name
+
+#spec http://www.rssboard.org/rss-specification#lttextinputgtSubelementOfLtchannelgt
+spec http://www.rssboard.org/rss-profile#element-channel-textinput-name
+#content string
+  # [A-Za-z][A-Za-z0-9:._-]*
+conforming
+
+* <RSS2>skipHours
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-skiphours
+0-23 <RSS2>hour
+# no duplicate
+conforming
+
+* <RSS2>hour
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-skiphours-hour
+content enum (0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|*24)
+conforming
+
+* <RSS2>skipDays
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-skipdays
+0-7 <RSS2>day
+# no duplicate
+conforming
+
+* <RSS2>day
+
+#spec http://www.rssboard.org/rss-specification#optionalChannelElements
+spec http://www.rssboard.org/rss-profile#element-channel-skipdays-day
+content enum (Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)
+conforming
+
+* <RSS2>item
+
+spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item
+0-1 <RSS2>title
+0-1 <RSS2>description
+#title or description is required
+0-1 <RSS2>link
+0-1 <RSS2>author
+0-* <RSS2>category
+0-1 <RSS2>comments
+0-1 <RSS2>enclosure
+0-1 <RSS2>guid
+  # There SHOULD be a guid
+0-1 <RSS2>pubDate
+0-1 <RSS2>source
+
+0-* <ATOM>link
+#spec http://www.rssboard.org/rss-profile#namespace-elements-atom-link
+
+0-1 <RSS_CONTENT>encoded
+#spec http://www.rssboard.org/rss-profile#namespace-elements-content-encoded
+
+0-1 <DC>creator
+#spec http://www.rssboard.org/rss-profile#namespace-elements-dublin-creator
+
+0-1 <SLASH>comments
+#spec http://www.rssboard.org/rss-profile#namespace-elements-slash-comments
+
+0-* <MEDIA>group
+#spec http://www.rssboard.org/media-rss#media-group
+
+0-* <MEDIA>content
+#spec http://www.rssboard.org/media-rss#media-content
+
+#spec http://www.rssboard.org/media-rss#optional-elements
+0-* <MEDIA>adult
+0-* <MEDIA>rating
+0-* <MEDIA>title
+0-* <MEDIA>description
+0-* <MEDIA>keywords
+0-* <MEDIA>thumbnail
+0-* <MEDIA>category
+0-* <MEDIA>hash
+0-* <MEDIA>player
+0-* <MEDIA>credit
+0-* <MEDIA>copyright
+0-* <MEDIA>text
+0-* <MEDIA>restriction
+0-* <MEDIA>community
+0-* <MEDIA>comments
+0-* <MEDIA>embed
+0-* <MEDIA>responses
+0-* <MEDIA>backLinks
+0-* <MEDIA>status
+0-* <MEDIA>price
+0-* <MEDIA>license
+0-* <MEDIA>subTitle
+0-* <MEDIA>peerLink
+0-* <MEDIA>location
+0-* <MEDIA>rights
+0-* <MEDIA>scenes
+
+#spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+0-1 <ITUNES>subtitle
+0-1 <ITUNES>summary
+0-1 <ITUNES>title
+0-1 <ITUNES>author
+0-1 <ITUNES>block
+0-1 <ITUNES>duration
+0-1 <ITUNES>episode
+0-1 <ITUNES>episodeType
+0-1 <ITUNES>explicit
+0-1 <ITUNES>image
+0-1 <ITUNES>isClosedCaptioned
+0-1 <ITUNES>order
+0-1 <ITUNES>season
+
+conforming
+
+* <RSS2>author
+
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+spec http://www.rssboard.org/rss-specification#ltauthorgtSubelementOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-author
+content RSS 2.0 person
+conforming
+
+* <RSS2>comments
+
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+spec http://www.rssboard.org/rss-specification#ltcommentsgtSubelementOfLtitemgt
+#spec http://www.rssboard.org/rss-weblog-comments-use-case
+#spec http://www.rssboard.org/rss-profile#element-channel-item-comments
+content URL
+conforming
+
+* <RSS2>enclosure
+
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+spec http://www.rssboard.org/rss-specification#ltenclosuregtSubelementOfLtitemgt
+#spec http://www.rssboard.org/rss-enclosures-use-case
+#spec http://www.rssboard.org/rss-profile#element-channel-item-enclosure
+required attr url URL
+required attr length non-negative integer
+required attr type MIME type
+content empty
+conforming
+
+* <RSS2>guid
+
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+spec http://www.rssboard.org/rss-specification#ltguidgtSubelementOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-guid
+#content string
+  #isPermaLink="true" -> then content URL
+attr isPermaLink enum (true|false)
+conforming
+
+* <RSS2>pubDate
+
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+spec http://www.rssboard.org/rss-specification#ltpubdategtSubelementOfLtitemgt
+content RSS 2.0 date
+conforming
+
+* <RSS2>source
+
+#spec http://www.rssboard.org/rss-specification#hrelementsOfLtitemgt
+spec http://www.rssboard.org/rss-specification#ltsourcegtSubelementOfLtitemgt
+#spec http://www.rssboard.org/rss-profile#element-channel-item-source
+content text
+required attr url URL
+conforming
+
+* <SLASH>comments
+
+spec http://www.rssboard.org/rss-profile#namespace-elements-slash-comments
+content non-negative integer
+conforming
+
+* <MEDIA>group
+
+spec http://www.rssboard.org/media-rss#media-group
+
+0-* <MEDIA>content
+#spec http://www.rssboard.org/media-rss#media-content
+
+#spec http://www.rssboard.org/media-rss#optional-elements
+0-* <MEDIA>adult
+0-* <MEDIA>rating
+0-* <MEDIA>title
+0-* <MEDIA>description
+0-* <MEDIA>keywords
+0-* <MEDIA>thumbnail
+0-* <MEDIA>category
+0-* <MEDIA>hash
+0-* <MEDIA>player
+0-* <MEDIA>credit
+0-* <MEDIA>copyright
+0-* <MEDIA>text
+0-* <MEDIA>restriction
+0-* <MEDIA>community
+0-* <MEDIA>comments
+0-* <MEDIA>embed
+0-* <MEDIA>responses
+0-* <MEDIA>backLinks
+0-* <MEDIA>status
+0-* <MEDIA>price
+0-* <MEDIA>license
+0-* <MEDIA>subTitle
+0-* <MEDIA>peerLink
+0-* <MEDIA>location
+0-* <MEDIA>rights
+0-* <MEDIA>scenes
+
+conforming
+
+* <MEDIA>content
+
+spec http://www.rssboard.org/media-rss#media-content
+attr url URL
+  # url="" or <MEDIA>player is REQUIRED
+attr fileSize non-negative integer
+attr medium MIME type
+attr isDefault enum (true)
+  # only one in <MEDIA>group
+attr expression enum (simple|full|nonstop)
+attr bitrate non-negative integer
+attr framerate non-negative integer
+attr samplingrate non-negative integer
+attr channels non-negative integer
+attr duration non-negative integer
+attr height non-negative integer
+attr width non-negative integer
+attr lang language tag
+
+#spec http://www.rssboard.org/media-rss#optional-elements
+0-* <MEDIA>adult
+0-* <MEDIA>rating
+0-* <MEDIA>title
+0-* <MEDIA>description
+0-* <MEDIA>keywords
+0-* <MEDIA>thumbnail
+0-* <MEDIA>category
+0-* <MEDIA>hash
+0-* <MEDIA>player^*
+0-* <MEDIA>credit
+0-* <MEDIA>copyright
+0-* <MEDIA>text
+0-* <MEDIA>restriction
+0-* <MEDIA>community
+0-* <MEDIA>comments
+0-* <MEDIA>embed
+0-* <MEDIA>responses
+0-* <MEDIA>backLinks
+0-* <MEDIA>status
+0-* <MEDIA>price
+0-* <MEDIA>license
+0-* <MEDIA>subTitle
+0-* <MEDIA>peerLink
+0-* <MEDIA>location
+0-* <MEDIA>rights
+0-* <MEDIA>scenes
+
+conforming
+
+* <MEDIA>adult
+
+spec http://www.rssboard.org/media-rss#media-adult
+#conforming
+deprecated
+preferred <MEDIA>rating
+
+* <MEDIA>rating
+
+spec http://www.rssboard.org/media-rss#media-rating
+#content string
+  # scheme dependent
+attr scheme URL
+conforming
+
+* <MEDIA>title
+
+spec http://www.rssboard.org/media-rss#media-title
+#content type dependent
+attr type enum (plain|html)
+conforming
+
+* <MEDIA>description
+
+spec http://www.rssboard.org/media-rss#media-description
+#content type dependent
+attr type enum (plain|html)
+conforming
+
+* <MEDIA>keywords
+
+spec http://www.rssboard.org/media-rss#media-keywords
+content text
+  # comma (and space) separated keywords
+conforming
+
+* <MEDIA>thumbnail
+
+# <MEDIA>thumbnails in spec heading
+
+spec http://www.rssboard.org/media-rss#media-thumbnails
+content empty
+required attr url URL
+attr height non-negative integer
+attr width non-negative integer
+attr time NPT
+conforming
+
+* <MEDIA>category
+
+spec http://www.rssboard.org/media-rss#media-category
+content string
+attr scheme URL
+attr label text
+conforming
+
+* <MEDIA>hash
+
+spec http://www.rssboard.org/media-rss#media-hash
+content string
+attr algo enum (md5|sha-1)
+conforming
+
+* <MEDIA>player
+
+spec http://www.rssboard.org/media-rss#media-player
+content empty
+required attr url URL
+attr width non-negative integer
+attr height non-negative integer
+conforming
+
+* <MEDIA>credit
+
+spec http://www.rssboard.org/media-rss#media-credit
+content empty
+attr role string
+  # in lowercase
+#attr scheme URL
+attr scheme enum (urn:ebu|urn:yvs)
+conforming
+
+* <MEDIA>copyright
+
+spec http://www.rssboard.org/media-rss#media-copyright
+content text
+attr url URL
+conforming
+
+* <MEDIA>text
+
+spec http://www.rssboard.org/media-rss#media-text
+#content type dependent
+attr type enum (plain|html)
+attr lang language tag
+attr start NPT
+attr end NPT
+conforming
+
+* <MEDIA>restriction
+
+spec http://www.rssboard.org/media-rss#media-restriction
+required attr relationship enum (allow|deny)
+attr type enum (country|uri|sharing)
+  # optional when content is all or none
+#content country code if type=country
+#content URL if type=uri
+#content empty if type=sharing
+conforming
+
+* <MEDIA>community
+
+spec http://www.rssboard.org/media-rss#media-community
+0-1 <MEDIA>starRating
+0-1 <MEDIA>statistics
+0-1 <MEDIA>tags
+conforming
+
+* <MEDIA>starRating
+
+spec http://www.rssboard.org/media-rss#media-community
+attr average floating-point number
+attr min non-negative integer
+attr max non-negative integer
+content empty
+conforming
+
+* <MEDIA>statistics
+
+spec http://www.rssboard.org/media-rss#media-community
+attr views non-negative integer
+attr favorites non-negative integer
+content empty
+conforming
+
+* <MEDIA>tags
+
+spec http://www.rssboard.org/media-rss#media-community
+#content tagname:value, ...
+conforming
+
+* <MEDIA>comments
+
+spec http://www.rssboard.org/media-rss#media-comments
+0-* <MEDIA>comment
+conforming
+
+* <MEDIA>comment
+
+spec http://www.rssboard.org/media-rss#media-comments
+content text
+conforming
+
+* <MEDIA>embed
+
+spec http://www.rssboard.org/media-rss#media-embed
+0-* <MEDIA>param
+conforming
+
+* <MEDIA>param
+
+spec http://www.rssboard.org/media-rss#media-embed
+required attr name string
+content string
+conforming
+
+* <MEDIA>responses
+
+spec http://www.rssboard.org/media-rss#media-responses
+0-* <MEDIA>response
+conforming
+
+* <MEDIA>response
+
+spec http://www.rssboard.org/media-rss#media-responses
+content string
+conforming
+
+* <MEDIA>backLinks
+
+spec http://www.rssboard.org/media-rss#media-backlinks
+0-* <MEDIA>backLink
+conforming
+
+* <MEDIA>backLink
+
+spec http://www.rssboard.org/media-rss#media-backlinks
+content URL
+conforming
+
+* <MEDIA>status
+
+spec http://www.rssboard.org/media-rss#media-status
+attr state enum (active|blocked|deleted)
+attr reason text
+  #or a URL
+conforming
+
+* <MEDIA>price
+
+spec http://www.rssboard.org/media-rss#media-price
+attr type enum (rent|purchase|package|subscription)
+attr info URL
+  # if type=package|subscription
+attr price floating-point number
+attr currency currency
+conforming
+
+* <MEDIA>license
+
+spec http://www.rssboard.org/media-rss#media-license
+attr type MIME type
+attr href URL
+content text
+conforming
+
+* <MEDIA>subTitle
+
+spec http://www.rssboard.org/media-rss#media-subtitle
+attr type MIME type
+attr lang language tag
+attr href URL
+content empty
+conforming
+
+* <MEDIA>peerLink
+
+spec http://www.rssboard.org/media-rss#media-peerlink
+attr type MIME type
+attr href URL
+conforming
+
+* <MEDIA>location
+
+spec http://www.rssboard.org/media-rss#media-peerlink
+attr description text
+attr start NPT
+attr end NPT
+#content geoRSS
+conforming
+
+* <MEDIA>rights
+
+spec http://www.rssboard.org/media-rss#media-rights
+attr status enum (userCreated|official)
+content empty
+conforming
+
+* <MEDIA>scenes
+
+spec http://www.rssboard.org/media-rss#media-scenes
+0-* <MEDIA>scene
+conforming
+
+* <MEDIA>scene
+
+spec http://www.rssboard.org/media-rss#media-scenes
+0-1 <MEDIA>sceneTitle
+0-1 <MEDIA>sceneDescription
+0-1 <MEDIA>sceneStartTime
+0-1 <MEDIA>sceneEndTime
+conforming
+
+* <MEDIA>sceneTitle
+
+spec http://www.rssboard.org/media-rss#media-scenes
+content text
+conforming
+
+* <MEDIA>sceneDescription
+
+spec http://www.rssboard.org/media-rss#media-scenes
+content text
+conforming
+
+* <MEDIA>sceneStartTime
+
+spec http://www.rssboard.org/media-rss#media-scenes
+content NPT
+conforming
+
+* <MEDIA>sceneEndTime
+
+spec http://www.rssboard.org/media-rss#media-scenes
+content NPT
+conforming
+
+* <ITUNES>type
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content enum (episodic|serial)
+conforming
+
+* <ITUNES>subtitle
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content text
+conforming
+
+* <ITUNES>summary
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content text
+conforming
+
+* <ITUNES>author
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content text
+conforming
+
+* <ITUNES>block
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content enum (Yes)
+conforming
+
+* <ITUNES>category
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+0-1 <ITUNES>category
+required attr text text
+conforming
+
+* <ITUNES>complete
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content enum (Yes)
+conforming
+
+* <ITUNES>explicit
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content enum (yes|explicit|true|clean|no|false)
+conforming
+
+* <ITUNES>image
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+required attr href URL
+conforming
+
+* <ITUNES>new-feed-url
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content URL
+conforming
+
+* <ITUNES>owner
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+0-1 <ITUNES>email
+0-1 <ITUNES>name
+conforming
+
+* <ITUNES>email
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content e-mail address
+conforming
+
+* <ITUNES>name
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content text
+conforming
+
+* <ITUNES>duration
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+#content itunes:duration
+conforming
+
+* <ITUNES>episode
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content non-negative integer
+conforming
+
+* <ITUNES>episodeType
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content enum (full|trailer|bonus)
+conforming
+
+* <ITUNES>isClosedCaptioned
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content enum (Yes)
+conforming
+
+* <ITUNES>order
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content non-negative integer
+conforming
+
+* <ITUNES>season
+
+spec https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+content non-negative integer
+conforming
