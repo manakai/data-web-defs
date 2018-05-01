@@ -137,16 +137,22 @@ root
 
 * <RDF>RDF
 
+## When this is an RSS 1.0 rdf:RDF element:
+
+#prefix MUST be rdf
 1-1 <RSS>channel
 0-1 <RSS>image
 1-* <RSS>item
   ## recommended: 1-15
 0-1 <RSS>textinput
-rdf:about
+required attr <RDF>about URL
+required attr <XMLNS>rdf enum (http://www.w3.org/1999/02/22-rdf-syntax-ns#)
+required attr <XMLNS>xmlns enum (http://purl.org/rss/1.0/)
 spec http://web.resource.org/rss/1.0/spec#s5.2
 conforming
-and more
 root
+
+and more
 
 * <RSS>channel
 
@@ -156,7 +162,7 @@ root
 0-1 <RSS>image
 1-1 <RSS>items
 0-1 <RSS>textinput
-rdf:about
+required attr <RDF>about URL
 spec http://web.resource.org/rss/1.0/spec#s5.3
 conforming
 
@@ -231,11 +237,13 @@ conforming
 
 * <RSS>image
 
-rdf:resource
+#required
+attr <RDF>resource URL
 #content empty
 #spec http://web.resource.org/rss/1.0/spec#s5.3.4
 
-rdf:about
+#required
+attr <RDF>about URL
 1-1 <RSS>title
 1-1 <RSS>url
 1-1 <RSS>link
@@ -267,11 +275,13 @@ conforming
 
 * <RSS>textinput
 
-rdf:resource
+#required
+attr <RDF>resource URL
 #content empty
 #spec http://web.resource.org/rss/1.0/spec#s5.3.6
 
-rdf:about
+#required
+attr <RDF>about URL
 1-1 <RSS>title
 1-1 <RSS>description
 1-1 <RSS>name
@@ -298,7 +308,7 @@ conforming
 
 * <RSS>item
 
-rdf:about
+required attr <RDF>about URL
 1-1 <RSS>title
 1-1 <RSS>link
 0-1 <RSS>description
@@ -331,7 +341,7 @@ and more
 
 * <RDF>li
 
-rdf:resource
+required attr <RDF>resource URL
 #content empty
 spec http://web.resource.org/rss/1.0/spec#s5.3.5
 conforming

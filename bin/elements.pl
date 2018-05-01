@@ -5,6 +5,8 @@ use lib glob path (__FILE__)->parent->child ('modules/*/lib')->stringify;
 use JSON::PS;
 use Web::Encoding;
 
+sub XML_NS () { q<http://www.w3.org/XML/1998/namespace> }
+sub XMLNS_NS () { q<http://www.w3.org/2000/xmlns/> }
 sub HTML_NS () { 'http://www.w3.org/1999/xhtml' }
 sub MATH_NS () { 'http://www.w3.org/1998/Math/MathML' }
 sub SVG_NS () { 'http://www.w3.org/2000/svg' }
@@ -28,6 +30,8 @@ sub ITUNES1_NS () { q<http://www.itunes.com/dtds/podcast-1.0.dtd> }
 sub ITUNES2_NS () { q<http://www.itunes.com/DTDs/Podcast-1.0.dtd> }
 
 my $NSMAP = {
+  XML => XML_NS,
+  XMLNS => XMLNS_NS,
   HTML => HTML_NS,
   MATH => MATH_NS,
   SVG => SVG_NS,
@@ -287,8 +291,9 @@ $Data->{elements}->{(HTML_NS)}->{ul}->{states}->{'has-item'}
 $Data->{elements}->{(HTML_NS)}->{ol}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
 
-$Data->{elements}->{'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}->{RDF}
-    ->{categories}->{'metadata content'} = 1;
+## Allowed in theory but we don't support RDF/XML anymore.
+#$Data->{elements}->{'http://www.w3.org/1999/02/22-rdf-syntax-ns#'}->{RDF}
+#    ->{categories}->{'metadata content'} = 1;
 for ('embedded content', 'phrasing content', 'flow content',
      'palpable content') {
   $Data->{elements}->{'http://www.w3.org/2000/svg'}->{svg}
@@ -896,18 +901,13 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
         $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
       }
-    } elsif (/^rdf:(about|resource)$/) {
+    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|\.\.\.)$/o) {
+      my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
       for my $edef (@edef) {
-        $edef->{attrs}->{(RDF_NS)}->{$1}->{conforming} = 1;
-        $edef->{attrs}->{(RDF_NS)}->{$1}->{value_type} = 'URL';
-        push @defined, $edef->{attrs}->{(RDF_NS)}->{$1};
-      }
-    } elsif (/^(required\s+|)attr\s+(\S+)\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|\.\.\.)$/) {
-      for my $edef (@edef) {
-        my $w = $edef->{attrs}->{''}->{$2} ||= {};
+        my $w = $edef->{attrs}->{$ans}->{$3} ||= {};
         push @defined, $w;
         $w->{conforming} = 1;
-        $w->{value_type} = $3 unless $3 eq '...';
+        $w->{value_type} = $4 unless $4 eq '...';
         $w->{required} = 1 if $1;
       }
     } elsif (/^content\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address)\s*$/) {
@@ -915,10 +915,11 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $edef->{content_model} = 'text';
         $edef->{text_type} = $1;
       }
-    } elsif (/^(required\s+|)attr\s+(\S+)\s+enum\s+\(([^()]+)\)$/) {
-      my @value = split /\|/, $2;
+    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+enum\s+\(([^()]+)\)$/o) {
+      my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
+      my @value = split /\|/, $4;
       for my $edef (@edef) {
-        my $w = $edef->{attrs}->{''}->{$2} ||= {};
+        my $w = $edef->{attrs}->{$ans}->{$3} ||= {};
         push @defined, $w;
         $w->{conforming} = 1;
         $w->{value_type} = 'case-sensitive enumerated';
