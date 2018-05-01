@@ -234,7 +234,7 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
     my ($ename, $aname, $set, $check) = @$_;
     my $a_def = $Data->{elements}->{(HTML_NS)}->{$ename}->{attrs}->{''}->{$aname} ||= {};
     my $s_def = $json->{$set};
-    for my $value (keys %{$s_def->{values}}) {
+    for my $value (sort { $a cmp $b } keys %{$s_def->{values}}) {
       my $v_def = $s_def->{values}->{$value};
       next unless $v_def->{$check};
       $a_def->{value_type} = 'enumerated';
@@ -720,28 +720,6 @@ for (qw(acronym bgsound dir noframes isindex listing nextid
   $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{$_}->{id} = $_;
 }
 
-for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {
-  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns} or {}}) {
-    for my $cat_name (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}->{$ln}->{categories} or {}}) {
-      $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
-    }
-    for my $state (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}->{$ln}->{states} or {}}) {
-      for my $cat_name (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}->{$ln}->{states}->{$state}->{categories} or {}}) {
-        if ($ln eq '*') {
-          $Data->{categories}->{$cat_name}->{has_additional_rules} = 1;
-        } else {
-          $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{$ns}->{$ln} = 1;
-        }
-      }
-    }
-  }
-}
-for my $state (sort { $a cmp $b } keys %{$Data->{input}->{states} or {}}) {
-  for my $cat_name (sort { $a cmp $b } keys %{$Data->{input}->{states}->{$state}->{categories} or {}}) {
-    $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{(HTML_NS)}->{input} = 1;
-  }
-}
-
 for (
   ['feed'],
   ['title'],
@@ -955,12 +933,24 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       $spec = $1;
     } elsif (/^conforming$/) {
       $edef[0]->{conforming} = 1;
-    } elsif (/^(deprecated|root)$/) {
+    } elsif (/^(deprecated|obsolete|root)$/) {
       for my $edef (@edef) {
         $edef->{$1} = 1;
       }
     } elsif (/^preferred\s+/) {
       # XXX
+    } elsif (/^atom\s+extensible$/) {
+      for my $edef (@edef) {
+        $edef->{atom_extensible} = 1;
+      }
+    } elsif (/^unknown\s+children$/) {
+      for my $edef (@edef) {
+        $edef->{unknown_children} = 1;
+      }
+    } elsif (/^unknown\s+children\s+-\s+RDF$/) {
+      for my $edef (@edef) {
+        $edef->{unknown_children} = 'nordf';
+      }
     } elsif (/^and\s+more$/) {
       for my $edef (@edef) {
         $edef->{has_additional_content_constraints} = 1;
@@ -1446,6 +1436,30 @@ for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.org/199
   }
 }
 
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns} or {}}) {
+    my $edef = $Data->{elements}->{$ns}->{$ln};
+    for my $cat_name (sort { $a cmp $b } keys %{$edef->{categories} or {}}) {
+      $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
+    }
+    for my $state (sort { $a cmp $b } keys %{$edef->{states} or {}}) {
+      for my $cat_name (sort { $a cmp $b } keys %{$edef->{states}->{$state}->{categories} or {}}) {
+        if ($ln eq '*') {
+          $Data->{categories}->{$cat_name}->{has_additional_rules} = 1;
+        } else {
+          $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{$ns}->{$ln} = 1;
+        }
+      }
+    }
+    $edef->{unknown_children} = 1 if $edef->{atom_extensible};
+  } # $ln
+} # $ns
+for my $state (sort { $a cmp $b } keys %{$Data->{input}->{states} or {}}) {
+  for my $cat_name (sort { $a cmp $b } keys %{$Data->{input}->{states}->{$state}->{categories} or {}}) {
+    $Data->{categories}->{$cat_name}->{elements_with_exceptions}->{(HTML_NS)}->{input} = 1;
+  }
+}
+
 ## <https://html.spec.whatwg.org/#valid-custom-element-name>
 for (qw(
   annotation-xml color-profile font-face font-face-src font-face-uri
@@ -1483,7 +1497,7 @@ for (qw(
     }
   }
 }
-for my $ns (keys %{$Data->{elements}}) {
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
   next if $ns eq '' or $ns eq '*';
   $Data->{namespaces}->{$ns} ||= {};
 }
