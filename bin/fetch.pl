@@ -7,7 +7,7 @@ my $RootPath = path (__FILE__)->parent->parent;
 my $Data = {};
 
 $Data->{initiator}->{values}->{$_} = {}
-    for '', qw(download imageset manifest xslt);
+    for '', qw(download imageset manifest prefetch prerender xslt);
 $Data->{initiator}->{default} = '';
 $Data->{initiator}->{url} = q<https://fetch.spec.whatwg.org/#concept-request-initiator>;
 
