@@ -82,6 +82,29 @@ root
 conforming
 atom extensible
 
+* <ATOM>category
+
+required attr term text
+attr scheme URL
+attr label text
+
+* <ATOM>link
+
+required attr href URL
+attr type MIME type
+attr hreflang language tag
+attr title text
+attr length any
+
+* <ATOM>content
+
+attr src URL
+
+* <ATOM>generator
+
+attr uri URL
+attr version text
+
 * <ATOM03>feed
 
 0-1 <ATOM03>author
@@ -98,6 +121,8 @@ atom extensible
 0-* <ATOM03>entry
 
 1-* <ATOM03>link
+
+required attr version enum (0.3)
 
 atom extensible
 obsolete
@@ -121,10 +146,25 @@ obsolete
 atom extensible
 obsolete
 
+* <ATOM03>link
+
+required attr rel ...
+required attr href URL
+attr type MIME type
+attr title text
+
+* <ATOM03>generator
+
+attr url URL
+
 * <APP>categories
 
 0-* <ATOM>category
 root
+
+attr fixed enum (yes|no)
+attr scheme URL
+attr href URL
 
 * <APP>service
 
@@ -152,12 +192,15 @@ atom extensible
 
 1-1 <ATOM>title
 
+required attr href URL
+
 * <APP>control
 
 0-1 <APP>draft
 
 conforming
 atom extensible
+content enum (yes|no)
 
 * <ATOMDELETED>deleted-entry
 
@@ -170,6 +213,16 @@ atom extensible
 conforming
 atom extensible
 root
+
+required attr ref URL
+required attr when ...
+
+* <THR>in-reply-to
+
+required attr ref absolute URL
+attr href URL
+attr source URL
+attr type MIME type
 
 * <RDF>RDF
 
