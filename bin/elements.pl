@@ -1452,6 +1452,14 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {
       }
     }
     $edef->{unknown_children} = 1 if $edef->{atom_extensible};
+    if (not $edef->{conforming} and $ln ne '*') {
+      for my $ans (sort { $a cmp $b } keys %{$edef->{attrs} or {}}) {
+        for my $aln (sort { $a cmp $b } keys %{$edef->{attrs}->{$ans} or {}}) {
+          my $adef = $edef->{attrs}->{$ans}->{$aln};
+          delete $adef->{conforming};
+        }
+      }
+    }
   } # $ln
 } # $ns
 for my $state (sort { $a cmp $b } keys %{$Data->{input}->{states} or {}}) {
