@@ -161,10 +161,13 @@ attr url URL
 
 0-* <ATOM>category
 root
+conforming
 
 attr fixed enum (yes|no)
 attr scheme URL
 attr href URL
+attr term ...
+attr label ...
 
 * <APP>service
 
@@ -189,6 +192,7 @@ atom extensible
 
 conforming
 atom extensible
+attr href URL
 
 1-1 <ATOM>title
 
@@ -200,6 +204,19 @@ required attr href URL
 
 conforming
 atom extensible
+
+* <APP>edited
+
+conforming
+
+* <APP>accept
+
+conforming
+#content text
+
+* <APP>draft
+
+conforming
 content enum (yes|no)
 
 * <ATOMDELETED>deleted-entry
@@ -217,12 +234,37 @@ root
 required attr ref URL
 required attr when ...
 
+* <ATOMDELETED>by
+
+conforming
+
+* <ATOMDELETED>comment
+
+conforming
+
+* <FH>complete
+
+conforming
+content empty
+
+* <FH>archive
+
+conforming
+content empty
+
 * <THR>in-reply-to
 
 required attr ref absolute URL
 attr href URL
 attr source URL
 attr type MIME type
+content empty
+conforming
+
+* <THR>total
+
+conforming
+#content text
 
 * <RDF>RDF
 
