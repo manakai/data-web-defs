@@ -879,7 +879,7 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
         $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
       }
-    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|\.\.\.)$/o) {
+    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|\.\.\.)$/o) {
       my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
       for my $edef (@edef) {
         my $w = $edef->{attrs}->{$ans}->{$3} ||= {};
@@ -888,7 +888,7 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $w->{value_type} = $4 unless $4 eq '...';
         $w->{required} = 1 if $1;
       }
-    } elsif (/^content\s+(text|string|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address)\s*$/) {
+    } elsif (/^content\s+(text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address)\s*$/) {
       for my $edef (@edef) {
         $edef->{content_model} = 'text';
         $edef->{text_type} = $1;
