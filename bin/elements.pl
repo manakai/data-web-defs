@@ -937,6 +937,10 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       for my $edef (@edef) {
         $edef->{$1} = 1;
       }
+    } elsif (/^limited\s+use$/) {
+      for my $edef (@edef) {
+        $edef->{limited_use} = 1;
+      }
     } elsif (/^preferred\s+/) {
       # XXX
     } elsif (/^atom\s+extensible$/) {
@@ -1498,6 +1502,8 @@ for (qw(
       $def->{supported} = 1;
     } elsif (/^partially\s+supported$/) {
       #
+    } elsif (/^limited\s+use$/) {
+      $def->{limited_use} = 1;
     } elsif (/^(obsolete)$/) {
       $def->{$1} = 1;
     } elsif (/\S/) {
