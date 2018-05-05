@@ -760,49 +760,6 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{href}
     ->{preferred} = {type => 'atom_attr', name => 'href', element => 'link'};
 $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
     ->{preferred} = {type => 'atom_attr', name => 'title', element => 'link'};
-for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
-  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
-    if (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomPersonConstruct') {
-      for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
-        $ce->{+ATOM_NS}->{$_}->{min} = 0,
-        $ce->{+ATOM_NS}->{$_}->{max} = 1
-            for qw(email uri);
-        $ce->{+ATOM_NS}->{$_}->{min} = 1,
-        $ce->{+ATOM_NS}->{$_}->{max} = 1
-            for qw(name);
-        $ce->{+GDATA_NS}->{$_}->{min} = 0,
-        $ce->{+GDATA_NS}->{$_}->{max} = 1
-            for qw(image);
-      }
-      $Data->{elements}->{$ns}->{$ln}->{atom_extensible} = 1;
-    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03PersonConstruct') {
-      for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
-        $ce->{+ATOM03_NS}->{$_}->{min} = 0,
-        $ce->{+ATOM03_NS}->{$_}->{max} = 1
-            for qw(email url);
-        $ce->{+ATOM03_NS}->{$_}->{min} = 1,
-        $ce->{+ATOM03_NS}->{$_}->{max} = 1
-            for qw(name);
-      }
-    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomTextConstruct') {
-      $Data->{elements}->{$ns}->{$ln}->{lang_sensitive} = 1;
-      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{conforming} = 1;
-      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{status} = 'LC'; # Atom 1.0
-    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03ContentConstruct') {
-      if ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'atom_element') {
-        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
-        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
-            = {type => 'atom_attr', name => 'type',
-               element => $Data->{elements}->{$ns}->{$ln}->{preferred}->{name}};
-      } elsif ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'none') {
-        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
-        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
-            = {type => 'none'};
-      }
-      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{value_type} ||= 'MIME type';
-    }
-  }
-}
 
 
 
@@ -879,7 +836,7 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
         $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
       }
-    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration|\.\.\.)$/o) {
+    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration|atomDateConstruct|\.\.\.)$/o) {
       my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
       for my $edef (@edef) {
         my $w = $edef->{attrs}->{$ans}->{$3} ||= {};
@@ -892,6 +849,10 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       for my $edef (@edef) {
         $edef->{content_model} = 'text';
         $edef->{text_type} = $1;
+      }
+    } elsif (/^content\s+(atomPersonConstruct|atomTextConstruct|atom03ContentConstruct|atomDateConstruct|atom03PersonConstruct|atom03DateConstruct)$/) {
+      for my $edef (@edef) {
+        $edef->{content_model} = $1;
       }
     } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+enum\s+\(([^()]+)\)$/o) {
       my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
@@ -947,6 +908,14 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
       for my $edef (@edef) {
         $edef->{atom_extensible} = 1;
       }
+    } elsif (/^lang\s+sensitive$/) {
+      for my $edef (@edef) {
+        $edef->{lang_sensitive} = 1;
+      }
+    } elsif (/^URL\s+(contextual|embedded|id)$/) {
+      for my $edef (@edef) {
+        $edef->{url_role} = $1;
+      }
     } elsif (/^unknown\s+children$/) {
       for my $edef (@edef) {
         $edef->{unknown_children} = 1;
@@ -964,6 +933,49 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
     }
   } # split
   $defined->();
+}
+
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
+    if (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomPersonConstruct') {
+      for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
+        $ce->{+ATOM_NS}->{$_}->{min} = 0,
+        $ce->{+ATOM_NS}->{$_}->{max} = 1
+            for qw(email uri);
+        $ce->{+ATOM_NS}->{$_}->{min} = 1,
+        $ce->{+ATOM_NS}->{$_}->{max} = 1
+            for qw(name);
+        $ce->{+GDATA_NS}->{$_}->{min} = 0,
+        $ce->{+GDATA_NS}->{$_}->{max} = 1
+            for qw(image);
+      }
+      $Data->{elements}->{$ns}->{$ln}->{atom_extensible} = 1;
+    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03PersonConstruct') {
+      for my $ce ($Data->{elements}->{$ns}->{$ln}->{child_elements} ||= {}) {
+        $ce->{+ATOM03_NS}->{$_}->{min} = 0,
+        $ce->{+ATOM03_NS}->{$_}->{max} = 1
+            for qw(email url);
+        $ce->{+ATOM03_NS}->{$_}->{min} = 1,
+        $ce->{+ATOM03_NS}->{$_}->{max} = 1
+            for qw(name);
+      }
+    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atomTextConstruct') {
+      $Data->{elements}->{$ns}->{$ln}->{lang_sensitive} = 1;
+      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{conforming} = 1;
+    } elsif (($Data->{elements}->{$ns}->{$ln}->{content_model} || '') eq 'atom03ContentConstruct') {
+      if ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'atom_element') {
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
+            = {type => 'atom_attr', name => 'type',
+               element => $Data->{elements}->{$ns}->{$ln}->{preferred}->{name}};
+      } elsif ($Data->{elements}->{$ns}->{$ln}->{preferred}->{type} eq 'none') {
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{preferred} =
+        $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{mode}->{preferred}
+            = {type => 'none'};
+      }
+      $Data->{elements}->{$ns}->{$ln}->{attrs}->{''}->{type}->{value_type} ||= 'MIME type';
+    }
+  }
 }
 
 for my $keyword (qw(

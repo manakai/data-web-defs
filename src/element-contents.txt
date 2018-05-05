@@ -84,17 +84,65 @@ atom extensible
 
 * <ATOM>category
 
+conforming
 required attr term text
 attr scheme URL
 attr label text
+content empty
+
+* <ATOM>contributor
+
+conforming
+content atomPersonConstruct
 
 * <ATOM>link
 
+conforming
+content empty
 required attr href URL
+attr rel ...
 attr type MIME type
 attr hreflang language tag
 attr title text
 attr length any
+attr <THR>count ...
+attr <THR>updated ...
+
+* <ATOM>logo
+
+conforming
+content URL
+URL embedded
+
+* <ATOM>published
+
+conforming
+content atomDateConstruct
+
+* <ATOM>rights
+
+conforming
+content atomTextConstruct
+
+* <ATOM>subtitle
+
+conforming
+content atomTextConstruct
+
+* <ATOM>summary
+
+conforming
+content atomTextConstruct
+
+* <ATOM>title
+
+conforming
+content atomTextConstruct
+
+* <ATOM>updated
+
+conforming
+content atomDateConstruct
 
 * <ATOM>content
 
@@ -102,8 +150,51 @@ attr src URL
 
 * <ATOM>generator
 
+conforming
+content text
 attr uri URL
 attr version text
+
+* <ATOM>icon
+
+conforming
+URL embedded
+content URL
+
+* <ATOM>id
+
+conforming
+content absolute URL
+URL id
+
+* <ATOM>name
+
+conforming
+content text
+lang sensitive
+
+* <ATOM>uri
+
+conforming
+content URL
+URL contextual
+
+* <ATOM>email
+
+conforming
+content e-mail address
+
+* <ATOM>content
+
+conforming
+lang sensitive
+attr type ...
+attr src ...
+
+* <ATOM>author
+
+conforming
+content atomPersonConstruct
 
 * <ATOM03>feed
 
@@ -148,6 +239,7 @@ obsolete
 
 * <ATOM03>link
 
+content empty
 required attr rel ...
 required attr href URL
 attr type MIME type
@@ -155,7 +247,70 @@ attr title text
 
 * <ATOM03>generator
 
+content text
 attr url URL
+
+* <ATOM03>title
+
+content atom03ContentConstruct
+
+* <ATOM03>author
+
+content atom03PersonConstruct
+
+* <ATOM03>contributor
+
+content atom03PersonConstruct
+
+* <ATOM03>tagline
+
+content atom03ContentConstruct
+
+* <ATOM03>id
+
+content URL
+URL id
+
+* <ATOM03>copyright
+
+content atom03ContentConstruct
+
+* <ATOM03>info
+
+content atom03ContentConstruct
+
+* <ATOM03>modified
+
+content atom03DateConstruct
+
+* <ATOM03>issued
+
+content atom03DateConstruct
+
+* <ATOM03>created
+
+content atom03DateConstruct
+
+* <ATOM03>summary
+
+content atom03ContentConstruct
+
+* <ATOM03>content
+
+content atom03ContentConstruct
+
+* <ATOM03>name
+
+content text
+
+* <ATOM03>url
+
+content URL
+URL contextual
+
+* <ATOM03>email
+
+content e-mail address
 
 * <APP>categories
 
@@ -208,6 +363,7 @@ atom extensible
 * <APP>edited
 
 conforming
+content atomDateConstruct
 
 * <APP>accept
 
@@ -232,15 +388,18 @@ atom extensible
 root
 
 required attr ref URL
-required attr when ...
+required attr when atomDateConstruct
 
 * <ATOMDELETED>by
 
 conforming
+content atomPersonConstruct
 
 * <ATOMDELETED>comment
 
 conforming
+content atomTextConstruct
+lang sensitive
 
 * <FH>complete
 
