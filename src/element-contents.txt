@@ -1819,3 +1819,340 @@ attr width non-negative integer
 attr height non-negative integer
 required attr src URL
 spec https://manakai.github.io/spec-dom/validation-langs#gdata-elements
+
+* <XSLT>stylesheet
+
+content XSLT top-level element
+and more
+  # <XSLT>import must come before others
+attr id id
+attr extension-element-prefixes XSLT tokens of prefixes
+attr exclude-result-prefixes XSLT tokens of prefixes
+required attr version enum (1.0)
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#stylesheet-element
+root
+conforming
+
+* <XSLT>transform
+
+content XSLT top-level element
+and more
+  # <XSLT>import must come before others
+attr id id
+attr extension-element-prefixes XSLT tokens of prefixes
+attr exclude-result-prefixes XSLT tokens of prefixes
+required attr version enum (1.0)
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#stylesheet-element
+root
+conforming
+
+* <XSLT>import
+
+conforming
+XSLT top-level element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#import
+required attr href URL
+content empty
+
+* <XSLT>include
+
+conforming
+XSLT top-level element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#include
+required attr href URL
+content empty
+
+* <XSLT>strip-space
+
+conforming
+XSLT top-level element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#element-strip-space
+required attr elements XSLT tokens of elements
+content empty
+
+* <XSLT>preserve-space
+
+conforming
+XSLT top-level element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#element-preserve-space
+required attr elements XSLT tokens of elements
+content empty
+
+* <XSLT>output
+
+XSLT top-level element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#output
+conforming
+attr method enum (xml|html|text)
+  # prefixed QName is allowed in theory
+attr version enum (1.0)
+  # see [VALLANGS]
+attr encoding character encoding label
+attr omit-xml-declaration enum (yes|no)
+attr standalone enum (yes|no)
+attr doctype-public any
+attr doctype-system any
+attr cdata-setion-elements XSLT qnames
+attr indent enum (yes|no)
+attr media-type MIME type without charset
+
+* <XSLT>key
+
+XSLT top-level element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#element-key
+required attr name QName
+required attr match XSLT pattern
+required attr use XSLT expression
+content empty
+
+* <XSLT>decimal-format
+
+XSLT top-level element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#element-decimal-format
+attr name QName
+attr decimal-separator char
+attr grouping-separator char
+attr infinity any
+attr minus-sign char
+attr NaN any
+attr percent char
+attr per-mille char
+attr zero-digit char
+attr digit char
+attr pattern-separator char
+content empty
+
+* <XSLT>namespace-alias
+
+XSLT top-level element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#element-namespace-alias
+required attr stylesheet-prefix XSLT prefix or default
+required attr result-prefix XSLT prefix or default
+content empty
+
+* <XSLT>attribute-set
+
+XSLT top-level element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#attribute-sets
+required attr name QName
+attr use-attribute-sets XSLT qnames
+0-* <XSLT>attribute
+
+* <XSLT>variable
+
+XSLT top-level element
+XSLT instruction element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#variables
+required attr name QName
+attr select XSLT expression
+content XSLT template
+
+* <XSLT>param
+
+XSLT top-level element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#variables
+required attr name QName
+attr select XSLT expression
+content XSLT template
+
+* <XSLT>template
+
+XSLT top-level element
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Defining-Template-Rules
+attr match XSLT pattern
+attr name QName
+attr priority XSLT real number
+attr mode QName
+#content param*, XSLT template
+
+* <XSLT>apply-templates
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Applying-Template-Rules
+attr select XSLT expression
+  # node-set-expression
+attr mode QName
+0-* <XSLT>sort
+0-* <XSLT>with-param
+
+* <XSLT>apply-imports
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#apply-imports
+content empty
+
+* <XSLT>call-template
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#named-templates
+XSLT instruction element
+required attr name QName
+0-* <XSLT>with-param
+
+* <XSLT>element
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Creating-Elements-with-xsl:element
+XSLT instruction element
+required attr name {}QName
+attr namespace {}URL
+attr use-attribute-sets XSLT qnames
+content XSLT template
+
+* <XSLT>attribute
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#creating-attributes
+XSLT instruction element
+required attr name {}QName
+attr namespace {}URL
+content XSLT template
+
+* <XSLT>text
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Creating-Text
+XSLT instruction element
+attr disable-output-escaping enum (yes|no)
+content any
+
+* <XSLT>processing-instruction
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Creating-Processing-Instructions
+XSLT instruction element
+required attr name {}NCName
+content XSLT template
+
+* <XSLT>comment
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Creating-Comments
+content XSLT template
+
+* <XSLT>copy
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#copying
+attr use-attribute-sets XSLT qnames
+content XSLT template
+
+* <XSLT>value-of
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#value-of
+required attr select XSLT expression
+  # string-expression
+attr disable-output-escaping enum (yes|no)
+content empty
+
+* <XSLT>number
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#number
+attr level enum (single|multiple|any)
+attr count XSLT pattern
+attr from XSLT pattern
+attr value XSLT expression
+  # number-expression
+attr format {}any
+attr lang {}language tag or empty
+attr letter-value {}enum (alphabetic|traditional)
+attr grouping-separator {}char
+attr grouping-size {}non-negative integer
+content empty
+
+* <XSLT>for-each
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#for-each
+required attr select XSLT expression
+  # node-set-expression
+#content sort*, XSLT template
+
+* <XSLT>if
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Conditional-Processing-with-xsl:if
+required attr test XSLT expression
+  # boolean-expression
+content XSLT template
+
+* <XSLT>choose
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Conditional-Processing-with-xsl:choose
+#content when+, otherwise?
+
+* <XSLT>when
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Conditional-Processing-with-xsl:choose
+required attr test XSLT expression
+  # boolean-expression
+content XSLT template
+
+* <XSLT>otherwise
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Conditional-Processing-with-xsl:choose
+content XSLT template
+
+* <XSLT>sort
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#sorting
+attr select XSLT expression
+  # string-expression
+attr lang {}language tag or empty
+attr data-type {}enum (text|number)
+  # or QName in theory
+attr order {}enum (ascending|descending)
+attr case-order {}enum (upper-first|lower-first)
+
+* <XSLT>copy-of
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#copy-of
+required attr select XSLT expression
+content empty
+
+* <XSLT>with-param
+
+conforming
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#section-Passing-Parameters-to-Templates
+required attr name QName
+attr select XSLT expression
+content XSLT template
+
+* <XSLT>message
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#message
+attr terminate enum (yes|no)
+content XSLT template
+
+* <XSLT>fallback
+
+conforming
+XSLT instruction element
+spec https://www.w3.org/TR/1999/REC-xslt-19991116#fallback
+content XSLT template

@@ -28,6 +28,7 @@ sub GDATA_NS () { q<http://schemas.google.com/g/2005> }
 sub SLASH_NS () { q<http://purl.org/rss/1.0/modules/slash/> }
 sub ITUNES1_NS () { q<http://www.itunes.com/dtds/podcast-1.0.dtd> }
 sub ITUNES2_NS () { q<http://www.itunes.com/DTDs/Podcast-1.0.dtd> }
+sub XSLT_NS () { q<http://www.w3.org/1999/XSL/Transform> }
 
 my $NSMAP = {
   XML => XML_NS,
@@ -49,6 +50,7 @@ my $NSMAP = {
   HATENA => HATENA_NS,
   GDATA => GDATA_NS,
   SLASH => SLASH_NS,
+  XSLT => XSLT_NS,
 };
 my $NSPATTERN = join '|', keys %$NSMAP;
 
@@ -765,6 +767,9 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
 
 {
   my $path = $RootPath->child ('src/element-contents.txt');
+
+  my $TextTypePattern = q{text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration|id|XSLT tokens of prefixes|XSLT tokens of elements|XSLT qnames|XSLT expression|XSLT pattern|XSLT prefix or default|XSLT real number|character encoding label|MIME type without charset|QName|NCName|char|language tag or empty};
+
   my $ens;
   my $eln;
   my @edef;
@@ -836,33 +841,35 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
         $edef->{child_elements}->{$ans}->{$4}->{max} = 0+$2 unless $2 eq '*';
         $edef->{child_elements}->{$ans}->{$4}->{has_additional_rules} = 1 if $5;
       }
-    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration|atomDateConstruct|\.\.\.)$/o) {
+    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(\{\}|)($TextTypePattern|atomDateConstruct|\.\.\.)$/o) {
       my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
       for my $edef (@edef) {
         my $w = $edef->{attrs}->{$ans}->{$3} ||= {};
         push @defined, $w;
         $w->{conforming} = 1;
-        $w->{value_type} = $4 unless $4 eq '...';
+        $w->{value_type} = $5 unless $5 eq '...';
         $w->{required} = 1 if $1;
+        $w->{avt} = 1 if $4;
       }
-    } elsif (/^content\s+(text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration)\s*$/) {
+    } elsif (/^content\s+($TextTypePattern)\s*$/o) {
       for my $edef (@edef) {
         $edef->{content_model} = 'text';
         $edef->{text_type} = $1;
       }
-    } elsif (/^content\s+(atomPersonConstruct|atomTextConstruct|atom03ContentConstruct|atomDateConstruct|atom03PersonConstruct|atom03DateConstruct)$/) {
+    } elsif (/^content\s+(atomPersonConstruct|atomTextConstruct|atom03ContentConstruct|atomDateConstruct|atom03PersonConstruct|atom03DateConstruct|XSLT top-level element|XSLT template)$/) {
       for my $edef (@edef) {
         $edef->{content_model} = $1;
       }
-    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+enum\s+\(([^()]+)\)$/o) {
+    } elsif (/^(required\s+|)attr\s+(<(?:$NSPATTERN)>|)([\w-]+)\s+(\{\}|)enum\s+\(([^()]+)\)$/o) {
       my $ans = $NSMAP->{substr $2 || '__', 1, -2 + length $2} || '';
-      my @value = split /\|/, $4;
+      my @value = split /\|/, $5;
       for my $edef (@edef) {
         my $w = $edef->{attrs}->{$ans}->{$3} ||= {};
         push @defined, $w;
         $w->{conforming} = 1;
         $w->{value_type} = 'case-sensitive enumerated';
         $w->{required} = 1 if $1;
+        $w->{avt} = 1 if $4;
         for (@value) {
           my $v = $_;
           my $bad = $v =~ s/^\*//;
@@ -927,6 +934,14 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
     } elsif (/^and\s+more$/) {
       for my $edef (@edef) {
         $edef->{has_additional_content_constraints} = 1;
+      }
+    } elsif (/^XSLT\s+top-level\s+element$/) {
+      for my $edef (@edef) {
+        $edef->{categories}->{'XSLT top-level element'} = 1;
+      }
+    } elsif (/^XSLT\s+instruction\s+element$/) {
+      for my $edef (@edef) {
+        $edef->{categories}->{'XSLT instruction'} = 1;
       }
     } elsif (/\S/) {
       die "Bad line |$_|";
