@@ -901,9 +901,13 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
       $spec = $1;
     } elsif (/^conforming$/) {
       $edef[0]->{conforming} = 1;
-    } elsif (/^(deprecated|obsolete|root)$/) {
+    } elsif (/^(deprecated|obsolete|root|separated)$/) {
       for my $edef (@edef) {
         $edef->{$1} = 1;
+      }
+    } elsif (/^(to\s+text\s+ignored)$/) {
+      for my $edef (@edef) {
+        $edef->{content_ignored_by_to_plain_text} = 1;
       }
     } elsif (/^limited\s+use$/) {
       for my $edef (@edef) {
@@ -1274,6 +1278,12 @@ for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
         $el_def->{auto_br} = 'disallow';
       }
     }
+
+    if ($cm eq 'empty' or
+        $syntax eq 'void' or $syntax eq 'obsolete void' or
+        $syntax eq 'obsolete void macro') {
+      $el_def->{content_ignored_by_to_plain_text} = 1;
+    }
   }
 }
 delete $Data->{elements}->{(HTML_NS)}->{$_}->{auto_br} #= 'allow'
@@ -1282,6 +1292,17 @@ $Data->{elements}->{(MATH_NS)}->{$_}->{auto_br} = 'allow'
     for qw(mi mo mn ms mtext);
 $Data->{elements}->{(SVG_NS)}->{$_}->{auto_br} = 'allow'
     for qw(title desc foreignObject);
+
+for my $ns (sort { $a cmp $b } keys %{$Data->{elements}}) {
+  for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns}}) {
+    my $edef = $Data->{elements}->{$ns}->{$ln};
+    if ($edef->{categories} and
+        $edef->{categories}->{'flow content'} and
+        not $edef->{categories}->{'phrasing content'}) {
+      $edef->{separated} = 1;
+    }
+  }
+}
 
 {
   my $path = $RootPath->child ('data/aria.json');
