@@ -131,7 +131,8 @@ sub b16 ($) {
   $Data->{alpn_ids}->{b16 $_}->{reserved} = 1 for qw(h2c);
 
   $Data->{alpn_ids}->{b16 $_}->{hex} ||= b16 $_,
-  $Data->{alpn_ids}->{b16 $_}->{string} ||= $_ for qw(quic);
+  $Data->{alpn_ids}->{b16 $_}->{string} ||= $_
+      for qw(quic http/0.9 http/1.0 hq);
 
   for my $v (values %{$Data->{alpn_ids}}) {
     my $x = $v->{string};

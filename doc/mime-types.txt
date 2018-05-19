@@ -59,6 +59,15 @@ compressible
   Whether compression is appropriate for the type or not.  If |1|, it
   seems appropriate.  If |0|, in appropriate.  Otherwise, unknown.
 
+corb_protected [string?]
+
+  Whether the MIME type is a CORS-protected MIME type
+  <https://fetch.spec.whatwg.org/#corb-protected-mime-type> or not.
+  If |1|, it is a CORB-protected MIME type unless otherwise specified.
+  If |false|, it is NOT a CORB-protected MIME type.  If |depends|, it
+  is NOT a CORB-protected MIME type but the CORB check steps can
+  sometimes return *blocked*.
+
 cors_exception [boolean]
 
   Whether the MIME type is one of CORS protocol exceptions
@@ -364,7 +373,7 @@ Fetch Standard <https://fetch.spec.whatwg.org/>.
 * License
 
 You are granted a license to use, reproduce, and create derivative
-works of the JSON file.
+works of the JSON file and this document.
 
 Per CC0 <https://creativecommons.org/publicdomain/zero/1.0/>, to the
 extent possible under law, the author of the JSON file and this

@@ -325,9 +325,15 @@ for my $type (keys %$Data) {
   $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{javascript};
   $Data->{$type}->{obsolete} = 1
       if ($Data->{$type}->{deprecated} // '') eq 'obsolete';
+  $Data->{$type}->{corb_protected} = 1
+      if $Data->{$type}->{html} or
+         $Data->{$type}->{json} or
+          $Data->{$type}->{xml};
 }
 delete $Data->{$_}->{deprecated},
 delete $Data->{$_}->{obsolete} for qw(text/javascript);
+$Data->{'image/svg+xml'}->{corb_protected} = 'false';
+$Data->{'text/plain'}->{corb_protected} = 'depends';
 
 my $ExtsData = {};
 for my $type (keys %$Data) {
