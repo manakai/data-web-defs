@@ -49,7 +49,7 @@
          "value" : "interface"
       },
       {
-         "fragment" : "[CEReactions] void [*id=\u0022dom-customelementregistry-define\u0022*]define(DOMString name, Function construc",
+         "fragment" : "[CEReactions] void [*id=\u0022dom-customelementregistry-define\u0022*]define(DOMString name, CustomElementCons",
          "index" : 96,
          "level" : "m",
          "spec" : "HTML",
@@ -8570,6 +8570,20 @@
             "spec" : "DOM"
          }
       ],
+      "CustomElementConstructor" : [
+         "callback",
+         {
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "id" : "customelementconstructor",
+                  "spec" : "HTML",
+                  "type" : "any"
+               }
+            }
+         }
+      ],
       "CustomElementRegistry" : [
          "interface",
          {
@@ -8583,7 +8597,7 @@
                   {
                      "id" : "dom-customelementregistry-define",
                      "overload_set" : {
-                        "DOMString,ref[Function]" : {
+                        "DOMString,ref[CustomElementConstructor]" : {
                            "CEReactions" : 1,
                            "args" : [
                               {
@@ -8598,13 +8612,13 @@
                                  "spec" : "HTML",
                                  "type" : [
                                     "ref_callback",
-                                    "Function"
+                                    "CustomElementConstructor"
                                  ]
                               }
                            ],
                            "type" : "void"
                         },
-                        "DOMString,ref[Function],ref[ElementDefinitionOptions]" : {
+                        "DOMString,ref[CustomElementConstructor],ref[ElementDefinitionOptions]" : {
                            "CEReactions" : 1,
                            "args" : [
                               {
@@ -8619,7 +8633,7 @@
                                  "spec" : "HTML",
                                  "type" : [
                                     "ref_callback",
-                                    "Function"
+                                    "CustomElementConstructor"
                                  ]
                               },
                               {
@@ -36497,6 +36511,15 @@
                      "id" : "dom-request-integrity",
                      "spec" : "FETCH",
                      "type" : "DOMString"
+                  }
+               ],
+               "isHistoryNavigation" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-request-ishistorynavigation",
+                     "spec" : "FETCH",
+                     "type" : "boolean"
                   }
                ],
                "isReloadNavigation" : [
