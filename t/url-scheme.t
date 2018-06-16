@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..2"
+echo "1..4"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -9,3 +9,5 @@ test() {
 
 test 1 '.https.secure | not | not '
 test 2 '.http.secure | not'
+test 3 '.aaa.iana | not | not'
+test 4 '.ocf.iana | not | not'

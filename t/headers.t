@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "1..7"
+echo "1..8"
 basedir=`dirname $0`/..
 jq=$basedir/local/bin/jq
 
@@ -14,3 +14,4 @@ test 4 '.auth_schemes.basic.iana == 1'
 test 5 '.auth_schemes.oauth.credentials.auth_params.oauth_version.spec | not | not'
 test 6 '.preferences["odata.callback"].params.url.optionality == "MUST"'
 test 7 '.preferences["respond-async"].iana | not | not'
+test 8 '.headers["3gpp-adaptation"].rtsp.iana | not | not'
