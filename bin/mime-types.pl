@@ -182,7 +182,7 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.
       $values = [map { lc $_ } @$values];
     }
     $Data->{$type}->{$prop}->{$_} = 1 for @$values;
-  } elsif (m{^  ->\s*(\S+)\s*\((SHOULD)\)$}) {
+  } elsif (m{^  ->\s*(\S+)\s*\((MUST|SHOULD)\)$}) {
     $Data->{$type}->{deprecated} = $2;
     $Data->{$type}->{preferred_type} = $1;
   } elsif (m{^  ->\s*(\S+)$}) {
@@ -301,6 +301,8 @@ $Data->{'drawing/x-dwf (old)'}->{extensions}->{dwf} = 1;
 for (keys %$Data) {
   if ($Data->{$_}->{params} and $Data->{$_}->{params}->{charset}) {
     $Data->{$_}->{text} = 1 unless m{^(?:text|message/multipart)/};
+    $Data->{$_}->{params}->{charset}->{charset_xml} = 1
+        if $Data->{$_}->{params}->{charset}->{charset_rfc7303};
   }
   $Data->{$_}->{preferred_cte} ||= 'quoted-printable' if $Data->{$_}->{text};
 }
@@ -318,7 +320,8 @@ for (keys %$Data) {
 }
 
 for my $type (keys %$Data) {
-  $Data->{$type}->{any_xml} = 1 if $Data->{$type}->{xml};
+  $Data->{$type}->{any_xml} = 1 if $Data->{$type}->{xml} or
+      $Data->{$type}->{gpx};
   $Data->{$type}->{text} = 1 if $Data->{$type}->{any_xml};
   $Data->{$type}->{text} = 1 if $Data->{$type}->{json};
   $Data->{$type}->{navigate_text} = 1 if $Data->{$type}->{json};

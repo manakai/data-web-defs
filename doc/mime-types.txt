@@ -107,8 +107,8 @@ extensions [object?]
 
 font [boolean]
 
-  Whether it is a font MIME type or not
-  <https://mimesniff.spec.whatwg.org/#font-mime-type>.
+  Whether it is a font MIME type
+  <https://mimesniff.spec.whatwg.org/#font-mime-type> or not.
 
 form_data [boolean]
 
@@ -121,14 +121,20 @@ fragment [string?]
 
     |xpointer:rfc7303|   XPointer, as specified in RFC 7303.
 
+gpx [boolean]
+
+  Whether it is a GPX MIME type
+  <https://wiki.suikawiki.org/n/GPX%20Parsing#dfn-GPX%20MIME%20types>
+  or not.
+
 html [boolean]
 
-  Whether the MIME type is an HTML MIME type
+  Whether it is an HTML MIME type
   <https://html.spec.whatwg.org/#html-mime-type> or not.
 
 http [boolean]
 
-  Whether the MIME type is used as part of HTTP protocol or not.
+  Whether it is used as part of HTTP protocol or not.
 
 httpd_handler [boolean]
 
@@ -161,15 +167,16 @@ iana_template_url [string?]
 
 image [boolean]
 
-  Whether it is an image type or not
-  <https://mimesniff.spec.whatwg.org/#image-type>.  This flag is not
-  set for subtypes in the |image| type.
+  Whether it is an image type
+  <https://mimesniff.spec.whatwg.org/#image-type> or not.  Note that
+  this flag is not set for indivisual subtypes in the |image| type.
 
 json [boolean]
 
-  Whether the MIME type is a JSON MIME type
-  <https://html.spec.whatwg.org/#json-mime-type> or not.  This flag is
-  not set for MIME types with the |+json| structured syntax suffix.
+  Whether it is a JSON MIME type
+  <https://html.spec.whatwg.org/#json-mime-type> or not.  Note that
+  this flag is not set for indivisual MIME types with the |+json|
+  structured syntax suffix.
 
 label [string?]
 
@@ -217,7 +224,13 @@ params [object?]
     charset_rfc7303 [boolean]
 
       Whether the parameter is a |charset| parameter as specified in
-      RFC 7303 (i.e. the |charset| parameter for XML media types).
+      RFC 7303 (i.e. the |charset| parameter for XML MIME types) or
+      not.
+
+    charset_xml [boolean]
+
+      Whether the parameter is a |charset| parameter for XML MIME
+      types or not.
 
     values
 
