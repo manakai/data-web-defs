@@ -29,6 +29,8 @@ sub SLASH_NS () { q<http://purl.org/rss/1.0/modules/slash/> }
 sub ITUNES1_NS () { q<http://www.itunes.com/dtds/podcast-1.0.dtd> }
 sub ITUNES2_NS () { q<http://www.itunes.com/DTDs/Podcast-1.0.dtd> }
 sub XSLT_NS () { q<http://www.w3.org/1999/XSL/Transform> }
+sub GPX_NS () { q<http://www.topografix.com/GPX/1/1> }
+sub GPXEXT_NS () { q<data:,gpx> }
 
 my $NSMAP = {
   XML => XML_NS,
@@ -51,6 +53,8 @@ my $NSMAP = {
   GDATA => GDATA_NS,
   SLASH => SLASH_NS,
   XSLT => XSLT_NS,
+  GPX => GPX_NS,
+  GPXEXT => GPXEXT_NS,
 };
 my $NSPATTERN = join '|', keys %$NSMAP;
 
@@ -768,7 +772,7 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
 {
   my $path = $RootPath->child ('src/element-contents.txt');
 
-  my $TextTypePattern = q{text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration|id|XSLT tokens of prefixes|XSLT tokens of elements|XSLT qnames|XSLT expression|XSLT pattern|XSLT prefix or default|XSLT real number|character encoding label|MIME type without charset|QName|NCName|char|language tag or empty};
+  my $TextTypePattern = q{text|any|URL|absolute URL|language tag|W3C-DTF|RSS 2\.0 person|RSS 2\.0 date|non-negative integer|MIME type|NPT|floating-point number|currency|e-mail address|itunes:duration|id|XSLT tokens of prefixes|XSLT tokens of elements|XSLT qnames|XSLT expression|XSLT pattern|XSLT prefix or default|XSLT real number|character encoding label|MIME type without charset|QName|NCName|char|language tag or empty|time-zone offset string};
 
   my $ens;
   my $eln;
@@ -780,6 +784,7 @@ $Data->{elements}->{(ATOM03_NS)}->{link}->{attrs}->{''}->{title}
       $def->{url} = $spec if defined $spec;
     }
     @defined = ();
+    undef $spec;
   };
   for (split /\x0D?\x0A/, $path->slurp) {
     if (/^\s*#/) {
