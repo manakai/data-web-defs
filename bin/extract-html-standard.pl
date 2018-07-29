@@ -228,9 +228,9 @@ for my $f (($d->children)) {
     }
   } # dl.element
 
-  for my $pre (@{$doc->query_selector_all ('pre.idl')}) {
+  for my $pre (@{$doc->query_selector_all ('pre > code.idl')}) {
     my $idl_html = $pre->inner_html;
-    next if $idl_html =~ m{interface <dfn>Example</dfn>};
+    next if $idl_html =~ m{interface(?:(?> |<[^<>]+>)+)Example};
     if ($f =~ /obsolete/) {
       push @idl, '[*obsolete*]' . $idl_html;
     } else {

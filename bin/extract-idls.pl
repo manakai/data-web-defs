@@ -19,7 +19,7 @@ sub parse ($) {
       $next->parent_node->remove_child ($next);
     }
   }
-  return [map { $_->inner_html } @{$doc->query_selector_all ('pre.idl')}];
+  return [map { $_->inner_html } @{$doc->query_selector_all ('pre.idl, pre > code.idl')}];
 } # parse
 
 my $local_path = path (__FILE__)->parent->parent->child ('local');
