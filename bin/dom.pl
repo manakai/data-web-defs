@@ -86,6 +86,11 @@ $Data->{create_event}->{$_->[0]} = $_->[1]
       $di = $next_di++;
       $di_to_spec->[$di] = $spec;
       $el->inner_html ($_);
+      for (@{$el->query_selector_all ('c-')}) {
+        my $df = $el->owner_document->create_document_fragment;
+        $df->append_child ($_) for @{$_->child_nodes};
+        $_->parent_node->replace_child ($df, $_);
+      }
       for (@{$el->query_selector_all ('a[href], dfn[id]')}) {
         my $title = $_->get_attribute ('href') || $_->id;
         if ($title =~ /#(.+)$/) {
