@@ -177,8 +177,8 @@
          "value" : "MouseEventInit"
       },
       {
-         "fragment" : "typedef ([*id=\u0022dfn-Blob\u0022*]Blob or [*id=\u0022BufferSource\u0022*]BufferSource or FormData or URLSearchParams o",
-         "index" : 14,
+         "fragment" : "readonly attribute [*id=\u0022rs-class\u0022*]ReadableStream [*id=\u0022dom-generictransformstream-readable\u0022*]reada",
+         "index" : 91,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
@@ -230,7 +230,23 @@
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:not defined",
+         "value" : "WebGL2RenderingContext"
+      },
+      {
+         "fragment" : "typedef (CanvasRenderingContext2D or ImageBitmapRenderingContext or [*id=\u0022WebGLRenderingContext\u0022*]We",
+         "index" : 13,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
          "value" : "WebGLRenderingContext"
+      },
+      {
+         "fragment" : "readonly attribute [*id=\u0022ws-class\u0022*]WritableStream [*id=\u0022dom-generictransformstream-writable\u0022*]writa",
+         "index" : 198,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:not defined",
+         "value" : "WritableStream"
       },
       {
          "fragment" : "[[*id=\u0022dom-notificationevent-notificationevent\u0022*]Constructor(DOMString [*id=\u0022dom-notificationevent-n",
@@ -3532,6 +3548,85 @@
             }
          }
       ],
+      "TextDecoderStream" : [
+         "operation",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "id" : "dom-textdecoderstream",
+                  "spec" : "ENCODING",
+                  "type" : [
+                     "ref_interface",
+                     "TextDecoderStream"
+                  ]
+               },
+               "DOMString" : {
+                  "args" : [
+                     {
+                        "id" : "dom-textdecoderstream-textdecoderstream-label-options-label",
+                        "name" : "label",
+                        "optionality" : "optional",
+                        "spec" : "ENCODING",
+                        "type" : "DOMString",
+                        "value" : [
+                           "string",
+                           "utf-8"
+                        ]
+                     }
+                  ],
+                  "id" : "dom-textdecoderstream",
+                  "spec" : "ENCODING",
+                  "type" : [
+                     "ref_interface",
+                     "TextDecoderStream"
+                  ]
+               },
+               "DOMString,ref[TextDecoderOptions]" : {
+                  "args" : [
+                     {
+                        "id" : "dom-textdecoderstream-textdecoderstream-label-options-label",
+                        "name" : "label",
+                        "optionality" : "optional",
+                        "spec" : "ENCODING",
+                        "type" : "DOMString",
+                        "value" : [
+                           "string",
+                           "utf-8"
+                        ]
+                     },
+                     {
+                        "id" : "dom-textdecoderstream-textdecoderstream-label-options-options",
+                        "name" : "options",
+                        "optionality" : "optional",
+                        "spec" : "ENCODING",
+                        "type" : [
+                           "ref_dictionary",
+                           "TextDecoderOptions"
+                        ],
+                        "value" : [
+                           "dictionary_value",
+                           {
+                           }
+                        ]
+                     }
+                  ],
+                  "id" : "dom-textdecoderstream",
+                  "spec" : "ENCODING",
+                  "type" : [
+                     "ref_interface",
+                     "TextDecoderStream"
+                  ]
+               }
+            }
+         }
+      ],
       "TextEncoder" : [
          "operation",
          {
@@ -3549,6 +3644,28 @@
                   "type" : [
                      "ref_interface",
                      "TextEncoder"
+                  ]
+               }
+            }
+         }
+      ],
+      "TextEncoderStream" : [
+         "operation",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "overload_set" : {
+               "" : {
+                  "args" : [
+                  ],
+                  "id" : "dom-textencoderstream",
+                  "spec" : "ENCODING",
+                  "type" : [
+                     "ref_interface",
+                     "TextEncoderStream"
                   ]
                }
             }
@@ -15136,6 +15253,39 @@
                   "type" : "void"
                }
             }
+         }
+      ],
+      "GenericTransformStream" : [
+         "interface_mixin",
+         {
+            "id" : "generictransformstream",
+            "members" : {
+               "readable" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-generictransformstream-readable",
+                     "spec" : "ENCODING",
+                     "type" : [
+                        "ref",
+                        "ReadableStream"
+                     ]
+                  }
+               ],
+               "writable" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-generictransformstream-writable",
+                     "spec" : "ENCODING",
+                     "type" : [
+                        "ref",
+                        "WritableStream"
+                     ]
+                  }
+               ]
+            },
+            "spec" : "ENCODING"
          }
       ],
       "GetNotificationOptions" : [
@@ -34264,7 +34414,10 @@
                      "id" : "dom-offscreencanvas-height",
                      "setter" : 1,
                      "spec" : "HTML",
-                     "type" : "unsigned long long"
+                     "type" : [
+                        "EnforceRange",
+                        "unsigned long long"
+                     ]
                   }
                ],
                "transferToImageBitmap" : [
@@ -34291,7 +34444,10 @@
                      "id" : "dom-offscreencanvas-width",
                      "setter" : 1,
                      "spec" : "HTML",
-                     "type" : "unsigned long long"
+                     "type" : [
+                        "EnforceRange",
+                        "unsigned long long"
+                     ]
                   }
                ]
             },
@@ -34416,9 +34572,17 @@
                      [
                         "ref",
                         "WebGLRenderingContext"
+                     ],
+                     [
+                        "ref",
+                        "WebGL2RenderingContext"
                      ]
                   ],
                   "flattened" : {
+                     "ref[WebGL2RenderingContext]" : [
+                        "ref",
+                        "WebGL2RenderingContext"
+                     ],
                      "ref[WebGLRenderingContext]" : [
                         "ref",
                         "WebGLRenderingContext"
@@ -34446,6 +34610,10 @@
                   },
                   "webgl" : {
                      "id" : "offscreen-context-type-webgl",
+                     "spec" : "HTML"
+                  },
+                  "webgl2" : {
+                     "id" : "offscreen-context-type-webgl2",
                      "spec" : "HTML"
                   }
                }
@@ -36430,9 +36598,17 @@
                      [
                         "ref",
                         "WebGLRenderingContext"
+                     ],
+                     [
+                        "ref",
+                        "WebGL2RenderingContext"
                      ]
                   ],
                   "flattened" : {
+                     "ref[WebGL2RenderingContext]" : [
+                        "ref",
+                        "WebGL2RenderingContext"
+                     ],
                      "ref[WebGLRenderingContext]" : [
                         "ref",
                         "WebGLRenderingContext"
@@ -38483,6 +38659,12 @@
                "Window" : 1
             },
             "id" : "textdecoder",
+            "implements" : {
+               "TextDecoderCommon" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               }
+            },
             "members" : {
                "decode" : [
                   "operation",
@@ -38542,7 +38724,16 @@
                      },
                      "spec" : "ENCODING"
                   }
-               ],
+               ]
+            },
+            "spec" : "ENCODING"
+         }
+      ],
+      "TextDecoderCommon" : [
+         "interface_mixin",
+         {
+            "id" : "textdecodercommon",
+            "members" : {
                "encoding" : [
                   "attribute",
                   {
@@ -38599,6 +38790,30 @@
             "spec" : "ENCODING"
          }
       ],
+      "TextDecoderStream" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "id" : "textdecoderstream",
+            "implements" : {
+               "GenericTransformStream" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
+               "TextDecoderCommon" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               }
+            },
+            "members" : {
+            },
+            "spec" : "ENCODING"
+         }
+      ],
       "TextEncoder" : [
          "interface",
          {
@@ -38608,6 +38823,12 @@
                "Window" : 1
             },
             "id" : "textencoder",
+            "implements" : {
+               "TextEncoderCommon" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               }
+            },
             "members" : {
                "encode" : [
                   "operation",
@@ -38640,7 +38861,16 @@
                      },
                      "spec" : "ENCODING"
                   }
-               ],
+               ]
+            },
+            "spec" : "ENCODING"
+         }
+      ],
+      "TextEncoderCommon" : [
+         "interface_mixin",
+         {
+            "id" : "textencodercommon",
+            "members" : {
                "encoding" : [
                   "attribute",
                   {
@@ -38650,6 +38880,30 @@
                      "type" : "DOMString"
                   }
                ]
+            },
+            "spec" : "ENCODING"
+         }
+      ],
+      "TextEncoderStream" : [
+         "interface",
+         {
+            "Exposed" : {
+               "DedicatedWorkerGlobalScope" : 1,
+               "SharedWorkerGlobalScope" : 1,
+               "Window" : 1
+            },
+            "id" : "textencoderstream",
+            "implements" : {
+               "GenericTransformStream" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
+               "TextEncoderCommon" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               }
+            },
+            "members" : {
             },
             "spec" : "ENCODING"
          }
