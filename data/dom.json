@@ -4463,6 +4463,58 @@
             "spec" : "DOM"
          }
       ],
+      "AnimationFrameProvider" : [
+         "interface_mixin",
+         {
+            "id" : "animationframeprovider",
+            "members" : {
+               "cancelAnimationFrame" : [
+                  "operation",
+                  {
+                     "id" : "animationframeprovider-cancelanimationframe",
+                     "overload_set" : {
+                        "unsigned long" : {
+                           "args" : [
+                              {
+                                 "name" : "handle",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "unsigned long"
+                              }
+                           ],
+                           "type" : "void"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ],
+               "requestAnimationFrame" : [
+                  "operation",
+                  {
+                     "id" : "dom-animationframeprovider-requestanimationframe",
+                     "overload_set" : {
+                        "ref[FrameRequestCallback]" : {
+                           "args" : [
+                              {
+                                 "name" : "callback",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_callback",
+                                    "FrameRequestCallback"
+                                 ]
+                              }
+                           ],
+                           "type" : "unsigned long"
+                        }
+                     },
+                     "spec" : "HTML"
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
       "AppendMode" : [
          "enum",
          {
@@ -10370,6 +10422,10 @@
             "Global" : 1,
             "id" : "dedicatedworkerglobalscope",
             "implements" : {
+               "AnimationFrameProvider" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
                "EventTarget" : {
                   "depth" : 2,
                   "supplemental" : 1
@@ -15246,6 +15302,29 @@
                   }
                }
             ]
+         }
+      ],
+      "FrameRequestCallback" : [
+         "callback",
+         {
+            "overload_set" : {
+               "ref[DOMHighResTimeStamp]" : {
+                  "args" : [
+                     {
+                        "name" : "time",
+                        "optionality" : "required",
+                        "spec" : "HTML",
+                        "type" : [
+                           "ref",
+                           "DOMHighResTimeStamp"
+                        ]
+                     }
+                  ],
+                  "id" : "framerequestcallback",
+                  "spec" : "HTML",
+                  "type" : "void"
+               }
+            }
          }
       ],
       "Function" : [
@@ -40994,6 +41073,10 @@
             "LegacyUnenumerableNamedProperties" : 1,
             "id" : "window",
             "implements" : {
+               "AnimationFrameProvider" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
                "EventTarget" : {
                   "depth" : 1
                },
