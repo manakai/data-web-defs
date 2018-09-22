@@ -115,6 +115,7 @@ response
 byteranges SHOULD
 simple contextual
 CORS included
+no-CORS-safelisted request-header=false
 
 * Content-Encoding
 
@@ -132,8 +133,9 @@ value 1#language-tag
 representation-metadata
 request
 response
-simple
+simple contextual
 CORS included
+no-CORS-safelisted request-header=false
 
 * Content-Location
 
@@ -169,7 +171,8 @@ value #
 request
 content-negotiation
 accept-
-simple
+simple contextual
+no-CORS-safelisted request-header=false
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -207,7 +210,8 @@ value 1#
 request
 content-negotiation
 accept-
-simple
+simple contextual
+no-CORS-safelisted request-header=false
 
 ## <https://tools.ietf.org/html/rfc7231#section-9.7>
 fingerprinting
@@ -1673,3 +1677,20 @@ request
 
 spec https://tools.ietf.org/html/rfc5323#section-3.2
 response
+
+* Public-Key-Pins
+
+response
+mitm proxy removed
+obsolete
+
+* Public-Key-Pins-Report-Only
+
+response
+mitm proxy removed
+obsolete
+
+* Expect-CT
+
+response
+mitm proxy removed
