@@ -236,6 +236,7 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
     ['link', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
     ['iframe', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
     ['img', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
+    ['script', 'referrerpolicy', 'referrer_policy', 'enumerated_attr_state'],
   ) {
     my ($ename, $aname, $set, $check) = @$_;
     my $a_def = $Data->{elements}->{(HTML_NS)}->{$ename}->{attrs}->{''}->{$aname} ||= {};
