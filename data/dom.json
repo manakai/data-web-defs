@@ -289,12 +289,36 @@
          "value" : "init"
       },
       {
+         "fragment" : "void [*id=\u0022dom-worker-postmessage-options\u0022*]postMessage(any message, PostMessageOptions options);\u000A  ",
+         "index" : 359,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:bad optionality",
+         "value" : "options"
+      },
+      {
          "fragment" : "Constructor(DOMString type, PromiseRejectionEventInit eventInitDict), Exposed=(Window,Worker)]\u000Ainter",
          "index" : 14,
          "level" : "m",
          "spec" : "XHR",
          "type" : "webidl:bad optionality",
          "value" : "eventInitDict"
+      },
+      {
+         "fragment" : "void [*id=\u0022dom-messageport-postmessage-options\u0022*]postMessage(any message, PostMessageOptions options",
+         "index" : 266,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:bad optionality",
+         "value" : "options"
+      },
+      {
+         "fragment" : "void [*id=\u0022dom-dedicatedworkerglobalscope-postmessage-options\u0022*]postMessage(any message, PostMessage",
+         "index" : 388,
+         "level" : "m",
+         "spec" : "XHR",
+         "type" : "webidl:bad optionality",
+         "value" : "options"
       },
       {
          "fragment" : "[*id=\u0022dom-notificationevent-notificationevent\u0022*]Constructor(DOMString [*id=\u0022dom-notificationevent-no",
@@ -10467,6 +10491,31 @@
                            ],
                            "type" : "void"
                         },
+                        "any,ref[PostMessageOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "message",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "any"
+                              },
+                              {
+                                 "name" : "options",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "PostMessageOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        },
                         "any,sequence[object]" : {
                            "args" : [
                               {
@@ -10493,6 +10542,7 @@
                            "type" : "void"
                         }
                      },
+                     "overloaded" : 1,
                      "spec" : "HTML"
                   }
                ]
@@ -20464,17 +20514,6 @@
                      "CEReactions" : 1,
                      "getter" : 1,
                      "id" : "dom-iframe-allowpaymentrequest",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : "boolean"
-                  }
-               ],
-               "allowUserMedia" : [
-                  "attribute",
-                  {
-                     "CEReactions" : 1,
-                     "getter" : 1,
-                     "id" : "dom-iframe-allowusermedia",
                      "setter" : 1,
                      "spec" : "HTML",
                      "type" : "boolean"
@@ -31236,6 +31275,31 @@
                            ],
                            "type" : "void"
                         },
+                        "any,ref[PostMessageOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "message",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "any"
+                              },
+                              {
+                                 "name" : "options",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "PostMessageOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        },
                         "any,sequence[object]" : {
                            "args" : [
                               {
@@ -31262,6 +31326,7 @@
                            "type" : "void"
                         }
                      },
+                     "overloaded" : 1,
                      "spec" : "HTML"
                   }
                ],
@@ -35841,6 +35906,30 @@
                      "spec" : "HTML",
                      "type" : "any",
                      "value" : "null"
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
+      "PostMessageOptions" : [
+         "dictionary",
+         {
+            "id" : "postmessageoptions",
+            "members" : {
+               "transfer" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : [
+                        "sequence",
+                        "object"
+                     ],
+                     "value" : [
+                        "sequence_value",
+                        [
+                        ]
+                     ]
                   }
                ]
             },
@@ -41470,10 +41559,6 @@
                   "depth" : 1,
                   "supplemental" : 1
                },
-               "WindowEventHandlers" : {
-                  "depth" : 1,
-                  "supplemental" : 1
-               },
                "WindowLocalStorage" : {
                   "depth" : 1,
                   "supplemental" : 1
@@ -42025,8 +42110,19 @@
                "postMessage" : [
                   "operation",
                   {
-                     "id" : "dom-window-postmessage",
+                     "id" : "dom-window-postmessage-options",
                      "overload_set" : {
+                        "any" : {
+                           "args" : [
+                              {
+                                 "name" : "message",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "any"
+                              }
+                           ],
+                           "type" : "void"
+                        },
                         "any,USVString" : {
                            "args" : [
                               {
@@ -42074,8 +42170,34 @@
                               }
                            ],
                            "type" : "void"
+                        },
+                        "any,ref[WindowPostMessageOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "message",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "any"
+                              },
+                              {
+                                 "name" : "options",
+                                 "optionality" : "optional",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "WindowPostMessageOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
                         }
                      },
+                     "overloaded" : 1,
                      "spec" : "HTML"
                   }
                ],
@@ -43044,6 +43166,31 @@
             "spec" : "HTML"
          }
       ],
+      "WindowPostMessageOptions" : [
+         "dictionary",
+         {
+            "id" : "windowpostmessageoptions",
+            "implements" : {
+               "PostMessageOptions" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+               "targetOrigin" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "USVString",
+                     "value" : [
+                        "string",
+                        "/"
+                     ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
       "WindowProxy" : [
          "interface",
          {
@@ -43139,6 +43286,31 @@
                            ],
                            "type" : "void"
                         },
+                        "any,ref[PostMessageOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "message",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : "any"
+                              },
+                              {
+                                 "name" : "options",
+                                 "optionality" : "required",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "PostMessageOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
+                           ],
+                           "type" : "void"
+                        },
                         "any,sequence[object]" : {
                            "args" : [
                               {
@@ -43165,6 +43337,7 @@
                            "type" : "void"
                         }
                      },
+                     "overloaded" : 1,
                      "spec" : "HTML"
                   }
                ],
