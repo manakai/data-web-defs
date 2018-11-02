@@ -41,14 +41,6 @@
          "value" : "interface"
       },
       {
-         "fragment" : "partial interface DocumentOrShadowRoot {\u000A  [[*id=\u0022LenientSetter\u0022*]LenientSetter] readonly attribute ",
-         "index" : 1398,
-         "level" : "m",
-         "spec" : "FULLSCREEN",
-         "type" : "webidl:bad type",
-         "value" : "interface"
-      },
-      {
          "fragment" : "partial interface NavigatorID {\u000A  [Exposed=Window] boolean [*id=\u0022dom-navigator-taintenabled\u0022*]taintE",
          "index" : 13,
          "level" : "m",
@@ -295,14 +287,6 @@
          "spec" : "XHR",
          "type" : "webidl:bad optionality",
          "value" : "eventInitDict"
-      },
-      {
-         "fragment" : "void [*id=\u0022dom-messageport-postmessage-options\u0022*]postMessage(any message, PostMessageOptions options",
-         "index" : 266,
-         "level" : "m",
-         "spec" : "XHR",
-         "type" : "webidl:bad optionality",
-         "value" : "options"
       },
       {
          "fragment" : "[*id=\u0022dom-notificationevent-notificationevent\u0022*]Constructor(DOMString [*id=\u0022dom-notificationevent-no",
@@ -12818,6 +12802,22 @@
          {
             "id" : "documentorshadowroot",
             "members" : {
+               "fullscreenElement" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "dom-document-fullscreenelement",
+                     "setter" : "LenientSetter",
+                     "spec" : "FULLSCREEN",
+                     "type" : [
+                        "nullable",
+                        [
+                           "ref_interface",
+                           "Element"
+                        ]
+                     ]
+                  }
+               ]
             },
             "spec" : "DOM"
          }
@@ -31264,7 +31264,7 @@
                               },
                               {
                                  "name" : "options",
-                                 "optionality" : "required",
+                                 "optionality" : "optional",
                                  "spec" : "HTML",
                                  "type" : [
                                     "ref_dictionary",
@@ -31289,16 +31289,11 @@
                               },
                               {
                                  "name" : "transfer",
-                                 "optionality" : "optional",
+                                 "optionality" : "required",
                                  "spec" : "HTML",
                                  "type" : [
                                     "sequence",
                                     "object"
-                                 ],
-                                 "value" : [
-                                    "sequence_value",
-                                    [
-                                    ]
                                  ]
                               }
                            ],
