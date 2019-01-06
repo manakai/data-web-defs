@@ -86,7 +86,7 @@ sub parse_action ($) {
       }
     } elsif ($action =~ s/^Reconsume in the ([A-Za-z0-9 ._()-]+? state)\s*\.//) {
       push @action, {type => 'switch', state => $1}, {type => 'reconsume'};
-    } elsif ($action =~ s/^Switch to the ((?:DOCTYPE |)bogus comment state) \(don't consume anything in the current state\).\E//) {
+    } elsif ($action =~ s/^Switch to the ((?:DOCTYPE |)bogus comment state) \(don't consume anything in the current state\)\.//) {
       push @action,
           {type => 'switch', state => $1},
           {type => 'reconsume'};

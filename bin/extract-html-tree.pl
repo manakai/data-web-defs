@@ -70,6 +70,10 @@ sub parse_step ($) {
     push @action, {type => 'if', cond => ['navigate'], actions => [
       {type => 'application cache selection algorithm', INPUT => 'manifest'},
     ]};
+  } elsif ($tc =~ s/^If the Document is being loaded as part of navigation of a browsing context and the result of executing Is environment settings object a secure context\? on the Document's relevant settings object is true, then:\s*//) {
+    push @action, {type => 'if', cond => ['navigate'], actions => [
+      {type => 'application cache selection algorithm', INPUT => 'manifest'},
+    ]};
   }
 
   if ($tc =~ s/^((?!Otherwise:)[A-Za-z]+):\s*//) {
@@ -885,6 +889,7 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
     ['reprocess the current token' => 'reprocess the token'],
     ['run the application cache selection algorithm with no manifest' => 'application cache selection algorithm'],
     ['run the application cache selection algorithm with no manifest, passing it the Document object' => 'application cache selection algorithm'],
+    ['run the application cache selection algorithm passing the Document object with no manifest' => 'application cache selection algorithm'],
     ['stop these steps' => 'abort these steps'],
     ['return' => 'abort these steps'],
     ['process the SVG script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
@@ -2005,6 +2010,11 @@ sub process_action_blocks ($) {
       $act->{can_have_manifest} = 1 if $act->{actions}->[0]->{INPUT};
       delete $act->{cond};
       delete $act->{actions};
+      if (@$acts and
+          $acts->[0]->{type} eq 'IF' and
+          defined $acts->[0]->{COND}) {
+        shift @$acts;
+      }
     } elsif ($act->{type} eq 'if' and
              $act->{cond}->[0] eq 'NEXT_IS_LF_TOKEN' and
              @{$act->{actions}} == 2 and

@@ -97,7 +97,7 @@ FRAME_SIZE_ERROR
   }
 }
 
-require ($root_path->child ('bin/http-frames-hpack.pl'));
+require ($root_path->child ('bin/http-frames-hpack.pl')->absolute);
 
 print perl2json_bytes_for_record $Data;
 
