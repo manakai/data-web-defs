@@ -1117,9 +1117,9 @@ sub parse_cond ($) {
     $cond = ['NEXT_IS_LF_TOKEN'];
   } elsif ($COND =~ /^the document is not an iframe srcdoc document$/) {
     $cond = ['not iframe srcdoc document'];
-  } elsif ($COND =~ /^the parser was originally created (?:for|as part of) the (?:HTML|XML) fragment parsing algorithm$/) {
+  } elsif ($COND =~ /^the parser was (?:originally |)created (?:for|as part of) the (?:HTML|XML) fragment parsing algorithm$/) {
     $cond = ['fragment'];
-  } elsif ($COND =~ /^the parser was not originally created as part of the (?:HTML|XML) fragment parsing algorithm(?: \(fragment case\)|)$/) {
+  } elsif ($COND =~ /^the parser was not (?:originally |)created as part of the (?:HTML|XML) fragment parsing algorithm(?: \(fragment case\)|)$/) {
     $cond = ['not fragment'];
   } elsif ($COND =~ /^the Document is being loaded as part of navigation of a browsing context$/) {
     $cond = ['navigate'];
