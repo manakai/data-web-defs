@@ -163,6 +163,8 @@ for (split /\x0D?\x0A/, path (__FILE__)->parent->parent->child ('src/mime-types.
     $Data->{$type}->{$1} ||= 1;
   } elsif (m{^  (cors exception)$}) {
     $Data->{$type}->{cors_exception} ||= 1;
+  } elsif (m{^  (corb-protected) (false|depends)$}) {
+    $Data->{$type}->{corb_protected} = $2;
   } elsif (m{^  ([0-9A-Za-z_.-]+)=""$}) {
     $attr = $1;
     $attr =~ tr/A-Z/a-z/;
@@ -331,12 +333,10 @@ for my $type (keys %$Data) {
   $Data->{$type}->{corb_protected} = 1
       if $Data->{$type}->{html} or
          $Data->{$type}->{json} or
-          $Data->{$type}->{xml};
+         $Data->{$type}->{xml};
 }
 delete $Data->{$_}->{deprecated},
 delete $Data->{$_}->{obsolete} for qw(text/javascript);
-$Data->{'image/svg+xml'}->{corb_protected} = 'false';
-$Data->{'text/plain'}->{corb_protected} = 'depends';
 
 my $ExtsData = {};
 for my $type (keys %$Data) {
