@@ -724,8 +724,7 @@ local/data-vocabulary/files:
 	touch $@
 
 local/schemaorg.rdfa:
-	$(SAVEURL) $@ https://raw.githubusercontent.com/schemaorg/schemaorg/sdo-gozer/data/schema.rdfa
-	#http://schema.org/docs/schema_org_rdfa.html
+	$(SAVEURL) $@ http://schema.org/docs/schema_org_rdfa.html
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
 
