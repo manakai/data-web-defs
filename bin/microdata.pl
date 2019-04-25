@@ -195,7 +195,7 @@ for my $itemtype (sort { $a cmp $b } keys %$Data) {
             $def->{enum}->{$1}->{spec} = 'SCHEMAORG';
           }
         }
-        if ($desc =~ s/\s*\(WebSchemas wiki lists possible values\)(\.?)\s*$/$1/) {
+        if ($desc =~ s/\s*\(\[WebSchemas wiki lists possible values\]\([^()]+\)\)(\.?)\s*$/$1/) {
           my $name = $prop;
           $name =~ s{^http://schema.org/}{};
           if ($wsa_list->{$name}) {
