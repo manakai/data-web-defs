@@ -724,7 +724,7 @@ local/data-vocabulary/files:
 	touch $@
 
 local/schemaorg.rdfa:
-	$(SAVEURL) $@ http://schema.org/docs/schema_org_rdfa.html
+	$(SAVEURL) $@ https://schema.org/docs/schema_org_rdfa.html
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
 
