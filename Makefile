@@ -724,8 +724,8 @@ local/data-vocabulary/files:
 	touch $@
 
 local/schemaorg.rdfa:
-	$(SAVEURL) $@ https://schema.org/docs/schema_org_rdfa.html
 	mkdir -p temp
+	$(SAVEURL) $@ --dump-header temp/schemardfa-headers.txt https://schema.org/docs/schema_org_rdfa.html
 	cp $@ temp/
 	git add temp
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
