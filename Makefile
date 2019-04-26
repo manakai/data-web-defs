@@ -724,26 +724,14 @@ local/data-vocabulary/files:
 	touch $@
 
 local/schemaorg.rdfa:
-	mkdir -p temp
-	$(SAVEURL) $@ --dump-header temp/schemardfa-headers.txt https://schema.org/docs/schema_org_rdfa.html
-	cp $@ temp/
-	git add temp
+	$(SAVEURL) $@ https://schema.org/docs/schema_org_rdfa.html
 local/schemaorg.json: local/schemaorg.rdfa bin/microdata-schemaorg.pl
 	$(PERL) bin/microdata-schemaorg.pl > $@
-	mkdir -p temp
-	cp $@ temp/
-	git add temp
 
 local/schemaorg-wsa.html:
 	$(SAVEURL) $@ https://www.w3.org/wiki/WebSchemas/Accessibility
-	mkdir -p temp
-	cp $@ temp/
-	git add temp
 local/schemaorg-wsa.json: local/schemaorg-wsa.html bin/extract-schemaorg-wsa.pl
 	$(PERL) bin/extract-schemaorg-wsa.pl > $@
-	mkdir -p temp
-	cp $@ temp/
-	git add temp
 
 local/xls2txt:
 	$(GIT) clone https://github.com/hroptatyr/xls2txt.git $@
