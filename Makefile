@@ -9,7 +9,7 @@ clean: clean-langtags clean-urls clean-http clean-mime clean-dom clean-css \
 
 WGET = wget
 CURL = curl
-SAVEURL = $(CURL) -s -S -L -o
+SAVEURL = $(CURL) -s -S -L -o --header Accept-Encoding:identity
 SAVETREE = $(WGET) --no-check-certificate -m -np
 GIT = git
 PERL = ./perl
