@@ -38,7 +38,7 @@ for ($RootPath->child ('src/task-sources.txt')->lines_utf8) {
 
 {
   my $json = json_bytes2perl $RootPath->child ('intermediate/ua-names.json')->slurp;
-  $json->{'nonbrowser'}->{'linux'}->{'chrome'} = 'User-Agent';
+  $json->{'nonbrowser'}->{'linux'}->{'chrome'} = 'User-Agent'; ## It seems that there is no de facto standard value for this kind of user agents.
   for my $type (keys %$json) {
     for my $os (keys %{$json->{$type}}) {
       for my $mode (keys %{$json->{$type}->{$os}}) {
