@@ -151,13 +151,11 @@ for (
     $Data->{headers}->{$header_name}->{$proto}->{request}->{'*'} ||= '';
   } elsif (m{^(response)\s*$}) {
     $Data->{headers}->{$header_name}->{$proto}->{response}->{xxx} ||= '';
-  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata|forbidden response|forbidden|simple|CORS included|CORS non-wildcard request-header|proxy-removed|privileged no-cors request-header|mitm proxy removed)\s*$}) {
+  } elsif (m{^(connection-option|message-framing|routing|request-modifier|(?:response-|)control-data|payload-processing|representation-metadata|payload|validator|trace-unsafe|control|conditional|content-negotiation|authentication-credentials|request-context|cookie|authentication-challenge|response-context|obsolete|deprecated|fingerprinting|trailer|proxy|cache|robot|origin-server|accept-|fcast-metadata|fcast-cid-metadata|forbidden response|forbidden|simple|CORS included|CORS non-wildcard request-header|proxy-removed|privileged no-cors request-header|mitm proxy removed|no-CORS-safelisted request-header name)\s*$}) {
     my $key = lc $1;
     $key =~ tr/ -/__/;
     $key = {'control_data' => 'response_control_data'}->{$key} || $key;
     $Data->{headers}->{$header_name}->{$proto}->{$key} = 1;
-  } elsif (m{^(no-CORS-safelisted request-header=false)$}) {
-    $Data->{headers}->{$header_name}->{$proto}->{"not_no_cors_safelisted_request_header"} = 1;
   } elsif (m{^(304-representation-metadata)(?:\s+(MAY)|)$}) {
     $Data->{headers}->{$header_name}->{$proto}->{'304_representation_metadata'} = $2 || 'MUST';
     $Data->{headers}->{$header_name}->{$proto}->{'206_representation_metadata'} = 'MUST' unless $2;
