@@ -1,6 +1,6 @@
 {
    "jobs" : {
-      "hello": {
+      "gaa4" : {
          "environment" : {
             "CIRCLE_ARTIFACTS" : "/tmp/circle-artifacts"
          },
@@ -11,38 +11,17 @@
             "checkout",
             {
                "run" : {
-                  "command" : "echo Hello"
-               }
-            }
-        ]
-      },
-      "build" : {
-         "environment" : {
-            "CIRCLE_ARTIFACTS" : "/tmp/circle-artifacts"
-         },
-         "machine" : {
-            "enabled" : true
-         },
-         "steps" : [
-            "checkout",
-            {
-               "run" : {
-                  "command" : "mkdir -p $CIRCLE_ARTIFACTS"
+                  "command" : "make updatenightly"
                }
             },
             {
-               "run" : {
-                  "command" : "true"
+               "deploy" : {
+                  "command" : "git commit -m auto"
                }
             },
             {
-               "run" : {
-                  "command" : "true"
-               }
-            },
-            {
-               "store_artifacts" : {
-                  "path" : "/tmp/circle-artifacts"
+               "deploy" : {
+                  "command" : "git push origin \u002Bnightly"
                }
             }
          ]
@@ -50,29 +29,24 @@
    },
    "version" : 2,
    "workflows" : {
-      "build" : {
+      "gaa4" : {
          "jobs" : [
-            "build"
-         ]
-      },
-      "nightly": {
-        "jobs": [
-          "hello"
-        ],
-        "triggers": [
-          {
-            "schedule": {
-              "cron": "30 5 * * *",
-              "filters": {
-                "branches": {
-                  "only": [
-                    "staging"
-                  ]
-                }
-              }
+            "gaa4"
+         ],
+         "triggers" : [
+            {
+               "schedule" : {
+                  "cron" : "30 6 * * *",
+                  "filters" : {
+                     "branches" : {
+                        "only" : [
+                           "staging"
+                        ]
+                     }
+                  }
+               }
             }
-          }
-        ]
+         ]
       },
       "version" : 2
    }
