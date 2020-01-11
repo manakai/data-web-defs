@@ -3531,7 +3531,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/CampingPitch" : {
-      "desc" : "A [[CampingPitch]] is an individual place for overnight stay in the outdoors, typically being part of a larger camping site, or [[Campground]].\u005Cn\u005Cn      \u000AIn British English a campsite, or campground, is an area, usually divided into a number of pitches, where people can camp overnight using tents or camper vans or caravans; this British English use of the word is synonymous with the American English expression campground. In American English the term campsite generally means an area where an individual, family, group, or military unit can pitch a tent or park a camper; a campground may contain many campsites.\u000A(Source: Wikipedia see [https://en.wikipedia.org/wiki/Campsite](https://en.wikipedia.org/wiki/Campsite)).\u005Cn\u005Cn\u000ASee also the dedicated [document on the use of schema.org for marking up hotels and other forms of accommodations](/docs/hotels.html).\u000A",
+      "desc" : "A [[CampingPitch]] is an individual place for overnight stay in the outdoors, typically being part of a larger camping site, or [[Campground]].\u005Cn\u005Cn\u000AIn British English a campsite, or campground, is an area, usually divided into a number of pitches, where people can camp overnight using tents or camper vans or caravans; this British English use of the word is synonymous with the American English expression campground. In American English the term campsite generally means an area where an individual, family, group, or military unit can pitch a tent or park a camper; a campground may contain many campsites.\u000A(Source: Wikipedia see [https://en.wikipedia.org/wiki/Campsite](https://en.wikipedia.org/wiki/Campsite)).\u005Cn\u005Cn\u000ASee also the dedicated [document on the use of schema.org for marking up hotels and other forms of accommodations](/docs/hotels.html).\u000A",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
          "http://schema.org/Accommodation" : 1,
@@ -4558,7 +4558,12 @@
          },
          "accessModeSufficient" : {
             "desc" : "A list of single or combined accessModes that are sufficient to understand all the intellectual content of a resource. Expected values include:  auditory, tactile, textual, visual.\u000A      ",
-            "value" : "text"
+            "is_url" : 1,
+            "item" : {
+               "types" : {
+                  "http://schema.org/ItemList" : 1
+               }
+            }
          },
          "accessibilityAPI" : {
             "desc" : "Indicates that the resource is compatible with the referenced accessibility API.",
@@ -5052,7 +5057,7 @@
             "is_url" : 1
          },
          "isBasedOn" : {
-            "desc" : "A resource that was used in the creation of this resource. This term can be repeated for multiple sources. For example, http://example.com/great-multiplication-intro.html.",
+            "desc" : "A resource from which this work is derived or from which it is a modification or adaption.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -9677,9 +9682,11 @@
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/MonetaryAmount" : 1,
                   "http://schema.org/MonetaryAmountDistribution" : 1
                }
-            }
+            },
+            "value" : "integer"
          },
          "experienceRequirements" : {
             "desc" : "Description of skills and experience needed for the position or Occupation.",
@@ -9720,7 +9727,7 @@
             }
          },
          "occupationalCategory" : {
-            "desc" : "Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.",
+            "desc" : "A category describing the job, preferably using a term from a taxonomy such as [BLS O*NET-SOC](http://www.onetcenter.org/taxonomy.html), [ISCO-08](https://www.ilo.org/public/english/bureau/stat/isco/isco08/) or similar, with the property repeated for each applicable value. Ideally the taxonomy should be identified, and both the textual label and formal code for the category should be provided.\u005Cn\u000ANote: for historical reasons, any textual label and formal code provided as a literal may be assumed to be from O*NET-SOC.",
             "value" : "text"
          },
          "qualifications" : {
@@ -9745,7 +9752,7 @@
             "value" : "text"
          },
          "skills" : {
-            "desc" : "Skills required to fulfill this role or in this Occupation.",
+            "desc" : "A statement of knowledge, skill, ability, task or any other assertion expressing a competency that is desired or required to fulfill this role or to work in this occupation.",
             "value" : "text"
          },
          "specialCommitments" : {
@@ -11981,9 +11988,11 @@
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/MonetaryAmount" : 1,
                   "http://schema.org/MonetaryAmountDistribution" : 1
                }
-            }
+            },
+            "value" : "integer"
          },
          "experienceRequirements" : {
             "desc" : "Description of skills and experience needed for the position or Occupation.",
@@ -11999,7 +12008,7 @@
             }
          },
          "occupationalCategory" : {
-            "desc" : "Category or categories describing the job. Use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html. Ideally includes textual label and formal code, with the property repeated for each applicable value.",
+            "desc" : "A category describing the job, preferably using a term from a taxonomy such as [BLS O*NET-SOC](http://www.onetcenter.org/taxonomy.html), [ISCO-08](https://www.ilo.org/public/english/bureau/stat/isco/isco08/) or similar, with the property repeated for each applicable value. Ideally the taxonomy should be identified, and both the textual label and formal code for the category should be provided.\u005Cn\u000ANote: for historical reasons, any textual label and formal code provided as a literal may be assumed to be from O*NET-SOC.",
             "value" : "text"
          },
          "qualifications" : {
@@ -12011,7 +12020,7 @@
             "value" : "text"
          },
          "skills" : {
-            "desc" : "Skills required to fulfill this role or in this Occupation.",
+            "desc" : "A statement of knowledge, skill, ability, task or any other assertion expressing a competency that is desired or required to fulfill this role or to work in this occupation.",
             "value" : "text"
          }
       },
@@ -13970,7 +13979,7 @@
             }
          },
          "gender" : {
-            "desc" : "Gender of the person. While http://schema.org/Male and http://schema.org/Female may be used, text strings are also acceptable for people who do not identify as a binary gender.",
+            "desc" : "Gender of something, typically a [[Person]], but possibly also fictional characters, animals, etc. While http://schema.org/Male and http://schema.org/Female may be used, text strings are also acceptable for people who do not identify as a binary gender. The [[gender]] property can also be used in an extended sense to cover e.g. the gender of sports teams. As with the gender of individuals, we do not try to enumerate all possibilities. A mixed-gender [[SportsTeam]] can be indicated with a text value of \u0022Mixed\u0022.",
             "is_url" : 1,
             "item" : {
                "types" : {
@@ -14430,6 +14439,10 @@
             "desc" : "The International Standard of Industrial Classification of All Economic Activities (ISIC), Revision 4 code for a particular organization, business person, or place.",
             "value" : "ISIC"
          },
+         "latitude" : {
+            "desc" : "The latitude of a location. For example ```37.42242``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).",
+            "value" : "text"
+         },
          "logo" : {
             "desc" : "An associated logo.",
             "is_url" : 1,
@@ -14438,6 +14451,10 @@
                   "http://schema.org/ImageObject" : 1
                }
             }
+         },
+         "longitude" : {
+            "desc" : "The longitude of a location. For example ```-122.08585``` ([WGS 84](https://en.wikipedia.org/wiki/World_Geodetic_System)).",
+            "value" : "text"
          },
          "map" : {
             "desc" : "A URL to a map of the place.",
@@ -14871,11 +14888,11 @@
             "value" : "text"
          },
          "addressLocality" : {
-            "desc" : "The locality. For example, Mountain View.",
+            "desc" : "The locality in which the street address is, and which is in the region. For example, Mountain View.",
             "value" : "text"
          },
          "addressRegion" : {
-            "desc" : "The region. For example, CA.",
+            "desc" : "The region in which the locality is, and which is in the country. For example, California or another appropriate first-level [Administrative division](https://en.wikipedia.org/wiki/List_of_administrative_divisions_by_country) ",
             "value" : "text"
          },
          "postOfficeBoxNumber" : {
@@ -19654,7 +19671,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PublicationIssue" : {
-      "desc" : "A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.\u005Cn\u005Cn[blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).",
+      "desc" : "A part of a successively published publication such as a periodical or publication volume, often numbered, usually containing a grouping of works such as articles.\u005Cn\u005CnSee also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).",
       "props" : {
          "issueNumber" : {
             "desc" : "Identifies the issue of publication; for example, \u0022iii\u0022 or \u00222\u0022.",
@@ -19682,7 +19699,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/PublicationVolume" : {
-      "desc" : "A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.\u000A\u000A      See also blog post.",
+      "desc" : "A part of a successively published publication such as a periodical or multi-volume work, often numbered. It may represent a time span, such as a year.\u005Cn\u005CnSee also [blog post](http://blog.schema.org/2014/09/schemaorg-support-for-bibliographic_2.html).",
       "props" : {
          "pageEnd" : {
             "desc" : "The page on which the work ends; for example \u0022138\u0022 or \u0022xvi\u0022.",
@@ -26892,7 +26909,7 @@
             "is_url" : 1
          },
          "subjectOf" : {
-            "desc" : "A CreativeWork or Event about this Thing..",
+            "desc" : "A CreativeWork or Event about this Thing.",
             "is_url" : 1,
             "item" : {
                "types" : {
