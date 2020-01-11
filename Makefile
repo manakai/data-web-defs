@@ -336,12 +336,11 @@ data/http-frames.json: bin/http-frames.pl \
     local/iana/ws.json local/iana/http2.json bin/http-frames-hpack.pl
 	$(PERL) bin/http-frames.pl > $@
 
-local/mozilla-ciphers.html:
-	$(SAVEURL) $@ https://wiki.mozilla.org/Security/Server_Side_TLS
-local/mozilla-ciphers.json: local/mozilla-ciphers.html bin/mozilla-ciphers.pl
-	$(PERL) bin/mozilla-ciphers.pl < $< > $@
+local/mozilla-ssl-config.json:
+	$(SAVEURL) $@ https://ssl-config.mozilla.org/guidelines/latest.json
 
-data/tls.json: bin/tls.pl local/iana/tls.json local/mozilla-ciphers.json \
+data/tls.json: bin/tls.pl local/iana/tls.json \
+    intermediate/mozilla-ciphers.json \
     local/iana/tls-exts.json
 	$(PERL) bin/tls.pl > $@
 
