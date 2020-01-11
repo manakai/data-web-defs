@@ -1477,6 +1477,13 @@ sub process_actions ($$) {
         $act->{type} = 'set-DOCTYPE-system-identifier';
         delete $act->{TARGET};
         delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "the element's parser document" and
+               $act->{VALUE} eq "the Document") {
+        # backcompat
+        $act->{type} = 'set-node-flag';
+        $act->{target} = 'parser-inserted';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
       } else {
         #warn $act->{TARGET};
       }
