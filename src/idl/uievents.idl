@@ -23,9 +23,9 @@ partial interface DocumentOrShadowRoot {
 };
 
 // <https://w3c.github.io/deviceorientation/spec-source-orientation.html>
-[Constructor(DOMString type, optional DeviceOrientationEventInit eventInitDict),
- Exposed=(Window)]
+[Exposed=(Window)]
 interface DeviceOrientationEvent : Event {
+  constructor(DOMString type, optional DeviceOrientationEventInit eventInitDict);
   readonly attribute double? alpha;
   readonly attribute double? beta;
   readonly attribute double? gamma;
@@ -37,9 +37,9 @@ dictionary DeviceOrientationEventInit : EventInit {
   double? gamma = null;
   boolean absolute = false;
 };
-[Constructor(DOMString type, optional DeviceMotionEventInit eventInitDict),
- Exposed=(Window)]
+[Exposed=(Window)]
 interface DeviceMotionEvent : Event {
+  constructor(DOMString type, optional DeviceMotionEventInit eventInitDict);
   readonly attribute DeviceAcceleration? acceleration;
   readonly attribute DeviceAcceleration? accelerationIncludingGravity;
   readonly attribute DeviceRotationRate? rotationRate;
