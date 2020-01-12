@@ -21,7 +21,8 @@ for (qw(
   callback interface partial dictionary enum typedef includes mixin const
   null true false -Infinity Infinity NaN getter stringifier namespace
   static attribute inherit readonly setter deleter
-  iterable optional ByteString Date
+  iterable optional async
+  ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
   Promise ArrayBuffer Int8Array Int16Array
@@ -83,6 +84,7 @@ for (
   [operation => undef, 'operation'],
   [static_operation => undef, 'static operation'],
   [iterable => 'iterable', 'iterable declaration'],
+  [async_iterable => 'iterable', 'asynchronously iterable declaration'],
   [maplike => 'maplike', 'maplike declaration'],
   [setlike => 'setlike', 'setlike declaration'],
 ) {
@@ -173,6 +175,10 @@ my $XAttrAllowed = {
   },
   argument => {},
   iterable => {
+    Exposed => 1,
+    SecureContext => 1,
+  },
+  async_iterable => {
     Exposed => 1,
     SecureContext => 1,
   },
