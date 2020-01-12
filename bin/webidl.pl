@@ -118,9 +118,7 @@ my $XAttrAllowed = {
     LegacyWindowAlias => 1,
   },
   callback_interface => {
-    LegacyArrayClass => 1,
-    Exposed => 1, Global => 1,
-    NoInterfaceObject => 1, OverrideBuiltins => 1,
+    Exposed => 1,
     SecureContext => 1,
   },
   partial_interface => {
