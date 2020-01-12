@@ -50,7 +50,7 @@ $Data->{keyword_tokens}->{$_}->{argument_name} = 1 for qw(
   getter includes inherit interface namespace iterable
   maplike partial setlike setter static
   stringifier typedef unrestricted required
-  async
+  async constructor
 
   record
 );
