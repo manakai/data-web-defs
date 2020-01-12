@@ -21,7 +21,7 @@ for (qw(
   callback interface partial dictionary enum typedef includes mixin const
   null true false -Infinity Infinity NaN getter stringifier namespace
   static attribute inherit readonly setter deleter
-  iterable optional async
+  iterable optional async constructor
   ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
@@ -115,7 +115,7 @@ for (
 my $XAttrAllowed = {
   interface => {
     LegacyArrayClass => 1,
-    Constructor => 1, Exposed => 1, Global => 1,
+    Exposed => 1, Global => 1,
     NamedConstructor => 1,
     NoInterfaceObject => 1, OverrideBuiltins => 1,
     LegacyUnenumerableNamedProperties => 1,
@@ -213,7 +213,6 @@ for my $key (keys %$XAttrAllowed) {
 my $XAttrArgs = {
   LegacyArrayClass => {no => 1},
   Clamp => {no => 1},
-  Constructor => {no => 1, args => 1},
   EnforceRange => {no => 1},
   LenientThis => {no => 1},
   NewObject => {no => 1},
@@ -246,7 +245,6 @@ for my $name (keys %$XAttrArgs) {
 }
 
 my $XAttrMultiple = {
-  Constructor => 1,
   NamedConstructor => 1,
 };
 
@@ -256,15 +254,12 @@ for my $name (keys %$XAttrMultiple) {
 
 my $XAttrDisallowedCombinations = [
   ['Clamp', 'EnforceRange'],
-  ['Constructor', 'NoInterfaceObject'],
-  ['HTMLConstructor', 'Constructor'],
   ['HTMLConstructor', 'NoInterfaceObject'],
   ['LegacyWindowAlias', 'NoInterfaceObject'],
   ['OverrideBuiltins', 'Global'],
   ['PutForwards', 'Replaceable'],
   ['LenientSetter', 'PutForwards'],
   ['LenientSetter', 'Replaceable'],
-  ['Global', 'Constructor'],
   ['Global', 'NamedConstructor'],
 ];
 
