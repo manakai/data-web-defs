@@ -24,7 +24,7 @@ for (qw(
   iterable optional ByteString Date
   DOMString RegExp any boolean byte double float long octet or object
   sequence short unsigned void unrestricted required maplike setlike
-  Promise Error ArrayBuffer Int8Array Int16Array
+  Promise ArrayBuffer Int8Array Int16Array
   Int32Array Uint8Array Uint16Array Uint32Array Uint8ClampedArray
   Float32Array Float64Array DataView USVString
   FrozenArray
@@ -302,7 +302,7 @@ $Data->{types}->{$_}->{string_type} = 1
 $Data->{constructs}->{enum}->{string_type} = 1;
 $Data->{types}->{$_}->{exception_type} = 1,
 $Data->{types}->{$_}->{object_type} = 1
-    for qw(Error DOMException);
+    for qw(DOMException);
 $Data->{types}->{$_}->{typed_array_type} = 1,
 $Data->{types}->{$_}->{buffer_source_type} = 1
     for qw(Int8Array Int16Array Int32Array Uint8Array Uint16Array
