@@ -138,6 +138,7 @@
       "category-label" : {
          "elements" : {
             "http://www.w3.org/1999/xhtml" : {
+               "*-*" : 1,
                "button" : 1,
                "meter" : 1,
                "output" : 1,
@@ -158,6 +159,7 @@
       "category-listed" : {
          "elements" : {
             "http://www.w3.org/1999/xhtml" : {
+               "*-*" : 1,
                "button" : 1,
                "fieldset" : 1,
                "object" : 1,
@@ -178,6 +180,7 @@
       "category-reset" : {
          "elements" : {
             "http://www.w3.org/1999/xhtml" : {
+               "*-*" : 1,
                "output" : 1,
                "select" : 1,
                "textarea" : 1
@@ -195,6 +198,7 @@
       "category-submit" : {
          "elements" : {
             "http://www.w3.org/1999/xhtml" : {
+               "*-*" : 1,
                "button" : 1,
                "object" : 1,
                "select" : 1,
@@ -440,6 +444,7 @@
       "form-associated element" : {
          "elements" : {
             "http://www.w3.org/1999/xhtml" : {
+               "*-*" : 1,
                "button" : 1,
                "fieldset" : 1,
                "img" : 1,
@@ -456,6 +461,15 @@
          },
          "id" : "form-associated-element",
          "label" : "form-associated elements",
+         "spec" : "HTML"
+      },
+      "form-associated-custom-element" : {
+         "elements" : {
+            "http://www.w3.org/1999/xhtml" : {
+               "*-*" : 1
+            }
+         },
+         "id" : "form-associated-custom-element",
          "spec" : "HTML"
       },
       "formatting category" : {
@@ -7419,6 +7433,12 @@
                      "id" : "attr-input-autocorrect",
                      "spec" : "OBSVOCAB"
                   },
+                  "autofocus" : {
+                     "conforming" : 1,
+                     "desc" : "Automatically focus the element when the page is loaded",
+                     "id" : "attr-fe-autofocus",
+                     "spec" : "HTML"
+                  },
                   "autosave" : {
                      "id" : "attr-input-autosave",
                      "spec" : "OBSVOCAB"
@@ -8569,13 +8589,6 @@
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
-                  "onloadend" : {
-                     "conforming" : 1,
-                     "desc" : "loadend event handler",
-                     "id" : "handler-onloadend",
-                     "spec" : "HTML",
-                     "value_type" : "event handler"
-                  },
                   "onloadstart" : {
                      "conforming" : 1,
                      "desc" : "loadstart event handler",
@@ -8803,6 +8816,13 @@
                      "preferred" : {
                         "type" : "script"
                      }
+                  },
+                  "onslotchange" : {
+                     "conforming" : 1,
+                     "desc" : "slotchange event handler",
+                     "id" : "handler-onslotchange",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
                   },
                   "onsort" : {
                      "preferred" : {
@@ -9585,7 +9605,7 @@
                   },
                   "tabindex" : {
                      "conforming" : 1,
-                     "desc" : "Whether the element is focusable, and the relative order of the element for the purposes of sequential focus navigation",
+                     "desc" : "Whether the element is focusable and sequentially focusable, and the relative order of the element for the purposes of sequential focus navigation",
                      "id" : "attr-tabindex",
                      "spec" : "HTML",
                      "value_type" : "integer"
@@ -9758,8 +9778,53 @@
             }
          },
          "*-*" : {
+            "aria" : {
+               "" : {
+                  "attrs" : {
+                     "aria-disabled" : {
+                        "state" : ":disabled",
+                        "strong" : 1,
+                        "value_type" : "true/missing"
+                     }
+                  }
+               }
+            },
+            "attrs" : {
+               "" : {
+                  "disabled" : {
+                     "conforming" : 1,
+                     "desc" : "Whether the form control is disabled",
+                     "id" : "attr-fe-disabled",
+                     "spec" : "HTML"
+                  },
+                  "form" : {
+                     "conforming" : 1,
+                     "desc" : "Associates the element with a form element",
+                     "id" : "attr-fae-form",
+                     "spec" : "HTML"
+                  },
+                  "name" : {
+                     "conforming" : 1,
+                     "desc" : "Name of the element to use for form submission and in the form.elements API ",
+                     "id" : "attr-fe-name",
+                     "spec" : "HTML"
+                  },
+                  "readonly" : {
+                     "conforming" : 1,
+                     "desc" : "Affects willValidate, plus any behavior added by the custom element author",
+                     "id" : "attr-face-readonly",
+                     "spec" : "HTML"
+                  }
+               }
+            },
             "categories" : {
+               "category-label" : 1,
+               "category-listed" : 1,
+               "category-reset" : 1,
+               "category-submit" : 1,
                "flow content" : 1,
+               "form-associated element" : 1,
+               "form-associated-custom-element" : 1,
                "palpable content" : 1,
                "phrasing content" : 1,
                "shadow_attachable" : 1
@@ -12174,10 +12239,6 @@
                      "url_role" : "submission"
                   },
                   "autofocus" : {
-                     "conforming" : 1,
-                     "desc" : "Automatically focus the form control when the page is loaded",
-                     "id" : "attr-fe-autofocus",
-                     "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "datafld" : {
@@ -14364,7 +14425,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use in the form.elements API ",
+                     "desc" : "Name of the element to use in the form.elements API. ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
@@ -18108,10 +18169,6 @@
                      "value_type" : "enumerated"
                   },
                   "autofocus" : {
-                     "conforming" : 1,
-                     "desc" : "Automatically focus the form control when the page is loaded",
-                     "id" : "attr-fe-autofocus",
-                     "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "autosave" : {
@@ -21955,7 +22012,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use in the form.elements API ",
+                     "desc" : "Name of the element to use in the form.elements API. ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
@@ -23261,10 +23318,6 @@
                      "spec" : "HTML"
                   },
                   "autofocus" : {
-                     "conforming" : 1,
-                     "desc" : "Automatically focus the form control when the page is loaded",
-                     "id" : "attr-fe-autofocus",
-                     "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "bgcolor" : {
@@ -25019,10 +25072,6 @@
                      "value_type" : "enumerated"
                   },
                   "autofocus" : {
-                     "conforming" : 1,
-                     "desc" : "Automatically focus the form control when the page is loaded",
-                     "id" : "attr-fe-autofocus",
-                     "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "bgcolor" : {
