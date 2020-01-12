@@ -253,6 +253,8 @@ my $XAttrDisallowedCombinations = [
   ['PutForwards', 'Replaceable'],
   ['LenientSetter', 'PutForwards'],
   ['LenientSetter', 'Replaceable'],
+  ['Global', 'Constructor'],
+  ['Global', 'NamedConstructor'],
 ];
 
 for (@$XAttrDisallowedCombinations) {
