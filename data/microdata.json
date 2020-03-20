@@ -2015,7 +2015,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/AggregateOffer" : {
-      "desc" : "When a single product is associated with multiple offers (for example, the same pair of shoes is offered by different merchants), then AggregateOffer can be used.",
+      "desc" : "When a single product is associated with multiple offers (for example, the same pair of shoes is offered by different merchants), then AggregateOffer can be used.\u005Cn\u005CnNote: AggregateOffers are normally expected to associate multiple offers that all share the same defined [[businessFunction]] value, or default to http://purl.org/goodrelations/v1#Sell if businessFunction is not explicitly defined.",
       "props" : {
          "highPrice" : {
             "desc" : "The highest price of all offers available.\u005Cn\u005CnUsage guidelines:\u005Cn\u005Cn* Use values from 0123456789 (Unicode 'DIGIT ZERO' (U\u002B0030) to 'DIGIT NINE' (U\u002B0039)) rather than superficially similiar Unicode symbols.\u005Cn* Use '.' (Unicode 'FULL STOP' (U\u002B002E)) rather than ',' to indicate a decimal point. Avoid using these symbols as a readability separator.",
@@ -2030,10 +2030,11 @@
             "value" : "integer"
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -3956,8 +3957,9 @@
          "http://schema.org/WebPage" : 1
       },
       "superclass_of" : {
-         "http://schema.org/ImageGallery" : 1,
-         "http://schema.org/VideoGallery" : 1
+         "http://schema.org/ImageGallery" : 2,
+         "http://schema.org/MediaGallery" : 1,
+         "http://schema.org/VideoGallery" : 2
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -4924,7 +4926,7 @@
          },
          "datePublished" : {
             "desc" : "Date of first broadcast/publication.",
-            "value" : "schema.org date"
+            "value" : "schema.org datetime"
          },
          "discussionUrl" : {
             "desc" : "A link to the page containing the comments of the CreativeWork.",
@@ -5144,10 +5146,11 @@
             }
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -5380,11 +5383,12 @@
          "http://schema.org/HowToSection" : 1,
          "http://schema.org/HowToStep" : 1,
          "http://schema.org/HowToTip" : 1,
-         "http://schema.org/ImageGallery" : 3,
+         "http://schema.org/ImageGallery" : 4,
          "http://schema.org/ImageObject" : 2,
          "http://schema.org/ItemPage" : 2,
          "http://schema.org/LiveBlogPosting" : 4,
          "http://schema.org/Map" : 1,
+         "http://schema.org/MediaGallery" : 3,
          "http://schema.org/MediaObject" : 1,
          "http://schema.org/Menu" : 1,
          "http://schema.org/MenuSection" : 1,
@@ -5433,7 +5437,7 @@
          "http://schema.org/Table" : 2,
          "http://schema.org/TechArticle" : 2,
          "http://schema.org/TextDigitalDocument" : 2,
-         "http://schema.org/VideoGallery" : 3,
+         "http://schema.org/VideoGallery" : 4,
          "http://schema.org/VideoGame" : 2,
          "http://schema.org/VideoGameClip" : 2,
          "http://schema.org/VideoGameSeries" : 2,
@@ -6184,12 +6188,17 @@
             }
          },
          "itemOffered" : {
-            "desc" : "The item being offered.",
+            "desc" : "An item being offered (or demanded). The transactional nature of the offer or demand is documented using [[businessFunction]], e.g. sell, lease etc. While several common expected types are listed explicitly in this definition, others can be used. Using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/AggregateOffer" : 1,
+                  "http://schema.org/CreativeWork" : 1,
+                  "http://schema.org/Event" : 1,
+                  "http://schema.org/MenuItem" : 1,
                   "http://schema.org/Product" : 1,
-                  "http://schema.org/Service" : 1
+                  "http://schema.org/Service" : 1,
+                  "http://schema.org/Trip" : 1
                }
             }
          },
@@ -7172,10 +7181,11 @@
             "value" : "integer"
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -8968,10 +8978,11 @@
       "desc" : "Web page type: Image gallery page.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/CollectionPage" : 1,
-         "http://schema.org/CreativeWork" : 3,
-         "http://schema.org/Thing" : 4,
-         "http://schema.org/WebPage" : 2
+         "http://schema.org/CollectionPage" : 2,
+         "http://schema.org/CreativeWork" : 4,
+         "http://schema.org/MediaGallery" : 1,
+         "http://schema.org/Thing" : 5,
+         "http://schema.org/WebPage" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -9666,7 +9677,7 @@
             "value" : "text"
          },
          "datePosted" : {
-            "desc" : "Publication date for the job posting.",
+            "desc" : "Publication date of an online listing.",
             "value" : "schema.org date"
          },
          "educationRequirements" : {
@@ -10546,6 +10557,22 @@
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
    },
+   "http://schema.org/MediaGallery" : {
+      "desc" : "Web page type: Media gallery page. A mixed-media page that can contains media such as images, videos, and other multimedia.",
+      "spec" : "SCHEMAORG",
+      "subclass_of" : {
+         "http://schema.org/CollectionPage" : 1,
+         "http://schema.org/CreativeWork" : 3,
+         "http://schema.org/Thing" : 4,
+         "http://schema.org/WebPage" : 2
+      },
+      "superclass_of" : {
+         "http://schema.org/ImageGallery" : 1,
+         "http://schema.org/VideoGallery" : 1
+      },
+      "use_itemid" : 1,
+      "vocab" : "http://schema.org/"
+   },
    "http://schema.org/MediaObject" : {
       "desc" : "A media object, such as an image, video, or audio object embedded in a web page or a downloadable dataset i.e. DataDownload. Note that a creative work may have many media objects associated with it on the same web page. For example, a page about a single song (MusicRecording) may have a music video (VideoObject), and a high and low bandwidth audio stream (2 AudioObject's).",
       "props" : {
@@ -10795,10 +10822,11 @@
             }
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -12045,7 +12073,7 @@
       "vocab" : "http://schema.org/"
    },
    "http://schema.org/Offer" : {
-      "desc" : "An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.\u005Cn\u005CnFor [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/).",
+      "desc" : "An offer to transfer some rights to an item or to provide a service — for example, an offer to sell tickets to an event, to rent the DVD of a movie, to stream a TV show over the internet, to repair a motorcycle, or to loan a book.\u005Cn\u005CnNote: As the [[businessFunction]] property, which identifies the form of offer (e.g. sell, lease, repair, dispose), defaults to http://purl.org/goodrelations/v1#Sell; an Offer without a defined businessFunction value can be assumed to be an offer to sell.\u005Cn\u005CnFor [GTIN](http://www.gs1.org/barcodes/technical/idkeys/gtin)-related fields, see [Check Digit calculator](http://www.gs1.org/barcodes/support/check_digit_calculator) and [validation guide](http://www.gs1us.org/resources/standards/gtin-validation-guide) from [GS1](http://www.gs1.org/).",
       "props" : {
          "acceptedPaymentMethod" : {
             "desc" : "The payment method(s) accepted by seller for this offer.",
@@ -12261,12 +12289,17 @@
             }
          },
          "itemOffered" : {
-            "desc" : "The item being offered.",
+            "desc" : "An item being offered (or demanded). The transactional nature of the offer or demand is documented using [[businessFunction]], e.g. sell, lease etc. While several common expected types are listed explicitly in this definition, others can be used. Using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/AggregateOffer" : 1,
+                  "http://schema.org/CreativeWork" : 1,
+                  "http://schema.org/Event" : 1,
+                  "http://schema.org/MenuItem" : 1,
                   "http://schema.org/Product" : 1,
-                  "http://schema.org/Service" : 1
+                  "http://schema.org/Service" : 1,
+                  "http://schema.org/Trip" : 1
                }
             }
          },
@@ -15217,10 +15250,11 @@
             "value" : "text"
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -25513,10 +25547,11 @@
             }
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -27199,7 +27234,7 @@
          "http://schema.org/HowToTool" : 4,
          "http://schema.org/IceCreamShop" : 4,
          "http://schema.org/IgnoreAction" : 3,
-         "http://schema.org/ImageGallery" : 4,
+         "http://schema.org/ImageGallery" : 5,
          "http://schema.org/ImageObject" : 3,
          "http://schema.org/IndividualProduct" : 2,
          "http://schema.org/InformAction" : 4,
@@ -27247,6 +27282,7 @@
          "http://schema.org/MapCategoryType" : 3,
          "http://schema.org/MarryAction" : 3,
          "http://schema.org/Mass" : 3,
+         "http://schema.org/MediaGallery" : 4,
          "http://schema.org/MediaObject" : 2,
          "http://schema.org/MediaSubscription" : 2,
          "http://schema.org/MedicalOrganization" : 2,
@@ -27508,7 +27544,7 @@
          "http://schema.org/UserPlusOnes" : 3,
          "http://schema.org/UserTweets" : 3,
          "http://schema.org/Vehicle" : 2,
-         "http://schema.org/VideoGallery" : 4,
+         "http://schema.org/VideoGallery" : 5,
          "http://schema.org/VideoGame" : 3,
          "http://schema.org/VideoGameClip" : 3,
          "http://schema.org/VideoGameSeries" : 3,
@@ -27926,10 +27962,11 @@
             "value" : "schema.org datetime"
          },
          "offers" : {
-            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event.",
+            "desc" : "An offer to provide this item—for example, an offer to sell a product, rent the DVD of a movie, perform a service, or give away tickets to an event. Use [[businessFunction]] to indicate the kind of transaction offered, i.e. sell, lease, etc. This property can also be used to describe a [[Demand]]. While this property is listed as expected on a number of common types, it can be used in others. In that case, using a second type, such as Product or a subtype of Product, can clarify the nature of the offer.\u000A      ",
             "is_url" : 1,
             "item" : {
                "types" : {
+                  "http://schema.org/Demand" : 1,
                   "http://schema.org/Offer" : 1
                }
             }
@@ -36645,10 +36682,11 @@
       "desc" : "Web page type: Video gallery page.",
       "spec" : "SCHEMAORG",
       "subclass_of" : {
-         "http://schema.org/CollectionPage" : 1,
-         "http://schema.org/CreativeWork" : 3,
-         "http://schema.org/Thing" : 4,
-         "http://schema.org/WebPage" : 2
+         "http://schema.org/CollectionPage" : 2,
+         "http://schema.org/CreativeWork" : 4,
+         "http://schema.org/MediaGallery" : 1,
+         "http://schema.org/Thing" : 5,
+         "http://schema.org/WebPage" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
@@ -37429,12 +37467,13 @@
          "http://schema.org/CollectionPage" : 1,
          "http://schema.org/ContactPage" : 1,
          "http://schema.org/FAQPage" : 1,
-         "http://schema.org/ImageGallery" : 2,
+         "http://schema.org/ImageGallery" : 3,
          "http://schema.org/ItemPage" : 1,
+         "http://schema.org/MediaGallery" : 2,
          "http://schema.org/ProfilePage" : 1,
          "http://schema.org/QAPage" : 1,
          "http://schema.org/SearchResultsPage" : 1,
-         "http://schema.org/VideoGallery" : 2
+         "http://schema.org/VideoGallery" : 3
       },
       "use_itemid" : 1,
       "vocab" : "http://schema.org/"
