@@ -358,8 +358,8 @@ for (split /\x0D?\x0A/, $src_path->child ('http-content-codings.txt')->slurp_utf
     } else {
       $Data->{codings}->{$coding_name}->{content}->{url} = $url;
     }
-  } elsif (/^deprecated\s*->\s*(\S+)$/) {
-    $Data->{codings}->{$coding_name}->{content}->{deprecated} = 1;
+  } elsif (/^(deprecated|obsolete)\s*->\s*(\S+)$/) {
+    $Data->{codings}->{$coding_name}->{content}->{$1} = 1;
     $Data->{codings}->{$coding_name}->{content}->{preferred_name} = $1;
   } elsif (/^(deprecated|compression)$/) {
     $Data->{codings}->{$coding_name}->{content}->{$1} = 1;
