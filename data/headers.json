@@ -2589,15 +2589,36 @@
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
-            "iana" : 1
+            "iana" : 1,
+            "id" : "section-2",
+            "spec" : "RFC8188"
          }
       },
       "aesgcm" : {
          "content" : {
             "Accept-Encoding" : 1,
             "Content-Encoding" : 1,
+            "obsolete" : 1,
+            "preferred_name" : "obsolete",
             "suikawiki" : "aesgcm",
             "url" : "http://httpwg.org/http-extensions/draft-ietf-httpbis-encryption-encoding.html"
+         }
+      },
+      "aesgcm128" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1,
+            "obsolete" : 1,
+            "preferred_name" : "obsolete",
+            "url" : "https://tools.ietf.org/html/draft-thomson-http-encryption-02#section-2"
+         }
+      },
+      "amz-1.0" : {
+         "content" : {
+            "Accept-Encoding" : 1,
+            "Content-Encoding" : 1,
+            "suikawiki" : "amz-1.0",
+            "url" : "https://webservices.amazon.com/paapi5/documentation/sending-request.html"
          }
       },
       "aws-chunked" : {
@@ -2630,7 +2651,7 @@
             "Content-Encoding" : 1,
             "compression" : 1,
             "deprecated" : 1,
-            "preferred_name" : "bzip2"
+            "preferred_name" : "deprecated"
          }
       },
       "bzip2" : {
@@ -2844,7 +2865,7 @@
             "Content-Encoding" : 1,
             "compression" : 1,
             "deprecated" : 1,
-            "preferred_name" : "bzip2"
+            "preferred_name" : "deprecated"
          }
       },
       "x-bzip2" : {
@@ -2853,7 +2874,7 @@
             "Content-Encoding" : 1,
             "compression" : 1,
             "deprecated" : 1,
-            "preferred_name" : "bzip2"
+            "preferred_name" : "deprecated"
          }
       },
       "x-compress" : {
@@ -2864,7 +2885,7 @@
             "deprecated" : 1,
             "iana" : 1,
             "id" : "section-4.2.1",
-            "preferred_name" : "compress",
+            "preferred_name" : "deprecated",
             "spec" : "RFC7230"
          },
          "transfer" : {
@@ -2884,7 +2905,7 @@
             "Content-Encoding" : 1,
             "compression" : 1,
             "deprecated" : 1,
-            "preferred_name" : "deflate"
+            "preferred_name" : "deprecated"
          }
       },
       "x-gzip" : {
@@ -2895,7 +2916,7 @@
             "deprecated" : 1,
             "iana" : 1,
             "id" : "section-4.2.3",
-            "preferred_name" : "gzip",
+            "preferred_name" : "deprecated",
             "spec" : "RFC7230"
          },
          "transfer" : {
@@ -2921,7 +2942,7 @@
             "Content-Encoding" : 1,
             "compression" : 1,
             "deprecated" : 1,
-            "preferred_name" : "compress"
+            "preferred_name" : "deprecated"
          }
       },
       "x_uuencode" : {
@@ -4927,6 +4948,12 @@
             "url" : "http://upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v2.0.pdf#page=39"
          }
       },
+      "crypto-key" : {
+         "http" : {
+            "obsolete" : 1
+         },
+         "name" : "Crypto-Key"
+      },
       "cseq" : {
          "name" : "CSeq",
          "rtsp" : {
@@ -5428,6 +5455,9 @@
          "name" : "Encrypted"
       },
       "encryption" : {
+         "http" : {
+            "obsolete" : 1
+         },
          "name" : "Encryption",
          "sip" : {
             "deprecated" : 1,
@@ -5440,6 +5470,12 @@
             "spec" : "RFC2660"
          },
          "name" : "Encryption-Identity"
+      },
+      "encryption-key" : {
+         "http" : {
+            "obsolete" : 1
+         },
+         "name" : "Encryption-Key"
       },
       "error-info" : {
          "name" : "Error-Info",
@@ -5599,7 +5635,6 @@
       "fcast-obj-digest-sha1" : {
          "fcast" : {
             "fcast_metadata" : 1,
-            "iana" : 1,
             "id" : "section-3.3",
             "spec" : "RFC6968"
          },
@@ -5608,7 +5643,6 @@
       "fcast-obj-digest-sha256" : {
          "fcast" : {
             "fcast_metadata" : 1,
-            "iana" : 1,
             "id" : "section-3.3",
             "spec" : "RFC6968"
          },
@@ -5617,7 +5651,6 @@
       "fcast-obj-slice-idx" : {
          "fcast" : {
             "fcast_metadata" : 1,
-            "iana" : 1,
             "id" : "section-3.3",
             "spec" : "RFC6968"
          },
@@ -5626,7 +5659,6 @@
       "fcast-obj-slice-nb" : {
          "fcast" : {
             "fcast_metadata" : 1,
-            "iana" : 1,
             "id" : "section-3.3",
             "spec" : "RFC6968"
          },
@@ -5635,7 +5667,6 @@
       "fcast-obj-slice-offset" : {
          "fcast" : {
             "fcast_metadata" : 1,
-            "iana" : 1,
             "id" : "section-3.3",
             "spec" : "RFC6968"
          },
@@ -8810,7 +8841,13 @@
       },
       "topic" : {
          "http" : {
-            "iana" : 1
+            "iana" : 1,
+            "id" : "section-5.4",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC8030",
+            "suikawiki" : "Topic:"
          },
          "name" : "Topic"
       },
@@ -8936,7 +8973,17 @@
       },
       "ttl" : {
          "http" : {
-            "iana" : 1
+            "iana" : 1,
+            "id" : "section-5.2",
+            "request" : {
+               "*" : ""
+            },
+            "response" : {
+               "xxx" : ""
+            },
+            "spec" : "RFC8030",
+            "suikawiki" : "TTL:",
+            "value_type" : "delta-seconds"
          },
          "name" : "TTL"
       },
@@ -9045,7 +9092,13 @@
       },
       "urgency" : {
          "http" : {
-            "iana" : 1
+            "iana" : 1,
+            "id" : "section-5.3",
+            "request" : {
+               "*" : ""
+            },
+            "spec" : "RFC8030",
+            "suikawiki" : "Urgency:"
          },
          "name" : "Urgency"
       },
@@ -10834,53 +10887,36 @@
          "rfc2068_warn_code" : "10",
          "spec" : "RFC7234"
       },
-      "110" : {
-         "default_warn_text" : "Response is Stale",
-         "iana" : 1,
-         "name" : "110"
-      },
       "111" : {
-         "default_warn_text" : "Revalidation Failed",
-         "iana" : 1,
          "id" : "section-5.5.2",
          "name" : "111",
          "rfc2068_warn_code" : "11",
          "spec" : "RFC7234"
       },
       "112" : {
-         "default_warn_text" : "Disconnected Operation",
-         "iana" : 1,
          "id" : "section-5.5.3",
          "name" : "112",
          "rfc2068_warn_code" : "12",
          "spec" : "RFC7234"
       },
       "113" : {
-         "default_warn_text" : "Heuristic Expiration",
-         "iana" : 1,
          "id" : "section-5.5.4",
          "name" : "113",
          "rfc2068_warn_code" : "13",
          "spec" : "RFC7234"
       },
       "199" : {
-         "default_warn_text" : "Miscellaneous Warning",
-         "iana" : 1,
          "id" : "section-5.5.5",
          "name" : "199",
          "spec" : "RFC7234"
       },
       "214" : {
-         "default_warn_text" : "Transformation Applied",
-         "iana" : 1,
          "id" : "section-5.5.6",
          "name" : "214",
          "rfc2068_warn_code" : "14",
          "spec" : "RFC7234"
       },
       "299" : {
-         "default_warn_text" : "Miscellaneous Persistent Warning",
-         "iana" : 1,
          "id" : "section-5.5.7",
          "name" : "299",
          "rfc2068_warn_code" : "99",
