@@ -209,7 +209,7 @@ data/langtags.json: local/langtags.json
 
 all-http: data/http-status-codes.json data/http-methods.json \
     data/headers.json data/digests.json data/http-frames.json \
-    data/tls.json data/fetch.json
+    data/tls.json data/fetch.json data/tls-certs.pem
 
 clean-http:
 	rm -fr local/sw-http-statuses.xml local/sw-http-methods.xml
@@ -343,6 +343,9 @@ data/tls.json: bin/tls.pl local/iana/tls.json \
     intermediate/mozilla-ciphers.json \
     local/iana/tls-exts.json
 	$(PERL) bin/tls.pl > $@
+
+data/tls-certs.pem:
+	$(SAVEURL) $@ https://raw.githubusercontent.com/gisle/mozilla-ca/master/lib/Mozilla/CA/cacert.pem
 
 data/fetch.json: bin/fetch.pl data/dom.json
 	$(PERL) $< > $@
