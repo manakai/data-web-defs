@@ -771,6 +771,8 @@ while (@node) {
                 $current->{case_insensitive} = 1;
               } elsif ($cond =~ /^Case-sensitive match for the string "([^"]+)" \([^()]+\)$/) {
                 $current->{keyword} = $1;
+              } elsif ($cond =~ /^\QThe string "[CDATA[" (the five uppercase letters "CDATA" with a U+005B LEFT SQUARE BRACKET character before and after)\E$/) {
+                $current->{keyword} = '[CDATA[';
               } elsif ($cond =~ /^Anything else$/) {
                 $current = undef;
               } else {
