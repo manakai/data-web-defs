@@ -2290,6 +2290,8 @@ if (@doctype_switch_def == 2) {
         $Data->{doctype_switch}->{$p}->{values}->{public_id_prefix_if_system_id}->{uc $1} = 1;
       } elsif ($text =~ /^The force-quirks flag is set to on.$/) {
         #
+      } elsif ($text =~ /^The name is not "html".$/) {
+        #
       } elsif ($text =~ /^The name is set to anything other than "html" \(compared (?:identically|case-sensitively)\).$/) {
         #
       } else {
