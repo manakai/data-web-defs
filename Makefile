@@ -58,6 +58,9 @@ local/bin/jq:
 	$(SAVEURL) $@ https://stedolan.github.io/jq/download/linux64/jq
 	chmod u+x $@
 
+build-github-pages:
+	rm -fr ./bin/ ./modules/ ./t_deps/
+
 ## ------ Metadata ------
 
 all-meta: data/specs.json
