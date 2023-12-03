@@ -116,6 +116,7 @@ byteranges SHOULD
 simple contextual
 CORS included
 no-CORS-safelisted request-header name
+request-body-header name
 
 * Content-Encoding
 
@@ -125,6 +126,7 @@ payload-processing
 representation-metadata
 request
 response
+request-body-header name
 
 * Content-Language
 
@@ -136,6 +138,7 @@ response
 simple contextual
 CORS included
 no-CORS-safelisted request-header name
+request-body-header name
 
 * Content-Location
 
@@ -144,6 +147,7 @@ representation-metadata
 request
 response
 304-representation-metadata
+request-body-header name
 
 * Expect
 
@@ -1730,3 +1734,31 @@ sw Urgency:
 request
 spec https://tools.ietf.org/html/rfc8030#section-5.4
 sw Topic:
+
+* email
+
+spec https://www.mongodb.com/docs/atlas/app-services/data-api/authenticate/#email-password
+sw email:
+request
+authentication-credentials
+
+* password
+
+spec https://www.mongodb.com/docs/atlas/app-services/data-api/authenticate/#email-password
+sw email:
+request
+authentication-credentials
+
+* apiKey
+
+request
+spec https://www.mongodb.com/docs/atlas/app-services/data-api/authenticate/#api-key
+authentication-credentials
+sw apiKey:
+
+* jwtTokenString
+
+request
+spec https://www.mongodb.com/docs/atlas/app-services/data-api/authenticate/#custom-jwt
+sw jwtTokenString:
+authentication-credentials
