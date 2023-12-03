@@ -55,7 +55,7 @@ local/perl-latest/pm/lib/perl5/JSON/PS.pm:
 
 local/bin/jq:
 	mkdir -p local/bin
-	$(SAVEURL) $@ https://stedolan.github.io/jq/download/linux64/jq
+	$(SAVEURL) $@ https://github.com/jqlang/jq/releases/download/jq-1.7/jq-linux-amd64
 	chmod u+x $@
 
 build-github-pages:
