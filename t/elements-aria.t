@@ -69,6 +69,9 @@ for my $ns (keys %{$Data->{elements}}) {
               div => 1, ruby => 1,
               summary => 1, hgroup => 1,
               svg => 1, math => 1,
+
+              # XXX
+              legend => 1,
             }->{$ln}) {
               #
             } elsif ($edef->{conforming}) {
@@ -97,6 +100,9 @@ for my $ns (keys %{$Data->{elements}}) {
               div => 1, ruby => 1,
               summary => 1, hgroup => 1,
               svg => 1, math => 1,
+
+              # XXX
+              legend => 1,
             }->{$ln}) {
               #
             } elsif ($edef->{conforming}) {
