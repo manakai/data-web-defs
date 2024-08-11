@@ -186,6 +186,13 @@ for my $f (($d->children)) {
               $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{content_model}->{$title} = 1;
+          } elsif ($text =~ /^(\S+ \S+), optionally intermixed with (\S+ \S+)\.?$/ and
+                   $a and $a->local_name eq 'a') {
+            my $title = xref $a || lc sp $a->text_content;
+            $props->{content_model}->{$title} = 1;
+            my $a2 = $_->last_element_child;
+            my $title2 = xref $a2 || lc sp $a2->text_content;
+            $props->{content_model}->{$title2} = 1;
           } elsif ($text eq 'Nothing.' or
                    $text eq 'Empty.' or
                    $text =~ /^Nothing \([^()]+\)\.$/) {

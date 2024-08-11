@@ -1,18 +1,4 @@
 {
-   "_errors" : [
-      [
-         [
-            "content_model",
-            "legend",
-            "\u003Ca id=\u0022the-legend-element:phrasing-content-2\u0022 href=\u0022dom.html#phrasing-content-2\u0022>Phrasing content\u003C/a>, optionally intermixed with \u003Ca id=\u0022the-legend-element:heading-content-2\u0022 href=\u0022dom.html#heading-content-2\u0022>heading content\u003C/a>."
-         ],
-         [
-            "content_model",
-            "summary",
-            "\u003Ca id=\u0022the-summary-element:phrasing-content-2\u0022 href=\u0022dom.html#phrasing-content-2\u0022>Phrasing content\u003C/a>, optionally intermixed with \u003Ca id=\u0022the-summary-element:heading-content-2\u0022 href=\u0022dom.html#heading-content-2\u0022>heading content\u003C/a>."
-         ]
-      ]
-   ],
    "categories" : {
       "HTML integration point" : {
          "elements" : {
@@ -214,7 +200,6 @@
             "http://www.w3.org/1999/xhtml" : {
                "*-*" : 1,
                "button" : 1,
-               "object" : 1,
                "select" : 1,
                "textarea" : 1
             }
@@ -275,6 +260,7 @@
                "iframe" : 1,
                "img" : 1,
                "object" : 1,
+               "picture" : 1,
                "video" : 1
             },
             "http://www.w3.org/2000/svg" : {
@@ -374,6 +360,7 @@
                "s" : 1,
                "samp" : 1,
                "script" : 1,
+               "search" : 1,
                "section" : 1,
                "select" : 1,
                "slot" : 1,
@@ -558,7 +545,6 @@
                "audio" : 1,
                "img" : 1,
                "input" : 1,
-               "object" : 1,
                "video" : 1
             }
          },
@@ -644,6 +630,7 @@
                "cite" : 1,
                "code" : 1,
                "data" : 1,
+               "del" : 1,
                "details" : 1,
                "dfn" : 1,
                "div" : 1,
@@ -675,12 +662,14 @@
                "object" : 1,
                "output" : 1,
                "p" : 1,
+               "picture" : 1,
                "pre" : 1,
                "progress" : 1,
                "q" : 1,
                "ruby" : 1,
                "s" : 1,
                "samp" : 1,
+               "search" : 1,
                "section" : 1,
                "select" : 1,
                "small" : 1,
@@ -1063,9 +1052,7 @@
                "td" : 1
             }
          },
-         "id" : "sectioning-root",
-         "label" : "sectioning roots",
-         "spec" : "HTML"
+         "label" : "sectioning roots"
       },
       "shadow_attachable" : {
          "elements" : {
@@ -1167,6 +1154,7 @@
                "plaintext" : 1,
                "pre" : 1,
                "script" : 1,
+               "search" : 1,
                "section" : 1,
                "select" : 1,
                "source" : 1,
@@ -6641,11 +6629,6 @@
                      "treeitem" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -7570,7 +7553,7 @@
                            "spec" : "HTML"
                         }
                      },
-                     "id" : "the-dir-attribute",
+                     "id" : "attr-dir",
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   },
@@ -7598,7 +7581,7 @@
                            "label" : "true"
                         }
                      },
-                     "id" : "the-draggable-attribute",
+                     "id" : "attr-draggable",
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   },
@@ -7695,7 +7678,7 @@
                   "hidden" : {
                      "conforming" : 1,
                      "desc" : "Whether the element is relevant",
-                     "id" : "the-hidden-attribute",
+                     "id" : "attr-hidden",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
@@ -7765,10 +7748,14 @@
                      "spec" : "OBSVOCAB"
                   },
                   "inert" : {
+                     "conforming" : 1,
+                     "desc" : "Whether the element is inert.",
+                     "id" : "the-inert-attribute",
                      "preferred" : {
                         "name" : "dialog",
                         "type" : "html_element"
-                     }
+                     },
+                     "spec" : "HTML"
                   },
                   "inputmode" : {
                      "conforming" : 1,
@@ -8226,13 +8213,6 @@
                         "type" : "script"
                      }
                   },
-                  "onabort" : {
-                     "conforming" : 1,
-                     "desc" : "abort event handler",
-                     "id" : "handler-onabort",
-                     "spec" : "HTML",
-                     "value_type" : "event handler"
-                  },
                   "onactivate" : {
                      "id" : "handler-onactivate",
                      "spec" : "OBSVOCAB",
@@ -8275,9 +8255,30 @@
                      "spec" : "OBSVOCAB",
                      "value_type" : "event handler"
                   },
+                  "onbeforeinput" : {
+                     "conforming" : 1,
+                     "desc" : "beforeinput event handler",
+                     "id" : "handler-onbeforeinput",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
+                  "onbeforematch" : {
+                     "conforming" : 1,
+                     "desc" : "beforematch event handler",
+                     "id" : "handler-onbeforematch",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
                   "onbeforepaste" : {
                      "id" : "handler-onbeforepaste",
                      "spec" : "OBSVOCAB",
+                     "value_type" : "event handler"
+                  },
+                  "onbeforetoggle" : {
+                     "conforming" : 1,
+                     "desc" : "beforetoggle event handler",
+                     "id" : "handler-onbeforetoggle",
+                     "spec" : "HTML",
                      "value_type" : "event handler"
                   },
                   "onbeforeupdate" : {
@@ -8339,10 +8340,24 @@
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
+                  "oncontextlost" : {
+                     "conforming" : 1,
+                     "desc" : "contextlost event handler",
+                     "id" : "handler-oncontextlost",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
                   "oncontextmenu" : {
                      "conforming" : 1,
                      "desc" : "contextmenu event handler",
                      "id" : "handler-oncontextmenu",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
+                  "oncontextrestored" : {
+                     "conforming" : 1,
+                     "desc" : "contextrestored event handler",
+                     "id" : "handler-oncontextrestored",
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
@@ -8417,13 +8432,6 @@
                      "conforming" : 1,
                      "desc" : "dragenter event handler",
                      "id" : "handler-ondragenter",
-                     "spec" : "HTML",
-                     "value_type" : "event handler"
-                  },
-                  "ondragexit" : {
-                     "conforming" : 1,
-                     "desc" : "dragexit event handler",
-                     "id" : "handler-ondragexit",
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
@@ -8788,6 +8796,13 @@
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
+                  "onscrollend" : {
+                     "conforming" : 1,
+                     "desc" : "scrollend event handler",
+                     "id" : "handler-onscrollend",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
                   "onsearch" : {
                      "id" : "handler-onsearch",
                      "spec" : "OBSVOCAB",
@@ -8923,6 +8938,12 @@
                      "preferred" : {
                         "type" : "script"
                      }
+                  },
+                  "popover" : {
+                     "conforming" : 1,
+                     "desc" : "Makes the element a popover element",
+                     "id" : "attr-popover",
+                     "spec" : "HTML"
                   },
                   "precision" : {
                      "id" : "attr-input-precision",
@@ -9612,7 +9633,7 @@
                   "style" : {
                      "conforming" : 1,
                      "desc" : "Presentational and formatting instructions",
-                     "id" : "the-style-attribute",
+                     "id" : "attr-style",
                      "spec" : "HTML",
                      "translatable" : "partial",
                      "value_type" : "CSS styling"
@@ -9733,6 +9754,12 @@
                         "type" : "script"
                      }
                   },
+                  "writingsuggestions" : {
+                     "conforming" : 1,
+                     "desc" : "Whether the element can offer writing suggestions or not.",
+                     "id" : "attr-writingsuggestions",
+                     "spec" : "HTML"
+                  },
                   "x-ms-format-detection" : {
                      "enumerated" : {
                         "all" : {
@@ -9807,25 +9834,25 @@
                "" : {
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-fe-disabled",
                      "spec" : "HTML"
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "spec" : "HTML"
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use for form submission and in the form.elements API ",
+                     "desc" : "Name of the element to use for form submission and in the form.elements API \u000A     ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML"
                   },
                   "readonly" : {
                      "conforming" : 1,
-                     "desc" : "Affects willValidate, plus any behavior added by the custom element author",
+                     "desc" : "Affects willValidate, plus any behavior added by the custom element author\u000A     ",
                      "id" : "attr-face-readonly",
                      "spec" : "HTML"
                   }
@@ -9869,11 +9896,6 @@
                      "treeitem" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -9940,7 +9962,7 @@
                   },
                   "download" : {
                      "conforming" : 1,
-                     "desc" : "Whether to download the resource instead of navigating to it, and its file name if so",
+                     "desc" : "Whether to download the resource instead of navigating to it, and its filename if so\u000A     ",
                      "id" : "attr-hyperlink-download",
                      "spec" : "HTML",
                      "translatable" : "1",
@@ -9968,7 +9990,7 @@
                   },
                   "href" : {
                      "conforming" : 1,
-                     "desc" : "Address of the hyperlink",
+                     "desc" : "Address of the hyperlink\u000A     ",
                      "id" : "attr-hyperlink-href",
                      "spec" : "HTML",
                      "url_role" : "hyperlink",
@@ -9976,7 +9998,7 @@
                   },
                   "hreflang" : {
                      "conforming" : 1,
-                     "desc" : "Language of the linked resource",
+                     "desc" : "Language of the linked resource\u000A     ",
                      "id" : "attr-hyperlink-hreflang",
                      "spec" : "HTML",
                      "value_type" : "language tag"
@@ -10087,7 +10109,7 @@
                   },
                   "ping" : {
                      "conforming" : 1,
-                     "desc" : "URLs to ping",
+                     "desc" : "URLs to ping\u000A     ",
                      "id" : "ping",
                      "item_type" : "non-empty URL",
                      "spec" : "HTML",
@@ -10096,7 +10118,7 @@
                   },
                   "referrerpolicy" : {
                      "conforming" : 1,
-                     "desc" : "Referrer policy for fetches initiated by the element",
+                     "desc" : "Referrer policy for fetches initiated by the element\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -10156,7 +10178,7 @@
                   },
                   "rel" : {
                      "conforming" : 1,
-                     "desc" : "Relationship between the location in the document containing the hyperlink and the destination resource",
+                     "desc" : "Relationship between the location in the document containing the hyperlink and the destination resource\u000A     ",
                      "id" : "attr-hyperlink-rel",
                      "item_type" : "link type",
                      "spec" : "HTML",
@@ -10263,7 +10285,7 @@
                   },
                   "target" : {
                      "conforming" : 1,
-                     "desc" : "Browsing context for hyperlink navigation",
+                     "desc" : "Navigable for hyperlink navigation\u000A     ",
                      "id" : "attr-hyperlink-target",
                      "spec" : "HTML",
                      "value_type" : "browsing context name or keyword"
@@ -10275,7 +10297,7 @@
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Hint for the type of the referenced resource",
+                     "desc" : "Hint for the type of the referenced resource\u000A     ",
                      "id" : "attr-hyperlink-type",
                      "spec" : "HTML",
                      "value_type" : "MIME type"
@@ -10363,7 +10385,7 @@
                   },
                   "title" : {
                      "conforming" : 1,
-                     "desc" : "Full term or expansion of abbreviation.",
+                     "desc" : "Full term or expansion of abbreviation\u000A     ",
                      "id" : "attr-abbr-title",
                      "spec" : "HTML",
                      "value_type" : "text"
@@ -10452,11 +10474,6 @@
                      "contentinfo" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -10683,11 +10700,6 @@
             "aria" : {
                "hyperlink" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -10702,7 +10714,7 @@
                "" : {
                   "alt" : {
                      "conforming" : 1,
-                     "desc" : "Replacement text for use when images are not available",
+                     "desc" : "Replacement text for use when images are not available\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-area-alt",
                      "spec" : "HTML",
@@ -10711,14 +10723,14 @@
                   },
                   "coords" : {
                      "conforming" : 1,
-                     "desc" : "Coordinates for the shape to be created in an image map",
+                     "desc" : "Coordinates for the shape to be created in an image map\u000A     ",
                      "id" : "attr-area-coords",
                      "spec" : "HTML",
                      "value_type" : "list of integers"
                   },
                   "download" : {
                      "conforming" : 1,
-                     "desc" : "Whether to download the resource instead of navigating to it, and its file name if so",
+                     "desc" : "Whether to download the resource instead of navigating to it, and its filename if so\u000A     ",
                      "id" : "attr-hyperlink-download",
                      "spec" : "HTML",
                      "translatable" : "1",
@@ -10726,7 +10738,7 @@
                   },
                   "href" : {
                      "conforming" : 1,
-                     "desc" : "Address of the hyperlink",
+                     "desc" : "Address of the hyperlink\u000A     ",
                      "id" : "attr-hyperlink-href",
                      "spec" : "HTML",
                      "url_role" : "contextual",
@@ -10747,7 +10759,7 @@
                   },
                   "ping" : {
                      "conforming" : 1,
-                     "desc" : "URLs to ping",
+                     "desc" : "URLs to ping\u000A     ",
                      "id" : "ping",
                      "item_type" : "non-empty URL",
                      "spec" : "HTML",
@@ -10756,7 +10768,7 @@
                   },
                   "referrerpolicy" : {
                      "conforming" : 1,
-                     "desc" : "Referrer policy for fetches initiated by the element",
+                     "desc" : "Referrer policy for fetches initiated by the element\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -10816,7 +10828,7 @@
                   },
                   "rel" : {
                      "conforming" : 1,
-                     "desc" : "Relationship between the location in the document containing the hyperlink and the destination resource",
+                     "desc" : "Relationship between the location in the document containing the hyperlink and the destination resource\u000A     ",
                      "id" : "attr-hyperlink-rel",
                      "item_type" : "link type",
                      "spec" : "HTML",
@@ -10825,7 +10837,7 @@
                   },
                   "shape" : {
                      "conforming" : 1,
-                     "desc" : "The kind of shape to be created in an image map",
+                     "desc" : "The kind of shape to be created in an image map\u000A     ",
                      "enumerated" : {
                         "#missing" : {
                            "id" : "attr-area-shape-rect",
@@ -10886,7 +10898,7 @@
                   },
                   "target" : {
                      "conforming" : 1,
-                     "desc" : "Browsing context for hyperlink navigation",
+                     "desc" : "Navigable for hyperlink navigation\u000A     ",
                      "id" : "attr-hyperlink-target",
                      "spec" : "HTML",
                      "value_type" : "browsing context name or keyword"
@@ -10943,11 +10955,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -11002,11 +11009,6 @@
                      "search" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -11057,11 +11059,6 @@
                      "application" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -11084,14 +11081,14 @@
                   },
                   "autoplay" : {
                      "conforming" : 1,
-                     "desc" : "Hint that the media resource can be started automatically when the page is loaded",
+                     "desc" : "Hint that the media resource can be started automatically when the page is loaded\u000A     ",
                      "id" : "attr-media-autoplay",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "controls" : {
                      "conforming" : 1,
-                     "desc" : "Show user agent controls",
+                     "desc" : "Show user agent controls\u000A     ",
                      "id" : "attr-media-controls",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -11104,7 +11101,7 @@
                   },
                   "crossorigin" : {
                      "conforming" : 1,
-                     "desc" : "How the element handles crossorigin requests",
+                     "desc" : "How the element handles crossorigin requests\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -11152,7 +11149,7 @@
                   },
                   "loop" : {
                      "conforming" : 1,
-                     "desc" : "Whether to loop the media resource",
+                     "desc" : "Whether to loop the media resource\u000A     ",
                      "id" : "attr-media-loop",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -11184,7 +11181,7 @@
                   },
                   "muted" : {
                      "conforming" : 1,
-                     "desc" : "Whether to mute the media resource by default",
+                     "desc" : "Whether to mute the media resource by default\u000A     ",
                      "id" : "attr-media-muted",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -11196,7 +11193,7 @@
                   },
                   "preload" : {
                      "conforming" : 1,
-                     "desc" : "Hints how much buffering the media resource will likely need",
+                     "desc" : "Hints how much buffering the media resource will likely need\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -11234,7 +11231,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-media-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -11379,11 +11376,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -11397,7 +11389,7 @@
                "" : {
                   "href" : {
                      "conforming" : 1,
-                     "desc" : "Document base URL",
+                     "desc" : "Document base URL\u000A     ",
                      "id" : "attr-base-href",
                      "spec" : "HTML",
                      "url_role" : "base",
@@ -11405,7 +11397,7 @@
                   },
                   "target" : {
                      "conforming" : 1,
-                     "desc" : "Default browsing context for hyperlink navigation and form submission",
+                     "desc" : "Default navigable for hyperlink navigation and form submission\u000A     ",
                      "id" : "attr-base-target",
                      "spec" : "HTML",
                      "value_type" : "browsing context name or keyword"
@@ -11420,7 +11412,7 @@
             "conforming" : 1,
             "content_ignored_by_to_plain_text" : 1,
             "content_model" : "empty",
-            "desc" : "Base URL and default target browsing context for hyperlinks and forms",
+            "desc" : "Base URL and default target navigable for hyperlinks and forms",
             "end_tag" : "never",
             "id" : "the-base-element",
             "interface" : "HTMLBaseElement",
@@ -11505,7 +11497,7 @@
                            "spec" : "HTML"
                         }
                      },
-                     "id" : "the-dir-attribute",
+                     "id" : "attr-dir",
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   }
@@ -11548,7 +11540,7 @@
                            "spec" : "HTML"
                         }
                      },
-                     "id" : "the-dir-attribute",
+                     "id" : "attr-dir",
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   }
@@ -11702,7 +11694,7 @@
                   },
                   "cite" : {
                      "conforming" : 1,
-                     "desc" : "Link to the source of the quotation or more information about the edit",
+                     "desc" : "Link to the source of the quotation or more information about the edit\u000A     ",
                      "id" : "attr-blockquote-cite",
                      "spec" : "HTML",
                      "url_role" : "hyperlink-secondary",
@@ -11766,11 +11758,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -12015,10 +12002,24 @@
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
+                  "onpagereveal" : {
+                     "conforming" : 1,
+                     "desc" : "pagereveal event handler for Window object",
+                     "id" : "handler-window-onpagereveal",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
                   "onpageshow" : {
                      "conforming" : 1,
                      "desc" : "pageshow event handler for Window object",
                      "id" : "handler-window-onpageshow",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
+                  "onpageswap" : {
+                     "conforming" : 1,
+                     "desc" : "pageswap event handler for Window object",
+                     "id" : "handler-window-onpageswap",
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
@@ -12224,11 +12225,6 @@
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-invalid" : {
                         "state" : ":invalid",
                         "strong" : 1,
@@ -12279,7 +12275,7 @@
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-fe-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -12292,7 +12288,7 @@
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -12300,7 +12296,7 @@
                   },
                   "formaction" : {
                      "conforming" : 1,
-                     "desc" : "URL to use for form submission",
+                     "desc" : "URL to use for form submission\u000A     ",
                      "id" : "attr-fs-formaction",
                      "spec" : "HTML",
                      "url_role" : "submission",
@@ -12308,7 +12304,7 @@
                   },
                   "formenctype" : {
                      "conforming" : 1,
-                     "desc" : "Entry list encoding type to use for form submission",
+                     "desc" : "Entry list encoding type to use for form submission\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-fs-enctype-urlencoded",
@@ -12340,7 +12336,7 @@
                   },
                   "formmethod" : {
                      "conforming" : 1,
-                     "desc" : "Variant to use for form submission",
+                     "desc" : "Variant to use for form submission\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-fs-method-GET",
@@ -12372,14 +12368,14 @@
                   },
                   "formnovalidate" : {
                      "conforming" : 1,
-                     "desc" : "Bypass form control validation for form submission",
+                     "desc" : "Bypass form control validation for form submission\u000A     ",
                      "id" : "attr-fs-formnovalidate",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "formtarget" : {
                      "conforming" : 1,
-                     "desc" : "Browsing context for form submission",
+                     "desc" : "Navigable for form submission\u000A     ",
                      "id" : "attr-fs-formtarget",
                      "spec" : "HTML",
                      "value_type" : "browsing context name or keyword"
@@ -12397,7 +12393,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use for form submission and in the form.elements API ",
+                     "desc" : "Name of the element to use for form submission and in the form.elements API \u000A     ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
@@ -12407,6 +12403,18 @@
                         "name" : "formnovalidate",
                         "type" : "html_attr"
                      }
+                  },
+                  "popovertarget" : {
+                     "conforming" : 1,
+                     "desc" : "Targets a popover element to toggle, show, or hide\u000A     ",
+                     "id" : "attr-popovertarget",
+                     "spec" : "HTML"
+                  },
+                  "popovertargetaction" : {
+                     "conforming" : 1,
+                     "desc" : "Indicates whether a targeted popover element is to be toggled, shown, or hidden\u000A     ",
+                     "id" : "attr-popovertargetaction",
+                     "spec" : "HTML"
                   },
                   "replace" : {
                      "preferred" : {
@@ -12426,7 +12434,7 @@
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Type of button",
+                     "desc" : "Type of button\u000A     ",
                      "enumerated" : {
                         "#missing" : {
                            "id" : "attr-button-type-submit",
@@ -12458,7 +12466,7 @@
                   },
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Value to be used for form submission",
+                     "desc" : "Value to be used for form submission\u000A     ",
                      "id" : "attr-button-value",
                      "spec" : "HTML",
                      "value_type" : "any"
@@ -12517,7 +12525,7 @@
                "" : {
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-canvas-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -12529,7 +12537,7 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-canvas-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -12557,11 +12565,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -12783,11 +12786,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -12848,7 +12846,7 @@
                   },
                   "span" : {
                      "conforming" : 1,
-                     "desc" : "Number of columns spanned by the element",
+                     "desc" : "Number of columns spanned by the element\u000A     ",
                      "id" : "attr-col-span",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -12906,11 +12904,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -12971,7 +12964,7 @@
                   },
                   "span" : {
                      "conforming" : 1,
-                     "desc" : "Number of columns spanned by the element",
+                     "desc" : "Number of columns spanned by the element\u000A     ",
                      "id" : "attr-colgroup-span",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -13194,7 +13187,7 @@
                "" : {
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Machine-readable value",
+                     "desc" : "Machine-readable value\u000A     ",
                      "id" : "attr-data-value",
                      "spec" : "HTML"
                   }
@@ -13231,11 +13224,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-multiselectable" : {
                         "strong" : 1,
                         "value_type" : "false"
@@ -13363,7 +13351,7 @@
                "" : {
                   "cite" : {
                      "conforming" : 1,
-                     "desc" : "Link to the source of the quotation or more information about the edit",
+                     "desc" : "Link to the source of the quotation or more information about the edit\u000A     ",
                      "id" : "attr-mod-cite",
                      "spec" : "HTML",
                      "url_role" : "hyperlink-secondary",
@@ -13371,7 +13359,7 @@
                   },
                   "datetime" : {
                      "conforming" : 1,
-                     "desc" : "Date and (optionally) time of the change",
+                     "desc" : "Date and (optionally) time of the change\u000A     ",
                      "id" : "attr-mod-datetime",
                      "spec" : "HTML",
                      "value_type" : "date string with optional time"
@@ -13380,6 +13368,7 @@
             },
             "categories" : {
                "flow content" : 1,
+               "palpable content" : 1,
                "phrasing content" : 1
             },
             "conforming" : 1,
@@ -13404,11 +13393,6 @@
                         "strong" : 1,
                         "value_type" : "true/false"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -13421,9 +13405,15 @@
             },
             "attrs" : {
                "" : {
+                  "name" : {
+                     "conforming" : 1,
+                     "desc" : "Name of group of mutually-exclusive details elements\u000A     ",
+                     "id" : "attr-details-name",
+                     "spec" : "HTML"
+                  },
                   "open" : {
                      "conforming" : 1,
-                     "desc" : "Whether the details are visible",
+                     "desc" : "Whether the details are visible\u000A     ",
                      "id" : "attr-details-open",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -13480,7 +13470,7 @@
                "" : {
                   "title" : {
                      "conforming" : 1,
-                     "desc" : "Full term or expansion of abbreviation.",
+                     "desc" : "Full term or expansion of abbreviation\u000A     ",
                      "id" : "attr-dfn-title",
                      "spec" : "HTML",
                      "value_type" : "text"
@@ -13520,8 +13510,9 @@
                   },
                   "attrs" : {
                      "aria-hidden" : {
+                        "attr" : "open",
                         "strong" : 1,
-                        "value_type" : "open-hidden"
+                        "value_type" : "missing/true"
                      },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
@@ -13536,7 +13527,7 @@
                "" : {
                   "open" : {
                      "conforming" : 1,
-                     "desc" : "Whether the dialog box is showing",
+                     "desc" : "Whether the dialog box is showing\u000A     ",
                      "id" : "attr-dialog-open",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -13801,11 +13792,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14004,11 +13990,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14101,7 +14082,7 @@
                   },
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-dim-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -14189,7 +14170,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-embed-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -14197,7 +14178,7 @@
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Type of embedded resource",
+                     "desc" : "Type of embedded resource\u000A     ",
                      "id" : "attr-embed-type",
                      "spec" : "HTML",
                      "value_type" : "MIME type"
@@ -14239,7 +14220,7 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-dim-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -14392,11 +14373,6 @@
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14418,14 +14394,14 @@
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the descendant form controls, except any inside legend, are disabled",
+                     "desc" : "Whether the descendant form controls, except any inside legend, are disabled\u000A     ",
                      "id" : "attr-fieldset-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -14439,7 +14415,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use in the form.elements API. ",
+                     "desc" : "Name of the element to use in the form.elements API.",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
@@ -14544,11 +14520,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14583,11 +14554,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14720,11 +14686,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14772,11 +14733,6 @@
                      "search" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -14799,7 +14755,7 @@
                   },
                   "accept-charset" : {
                      "conforming" : 1,
-                     "desc" : "Character encodings to use for form submission",
+                     "desc" : "Character encodings to use for form submission\u000A     ",
                      "id" : "attr-form-accept-charset",
                      "item_type" : "character encoding label",
                      "spec" : "HTML",
@@ -14807,7 +14763,7 @@
                   },
                   "action" : {
                      "conforming" : 1,
-                     "desc" : "URL to use for form submission",
+                     "desc" : "URL to use for form submission\u000A     ",
                      "id" : "attr-fs-action",
                      "spec" : "HTML",
                      "url_role" : "submission",
@@ -14821,7 +14777,7 @@
                   },
                   "autocomplete" : {
                      "conforming" : 1,
-                     "desc" : "Default setting for autofill feature for controls in the form",
+                     "desc" : "Default setting for autofill feature for controls in the form\u000A     ",
                      "enumerated" : {
                         "#missing" : {
                            "id" : "attr-form-autocomplete-on-state",
@@ -14858,7 +14814,7 @@
                   },
                   "enctype" : {
                      "conforming" : 1,
-                     "desc" : "Entry list encoding type to use for form submission",
+                     "desc" : "Entry list encoding type to use for form submission\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-fs-enctype-urlencoded",
@@ -14918,7 +14874,7 @@
                   },
                   "method" : {
                      "conforming" : 1,
-                     "desc" : "Variant to use for form submission",
+                     "desc" : "Variant to use for form submission\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-fs-method-GET",
@@ -14955,13 +14911,13 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of form to use in the document.forms API",
+                     "desc" : "Name of form to use in the document.forms API\u000A     ",
                      "id" : "attr-form-name",
                      "spec" : "HTML"
                   },
                   "novalidate" : {
                      "conforming" : 1,
-                     "desc" : "Bypass form control validation for form submission",
+                     "desc" : "Bypass form control validation for form submission\u000A     ",
                      "id" : "attr-fs-novalidate",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -14985,7 +14941,7 @@
                   },
                   "target" : {
                      "conforming" : 1,
-                     "desc" : "Browsing context for form submission",
+                     "desc" : "Navigable for form submission\u000A     ",
                      "id" : "attr-fs-target",
                      "spec" : "HTML",
                      "value_type" : "browsing context name or keyword"
@@ -15248,11 +15204,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -15390,9 +15341,21 @@
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
+                  "onpagereveal" : {
+                     "desc" : "pagereveal event handler for Window object",
+                     "id" : "handler-window-onpagereveal",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
                   "onpageshow" : {
                      "desc" : "pageshow event handler for Window object",
                      "id" : "handler-window-onpageshow",
+                     "spec" : "HTML",
+                     "value_type" : "event handler"
+                  },
+                  "onpageswap" : {
+                     "desc" : "pageswap event handler for Window object",
+                     "id" : "handler-window-onpageswap",
                      "spec" : "HTML",
                      "value_type" : "event handler"
                   },
@@ -15507,11 +15470,6 @@
                      "tab" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "value_type" : "outlinedepth"
                      },
@@ -15603,7 +15561,7 @@
             },
             "conforming" : 1,
             "content_model" : "phrasing content",
-            "desc" : "Section heading",
+            "desc" : "Heading",
             "id" : "the-h1,-h2,-h3,-h4,-h5,-and-h6-elements",
             "interface" : "HTMLHeadingElement",
             "parser_category" : "special",
@@ -15625,11 +15583,6 @@
                      "tab" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "value_type" : "outlinedepth"
                      },
@@ -15721,7 +15674,7 @@
             },
             "conforming" : 1,
             "content_model" : "phrasing content",
-            "desc" : "Section heading",
+            "desc" : "Heading",
             "id" : "the-h1,-h2,-h3,-h4,-h5,-and-h6-elements",
             "interface" : "HTMLHeadingElement",
             "parser_category" : "special",
@@ -15737,11 +15690,6 @@
                      "tab" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "value_type" : "outlinedepth"
                      },
@@ -15833,7 +15781,7 @@
             },
             "conforming" : 1,
             "content_model" : "phrasing content",
-            "desc" : "Section heading",
+            "desc" : "Heading",
             "id" : "the-h1,-h2,-h3,-h4,-h5,-and-h6-elements",
             "interface" : "HTMLHeadingElement",
             "parser_category" : "special",
@@ -15849,11 +15797,6 @@
                      "tab" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "value_type" : "outlinedepth"
                      },
@@ -15945,7 +15888,7 @@
             },
             "conforming" : 1,
             "content_model" : "phrasing content",
-            "desc" : "Section heading",
+            "desc" : "Heading",
             "id" : "the-h1,-h2,-h3,-h4,-h5,-and-h6-elements",
             "interface" : "HTMLHeadingElement",
             "parser_category" : "special",
@@ -15961,11 +15904,6 @@
                      "tab" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "value_type" : "outlinedepth"
                      },
@@ -16057,7 +15995,7 @@
             },
             "conforming" : 1,
             "content_model" : "phrasing content",
-            "desc" : "Section heading",
+            "desc" : "Heading",
             "id" : "the-h1,-h2,-h3,-h4,-h5,-and-h6-elements",
             "interface" : "HTMLHeadingElement",
             "parser_category" : "special",
@@ -16073,11 +16011,6 @@
                      "tab" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "value_type" : "outlinedepth"
                      },
@@ -16169,7 +16102,7 @@
             },
             "conforming" : 1,
             "content_model" : "phrasing content",
-            "desc" : "Section heading",
+            "desc" : "Heading",
             "id" : "the-h1,-h2,-h3,-h4,-h5,-and-h6-elements",
             "interface" : "HTMLHeadingElement",
             "parser_category" : "special",
@@ -16298,11 +16231,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -16339,11 +16267,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-level" : {
                         "strong" : 1,
                         "value_type" : "outlinedepth"
@@ -16384,7 +16307,7 @@
                }
             ],
             "conforming" : 1,
-            "desc" : "heading group",
+            "desc" : "Heading container",
             "id" : "the-hgroup-element",
             "interface" : "HTMLElement",
             "parser_category" : "special",
@@ -16417,11 +16340,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -16524,11 +16442,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -16553,13 +16466,9 @@
                      }
                   },
                   "manifest" : {
-                     "conforming" : 1,
-                     "desc" : "Application cache manifest",
-                     "id" : "attr-html-manifest",
                      "preferred" : {
                         "type" : "script"
                      },
-                     "spec" : "HTML",
                      "url_role" : "resource",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
@@ -16707,11 +16616,6 @@
                      "img" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -16765,7 +16669,7 @@
                   },
                   "allow" : {
                      "conforming" : 1,
-                     "desc" : "Feature policy to be applied to the iframe's contents",
+                     "desc" : "Permissions policy to be applied to the iframe's contents\u000A     ",
                      "id" : "attr-iframe-allow",
                      "spec" : "HTML",
                      "value_type" : "serialized feature policy"
@@ -16777,16 +16681,12 @@
                   },
                   "allowfullscreen" : {
                      "conforming" : 1,
-                     "desc" : "Whether to allow the iframe's contents to use requestFullscreen()",
+                     "desc" : "Whether to allow the iframe's contents to use requestFullscreen()\u000A     ",
                      "id" : "attr-iframe-allowfullscreen",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "allowpaymentrequest" : {
-                     "conforming" : 1,
-                     "desc" : "Whether the iframe's contents are allowed to use the PaymentRequest interface to make payment requests",
-                     "id" : "attr-iframe-allowpaymentrequest",
-                     "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "allowtransparency" : {
@@ -16892,7 +16792,7 @@
                   },
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-dim-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -16910,6 +16810,12 @@
                      "preferred" : {
                         "type" : "script"
                      }
+                  },
+                  "loading" : {
+                     "conforming" : 1,
+                     "desc" : "Used when determining loading deferral\u000A     ",
+                     "id" : "attr-iframe-loading",
+                     "spec" : "HTML"
                   },
                   "longdesc" : {
                      "id" : "attr-iframe-longdesc",
@@ -16953,7 +16859,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of nested browsing context",
+                     "desc" : "Name of content navigable\u000A     ",
                      "id" : "attr-iframe-name",
                      "spec" : "HTML",
                      "value_type" : "browsing context name"
@@ -16975,7 +16881,7 @@
                   },
                   "referrerpolicy" : {
                      "conforming" : 1,
-                     "desc" : "Referrer policy for fetches initiated by the element",
+                     "desc" : "Referrer policy for fetches initiated by the element\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -17040,7 +16946,7 @@
                   },
                   "sandbox" : {
                      "conforming" : 1,
-                     "desc" : "Security rules for nested content",
+                     "desc" : "Security rules for nested content\u000A     ",
                      "id" : "attr-iframe-sandbox",
                      "keywords" : {
                         "allow-forms" : {
@@ -17153,7 +17059,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-iframe-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -17161,7 +17067,7 @@
                   },
                   "srcdoc" : {
                      "conforming" : 1,
-                     "desc" : "A document to render in the iframe",
+                     "desc" : "A document to render in the iframe\u000A     ",
                      "id" : "attr-iframe-srcdoc",
                      "spec" : "HTML",
                      "translatable" : "partial"
@@ -17177,7 +17083,7 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-dim-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -17200,7 +17106,7 @@
             "conforming" : 1,
             "content_ignored_by_to_plain_text" : 1,
             "content_model" : "empty",
-            "desc" : "Nested browsing context",
+            "desc" : "Child navigable",
             "document_named" : 1,
             "has_additional_content_constraints" : 1,
             "id" : "the-iframe-element",
@@ -17350,11 +17256,6 @@
                      "presentation" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -17474,11 +17375,6 @@
                      "treeitem" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -17534,7 +17430,7 @@
                   },
                   "alt" : {
                      "conforming" : 1,
-                     "desc" : "Replacement text for use when images are not available",
+                     "desc" : "Replacement text for use when images are not available\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-img-alt",
                      "spec" : "HTML",
@@ -17589,7 +17485,7 @@
                   },
                   "crossorigin" : {
                      "conforming" : 1,
-                     "desc" : "How the element handles crossorigin requests",
+                     "desc" : "How the element handles crossorigin requests\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -17642,7 +17538,7 @@
                   },
                   "decoding" : {
                      "conforming" : 1,
-                     "desc" : "Decoding hint to use when processing this image for presentation",
+                     "desc" : "Decoding hint to use when processing this image for presentation\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "label" : "auto"
@@ -17684,6 +17580,12 @@
                      "url_role" : "embedded",
                      "value_type" : "non-empty URL potentially surrounded by spaces"
                   },
+                  "fetchpriority" : {
+                     "conforming" : 1,
+                     "desc" : "Sets the priority for fetches initiated by the element\u000A     ",
+                     "id" : "attr-img-fetchpriority",
+                     "spec" : "HTML"
+                  },
                   "galleryimg" : {
                      "preferred" : {
                         "type" : "none"
@@ -17696,7 +17598,7 @@
                   },
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-dim-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -17718,7 +17620,7 @@
                   },
                   "ismap" : {
                      "conforming" : 1,
-                     "desc" : "Whether the image is a server-side image map",
+                     "desc" : "Whether the image is a server-side image map\u000A     ",
                      "id" : "attr-img-ismap",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -17730,7 +17632,7 @@
                   },
                   "loading" : {
                      "conforming" : 1,
-                     "desc" : "Used when determining loading deferral",
+                     "desc" : "Used when determining loading deferral\u000A     ",
                      "id" : "attr-img-loading",
                      "spec" : "HTML"
                   },
@@ -17815,7 +17717,7 @@
                   },
                   "referrerpolicy" : {
                      "conforming" : 1,
-                     "desc" : "Referrer policy for fetches initiated by the element",
+                     "desc" : "Referrer policy for fetches initiated by the element\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -17885,13 +17787,13 @@
                   },
                   "sizes" : {
                      "conforming" : 1,
-                     "desc" : "Image sizes for different page layouts",
+                     "desc" : "Image sizes for different page layouts\u000A     ",
                      "id" : "attr-img-sizes",
                      "spec" : "HTML"
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-img-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -17899,7 +17801,7 @@
                   },
                   "srcset" : {
                      "conforming" : 1,
-                     "desc" : "Images to use in different situations (e.g., high-resolution displays, small monitors, etc.)",
+                     "desc" : "Images to use in different situations, e.g., high-resolution displays, small monitors, etc.\u000A     ",
                      "id" : "attr-img-srcset",
                      "spec" : "HTML",
                      "value_type" : "list of image candidate strings"
@@ -17935,7 +17837,7 @@
                   },
                   "usemap" : {
                      "conforming" : 1,
-                     "desc" : "Name of image map to use",
+                     "desc" : "Name of image map to use\u000A     ",
                      "id" : "attr-hyperlink-usemap",
                      "spec" : "HTML",
                      "value_type" : "hash-name reference"
@@ -17971,7 +17873,7 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-dim-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -18097,7 +17999,7 @@
                "" : {
                   "accept" : {
                      "conforming" : 1,
-                     "desc" : "Hint for expected file type in file upload controls",
+                     "desc" : "Hint for expected file type in file upload controls\u000A     ",
                      "id" : "attr-input-accept",
                      "spec" : "HTML",
                      "value_type" : "set of comma-separated tokens"
@@ -18159,7 +18061,7 @@
                   },
                   "alt" : {
                      "conforming" : 1,
-                     "desc" : "Replacement text for use when images are not available",
+                     "desc" : "Replacement text for use when images are not available\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-input-alt",
                      "spec" : "HTML",
@@ -18168,7 +18070,7 @@
                   },
                   "autocomplete" : {
                      "conforming" : 1,
-                     "desc" : "Hint for form autofill feature",
+                     "desc" : "Hint for form autofill feature\u000A     ",
                      "id" : "attr-fe-autocomplete",
                      "spec" : "HTML",
                      "value_type" : "set of space-separated tokens"
@@ -18212,7 +18114,7 @@
                   },
                   "checked" : {
                      "conforming" : 1,
-                     "desc" : "Whether the control is checked",
+                     "desc" : "Whether the control is checked\u000A     ",
                      "id" : "attr-input-checked",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -18252,14 +18154,14 @@
                   },
                   "dirname" : {
                      "conforming" : 1,
-                     "desc" : "Name of form control to use for sending the element's directionality in form submission",
+                     "desc" : "Name of form control to use for sending the element's directionality in form submission\u000A     ",
                      "id" : "attr-fe-dirname",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-fe-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -18286,7 +18188,7 @@
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -18294,7 +18196,7 @@
                   },
                   "formaction" : {
                      "conforming" : 1,
-                     "desc" : "URL to use for form submission",
+                     "desc" : "URL to use for form submission\u000A     ",
                      "id" : "attr-fs-formaction",
                      "spec" : "HTML",
                      "url_role" : "submission",
@@ -18308,7 +18210,7 @@
                   },
                   "formenctype" : {
                      "conforming" : 1,
-                     "desc" : "Entry list encoding type to use for form submission",
+                     "desc" : "Entry list encoding type to use for form submission\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-fs-enctype-urlencoded",
@@ -18340,7 +18242,7 @@
                   },
                   "formmethod" : {
                      "conforming" : 1,
-                     "desc" : "Variant to use for form submission",
+                     "desc" : "Variant to use for form submission\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-fs-method-GET",
@@ -18372,21 +18274,21 @@
                   },
                   "formnovalidate" : {
                      "conforming" : 1,
-                     "desc" : "Bypass form control validation for form submission",
+                     "desc" : "Bypass form control validation for form submission\u000A     ",
                      "id" : "attr-fs-formnovalidate",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "formtarget" : {
                      "conforming" : 1,
-                     "desc" : "Browsing context for form submission",
+                     "desc" : "Navigable for form submission\u000A     ",
                      "id" : "attr-fs-formtarget",
                      "spec" : "HTML",
                      "value_type" : "browsing context name or keyword"
                   },
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-dim-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -18427,7 +18329,7 @@
                   },
                   "list" : {
                      "conforming" : 1,
-                     "desc" : "List of autocomplete options",
+                     "desc" : "List of autocomplete options\u000A     ",
                      "id" : "attr-input-list",
                      "id_type" : "datalist",
                      "spec" : "HTML",
@@ -18448,13 +18350,13 @@
                   },
                   "max" : {
                      "conforming" : 1,
-                     "desc" : "Maximum value",
+                     "desc" : "Maximum value\u000A     ",
                      "id" : "attr-input-max",
                      "spec" : "HTML"
                   },
                   "maxlength" : {
                      "conforming" : 1,
-                     "desc" : "Maximum length of value",
+                     "desc" : "Maximum length of value\u000A     ",
                      "id" : "attr-input-maxlength",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -18467,13 +18369,13 @@
                   },
                   "min" : {
                      "conforming" : 1,
-                     "desc" : "Minimum value",
+                     "desc" : "Minimum value\u000A     ",
                      "id" : "attr-input-min",
                      "spec" : "HTML"
                   },
                   "minlength" : {
                      "conforming" : 1,
-                     "desc" : "Minimum length of value",
+                     "desc" : "Minimum length of value\u000A     ",
                      "id" : "attr-input-minlength",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -18491,14 +18393,14 @@
                   },
                   "multiple" : {
                      "conforming" : 1,
-                     "desc" : "Whether to allow multiple values",
+                     "desc" : "Whether to allow multiple values\u000A     ",
                      "id" : "attr-input-multiple",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use for form submission and in the form.elements API ",
+                     "desc" : "Name of the element to use for form submission and in the form.elements API \u000A     ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
@@ -18516,19 +18418,31 @@
                   },
                   "pattern" : {
                      "conforming" : 1,
-                     "desc" : "Pattern to be matched by the form control's value",
+                     "desc" : "Pattern to be matched by the form control's value\u000A     ",
                      "id" : "attr-input-pattern",
                      "spec" : "HTML",
                      "value_type" : "JavaScript Pattern"
                   },
                   "placeholder" : {
                      "conforming" : 1,
-                     "desc" : "User-visible label to be placed within the form control",
+                     "desc" : "User-visible label to be placed within the form control\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-input-placeholder",
                      "spec" : "HTML",
                      "translatable" : "1",
                      "value_type" : "one-line text"
+                  },
+                  "popovertarget" : {
+                     "conforming" : 1,
+                     "desc" : "Targets a popover element to toggle, show, or hide\u000A     ",
+                     "id" : "attr-popovertarget",
+                     "spec" : "HTML"
+                  },
+                  "popovertargetaction" : {
+                     "conforming" : 1,
+                     "desc" : "Indicates whether a targeted popover element is to be toggled, shown, or hidden\u000A     ",
+                     "id" : "attr-popovertargetaction",
+                     "spec" : "HTML"
                   },
                   "precision" : {
                      "preferred" : {
@@ -18537,7 +18451,7 @@
                   },
                   "readonly" : {
                      "conforming" : 1,
-                     "desc" : "Whether to allow the value to be edited by the user",
+                     "desc" : "Whether to allow the value to be edited by the user\u000A     ",
                      "id" : "attr-input-readonly",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -18555,7 +18469,7 @@
                   },
                   "required" : {
                      "conforming" : 1,
-                     "desc" : "Whether the control is required for form submission",
+                     "desc" : "Whether the control is required for form submission\u000A     ",
                      "id" : "attr-input-required",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -18568,7 +18482,7 @@
                   },
                   "size" : {
                      "conforming" : 1,
-                     "desc" : "Size of the control",
+                     "desc" : "Size of the control\u000A     ",
                      "id" : "attr-input-size",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -18587,7 +18501,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-input-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -18611,7 +18525,7 @@
                   },
                   "step" : {
                      "conforming" : 1,
-                     "desc" : "Granularity to be matched by the form control's value",
+                     "desc" : "Granularity to be matched by the form control's value\u000A     ",
                      "id" : "attr-input-step",
                      "spec" : "HTML"
                   },
@@ -18634,14 +18548,14 @@
                   },
                   "title" : {
                      "conforming" : 1,
-                     "desc" : "Description of pattern (when used with pattern attribute).",
+                     "desc" : "Description of pattern (when used with pattern attribute)\u000A     ",
                      "id" : "attr-input-title",
                      "spec" : "HTML",
                      "value_type" : "text"
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Type of form control",
+                     "desc" : "Type of form control\u000A     ",
                      "enumerated" : {
                         "#missing" : {
                            "id" : "attr-input-type-text-keyword",
@@ -18803,7 +18717,7 @@
                   },
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Value of the form control",
+                     "desc" : "Value of the form control\u000A     ",
                      "id" : "attr-input-value",
                      "spec" : "HTML",
                      "url_role" : "contextual"
@@ -18942,7 +18856,7 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-dim-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -18983,7 +18897,7 @@
                "" : {
                   "cite" : {
                      "conforming" : 1,
-                     "desc" : "Link to the source of the quotation or more information about the edit",
+                     "desc" : "Link to the source of the quotation or more information about the edit\u000A     ",
                      "id" : "attr-mod-cite",
                      "spec" : "HTML",
                      "url_role" : "hyperlink-secondary",
@@ -18991,7 +18905,7 @@
                   },
                   "datetime" : {
                      "conforming" : 1,
-                     "desc" : "Date and (optionally) time of the change",
+                     "desc" : "Date and (optionally) time of the change\u000A     ",
                      "id" : "attr-mod-datetime",
                      "spec" : "HTML",
                      "value_type" : "date string with optional time"
@@ -19246,11 +19160,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -19286,7 +19195,7 @@
                   },
                   "for" : {
                      "conforming" : 1,
-                     "desc" : "Associate the label with form control",
+                     "desc" : "Associate the label with form control\u000A     ",
                      "id" : "attr-label-for",
                      "id_type" : "labelable",
                      "spec" : "HTML",
@@ -19512,11 +19421,6 @@
                      "treeitem" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -19556,7 +19460,7 @@
                   },
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Ordinal value of the list item",
+                     "desc" : "Ordinal value of the list item\u000A     ",
                      "id" : "attr-li-value",
                      "spec" : "HTML",
                      "value_type" : "integer"
@@ -19599,11 +19503,6 @@
             "aria" : {
                "hyperlink" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -19619,7 +19518,7 @@
                "" : {
                   "as" : {
                      "conforming" : 1,
-                     "desc" : "Potential destination for a preload request (for rel=\u0022preload\u0022 and rel=\u0022modulepreload\u0022)",
+                     "desc" : "Potential destination for a preload request (for rel=\u0022preload\u0022 and rel=\u0022modulepreload\u0022)\u000A     ",
                      "enumerated" : {
                         "audio" : {
                            "conforming" : 1,
@@ -19731,6 +19630,12 @@
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   },
+                  "blocking" : {
+                     "conforming" : 1,
+                     "desc" : "Whether the element is potentially render-blocking\u000A     ",
+                     "id" : "attr-link-blocking",
+                     "spec" : "HTML"
+                  },
                   "charset" : {
                      "id" : "attr-link-charset",
                      "preferred" : {
@@ -19741,14 +19646,14 @@
                   },
                   "color" : {
                      "conforming" : 1,
-                     "desc" : "Color to use when customizing a site's icon (for rel=\u0022mask-icon\u0022)",
+                     "desc" : "Color to use when customizing a site's icon (for rel=\u0022mask-icon\u0022)\u000A     ",
                      "id" : "attr-link-color",
                      "spec" : "HTML",
                      "value_type" : "color"
                   },
                   "crossorigin" : {
                      "conforming" : 1,
-                     "desc" : "How the element handles crossorigin requests",
+                     "desc" : "How the element handles crossorigin requests\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -19786,7 +19691,7 @@
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the link is disabled",
+                     "desc" : "Whether the link is disabled\u000A     ",
                      "id" : "attr-link-disabled",
                      "spec" : "HTML"
                   },
@@ -19795,9 +19700,15 @@
                         "type" : "script"
                      }
                   },
+                  "fetchpriority" : {
+                     "conforming" : 1,
+                     "desc" : "Sets the priority for fetches initiated by the element\u000A     ",
+                     "id" : "attr-link-fetchpriority",
+                     "spec" : "HTML"
+                  },
                   "href" : {
                      "conforming" : 1,
-                     "desc" : "Address of the hyperlink",
+                     "desc" : "Address of the hyperlink\u000A     ",
                      "id" : "attr-link-href",
                      "spec" : "HTML",
                      "url_role" : "contextual",
@@ -19805,26 +19716,26 @@
                   },
                   "hreflang" : {
                      "conforming" : 1,
-                     "desc" : "Language of the linked resource",
+                     "desc" : "Language of the linked resource\u000A     ",
                      "id" : "attr-link-hreflang",
                      "spec" : "HTML",
                      "value_type" : "language tag"
                   },
                   "imagesizes" : {
                      "conforming" : 1,
-                     "desc" : "Image sizes for different page layouts",
+                     "desc" : "Image sizes for different page layouts (for rel=\u0022preload\u0022)\u000A     ",
                      "id" : "attr-link-imagesizes",
                      "spec" : "HTML"
                   },
                   "imagesrcset" : {
                      "conforming" : 1,
-                     "desc" : "Images to use in different situations (e.g., high-resolution displays, small monitors, etc.)",
+                     "desc" : "Images to use in different situations, e.g., high-resolution displays, small monitors, etc. (for rel=\u0022preload\u0022)\u000A     ",
                      "id" : "attr-link-imagesrcset",
                      "spec" : "HTML"
                   },
                   "integrity" : {
                      "conforming" : 1,
-                     "desc" : "Integrity metadata used in Subresource Integrity checks [SRI]",
+                     "desc" : "Integrity metadata used in Subresource Integrity checks [SRI]\u000A     ",
                      "id" : "attr-link-integrity",
                      "spec" : "HTML",
                      "value_type" : "any"
@@ -19855,7 +19766,7 @@
                   },
                   "media" : {
                      "conforming" : 1,
-                     "desc" : "Applicable media",
+                     "desc" : "Applicable media\u000A     ",
                      "id" : "attr-link-media",
                      "spec" : "HTML",
                      "value_type" : "media query list"
@@ -19874,7 +19785,7 @@
                   },
                   "referrerpolicy" : {
                      "conforming" : 1,
-                     "desc" : "Referrer policy for fetches initiated by the element",
+                     "desc" : "Referrer policy for fetches initiated by the element\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -19934,7 +19845,7 @@
                   },
                   "rel" : {
                      "conforming" : 1,
-                     "desc" : "Relationship between the document containing the hyperlink and the destination resource",
+                     "desc" : "Relationship between the document containing the hyperlink and the destination resource\u000A     ",
                      "id" : "attr-link-rel",
                      "item_type" : "link type",
                      "spec" : "HTML",
@@ -19957,7 +19868,7 @@
                   },
                   "sizes" : {
                      "conforming" : 1,
-                     "desc" : "Sizes of the icons (for rel=\u0022icon\u0022)",
+                     "desc" : "Sizes of the icons (for rel=\u0022icon\u0022)\u000A     ",
                      "id" : "attr-link-sizes",
                      "spec" : "HTML",
                      "value_type" : "unordered set of unique space-separated tokens"
@@ -19989,14 +19900,14 @@
                   },
                   "title" : {
                      "conforming" : 1,
-                     "desc" : "Title of the link; CSS style sheet set name.",
+                     "desc" : "Title of the link;  CSS style sheet set name\u000A     ",
                      "id" : "attr-link-title",
                      "spec" : "HTML",
                      "value_type" : "text"
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Hint for the type of the referenced resource",
+                     "desc" : "Hint for the type of the referenced resource\u000A     ",
                      "id" : "attr-link-type",
                      "spec" : "HTML",
                      "value_type" : "MIME type"
@@ -20157,11 +20068,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -20201,11 +20107,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -20220,7 +20121,7 @@
                "" : {
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of image map to reference from the usemap attribute",
+                     "desc" : "Name of image map to reference from the usemap attribute\u000A     ",
                      "id" : "attr-map-name",
                      "spec" : "HTML"
                   }
@@ -20497,11 +20398,6 @@
                      "tree" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -20656,11 +20552,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -20675,14 +20566,14 @@
                "" : {
                   "charset" : {
                      "conforming" : 1,
-                     "desc" : "Character encoding declaration",
+                     "desc" : "Character encoding declaration\u000A     ",
                      "id" : "attr-meta-charset",
                      "spec" : "HTML",
                      "value_type" : "character encoding label"
                   },
                   "content" : {
                      "conforming" : 1,
-                     "desc" : "Value of the element",
+                     "desc" : "Value of the element\u000A     ",
                      "directionality_capable" : "contextual",
                      "id" : "attr-meta-content",
                      "spec" : "HTML",
@@ -20691,7 +20582,7 @@
                   },
                   "http-equiv" : {
                      "conforming" : 1,
-                     "desc" : "Pragma directive",
+                     "desc" : "Pragma directive\u000A     ",
                      "enumerated" : {
                         "content-language" : {
                            "id" : "attr-meta-http-equiv-content-language",
@@ -20740,9 +20631,15 @@
                      "spec" : "HTML",
                      "value_type" : "enumerated"
                   },
+                  "media" : {
+                     "conforming" : 1,
+                     "desc" : "Applicable media\u000A     ",
+                     "id" : "attr-meta-media",
+                     "spec" : "HTML"
+                  },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Metadata name",
+                     "desc" : "Metadata name\u000A     ",
                      "id" : "attr-meta-name",
                      "spec" : "HTML"
                   },
@@ -20790,11 +20687,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -20813,42 +20705,42 @@
                   },
                   "high" : {
                      "conforming" : 1,
-                     "desc" : "Low limit of high range",
+                     "desc" : "Low limit of high range\u000A     ",
                      "id" : "attr-meter-high",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
                   },
                   "low" : {
                      "conforming" : 1,
-                     "desc" : "High limit of low range",
+                     "desc" : "High limit of low range\u000A     ",
                      "id" : "attr-meter-low",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
                   },
                   "max" : {
                      "conforming" : 1,
-                     "desc" : "Upper bound of range",
+                     "desc" : "Upper bound of range\u000A     ",
                      "id" : "attr-meter-max",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
                   },
                   "min" : {
                      "conforming" : 1,
-                     "desc" : "Lower bound of range",
+                     "desc" : "Lower bound of range\u000A     ",
                      "id" : "attr-meter-min",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
                   },
                   "optimum" : {
                      "conforming" : 1,
-                     "desc" : "Optimum value in gauge",
+                     "desc" : "Optimum value in gauge\u000A     ",
                      "id" : "attr-meter-optimum",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
                   },
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Current value of the element",
+                     "desc" : "Current value of the element\u000A     ",
                      "id" : "attr-meter-value",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
@@ -20948,11 +20840,6 @@
                      "doc-toc" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -21167,11 +21054,6 @@
                      "img" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -21292,7 +21174,7 @@
                   },
                   "data" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-object-data",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -21330,7 +21212,7 @@
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -21338,7 +21220,7 @@
                   },
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-dim-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -21364,7 +21246,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of nested browsing context",
+                     "desc" : "Name of content navigable\u000A     ",
                      "id" : "attr-object-name",
                      "spec" : "HTML",
                      "value_type" : "browsing context name"
@@ -21384,7 +21266,7 @@
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Type of embedded resource",
+                     "desc" : "Type of embedded resource\u000A     ",
                      "id" : "attr-object-type",
                      "spec" : "HTML",
                      "value_type" : "MIME type"
@@ -21393,10 +21275,6 @@
                      "value_type" : "boolean"
                   },
                   "usemap" : {
-                     "conforming" : 1,
-                     "desc" : "Name of image map to use",
-                     "id" : "attr-hyperlink-usemap",
-                     "spec" : "HTML",
                      "value_type" : "hash-name reference"
                   },
                   "viewastext" : {
@@ -21415,19 +21293,17 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-dim-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
                   }
                }
             },
-            "auto_br" : "disallow",
             "categories" : {
                "URL property elements" : 1,
                "all_named" : 1,
                "category-listed" : 1,
-               "category-submit" : 1,
                "document_named" : 1,
                "embedded content" : 1,
                "feed significant content" : 1,
@@ -21444,7 +21320,8 @@
             },
             "complex_content_model" : 1,
             "conforming" : 1,
-            "desc" : "Image, nested browsing context, or plugin",
+            "content_model" : "transparent",
+            "desc" : "Image, child navigable, or plugin",
             "document_named" : 1,
             "has_popped_action" : 1,
             "id" : "the-object-element",
@@ -21454,13 +21331,6 @@
             "parser_li_scoping" : 1,
             "parser_scoping" : 1,
             "spec" : "HTML",
-            "states" : {
-               "usemap-attr" : {
-                  "categories" : {
-                     "interactive content" : 1
-                  }
-               }
-            },
             "transparent" : "semi",
             "window_named" : 1
          },
@@ -21486,11 +21356,6 @@
                      "tree" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -21530,21 +21395,21 @@
                   },
                   "reversed" : {
                      "conforming" : 1,
-                     "desc" : "Number the list backwards",
+                     "desc" : "Number the list backwards\u000A     ",
                      "id" : "attr-ol-reversed",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "start" : {
                      "conforming" : 1,
-                     "desc" : "Starting value of the list",
+                     "desc" : "Starting value of the list\u000A     ",
                      "id" : "attr-ol-start",
                      "spec" : "HTML",
                      "value_type" : "integer"
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Kind of list marker",
+                     "desc" : "Kind of list marker\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-ol-type-keyword-decimal",
@@ -21683,11 +21548,6 @@
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -21702,14 +21562,14 @@
                "" : {
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-optgroup-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "label" : {
                      "conforming" : 1,
-                     "desc" : "User-visible label",
+                     "desc" : "User-visible label\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-optgroup-label",
                      "spec" : "HTML",
@@ -21761,11 +21621,6 @@
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -21783,11 +21638,6 @@
                      },
                      "aria-disabled" : {
                         "state" : ":disabled",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
@@ -21824,14 +21674,14 @@
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-option-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "label" : {
                      "conforming" : 1,
-                     "desc" : "User-visible label",
+                     "desc" : "User-visible label\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-option-label",
                      "spec" : "HTML",
@@ -21848,14 +21698,14 @@
                   },
                   "selected" : {
                      "conforming" : 1,
-                     "desc" : "Whether the option is selected by default",
+                     "desc" : "Whether the option is selected by default\u000A     ",
                      "id" : "attr-option-selected",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Value to be used for form submission",
+                     "desc" : "Value to be used for form submission\u000A     ",
                      "id" : "attr-option-value",
                      "spec" : "HTML",
                      "value_type" : "any"
@@ -22012,11 +21862,6 @@
                      "treeitem" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -22030,7 +21875,7 @@
                "" : {
                   "for" : {
                      "conforming" : 1,
-                     "desc" : "Specifies controls from which the output was calculated",
+                     "desc" : "Specifies controls from which the output was calculated\u000A     ",
                      "id" : "attr-output-for",
                      "id_type" : "any",
                      "item_type" : "idref",
@@ -22039,7 +21884,7 @@
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -22047,7 +21892,7 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use in the form.elements API. ",
+                     "desc" : "Name of the element to use in the form.elements API.",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
@@ -22187,11 +22032,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -22212,10 +22052,6 @@
                      "spec" : "HTML"
                   },
                   "name" : {
-                     "conforming" : 1,
-                     "desc" : "Name of parameter",
-                     "id" : "attr-param-name",
-                     "spec" : "HTML",
                      "value_type" : "any"
                   },
                   "type" : {
@@ -22227,10 +22063,6 @@
                      "value_type" : "MIME type"
                   },
                   "value" : {
-                     "conforming" : 1,
-                     "desc" : "Value of parameter",
-                     "id" : "attr-param-value",
-                     "spec" : "HTML",
                      "value_type" : "any"
                   },
                   "valuetype" : {
@@ -22258,15 +22090,11 @@
             "categories" : {
                "special category" : 1
             },
-            "conforming" : 1,
             "content_ignored_by_to_plain_text" : 1,
-            "content_model" : "empty",
-            "desc" : "Parameter for object",
-            "end_tag" : "never",
-            "id" : "the-param-element",
+            "id" : "param",
             "interface" : "HTMLParamElement",
             "parser_category" : "special",
-            "spec" : "HTML",
+            "spec" : "OBSVOCAB",
             "syntax_category" : "void"
          },
          "parsererror" : {
@@ -22290,11 +22118,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -22308,7 +22131,9 @@
             "auto_br" : "disallow",
             "categories" : {
                "embedded content" : 1,
+               "feed significant content" : 1,
                "flow content" : 1,
+               "palpable content" : 1,
                "phrasing content" : 1
             },
             "complex_content_model" : [
@@ -22501,11 +22326,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -22537,14 +22357,14 @@
                   },
                   "max" : {
                      "conforming" : 1,
-                     "desc" : "Upper bound of range",
+                     "desc" : "Upper bound of range\u000A     ",
                      "id" : "attr-progress-max",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
                   },
                   "value" : {
                      "conforming" : 1,
-                     "desc" : "Current value of the element",
+                     "desc" : "Current value of the element\u000A     ",
                      "id" : "attr-progress-value",
                      "spec" : "HTML",
                      "value_type" : "floating-point number"
@@ -22588,7 +22408,7 @@
                "" : {
                   "cite" : {
                      "conforming" : 1,
-                     "desc" : "Link to the source of the quotation or more information about the edit",
+                     "desc" : "Link to the source of the quotation or more information about the edit\u000A     ",
                      "id" : "attr-q-cite",
                      "spec" : "HTML",
                      "url_role" : "hyperlink-secondary",
@@ -22937,10 +22757,16 @@
                   },
                   "async" : {
                      "conforming" : 1,
-                     "desc" : "Execute script when available, without blocking while fetching",
+                     "desc" : "Execute script when available, without blocking while fetching\u000A     ",
                      "id" : "attr-script-async",
                      "spec" : "HTML",
                      "value_type" : "boolean"
+                  },
+                  "blocking" : {
+                     "conforming" : 1,
+                     "desc" : "Whether the element is potentially render-blocking\u000A     ",
+                     "id" : "attr-script-blocking",
+                     "spec" : "HTML"
                   },
                   "charset" : {
                      "id" : "attr-script-charset",
@@ -22952,7 +22778,7 @@
                   },
                   "crossorigin" : {
                      "conforming" : 1,
-                     "desc" : "How the element handles crossorigin requests",
+                     "desc" : "How the element handles crossorigin requests\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -23000,7 +22826,7 @@
                   },
                   "defer" : {
                      "conforming" : 1,
-                     "desc" : "Defer script execution",
+                     "desc" : "Defer script execution\u000A     ",
                      "id" : "attr-script-defer",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -23012,6 +22838,12 @@
                      },
                      "spec" : "HTML",
                      "value_type" : "any"
+                  },
+                  "fetchpriority" : {
+                     "conforming" : 1,
+                     "desc" : "Sets the priority for fetches initiated by the element\u000A     ",
+                     "id" : "attr-script-fetchpriority",
+                     "spec" : "HTML"
                   },
                   "for" : {
                      "id" : "attr-script-for",
@@ -23029,7 +22861,7 @@
                   },
                   "integrity" : {
                      "conforming" : 1,
-                     "desc" : "Integrity metadata used in Subresource Integrity checks [SRI]",
+                     "desc" : "Integrity metadata used in Subresource Integrity checks [SRI]\u000A     ",
                      "id" : "attr-script-integrity",
                      "spec" : "HTML",
                      "value_type" : "any"
@@ -23051,14 +22883,14 @@
                   },
                   "nomodule" : {
                      "conforming" : 1,
-                     "desc" : "Prevents execution in user agents that support module scripts",
+                     "desc" : "Prevents execution in user agents that support module scripts\u000A     ",
                      "id" : "attr-script-nomodule",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "referrerpolicy" : {
                      "conforming" : 1,
-                     "desc" : "Referrer policy for fetches initiated by the element",
+                     "desc" : "Referrer policy for fetches initiated by the element\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -23118,7 +22950,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-script-src",
                      "spec" : "HTML",
                      "url_role" : "resource",
@@ -23126,7 +22958,7 @@
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Type of script",
+                     "desc" : "Type of script\u000A     ",
                      "id" : "attr-script-type",
                      "spec" : "HTML"
                   },
@@ -23155,6 +22987,20 @@
             "parser_category" : "special",
             "spec" : "HTML",
             "syntax_category" : "raw text"
+         },
+         "search" : {
+            "categories" : {
+               "flow content" : 1,
+               "palpable content" : 1,
+               "special category" : 1
+            },
+            "conforming" : 1,
+            "content_model" : "flow content",
+            "desc" : "Container for search controls",
+            "id" : "the-search-element",
+            "parser_category" : "special",
+            "separated" : 1,
+            "spec" : "HTML"
          },
          "secret" : {
             "preferred" : {
@@ -23212,11 +23058,6 @@
                      "tabpanel" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -23269,11 +23110,6 @@
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-invalid" : {
                         "state" : ":invalid",
                         "strong" : 1,
@@ -23300,11 +23136,6 @@
                   "attrs" : {
                      "aria-disabled" : {
                         "state" : ":disabled",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
@@ -23348,7 +23179,7 @@
                   },
                   "autocomplete" : {
                      "conforming" : 1,
-                     "desc" : "Hint for form autofill feature",
+                     "desc" : "Hint for form autofill feature\u000A     ",
                      "id" : "attr-fe-autocomplete",
                      "spec" : "HTML"
                   },
@@ -23391,14 +23222,14 @@
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-fe-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -23406,21 +23237,21 @@
                   },
                   "multiple" : {
                      "conforming" : 1,
-                     "desc" : "Whether to allow multiple values",
+                     "desc" : "Whether to allow multiple values\u000A     ",
                      "id" : "attr-select-multiple",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use for form submission and in the form.elements API ",
+                     "desc" : "Name of the element to use for form submission and in the form.elements API \u000A     ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
                   },
                   "required" : {
                      "conforming" : 1,
-                     "desc" : "Whether the control is required for form submission",
+                     "desc" : "Whether the control is required for form submission\u000A     ",
                      "id" : "attr-select-required",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -23432,7 +23263,7 @@
                   },
                   "size" : {
                      "conforming" : 1,
-                     "desc" : "Size of the control",
+                     "desc" : "Size of the control\u000A     ",
                      "id" : "attr-select-size",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -23553,7 +23384,7 @@
                "" : {
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of shadow tree slot",
+                     "desc" : "Name of shadow tree slot\u000A     ",
                      "id" : "attr-slot-name",
                      "spec" : "HTML",
                      "value_type" : "any"
@@ -23659,11 +23490,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -23676,9 +23502,15 @@
             "aria_disallowed" : 1,
             "attrs" : {
                "" : {
+                  "height" : {
+                     "conforming" : 1,
+                     "desc" : "Vertical dimension\u000A     ",
+                     "id" : "attr-dim-height",
+                     "spec" : "HTML"
+                  },
                   "media" : {
                      "conforming" : 1,
-                     "desc" : "Applicable media",
+                     "desc" : "Applicable media\u000A     ",
                      "id" : "attr-source-media",
                      "spec" : "HTML",
                      "value_type" : "media query list"
@@ -23690,14 +23522,14 @@
                   },
                   "sizes" : {
                      "conforming" : 1,
-                     "desc" : "Image sizes for different page layouts",
+                     "desc" : "Image sizes for different page layouts\u000A     ",
                      "id" : "attr-source-sizes",
                      "spec" : "HTML",
                      "value_type" : "source size list"
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-source-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -23705,7 +23537,7 @@
                   },
                   "srcset" : {
                      "conforming" : 1,
-                     "desc" : "Images to use in different situations (e.g., high-resolution displays, small monitors, etc.)",
+                     "desc" : "Images to use in different situations, e.g., high-resolution displays, small monitors, etc.\u000A     ",
                      "id" : "attr-source-srcset",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -23713,10 +23545,16 @@
                   },
                   "type" : {
                      "conforming" : 1,
-                     "desc" : "Type of embedded resource",
+                     "desc" : "Type of embedded resource\u000A     ",
                      "id" : "attr-source-type",
                      "spec" : "HTML",
                      "value_type" : "MIME type"
+                  },
+                  "width" : {
+                     "conforming" : 1,
+                     "desc" : "Horizontal dimension\u000A     ",
+                     "id" : "attr-dim-width",
+                     "spec" : "HTML"
                   }
                }
             },
@@ -23899,6 +23737,12 @@
                         "type" : "omit"
                      }
                   },
+                  "blocking" : {
+                     "conforming" : 1,
+                     "desc" : "Whether the element is potentially render-blocking\u000A     ",
+                     "id" : "attr-style-blocking",
+                     "spec" : "HTML"
+                  },
                   "disabled" : {
                      "preferred" : {
                         "type" : "script"
@@ -23914,7 +23758,7 @@
                   },
                   "media" : {
                      "conforming" : 1,
-                     "desc" : "Applicable media",
+                     "desc" : "Applicable media\u000A     ",
                      "id" : "attr-style-media",
                      "spec" : "HTML",
                      "value_type" : "media query list"
@@ -23926,7 +23770,7 @@
                   },
                   "title" : {
                      "conforming" : 1,
-                     "desc" : "CSS style sheet set name.",
+                     "desc" : "CSS style sheet set name\u000A     ",
                      "id" : "attr-style-title",
                      "spec" : "HTML",
                      "value_type" : "text"
@@ -23984,11 +23828,6 @@
                      "aria-expanded" : {
                         "strong" : 1,
                         "value_type" : "details-open"
-                     },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
                      },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
@@ -24060,11 +23899,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -24478,11 +24312,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -24626,11 +24455,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -24754,7 +24578,7 @@
                   },
                   "colspan" : {
                      "conforming" : 1,
-                     "desc" : "Number of columns that the cell is to span",
+                     "desc" : "Number of columns that the cell is to span\u000A     ",
                      "id" : "attr-tdth-colspan",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -24779,7 +24603,7 @@
                   },
                   "headers" : {
                      "conforming" : 1,
-                     "desc" : "The header cells for this cell",
+                     "desc" : "The header cells for this cell\u000A     ",
                      "id" : "attr-tdth-headers",
                      "id_type" : "th",
                      "item_type" : "idref",
@@ -24807,7 +24631,7 @@
                   },
                   "rowspan" : {
                      "conforming" : 1,
-                     "desc" : "Number of rows that the cell is to span",
+                     "desc" : "Number of rows that the cell is to span\u000A     ",
                      "id" : "attr-tdth-rowspan",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -24960,6 +24784,30 @@
                         "type" : "script"
                      }
                   },
+                  "shadowrootclonable" : {
+                     "conforming" : 1,
+                     "desc" : "Sets clonable on a declarative shadow root\u000A     ",
+                     "id" : "attr-template-shadowrootclonable",
+                     "spec" : "HTML"
+                  },
+                  "shadowrootdelegatesfocus" : {
+                     "conforming" : 1,
+                     "desc" : "Sets delegates focus on a declarative shadow root\u000A     ",
+                     "id" : "attr-template-shadowrootdelegatesfocus",
+                     "spec" : "HTML"
+                  },
+                  "shadowrootmode" : {
+                     "conforming" : 1,
+                     "desc" : "Enables streaming declarative shadow roots\u000A     ",
+                     "id" : "attr-template-shadowrootmode",
+                     "spec" : "HTML"
+                  },
+                  "shadowrootserializable" : {
+                     "conforming" : 1,
+                     "desc" : "Sets serializable on a declarative shadow root\u000A     ",
+                     "id" : "attr-template-shadowrootserializable",
+                     "spec" : "HTML"
+                  },
                   "type" : {
                      "preferred" : {
                         "name" : "data-*",
@@ -25034,11 +24882,6 @@
                         "strong" : 1,
                         "value_type" : "true/missing"
                      },
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-invalid" : {
                         "state" : ":invalid",
                         "strong" : 1,
@@ -25084,7 +24927,7 @@
                   },
                   "autocomplete" : {
                      "conforming" : 1,
-                     "desc" : "Hint for form autofill feature",
+                     "desc" : "Hint for form autofill feature\u000A     ",
                      "id" : "attr-fe-autocomplete",
                      "spec" : "HTML",
                      "value_type" : "set of space-separated tokens"
@@ -25117,7 +24960,7 @@
                   },
                   "cols" : {
                      "conforming" : 1,
-                     "desc" : "Maximum number of characters per line",
+                     "desc" : "Maximum number of characters per line\u000A     ",
                      "id" : "attr-textarea-cols",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -25148,14 +24991,14 @@
                   },
                   "dirname" : {
                      "conforming" : 1,
-                     "desc" : "Name of form control to use for sending the element's directionality in form submission",
+                     "desc" : "Name of form control to use for sending the element's directionality in form submission\u000A     ",
                      "id" : "attr-fe-dirname",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
                   },
                   "disabled" : {
                      "conforming" : 1,
-                     "desc" : "Whether the form control is disabled",
+                     "desc" : "Whether the form control is disabled\u000A     ",
                      "id" : "attr-fe-disabled",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -25168,7 +25011,7 @@
                   },
                   "form" : {
                      "conforming" : 1,
-                     "desc" : "Associates the element with a form element",
+                     "desc" : "Associates the element with a form element\u000A     ",
                      "id" : "attr-fae-form",
                      "id_type" : "form",
                      "spec" : "HTML",
@@ -25200,14 +25043,14 @@
                   },
                   "maxlength" : {
                      "conforming" : 1,
-                     "desc" : "Maximum length of value",
+                     "desc" : "Maximum length of value\u000A     ",
                      "id" : "attr-textarea-maxlength",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
                   },
                   "minlength" : {
                      "conforming" : 1,
-                     "desc" : "Minimum length of value",
+                     "desc" : "Minimum length of value\u000A     ",
                      "id" : "attr-textarea-minlength",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -25220,14 +25063,14 @@
                   },
                   "name" : {
                      "conforming" : 1,
-                     "desc" : "Name of the element to use for form submission and in the form.elements API ",
+                     "desc" : "Name of the element to use for form submission and in the form.elements API \u000A     ",
                      "id" : "attr-fe-name",
                      "spec" : "HTML",
                      "value_type" : "non-empty"
                   },
                   "placeholder" : {
                      "conforming" : 1,
-                     "desc" : "User-visible label to be placed within the form control",
+                     "desc" : "User-visible label to be placed within the form control\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-textarea-placeholder",
                      "spec" : "HTML",
@@ -25236,21 +25079,21 @@
                   },
                   "readonly" : {
                      "conforming" : 1,
-                     "desc" : "Whether to allow the value to be edited by the user",
+                     "desc" : "Whether to allow the value to be edited by the user\u000A     ",
                      "id" : "attr-textarea-readonly",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "required" : {
                      "conforming" : 1,
-                     "desc" : "Whether the control is required for form submission",
+                     "desc" : "Whether the control is required for form submission\u000A     ",
                      "id" : "attr-textarea-required",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "rows" : {
                      "conforming" : 1,
-                     "desc" : "Number of lines to show",
+                     "desc" : "Number of lines to show\u000A     ",
                      "id" : "attr-textarea-rows",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -25274,7 +25117,7 @@
                   },
                   "wrap" : {
                      "conforming" : 1,
-                     "desc" : "How the value of the form control is to be wrapped for form submission",
+                     "desc" : "How the value of the form control is to be wrapped for form submission\u000A     ",
                      "enumerated" : {
                         "#missing" : {
                            "id" : "attr-textarea-wrap-soft-state",
@@ -25348,11 +25191,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -25499,11 +25337,6 @@
                      "rowheader" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -25517,7 +25350,7 @@
                "" : {
                   "abbr" : {
                      "conforming" : 1,
-                     "desc" : "Alternative label to use for the header cell when referencing the cell in other contexts",
+                     "desc" : "Alternative label to use for the header cell when referencing the cell in other contexts\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-th-abbr",
                      "spec" : "HTML",
@@ -25627,7 +25460,7 @@
                   },
                   "colspan" : {
                      "conforming" : 1,
-                     "desc" : "Number of columns that the cell is to span",
+                     "desc" : "Number of columns that the cell is to span\u000A     ",
                      "id" : "attr-tdth-colspan",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer greater than zero"
@@ -25646,7 +25479,7 @@
                   },
                   "headers" : {
                      "conforming" : 1,
-                     "desc" : "The header cells for this cell",
+                     "desc" : "The header cells for this cell\u000A     ",
                      "id" : "attr-tdth-headers",
                      "id_type" : "th",
                      "item_type" : "idref",
@@ -25674,14 +25507,14 @@
                   },
                   "rowspan" : {
                      "conforming" : 1,
-                     "desc" : "Number of rows that the cell is to span",
+                     "desc" : "Number of rows that the cell is to span\u000A     ",
                      "id" : "attr-tdth-rowspan",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
                   },
                   "scope" : {
                      "conforming" : 1,
-                     "desc" : "Specifies which cells the header cell applies to",
+                     "desc" : "Specifies which cells the header cell applies to\u000A     ",
                      "enumerated" : {
                         "#missing" : {
                            "id" : "attr-th-scope-auto",
@@ -25804,11 +25637,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -25957,7 +25785,7 @@
                "" : {
                   "datetime" : {
                      "conforming" : 1,
-                     "desc" : "Machine-readable value",
+                     "desc" : "Machine-readable value\u000A     ",
                      "id" : "attr-time-datetime",
                      "spec" : "HTML"
                   },
@@ -25985,11 +25813,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -26021,11 +25844,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -26216,11 +26034,6 @@
             "aria" : {
                "" : {
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -26235,14 +26048,14 @@
                "" : {
                   "default" : {
                      "conforming" : 1,
-                     "desc" : "Enable the track if no other text track is more suitable",
+                     "desc" : "Enable the track if no other text track is more suitable\u000A     ",
                      "id" : "attr-track-default",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "kind" : {
                      "conforming" : 1,
-                     "desc" : "The type of text track",
+                     "desc" : "The type of text track\u000A     ",
                      "enumerated" : {
                         "#invalid" : {
                            "id" : "attr-track-kind-keyword-metadata",
@@ -26291,7 +26104,7 @@
                   },
                   "label" : {
                      "conforming" : 1,
-                     "desc" : "User-visible label",
+                     "desc" : "User-visible label\u000A     ",
                      "directionality_capable" : "1",
                      "id" : "attr-track-label",
                      "spec" : "HTML",
@@ -26300,7 +26113,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-track-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -26308,7 +26121,7 @@
                   },
                   "srclang" : {
                      "conforming" : 1,
-                     "desc" : "Language of the text track",
+                     "desc" : "Language of the text track\u000A     ",
                      "id" : "attr-track-srclang",
                      "spec" : "HTML",
                      "value_type" : "language tag"
@@ -26427,11 +26240,6 @@
                      "tree" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -26563,11 +26371,6 @@
                      "application" : 1
                   },
                   "attrs" : {
-                     "aria-hidden" : {
-                        "attr" : "hidden",
-                        "strong" : 1,
-                        "value_type" : "true/missing"
-                     },
                      "aria-readonly" : {
                         "attr" : "contenteditable",
                         "strong" : 1,
@@ -26590,14 +26393,14 @@
                   },
                   "autoplay" : {
                      "conforming" : 1,
-                     "desc" : "Hint that the media resource can be started automatically when the page is loaded",
+                     "desc" : "Hint that the media resource can be started automatically when the page is loaded\u000A     ",
                      "id" : "attr-media-autoplay",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "controls" : {
                      "conforming" : 1,
-                     "desc" : "Show user agent controls",
+                     "desc" : "Show user agent controls\u000A     ",
                      "id" : "attr-media-controls",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -26610,7 +26413,7 @@
                   },
                   "crossorigin" : {
                      "conforming" : 1,
-                     "desc" : "How the element handles crossorigin requests",
+                     "desc" : "How the element handles crossorigin requests\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -26653,7 +26456,7 @@
                   },
                   "height" : {
                      "conforming" : 1,
-                     "desc" : "Vertical dimension",
+                     "desc" : "Vertical dimension\u000A     ",
                      "id" : "attr-dim-height",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -26665,7 +26468,7 @@
                   },
                   "loop" : {
                      "conforming" : 1,
-                     "desc" : "Whether to loop the media resource",
+                     "desc" : "Whether to loop the media resource\u000A     ",
                      "id" : "attr-media-loop",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -26697,7 +26500,7 @@
                   },
                   "muted" : {
                      "conforming" : 1,
-                     "desc" : "Whether to mute the media resource by default",
+                     "desc" : "Whether to mute the media resource by default\u000A     ",
                      "id" : "attr-media-muted",
                      "spec" : "HTML",
                      "value_type" : "boolean"
@@ -26709,14 +26512,14 @@
                   },
                   "playsinline" : {
                      "conforming" : 1,
-                     "desc" : "Encourage the user agent to display video content within the element's playback area",
+                     "desc" : "Encourage the user agent to display video content within the element's playback area\u000A     ",
                      "id" : "attr-video-playsinline",
                      "spec" : "HTML",
                      "value_type" : "boolean"
                   },
                   "poster" : {
                      "conforming" : 1,
-                     "desc" : "Poster frame to show prior to video playback",
+                     "desc" : "Poster frame to show prior to video playback\u000A     ",
                      "id" : "attr-video-poster",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -26724,7 +26527,7 @@
                   },
                   "preload" : {
                      "conforming" : 1,
-                     "desc" : "Hints how much buffering the media resource will likely need",
+                     "desc" : "Hints how much buffering the media resource will likely need\u000A     ",
                      "enumerated" : {
                         "" : {
                            "conforming" : 1,
@@ -26762,7 +26565,7 @@
                   },
                   "src" : {
                      "conforming" : 1,
-                     "desc" : "Address of the resource",
+                     "desc" : "Address of the resource\u000A     ",
                      "id" : "attr-media-src",
                      "spec" : "HTML",
                      "url_role" : "embedded",
@@ -26782,7 +26585,7 @@
                   },
                   "width" : {
                      "conforming" : 1,
-                     "desc" : "Horizontal dimension",
+                     "desc" : "Horizontal dimension\u000A     ",
                      "id" : "attr-dim-width",
                      "spec" : "HTML",
                      "value_type" : "non-negative integer"
@@ -33917,8 +33720,14 @@
             "radio" : 1
          },
          "dirname" : {
+            "email" : 1,
+            "hidden" : 1,
+            "password" : 1,
             "search" : 1,
-            "text" : 1
+            "submit" : 1,
+            "tel" : 1,
+            "text" : 1,
+            "url" : 1
          },
          "dynsrc" : {
             "image" : "1"
@@ -34025,6 +33834,18 @@
             "tel" : 1,
             "text" : 1,
             "url" : 1
+         },
+         "popovertarget" : {
+            "button" : 1,
+            "image" : 1,
+            "reset" : 1,
+            "submit" : 1
+         },
+         "popovertargetaction" : {
+            "button" : 1,
+            "image" : 1,
+            "reset" : 1,
+            "submit" : 1
          },
          "precision" : {
             "number" : "1",
