@@ -55,8 +55,11 @@ local/perl-latest/pm/lib/perl5/JSON/PS.pm:
 
 local/bin/jq:
 	mkdir -p local/bin
-	$(SAVEURL) $@ https://stedolan.github.io/jq/download/linux64/jq
+	$(SAVEURL) $@ https://github.com/jqlang/jq/releases/download/jq-1.7/jq-linux-amd64
 	chmod u+x $@
+
+build-github-pages:
+	rm -fr ./bin/ ./modules/ ./t_deps/
 
 ## ------ Metadata ------
 
@@ -344,8 +347,12 @@ data/tls.json: bin/tls.pl local/iana/tls.json \
     local/iana/tls-exts.json
 	$(PERL) bin/tls.pl > $@
 
-data/tls-certs.pem:
-	$(SAVEURL) $@ https://raw.githubusercontent.com/gisle/mozilla-ca/master/lib/Mozilla/CA/cacert.pem
+data/tls-certs.pem: local/mozilla-ca
+	#$(SAVEURL) $@ https://raw.githubusercontent.com/gisle/mozilla-ca/master/lib/Mozilla/CA/cacert.pem
+	cd local/mozilla-ca && ../../perl mk-ca-bundle.pl ../../$@
+
+local/mozilla-ca: always
+	$(GIT) clone https://github.com/gisle/mozilla-ca/ $@ || (cd $@ && $(GIT) pull)
 
 data/fetch.json: bin/fetch.pl data/dom.json
 	$(PERL) $< > $@
