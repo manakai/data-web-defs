@@ -697,7 +697,8 @@ src/microdata-dv.json: bin/microdata-dv.pl local/data-vocabulary/files
 data/microdata.json: bin/microdata.pl src/microdata-*.txt \
     local/schemaorg.json local/schemaorg-wsa.json
 	# and src/microdata-dv.json intermediate/rec20-common-codes.txt
-	$(PERL) bin/microdata.pl > $@
+# XXX
+#	$(PERL) bin/microdata.pl > $@
 
 local/data-vocabulary/files:
 	mkdir -p local/data-vocabulary
