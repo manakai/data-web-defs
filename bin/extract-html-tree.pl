@@ -76,7 +76,9 @@ sub parse_step ($) {
     ]};
   }
 
-  if ($tc =~ s/^((?!Otherwise:)[A-Za-z]+):\s*//) {
+  if ($tc =~ s/^Assert:[\s\w_,-]+\.\s*//) {
+    #
+  } elsif ($tc =~ s/^((?!Otherwise:)[A-Za-z]+):\s*//) {
     push @action, {type => 'LABEL', label => lc $1};
   }
 
@@ -90,7 +92,7 @@ sub parse_step ($) {
     push @action, {type => 'UNPARSED', DESC => "$1, and if $2"};
   }
 
-  if ($tc =~ s{^\QIf the parser was invoked via the document.write() or document.writeln() methods, then optionally mark the script element as "already started".\E\s+\((?>[^()]|\(\))+\)\s*}{}) {
+  if ($tc =~ s{^\QIf the parser was invoked via the document.write() or document.writeln() methods\E, then optionally (?:mark|set) the script element(?: as|'s) "?already started"?(?: to true)\.\s+\((?>[^()]|\(\))+\)\s*}{}) {
     push @action, {type => 'if',
                    cond => ['dynamic'],
                    actions => [{type => 'set-node-flag',
@@ -212,6 +214,12 @@ sub parse_step ($) {
       $_->{RUN_NEXT} = 1;
       delete $_->{DESC};
       $_;
+    } elsif ($_->{DESC} =~ /^if (the document is not an iframe srcdoc document), then this is a (parse error); if the parser cannot change the mode flag is false, (set the Document to quirks mode)$/) {
+      $_->{type} = 'IF';
+      $_->{COND} = $1;
+      $_->{actions} = [(parse_step $2), (parse_step $3)];
+      delete $_->{DESC};
+      $_;
     } elsif ($_->{DESC} =~ /^otherwise, ($SENTENCE)$/o) {
       $_->{type} = 'ELSE';
       $_->{actions} = [parse_step $1];
@@ -227,6 +235,13 @@ sub parse_step ($) {
       $_->{type} = 'UNTIL';
       $_->{COND} = $2;
       $_->{actions} = [parse_step $1];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^while ($SENTENCE(?:,$SENTENCE)*), ($SENTENCE)$/o) {
+      $_->{type} = 'UNTIL';
+      $_->{WHILE} = 1;
+      $_->{COND} = $1;
+      $_->{actions} = [parse_step $2];
       delete $_->{DESC};
       $_;
     } elsif ($_->{DESC} =~ /^($SENTENCE), and then (keep [A-Za-z0-9" -]+) until ($SENTENCE(?:, (?:or |)[A-Za-z0-9" -]+)+)$/o) {
@@ -408,7 +423,7 @@ while (@node) {
                 'the scripting flag is disabled' => 'NOSCRIPT',
                 'the scripting flag is enabled' => 'SCRIPT',
               }->{$3} . '-' . (uc $1) . ':' . $2;
-            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is one of: ("[^"]+"(?:, "[^"]+")*)$/) {
+            } elsif ($cond =~ /^An? (start|end) tag (?:token |)whose tag name is(?: one of:|) ("[^"]+"(?:, "[^"]+")*)$/) {
               my $token = $1;
               my $s = $2;
               my @s;
@@ -883,6 +898,10 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
     ['insert an HTML element for the token', 'insert an HTML element'],
     ["insert the token's character" => 'insert a character'],
     ['prepare the script' => 'prepare a script'],
+    ['prepare the script element script' => 'prepare a script'],
+    #['start the speculative HTML parser for this instance of the HTML parser' => 'start the speculative HTML parser'],
+    #["block the tokenizer for this instance of the HTML parser, such that the event loop will not run tasks that invoke the tokenizer" => "block the tokenizer"],
+    #["unblock the tokenizer for this instance of the HTML parser, such that tasks that invoke the tokenizer can again be run" => "unblock the tokenizer"],
     ['push onto the list of active formatting elements that element' => 'push onto the list of active formatting elements'],
     ['reconstruct the active formatting elements, if any' => 'reconstruct the active formatting elements'],
     ['reprocess it' => 'reprocess the token'],
@@ -894,7 +913,9 @@ $NormalizeDesc->{$_->[0]} = $_->[1] for
     ['return' => 'abort these steps'],
     ['process the SVG script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
     ['process the script element according to the SVG rules, if the user agent supports SVG' => 'process the SVG script element'],
+    ['process the SVG script element according to the SVG rules' => 'process the SVG script element'],
     ['change the encoding to the resulting encoding' => 'change the encoding'],
+    ['change the encoding to the extracted encoding' => 'change the encoding'],
 
     ['the algorithm must be passed the Document object' => ''],
 
@@ -927,7 +948,7 @@ my $DescPatterns = [
   [qr/decrement (.+) by one/, 'DECREMENT', 'TARGET'],
   [qr/process the token using the rules for the "([^"]+)" insertion mode/,
    'USING-THE-RULES-FOR', 'im'],
-  [qr/process the token according to the rules given in the section corresponding to the (current insertion mode) in HTML content/,
+  [qr/(?:re|)process the token according to the rules given in the section corresponding to the (current insertion mode) in HTML content/,
    'USING-THE-RULES-FOR', 'IM'],
   [qr/append (.+?) to (.+)/, 'APPEND', 'ITEM', 'LIST'],
   [qr/insert (.+?) at the end of (.+)/, 'APPEND', 'ITEM', 'LIST'],
@@ -944,6 +965,8 @@ my $DescPatterns = [
   [qr/insert an HTML element for an? "([^"]+)" start tag token with (.+)/,
    'insert an HTML element', 'tag_name', 'ATTRS'],
   [qr/insert a foreign element for the token, in (.+)/,
+   'insert a foreign element', 'NS'],
+  [qr/insert a foreign element for the token, with (.+) and false/,
    'insert a foreign element', 'NS'],
   [qr/insert the newly created element at (.+)/, 'APPEND', 'LOCATION'],
   [qr/create an? ([\w-]+) element whose node document is the Document object()/,
@@ -1218,6 +1241,12 @@ sub process_actions ($$) {
         }
       }
 
+      if ($act->{type} eq 'IF' and
+          $act->{COND} eq 'the active speculative HTML parser is null') {
+        push @$new_acts, @{process_actions $act->{actions}, $error_context};
+        next ACT;
+      }
+
       if (($act->{type} eq 'IF' or $act->{type} eq 'ELSIF') and
           defined $act->{COND}) {
         my $cond = parse_cond $act->{COND};
@@ -1234,7 +1263,7 @@ sub process_actions ($$) {
       }
       push @$new_acts, $act;
     }
-  }
+  } # ACT
 
   for my $act (@$new_acts) {
     if (defined $act->{IM}) {
@@ -1484,6 +1513,28 @@ sub process_actions ($$) {
         $act->{target} = 'parser-inserted';
         delete $act->{TARGET};
         delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "the element's force async" and
+               $act->{VALUE} eq "false") {
+        $act->{type} = 'unset-node-flag';
+        $act->{target} = 'async';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "the script element's already started" and
+               $act->{VALUE} eq "true") {
+        $act->{type} = 'set-node-flag';
+        $act->{target} = 'already started';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "its already started" and
+               $act->{VALUE} eq "true") {
+        $act->{type} = 'set-node-flag';
+        $act->{target} = 'already started';
+        delete $act->{TARGET};
+        delete $act->{VALUE};
+      } elsif ($act->{TARGET} eq "template start tag" or
+               $act->{VALUE} eq "the element in which the adjusted insertion location finds itself" or
+               $act->{VALUE} eq "intended parent's node document") {
+        $act->{_SKIP} = 1;
       } else {
         #warn $act->{TARGET};
       }
@@ -1611,10 +1662,14 @@ sub process_actions ($$) {
     } # insert an HTML element
 
     if ($act->{type} eq 'insert a foreign element') {
-      if ($act->{NS} eq 'the same namespace as the adjusted current node') {
+      if ($act->{NS} eq 'the same namespace as the adjusted current node' or
+          $act->{NS} eq "adjusted current node's namespace") {
         $act->{ns} = 'inherit';
         delete $act->{NS};
       } elsif ($act->{NS} =~ /^the (\w+) namespace$/) {
+        $act->{ns} = $1;
+        delete $act->{NS};
+      } elsif ($act->{NS} =~ /^(\w+) namespace$/) {
         $act->{ns} = $1;
         delete $act->{NS};
       } else {
@@ -1716,6 +1771,15 @@ sub process_actions ($$) {
           delete $act->{actions};
           delete $act->{COND};
           delete $act->{WHILE};
+        } elsif ($act->{COND} =~ /^the current node is not a MathML text integration point, an HTML integration point, or an element in the HTML namespace$/) {
+          $act->{type} = 'pop-oe';
+          $act->{while_not} = ['or',
+                               {'MathML text integration point' => 1},
+                               {'HTML integration point' => 1},
+                               {ns => 'HTML'}];
+          delete $act->{actions};
+          delete $act->{COND};
+          delete $act->{WHILE};
         } else {
           die "Unknown WHILE COND |$act->{COND}|";
         }
@@ -1794,6 +1858,7 @@ sub process_actions ($$) {
     }
   }
   $acts = $new_acts;
+  $acts = [grep { not $_->{_SKIP} } @$acts];
 
   $new_acts = [];
   {
@@ -2171,7 +2236,13 @@ for my $def (
            'stack of script settings objects' => 1,
            'script nesting level' => 1,
            'pending parsing-blocking script' => 1,
-         }->{$act->{cond}->[0]}) or
+         }->{$act->{cond}->[0] // ''}) or
+         ($act->{type} eq 'IF' and
+         {
+           "the active speculative HTML parser is null and the user agent supports SVG" => 1,
+           "the active speculative HTML parser is null and the JavaScript execution context stack is empty" => 1,
+           "the pending parsing-blocking script is not null" => 1,
+         }->{$act->{COND} // ''}) or
         (defined $act->{target} and 
          {
            'script nesting level' => 1,
@@ -2231,6 +2302,32 @@ for my $def (
         @$acts and
         $acts->[0]->{DESC} =~ /^otherwise, if the element has an http-equiv/) {
       push @$new_acts, {type => 'change-the-encoding-if-appropriate'};
+      shift @$acts;
+    } else {
+      push @$new_acts, $act;
+    }
+  }
+  $def->{actions} = $new_acts;
+}
+for my $def (
+  (($Data->{ims}->{'in head'} or {})->{conds}->{'START:template'} or {}),
+) {
+  my $acts = $def->{actions} or next;
+  my $new_acts = [];
+  my $prev_was_script;
+  while (@$acts) {
+    my $act = shift @$acts;
+    if ($act->{type} eq 'UNPARSED' and
+        $act->{DESC} eq "if any of the following are false:" and
+        @$acts >= 3 and
+        $acts->[0]->{type} eq 'misc' and
+        $acts->[1]->{type} eq 'UNPARSED' and
+        $acts->[1]->{DESC} eq "then insert an HTML element for the token" and
+        $acts->[2]->{type} eq 'ELSE') {
+      push @$new_acts, {type => 'insert an HTML element',
+                        template_or_shadow => 1};
+      shift @$acts;
+      shift @$acts;
       shift @$acts;
     } else {
       push @$new_acts, $act;
