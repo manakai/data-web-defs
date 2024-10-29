@@ -60,6 +60,12 @@ for my $doc (parse 'sw-mime-types-xml-*') {
     for my $record (@{$json->{registries}->{$t}->{records}}) {
       my $subtype = $record->{name};
       my $info = '';
+
+      ## R6.10.29
+      ## "application/jwk-set+jwt" is registered as an "application" subtype.
+      ## <https://www.iana.org/assignments/media-types/media-types.xhtml>
+      $subtype =~ s{^application/jwk-set\+jwt$}{jwk-set+jwt};
+      
       if ($subtype =~ /^([A-Za-z0-9+._-]+)\s+-\s+(.+)$/s) {
         $subtype = $1;
         $info = $2;
