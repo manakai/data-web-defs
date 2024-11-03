@@ -64,7 +64,7 @@ for my $doc (parse 'sw-mime-types-xml-*') {
       ## R6.10.29
       ## "application/jwk-set+jwt" is registered as an "application" subtype.
       ## <https://www.iana.org/assignments/media-types/media-types.xhtml>
-      $subtype =~ s{^application/jwk-set\+jwt$}{jwk-set+jwt};
+      $subtype =~ s{^application/((?:jwk-set|resolve-response)\+jwt)$}{$1};
       
       if ($subtype =~ /^([A-Za-z0-9+._-]+)\s+-\s+(.+)$/s) {
         $subtype = $1;
