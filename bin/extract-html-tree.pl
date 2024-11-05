@@ -61,7 +61,7 @@ my $SENTENCE = qr/[A-Za-z0-9"'()+ -]+(?:, (?:relative|including|converted|except
 
 sub parse_step ($);
 sub parse_step ($) {
-  my $tc = shift;
+  my $tc = $_[0];
   my @action;
 
   return () if $tc =~ /^\s*Prompt:\s*If the token has an attribute /;
@@ -291,8 +291,10 @@ sub parse_step ($) {
       $_->{WITHIN_PREV_SCOPE} = 1;
     }
   }
-  
-  if (@action == 1) {
+
+  if (not @action) {
+    return ();
+  } elsif (@action == 1) {
     return @action;
   } else {
     return {type => 'STEP', actions => \@action};
