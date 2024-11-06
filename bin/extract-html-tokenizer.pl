@@ -667,6 +667,8 @@ sub parse_switch ($) {
         $cond = sprintf 'CHAR:%04X', hex $1;
       } elsif ($cond =~ /^u?U\+([0-9A-F]+)(?:\s+\([^()+]\)|):?\s*$/) { # xml5
         $cond = 'CHAR:' . $1;
+      } elsif ($cond =~ /^U\+([0-9A-F]+)\s+\(.\)$/) {
+        $cond = sprintf 'CHAR:%04X', hex $1;
       } elsif ($cond =~ /^The additional allowed character, if there is one$/) {
         $cond = 'ALLOWED_CHAR';
       } elsif ($cond =~ /^If the (.+) is empty$/) {
