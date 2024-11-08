@@ -622,9 +622,9 @@ local/MetaExtensions.html:
 local/MetaExtensions.json: local/MetaExtensions.html bin/parse-wiki-tables.pl
 	$(PERL) bin/parse-wiki-tables.pl table.wikitable 1 $< > $@
 local/RelExtensions.html:
-	$(SAVEURL) $@ http://microformats.org/wiki/existing-rel-values
+	$(SAVEURL) $@ https://microformats.org/wiki/existing-rel-values
 local/RelExtensions.json: local/RelExtensions.html bin/parse-wiki-tables.pl
-	$(PERL) bin/parse-wiki-tables.pl "a[name=\"HTML5_link_type_extensions\"] ~ table" 0 $< > $@
+	$(PERL) bin/parse-wiki-tables.pl "p:-manakai-contains(\"Changes to this registry will not be reflected in validators in real time\") + table" 0 $< > $@
 local/iana/link-relations.xml:
 	$(SAVEURL) $@ https://www.iana.org/assignments/link-relations/link-relations.xml
 data/html-metadata.json: local/MetaExtensions.json bin/html-metadata.pl \
