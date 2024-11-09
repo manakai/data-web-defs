@@ -964,9 +964,6 @@
                      "type" : "push-oe"
                   },
                   {
-                     "type" : "appcache-processing"
-                  },
-                  {
                      "im" : "before head",
                      "type" : "switch the insertion mode"
                   },
@@ -1000,9 +997,6 @@
                      "type" : "push-oe"
                   },
                   {
-                     "type" : "appcache-processing"
-                  },
-                  {
                      "im" : "before head",
                      "type" : "switch the insertion mode"
                   },
@@ -1021,10 +1015,6 @@
                   },
                   {
                      "type" : "push-oe"
-                  },
-                  {
-                     "can_have_manifest" : 1,
-                     "type" : "appcache-processing"
                   },
                   {
                      "im" : "before head",
@@ -1172,12 +1162,12 @@
                   }
                ]
             },
-            "END:address article aside blockquote button center details dialog dir div dl fieldset figcaption figure footer header hgroup listing main menu nav ol pre section summary ul" : {
+            "END:address article aside blockquote button center details dialog dir div dl fieldset figcaption figure footer header hgroup listing main menu nav ol pre search section summary ul" : {
                "actions" : [
                   {
                      "actions" : [
                         {
-                           "name" : "in-body-end-a3bbcd5f4hhlmmnopssu",
+                           "name" : "in-body-end-a3bbcd5f4hhlmmnops3u",
                            "type" : "parse error"
                         },
                         {
@@ -1200,7 +1190,7 @@
                         {
                            "actions" : [
                               {
-                                 "name" : "in-body-end-a3bbcd5f4hhlmmnopssu-2",
+                                 "name" : "in-body-end-a3bbcd5f4hhlmmnops3u-2",
                                  "type" : "parse error"
                               }
                            ],
@@ -1993,7 +1983,7 @@
                   }
                ]
             },
-            "START:address article aside blockquote center details dialog dir div dl fieldset figcaption figure footer header hgroup main menu nav ol p section summary ul" : {
+            "START:address article aside blockquote center details dialog dir div dl fieldset figcaption figure footer header hgroup main menu nav ol p search section summary ul" : {
                "actions" : [
                   {
                      "actions" : [
@@ -2090,18 +2080,18 @@
                      "cond" : [
                         "or",
                         [
-                           "oe[1]",
-                           "is not",
-                           {
-                              "name" : "body",
-                              "ns" : "HTML"
-                           }
-                        ],
-                        [
                            "oe[-1]",
                            "is",
                            {
                               "name" : "html",
+                              "ns" : "HTML"
+                           }
+                        ],
+                        [
+                           "oe[1]",
+                           "is not",
+                           {
+                              "name" : "body",
                               "ns" : "HTML"
                            }
                         ],
@@ -3535,36 +3525,10 @@
             "START:caption col colgroup tbody td tfoot th thead tr" : {
                "actions" : [
                   {
-                     "actions" : [
-                        {
-                           "name" : "in-cell-start-c3t6",
-                           "type" : "parse error"
-                        },
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe",
-                        "not in scope",
-                        "table",
-                        {
-                           "name" : [
-                              "td",
-                              "th"
-                           ],
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "close the cell"
-                        },
-                        {
-                           "type" : "reprocess the token"
-                        }
-                     ],
-                     "type" : "if"
+                     "type" : "close the cell"
+                  },
+                  {
+                     "type" : "reprocess the token"
                   }
                ]
             }
@@ -3859,6 +3823,35 @@
                   }
                ]
             },
+            "END:br p" : {
+               "actions" : [
+                  {
+                     "name" : "in-foreign-content-end-br-p",
+                     "type" : "parse error"
+                  },
+                  {
+                     "type" : "pop-oe",
+                     "while_not" : [
+                        "or",
+                        {
+                           "MathML text integration point" : 1
+                        },
+                        {
+                           "HTML integration point" : 1
+                        },
+                        {
+                           "ns" : "HTML"
+                        }
+                     ]
+                  },
+                  {
+                     "im" : [
+                        "current"
+                     ],
+                     "type" : "USING-THE-RULES-FOR"
+                  }
+               ]
+            },
             "END:script" : {
                "actions" : [
                   {
@@ -4081,116 +4074,35 @@
                      "type" : "parse error"
                   },
                   {
+                     "type" : "pop-oe",
+                     "while_not" : [
+                        "or",
+                        {
+                           "MathML text integration point" : 1
+                        },
+                        {
+                           "HTML integration point" : 1
+                        },
+                        {
+                           "ns" : "HTML"
+                        }
+                     ]
+                  },
+                  {
+                     "im" : [
+                        "current"
+                     ],
+                     "type" : "USING-THE-RULES-FOR"
+                  }
+               ]
+            },
+            "START:font" : {
+               "actions" : [
+                  {
                      "actions" : [
                         {
-                           "actions" : [
-                              {
-                                 "type" : "adjust MathML attributes"
-                              }
-                           ],
-                           "cond" : [
-                              "adjusted current node",
-                              "is",
-                              {
-                                 "ns" : "MathML"
-                              }
-                           ],
-                           "type" : "if"
-                        },
-                        {
-                           "actions" : [
-                              {
-                                 "type" : "fixup-svg-tag-name"
-                              }
-                           ],
-                           "cond" : [
-                              "adjusted current node",
-                              "is",
-                              {
-                                 "ns" : "SVG"
-                              }
-                           ],
-                           "type" : "if"
-                        },
-                        {
-                           "actions" : [
-                              {
-                                 "type" : "adjust SVG attributes"
-                              }
-                           ],
-                           "cond" : [
-                              "adjusted current node",
-                              "is",
-                              {
-                                 "ns" : "SVG"
-                              }
-                           ],
-                           "type" : "if"
-                        },
-                        {
-                           "type" : "adjust foreign attributes"
-                        },
-                        {
-                           "ns" : "inherit",
-                           "type" : "insert a foreign element"
-                        },
-                        {
-                           "actions" : [
-                              {
-                                 "actions" : [
-                                    {
-                                       "type" : "acknowledge the token's self-closing flag"
-                                    },
-                                    {
-                                       "type" : "script-processing-1"
-                                    },
-                                    {
-                                       "type" : "pop-oe"
-                                    },
-                                    {
-                                       "type" : "script-processing-2"
-                                    }
-                                 ],
-                                 "cond" : [
-                                    "and",
-                                    [
-                                       "token tag_name",
-                                       "is",
-                                       "script"
-                                    ],
-                                    [
-                                       "oe[-1]",
-                                       "is",
-                                       {
-                                          "ns" : "SVG"
-                                       }
-                                    ]
-                                 ],
-                                 "false_actions" : [
-                                    {
-                                       "type" : "pop-oe"
-                                    },
-                                    {
-                                       "type" : "acknowledge the token's self-closing flag"
-                                    }
-                                 ],
-                                 "type" : "if"
-                              }
-                           ],
-                           "cond" : [
-                              "token",
-                              "has",
-                              "self-closing flag"
-                           ],
-                           "type" : "if"
-                        }
-                     ],
-                     "cond" : [
-                        "fragment"
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe"
+                           "name" : "in-foreign-content-start-font",
+                           "type" : "parse error"
                         },
                         {
                            "type" : "pop-oe",
@@ -4208,153 +4120,10 @@
                            ]
                         },
                         {
-                           "type" : "reprocess the token"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "START:font" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "name" : "in-foreign-content-start-font",
-                           "type" : "parse error"
-                        },
-                        {
-                           "actions" : [
-                              {
-                                 "actions" : [
-                                    {
-                                       "type" : "adjust MathML attributes"
-                                    }
-                                 ],
-                                 "cond" : [
-                                    "adjusted current node",
-                                    "is",
-                                    {
-                                       "ns" : "MathML"
-                                    }
-                                 ],
-                                 "type" : "if"
-                              },
-                              {
-                                 "actions" : [
-                                    {
-                                       "type" : "fixup-svg-tag-name"
-                                    }
-                                 ],
-                                 "cond" : [
-                                    "adjusted current node",
-                                    "is",
-                                    {
-                                       "ns" : "SVG"
-                                    }
-                                 ],
-                                 "type" : "if"
-                              },
-                              {
-                                 "actions" : [
-                                    {
-                                       "type" : "adjust SVG attributes"
-                                    }
-                                 ],
-                                 "cond" : [
-                                    "adjusted current node",
-                                    "is",
-                                    {
-                                       "ns" : "SVG"
-                                    }
-                                 ],
-                                 "type" : "if"
-                              },
-                              {
-                                 "type" : "adjust foreign attributes"
-                              },
-                              {
-                                 "ns" : "inherit",
-                                 "type" : "insert a foreign element"
-                              },
-                              {
-                                 "actions" : [
-                                    {
-                                       "actions" : [
-                                          {
-                                             "type" : "acknowledge the token's self-closing flag"
-                                          },
-                                          {
-                                             "type" : "script-processing-1"
-                                          },
-                                          {
-                                             "type" : "pop-oe"
-                                          },
-                                          {
-                                             "type" : "script-processing-2"
-                                          }
-                                       ],
-                                       "cond" : [
-                                          "and",
-                                          [
-                                             "token tag_name",
-                                             "is",
-                                             "script"
-                                          ],
-                                          [
-                                             "oe[-1]",
-                                             "is",
-                                             {
-                                                "ns" : "SVG"
-                                             }
-                                          ]
-                                       ],
-                                       "false_actions" : [
-                                          {
-                                             "type" : "pop-oe"
-                                          },
-                                          {
-                                             "type" : "acknowledge the token's self-closing flag"
-                                          }
-                                       ],
-                                       "type" : "if"
-                                    }
-                                 ],
-                                 "cond" : [
-                                    "token",
-                                    "has",
-                                    "self-closing flag"
-                                 ],
-                                 "type" : "if"
-                              }
+                           "im" : [
+                              "current"
                            ],
-                           "cond" : [
-                              "fragment"
-                           ],
-                           "false_actions" : [
-                              {
-                                 "type" : "pop-oe"
-                              },
-                              {
-                                 "type" : "pop-oe",
-                                 "while_not" : [
-                                    "or",
-                                    {
-                                       "MathML text integration point" : 1
-                                    },
-                                    {
-                                       "HTML integration point" : 1
-                                    },
-                                    {
-                                       "ns" : "HTML"
-                                    }
-                                 ]
-                              },
-                              {
-                                 "type" : "reprocess the token"
-                              }
-                           ],
-                           "type" : "if"
+                           "type" : "USING-THE-RULES-FOR"
                         }
                      ],
                      "cond" : [
@@ -4862,7 +4631,7 @@
                      "type" : "set-node-flag"
                   },
                   {
-                     "target" : "non-blocking",
+                     "target" : "async",
                      "type" : "unset-node-flag"
                   },
                   {
@@ -4912,9 +4681,6 @@
             "START:template" : {
                "actions" : [
                   {
-                     "type" : "insert an HTML element"
-                  },
-                  {
                      "type" : "append-marker-to-afe"
                   },
                   {
@@ -4928,6 +4694,14 @@
                   {
                      "im" : "in template",
                      "type" : "push-template-ims"
+                  },
+                  {
+                     "target" : "adjusted insertion location",
+                     "type" : "set-appropriate-place"
+                  },
+                  {
+                     "template_or_shadow" : 1,
+                     "type" : "insert an HTML element"
                   }
                ]
             },
@@ -5457,6 +5231,51 @@
                   }
                ]
             },
+            "START:hr" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        {
+                           "name" : "option",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "type" : "pop-oe"
+                        }
+                     ],
+                     "cond" : [
+                        "oe[-1]",
+                        "is",
+                        {
+                           "name" : "optgroup",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "type" : "insert an HTML element"
+                  },
+                  {
+                     "type" : "pop-oe"
+                  },
+                  {
+                     "type" : "acknowledge the token's self-closing flag"
+                  }
+               ]
+            },
             "START:html" : {
                "actions" : [
                   {
@@ -5716,6 +5535,7 @@
                            "name" : [
                               "table",
                               "tbody",
+                              "template",
                               "tfoot",
                               "thead",
                               "tr"
@@ -15876,6 +15696,7 @@
                "plaintext",
                "pre",
                "script",
+               "search",
                "section",
                "select",
                "source",

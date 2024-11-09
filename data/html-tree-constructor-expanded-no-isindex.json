@@ -679,13 +679,6 @@
             "type" : "push-oe"
          },
          {
-            "possible_tag_names" : {
-               "template" : {
-               }
-            },
-            "type" : "insert an HTML element"
-         },
-         {
             "type" : "append-marker-to-afe"
          },
          {
@@ -699,6 +692,18 @@
          {
             "im" : "in template",
             "type" : "push-template-ims"
+         },
+         {
+            "target" : "adjusted insertion location",
+            "type" : "set-appropriate-place"
+         },
+         {
+            "possible_tag_names" : {
+               "template" : {
+               }
+            },
+            "template_or_shadow" : 1,
+            "type" : "insert an HTML element"
          },
          {
             "item" : "head element pointer",
@@ -999,9 +1004,6 @@
             "type" : "push-oe"
          },
          {
-            "type" : "appcache-processing"
-         },
-         {
             "im" : "before head",
             "type" : "switch the insertion mode"
          },
@@ -1020,9 +1022,6 @@
          },
          {
             "type" : "push-oe"
-         },
-         {
-            "type" : "appcache-processing"
          },
          {
             "im" : "before head",
@@ -1045,9 +1044,6 @@
             "type" : "push-oe"
          },
          {
-            "type" : "appcache-processing"
-         },
-         {
             "im" : "before head",
             "type" : "switch the insertion mode"
          },
@@ -1068,10 +1064,6 @@
          },
          {
             "type" : "push-oe"
-         },
-         {
-            "can_have_manifest" : 1,
-            "type" : "appcache-processing"
          },
          {
             "actions" : [
@@ -1110,9 +1102,6 @@
                },
                {
                   "type" : "push-oe"
-               },
-               {
-                  "type" : "appcache-processing"
                },
                {
                   "im" : "before head",
@@ -1244,7 +1233,7 @@
                         "cond" : [
                            "node",
                            "is",
-                           "HTML:address,HTML:div HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:p HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                           "HTML:address,HTML:div HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:p HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                         ],
                         "type" : "if"
                      }
@@ -1262,7 +1251,7 @@
             "type" : "adoption agency algorithm"
          }
       ],
-      "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre" : [
+      "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre" : [
          {
             "actions" : [
                {
@@ -1271,7 +1260,7 @@
                      "token",
                      "tag name"
                   ],
-                  "name" : "in-body-end-a3bbcd5f4hhlmmnopssu",
+                  "name" : "in-body-end-a3bbcd5f4hhlmmnops3u",
                   "type" : "parse error"
                },
                {
@@ -1292,16 +1281,12 @@
                {
                   "actions" : [
                      {
-                        "error_text" : [
-                           "oe[-1]",
-                           "local name"
-                        ],
-                        "error_type" : "not closed before ancestor end tag",
+                        "error_type" : "stray end tag",
                         "error_value" : [
                            "token",
                            "tag name"
                         ],
-                        "name" : "in-body-end-a3bbcd5f4hhlmmnopssu-2",
+                        "name" : "in-body-end-a3bbcd5f4hhlmmnops3u-2",
                         "type" : "parse error"
                      }
                   ],
@@ -1978,7 +1963,7 @@
                         "cond" : [
                            "node",
                            "is",
-                           "HTML:address,HTML:div HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:p HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                           "HTML:address,HTML:div HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:p HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                         ],
                         "type" : "if"
                      }
@@ -2179,7 +2164,7 @@
             "type" : "if"
          }
       ],
-      "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p" : [
+      "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p" : [
          {
             "actions" : [
                {
@@ -2266,6 +2251,8 @@
                "ol" : {
                },
                "p" : {
+               },
+               "search" : {
                },
                "section" : {
                },
@@ -2447,14 +2434,14 @@
             "cond" : [
                "or",
                [
-                  "oe[1]",
-                  "is not",
-                  "HTML:body"
-               ],
-               [
                   "oe[-1]",
                   "is",
                   "HTML:html"
+               ],
+               [
+                  "oe[1]",
+                  "is not",
+                  "HTML:body"
                ],
                [
                   "oe",
@@ -2690,7 +2677,7 @@
                               "cond" : [
                                  "node",
                                  "is",
-                                 "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                                 "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                               ],
                               "false_actions" : [
                               ],
@@ -3349,7 +3336,7 @@
                         "cond" : [
                            "node",
                            "is",
-                           "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                           "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                         ],
                         "false_actions" : [
                         ],
@@ -4732,89 +4719,45 @@
       ],
       "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr" : [
          {
+            "type" : "pop-oe",
+            "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rb,HTML:rp,HTML:rt HTML:rtc"
+         },
+         {
             "actions" : [
                {
                   "error_text" : [
+                     "oe[-1]",
+                     "local name"
+                  ],
+                  "error_type" : "not closed before ancestor end tag",
+                  "error_value" : [
                      "token",
                      "tag name"
                   ],
-                  "error_type" : "in cell",
-                  "name" : "in-cell-start-c3t6",
+                  "name" : "-steps-close-the-cell",
                   "type" : "parse error"
-               },
-               {
-                  "actions" : [
-                     {
-                        "error_text" : [
-                           "token",
-                           "tag name"
-                        ],
-                        "error_type" : "nestc",
-                        "name" : "-start-tag-self-closing-flag",
-                        "type" : "parse error"
-                     }
-                  ],
-                  "cond" : [
-                     "token",
-                     "has",
-                     "self-closing flag"
-                  ],
-                  "type" : "if"
-               },
-               {
-                  "type" : "ignore the token"
                }
             ],
             "cond" : [
-               "oe",
-               "not in scope",
-               "table",
+               "oe[-1]",
+               "is not",
                "HTML:td,HTML:th"
             ],
-            "false_actions" : [
-               {
-                  "type" : "pop-oe",
-                  "while" : "HTML:dd HTML:dt HTML:li HTML:optgroup,HTML:option HTML:p HTML:rb,HTML:rp,HTML:rt HTML:rtc"
-               },
-               {
-                  "actions" : [
-                     {
-                        "error_text" : [
-                           "oe[-1]",
-                           "local name"
-                        ],
-                        "error_type" : "not closed before ancestor end tag",
-                        "error_value" : [
-                           "token",
-                           "tag name"
-                        ],
-                        "name" : "-steps-close-the-cell",
-                        "type" : "parse error"
-                     }
-                  ],
-                  "cond" : [
-                     "oe[-1]",
-                     "is not",
-                     "HTML:td,HTML:th"
-                  ],
-                  "type" : "if"
-               },
-               {
-                  "type" : "pop-oe",
-                  "until" : "HTML:td,HTML:th"
-               },
-               {
-                  "type" : "clear the list of active formatting elements up to the last marker"
-               },
-               {
-                  "im" : "in row",
-                  "type" : "switch the insertion mode"
-               },
-               {
-                  "type" : "reprocess the token"
-               }
-            ],
             "type" : "if"
+         },
+         {
+            "type" : "pop-oe",
+            "until" : "HTML:td,HTML:th"
+         },
+         {
+            "type" : "clear the list of active formatting elements up to the last marker"
+         },
+         {
+            "im" : "in row",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "type" : "reprocess the token"
          }
       ],
       "in cell;TEXT" : [
@@ -5159,6 +5102,28 @@
             "type" : "for-each-reverse-oe-as-node"
          }
       ],
+      "in foreign content;END:br,p" : [
+         {
+            "error_text" : [
+               "oe[-1]",
+               "local name"
+            ],
+            "error_type" : "element not closed before implied ancestor end tag",
+            "error_value" : [
+               "token",
+               "tag name"
+            ],
+            "name" : "in-foreign-content-end-br-p",
+            "type" : "parse error"
+         },
+         {
+            "type" : "pop-oe",
+            "while_not" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+         },
+         {
+            "type" : "process-using-current-im"
+         }
+      ],
       "in foreign content;END:script" : [
          {
             "actions" : [
@@ -5379,118 +5344,28 @@
             "type" : "parse error"
          },
          {
+            "type" : "pop-oe",
+            "while_not" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+         },
+         {
+            "type" : "process-using-current-im"
+         },
+         {
             "actions" : [
                {
-                  "actions" : [
-                     {
-                        "type" : "adjust MathML attributes"
-                     }
-                  ],
-                  "cond" : [
-                     "adjusted current node",
-                     "is",
-                     "MathML:*"
-                  ],
-                  "type" : "if"
-               },
-               {
-                  "actions" : [
-                     {
-                        "type" : "fixup-svg-tag-name"
-                     }
-                  ],
-                  "cond" : [
-                     "adjusted current node",
-                     "is",
-                     "SVG:*"
-                  ],
-                  "type" : "if"
-               },
-               {
-                  "actions" : [
-                     {
-                        "type" : "adjust SVG attributes"
-                     }
-                  ],
-                  "cond" : [
-                     "adjusted current node",
-                     "is",
-                     "SVG:*"
-                  ],
-                  "type" : "if"
-               },
-               {
-                  "type" : "adjust foreign attributes"
-               },
-               {
-                  "ns" : "inherit",
-                  "type" : "insert a foreign element"
-               },
-               {
-                  "actions" : [
-                     {
-                        "actions" : [
-                           {
-                              "foreign" : 1,
-                              "type" : "acknowledge the token's self-closing flag"
-                           },
-                           {
-                              "type" : "script-processing-1"
-                           },
-                           {
-                              "type" : "pop-oe"
-                           },
-                           {
-                              "type" : "script-processing-2"
-                           }
-                        ],
-                        "cond" : [
-                           "and",
-                           [
-                              "token tag_name",
-                              "is",
-                              "script"
-                           ],
-                           [
-                              "oe[-1]",
-                              "is",
-                              "SVG:*"
-                           ]
-                        ],
-                        "false_actions" : [
-                           {
-                              "type" : "pop-oe"
-                           },
-                           {
-                              "foreign" : 1,
-                              "type" : "acknowledge the token's self-closing flag"
-                           }
-                        ],
-                        "type" : "if"
-                     }
-                  ],
-                  "cond" : [
+                  "error_text" : [
                      "token",
-                     "has",
-                     "self-closing flag"
+                     "tag name"
                   ],
-                  "type" : "if"
+                  "error_type" : "nestc",
+                  "name" : "-start-tag-self-closing-flag",
+                  "type" : "parse error"
                }
             ],
             "cond" : [
-               "fragment"
-            ],
-            "false_actions" : [
-               {
-                  "type" : "pop-oe"
-               },
-               {
-                  "type" : "pop-oe",
-                  "while_not" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
-               },
-               {
-                  "type" : "reprocess the token"
-               }
+               "token",
+               "has",
+               "self-closing flag"
             ],
             "type" : "if"
          }
@@ -5512,118 +5387,28 @@
                   "type" : "parse error"
                },
                {
+                  "type" : "pop-oe",
+                  "while_not" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+               },
+               {
+                  "type" : "process-using-current-im"
+               },
+               {
                   "actions" : [
                      {
-                        "actions" : [
-                           {
-                              "type" : "adjust MathML attributes"
-                           }
-                        ],
-                        "cond" : [
-                           "adjusted current node",
-                           "is",
-                           "MathML:*"
-                        ],
-                        "type" : "if"
-                     },
-                     {
-                        "actions" : [
-                           {
-                              "type" : "fixup-svg-tag-name"
-                           }
-                        ],
-                        "cond" : [
-                           "adjusted current node",
-                           "is",
-                           "SVG:*"
-                        ],
-                        "type" : "if"
-                     },
-                     {
-                        "actions" : [
-                           {
-                              "type" : "adjust SVG attributes"
-                           }
-                        ],
-                        "cond" : [
-                           "adjusted current node",
-                           "is",
-                           "SVG:*"
-                        ],
-                        "type" : "if"
-                     },
-                     {
-                        "type" : "adjust foreign attributes"
-                     },
-                     {
-                        "ns" : "inherit",
-                        "type" : "insert a foreign element"
-                     },
-                     {
-                        "actions" : [
-                           {
-                              "actions" : [
-                                 {
-                                    "foreign" : 1,
-                                    "type" : "acknowledge the token's self-closing flag"
-                                 },
-                                 {
-                                    "type" : "script-processing-1"
-                                 },
-                                 {
-                                    "type" : "pop-oe"
-                                 },
-                                 {
-                                    "type" : "script-processing-2"
-                                 }
-                              ],
-                              "cond" : [
-                                 "and",
-                                 [
-                                    "token tag_name",
-                                    "is",
-                                    "script"
-                                 ],
-                                 [
-                                    "oe[-1]",
-                                    "is",
-                                    "SVG:*"
-                                 ]
-                              ],
-                              "false_actions" : [
-                                 {
-                                    "type" : "pop-oe"
-                                 },
-                                 {
-                                    "foreign" : 1,
-                                    "type" : "acknowledge the token's self-closing flag"
-                                 }
-                              ],
-                              "type" : "if"
-                           }
-                        ],
-                        "cond" : [
+                        "error_text" : [
                            "token",
-                           "has",
-                           "self-closing flag"
+                           "tag name"
                         ],
-                        "type" : "if"
+                        "error_type" : "nestc",
+                        "name" : "-start-tag-self-closing-flag",
+                        "type" : "parse error"
                      }
                   ],
                   "cond" : [
-                     "fragment"
-                  ],
-                  "false_actions" : [
-                     {
-                        "type" : "pop-oe"
-                     },
-                     {
-                        "type" : "pop-oe",
-                        "while_not" : "HTML:* MathML:annotation-xml@encoding=application/xhtml\u002Bxml,MathML:annotation-xml@encoding=text/html MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
-                     },
-                     {
-                        "type" : "reprocess the token"
-                     }
+                     "token",
+                     "has",
+                     "self-closing flag"
                   ],
                   "type" : "if"
                }
@@ -6468,14 +6253,31 @@
       ],
       "in head;START:template" : [
          {
+            "type" : "append-marker-to-afe"
+         },
+         {
+            "target" : "frameset-ok",
+            "type" : "set-false"
+         },
+         {
+            "im" : "in template",
+            "type" : "switch the insertion mode"
+         },
+         {
+            "im" : "in template",
+            "type" : "push-template-ims"
+         },
+         {
+            "target" : "adjusted insertion location",
+            "type" : "set-appropriate-place"
+         },
+         {
             "possible_tag_names" : {
                "template" : {
                }
             },
+            "template_or_shadow" : 1,
             "type" : "insert an HTML element"
-         },
-         {
-            "type" : "append-marker-to-afe"
          },
          {
             "actions" : [
@@ -6495,18 +6297,6 @@
                "self-closing flag"
             ],
             "type" : "if"
-         },
-         {
-            "target" : "frameset-ok",
-            "type" : "set-false"
-         },
-         {
-            "im" : "in template",
-            "type" : "switch the insertion mode"
-         },
-         {
-            "im" : "in template",
-            "type" : "push-template-ims"
          }
       ],
       "in head;START:title" : [
@@ -6851,7 +6641,7 @@
             "cond" : [
                "oe[-1]",
                "is",
-               "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:tr"
+               "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:template HTML:tr"
             ],
             "false_actions" : [
                {
@@ -7137,6 +6927,47 @@
          },
          {
             "type" : "ignore the token"
+         }
+      ],
+      "in select;START:hr" : [
+         {
+            "actions" : [
+               {
+                  "type" : "pop-oe"
+               }
+            ],
+            "cond" : [
+               "oe[-1]",
+               "is",
+               "HTML:option"
+            ],
+            "type" : "if"
+         },
+         {
+            "actions" : [
+               {
+                  "type" : "pop-oe"
+               }
+            ],
+            "cond" : [
+               "oe[-1]",
+               "is",
+               "HTML:optgroup"
+            ],
+            "type" : "if"
+         },
+         {
+            "possible_tag_names" : {
+               "hr" : {
+               }
+            },
+            "type" : "insert an HTML element"
+         },
+         {
+            "type" : "pop-oe"
+         },
+         {
+            "type" : "acknowledge the token's self-closing flag"
          }
       ],
       "in select;START:input,keygen,textarea" : [
@@ -7598,7 +7429,7 @@
             "cond" : [
                "oe[-1]",
                "is",
-               "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:tr"
+               "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:template HTML:tr"
             ],
             "false_actions" : [
                {
@@ -8303,7 +8134,7 @@
             "type" : "if"
          }
       ],
-      "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p" : [
+      "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p" : [
          {
             "error_type" : "in table",
             "name" : "in-table-else",
@@ -8396,6 +8227,8 @@
                "ol" : {
                },
                "p" : {
+               },
+               "search" : {
                },
                "section" : {
                },
@@ -8630,14 +8463,14 @@
             "cond" : [
                "or",
                [
-                  "oe[1]",
-                  "is not",
-                  "HTML:body"
-               ],
-               [
                   "oe[-1]",
                   "is",
                   "HTML:html"
+               ],
+               [
+                  "oe[1]",
+                  "is not",
+                  "HTML:body"
                ],
                [
                   "oe",
@@ -8949,7 +8782,7 @@
                               "cond" : [
                                  "node",
                                  "is",
-                                 "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                                 "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                               ],
                               "false_actions" : [
                               ],
@@ -9671,7 +9504,7 @@
                         "cond" : [
                            "node",
                            "is",
-                           "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+                           "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
                         ],
                         "false_actions" : [
                         ],
@@ -10870,7 +10703,7 @@
             "cond" : [
                "oe[-1]",
                "is",
-               "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:tr"
+               "HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:template HTML:tr"
             ],
             "false_actions" : [
                {
@@ -11231,9 +11064,6 @@
                   "type" : "push-oe"
                },
                {
-                  "type" : "appcache-processing"
-               },
-               {
                   "im" : "before head",
                   "type" : "switch the insertion mode"
                },
@@ -11567,7 +11397,7 @@
          "HTML:a,HTML:b,HTML:big,HTML:code,HTML:em,HTML:font,HTML:i,HTML:nobr,HTML:s,HTML:small,HTML:strike,HTML:strong,HTML:tt,HTML:u",
          "HTML:address,HTML:div",
          "HTML:applet,HTML:marquee,MathML:annotation-xml",
-         "HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp",
+         "HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp",
          "HTML:audio,HTML:video",
          "HTML:body",
          "HTML:button",
@@ -11652,6 +11482,7 @@
          "HTML:ruby",
          "HTML:sarcasm",
          "HTML:script",
+         "HTML:search",
          "HTML:section",
          "HTML:select",
          "HTML:summary",
@@ -11675,7 +11506,7 @@
             "END-ELSE" : "after after body;END-ELSE",
             "END:*-* output" : "after after body;END-ELSE",
             "END:a" : "after after body;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after after body;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after after body;END-ELSE",
             "END:applet marquee" : "after after body;END-ELSE",
             "END:area wbr" : "after after body;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "after after body;END-ELSE",
@@ -11739,7 +11570,7 @@
             "START-ELSE" : "after after body;START-ELSE",
             "START:*-* output" : "after after body;START-ELSE",
             "START:a" : "after after body;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after after body;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after after body;START-ELSE",
             "START:applet marquee" : "after after body;START-ELSE",
             "START:area wbr" : "after after body;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "after after body;START-ELSE",
@@ -11809,7 +11640,7 @@
             "END-ELSE" : "after after frameset;END-ELSE",
             "END:*-* output" : "after after frameset;END-ELSE",
             "END:a" : "after after frameset;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after after frameset;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after after frameset;END-ELSE",
             "END:applet marquee" : "after after frameset;END-ELSE",
             "END:area wbr" : "after after frameset;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "after after frameset;END-ELSE",
@@ -11873,7 +11704,7 @@
             "START-ELSE" : "after after frameset;START-ELSE",
             "START:*-* output" : "after after frameset;START-ELSE",
             "START:a" : "after after frameset;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after after frameset;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after after frameset;START-ELSE",
             "START:applet marquee" : "after after frameset;START-ELSE",
             "START:area wbr" : "after after frameset;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "after after frameset;START-ELSE",
@@ -11943,7 +11774,7 @@
             "END-ELSE" : "after body;END-ELSE",
             "END:*-* output" : "after body;END-ELSE",
             "END:a" : "after body;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after body;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after body;END-ELSE",
             "END:applet marquee" : "after body;END-ELSE",
             "END:area wbr" : "after body;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "after body;END-ELSE",
@@ -12007,7 +11838,7 @@
             "START-ELSE" : "after body;START-ELSE",
             "START:*-* output" : "after body;START-ELSE",
             "START:a" : "after body;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after body;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after body;START-ELSE",
             "START:applet marquee" : "after body;START-ELSE",
             "START:area wbr" : "after body;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "after body;START-ELSE",
@@ -12077,7 +11908,7 @@
             "END-ELSE" : "after frameset;END-ELSE",
             "END:*-* output" : "after frameset;END-ELSE",
             "END:a" : "after frameset;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after frameset;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after frameset;END-ELSE",
             "END:applet marquee" : "after frameset;END-ELSE",
             "END:area wbr" : "after frameset;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "after frameset;END-ELSE",
@@ -12141,7 +11972,7 @@
             "START-ELSE" : "after frameset;START-ELSE",
             "START:*-* output" : "after frameset;START-ELSE",
             "START:a" : "after frameset;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after frameset;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after frameset;START-ELSE",
             "START:applet marquee" : "after frameset;START-ELSE",
             "START:area wbr" : "after frameset;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "after frameset;START-ELSE",
@@ -12211,7 +12042,7 @@
             "END-ELSE" : "after head;END-ELSE",
             "END:*-* output" : "after head;END-ELSE",
             "END:a" : "after head;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after head;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after head;END-ELSE",
             "END:applet marquee" : "after head;END-ELSE",
             "END:area wbr" : "after head;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "after head;END-ELSE",
@@ -12275,7 +12106,7 @@
             "START-ELSE" : "after head;START-ELSE",
             "START:*-* output" : "after head;START-ELSE",
             "START:a" : "after head;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "after head;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "after head;START-ELSE",
             "START:applet marquee" : "after head;START-ELSE",
             "START:area wbr" : "after head;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "after head;START-ELSE",
@@ -12345,7 +12176,7 @@
             "END-ELSE" : "before head;END-ELSE",
             "END:*-* output" : "before head;END-ELSE",
             "END:a" : "before head;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "before head;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "before head;END-ELSE",
             "END:applet marquee" : "before head;END-ELSE",
             "END:area wbr" : "before head;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "before head;END-ELSE",
@@ -12409,7 +12240,7 @@
             "START-ELSE" : "before head;START-ELSE",
             "START:*-* output" : "before head;START-ELSE",
             "START:a" : "before head;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "before head;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "before head;START-ELSE",
             "START:applet marquee" : "before head;START-ELSE",
             "START:area wbr" : "before head;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "before head;START-ELSE",
@@ -12479,7 +12310,7 @@
             "END-ELSE" : "before html;END-ELSE",
             "END:*-* output" : "before html;END-ELSE",
             "END:a" : "before html;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "before html;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "before html;END-ELSE",
             "END:applet marquee" : "before html;END-ELSE",
             "END:area wbr" : "before html;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "before html;END-ELSE",
@@ -12543,7 +12374,7 @@
             "START-ELSE" : "before html;START-ELSE",
             "START:*-* output" : "before html;START-ELSE",
             "START:a" : "before html;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "before html;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "before html;START-ELSE",
             "START:applet marquee" : "before html;START-ELSE",
             "START:area wbr" : "before html;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "before html;START-ELSE",
@@ -12613,22 +12444,22 @@
             "END-ELSE" : "in body;END-ELSE",
             "END:*-* output" : "in body;END-ELSE",
             "END:a" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:applet marquee" : "in body;END:applet marquee,object",
             "END:area wbr" : "in body;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:base" : "in body;END-ELSE",
             "END:basefont bgsound link" : "in body;END-ELSE",
-            "END:blockquote center div dl menu ol ul" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:blockquote center div dl menu ol ul" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:body" : "in body;END:body",
             "END:br" : "in body;END:br",
-            "END:button" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:button" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:caption" : "in body;END-ELSE",
             "END:col" : "in body;END-ELSE",
             "END:colgroup" : "in body;END-ELSE",
             "END:dd dt" : "in body;END:dd dt",
             "END:embed" : "in body;END-ELSE",
-            "END:fieldset" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:fieldset" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:font" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:form" : "in body;END:form",
             "END:frame" : "in body;END-ELSE",
@@ -12643,7 +12474,7 @@
             "END:input" : "in body;END-ELSE",
             "END:keygen" : "in body;END-ELSE",
             "END:li" : "in body;END:li",
-            "END:listing pre" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:listing pre" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:malignmark mglyph" : "in body;END-ELSE",
             "END:math" : "in body;END-ELSE",
             "END:meta" : "in body;END-ELSE",
@@ -12677,13 +12508,13 @@
             "START-ELSE" : "in body;START-ELSE",
             "START:*-* output" : "in body;START-ELSE",
             "START:a" : "in body;START:a",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:applet marquee" : "in body;START:applet marquee,object",
             "START:area wbr" : "in body;START:area wbr,br,embed,img,keygen",
             "START:b big code em i s small strike strong tt u" : "in body;START:b big code em i s small strike strong tt u,font",
             "START:base" : "in head;START:base,basefont bgsound link",
             "START:basefont bgsound link" : "in head;START:base,basefont bgsound link",
-            "START:blockquote center div dl menu ol ul" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:blockquote center div dl menu ol ul" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:body" : "in body;START:body",
             "START:br" : "in body;START:area wbr,br,embed,img,keygen",
             "START:button" : "in body;START:button",
@@ -12692,7 +12523,7 @@
             "START:colgroup" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr",
             "START:dd dt" : "in body;START:dd dt",
             "START:embed" : "in body;START:area wbr,br,embed,img,keygen",
-            "START:fieldset" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:fieldset" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:font" : "in body;START:b big code em i s small strike strong tt u,font",
             "START:form" : "in body;START:form",
             "START:frame" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr",
@@ -12718,7 +12549,7 @@
             "START:object" : "in body;START:applet marquee,object",
             "START:optgroup" : "in body;START:optgroup,option",
             "START:option" : "in body;START:optgroup,option",
-            "START:p" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:p" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:param source track" : "in body;START:param source track",
             "START:plaintext" : "in body;START:plaintext",
             "START:rb rtc" : "in body;START:rb rtc",
@@ -12747,22 +12578,22 @@
             "END-ELSE" : "in body;END-ELSE",
             "END:*-* output" : "in body;END-ELSE",
             "END:a" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:applet marquee" : "in body;END:applet marquee,object",
             "END:area wbr" : "in body;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:base" : "in body;END-ELSE",
             "END:basefont bgsound link" : "in body;END-ELSE",
-            "END:blockquote center div dl menu ol ul" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:blockquote center div dl menu ol ul" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:body" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr",
             "END:br" : "in body;END:br",
-            "END:button" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:button" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:caption" : "in caption;END:caption",
             "END:col" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr",
             "END:colgroup" : "in caption;END:body,col,colgroup,html,tbody tfoot thead,td th,tr",
             "END:dd dt" : "in body;END:dd dt",
             "END:embed" : "in body;END-ELSE",
-            "END:fieldset" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:fieldset" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:font" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:form" : "in body;END:form",
             "END:frame" : "in body;END-ELSE",
@@ -12777,7 +12608,7 @@
             "END:input" : "in body;END-ELSE",
             "END:keygen" : "in body;END-ELSE",
             "END:li" : "in body;END:li",
-            "END:listing pre" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:listing pre" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:malignmark mglyph" : "in body;END-ELSE",
             "END:math" : "in body;END-ELSE",
             "END:meta" : "in body;END-ELSE",
@@ -12811,13 +12642,13 @@
             "START-ELSE" : "in body;START-ELSE",
             "START:*-* output" : "in body;START-ELSE",
             "START:a" : "in body;START:a",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:applet marquee" : "in body;START:applet marquee,object",
             "START:area wbr" : "in body;START:area wbr,br,embed,img,keygen",
             "START:b big code em i s small strike strong tt u" : "in body;START:b big code em i s small strike strong tt u,font",
             "START:base" : "in head;START:base,basefont bgsound link",
             "START:basefont bgsound link" : "in head;START:base,basefont bgsound link",
-            "START:blockquote center div dl menu ol ul" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:blockquote center div dl menu ol ul" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:body" : "in body;START:body",
             "START:br" : "in body;START:area wbr,br,embed,img,keygen",
             "START:button" : "in body;START:button",
@@ -12826,7 +12657,7 @@
             "START:colgroup" : "in caption;START:caption,col,colgroup,tbody tfoot thead,td th,tr",
             "START:dd dt" : "in body;START:dd dt",
             "START:embed" : "in body;START:area wbr,br,embed,img,keygen",
-            "START:fieldset" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:fieldset" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:font" : "in body;START:b big code em i s small strike strong tt u,font",
             "START:form" : "in body;START:form",
             "START:frame" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr",
@@ -12852,7 +12683,7 @@
             "START:object" : "in body;START:applet marquee,object",
             "START:optgroup" : "in body;START:optgroup,option",
             "START:option" : "in body;START:optgroup,option",
-            "START:p" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:p" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:param source track" : "in body;START:param source track",
             "START:plaintext" : "in body;START:plaintext",
             "START:rb rtc" : "in body;START:rb rtc",
@@ -12881,22 +12712,22 @@
             "END-ELSE" : "in body;END-ELSE",
             "END:*-* output" : "in body;END-ELSE",
             "END:a" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:applet marquee" : "in body;END:applet marquee,object",
             "END:area wbr" : "in body;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:base" : "in body;END-ELSE",
             "END:basefont bgsound link" : "in body;END-ELSE",
-            "END:blockquote center div dl menu ol ul" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:blockquote center div dl menu ol ul" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:body" : "in cell;END:body,caption,col,colgroup,html",
             "END:br" : "in body;END:br",
-            "END:button" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:button" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:caption" : "in cell;END:body,caption,col,colgroup,html",
             "END:col" : "in cell;END:body,caption,col,colgroup,html",
             "END:colgroup" : "in cell;END:body,caption,col,colgroup,html",
             "END:dd dt" : "in body;END:dd dt",
             "END:embed" : "in body;END-ELSE",
-            "END:fieldset" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:fieldset" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:font" : "in body;END:a,b big code em i s small strike strong tt u,font,nobr",
             "END:form" : "in body;END:form",
             "END:frame" : "in body;END-ELSE",
@@ -12911,7 +12742,7 @@
             "END:input" : "in body;END-ELSE",
             "END:keygen" : "in body;END-ELSE",
             "END:li" : "in body;END:li",
-            "END:listing pre" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
+            "END:listing pre" : "in body;END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,button,fieldset,listing pre",
             "END:malignmark mglyph" : "in body;END-ELSE",
             "END:math" : "in body;END-ELSE",
             "END:meta" : "in body;END-ELSE",
@@ -12945,13 +12776,13 @@
             "START-ELSE" : "in body;START-ELSE",
             "START:*-* output" : "in body;START-ELSE",
             "START:a" : "in body;START:a",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:applet marquee" : "in body;START:applet marquee,object",
             "START:area wbr" : "in body;START:area wbr,br,embed,img,keygen",
             "START:b big code em i s small strike strong tt u" : "in body;START:b big code em i s small strike strong tt u,font",
             "START:base" : "in head;START:base,basefont bgsound link",
             "START:basefont bgsound link" : "in head;START:base,basefont bgsound link",
-            "START:blockquote center div dl menu ol ul" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:blockquote center div dl menu ol ul" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:body" : "in body;START:body",
             "START:br" : "in body;START:area wbr,br,embed,img,keygen",
             "START:button" : "in body;START:button",
@@ -12960,7 +12791,7 @@
             "START:colgroup" : "in cell;START:caption,col,colgroup,tbody tfoot thead,td th,tr",
             "START:dd dt" : "in body;START:dd dt",
             "START:embed" : "in body;START:area wbr,br,embed,img,keygen",
-            "START:fieldset" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:fieldset" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:font" : "in body;START:b big code em i s small strike strong tt u,font",
             "START:form" : "in body;START:form",
             "START:frame" : "in body;START:caption,col,colgroup,frame,head,tbody tfoot thead,td th,tr",
@@ -12986,7 +12817,7 @@
             "START:object" : "in body;START:applet marquee,object",
             "START:optgroup" : "in body;START:optgroup,option",
             "START:option" : "in body;START:optgroup,option",
-            "START:p" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:p" : "in body;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:param source track" : "in body;START:param source track",
             "START:plaintext" : "in body;START:plaintext",
             "START:rb rtc" : "in body;START:rb rtc",
@@ -13015,7 +12846,7 @@
             "END-ELSE" : "in column group;END-ELSE",
             "END:*-* output" : "in column group;END-ELSE",
             "END:a" : "in column group;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in column group;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in column group;END-ELSE",
             "END:applet marquee" : "in column group;END-ELSE",
             "END:area wbr" : "in column group;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in column group;END-ELSE",
@@ -13079,7 +12910,7 @@
             "START-ELSE" : "in column group;START-ELSE",
             "START:*-* output" : "in column group;START-ELSE",
             "START:a" : "in column group;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in column group;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in column group;START-ELSE",
             "START:applet marquee" : "in column group;START-ELSE",
             "START:area wbr" : "in column group;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in column group;START-ELSE",
@@ -13149,7 +12980,7 @@
             "END-ELSE" : "in foreign content;END-ELSE",
             "END:*-* output" : "in foreign content;END-ELSE",
             "END:a" : "in foreign content;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in foreign content;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in foreign content;END-ELSE",
             "END:applet marquee" : "in foreign content;END-ELSE",
             "END:area wbr" : "in foreign content;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in foreign content;END-ELSE",
@@ -13157,7 +12988,7 @@
             "END:basefont bgsound link" : "in foreign content;END-ELSE",
             "END:blockquote center div dl menu ol ul" : "in foreign content;END-ELSE",
             "END:body" : "in foreign content;END-ELSE",
-            "END:br" : "in foreign content;END-ELSE",
+            "END:br" : "in foreign content;END:br,p",
             "END:button" : "in foreign content;END-ELSE",
             "END:caption" : "in foreign content;END-ELSE",
             "END:col" : "in foreign content;END-ELSE",
@@ -13190,7 +13021,7 @@
             "END:object" : "in foreign content;END-ELSE",
             "END:optgroup" : "in foreign content;END-ELSE",
             "END:option" : "in foreign content;END-ELSE",
-            "END:p" : "in foreign content;END-ELSE",
+            "END:p" : "in foreign content;END:br,p",
             "END:param source track" : "in foreign content;END-ELSE",
             "END:plaintext" : "in foreign content;END-ELSE",
             "END:rb rtc" : "in foreign content;END-ELSE",
@@ -13213,7 +13044,7 @@
             "START-ELSE" : "in foreign content;START-ELSE",
             "START:*-* output" : "in foreign content;START-ELSE",
             "START:a" : "in foreign content;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in foreign content;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in foreign content;START-ELSE",
             "START:applet marquee" : "in foreign content;START-ELSE",
             "START:area wbr" : "in foreign content;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in foreign content;START:b big code em i s small strike strong tt u,blockquote center div dl menu ol ul,body,br,dd dt,embed,h1 h2 h3 h4 h5 h6,head,hr,img,li,listing pre,meta,nobr,p,ruby span sub sup var,table",
@@ -13283,7 +13114,7 @@
             "END-ELSE" : "in frameset;END-ELSE",
             "END:*-* output" : "in frameset;END-ELSE",
             "END:a" : "in frameset;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in frameset;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in frameset;END-ELSE",
             "END:applet marquee" : "in frameset;END-ELSE",
             "END:area wbr" : "in frameset;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in frameset;END-ELSE",
@@ -13347,7 +13178,7 @@
             "START-ELSE" : "in frameset;START-ELSE",
             "START:*-* output" : "in frameset;START-ELSE",
             "START:a" : "in frameset;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in frameset;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in frameset;START-ELSE",
             "START:applet marquee" : "in frameset;START-ELSE",
             "START:area wbr" : "in frameset;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in frameset;START-ELSE",
@@ -13417,7 +13248,7 @@
             "END-ELSE" : "in head;END-ELSE",
             "END:*-* output" : "in head;END-ELSE",
             "END:a" : "in head;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in head;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in head;END-ELSE",
             "END:applet marquee" : "in head;END-ELSE",
             "END:area wbr" : "in head;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in head;END-ELSE",
@@ -13481,7 +13312,7 @@
             "START-ELSE" : "in head;START-ELSE",
             "START:*-* output" : "in head;START-ELSE",
             "START:a" : "in head;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in head;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in head;START-ELSE",
             "START:applet marquee" : "in head;START-ELSE",
             "START:area wbr" : "in head;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in head;START-ELSE",
@@ -13551,7 +13382,7 @@
             "END-ELSE" : "in head noscript;END-ELSE",
             "END:*-* output" : "in head noscript;END-ELSE",
             "END:a" : "in head noscript;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in head noscript;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in head noscript;END-ELSE",
             "END:applet marquee" : "in head noscript;END-ELSE",
             "END:area wbr" : "in head noscript;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in head noscript;END-ELSE",
@@ -13615,7 +13446,7 @@
             "START-ELSE" : "in head noscript;START-ELSE",
             "START:*-* output" : "in head noscript;START-ELSE",
             "START:a" : "in head noscript;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in head noscript;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in head noscript;START-ELSE",
             "START:applet marquee" : "in head noscript;START-ELSE",
             "START:area wbr" : "in head noscript;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in head noscript;START-ELSE",
@@ -13685,7 +13516,7 @@
             "END-ELSE" : "in table;END-ELSE",
             "END:*-* output" : "in table;END-ELSE",
             "END:a" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table;END-ELSE",
             "END:applet marquee" : "in table;END-ELSE",
             "END:area wbr" : "in table;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
@@ -13749,13 +13580,13 @@
             "START-ELSE" : "in table;START-ELSE",
             "START:*-* output" : "in table;START-ELSE",
             "START:a" : "in table;START:a",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:applet marquee" : "in table;START:applet marquee,object",
             "START:area wbr" : "in table;START:area wbr,br,embed,img,keygen",
             "START:b big code em i s small strike strong tt u" : "in table;START:b big code em i s small strike strong tt u,font",
             "START:base" : "in table;START:base,basefont bgsound link",
             "START:basefont bgsound link" : "in table;START:base,basefont bgsound link",
-            "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:body" : "in table;START:body",
             "START:br" : "in table;START:area wbr,br,embed,img,keygen",
             "START:button" : "in table;START:button",
@@ -13764,7 +13595,7 @@
             "START:colgroup" : "in row;START:caption,col,colgroup,tbody tfoot thead,tr",
             "START:dd dt" : "in table;START:dd dt",
             "START:embed" : "in table;START:area wbr,br,embed,img,keygen",
-            "START:fieldset" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:fieldset" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:font" : "in table;START:b big code em i s small strike strong tt u,font",
             "START:form" : "in table;START:form",
             "START:frame" : "in table;START:frame,head",
@@ -13790,7 +13621,7 @@
             "START:object" : "in table;START:applet marquee,object",
             "START:optgroup" : "in table;START:optgroup,option",
             "START:option" : "in table;START:optgroup,option",
-            "START:p" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:p" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:param source track" : "in table;START:param source track",
             "START:plaintext" : "in table;START:plaintext",
             "START:rb rtc" : "in table;START:rb rtc",
@@ -13819,7 +13650,7 @@
             "END-ELSE" : "in select;END-ELSE",
             "END:*-* output" : "in select;END-ELSE",
             "END:a" : "in select;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in select;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in select;END-ELSE",
             "END:applet marquee" : "in select;END-ELSE",
             "END:area wbr" : "in select;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in select;END-ELSE",
@@ -13883,7 +13714,7 @@
             "START-ELSE" : "in select;START-ELSE",
             "START:*-* output" : "in select;START-ELSE",
             "START:a" : "in select;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in select;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in select;START-ELSE",
             "START:applet marquee" : "in select;START-ELSE",
             "START:area wbr" : "in select;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in select;START-ELSE",
@@ -13905,7 +13736,7 @@
             "START:frameset" : "in select;START-ELSE",
             "START:h1 h2 h3 h4 h5 h6" : "in select;START-ELSE",
             "START:head" : "in select;START-ELSE",
-            "START:hr" : "in select;START-ELSE",
+            "START:hr" : "in select;START:hr",
             "START:html" : "in body;START:html",
             "START:iframe" : "in select;START-ELSE",
             "START:image" : "in select;START-ELSE",
@@ -13953,7 +13784,7 @@
             "END-ELSE" : "in select;END-ELSE",
             "END:*-* output" : "in select;END-ELSE",
             "END:a" : "in select;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in select;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in select;END-ELSE",
             "END:applet marquee" : "in select;END-ELSE",
             "END:area wbr" : "in select;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in select;END-ELSE",
@@ -14017,7 +13848,7 @@
             "START-ELSE" : "in select;START-ELSE",
             "START:*-* output" : "in select;START-ELSE",
             "START:a" : "in select;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in select;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in select;START-ELSE",
             "START:applet marquee" : "in select;START-ELSE",
             "START:area wbr" : "in select;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in select;START-ELSE",
@@ -14039,7 +13870,7 @@
             "START:frameset" : "in select;START-ELSE",
             "START:h1 h2 h3 h4 h5 h6" : "in select;START-ELSE",
             "START:head" : "in select;START-ELSE",
-            "START:hr" : "in select;START-ELSE",
+            "START:hr" : "in select;START:hr",
             "START:html" : "in body;START:html",
             "START:iframe" : "in select;START-ELSE",
             "START:image" : "in select;START-ELSE",
@@ -14087,7 +13918,7 @@
             "END-ELSE" : "in table;END-ELSE",
             "END:*-* output" : "in table;END-ELSE",
             "END:a" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table;END-ELSE",
             "END:applet marquee" : "in table;END-ELSE",
             "END:area wbr" : "in table;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
@@ -14151,13 +13982,13 @@
             "START-ELSE" : "in table;START-ELSE",
             "START:*-* output" : "in table;START-ELSE",
             "START:a" : "in table;START:a",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:applet marquee" : "in table;START:applet marquee,object",
             "START:area wbr" : "in table;START:area wbr,br,embed,img,keygen",
             "START:b big code em i s small strike strong tt u" : "in table;START:b big code em i s small strike strong tt u,font",
             "START:base" : "in table;START:base,basefont bgsound link",
             "START:basefont bgsound link" : "in table;START:base,basefont bgsound link",
-            "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:body" : "in table;START:body",
             "START:br" : "in table;START:area wbr,br,embed,img,keygen",
             "START:button" : "in table;START:button",
@@ -14166,7 +13997,7 @@
             "START:colgroup" : "in table;START:colgroup",
             "START:dd dt" : "in table;START:dd dt",
             "START:embed" : "in table;START:area wbr,br,embed,img,keygen",
-            "START:fieldset" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:fieldset" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:font" : "in table;START:b big code em i s small strike strong tt u,font",
             "START:form" : "in table;START:form",
             "START:frame" : "in table;START:frame,head",
@@ -14192,7 +14023,7 @@
             "START:object" : "in table;START:applet marquee,object",
             "START:optgroup" : "in table;START:optgroup,option",
             "START:option" : "in table;START:optgroup,option",
-            "START:p" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:p" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:param source track" : "in table;START:param source track",
             "START:plaintext" : "in table;START:plaintext",
             "START:rb rtc" : "in table;START:rb rtc",
@@ -14221,7 +14052,7 @@
             "END-ELSE" : "in table;END-ELSE",
             "END:*-* output" : "in table;END-ELSE",
             "END:a" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table;END-ELSE",
             "END:applet marquee" : "in table;END-ELSE",
             "END:area wbr" : "in table;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in table;END:a,b big code em i s small strike strong tt u,font,nobr",
@@ -14285,13 +14116,13 @@
             "START-ELSE" : "in table;START-ELSE",
             "START:*-* output" : "in table;START-ELSE",
             "START:a" : "in table;START:a",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:applet marquee" : "in table;START:applet marquee,object",
             "START:area wbr" : "in table;START:area wbr,br,embed,img,keygen",
             "START:b big code em i s small strike strong tt u" : "in table;START:b big code em i s small strike strong tt u,font",
             "START:base" : "in table;START:base,basefont bgsound link",
             "START:basefont bgsound link" : "in table;START:base,basefont bgsound link",
-            "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:blockquote center div dl menu ol ul" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:body" : "in table;START:body",
             "START:br" : "in table;START:area wbr,br,embed,img,keygen",
             "START:button" : "in table;START:button",
@@ -14300,7 +14131,7 @@
             "START:colgroup" : "in table body;START:caption,col,colgroup,tbody tfoot thead",
             "START:dd dt" : "in table;START:dd dt",
             "START:embed" : "in table;START:area wbr,br,embed,img,keygen",
-            "START:fieldset" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:fieldset" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:font" : "in table;START:b big code em i s small strike strong tt u,font",
             "START:form" : "in table;START:form",
             "START:frame" : "in table;START:frame,head",
@@ -14326,7 +14157,7 @@
             "START:object" : "in table;START:applet marquee,object",
             "START:optgroup" : "in table;START:optgroup,option",
             "START:option" : "in table;START:optgroup,option",
-            "START:p" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary,blockquote center div dl menu ol ul,fieldset,p",
+            "START:p" : "in table;START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary,blockquote center div dl menu ol ul,fieldset,p",
             "START:param source track" : "in table;START:param source track",
             "START:plaintext" : "in table;START:plaintext",
             "START:rb rtc" : "in table;START:rb rtc",
@@ -14355,7 +14186,7 @@
             "END-ELSE" : "in table text;END-ELSE",
             "END:*-* output" : "in table text;END-ELSE",
             "END:a" : "in table text;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table text;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table text;END-ELSE",
             "END:applet marquee" : "in table text;END-ELSE",
             "END:area wbr" : "in table text;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in table text;END-ELSE",
@@ -14419,7 +14250,7 @@
             "START-ELSE" : "in table text;START-ELSE",
             "START:*-* output" : "in table text;START-ELSE",
             "START:a" : "in table text;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in table text;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in table text;START-ELSE",
             "START:applet marquee" : "in table text;START-ELSE",
             "START:area wbr" : "in table text;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in table text;START-ELSE",
@@ -14489,7 +14320,7 @@
             "END-ELSE" : "in template;END-ELSE",
             "END:*-* output" : "in template;END-ELSE",
             "END:a" : "in template;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in template;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in template;END-ELSE",
             "END:applet marquee" : "in template;END-ELSE",
             "END:area wbr" : "in template;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "in template;END-ELSE",
@@ -14553,7 +14384,7 @@
             "START-ELSE" : "in template;START-ELSE",
             "START:*-* output" : "in template;START-ELSE",
             "START:a" : "in template;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "in template;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "in template;START-ELSE",
             "START:applet marquee" : "in template;START-ELSE",
             "START:area wbr" : "in template;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "in template;START-ELSE",
@@ -14623,7 +14454,7 @@
             "END-ELSE" : "initial;END-ELSE",
             "END:*-* output" : "initial;END-ELSE",
             "END:a" : "initial;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "initial;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "initial;END-ELSE",
             "END:applet marquee" : "initial;END-ELSE",
             "END:area wbr" : "initial;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "initial;END-ELSE",
@@ -14687,7 +14518,7 @@
             "START-ELSE" : "initial;START-ELSE",
             "START:*-* output" : "initial;START-ELSE",
             "START:a" : "initial;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "initial;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "initial;START-ELSE",
             "START:applet marquee" : "initial;START-ELSE",
             "START:area wbr" : "initial;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "initial;START-ELSE",
@@ -14757,7 +14588,7 @@
             "END-ELSE" : "text;END-ELSE",
             "END:*-* output" : "text;END-ELSE",
             "END:a" : "text;END-ELSE",
-            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "text;END-ELSE",
+            "END:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "text;END-ELSE",
             "END:applet marquee" : "text;END-ELSE",
             "END:area wbr" : "text;END-ELSE",
             "END:b big code em i s small strike strong tt u" : "text;END-ELSE",
@@ -14821,7 +14652,7 @@
             "START-ELSE" : "text;START-ELSE",
             "START:*-* output" : "text;START-ELSE",
             "START:a" : "text;START-ELSE",
-            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav section summary" : "text;START-ELSE",
+            "START:address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary" : "text;START-ELSE",
             "START:applet marquee" : "text;START-ELSE",
             "START:area wbr" : "text;START-ELSE",
             "START:b big code em i s small strike strong tt u" : "text;START-ELSE",
@@ -14906,7 +14737,7 @@
    "tag_name_groups" : [
       "*-* output",
       "a",
-      "address article aside details dialog dir figcaption figure footer header hgroup main nav section summary",
+      "address article aside details dialog dir figcaption figure footer header hgroup main nav search section summary",
       "applet marquee",
       "area wbr",
       "b big code em i s small strike strong tt u",
@@ -14978,7 +14809,7 @@
       "has an element in scope" : "HTML:applet,HTML:marquee,MathML:annotation-xml HTML:caption HTML:html HTML:object HTML:table HTML:td,HTML:th HTML:template MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title",
       "has an element in table scope" : "HTML:html HTML:table HTML:template",
       "has_popped_action" : "HTML:audio,HTML:video HTML:object HTML:style HTML:textarea",
-      "special category" : "HTML:address,HTML:div HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:p HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
+      "special category" : "HTML:address,HTML:div HTML:applet,HTML:marquee,MathML:annotation-xml HTML:area,HTML:article,HTML:aside,HTML:base,HTML:basefont,HTML:bgsound,HTML:blockquote,HTML:br,HTML:center,HTML:col,HTML:details,HTML:dir,HTML:dl,HTML:embed,HTML:figcaption,HTML:figure,HTML:footer,HTML:form,HTML:frame,HTML:frameset,HTML:head,HTML:header,HTML:hgroup,HTML:hr,HTML:iframe,HTML:keygen,HTML:link,HTML:listing,HTML:main,HTML:menu,HTML:meta,HTML:nav,HTML:noembed,HTML:noframes,HTML:noscript,HTML:param,HTML:plaintext,HTML:pre,HTML:script,HTML:search,HTML:section,HTML:source,HTML:summary,HTML:title,HTML:track,HTML:wbr,HTML:xmp HTML:body HTML:button HTML:caption HTML:colgroup HTML:dd HTML:dt HTML:fieldset,HTML:input,HTML:select HTML:h1,HTML:h2,HTML:h3,HTML:h4,HTML:h5,HTML:h6 HTML:html HTML:img HTML:li HTML:object HTML:ol,HTML:ul HTML:p HTML:style HTML:table HTML:tbody,HTML:tfoot,HTML:thead HTML:td,HTML:th HTML:template HTML:textarea HTML:tr MathML:mi,MathML:mn,MathML:mo,MathML:ms,MathML:mtext SVG:desc,SVG:foreignObject,SVG:title"
    },
    "tree_patterns_not" : {
       "has an element in select scope" : "HTML:optgroup,HTML:option"
