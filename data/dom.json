@@ -20058,6 +20058,28 @@
                               "ref",
                               "undefined"
                            ]
+                        },
+                        "ref[ShowPopoverOptions]" : {
+                           "args" : [
+                              {
+                                 "name" : "options",
+                                 "optionality" : "optional",
+                                 "spec" : "HTML",
+                                 "type" : [
+                                    "ref_dictionary",
+                                    "ShowPopoverOptions"
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
+                              }
+                           ],
+                           "type" : [
+                              "ref",
+                              "undefined"
+                           ]
                         }
                      },
                      "spec" : "HTML"
@@ -20095,13 +20117,37 @@
                            ],
                            "type" : "boolean"
                         },
-                        "boolean" : {
+                        "union[ref[TogglePopoverOptions],boolean]" : {
                            "args" : [
                               {
-                                 "name" : "force",
+                                 "name" : "options",
                                  "optionality" : "optional",
                                  "spec" : "HTML",
-                                 "type" : "boolean"
+                                 "type" : [
+                                    "union",
+                                    {
+                                       "def" : [
+                                          [
+                                             "ref_dictionary",
+                                             "TogglePopoverOptions"
+                                          ],
+                                          "boolean"
+                                       ],
+                                       "flattened" : {
+                                          "boolean" : "boolean",
+                                          "ref_dictionary[TogglePopoverOptions]" : [
+                                             "ref_dictionary",
+                                             "TogglePopoverOptions"
+                                          ]
+                                       },
+                                       "has_dictionary" : 1
+                                    }
+                                 ],
+                                 "value" : [
+                                    "dictionary_value",
+                                    {
+                                    }
+                                 ]
                               }
                            ],
                            "type" : "boolean"
@@ -38225,6 +38271,26 @@
             "spec" : "HTML"
          }
       ],
+      "ShowPopoverOptions" : [
+         "dictionary",
+         {
+            "id" : "showpopoveroptions",
+            "members" : {
+               "source" : [
+                  "dictionary_member",
+                  {
+                     "id" : "dom-showpopoveroptions-source",
+                     "spec" : "HTML",
+                     "type" : [
+                        "ref_interface",
+                        "HTMLElement"
+                     ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
       "SlotAssignmentMode" : [
          "enum",
          {
@@ -40057,6 +40123,27 @@
                         "string",
                         ""
                      ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
+      "TogglePopoverOptions" : [
+         "dictionary",
+         {
+            "id" : "togglepopoveroptions",
+            "implements" : {
+               "ShowPopoverOptions" : {
+                  "depth" : 1
+               }
+            },
+            "members" : {
+               "force" : [
+                  "dictionary_member",
+                  {
+                     "spec" : "HTML",
+                     "type" : "boolean"
                   }
                ]
             },
