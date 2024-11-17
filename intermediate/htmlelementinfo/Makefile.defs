@@ -1,0 +1,64 @@
+PERL = perl
+
+all: local-dtds defs.json
+
+#local/data/elements/files/elements.json:
+#data-web-defs/data/elements.json
+
+local-dtds: local-dtds-deps \
+    local/dtdinfo/html10.json \
+    local/dtdinfo/html-19920602.json \
+    local/dtdinfo/html-19920715.json \
+    local/dtdinfo/htmlplus-19930713.json \
+    local/dtdinfo/htmlplus-19940405c.json \
+    local/dtdinfo/htmlplus-19940405.json \
+    local/dtdinfo/html30.json \
+    local/dtdinfo/html32.json \
+    local/dtdinfo/html2x.json \
+    local/dtdinfo/html20.json \
+    local/dtdinfo/html3-tables.json \
+    local/dtdinfo/isohtml-19970327.json \
+    local/dtdinfo/isohtml-20030424.json \
+    local/dtdinfo/isohtml-20030424p.json \
+    local/dtdinfo/xhtml10s.json \
+    local/dtdinfo/xhtml10f.json \
+    local/dtdinfo/xhtml10t.json \
+    local/dtdinfo/xhtml-basic10.json \
+    local/dtdinfo/xhtml-print10.json \
+    local/dtdinfo/xhtml11.json
+
+local-dtds-deps:
+	mkdir -p local/dtd local/dtdinfo
+
+#SCHEMADB_URL = ...
+local/dtd/*.dtd: Makefile.localdtd
+	$(MAKE) -f Makefile.localdtd $@ SCHEMADB_URL=$(SCHEMADB_URL)
+
+local/dtdinfo/html-19920602.json \
+local/dtdinfo/html-19920715.json \
+local/dtdinfo/htmlplus-19930713.json \
+local/dtdinfo/htmlplus-19940405c.json \
+local/dtdinfo/htmlplus-19940405.json \
+local/dtdinfo/html10.json \
+local/dtdinfo/html20.json \
+local/dtdinfo/html2x.json \
+local/dtdinfo/html30.json \
+local/dtdinfo/html32.json \
+local/dtdinfo/html3-tables.json \
+local/dtdinfo/isohtml-19970327.json \
+local/dtdinfo/isohtml-20030424.json \
+local/dtdinfo/isohtml-20030424p.json \
+local/dtdinfo/xhtml10s.json \
+local/dtdinfo/xhtml10t.json \
+local/dtdinfo/xhtml10f.json \
+local/dtdinfo/xhtml-basic10.json \
+local/dtdinfo/xhtml-print10.json \
+local/dtdinfo/xhtml11.json \
+:: local/dtdinfo/%.json: local/dtd/%.dtd dtdinfo.pl
+	$(PERL) dtdinfo.pl $< > $@
+
+defs.json: defs.pl local/dtdinfo/*.json \
+    local/data/elements/files/elements.json
+	$(PERL) $< > $@
+
+## License: Public Domain.

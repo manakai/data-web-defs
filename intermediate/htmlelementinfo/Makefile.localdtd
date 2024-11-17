@@ -1,0 +1,74 @@
+SCHEMADB_URL = https://localhost/.../
+
+local/dtd/html10.dtd:
+	curl $(SCHEMADB_URL)html-19930106.pre > $@
+local/dtd/isohtml-19970327.dtd:
+	curl $(SCHEMADB_URL)iso-html-19970327.dtd > $@
+local/dtd/isohtml-20030424.dtd:
+	curl $(SCHEMADB_URL)iso-html-20030424.dtd > $@
+local/dtd/isohtml-20030424p.dtd: local/dtd/isohtml-20030424.dtd
+	echo '<!ENTITY % Preparation "INCLUDE">' > $@
+	cat local/dtd/isohtml-20030424.dtd >> $@
+local/dtd/html-19920602.dtd:
+	curl $(SCHEMADB_URL)html-19920606.dtd > $@
+local/dtd/html-19920715.dtd:
+	curl $(SCHEMADB_URL)html-19920715.dtd > $@
+local/dtd/htmlplus-19930713.dtd:
+	curl $(SCHEMADB_URL)htmlplus-19930713.dtd > $@
+local/dtd/htmlplus-19940405c.dtd:
+	curl $(SCHEMADB_URL)htmlplus-19940405.pre > $@
+local/dtd/htmlplus-19940405.dtd: local/dtd/htmlplus-19940405c.dtd
+	echo '<!ENTITY % HTML.math "INCLUDE">' > $@
+	echo '<!ENTITY % HTML.tables "INCLUDE">' >> $@
+	echo '<!ENTITY % HTML.figures "INCLUDE">' >> $@
+	echo '<!ENTITY % HTML.emph "INCLUDE">' >> $@
+	echo '<!ENTITY % HTML.forms "INCLUDE">' >> $@
+	echo '<!ENTITY % HTML.obsolete "INCLUDE">' >> $@
+	echo '<!ENTITY % HTML.icons "INCLUDE">' >> $@
+	cat local/dtd/htmlplus-19940405c.dtd >> $@
+local/dtd/html30.dtd:
+	curl $(SCHEMADB_URL)html30-19950324.dtd > $@
+local/dtd/html32.dtd:
+	curl $(SCHEMADB_URL)html32-19970114.dtd > $@
+local/dtd/html20.dtd:
+	curl $(SCHEMADB_URL)html20-19950921.dtd > $@
+local/dtd/html2x.dtd:
+	curl $(SCHEMADB_URL)html2x-19960807.dtd > $@
+local/dtd/html3-tables.dtd:
+	curl $(SCHEMADB_URL)html3-table-199605.mod > $@
+local/dtd/xhtml-basic10.dtd:
+	curl $(SCHEMADB_URL)xhtml-basic10-20001219/xhtml-basic10-f.dtd > $@
+local/dtd/xhtml10s.dtd:
+	curl https://www.w3.org/TR/2002/REC-xhtml1-20020801/DTD/xhtml1-strict.dtd > $@
+local/dtd/xhtml10t.dtd:
+	curl $(SCHEMADB_URL)xhtml10-t-20020801.dtd > $@
+local/dtd/xhtml10f.dtd:
+	curl $(SCHEMADB_URL)xhtml10-f-20020801.dtd > $@
+local/dtd/xhtml11.dtd:
+	curl $(SCHEMADB_URL)xhtml11-20010531/xhtml11-flat.dtd > $@
+local/dtd/xhtml-print10-only.dtd:
+	curl -f https://www.w3.org/TR/2010/REC-xhtml-print-20101123/DTD/xhtml-print10.dtd > $@
+local/dtd/xhtml-print10-model-1.mod:
+	curl -f https://www.w3.org/TR/2010/REC-xhtml-print-20101123/DTD/xhtml-print10-model-1.mod > $@
+local/dtd/xhtml-print10.dtd: \
+    local/dtd/xhtml-print10-only.dtd local/dtd/xhtml-print10-model-1.mod \
+    local/dtd/xhtml-basic10.dtd local/dtd/xhtml11.dtd
+	cat local/dtd/xhtml-print10-only.dtd > $@
+	cat local/dtd/xhtml-print10-model-1.mod >> $@
+	echo '<!ENTITY % xhtml-struct.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-inlstruct.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-inlphras.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-blkstruct.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-blkphras.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-hypertext.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-list.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-blkpres.module "INCLUDE">' >> $@
+	echo '<!ENTITY % xhtml-inlpres.module "INCLUDE">' >> $@
+	cat local/dtd/xhtml-basic10.dtd | grep 'ENTITY % xhtml-.*.module' | sed 's/\(<!ENTITY % [^.]*\.module\) "[^"]*"/\1 "IGNORE"/g' >> $@
+	cat local/dtd/xhtml11.dtd | grep 'ENTITY % xhtml-.*.module' | sed 's/\(<!ENTITY % [^.]*\.module\) "[^"]*"/\1 "IGNORE"/g' >> $@
+	cat local/dtd/xhtml-basic10.dtd >> $@
+	echo '<!!ignore xhtml-table.module>' >> $@
+	echo '<!!ignore xhtml-form.module>' >> $@
+	cat local/dtd/xhtml11.dtd >> $@
+
+## License: Public Domain.
