@@ -67,6 +67,9 @@ for my $file_name (qw(local/sw-url-schemes.txt)) {
   for my $record (@{$json->{registries}->{'uri-schemes-1'}->{records}}) {
     my $scheme = $record->{value};
     $scheme =~ tr/A-Z/a-z/;
+    if ($scheme =~ s/\s*\(obsolete\)$//) {
+      $Data->{$scheme}->{obsolete} = 1;
+    }
     $Data->{$scheme}->{iana} = lc $record->{status};
   }
 }

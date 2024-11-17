@@ -247,7 +247,8 @@ The file contains a JSON object with following name/value pairs:
         |icap| -> ICAP, |mail| -> RFC 822 e-mail messages, |mime| ->
         MIME, |netnews| -> USENET news articles, |rtsp| -> RTSP,
         |s-http| -> S-HTTP, |sip| -> SIP, |ssdp| -> SSDP).  The value
-        is a JSON object with following name/value pairs:
+        is a [protocol-object] with following additional name/value
+        pairs:
 
           206_representation_metadata [string?]
 
@@ -352,10 +353,6 @@ The file contains a JSON object with following name/value pairs:
             <https://fetch.spec.whatwg.org/#cors-non-wildcard-request-header-name>
             or not.
 
-          deprecated [boolean]
-
-            Whether the header is deprecated or not.
-
           enumerated_attr_state_name [string?]
 
             The state name of the HTML |http-equiv| attribute as an
@@ -394,9 +391,15 @@ The file contains a JSON object with following name/value pairs:
             <https://fetch.spec.whatwg.org/#forbidden-response-header-name>
             or not.
 
-          id [id-in-spec?]
+          iana_name [string?]
 
-            The ID in the relevant specification, if any.
+            The registered header field name in the IANA registry, if
+            any.
+
+          iana_status [string?]
+
+            The status of the header field in the IANA registry, if
+            any.
 
           message_framing [boolean]
 
@@ -442,11 +445,6 @@ The file contains a JSON object with following name/value pairs:
             Whether the header cannot be used in trailers according to
             <https://tools.ietf.org/html/rfc7230#section-4.1.2> or
             not.  See also |trailer|.
-
-          obsolete [boolean]
-
-            Whether the header is obsolete or not.  Note that an
-            obsolete header might still be conforming.
 
           origin_server [boolean]
 
@@ -584,10 +582,6 @@ The file contains a JSON object with following name/value pairs:
             depending on the value.  Otherwise, it is not a
             CORS-safelisted request-header.
 
-          spec [spec?]
-
-            The relevant specification, if any.
-
           trace_unsafe [boolean]
 
             Whether the header contains a sensitive data such that it
@@ -598,10 +592,6 @@ The file contains a JSON object with following name/value pairs:
 
             Whether the header is explicitly allowed to be used in the
             trailer part or not.  See also |not_for_trailer|.
-
-          url [string?]
-
-            The URL of the specification, if any.
 
           validator [boolean]
 

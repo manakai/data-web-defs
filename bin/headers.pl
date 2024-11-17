@@ -4,7 +4,8 @@ use JSON::PS;
 use Path::Tiny;
 
 my $Data = {};
-my $src_path = path (__FILE__)->parent->parent->child ('src');
+my $RootPath = path (__FILE__)->parent->parent;
+my $src_path = $RootPath->child ('src');
 my $IANAData = json_bytes2perl $src_path->parent->child ('local/iana/http-parameters.json')->slurp;
 my $IANAUpgradeData = json_bytes2perl $src_path->parent->child ('local/iana/http-protocols.json')->slurp;
 my $IANAAuthData = json_bytes2perl $src_path->parent->child ('local/iana/http-auth-schemes.json')->slurp;
@@ -540,6 +541,33 @@ for (split /\x0D?\x0A/, $src_path->child ('http-ims.txt')->slurp_utf8) {
     } elsif (/\S/) {
       die "Bad line: |$_|\n";
     }
+  }
+}
+
+{
+  my $path = $RootPath->child ('local/iana/http-headers.json');
+  my $json = json_bytes2perl $path->slurp;
+  for my $record (@{$json->{registries}->{'field-names'}->{records}}) {
+    my $name = $record->{value};
+    $name =~ tr/A-Z/a-z/;
+    my $data = $Data->{headers}->{$name}->{http} ||= {};
+    $data->{iana} = 1;
+    $data->{iana_name} = $record->{value};
+    $data->{iana_status} = $record->{status};
+    $data->{obsolete} = 1 if $record->{status} eq 'obsoleted';
+    $data->{deprecated} = 1 if $record->{status} eq 'deprecated';
+    $data->{structured_type} = $record->{structured}
+        if defined $record->{structured};
+    if (not defined $record->{xref}->{type}) {
+      # broken
+    } elsif ($record->{xref}->{type} eq 'rfc' and
+             $record->{xref}->{data} =~ /^rfc([0-9]+)$/) {
+      $data->{spec} = "RFC$1";
+    } elsif ($record->{xref}->{type} eq 'uri' and
+             $record->{xref}->{data} =~ m{^https?://}) {
+      $data->{url} //= $record->{xref}->{data};
+    }
+    $Data->{headers}->{$name}->{name} //= $data->{iana_name};
   }
 }
 

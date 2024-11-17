@@ -269,6 +269,9 @@ local/iana/http-digests.xml:
 local/iana/headers.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/message-headers/message-headers.xml
+local/iana/http-headers.xml:
+	mkdir -p local/iana
+	$(SAVEURL) $@ https://www.iana.org/assignments/http-fields/http-fields.xml
 local/iana/fcast.xml:
 	mkdir -p local/iana
 	$(SAVEURL) $@ https://www.iana.org/assignments/fcast/fcast.xml
@@ -312,6 +315,7 @@ data/headers.json: bin/headers.pl src/http-headers.txt src/http-protocols.txt \
     src/icap-headers.txt local/iana/http-parameters.json \
     src/http-range-units.txt src/http-cache-directives.txt \
     src/http-pragma-directives.txt src/http-warn-codes.txt \
+    local/iana/http-headers.json \
     local/iana/http-protocols.json \
     local/iana/http-cache-control.json \
     local/iana/http-warn-codes.json local/iana/sip.json \
