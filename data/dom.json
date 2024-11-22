@@ -12375,6 +12375,10 @@
                   "depth" : 2,
                   "supplemental" : 1
                },
+               "MessageEventTarget" : {
+                  "depth" : 1,
+                  "supplemental" : 1
+               },
                "WindowOrWorkerGlobalScope" : {
                   "depth" : 2,
                   "supplemental" : 1
@@ -12409,32 +12413,6 @@
                      "setter" : "replaceable",
                      "spec" : "HTML",
                      "type" : "DOMString"
-                  }
-               ],
-               "onmessage" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "handler-dedicatedworkerglobalscope-onmessage",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref_typedef",
-                        "EventHandler"
-                     ]
-                  }
-               ],
-               "onmessageerror" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "handler-dedicatedworkerglobalscope-onmessageerror",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref_typedef",
-                        "EventHandler"
-                     ]
                   }
                ],
                "postMessage" : [
@@ -30992,6 +30970,41 @@
             "spec" : "HTML"
          }
       ],
+      "MessageEventTarget" : [
+         "interface_mixin",
+         {
+            "id" : "messageeventtarget",
+            "members" : {
+               "onmessage" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "handler-messageeventtarget-onmessage",
+                     "setter" : 1,
+                     "spec" : "HTML",
+                     "type" : [
+                        "ref_typedef",
+                        "EventHandler"
+                     ]
+                  }
+               ],
+               "onmessageerror" : [
+                  "attribute",
+                  {
+                     "getter" : 1,
+                     "id" : "handler-messageeventtarget-onmessageerror",
+                     "setter" : 1,
+                     "spec" : "HTML",
+                     "type" : [
+                        "ref_typedef",
+                        "EventHandler"
+                     ]
+                  }
+               ]
+            },
+            "spec" : "HTML"
+         }
+      ],
       "MessagePort" : [
          "interface",
          {
@@ -31005,6 +31018,10 @@
             "implements" : {
                "EventTarget" : {
                   "depth" : 1
+               },
+               "MessageEventTarget" : {
+                  "depth" : 1,
+                  "supplemental" : 1
                }
             },
             "members" : {
@@ -31030,32 +31047,6 @@
                   {
                      "getter" : 1,
                      "id" : "handler-messageport-onclose",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref_typedef",
-                        "EventHandler"
-                     ]
-                  }
-               ],
-               "onmessage" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "handler-messageport-onmessage",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref_typedef",
-                        "EventHandler"
-                     ]
-                  }
-               ],
-               "onmessageerror" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "handler-messageport-onmessageerror",
                      "setter" : 1,
                      "spec" : "HTML",
                      "type" : [
@@ -43264,35 +43255,13 @@
                },
                "EventTarget" : {
                   "depth" : 1
+               },
+               "MessageEventTarget" : {
+                  "depth" : 1,
+                  "supplemental" : 1
                }
             },
             "members" : {
-               "onmessage" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "handler-worker-onmessage",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref_typedef",
-                        "EventHandler"
-                     ]
-                  }
-               ],
-               "onmessageerror" : [
-                  "attribute",
-                  {
-                     "getter" : 1,
-                     "id" : "handler-worker-onmessageerror",
-                     "setter" : 1,
-                     "spec" : "HTML",
-                     "type" : [
-                        "ref_typedef",
-                        "EventHandler"
-                     ]
-                  }
-               ],
                "postMessage" : [
                   "operation",
                   {
