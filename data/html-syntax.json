@@ -1162,12 +1162,12 @@
                   }
                ]
             },
-            "END:address article aside blockquote button center details dialog dir div dl fieldset figcaption figure footer header hgroup listing main menu nav ol pre search section summary ul" : {
+            "END:address article aside blockquote button center details dialog dir div dl fieldset figcaption figure footer header hgroup listing main menu nav ol pre search section select summary ul" : {
                "actions" : [
                   {
                      "actions" : [
                         {
-                           "name" : "in-body-end-a3bbcd5f4hhlmmnops3u",
+                           "name" : "in-body-end-a3bbcd5f4hhlmmnops4u",
                            "type" : "parse error"
                         },
                         {
@@ -1190,7 +1190,7 @@
                         {
                            "actions" : [
                               {
-                                 "name" : "in-body-end-a3bbcd5f4hhlmmnops3u-2",
+                                 "name" : "in-body-end-a3bbcd5f4hhlmmnops4u-2",
                                  "type" : "parse error"
                               }
                            ],
@@ -2531,6 +2531,44 @@
                      "type" : "if"
                   },
                   {
+                     "actions" : [
+                        {
+                           "type" : "generate implied end tags"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-hr",
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "in scope",
+                              "scope",
+                              {
+                                 "name" : [
+                                    "option",
+                                    "optgroup"
+                                 ],
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "scope",
+                        {
+                           "name" : "select",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
+                  {
                      "type" : "insert an HTML element"
                   },
                   {
@@ -2604,6 +2642,60 @@
             },
             "START:input" : {
                "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "name" : "in-body-start-input",
+                           "type" : "parse error"
+                        },
+                        {
+                           "type" : "ignore the token"
+                        },
+                        {
+                           "type" : "abort these steps"
+                        }
+                     ],
+                     "cond" : [
+                        "and",
+                        [
+                           "fragment"
+                        ],
+                        [
+                           "node",
+                           "is",
+                           {
+                              "name" : "select",
+                              "ns" : "HTML"
+                           }
+                        ]
+                     ],
+                     "type" : "if"
+                  },
+                  {
+                     "actions" : [
+                        {
+                           "name" : "in-body-start-input-2",
+                           "type" : "parse error"
+                        },
+                        {
+                           "type" : "pop-oe",
+                           "until" : {
+                              "name" : "select",
+                              "ns" : "HTML"
+                           }
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "scope",
+                        {
+                           "name" : "select",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "type" : "if"
+                  },
                   {
                      "type" : "reconstruct the active formatting elements"
                   },
@@ -2869,20 +2961,60 @@
                   }
                ]
             },
-            "START:optgroup option" : {
+            "START:optgroup" : {
                "actions" : [
                   {
                      "actions" : [
                         {
-                           "type" : "pop-oe"
+                           "type" : "generate implied end tags"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-optgroup",
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "in scope",
+                              "scope",
+                              {
+                                 "name" : [
+                                    "option",
+                                    "optgroup"
+                                 ],
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "cond" : [
-                        "oe[-1]",
-                        "is",
+                        "oe",
+                        "in scope",
+                        "scope",
                         {
-                           "name" : "option",
+                           "name" : "select",
                            "ns" : "HTML"
+                        }
+                     ],
+                     "false_actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "pop-oe"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is",
+                              {
+                                 "name" : "option",
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "type" : "if"
@@ -2892,6 +3024,73 @@
                   },
                   {
                      "type" : "insert an HTML element"
+                  }
+               ]
+            },
+            "START:option" : {
+               "actions" : [
+                  {
+                     "actions" : [
+                        {
+                           "except" : {
+                              "name" : "optgroup",
+                              "ns" : "HTML"
+                           },
+                           "type" : "generate implied end tags"
+                        },
+                        {
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-option",
+                                 "type" : "parse error"
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "in scope",
+                              "scope",
+                              {
+                                 "name" : "option",
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
+                        }
+                     ],
+                     "cond" : [
+                        "oe",
+                        "in scope",
+                        "scope",
+                        {
+                           "name" : "select",
+                           "ns" : "HTML"
+                        }
+                     ],
+                     "false_actions" : [
+                        {
+                           "actions" : [
+                              {
+                                 "type" : "pop-oe"
+                              }
+                           ],
+                           "cond" : [
+                              "oe[-1]",
+                              "is",
+                              {
+                                 "name" : "option",
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "type" : "if"
+                        },
+                        {
+                           "type" : "reconstruct the active formatting elements"
+                        },
+                        {
+                           "type" : "insert an HTML element"
+                        }
+                     ],
+                     "type" : "if"
                   }
                ]
             },
@@ -3028,37 +3227,69 @@
             "START:select" : {
                "actions" : [
                   {
-                     "type" : "reconstruct the active formatting elements"
-                  },
-                  {
-                     "type" : "insert an HTML element"
-                  },
-                  {
-                     "target" : "frameset-ok",
-                     "type" : "set-false"
-                  },
-                  {
                      "actions" : [
                         {
-                           "im" : "in select in table",
-                           "type" : "switch the insertion mode"
+                           "name" : "in-body-start-select",
+                           "type" : "parse error"
+                        },
+                        {
+                           "type" : "ignore the token"
                         }
                      ],
                      "cond" : [
-                        "im",
-                        "is",
+                        "and",
                         [
-                           "in table",
-                           "in caption",
-                           "in table body",
-                           "in row",
-                           "in cell"
+                           "fragment"
+                        ],
+                        [
+                           "node",
+                           "is",
+                           {
+                              "name" : "select",
+                              "ns" : "HTML"
+                           }
                         ]
                      ],
                      "false_actions" : [
                         {
-                           "im" : "in select",
-                           "type" : "switch the insertion mode"
+                           "actions" : [
+                              {
+                                 "name" : "in-body-start-select-2",
+                                 "type" : "parse error"
+                              },
+                              {
+                                 "type" : "ignore the token"
+                              },
+                              {
+                                 "type" : "pop-oe",
+                                 "until" : {
+                                    "name" : "select",
+                                    "ns" : "HTML"
+                                 }
+                              }
+                           ],
+                           "cond" : [
+                              "oe",
+                              "in scope",
+                              "scope",
+                              {
+                                 "name" : "select",
+                                 "ns" : "HTML"
+                              }
+                           ],
+                           "false_actions" : [
+                              {
+                                 "type" : "reconstruct the active formatting elements"
+                              },
+                              {
+                                 "type" : "insert an HTML element"
+                              },
+                              {
+                                 "target" : "frameset-ok",
+                                 "type" : "set-false"
+                              }
+                           ],
+                           "type" : "if"
                         }
                      ],
                      "type" : "if"
@@ -4696,10 +4927,6 @@
                      "type" : "push-template-ims"
                   },
                   {
-                     "target" : "adjusted insertion location",
-                     "type" : "set-appropriate-place"
-                  },
-                  {
                      "template_or_shadow" : 1,
                      "type" : "insert an HTML element"
                   }
@@ -5039,468 +5266,6 @@
                   },
                   {
                      "type" : "append-marker-to-afe"
-                  }
-               ]
-            }
-         }
-      },
-      "in select" : {
-         "conds" : {
-            "CHAR-ELSE" : {
-               "actions" : [
-                  {
-                     "type" : "insert a character"
-                  }
-               ]
-            },
-            "CHAR:0000" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-null",
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "COMMENT" : {
-               "actions" : [
-                  {
-                     "type" : "insert a comment"
-                  }
-               ]
-            },
-            "DOCTYPE" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-doctype",
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "ELSE" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-else",
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "ignore the token"
-                  }
-               ]
-            },
-            "END:optgroup" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "and",
-                        [
-                           "oe[-1]",
-                           "is",
-                           {
-                              "name" : "option",
-                              "ns" : "HTML"
-                           }
-                        ],
-                        [
-                           "oe[-2]",
-                           "is",
-                           {
-                              "name" : "optgroup",
-                              "ns" : "HTML"
-                           }
-                        ]
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "optgroup",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "name" : "in-select-end-optgroup",
-                           "type" : "parse error"
-                        },
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "END:option" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "name" : "in-select-end-option",
-                           "type" : "parse error"
-                        },
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "END:select" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "name" : "in-select-end-select",
-                           "type" : "parse error"
-                        },
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe",
-                        "not in scope",
-                        "select",
-                        {
-                           "name" : "select",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
-                        },
-                        {
-                           "type" : "reset the insertion mode appropriately"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "END:template" : {
-               "actions" : [
-                  {
-                     "im" : "in head",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
-            },
-            "EOF" : {
-               "actions" : [
-                  {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
-            },
-            "START:hr" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "optgroup",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "type" : "insert an HTML element"
-                  },
-                  {
-                     "type" : "pop-oe"
-                  },
-                  {
-                     "type" : "acknowledge the token's self-closing flag"
-                  }
-               ]
-            },
-            "START:html" : {
-               "actions" : [
-                  {
-                     "im" : "in body",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
-            },
-            "START:input keygen textarea" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-start-input-keygen-textarea",
-                     "type" : "parse error"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe",
-                        "not in scope",
-                        "select",
-                        {
-                           "name" : "select",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
-                        },
-                        {
-                           "type" : "reset the insertion mode appropriately"
-                        },
-                        {
-                           "type" : "reprocess the token"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "START:optgroup" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "optgroup",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "type" : "insert an HTML element"
-                  }
-               ]
-            },
-            "START:option" : {
-               "actions" : [
-                  {
-                     "actions" : [
-                        {
-                           "type" : "pop-oe"
-                        }
-                     ],
-                     "cond" : [
-                        "oe[-1]",
-                        "is",
-                        {
-                           "name" : "option",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "type" : "if"
-                  },
-                  {
-                     "type" : "insert an HTML element"
-                  }
-               ]
-            },
-            "START:script template" : {
-               "actions" : [
-                  {
-                     "im" : "in head",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
-            },
-            "START:select" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-start-select",
-                     "type" : "parse error"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe",
-                        "not in scope",
-                        "select",
-                        {
-                           "name" : "select",
-                           "ns" : "HTML"
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
-                        },
-                        {
-                           "type" : "reset the insertion mode appropriately"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            }
-         }
-      },
-      "in select in table" : {
-         "conds" : {
-            "ELSE" : {
-               "actions" : [
-                  {
-                     "im" : "in select",
-                     "type" : "USING-THE-RULES-FOR"
-                  }
-               ]
-            },
-            "END:caption table tbody td tfoot th thead tr" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-in-table-end-ct7",
-                     "type" : "parse error"
-                  },
-                  {
-                     "actions" : [
-                        {
-                           "type" : "ignore the token"
-                        }
-                     ],
-                     "cond" : [
-                        "oe",
-                        "not in scope",
-                        "table",
-                        {
-                           "ns" : "HTML",
-                           "same_tag_name_as_token" : 1
-                        }
-                     ],
-                     "false_actions" : [
-                        {
-                           "type" : "pop-oe",
-                           "until" : {
-                              "name" : "select",
-                              "ns" : "HTML"
-                           }
-                        },
-                        {
-                           "type" : "reset the insertion mode appropriately"
-                        },
-                        {
-                           "type" : "reprocess the token"
-                        }
-                     ],
-                     "type" : "if"
-                  }
-               ]
-            },
-            "START:caption table tbody td tfoot th thead tr" : {
-               "actions" : [
-                  {
-                     "name" : "in-select-in-table-start-ct7",
-                     "type" : "parse error"
-                  },
-                  {
-                     "type" : "pop-oe",
-                     "until" : {
-                        "name" : "select",
-                        "ns" : "HTML"
-                     }
-                  },
-                  {
-                     "type" : "reset the insertion mode appropriately"
-                  },
-                  {
-                     "type" : "reprocess the token"
                   }
                ]
             }
@@ -15412,6 +15177,10 @@
             "ns" : "HTML"
          },
          {
+            "name" : "select",
+            "ns" : "HTML"
+         },
+         {
             "name" : "template",
             "ns" : "HTML"
          },
@@ -15488,6 +15257,10 @@
          },
          {
             "name" : "object",
+            "ns" : "HTML"
+         },
+         {
+            "name" : "select",
             "ns" : "HTML"
          },
          {
@@ -15571,6 +15344,10 @@
          },
          {
             "name" : "object",
+            "ns" : "HTML"
+         },
+         {
+            "name" : "select",
             "ns" : "HTML"
          },
          {
@@ -15741,17 +15518,6 @@
       ]
    },
    "tree_patterns_not" : {
-      "has an element in select scope" : [
-         "or",
-         {
-            "name" : "optgroup",
-            "ns" : "HTML"
-         },
-         {
-            "name" : "option",
-            "ns" : "HTML"
-         }
-      ]
    },
    "tree_steps" : {
       "clear the stack back to a table body context" : {

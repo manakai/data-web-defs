@@ -287,7 +287,7 @@ for my $attr_name (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.
 }
 
 $Data->{elements}->{(HTML_NS)}->{'*'}->{states}->{'interactive-by-tabindex'}
-    ->{categories}->{'interactive content'} = 1;
+    ->{categories}->{'tabindex attribute specified'} = 1;
 
 $Data->{elements}->{(HTML_NS)}->{dl}->{states}->{'has-item'}
     ->{categories}->{'palpable content'} = 1;
@@ -646,11 +646,13 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendan
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dt}->{disallowed_descendants}->{categories}->{'sectioning content'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{content_model} = 'transparent';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{disallowed_descendants}->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{a}->{disallowed_descendants}->{categories}->{'tabindex attribute specified'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{content_model} = 'phrasing content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{dfn} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{object}->{complex_content_model} =
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{video}->{disallowed_descendants}->{categories}->{'media element'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{audio}->{disallowed_descendants}->{categories}->{'media element'} = 1;
+# XXX legend content model
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{caption}->{content_model} = 'flow content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{caption}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{table} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{tbody}->{complex_content_model} =
@@ -675,18 +677,30 @@ $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{form}->{disallowed_descend
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{label}->{content_model} = 'phrasing content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{label}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{label} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{content_model} = 'phrasing content';
+  # XXX + selectedcontent if ...
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{disallowed_descendants}->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{button}->{disallowed_descendants}->{categories}->{'tabindex attribute specified'} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{select}->{complex_content_model} = [
-  {elements => {'http://www.w3.org/1999/xhtml' => {option => 1, optgroup => 1}},
-   categories => {'script-supporting elements' => 1},
+  {elements => {'http://www.w3.org/1999/xhtml' => {button => 1}},
+   min => 0, has_additional_rules => 1},
+  {categories => {'select-element-inner-content-elements-2' => 1},
    min => 0},
 ];
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{optgroup}->{complex_content_model} = [
-  {elements => {'http://www.w3.org/1999/xhtml' => {option => 1}},
-   categories => {'script-supporting elements' => 1},
+  {elements => {'http://www.w3.org/1999/xhtml' => {legend => 1}},
+   min => 0},
+  {categories => {'optgroup-element-inner-content-elements-2' => 1},
    min => 0},
 ];
-$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{option}->{content_model} = 'text';
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{option}->{complex_content_model} = [
+  {categories => {'option-element-inner-content-elements-2' => 1},
+   min => 0, has_additional_rules => 1},
+];
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{option}->{disallowed_descendants}->{categories}->{'interactive content'} = 1;
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{option}->{disallowed_descendants}->{categories}->{'tabindex attribute specified'} = 1;
+  ## See willful violation note on |option| element inner content elements.
+$Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{span}->{content_model} = 'phrasing content';
+  # XXX but has complex rule
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress}->{content_model} = 'phrasing content';
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress}->{disallowed_descendants}->{elements}->{'http://www.w3.org/1999/xhtml'}->{progress} = 1;
 $Data->{elements}->{'http://www.w3.org/1999/xhtml'}->{meter}->{content_model} = 'phrasing content';
@@ -1494,9 +1508,31 @@ for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{'http://www.w3.org/199
   }
 }
 
+
+
 for my $ns (sort { $a cmp $b } keys %{$Data->{elements} or {}}) {
   for my $ln (sort { $a cmp $b } keys %{$Data->{elements}->{$ns} or {}}) {
     my $edef = $Data->{elements}->{$ns}->{$ln};
+    for my $cat_name (sort { $a cmp $b } keys %{$edef->{categories} or {}}) {
+      ## <https://html.spec.whatwg.org/#select-element-inner-content-elements>
+      if ($edef->{categories}->{'script-supporting elements'}) {
+        $edef->{categories}->{'select-element-inner-content-elements-2'} = 1;
+        $edef->{categories}->{'optgroup-element-inner-content-elements-2'} = 1;
+        $edef->{categories}->{'option-element-inner-content-elements-2'} = 1;
+      }
+      if ($edef->{categories}->{'phrasing content'}) {
+        unless ($edef->{categories}->{'interactive content'} or
+                ($ns eq 'http://www.w3.org/1999/xhtml' and ($ln eq 'datalist' or $ln eq 'object'))) {
+          $edef->{categories}->{'option-element-inner-content-elements-2'} = 1;
+        }
+        ## According to HTML Standard, some additional constraints are
+        ## applied to the definition of the "|option| element inner
+        ## content elements".  We ignore them and are described as the
+        ## restriction for the |option| element's content model.  This
+        ## is a willful violation to the specification for consistency
+        ## with how the other elements are defined.
+      }
+    }
     for my $cat_name (sort { $a cmp $b } keys %{$edef->{categories} or {}}) {
       $Data->{categories}->{$cat_name}->{elements}->{$ns}->{$ln} = 1;
     }

@@ -147,6 +147,9 @@ for my $f (($d->children)) {
           if ($text =~ /^(\S+ \S+)\.$/ and $a and $a->local_name eq 'a') {
             my $title = xref $a || lc sp $a->text_content;
             $props->{categories}->{$title} = 1;
+          } elsif ($text =~ /^(\S+ element inner content elements)\.$/ and $a and $a->local_name eq 'a') {
+            my $title = xref $a || lc sp $a->text_content;
+            $props->{categories}->{$title} = 1;
           } elsif ($text =~ /^If the (?:element has an? |)([a-z0-9-]+) attribute(?: is present|): ([a-zA-Z0-9- ]+ content)\.$/ and
                    defined ($a = $_->last_element_child) and
                    $a->local_name eq 'a') {

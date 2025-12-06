@@ -82,8 +82,10 @@ name=after-head-end-else
 name=before-head-end-else
 name=before-html-end-else
 name=in-body-end-a3bbcd5f4hhlmmnopssu
-name=in-body-end-a3bbcd5f4hhlmmnops3u
-name=in-body-end-a3bbcd5f4hhlmmnops3u-2
+#name=in-body-end-a3bbcd5f4hhlmmnops3u
+name=in-body-end-a3bbcd5f4hhlmmnops4u
+#name=in-body-end-a3bbcd5f4hhlmmnops3u-2
+name=in-body-end-a3bbcd5f4hhlmmnops4u-2
 name=in-body-end-applet-marquee-object
 name=in-body-end-body
 name=in-body-end-dd-dt
@@ -3081,82 +3083,152 @@ HTML 要素 <code>caption</code>, <code>colgroup</code>,
 $$<tbody>
 !value=tbody
 
+* in option
+
+name=in-body-start-hr
+name=in-body-start-input
+name=in-body-start-input-2
+name=in-body-start-option
+name=in-body-start-optgroup
+
+@en
+There is a start tag <code>&lt;<var>{text}</var>></code>
+in an <code>option</code> or <code>optgroup</code> element
+@ja
+<code>option</code> 要素か <code>optgroup</code>
+要素の中に  <code>&lt;<var>{text}</var>></code> 開始タグがあります
+
+@en
+  <p>A <code>hr</code>, <code>input</code>, <code>optgroup</code>
+  element is not allowed in an <code>option</code> or
+  <code>optgroup</code> element.
+
+  <p>An <code>option</code> element is not allowed in an <code>option</code>
+  element.
+
+@ja
+  <p><code>hr</code> 要素, <code>input</code> 要素, <code>optgroup</code>
+  要素は <code>option</code> 要素や
+  <code>optgroup</code> 要素の中には置けません。
+
+  <p><code>option</code> 要素は <code>option</code> 要素の中には置けません。
+
+!!!
+<!DOCTYPE HTML><select><option>$$<hr>
+!!!
+<!DOCTYPE HTML><select><optgroup>$$<hr>
+!!!
+<!DOCTYPE HTML><select><option>$$<input>
+!!!
+<!DOCTYPE HTML><select><option><span>$$<option>
+!!!
+<!DOCTYPE HTML><select><option>$$<optgroup>
+!!!
+<!DOCTYPE HTML><select><optgroup><span>$$<optgroup>
+!!!
+!context=select
+$$<input>
+
 * in select
 
-name=in-select-else
+name=in-body-start-select
+name=in-body-start-select-2
 
 @en
-There is a tag in a <code>select</code> element
+There is a <code>&lt;select&gt;</code> tag in a <code>select</code> element
 @ja
-<code>colgroup</code> 要素内にタグがあります
+<code>select</code> 要素内に <code>&lt;select></code> タグがあります
 
 @en
-
-<p>In an HTML <code>select</code> element, only HTML
-<code>option</code> and <code>optgroup</code> elements can be used.
+  <p>An <code>select</code> element is not allowed in an <code>select</code>
+  element.
 
 @ja
-
-<p>HTML <code>select</code> 要素内では HTML
-<code>optgroup</code> 要素と HTML <code>option</code>
-要素しか使えません。
+  <p><code>select</code> 要素は <code>option</code> 要素や
+  <code>select</code> 要素の中には置けません。
 
 !!!
-<!DOCTYPE HTML><Select>$$<foo>
+<!DOCTYPE HTML><Select>$$<select>
 !!!
-<!DOCTYPE HTML><Select>$$</foo>
+!context=select
+$$<select>
 
-* in select in table:end tag
-
-name=in-select-in-table-end-ct7
-value=tag_name
-
-@en
-The <code>select</code> element is not closed before
-an end tag <code>&lt;/<var>{value}</var>></code>
-@ja
-<code>&lt;/<var>{value}</var>></code> 終了タグの前に
-<code>select</code> 要素が閉じられていません
-
-@en
-
-<p>An HTML <code>select</code> element must be closed before a
-table-related element is closed.
-
-@ja
-
-<p>HTML <code>select</code> 要素は、
-表関係の要素が閉じられる前に閉じられていなければいけません。
-
-!!!
-<!DOCTYPE HTML><table><select>$$</tbody>
-!value=tbody
-
-* in select in table:start tag
-
-name=in-select-in-table-start-ct7
-value=tag_name
-
-@en
-The <code>select</code> element is not closed before
-a start tag <code>&lt;<var>{value}</var>></code>
-@ja
-<code>&lt;<var>{value}</var>></code> 開始タグの前に
-<code>select</code> 要素が閉じられていません
-
-@en
-
-<p>An HTML <code>select</code> element must be closed before a
-table-related element is opened.
-
-@ja
-
-<p>HTML <code>select</code> 要素は、
-表関係の要素が開かれる前に閉じられていなければいけません。
-
-!!!
-<!DOCTYPE HTML><table><select>$$<tbody>
-!value=tbody
+#* in select
+#
+#name=in-select-else
+#
+#@en
+#There is a tag in a <code>select</code> element
+#@ja
+#<code>select</code> 要素内にタグがあります
+#
+#@en
+#
+#<p>In an HTML <code>select</code> element, only HTML
+#<code>option</code> and <code>optgroup</code> elements can be used.
+#
+#@ja
+#
+#<p>HTML <code>select</code> 要素内では HTML
+#<code>optgroup</code> 要素と HTML <code>option</code>
+#要素しか使えません。
+#
+#!!!
+#<!DOCTYPE HTML><Select>$$<foo>
+#!!!
+#<!DOCTYPE HTML><Select>$$</foo>
+#
+#* in select in table:end tag
+#
+#name=in-select-in-table-end-ct7
+#value=tag_name
+#
+#@en
+#The <code>select</code> element is not closed before
+#an end tag <code>&lt;/<var>{value}</var>></code>
+#@ja
+#<code>&lt;/<var>{value}</var>></code> 終了タグの前に
+#<code>select</code> 要素が閉じられていません
+#
+#@en
+#
+#<p>An HTML <code>select</code> element must be closed before a
+#table-related element is closed.
+#
+#@ja
+#
+#<p>HTML <code>select</code> 要素は、
+#表関係の要素が閉じられる前に閉じられていなければいけません。
+#
+#!!!
+#<!DOCTYPE HTML><table><select>$$</tbody>
+#!value=tbody
+#
+#* in select in table:start tag
+#
+#name=in-select-in-table-start-ct7
+#value=tag_name
+#
+#@en
+#The <code>select</code> element is not closed before
+#a start tag <code>&lt;<var>{value}</var>></code>
+#@ja
+#<code>&lt;<var>{value}</var>></code> 開始タグの前に
+#<code>select</code> 要素が閉じられていません
+#
+#@en
+#
+#<p>An HTML <code>select</code> element must be closed before a
+#table-related element is opened.
+#
+#@ja
+#
+#<p>HTML <code>select</code> 要素は、
+#表関係の要素が開かれる前に閉じられていなければいけません。
+#
+#!!!
+#<!DOCTYPE HTML><table><select>$$<tbody>
+#!value=tbody
 
 * no <tr>
 

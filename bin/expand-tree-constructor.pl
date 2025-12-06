@@ -938,7 +938,8 @@ for my $im (keys %{$Data->{ims}}) {
 
 for my $im (keys %{$Data->{ims}}) {
   my @cond = keys %{$Data->{ims}->{$im}->{conds}};
-  my $get_whether_acked; $get_whether_acked = sub {
+  my $get_whether_acked; $get_whether_acked = sub ($$) {
+    my $cond = shift;
     my $acts = shift;
     my $acked = 0;
     for my $act (@$acts) {
@@ -947,8 +948,13 @@ for my $im (keys %{$Data->{ims}}) {
       } elsif ($act->{type} eq 'reprocess the token') {
         $acked ||= 1;
       } elsif ($act->{type} eq 'abort these steps') {
-        $acked = -2;
-        last;
+        if (($im eq 'in body' or $im eq 'in table') and
+            $cond eq 'START:input') {
+          #
+        } else {
+          $acked = -2;
+          last;
+        }
       } elsif ($act->{type} eq 'break-for-each') {
         $acked = -2;
         last;
@@ -957,7 +963,7 @@ for my $im (keys %{$Data->{ims}}) {
       $result{$acked}++;
       for (@ActionKey) {
         if (defined $act->{$_}) {
-          $result{$get_whether_acked->($act->{$_}) || $acked}++;
+          $result{$get_whether_acked->($cond, $act->{$_}) || $acked}++;
         }
       }
       if (1 < keys %result) {
@@ -995,7 +1001,7 @@ for my $im (keys %{$Data->{ims}}) {
     next unless $cond =~ /^(START)/;
 
     my $acts = $Data->{ims}->{$im}->{conds}->{$cond}->{actions};
-    my $acked = $get_whether_acked->($acts);
+    my $acked = $get_whether_acked->($cond, $acts);
     if ($acked == 1) {
       #
     } elsif ($acked == 0) {
@@ -1012,8 +1018,8 @@ for my $im (keys %{$Data->{ims}}) {
           } elsif ($act->{type} eq 'abort these steps') {
             die "|$cond| |$im| has |abort these steps|";
           } elsif ($act->{type} eq 'if') {
-            my $true_acked = $get_whether_acked->($act->{actions} || []);
-            my $false_acked = $get_whether_acked->($act->{false_actions} || []);
+            my $true_acked = $get_whether_acked->($cond, $act->{actions} || []);
+            my $false_acked = $get_whether_acked->($cond, $act->{false_actions} || []);
             if ($true_acked == 0 and $false_acked == 0) {
               #
             } elsif ($true_acked == 1 and $false_acked == 1) {
@@ -1053,7 +1059,7 @@ for my $im (keys %{$Data->{ims}}) {
               ($act->{false_actions}, $ak2) = $nested->($act->{false_actions} || []);
               $acked = 1 if $ak and $ak2;
             } else {
-              die "true = $true_acked, false = $false_acked";
+              die "$im/$cond: true = $true_acked, false = $false_acked";
             }
           } elsif ($act->{type} =~ /for-each/) {
             my $serialized = perl2json_chars $act;
@@ -1066,7 +1072,7 @@ for my $im (keys %{$Data->{ims}}) {
             my %result;
             for (@ActionKey) {
               if (defined $act->{$_}) {
-                $result{$get_whether_acked->($act->{$_})}++;
+                $result{$get_whether_acked->($cond, $act->{$_})}++;
               }
             }
             if (1 < keys %result) {

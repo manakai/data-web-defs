@@ -119,10 +119,16 @@ sub parse_step ($) {
       $_->{RUN_NEXT} = 1;
       delete $_->{DESC};
       $_;
-    } elsif ($_->{DESC} =~ s/^(otherwise, |)if ($SENTENCE), then: //o) {
+    } elsif ($_->{DESC} =~ s/^(otherwise, |)if ($SENTENCE)(?:, then|): //o) {
       $_->{type} = $1 ? 'ELSIF' : 'IF';
       $_->{COND} = $2;
       $_->{actions} = [parse_step $_->{DESC}];
+      delete $_->{DESC};
+      $_;
+    } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE)(?:, then|):$/o) {
+      $_->{type} = $1 ? 'ELSIF' : 'IF';
+      $_->{COND} = $2;
+      $_->{RUN_NEXT} = 1;
       delete $_->{DESC};
       $_;
     } elsif ($_->{DESC} =~ /^(otherwise, |)if ($SENTENCE), (?:then |)($SENTENCE)$/o) {
@@ -979,7 +985,7 @@ my $DescPatterns = [
    'create an HTML element', 'INTENDED_PARENT'],
   [qr/generate implied end tags, except for (HTML elements with the same tag name as the token)/,
    'generate implied end tags', 'EXCEPT'],
-  [qr/generate implied end tags, except for ([\w-]+ elements)/,
+  [qr/generate implied end tags,? except for ([\w-]+ elements)/,
    'generate implied end tags', 'EXCEPT'],
   [qr/change the token's tag name to "([^"]+)"/,
    "change the token's tag name", 'tag_name'],
@@ -1018,7 +1024,7 @@ sub parse_cond ($) {
       (parse_cond ($l) // ['COND', $l]),
       (parse_cond ($r) // ['COND', $r]),
     ];
-  } elsif ($COND =~ /^([^,]+), (?:if |)([^,]+), or if ([^,]+)$/) {
+  } elsif ($COND =~ /^([^,]+), (?:if |or if |)([^,]+), or if ([^,]+)$/) {
     my ($l, $r, $m) = ($1, $2, $3);
     $cond = ['or',
       (parse_cond ($l) // ['COND', $l]),
@@ -1077,6 +1083,8 @@ sub parse_cond ($) {
     $cond = ['node', 'is', 'oe[0]'];
   } elsif ($COND =~ /^node is the topmost element in the stack of open elements$/) { # html
     $cond = ['node', 'is', {ns => 'HTML', name => 'html'}];
+  } elsif ($COND =~ /^the parser was created as part of the HTML fragment parsing algorithm \(fragment case\) and the context element passed to that algorithm is a select element$/) {
+    $cond = ['and', ['fragment'], ['node', 'is', {ns => 'HTML', name => 'select'}]];
   } elsif ($COND =~ /^the parser was originally created as part of the XML fragment parsing algorithm and node is the topmost node of the stack of open elements$/) {
     $cond = ['and', ['fragment'], ['node', 'is', 'oe[0]']];
   } elsif ($COND =~ /^the stack of open elements contains more than one element$/) {
@@ -1091,8 +1099,10 @@ sub parse_cond ($) {
     $cond = ['oe', 'in scope', 'scope', {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element in scope$/) {
     $cond = ['oe', 'not in scope', 'scope', {ns => 'HTML', name => $1}];
-  } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in ([\w ]+) scope$/) {
+  } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in ([\w]+(?: \w+|)) scope$/) {
     $cond = ['oe', 'in scope', $2, {ns => 'HTML', name => $1}];
+  } elsif ($COND =~ /^the stack of open elements has an? ([\w-]+) element in scope or has an? ([\w-]+) element in scope$/) {
+    $cond = ['oe', 'in scope', 'scope', {ns => 'HTML', name => [$1, $2]}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) element in ([\w ]+) scope$/) {
     $cond = ['oe', 'not in scope', $2, {ns => 'HTML', name => $1}];
   } elsif ($COND =~ /^the stack of open elements does not have an? ([\w-]+) or ([\w-]+) element in ([\w ]+) scope$/) {
@@ -1534,7 +1544,11 @@ sub process_actions ($$) {
         delete $act->{TARGET};
         delete $act->{VALUE};
       } elsif ($act->{TARGET} eq "template start tag" or
+               $act->{TARGET} eq "templateStartTag" or
+               $act->{TARGET} eq 'intendedParent' or
+               $act->{TARGET} eq 'the adjustedInsertionLocation' or
                $act->{VALUE} eq "the element in which the adjusted insertion location finds itself" or
+               $act->{VALUE} eq "intendedParent's node document" or
                $act->{VALUE} eq "intended parent's node document") {
         $act->{_SKIP} = 1;
       } else {
@@ -1665,7 +1679,8 @@ sub process_actions ($$) {
 
     if ($act->{type} eq 'insert a foreign element') {
       if ($act->{NS} eq 'the same namespace as the adjusted current node' or
-          $act->{NS} eq "adjusted current node's namespace") {
+          $act->{NS} eq "adjusted current node's namespace" or
+          $act->{NS} eq "the adjusted current node's namespace") {
         $act->{ns} = 'inherit';
         delete $act->{NS};
       } elsif ($act->{NS} =~ /^the (\w+) namespace$/) {
@@ -2225,6 +2240,7 @@ for my $def (
   my $new_acts = [];
   my $prev_was_script;
   my $n = 1;
+  my $skip = 0;
   for my $act (@$acts) {
     if ({
           'set-script' => 1,
@@ -2243,8 +2259,11 @@ for my $def (
          {
            "the active speculative HTML parser is null and the user agent supports SVG" => 1,
            "the active speculative HTML parser is null and the JavaScript execution context stack is empty" => 1,
-           "the pending parsing-blocking script is not null" => 1,
          }->{$act->{COND} // ''}) or
+         ($act->{type} eq 'IF' and
+         {
+           "the pending parsing-blocking script is not null" => 1,
+         }->{$act->{COND} // ''} and $skip = 1) or
         (defined $act->{target} and 
          {
            'script nesting level' => 1,
@@ -2255,6 +2274,7 @@ for my $def (
       }
       $prev_was_script = 1;
     } else {
+      next if $skip and do { $skip = 0; 1 };
       push @$new_acts, $act;
       $prev_was_script = 0;
     }
@@ -2319,8 +2339,10 @@ for my $def (
   my $prev_was_script;
   while (@$acts) {
     my $act = shift @$acts;
-    if ($act->{type} eq 'UNPARSED' and
-        $act->{DESC} eq "if any of the following are false:" and
+    if ((($act->{type} eq 'UNPARSED' and
+          $act->{DESC} =~ /^if any of the following are false:?$/) or
+         ($act->{type} eq 'IF' and
+          $act->{COND} eq 'any of the following are false')) and
         @$acts >= 3 and
         $acts->[0]->{type} eq 'misc' and
         $acts->[1]->{type} eq 'UNPARSED' and

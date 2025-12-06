@@ -2475,94 +2475,96 @@
             }
          ]
       },
-      "in select" : {
+      "in option" : {
          "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>In an HTML \u003Ccode>select\u003C/code> element, only HTML\u000A\u003Ccode>option\u003C/code> and \u003Ccode>optgroup\u003C/code> elements can be used.\u003C/p>",
-            "ja" : "\u003Cp>HTML \u003Ccode>select\u003C/code> 要素内では HTML\u000A\u003Ccode>optgroup\u003C/code> 要素と HTML \u003Ccode>option\u003C/code>\u000A要素しか使えません。\u003C/p>"
+            "en" : "\u003Cp>A \u003Ccode>hr\u003C/code>, \u003Ccode>input\u003C/code>, \u003Ccode>optgroup\u003C/code>\u000A  element is not allowed in an \u003Ccode>option\u003C/code> or\u000A  \u003Ccode>optgroup\u003C/code> element.\u000A\u000A  \u003C/p>\u003Cp>An \u003Ccode>option\u003C/code> element is not allowed in an \u003Ccode>option\u003C/code>\u000A  element.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>hr\u003C/code> 要素, \u003Ccode>input\u003C/code> 要素, \u003Ccode>optgroup\u003C/code>\u000A  要素は \u003Ccode>option\u003C/code> 要素や\u000A  \u003Ccode>optgroup\u003C/code> 要素の中には置けません。\u000A\u000A  \u003C/p>\u003Cp>\u003Ccode>option\u003C/code> 要素は \u003Ccode>option\u003C/code> 要素の中には置けません。\u003C/p>"
          },
          "layer" : "tree-construction",
          "message" : {
-            "en" : "There is a tag in a \u003Ccode>select\u003C/code> element",
-            "ja" : "\u003Ccode>colgroup\u003C/code> 要素内にタグがあります"
+            "en" : "There is a start tag \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code>\u000Ain an \u003Ccode>option\u003C/code> or \u003Ccode>optgroup\u003C/code> element",
+            "ja" : "\u003Ccode>option\u003C/code> 要素か \u003Ccode>optgroup\u003C/code>\u000A要素の中に  \u003Ccode>&lt;\u003Cvar>{text}\u003C/var>&gt;\u003C/code> 開始タグがあります"
          },
          "modules" : {
             "Web::HTML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
-            "in-select-else" : 1
+            "in-body-start-hr" : 1,
+            "in-body-start-input" : 1,
+            "in-body-start-input-2" : 1,
+            "in-body-start-optgroup" : 1,
+            "in-body-start-option" : 1
          },
          "parser_tests" : [
             {
-               "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003Cfoo>",
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Coption>\u003Chr>",
                "lang" : "HTML"
             },
             {
-               "index" : 23,
-               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003C/foo>",
+               "index" : 33,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Coptgroup>\u003Chr>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Coption>\u003Cinput>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 37,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Coption>\u003Cspan>\u003Coption>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 31,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Coption>\u003Coptgroup>",
+               "lang" : "HTML"
+            },
+            {
+               "index" : 39,
+               "input" : "\u003C!DOCTYPE HTML>\u003Cselect>\u003Coptgroup>\u003Cspan>\u003Coptgroup>",
+               "lang" : "HTML"
+            },
+            {
+               "context" : "select",
+               "index" : 0,
+               "input" : "\u003Cinput>",
                "lang" : "HTML"
             }
          ]
       },
-      "in select in table:end tag" : {
+      "in select" : {
          "default_level" : "m",
          "desc" : {
-            "en" : "\u003Cp>An HTML \u003Ccode>select\u003C/code> element must be closed before a\u000Atable-related element is closed.\u003C/p>",
-            "ja" : "\u003Cp>HTML \u003Ccode>select\u003C/code> 要素は、\u000A表関係の要素が閉じられる前に閉じられていなければいけません。\u003C/p>"
+            "en" : "\u003Cp>An \u003Ccode>select\u003C/code> element is not allowed in an \u003Ccode>select\u003C/code>\u000A  element.\u003C/p>",
+            "ja" : "\u003Cp>\u003Ccode>select\u003C/code> 要素は \u003Ccode>option\u003C/code> 要素や\u000A  \u003Ccode>select\u003C/code> 要素の中には置けません。\u003C/p>"
          },
          "layer" : "tree-construction",
          "message" : {
-            "en" : "The \u003Ccode>select\u003C/code> element is not closed before\u000Aan end tag \u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code>",
-            "ja" : "\u003Ccode>&lt;/\u003Cvar>{value}\u003C/var>&gt;\u003C/code> 終了タグの前に\u000A\u003Ccode>select\u003C/code> 要素が閉じられていません"
+            "en" : "There is a \u003Ccode>&lt;select&gt;\u003C/code> tag in a \u003Ccode>select\u003C/code> element",
+            "ja" : "\u003Ccode>select\u003C/code> 要素内に \u003Ccode>&lt;select&gt;\u003C/code> タグがあります"
          },
          "modules" : {
             "Web::HTML::Parser::tree_constructor" : 1
          },
          "parser_error_names" : {
-            "in-select-in-table-end-ct7" : 1
+            "in-body-start-select" : 1,
+            "in-body-start-select-2" : 1
          },
          "parser_tests" : [
             {
-               "index" : 30,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cselect>\u003C/tbody>",
-               "lang" : "HTML",
-               "value" : "tbody"
-            }
-         ],
-         "value" : [
-            "token",
-            "tag name"
-         ]
-      },
-      "in select in table:start tag" : {
-         "default_level" : "m",
-         "desc" : {
-            "en" : "\u003Cp>An HTML \u003Ccode>select\u003C/code> element must be closed before a\u000Atable-related element is opened.\u003C/p>",
-            "ja" : "\u003Cp>HTML \u003Ccode>select\u003C/code> 要素は、\u000A表関係の要素が開かれる前に閉じられていなければいけません。\u003C/p>"
-         },
-         "layer" : "tree-construction",
-         "message" : {
-            "en" : "The \u003Ccode>select\u003C/code> element is not closed before\u000Aa start tag \u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code>",
-            "ja" : "\u003Ccode>&lt;\u003Cvar>{value}\u003C/var>&gt;\u003C/code> 開始タグの前に\u000A\u003Ccode>select\u003C/code> 要素が閉じられていません"
-         },
-         "modules" : {
-            "Web::HTML::Parser::tree_constructor" : 1
-         },
-         "parser_error_names" : {
-            "in-select-in-table-start-ct7" : 1
-         },
-         "parser_tests" : [
+               "index" : 23,
+               "input" : "\u003C!DOCTYPE HTML>\u003CSelect>\u003Cselect>",
+               "lang" : "HTML"
+            },
             {
-               "index" : 30,
-               "input" : "\u003C!DOCTYPE HTML>\u003Ctable>\u003Cselect>\u003Ctbody>",
-               "lang" : "HTML",
-               "value" : "tbody"
+               "context" : "select",
+               "index" : 0,
+               "input" : "\u003Cselect>",
+               "lang" : "HTML"
             }
-         ],
-         "value" : [
-            "token",
-            "tag name"
          ]
       },
       "in table" : {
@@ -4437,8 +4439,8 @@
             "before-head-end-else" : 1,
             "before-html-end-else" : 1,
             "before-root-element-end-else" : 1,
-            "in-body-end-a3bbcd5f4hhlmmnops3u" : 1,
-            "in-body-end-a3bbcd5f4hhlmmnops3u-2" : 1,
+            "in-body-end-a3bbcd5f4hhlmmnops4u" : 1,
+            "in-body-end-a3bbcd5f4hhlmmnops4u-2" : 1,
             "in-body-end-a3bbcd5f4hhlmmnopssu" : 1,
             "in-body-end-applet-marquee-object" : 1,
             "in-body-end-body" : 1,
@@ -6349,8 +6351,8 @@
       "entity-value-single-quoted-state-character-reference-name-0060" : "no refc",
       "entity-value-single-quoted-state-character-reference-name-ws" : "no refc",
       "in-body-doctype" : "doctype:bad context",
-      "in-body-end-a3bbcd5f4hhlmmnops3u" : "stray end tag",
-      "in-body-end-a3bbcd5f4hhlmmnops3u-2" : "stray end tag",
+      "in-body-end-a3bbcd5f4hhlmmnops4u" : "stray end tag",
+      "in-body-end-a3bbcd5f4hhlmmnops4u-2" : "stray end tag",
       "in-body-end-a3bbcd5f4hhlmmnopssu" : "stray end tag",
       "in-body-end-a3bbcd5f4hhlmmnopssu-2" : "not closed before ancestor end tag",
       "in-body-end-applet-marquee-object" : "stray end tag",
@@ -6384,12 +6386,19 @@
       "in-body-start-form" : "parser:element not nestable",
       "in-body-start-frameset" : "in body",
       "in-body-start-h6" : "in hn:hn",
+      "in-body-start-hr" : "in option",
       "in-body-start-html" : "duplicate body/html tag",
       "in-body-start-image" : "image",
+      "in-body-start-input" : "in option",
+      "in-body-start-input-2" : "in option",
       "in-body-start-li" : "element not closed before implied ancestor end tag",
       "in-body-start-nobr" : "parser:element not nestable",
+      "in-body-start-optgroup" : "in option",
+      "in-body-start-option" : "in option",
       "in-body-start-rb-rtc" : "in body",
       "in-body-start-rp-rt" : "element not closed before implied ancestor end tag",
+      "in-body-start-select" : "in select",
+      "in-body-start-select-2" : "in select",
       "in-caption-end-bccht6" : "stray end tag",
       "in-caption-end-caption" : "stray end tag",
       "in-caption-end-caption-2" : "not closed before ancestor end tag",
@@ -6438,12 +6447,9 @@
       "in-row-end-tr" : "stray end tag",
       "in-row-start-c3t4" : "in table row",
       "in-select-doctype" : "doctype:bad context",
-      "in-select-else" : "in select",
       "in-select-end-optgroup" : "stray end tag",
       "in-select-end-option" : "stray end tag",
       "in-select-end-select" : "stray end tag",
-      "in-select-in-table-end-ct7" : "in select in table:end tag",
-      "in-select-in-table-start-ct7" : "in select in table:start tag",
       "in-select-null" : "parser:NULL",
       "in-select-start-input-keygen-textarea" : "element not closed before implied ancestor end tag",
       "in-select-start-select" : "parser:element not nestable",

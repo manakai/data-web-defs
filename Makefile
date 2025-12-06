@@ -610,11 +610,14 @@ local/html-tree.json: bin/extract-html-tree.pl local/html
 	!(grep '"COND"' $@)
 	!(grep '"misc"' $@)
 	!(grep '"IF"' $@)
+	!(grep '"type": "ELSE"' $@)
+	!(grep '"ELSIF"' $@)
 	!(grep '"TARGET"' $@)
 	!(grep '"PROCESS"' $@)
 	!(grep '"SAME-AS"' $@)
 	!(grep '"LABEL"' $@)
 	!(grep '"LOOP"' $@)
+	!(grep '"NS"' $@)
 local/xml-tree.json: bin/extract-html-tree.pl src/xml-tree-construction.html
 	$(PERL) bin/extract-html-tree.pl src/xml-tree-construction.html > $@
 
