@@ -351,12 +351,13 @@ data/tls.json: bin/tls.pl local/iana/tls.json \
     local/iana/tls-exts.json
 	$(PERL) bin/tls.pl > $@
 
-data/tls-certs.pem: local/mozilla-ca
+data/tls-certs.pem: local/lwp-mozilla-ca
 	#$(SAVEURL) $@ https://raw.githubusercontent.com/gisle/mozilla-ca/master/lib/Mozilla/CA/cacert.pem
-	cd local/mozilla-ca && ../../perl mk-ca-bundle.pl ../../$@
+	cd local/lwp-mozilla-ca && ../../perl maint/mk-ca-bundle.pl ../../$@
 
-local/mozilla-ca: always
-	$(GIT) clone https://github.com/gisle/mozilla-ca/ $@ || (cd $@ && $(GIT) pull)
+local/lwp-mozilla-ca: always
+	#$(GIT) clone https://github.com/gisle/mozilla-ca/ $@ || (cd $@ && $(GIT) pull)
+	$(GIT) clone https://github.com/libwww-perl/Mozilla-CA $@ || (cd $@ && $(GIT) pull)
 
 data/fetch.json: bin/fetch.pl data/dom.json
 	$(PERL) $< > $@
