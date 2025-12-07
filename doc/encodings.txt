@@ -31,13 +31,15 @@ The file contains a JSON object with following name/value pairs:
 
       html_conformance [string]
 
-        The conformance of the encoding for HTML authors.  One of
-        following values:
+        The conformance of the encoding for HTML authors, according to
+        the HTML5 specification.  One of following values:
 
           good        The encoding that SHOULD be used.
           avoid       The encoding that is not a "SHOULD be used" encoding.
           bad         The encoding SHOULD NOT be used.
           broken      The encoding cannot be used by definition.
+
+        Note that the current HTML Standard requires the use of UTF-8.
 
       html_decl_mapped [string]
 
@@ -55,7 +57,8 @@ The file contains a JSON object with following name/value pairs:
       labels [object]
 
         Names are the labels of the encoding, in lowercase, and values
-        are JSON objects with following name/value pair:
+        are [protocol-object]s with following additional name/value
+        pair:
 
           conforming [boolean]
 
@@ -77,10 +80,43 @@ The file contains a JSON object with following name/value pairs:
         Whether the encoding is a single-byte encoding whose 0x00-0x7F
         is mapped to the ASCII characters.
 
+        See also |doc/encoding-indexes.txt|.
+
+      single_byte_decode [string?]
+
+        If specified, the encoding is a single-byte encoding and the
+        index data file has an index whose name is the value of this
+        field, which can be used as the index of 256 bit combinations
+        for the decoder of this encoding.  See also
+        |doc/encoding-indexes.txt|.
+
+      single_byte_encode [string?]
+
+        If specified, the encoding is a single-byte encoding and the
+        index data file has an index whose name is the value of this
+        field, which can be used as the index of 256 bit combinations
+        for the encoder of this encoding.  See also
+        |doc/encoding-indexes.txt|.
+
       utf16 [boolean]
 
         Whether the encoding is a UTF-16 encoding
         <https://html.spec.whatwg.org/#utf-16-encoding> or not.
+
+      web [boolean]
+
+        Whether the encoding is for the Web (e.g. HTML) or not.
+
+        In this data file, some additional encodings not documented in
+        the Encoding Standard are marked as "web".  This is willful
+        violation to the Encoding Standard and the HTML Standard,
+        which prohibit supporting of non-standard character encodings,
+        motivated by desire to have implementations be compatible with
+        existing Web content.
+
+      zip [boolean]
+
+        Whether the encoding is for the ZIP file names or not.
 
   html_decl_map [object]
 
@@ -95,8 +131,13 @@ The file contains a JSON object with following name/value pairs:
 
   locale_default [object]
 
-    Locale-dependent default encoding as suggested by
-    <https://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>.
+    Locale-dependent default character encoding for HTML encoding
+    sniffing algorithm, as suggested by
+    <https://www.whatwg.org/specs/web-apps/current-work/#determining-the-character-encoding>,
+    amended according to
+    <https://wiki.suikawiki.org/n/%E3%83%AD%E3%82%B1%E3%83%BC%E3%83%AB%E7%AD%89%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E5%AD%97%E3%82%B3%E3%83%BC%E3%83%89%E5%88%A4%E5%AE%9A%E3%81%AE%E8%A3%9C%E5%8A%A9>
+    to reflect Web reality better.
+    
     The names represent locales, identified by BCP 47 language tags,
     in lowercase.  The values represent the corresponding encoding
     keys.  The name "*" represents the fallback, i.e. the default
@@ -104,19 +145,18 @@ The file contains a JSON object with following name/value pairs:
 
   supported_labels [object]
 
-    List of all supported encoding labels for the Web platform, as
-    specified by the Encoding Standard.  The object contains
-    name/value pairs where names are encoding labels (in lowercase
-    with no surrounding white space characters) and values are
-    encoding keys of the corresponding labels.  Note that the encoding
-    key might not be a valid label (at the time of writing, the only
-    such encoding is "replacement").
+    List of all supported encoding labels for the Web platform.  The
+    object contains name/value pairs where names are encoding labels
+    (in lowercase with no surrounding white space characters) and
+    values are encoding keys of the corresponding labels.
 
     Note that, according to the Encoding Standard, only the "utf-8"
     label is conforming.
 
-    This list does not (and will not) contain labels not in the
-    Encoding Standard.
+    Old version of this document had claimed that this list does not
+    (and will not) contain labels not in the Encoding Standard.
+    However, for Web compatibility, this list now contains additional
+    encoding labels not defined by the Encoding Standard.
 
 * Sources
 
@@ -125,6 +165,12 @@ Encoding Standard <https://encoding.spec.whatwg.org/>.
 HTML Standard <https://html.spec.whatwg.org/>.
 
 DOM Standard <https://dom.spec.whatwg.org/>.
+
+SuikaWiki:Webにおける文字コード
+<https://wiki.suikawiki.org/n/Web%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E6%96%87%E5%AD%97%E3%82%B3%E3%83%BC%E3%83%89>.
+
+SuikaWiki:ロケール等による文字コード判定の補助
+<https://wiki.suikawiki.org/n/%E3%83%AD%E3%82%B1%E3%83%BC%E3%83%AB%E7%AD%89%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E5%AD%97%E3%82%B3%E3%83%BC%E3%83%89%E5%88%A4%E5%AE%9A%E3%81%AE%E8%A3%9C%E5%8A%A9>.
 
 * License
 
@@ -136,16 +182,24 @@ extent possible under law, the author of the JSON file and this
 document has waived all copyright and related or neighboring rights to
 the JSON file and this document.
 
-This JSON file partially derived from the Encoding Standard: "This
-standard is written by Anne van Kesteren (Mozilla,
-annevk@annevk.nl). The API chapter was initially written by Joshua
-Bell (Google).  Per CC0
-<https://creativecommons.org/publicdomain/zero/1.0/>, to the extent
-possible under law, the editors have waived all copyright and related
-or neighboring rights to this work."
+This JSON file partially derived from the Encoding Standard:
 
-This JSON file partially derived from the HTML Standard: "Written by
-Ian Hickson (Google, ian@hixie.ch) - Parts © Copyright 2004-2014 Apple
-Inc., Mozilla Foundation, and Opera Software ASA; You are granted a
-license to use, reproduce and create derivative works of this
-document."
+  "This standard is written by Anne van Kesteren (Mozilla,
+  annevk@annevk.nl). The API chapter was initially written by Joshua
+  Bell (Google).  Per CC0
+  <https://creativecommons.org/publicdomain/zero/1.0/>, to the extent
+  possible under law, the editors have waived all copyright and
+  related or neighboring rights to this work."
+
+  "Copyright © WHATWG (Apple, Google, Mozilla, Microsoft). This work
+  is licensed under a Creative Commons Attribution 4.0 International
+  License. To the extent portions of it are incorporated into source
+  code, such portions in the source code are licensed under the BSD
+  3-Clause License instead."
+
+This JSON file partially derived from a version of the HTML Standard:
+
+  "Written by Ian Hickson (Google, ian@hixie.ch) - Parts © Copyright
+  2004-2014 Apple Inc., Mozilla Foundation, and Opera Software ASA;
+  You are granted a license to use, reproduce and create derivative
+  works of this document."

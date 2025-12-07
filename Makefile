@@ -371,13 +371,16 @@ clean-encodings:
 data/encodings.json: bin/encodings.pl src/locale-default-encodings.txt \
     local/encodings.json data/encoding-indexes.json
 	$(PERL) $< > $@
-data/encoding-indexes.json: bin/encoding-indexes.pl local/indexes.json
+data/encoding-indexes.json: bin/encoding-indexes.pl local/indexes.json \
+    local/web-extra-index.json
 	$(PERL) $< > $@
 
 local/encodings.json:
 	$(SAVEURL) $@ https://encoding.spec.whatwg.org/encodings.json
 local/indexes.json:	
 	$(SAVEURL) $@ https://encoding.spec.whatwg.org/indexes.json
+local/web-extra-index.json:
+	$(SAVEURL) $@ https://raw.githubusercontent.com/manakai/data-chartables/refs/heads/master/generated/web-extra-index.json
 
 ## ------ JavaScript ------
 

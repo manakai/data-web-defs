@@ -1,12 +1,33 @@
 encoding-indexes.json
 ~~~~~~~~~~~~~~~~~~~~~
 
-This file is a copy of <http://encoding.spec.whatwg.org/indexes.json>,
-included for convinience.
+This file is a set of indexes that are used to implement encoding and
+decoding of character encodings.
 
 * Structure
 
-See Encoding Standard.
+The file contains a JSON object, where names are index names and
+values are corresponding indexes.
+
+An index is an array of values.
+
+A value is a null value, a non-negative integer, or an array of one or
+more non-negative integers.
+
+Most of indexes are those defined by the Encoding Standard.
+
+This file also has indexes for encodings not defined by the Encoding
+Standard.  The index names describe the relevant encoding, with the
+exception of |tcvn-encode| and |tcvn-decode|, which are to be used by
+the encoder and the decoder of the x-viet-tcvn encoding.
+
+Some of additional indexes has 256 values, which describes the 256 bit
+combinations of a single-byte encoding.
+
+Some of additional indexes has an array value.  It represents a
+sequence of characters for the byte.
+
+See also |doc/encodings.txt|.
 
 * Source
 
@@ -14,9 +35,10 @@ Encoding Standard <http://encoding.spec.whatwg.org/>.
 
 * License
 
-CC0 1.0 Universal.  To the extent possible under law, the editor has
-waived all copyright and related or neighboring rights to this
-work. In addition, as of 24 January 2014, the editor has made this
-specification available under the Open Web Foundation Agreement
-Version 1.0, which is available at
-http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
+This JSON file partially derived from the Encoding Standard:
+
+  "Copyright © WHATWG (Apple, Google, Mozilla, Microsoft). This work
+  is licensed under a Creative Commons Attribution 4.0 International
+  License. To the extent portions of it are incorporated into source
+  code, such portions in the source code are licensed under the BSD
+  3-Clause License instead."
