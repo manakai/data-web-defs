@@ -44,12 +44,16 @@ for my $ns (keys %{$Data->{elements}}) {
               ## <https://wiki.suikawiki.org/n/category$32093#anchor-11>
               li => 1, dt => 1, dd => 1, td => 1, th => 1,
               figcaption => 1, legend => 1,
-              optgroup => 1, rt => 1, rp => 1,
+              rt => 1, rp => 1,
               body => 1, link => 1,
+
+              #XXX
+              optgroup => 1,
+              selectedcontent => 1,
             }->{$ln}) {
               #
             } elsif ($edef->{conforming}) {
-              error "$ns/$ln - role=$role $category";
+              error "(5) $ns/$ln - role=$role $category";
             }
           }
         } # $category
@@ -63,7 +67,6 @@ for my $ns (keys %{$Data->{elements}}) {
               ## <https://wiki.suikawiki.org/n/content%20model$4655#anchor-60>
               table => 1, tbody => 1, thead => 1, tfoot => 1, tr => 1,
               ul => 1, ol => 1, dl => 1, menu => 1,
-              select => 1, datalist => 1, optgroup => 1,
               figure => 1, details => 1, fieldset => 1,
               video => 1, audio => 1, object => 1,
               div => 1, ruby => 1,
@@ -71,11 +74,13 @@ for my $ns (keys %{$Data->{elements}}) {
               svg => 1, math => 1,
 
               # XXX
+              select => 1, datalist => 1, optgroup => 1,
+              option => 1,
               legend => 1,
             }->{$ln}) {
               #
             } elsif ($edef->{conforming}) {
-              error "$ns/$ln requires (unknown) while role=$role requires $role_def->{content_model}";
+              error "(4) $ns/$ln requires (unknown) while role=$role requires $role_def->{content_model}";
             }
           } elsif ($edef->{content_model} eq 'flow content') {
             #
@@ -85,7 +90,7 @@ for my $ns (keys %{$Data->{elements}}) {
                    $edef->{content_model} eq 'transparent') {
             #
           } else {
-            error "$ns/$ln requires $edef->{content_model} while role=$role requires $role_def->{content_model}";
+            error "(3) $ns/$ln requires $edef->{content_model} while role=$role requires $role_def->{content_model}";
           }
         } elsif ($role_def->{content_model} eq 'phrasing content') {
           if (not defined $edef->{content_model}) {
@@ -94,7 +99,6 @@ for my $ns (keys %{$Data->{elements}}) {
               ## <https://wiki.suikawiki.org/n/content%20model$4655#anchor-60>
               table => 1, tbody => 1, thead => 1, tfoot => 1, tr => 1,
               ul => 1, ol => 1, dl => 1, menu => 1,
-              select => 1, datalist => 1, optgroup => 1,
               figure => 1, details => 1, fieldset => 1,
               video => 1, audio => 1, object => 1,
               div => 1, ruby => 1,
@@ -102,11 +106,12 @@ for my $ns (keys %{$Data->{elements}}) {
               svg => 1, math => 1,
 
               # XXX
+              select => 1, datalist => 1, optgroup => 1,
               legend => 1,
             }->{$ln}) {
               #
             } elsif ($edef->{conforming}) {
-              error "$ns/$ln requires (unknown) while role=$role requires $role_def->{content_model}";
+              error "(2) $ns/$ln requires (unknown) while role=$role requires $role_def->{content_model}";
             }
           } elsif ($edef->{content_model} eq 'phrasing content') {
             #
@@ -116,7 +121,7 @@ for my $ns (keys %{$Data->{elements}}) {
                    $edef->{content_model} eq 'transparent') {
             #
           } else {
-            error "$ns/$ln requires $edef->{content_model} while role=$role requires $role_def->{content_model}";
+            error "(1) $ns/$ln requires $edef->{content_model} while role=$role requires $role_def->{content_model}";
           }
         }
       }
