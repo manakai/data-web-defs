@@ -172,6 +172,9 @@ sub _key ($) {
     } elsif (/^(\S+)\s+(\S+)$/) {
       my $label = lc $2;
       $Data->{locale_default}->{lc $1} = _key $label;
+    } elsif (/^zip\s+(\S+)\s+(\S+)$/) {
+      my $label = lc $2;
+      $Data->{zip_locale_default}->{lc $1} = _key $label;
     } elsif (/\S/) {
       die "Broken data |$_|";
     }
