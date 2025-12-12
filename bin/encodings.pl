@@ -66,6 +66,8 @@ sub define ($) {
 
 define "tscii";
 define "tab";
+## XXX labels for tscii and tab is not added for now.  We need Unicode
+## mapping tables for them.
 
 for (qw(
     armscii-8 georgian-academy georgian-ps tscii tab viscii x-viet-vni
@@ -79,6 +81,7 @@ for (qw(
     windows-874 windows-1250 windows-1251 windows-1252 windows-1253
     windows-1254 windows-1255 windows-1256 windows-1257
     ibm437 ibm737 ibm775 ibm850 ibm852 ibm855 ibm857 ibm862 ibm865
+    x-mns4330
 )) {
   $Data->{encodings}->{$_}->{zip} = 1;
 }
