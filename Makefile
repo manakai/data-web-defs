@@ -353,7 +353,9 @@ data/tls.json: bin/tls.pl local/iana/tls.json \
 
 data/tls-certs.pem: local/lwp-mozilla-ca
 	#$(SAVEURL) $@ https://raw.githubusercontent.com/gisle/mozilla-ca/master/lib/Mozilla/CA/cacert.pem
-	cd local/lwp-mozilla-ca && ../../perl maint/mk-ca-bundle.pl ../../$@
+	#cd local/lwp-mozilla-ca && ../../perl maint/mk-ca-bundle.pl ../../$@
+	cd local/lwp-mozilla-ca && ../../perl maint/update-cacert-file
+	cp local/lwp-mozilla-ca/lib/Mozilla/CA/cacert.pem $@
 
 local/lwp-mozilla-ca: always
 	#$(GIT) clone https://github.com/gisle/mozilla-ca/ $@ || (cd $@ && $(GIT) pull)
